@@ -90,6 +90,7 @@
             data.keyWords = eachTag.guid;
             [tagsWithoutBlank addObject:data];
             [data release];
+            [attibuteString release];
         }
     }
     if (nil == self.landscapeContentArray) {
@@ -99,8 +100,8 @@
     {
         self.portraitContentArray = [NSMutableArray array];
     }
-    self.portraitContentArray =  [[self arrayToPotraitCellArraty:tagsWithoutBlank]mutableCopy];
-    self.landscapeContentArray =  [[self arrayToLoanscapeCellArray:tagsWithoutBlank] mutableCopy];
+    self.portraitContentArray =  [NSMutableArray arrayWithArray:[self arrayToPotraitCellArraty:tagsWithoutBlank]];
+    self.landscapeContentArray =  [NSMutableArray arrayWithArray:[self arrayToLoanscapeCellArray:tagsWithoutBlank] ];
 }
 
 - (void) didSelectedCatelog:(NSString *)keywords

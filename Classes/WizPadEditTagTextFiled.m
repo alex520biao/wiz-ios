@@ -30,6 +30,7 @@
         [tagButton addTarget:self action:@selector(tagViewSelected) forControlEvents:UIControlEventTouchUpInside];
         self.rightViewMode = UITextFieldViewModeAlways;
         self.rightView = tagButton;
+        [tagLabel release];
     }
     
     return self;
@@ -41,5 +42,6 @@
     UIBadgeView* tagLabel = [[UIBadgeView alloc] initWithFrame:CGRectMake(self.leftView.frame.size.width+10, 0.0, [tagName sizeWithFont:font].width+10, 44)];
     tagLabel.badgeString = tagName;
     [self.leftView addSubview:tagLabel];
+    [tagLabel release];
 }
 @end

@@ -1184,14 +1184,13 @@ NSInteger compareTag(id location1, id location2, void*);
 }
 -(WizTag*) newTag:(NSString*) name  description:(NSString *)description parentTagGuid:(NSString*)parentTagGuid {
     NSString* guid = [WizGlobals genGUID];
-    NSMutableDictionary* tag = [[NSMutableDictionary alloc] init ];
+    NSMutableDictionary* tag = [NSMutableDictionary dictionary];
     [tag setObject:guid forKey:@"tag_guid"];
     [tag setObject:name forKey:@"tag_name"];
     [tag setObject:description forKey:@"tag_description"];
     if(nil != parentTagGuid)   [tag setObject:parentTagGuid forKey:@"tag_group_guid"];
     [tag setObject:[NSNumber numberWithInt:-1] forKey:@"version"];
     [tag setObject:[NSDate date] forKey:@"dt_info_modified"];
-	NSDictionary* newtag = [tag copy];
     
     WizTag* newTagCopy = [[WizTag alloc] init];
     newTagCopy.name = name;
@@ -1201,9 +1200,7 @@ NSInteger compareTag(id location1, id location2, void*);
     newTagCopy.localChanged = -1;
     newTagCopy.dtInfoModified = [NSDate date];
     newTagCopy.namePath = [NSString stringWithFormat:@"/%@",name];
-    [tag release];
-    [self updateTag:newtag];
-    [newtag release];
+    [self updateTag:tag];
     return newTagCopy;
 }
 
@@ -2112,7 +2109,7 @@ static NSString* FirstLog                       = @"UserFirstLog";
     [self updateAttachement:atttachNew];
     [self setAttachmentServerChanged:guid changed:NO];
     [self setAttachmentLocalChanged:guid changed:YES];
-    return guid;
+    return [guid copy];
 }
 - (NSString*) documentAbstractFileName:(NSString*)documentGUID
 {

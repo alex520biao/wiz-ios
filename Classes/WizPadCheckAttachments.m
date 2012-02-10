@@ -125,6 +125,8 @@
     UIViewController* contr = [[UIViewController alloc] init];
     contr.view = webview;
     [self.navigationController pushViewController:contr animated:YES];
+    [contr release];
+    [webview release];
 }
 
 @end

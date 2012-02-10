@@ -86,8 +86,8 @@
     {
         self.portraitContentArray = [NSMutableArray array];
     }
-    self.portraitContentArray =  [[self arrayToPotraitCellArraty:foldersWithoutBlank]mutableCopy];
-    self.landscapeContentArray =  [[self arrayToLoanscapeCellArray:foldersWithoutBlank] mutableCopy];
+    self.portraitContentArray =  [NSMutableArray arrayWithArray:[self arrayToPotraitCellArraty:foldersWithoutBlank]];
+    self.landscapeContentArray =  [NSMutableArray arrayWithArray:[self arrayToLoanscapeCellArray:foldersWithoutBlank] ];
 }
 - (void)viewDidUnload
 {

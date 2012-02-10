@@ -216,6 +216,7 @@
         tag.name = self.searchBar.text;
         [self.searchedTags insertObject:tag atIndex:0];
         self.isNewTag = YES;
+        [tag release];
     }
     return [self.searchedTags count];
 }
@@ -239,7 +240,7 @@
     if (indexPath.row == 0 && isNewTag) {
         WizNewTagCell* newTagCell = [tableView dequeueReusableCellWithIdentifier:newTagCellIdentifier];
         if (newTagCell == nil) {
-            newTagCell = [[WizNewTagCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:newTagCellIdentifier];
+            newTagCell = [[[WizNewTagCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:newTagCellIdentifier] autorelease];
         }
         [newTagCell setTextFieldText:[tag name]];
         return newTagCell;
