@@ -89,8 +89,10 @@
     [attributeDic setObject:(id)[UIColor lightGrayColor].CGColor forKey:(NSString*)kCTUnderlineColorAttributeName];
     [attributeDic setObject:(id)[[UIColor grayColor] CGColor]  forKey:(NSString *)kCTForegroundColorAttributeName];
     long characheterSpacing = 0.5f;
-    CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt8Type, &characheterSpacing);
+    char characheter = (char)characheterSpacing;
+    CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt8Type, &characheter);
     [attributeDic setObject:(id)num forKey:(NSString *)kCTKernAttributeName];
+    
     CGFloat lineSpace = 19;
     CTParagraphStyleSetting lineSpaceStyle;
     lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
