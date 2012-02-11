@@ -169,12 +169,12 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 //get gategory
 -(void) postSyncGetAllCategoriesBegin
 {
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByCategory total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
+    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAllCategories total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
 }
 
 -(void) postSyncGetAllCategoriesEnd
 {
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByCategory total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
+    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAllCategories total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
 }
 //attachments list
 -(void) postSyncGetAttachmentListBegin:(int)beginVersion requsetCount:(int) requestCount

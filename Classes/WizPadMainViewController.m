@@ -38,8 +38,11 @@
 @synthesize tagList;
 @synthesize folderList;
 @synthesize viewOptionItem;
+@synthesize syncWillStop;
+@synthesize refreshButton;
 - (void) dealloc
 {
+    self.refreshButton = nil;
     self.tagList = nil;
     self.folderList = nil;
     self.recentList = nil;
@@ -190,16 +193,31 @@
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
     {
-        processText = NSLocalizedString(@"uploading deleted object", nil);
+        processText = NSLocalizedString(@"uploading deleted notes", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
     {
-        processText = NSLocalizedString(@"downloading deleted object", nil);
+        processText = NSLocalizedString(@"downloading deleted notes", nil);
     }
     else if ([methodName isEqualToString:SyncMethod_UploadObject])
     {
-        processText = NSLocalizedString(@"Uploading Object", nil);
+        processText = NSLocalizedString(@"Uploading notes", nil);
+        NSRange range = NSMakeRange(0, 20);
+        NSString* displayName = nil;
+        if (objectName.length >= 20) {
+            displayName = [objectName substringWithRange:range];
+        }
+        else
+        {
+            displayName = objectName;
+        }
+        processText = [NSString stringWithFormat:@"%@ %@ %d%%",NSLocalizedString(@"Uploading", nil),displayName,(int)([current floatValue]/[total floatValue]*100)];
+        if ([total isEqualToNumber:current]) {
+            processText =[NSString stringWithFormat:@"%@ %@",
+                          displayName,
+                          NSLocalizedString(@"uploaded successfully", nil)];
+        }
     }
     else if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
         NSRange range = NSMakeRange(0, 20);
@@ -211,7 +229,7 @@
         {
             displayName = objectName;
         }
-        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
+        processText = [NSString stringWithFormat:@"%@ %@ %d%%",NSLocalizedString(@"Downloading", nil),displayName,(int)([current floatValue]/[total floatValue]*100)];
         if ([total isEqualToNumber:current]) {
             processText =[NSString stringWithFormat:@"%@ %@",
                                            displayName,
@@ -220,18 +238,56 @@
     }
     else
     {
+        NSLog(@"%@",methodName);
         processText = @"......";
+    }
+    if (self.syncWillStop) {
+        processText = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Sync process will stop after", nil),processText];
     }
     self.refreshProcessLabel.text = processText;
     return;
 }
+- (void) stopSyncByUser
+{
+    UIAlertView* alert = [[[UIAlertView alloc] 
+                           initWithTitle:NSLocalizedString(@"Please Confirm",nil)
+                           message:NSLocalizedString(@"The synchronizing proceess will stop!",nil)
+                           delegate:self 
+                           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                           otherButtonTitles:NSLocalizedString(@"OK", nil), nil] autorelease];
+    alert.delegate = self;
+    [alert show];
+}
 - (void) onSyncEnd
 {
     self.refreshProcessLabel.text = @"";
+    
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
+    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserId];
+    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil ];
+    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
+    self.syncWillStop = NO;
+    [self.refreshButton removeTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
+    [self.refreshButton addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [self.recentList reloadAllData];
     
 }
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
 
+    }
+    else
+    {
+        WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
+        self.syncWillStop = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+    }
+}
 - (void) refreshAccout
 {
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
@@ -254,9 +310,22 @@
 
 - (void) refreshAccountBegin:(id) sender
 {
-    UIBarButtonItem* refresh = (UIBarButtonItem*)sender;
-    [refresh setImage:[UIImage imageNamed:@"detail"]];
-    self.refreshProcessLabel.text = @"begin refresh";
+    UIButton* btn = (UIButton*)sender;
+    [btn removeTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
+//    [sender removeTarget:self action:@selector(refreshAccountBegin:)];
+    [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
+    self.refreshProcessLabel.text = NSLocalizedString(@"Begin syncing", nil);
+
+//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+//    btn.frame = CGRectMake(0.0, 0.0, 44, 44);
+//    [btn addTarget:self action:@selector(log) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem* stopRefresh = [[UIBarButtonItem alloc] initWithCustomView:btn];
+//    [btn release];
+//    self.refreshItem = stopRefresh;
+
+    
     [self refreshAccout];
 }
 - (void) didChangedSortedOrder:(NSNotification*)nc
@@ -322,9 +391,18 @@
     
     UIBarButtonItem* flexSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
+    
+
     UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newNote)];
     
-    UIBarButtonItem* refreshItem_ = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshAccountBegin:)];
+    
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    btn.frame = CGRectMake(0.0, 0.0, 44, 44);
+    [btn addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* refreshItem_ = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.refreshButton = btn;
+    [btn release];
     self.refreshItem = refreshItem_;
     [refreshItem_ release];
     

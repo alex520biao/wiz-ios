@@ -178,6 +178,7 @@
         }
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
 }
 
@@ -541,6 +542,7 @@
     [self stopLoading];
     [nc postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
     [nc postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
+    [nc addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
     UIView* remindView = [self.view viewWithTag:10001];
     [remindView removeFromSuperview];
     [self reloadAllData];
@@ -695,25 +697,25 @@
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing deleted object", nil);
+        self.refreshLabel.text = NSLocalizedString(@"synchronizing deleted notes", nil);
         if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in uploading deleted object", nil);
+            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in uploading deleted notes", nil);
         } 
         else
         {
-            self.refreshDetailLabel.text = NSLocalizedString(@"uploading deleted object", nil);
+            self.refreshDetailLabel.text = NSLocalizedString(@"uploading deleted notes", nil);
         }
     }
     
     else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing deleted object", nil);
+        self.refreshLabel.text = NSLocalizedString(@"synchronizing deleted notes", nil);
         if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in downloading deleted object", nil);
+            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in downloading deleted notes", nil);
         } 
         else
         {
-            self.refreshDetailLabel.text = NSLocalizedString(@"downloading deleted object", nil);
+            self.refreshDetailLabel.text = NSLocalizedString(@"downloading deleted notes", nil);
         }
     }
     
@@ -721,7 +723,7 @@
     
     
     else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-        self.refreshLabel.text = NSLocalizedString(@"Uploading Object", nil);
+        self.refreshLabel.text = NSLocalizedString(@"Uploading notes", nil);
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -807,6 +809,7 @@ didSelectRowAtIndexPath: (NSIndexPath *)indexPath
     self.lastIndexPath = indexPath;
 }
 
+
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -827,6 +830,6 @@ didSelectRowAtIndexPath: (NSIndexPath *)indexPath
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return  CELLHEIGHTWITHABSTRACT+5;
+    return  CELLHEIGHTWITHABSTRACT;
 }
 @end

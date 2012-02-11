@@ -227,6 +227,7 @@
     
     
     UIButton* zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    NSLog(@"zoomButton %@",zoomButton);
     zoomButton.frame = CGRectMake(0.0, 0.0, 44, 44);
     [self.headerView addSubview:zoomButton];
     [zoomButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
@@ -271,6 +272,7 @@
         {
             NSMutableArray* array = [[index recentDocuments] mutableCopy];
             self.sourceArray = array;
+            self.selectedDocumentGUID = self.documentListKey;
             [array release];
             break;
         }  
@@ -481,12 +483,14 @@
     editBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
     [editBtn addTarget:self action:@selector(editCurrentDocument:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
+    NSLog(@"edit btn %@",editBtn);
     edit.width = 80;
 
     UIBadgeView* attachCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 20, 20)];
     self.attachmentCountBadge = attachCount;
     [attachCount release];
     UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
+    NSLog(@"attach %@",attach);
     attach.frame = CGRectMake(0.0, 0.0, 44, 44);
     [attach setImage:[UIImage imageNamed:@"newNoteAttach"] forState:UIControlStateNormal];
     [attach addSubview:self.attachmentCountBadge];
@@ -496,6 +500,8 @@
     
 
     UIButton* detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    NSLog(@"detailBtn %@",detailBtn);
+    
     [detailBtn setImage:[UIImage imageNamed:@"detail"] forState:UIControlStateNormal];
     [detailBtn addTarget:self action:@selector(checkDocumentDtail) forControlEvents:UIControlEventTouchUpInside];
     detailBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
@@ -631,7 +637,18 @@
             }
         }
     }
+    else
+    {
+        WizDocument* doc = [[self.documentsArray objectAtIndex:0] objectAtIndex:0];
+        if (nil != doc) {
+            [self didSelectedDocument:doc];
+        }
+    }
 }
+//- (void) popSelf
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 - (void) viewDidLoad
 {
     [super viewDidLoad];
@@ -661,7 +678,12 @@
     [self documentsOrderedByDate];
     self.view.backgroundColor = [UIColor blackColor];
     [self buildToolBar];
-    self.selectedDocumentGUID = self.documentListKey;
+
+//    if (self.navigationItem.leftBarButtonItem == nil) {
+//        UIBarButtonItem* bar = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(popSelf)];
+//        self.navigationItem.leftBarButtonItem = bar;
+//        [bar release];
+//    }
 }
 - (void)viewDidUnload
 {

@@ -829,7 +829,18 @@ NSInteger compareTag(id location1, id location2, void*);
     data.nAttachmentCount = [nAttachmentCount intValue];
 	CIndex& index = [_indexData index];
 	//
-	return index.UpdateDocument(data) ? YES : NO;
+    BOOL localchange = [self documentLocalChanged:guid];
+    BOOL serverchange = [self documentServerChanged:guid];
+    BOOL ret =  index.UpdateDocument(data) ? YES : NO;
+    BOOL newLocalChange = [self documentLocalChanged:guid];
+    BOOL newServerChange = [self documentServerChanged:guid];
+    if (localchange != newLocalChange) {
+        [self setDocumentLocalChanged:guid changed:newLocalChange];
+    }
+    if (serverchange != newServerChange) {
+        [self setDocumentServerChanged:guid changed:newServerChange];
+    }
+	return ret;
 }
 
 

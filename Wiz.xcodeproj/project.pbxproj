@@ -196,8 +196,6 @@
 		7362D54C14DD3C94003E9E19 /* stopRecorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54614DD3C94003E9E19 /* stopRecorder@2x.png */; };
 		7362D54D14DD3C94003E9E19 /* zoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54714DD3C94003E9E19 /* zoom.png */; };
 		7362D54E14DD3C94003E9E19 /* zoom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54814DD3C94003E9E19 /* zoom@2x.png */; };
-		73864BF914E50BE300B4196A /* separetorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 73864BF714E50BE300B4196A /* separetorLine.png */; };
-		73864BFA14E50BE300B4196A /* separetorLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73864BF814E50BE300B4196A /* separetorLine@2x.png */; };
 		73931BE214E0DC12003C431C /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6014E0DC11003C431C /* arrow.png */; };
 		73931BE314E0DC12003C431C /* attachBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6114E0DC11003C431C /* attachBack.png */; };
 		73931BE414E0DC12003C431C /* attachBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6214E0DC11003C431C /* attachBack@2x.png */; };
@@ -322,6 +320,8 @@
 		73931C6314E0DC12003C431C /* zoom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BE114E0DC11003C431C /* zoom@2x.png */; };
 		73931C6C14E0E492003C431C /* WizSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73931C6B14E0E492003C431C /* WizSearchViewController.m */; };
 		73931C7F14E12998003C431C /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73931C7E14E12994003C431C /* WizPadCheckAttachments.m */; };
+		73C994B614E63F4800B338DE /* separetorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994B414E63F4800B338DE /* separetorLine.png */; };
+		73C994B714E63F4800B338DE /* separetorLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994B514E63F4800B338DE /* separetorLine@2x.png */; };
 		73E71F3814E1490F00437208 /* categoryBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3614E1490F00437208 /* categoryBackgroud.png */; };
 		73E71F3914E1490F00437208 /* categoryBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */; };
 		73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E71F3C14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m */; };
@@ -678,8 +678,6 @@
 		7362D54614DD3C94003E9E19 /* stopRecorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stopRecorder@2x.png"; sourceTree = "<group>"; };
 		7362D54714DD3C94003E9E19 /* zoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom.png; sourceTree = "<group>"; };
 		7362D54814DD3C94003E9E19 /* zoom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom@2x.png"; sourceTree = "<group>"; };
-		73864BF714E50BE300B4196A /* separetorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separetorLine.png; path = icons/separetorLine.png; sourceTree = "<group>"; };
-		73864BF814E50BE300B4196A /* separetorLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "separetorLine@2x.png"; path = "icons/separetorLine@2x.png"; sourceTree = "<group>"; };
 		738A8E3814DFB0FD00F69CBF /* WizPhoneNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneNotificationMessage.h; sourceTree = "<group>"; };
 		73931B6014E0DC11003C431C /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = icons/arrow.png; sourceTree = "<group>"; };
 		73931B6114E0DC11003C431C /* attachBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = attachBack.png; path = icons/attachBack.png; sourceTree = "<group>"; };
@@ -807,6 +805,8 @@
 		73931C6B14E0E492003C431C /* WizSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSearchViewController.m; sourceTree = "<group>"; };
 		73931C7D14E12992003C431C /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
 		73931C7E14E12994003C431C /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
+		73C994B414E63F4800B338DE /* separetorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separetorLine.png; path = icons/ipad/separetorLine.png; sourceTree = "<group>"; };
+		73C994B514E63F4800B338DE /* separetorLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "separetorLine@2x.png"; path = "icons/ipad/separetorLine@2x.png"; sourceTree = "<group>"; };
 		73E71F3614E1490F00437208 /* categoryBackgroud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = categoryBackgroud.png; sourceTree = "<group>"; };
 		73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "categoryBackgroud@2x.png"; sourceTree = "<group>"; };
 		73E71F3B14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewCheckAttachmentsController.h; sourceTree = "<group>"; };
@@ -1546,8 +1546,8 @@
 		44A094951495F56500B487FD /* NewImage */ = {
 			isa = PBXGroup;
 			children = (
-				73864BF714E50BE300B4196A /* separetorLine.png */,
-				73864BF814E50BE300B4196A /* separetorLine@2x.png */,
+				73C994B414E63F4800B338DE /* separetorLine.png */,
+				73C994B514E63F4800B338DE /* separetorLine@2x.png */,
 				73931B6014E0DC11003C431C /* arrow.png */,
 				73931B6114E0DC11003C431C /* attachBack.png */,
 				73931B6214E0DC11003C431C /* attachBack@2x.png */,
@@ -2028,8 +2028,8 @@
 				73931C6314E0DC12003C431C /* zoom@2x.png in Resources */,
 				73E71F3814E1490F00437208 /* categoryBackgroud.png in Resources */,
 				73E71F3914E1490F00437208 /* categoryBackgroud@2x.png in Resources */,
-				73864BF914E50BE300B4196A /* separetorLine.png in Resources */,
-				73864BFA14E50BE300B4196A /* separetorLine@2x.png in Resources */,
+				73C994B614E63F4800B338DE /* separetorLine.png in Resources */,
+				73C994B714E63F4800B338DE /* separetorLine@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

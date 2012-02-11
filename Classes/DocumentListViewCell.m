@@ -68,7 +68,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.abstractImageView = abstractImageView_;
         [abstractImageView_ release];
         self.interfaceOrientation = UIInterfaceOrientationPortrait;
-        self.contentView.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
+//        self.contentView.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
         CALayer* layer = [abstractImageView layer];
         layer.borderColor = [UIColor whiteColor].CGColor;
         layer.borderWidth = 0.5f;
@@ -78,10 +78,10 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         layer.shadowRadius = 0.5;
         self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
-//        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 320, 1)];
-//        breakView.image = [UIImage imageNamed:@"separetorLine"];
-//        [self addSubview:breakView];
-//        [breakView release];
+        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 320, 1)];
+        breakView.image = [UIImage imageNamed:@"separetorLine"];
+        [self addSubview:breakView];
+        [breakView release];
         
         CALayer* selfLayer = [self.selectedBackgroundView layer];
         selfLayer.borderColor = [UIColor grayColor].CGColor;
@@ -154,6 +154,20 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         [nameStr addAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:NSMakeRange(0, nameStr.length)];
         NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
         [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
+        
+        NSString* tagstr = [NSString stringWithFormat:@"%@:%@\n%@:",NSLocalizedString(@"Folder", nil),self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location],NSLocalizedString(@"Tags", nil)];
+        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
+        NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
+        for (WizTag* each in tags) {
+            tagstr = [tagstr stringByAppendingFormat:@"|%@",NSLocalizedString(each.name, nil)];
+        }
+        
+        UIFont* textFont = [UIFont systemFontOfSize:13];
+        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
+        NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:tagstr];
+        [text addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor grayColor] CGColor] range:NSMakeRange(0,text.length)];
+        [text addAttribute:(NSString*)kCTFontAttributeName value:(id)textCtfont range:NSMakeRange(0,text.length)];
+        [dateStr appendAttributedString:text];
         [nameStr appendAttributedString:dateStr];
         [self.abstractLabel setText:nameStr];
         [dateStr release];

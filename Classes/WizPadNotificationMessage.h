@@ -37,4 +37,7 @@
 #define TypeOfAttachmentFilePath            @"TypeOfAttachmentFilePath"
 
 #define MessageOfEditDocumentDone           @"MessageOfEditDocumentDone"
+
+#define MessageOfPadFolderWillReload        @"MessageOfPadFolderWillReload"
+#define MessageOfPadTagWillReload           @"MessageOfPadTagWillReload"
 #endif

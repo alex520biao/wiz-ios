@@ -298,6 +298,7 @@
         [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
         [self postSlectedTagMessage:tag];
         self.isNewTag = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
     }
     else
     {

@@ -10,7 +10,7 @@
 @class WizPadListTableControllerBase;
 @class PadFoldersController;
 @class PadTagController;
-@interface WizPadMainViewController : UIViewController <UIPopoverControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
+@interface WizPadMainViewController : UIViewController <UIPopoverControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIAlertViewDelegate>
 {
     UISegmentedControl* mainSegment;
     NSString* accountUserId;
@@ -26,6 +26,9 @@
     UIBarButtonItem* refreshItem;
     UIBarButtonItem* stopRefreshItem;
     UIBarButtonItem* viewOptionItem;
+    @private
+    BOOL syncWillStop;
+    UIButton* refreshButton;
 }
 @property (nonatomic, retain) UISegmentedControl* mainSegment;
 @property (nonatomic, retain) NSString* accountUserId;
@@ -38,7 +41,10 @@
 @property (nonatomic, retain) PadTagController* tagList;
 @property (nonatomic, retain) PadFoldersController* folderList;
 @property (nonatomic, retain) UIBarButtonItem* viewOptionItem;
+@property (nonatomic, retain)    UIButton* refreshButton;
+@property BOOL syncWillStop;
 @property int selectedControllerIndex;
 - (void) checkDocument:(NSNotification*)nc;
 -(void) syncGoing:(NSNotification*) nc;
+- (void) refreshAccountBegin:(id) sender;
 @end

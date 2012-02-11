@@ -89,9 +89,15 @@
     self.portraitContentArray =  [NSMutableArray arrayWithArray:[self arrayToPotraitCellArraty:foldersWithoutBlank]];
     self.landscapeContentArray =  [NSMutableArray arrayWithArray:[self arrayToLoanscapeCellArray:foldersWithoutBlank] ];
 }
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfPadFolderWillReload object:nil];
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
