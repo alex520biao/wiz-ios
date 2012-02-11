@@ -34,6 +34,21 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     self.hasAbstract = NO;
     [super dealloc];
 }
+- (NSString*) display:(NSString*)str  :(CGFloat)width :(UIFont*)font
+{
+    CGSize boundingSize = CGSizeMake(CGFLOAT_MAX, 20);
+    CGSize requiredSize = [str sizeWithFont:font constrainedToSize:boundingSize
+                                 lineBreakMode:UILineBreakModeCharacterWrap];
+    CGFloat requireWidth = requiredSize.width;
+    if (requireWidth > width) {
+        return [self display:[str substringToIndex:str.length -1] :width :font];
+    }
+    else
+    {
+        return str;
+    }
+ 
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -53,20 +68,24 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.abstractImageView = abstractImageView_;
         [abstractImageView_ release];
         self.interfaceOrientation = UIInterfaceOrientationPortrait;
-        self.contentView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1.0];
+        self.contentView.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
         CALayer* layer = [abstractImageView layer];
         layer.borderColor = [UIColor whiteColor].CGColor;
-        layer.borderWidth = 0.1f;
+        layer.borderWidth = 0.5f;
         layer.shadowColor = [UIColor grayColor].CGColor;
-        layer.shadowOffset = CGSizeMake(2, 2);
+        layer.shadowOffset = CGSizeMake(1, 1);
         layer.shadowOpacity = 0.5;
-        layer.shadowRadius = 2.0;
-        
+        layer.shadowRadius = 0.5;
+        self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
+        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
 //        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 320, 1)];
 //        breakView.image = [UIImage imageNamed:@"separetorLine"];
 //        [self addSubview:breakView];
 //        [breakView release];
         
+        CALayer* selfLayer = [self.selectedBackgroundView layer];
+        selfLayer.borderColor = [UIColor grayColor].CGColor;
+        selfLayer.borderWidth = 0.5f;    
     }
     return self;
 }
@@ -79,19 +98,17 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     if ([index abstractExist:self.doc.guid] && abstract!= nil) {
         UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
         NSString* title = [NSString stringWithString:self.doc.title];
-        NSRange titleRange;
         if (nil == abstract.image) {
-            titleRange = NSMakeRange(0, 30<title.length?30:title.length);
+            title = [self display:title :300 :stringFont];
             abstractImageView.hidden = YES;
             abstractLabel.frame = CellWithoutImageFrame;
         }
         else
         {
-            titleRange = NSMakeRange(0, 20<title.length?20:title.length);
+            title = [self display:title :230 :stringFont];
             abstractLabel.frame = CellWithImageFrame;
             abstractImageView.hidden = NO;
         }
-        title = [title substringWithRange:titleRange];
         CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
         NSMutableAttributedString* nameStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",title]];
         [nameStr addAttribute:(NSString*)kCTFontAttributeName value:(id)font range:NSMakeRange(0, nameStr.length)];
@@ -137,6 +154,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         [nameStr addAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:NSMakeRange(0, nameStr.length)];
         NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
         [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
+        [nameStr appendAttributedString:dateStr];
         [self.abstractLabel setText:nameStr];
         [dateStr release];
         [nameStr release];

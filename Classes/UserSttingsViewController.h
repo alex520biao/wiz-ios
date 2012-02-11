@@ -25,12 +25,12 @@
     UILabel* defaultUserLabel;
     UISwitch* defaultUserSwitch;
     NSString* oldPassword;
-    NSString* newUserPassword;
+    NSString* newAccountPassword;
     int downloadDuration;
     int imageQulity;
 }
 @property (nonatomic, retain) NSString* accountUserId;
-@property (nonatomic, retain) NSString* newUserPassword;
+@property (nonatomic, retain) NSString* newAccountPassword;
 @property (nonatomic, retain) IBOutlet UITableViewCell *mobileViewCell;
 @property (nonatomic, retain) IBOutlet UILabel* mbileViewCellLabel;
 @property (nonatomic, retain) IBOutlet UISwitch* mobileViewSwitch;

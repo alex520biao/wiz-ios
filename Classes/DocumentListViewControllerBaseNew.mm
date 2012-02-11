@@ -98,6 +98,61 @@
     }
     
 }
+- (NSInteger) indexForDocumentInSource:(NSString*)documentGuid
+{
+    for (int i = 0;i <[self.sourceArray count]; i++) {
+        WizDocument* doc = [self.sourceArray objectAtIndex:i];
+        if ([documentGuid isEqualToString:doc.guid]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+- (NSIndexPath*) indexPathForDocumentInTable:(NSString*)documentGuid
+{
+    for (int i =0; i < [self.tableArray count]; i++) {
+        for (int j = 0; j < [[self.tableArray objectAtIndex:i] count]; j++) {
+            WizDocument* doc = [[self.tableArray objectAtIndex:i] objectAtIndex:j];
+            if ([documentGuid isEqualToString:doc.guid]) {
+                
+                return [NSIndexPath indexPathForRow:j inSection:i];
+            }
+        }
+    }
+    return nil;
+}
+
+- (void) onDeleteDocument:(NSNotification*)nc
+{
+    NSDictionary* userInfo = [nc userInfo];
+    NSString* documentGuid = [userInfo valueForKey:TypeOfPhoneDocumentGuid];
+    if (nil == documentGuid) {
+        return;
+    }
+    
+    NSInteger sourceIndex = [self indexForDocumentInSource:documentGuid];
+    if (-1 == sourceIndex) {
+        return;
+    }
+    [self.sourceArray removeObjectAtIndex:sourceIndex];
+    NSIndexPath* indexPath = [self indexPathForDocumentInTable:documentGuid];
+    if (nil == indexPath) {
+        return;
+    }
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    [index deleteDocument:documentGuid];
+    [index addDeletedGUIDRecord:documentGuid type:@"document"];
+    [[self.tableArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+    NSLog(@"the document count is %d",[[self.tableArray objectAtIndex:indexPath.section] count]);
+    if (![[self.tableArray objectAtIndex:indexPath.section] count]) {
+        [self.tableArray removeObjectAtIndex:indexPath.section];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationLeft];
+        return;
+    }
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationLeft];
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -123,12 +178,14 @@
         }
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfNewDocument object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = nil;
     }
@@ -752,19 +809,12 @@ didSelectRowAtIndexPath: (NSIndexPath *)indexPath
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         WizDocument* doc = [[self.tableArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        [index deleteDocument:doc.guid];
-        [index addDeletedGUIDRecord:doc.guid type:@"document"];
-        [[self.tableArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-        if (![[self.tableArray objectAtIndex:indexPath.section] count]) {
-            [self.tableArray removeObjectAtIndex:indexPath.section];
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationLeft];
-            return;
-        }
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationLeft];
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:doc.guid forKey:TypeOfPhoneDocumentGuid];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDeleteDocument object:nil userInfo:userInfo];
     }
 }
 

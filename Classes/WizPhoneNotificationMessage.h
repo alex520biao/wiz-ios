@@ -17,4 +17,7 @@
 #define TypeOfMainPickerViewIndex           @"wizTypeOfMainPickerViewIndex"
 #define TypeOfWizDocumentData               @"wizDocumentData"
 #define MessageOfWizMainPickerViewPopSelf      @"TypeOfWizMainPickerViewPopSelf"
+#define MessageOfPhoneDeleteDocument        @"MessageOfPhoneDeleteDocument"
+#define TypeOfPhoneDocumentGuid             @"TypeOfPhoneDocumentGuid"
+#define TypeOfPhoneDocumentIndexPathInTable @"TypeOfPhoneDocumentIndexPathInTable"
 #endif

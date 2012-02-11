@@ -21,12 +21,26 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/DocumentListViewControllerBaseNew.mm"
-         timestampString = "350557079.568848"
+         timestampString = "350623824.858614"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "782"
-         endingLineNumber = "782"
-         landmarkName = "-tableView:heightForRowAtIndexPath:"
+         startingLineNumber = "832"
+         endingLineNumber = "832"
+         landmarkName = "@implementation DocumentListViewControllerBaseNew"
+         landmarkType = "3">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/DocumentListViewControllerBaseNew.mm"
+         timestampString = "350621992.292886"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "143"
+         endingLineNumber = "143"
+         landmarkName = "-onDeleteDocument:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

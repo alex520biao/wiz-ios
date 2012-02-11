@@ -2020,29 +2020,25 @@ static NSString* FirstLog                       = @"UserFirstLog";
         }
         else
         {
-            compassWidth = 80;
-            compassHeight = 80;
+            compassWidth = 70;
+            compassHeight = 70;
         }
-        if (maxImage.size.width > 175) {
-            compassImage = [maxImage compressedImage:compassWidth];
-            NSLog(@"compassImage %f %f",compassImage.size.height, compassImage.size.width);
-            
-            compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2),0.0, compassImage.size.width>compassWidth?compassWidth:compassImage.size.width,compassHeight);
-        }
-        else {
-            compassImage = [maxImage compressedImage:compassHeight];
-            compassRect = CGRectMake(0.0, WizAbs((compassImage.size.height -compassHeight)/2), compassWidth, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
-        }
-        NSLog(@" compass is %f %f %f %f",compassRect.origin.x, compassRect.origin.y, compassRect.size.height , compassRect.size.width);
+
+        compassImage = [maxImage compressedImage:compassWidth];
+        compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2), WizAbs((compassImage.size.height -compassHeight)/2), compassImage.size.width>compassWidth?compassWidth:compassImage.size.width, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
+//        if (maxImage.size.width > compassWidth) {
+//            compassImage = [maxImage compressedImage:compassWidth];
+//            NSLog(@"compassImage %f %f",compassImage.size.height, compassImage.size.width);
+//            
+//            compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2),0.0, compassImage.size.width>compassWidth?compassWidth:compassImage.size.width,compassHeight);
+//        }
+//        else {
+//            compassImage = [maxImage compressedImage:compassHeight];
+//            compassRect = CGRectMake(0.0, WizAbs((compassImage.size.height -compassHeight)/2), compassWidth, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
+//        }
+//        NSLog(@" compass is %f %f %f %f",compassRect.origin.x, compassRect.origin.y, compassRect.size.height , compassRect.size.width);
         compassImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect(compassImage.CGImage, compassRect)];
     }
-//    if (WizDeviceIsPad) {
-//        compassImage = [maxImage compressedImage:280];
-//    }
-//    else
-//    {
-//        compassImage = [maxImage compressedImage:140];
-//    }
     abstractImageData = [compassImage compressedData:1.0];
     abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
     abstract.imageDataLength = [abstractImageData length];
@@ -2084,7 +2080,7 @@ static NSString* FirstLog                       = @"UserFirstLog";
 
 -(NSString*) newAttachment:(NSString*) filePath documentGUID:(NSString*)documentGUID
 {    
-    NSString* guid = [WizGlobals genGUID];
+    NSString* guid = [WizGlobals genGUID] ;
     NSArray* fileNameTempArray = [filePath componentsSeparatedByString:@"/"];
     NSString* fileName = [fileNameTempArray lastObject];
     NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:guid];

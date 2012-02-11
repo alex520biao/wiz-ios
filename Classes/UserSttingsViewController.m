@@ -36,12 +36,12 @@
 @synthesize defaultUserCell;
 @synthesize defaultUserLabel;
 @synthesize defaultUserSwitch;
-@synthesize newUserPassword;
+@synthesize newAccountPassword;
 @synthesize downloadDuration;
 @synthesize imageQulity;
 - (void) dealloc
 {
-    self.newUserPassword = nil;
+    self.newAccountPassword = nil;
     self.accountUserId = nil;
     self.defaultUserCell = nil;
     self.defaultUserLabel = nil;
@@ -88,8 +88,8 @@
     {
         [index setDownloadDocumentData:NO];
     }
-    if (self.newUserPassword != nil && ![self.newUserPassword isEqualToString:@""]) {
-        [WizSettings changeAccountPassword:self.accountUserId password:self.newUserPassword];
+    if (self.newAccountPassword != nil && ![self.newAccountPassword isEqualToString:@""]) {
+        [WizSettings changeAccountPassword:self.accountUserId password:self.newAccountPassword];
         [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
     }
     if (self.defaultUserSwitch.on) {
@@ -491,7 +491,7 @@
                     UITextField* textField = (UITextField*)each;
                     NSString* text = textField.text;
                     if (nil != text && ![text isEqualToString:@""]) {
-                        self.newUserPassword = text;
+                        self.newAccountPassword = text;
                     }
                 }
             }
