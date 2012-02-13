@@ -924,11 +924,7 @@ NSInteger compareTag(id location1, id location2, void*);
     [zip UnzipOpenFile:objectZipFilePath];
     [zip UnzipFileTo:documentPath overWrite:YES];
     [zip UnzipCloseFile];
-  
     [zip release];
-    [self setDocumentServerChanged:objectGuid changed:NO];
-
-
     [WizGlobals deleteFile:objectZipFilePath];
     return YES;
 }
@@ -1463,12 +1459,15 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     else
     {
-        [self setDocumentMoblleView:NO];
-        [self setDownloadDocumentData:NO];
-        [self setDurationForDownloadDocument:0];
-        [self setImageQualityValue:750];
-    }
 
+        if ([self durationForDownloadDocument]==0) {
+            [self setDurationForDownloadDocument:1];
+            [self setDownloadDocumentData:YES];
+        }
+        if ([self imageQualityValue] ==0) {
+            [self setImageQualityValue:750];
+        }
+    }
     [self setDownloadAllList:YES];
 }
 - (NSString*) meta: (NSString*)name key:(NSString*)key

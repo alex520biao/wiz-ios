@@ -17,4 +17,6 @@
 - (id) getDownloadProcess:(NSString*)objectGUID  type:(NSString*)objectType;
 - (void) removeDownloadProcess:(NSString*)objectGUID  type:(NSString*)objectType;
 - (BOOL) documentIsDownloading:(NSString*)documentGUID;
+- (BOOL) attachmentIsDownloading:(NSString*)attachmentGUID;
+- (void) removeDownloadData:(NSNotification*)nc;
 @end

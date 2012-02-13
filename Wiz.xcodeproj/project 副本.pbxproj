@@ -323,7 +323,6 @@
 		73C994B714E63F4800B338DE /* separetorLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994B514E63F4800B338DE /* separetorLine@2x.png */; };
 		73C994BD14E67D2900B338DE /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994BC14E67D2900B338DE /* about.png */; };
 		73C994C314E67EE900B338DE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994C214E67EE600B338DE /* Default@2x.png */; };
-		73CAA9FB14E901DF00D5FF9B /* WizUserSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CAA9FA14E901DF00D5FF9B /* WizUserSettingCell.m */; };
 		73E71F3814E1490F00437208 /* categoryBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3614E1490F00437208 /* categoryBackgroud.png */; };
 		73E71F3914E1490F00437208 /* categoryBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */; };
 		73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E71F3C14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m */; };
@@ -811,8 +810,6 @@
 		73C994BC14E67D2900B338DE /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		73C994BE14E67D5A00B338DE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		73C994C214E67EE600B338DE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		73CAA9F914E901DF00D5FF9B /* WizUserSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUserSettingCell.h; sourceTree = "<group>"; };
-		73CAA9FA14E901DF00D5FF9B /* WizUserSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizUserSettingCell.m; sourceTree = "<group>"; };
 		73E71F3614E1490F00437208 /* categoryBackgroud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = categoryBackgroud.png; sourceTree = "<group>"; };
 		73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "categoryBackgroud@2x.png"; sourceTree = "<group>"; };
 		73E71F3B14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewCheckAttachmentsController.h; sourceTree = "<group>"; };
@@ -881,7 +878,7 @@
 			isa = PBXGroup;
 			children = (
 				30E3E3AE1384F19300ACB649 /* iPad */,
-				307257EF13249888009DA753 /* Iphone */,
+				307257EF13249888009DA753 /* UI */,
 				3072577B13249660009DA753 /* Globals */,
 				3072574413249511009DA753 /* C++ */,
 				30725731132494F8009DA753 /* XML-RPC */,
@@ -1021,13 +1018,13 @@
 			name = Globals;
 			sourceTree = "<group>";
 		};
-		307257EF13249888009DA753 /* Iphone */ = {
+		307257EF13249888009DA753 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				44A6249414985FFC00073F39 /* OldUI */,
 				449B40BC1456B32D007A4FE7 /* NewUi */,
 			);
-			name = Iphone;
+			name = UI;
 			sourceTree = "<group>";
 		};
 		30736FBF13287C8D00D5F88F /* Images */ = {
@@ -1090,6 +1087,13 @@
 				442F2A2714C40D150028A0C6 /* WizPadNotificationMessage.h */,
 			);
 			name = iPad;
+			sourceTree = "<group>";
+		};
+		442D1E8B1484D4E400DC7221 /* TabBarView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = TabBarView;
 			sourceTree = "<group>";
 		};
 		442F2A1914C3FBC00028A0C6 /* CatelogBase */ = {
@@ -1430,8 +1434,6 @@
 				449A947F1499D07E00FC5D2B /* CreateNewAccountViewController.h */,
 				449A94801499D07E00FC5D2B /* CreateNewAccountViewController.m */,
 				449A94811499D07E00FC5D2B /* CreateNewAccountViewController.xib */,
-				73CAA9F914E901DF00D5FF9B /* WizUserSettingCell.h */,
-				73CAA9FA14E901DF00D5FF9B /* WizUserSettingCell.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -1473,6 +1475,7 @@
 				4495588B148759E70014072A /* DocumentView */,
 				44955882148612680014072A /* PullRefresh */,
 				449A22681485C0AC002D1759 /* TreeViewBase */,
+				442D1E8B1484D4E400DC7221 /* TabBarView */,
 				4490D601148249D50091E3C0 /* MultiSelectPicture */,
 				448688C414735BE600F74358 /* NewNote */,
 				4487A32F1470AC6A00619ED4 /* TagSelect */,
@@ -2181,7 +2184,6 @@
 				73931C6C14E0E492003C431C /* WizSearchViewController.m in Sources */,
 				73931C7F14E12998003C431C /* WizPadCheckAttachments.m in Sources */,
 				73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */,
-				73CAA9FB14E901DF00D5FF9B /* WizUserSettingCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2339,7 +2341,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = ddd;
@@ -2350,7 +2352,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2390,7 +2392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2399,7 +2401,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2410,7 +2412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2420,7 +2422,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 			};

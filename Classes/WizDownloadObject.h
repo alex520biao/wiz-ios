@@ -32,6 +32,7 @@ extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 -(NSMutableDictionary*) onDownloadObject:(id)retObject;
 -(BOOL) downloadObject;
 - (void) downloadOver;
+- (NSString*) padNotificationName:(NSString*)prefix;
 @end
 
 @interface WizDownloadDocument : WizDownloadObject {

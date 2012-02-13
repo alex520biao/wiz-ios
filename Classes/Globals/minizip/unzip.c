@@ -713,19 +713,19 @@ local int unzlocal_GetCurrentFileInfoInternal (file,
             uSizeRead = commentBufferSize;
 
         if (lSeek!=0)
-            if (ZSEEK(s->z_filefunc, s->filestream,lSeek,ZLIB_FILEFUNC_SEEK_CUR)==0);
+            if (ZSEEK(s->z_filefunc, s->filestream,lSeek,ZLIB_FILEFUNC_SEEK_CUR)==0)
         //wiz-dzpqzb remove leaks , delete three line
-//                lSeek=0;
+                lSeek=0;
             else
                 err=UNZ_ERRNO;
         if ((file_info.size_file_comment>0) && (commentBufferSize>0))
             if (ZREAD(s->z_filefunc, s->filestream,szComment,uSizeRead)!=uSizeRead)
                 err=UNZ_ERRNO;
         
-//        lSeek+=file_info.size_file_comment - uSizeRead;
+        lSeek+=file_info.size_file_comment - uSizeRead;
     }
     else
-//        lSeek+=file_info.size_file_comment;
+        lSeek+=file_info.size_file_comment;
 
     if ((err==UNZ_OK) && (pfile_info!=NULL))
         *pfile_info=file_info;

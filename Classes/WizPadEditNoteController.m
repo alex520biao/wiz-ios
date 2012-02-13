@@ -199,7 +199,7 @@
     self.currentPopoverController = pop;
     [pop release];
     self.currentPopoverController.delegate = self;
-    [self.currentPopoverController presentPopoverFromRect:CGRectMake(750, 0.0, 320, self.backgroudScrollView.contentOffset.y+132) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [self.currentPopoverController presentPopoverFromRect:CGRectMake(750, 0.0, 320, self.backgroudScrollView.contentOffset.y+220) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
     [tagView release];
@@ -443,7 +443,7 @@
     [pop release];
     [elcPicker release];
     self.currentPopoverController.delegate = self;
-    [self.currentPopoverController presentPopoverFromRect:CGRectMake(750, 0.0, 320, self.backgroudScrollView.contentOffset.y+132) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [self.currentPopoverController presentPopoverFromRect:CGRectMake(428, 0.0, 180, 0.0) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 - (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
     [self.currentPopoverController dismissPopoverAnimated:YES];

@@ -237,12 +237,20 @@
     [self.headerView addSubview:namelabel_];
     self.documentNameLabel = namelabel_;
     [namelabel_ release];
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
+    
+    UILabel* countLabel = [[UILabel  alloc] initWithFrame:CGRectMake(0.0, 5, 230, 20)];
+    countLabel.text = [NSString stringWithFormat:@"%d %@",[self.sourceArray count],NSLocalizedString(@"notes", nil)];
+    countLabel.textAlignment = UITextAlignmentCenter;
+    countLabel.textColor = [UIColor grayColor];
+    self.documentList.tableHeaderView = countLabel;
+    [countLabel release];
 }
 
 - (void) loadArraySource
@@ -544,8 +552,6 @@
     NSDictionary* ret = [userInfo valueForKey:@"ret"];
     NSString* documentGUID = [ret valueForKey:@"document_guid"];
     WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-    WizDownloadDocument* downloader = [downloadPool getDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix] object:nil];
     [downloadPool removeDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
     if ([documentGUID isEqualToString:selectedDocumentGUID]) {
         [self.refreshIndicatorView stopAnimating];
@@ -565,7 +571,7 @@
             return;
         }
         NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
         [self.webView loadRequest:req];
         [req release];
         [url release];
@@ -655,9 +661,6 @@
     UITableView* tableViw = [[UITableView alloc] init];
     self.documentList = tableViw;
     [self.view addSubview:self.documentList];
-    UIImageView* headerView_ = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detail"]];
-    tableViw.tableHeaderView = headerView_;
-    [headerView_ release];
     [tableViw release];
     [self buildHeaderView];
     UIWebView* webView_ = [[UIWebView alloc] init];
@@ -688,6 +691,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -737,5 +741,16 @@
 {
     return 90;
 }
-
+-(UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView* sectionView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 20)] autorelease];
+    sectionView.image = [UIImage imageNamed:@"tableSectionHeader"];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(3.0, 4.0, 320, 15)];
+    [label setFont:[UIFont systemFontOfSize:16]];
+    [sectionView addSubview:label];
+    label.backgroundColor = [UIColor clearColor];
+    [label release];
+    label.text = [self tableView:self.documentList titleForHeaderInSection:section];
+    return sectionView;
+}
 @end

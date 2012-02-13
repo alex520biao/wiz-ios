@@ -402,12 +402,11 @@
     [btn addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* refreshItem_ = [[UIBarButtonItem alloc] initWithCustomView:btn];
     self.refreshButton = btn;
-    [btn release];
     self.refreshItem = refreshItem_;
-    [refreshItem_ release];
+
     
     UIBarButtonItem* viewOptionItemL = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"View Options", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(changeOrderIndex:)];
-    
+
     self.refreshProcessLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 44)] autorelease];
     [self.refreshProcessLabel setFont:[UIFont systemFontOfSize:13]];
     refreshProcessLabel.backgroundColor = [UIColor clearColor];
@@ -415,6 +414,7 @@
      UIBarButtonItem* refreshItemInfo = [[UIBarButtonItem alloc] initWithCustomView:refreshProcessLabel];
     NSArray* arr = [NSArray arrayWithObjects:refreshItem,refreshItemInfo,flexSpaceItem,viewOptionItemL,flexSpaceItem,flexSpaceItem,flexSpaceItem,newNoteItem, nil];
     [self setToolbarItems:arr];
+    [refreshItem_ release];
     [refreshItemInfo release];
     [newNoteItem release];
     [flexSpaceItem release];
@@ -504,7 +504,14 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
+- (void) viewDidAppear:(BOOL)animated
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    if ([index isFirstLog] ) {
+        [self refreshAccountBegin:self.refreshButton];
+        [index setFirstLog:YES];
+    }
+}
 - (void) checkDocument:(NSNotification*)nc
 {
     NSDictionary* userInfo = [nc userInfo];

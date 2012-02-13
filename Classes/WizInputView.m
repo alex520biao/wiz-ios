@@ -32,8 +32,9 @@
         self.backgroundView = imageView_;
         self.backgroundView.image = [UIImage imageNamed:@"wizInputViewBack"];
         
-        UILabel* nameLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(5, 0.0, 65, 40)];
+        UILabel* nameLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(3, 0.0, 65, 40)];
         [self addSubview:nameLabel_];
+        nameLabel_.font = [UIFont systemFontOfSize:13];
         [nameLabel_ release];
         self.nameLable = nameLabel_;
         self.nameLable.textAlignment = UITextAlignmentCenter;

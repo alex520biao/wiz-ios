@@ -30,17 +30,17 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/WizPadMainViewController.m"
-         timestampString = "350644418.786693"
+         timestampString = "350797610.376812"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "47"
-         endingLineNumber = "47"
-         landmarkName = "-dealloc"
+         startingLineNumber = "152"
+         endingLineNumber = "152"
+         landmarkName = "-syncGoing:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

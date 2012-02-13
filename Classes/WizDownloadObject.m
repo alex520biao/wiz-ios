@@ -155,14 +155,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         return [self callClientLogin];
     }
 }
-- (NSString*) notificationName:(NSString *)prefix
+- (NSString*) padNotificationName:(NSString*)prefix
 {
-    if (WizDeviceIsPad()) {
-        NSString* string = [super notificationName:prefix];
-        NSString* ret = [NSString stringWithFormat:@"%@%@",self,string];
-        return ret;
-    }
-    return [super notificationName:prefix];
+    NSString* string = [super notificationName:prefix];
+    NSString* ret = [NSString stringWithFormat:@"%@%@",self,string];
+    return ret;
 }
 @end
 
@@ -171,6 +168,8 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 - (void) downloadOver
 {
     [super downloadOver];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [index setDocumentServerChanged:self.objGuid changed:NO];
 }
 - (BOOL) downloadDocument:(NSString *)documentGUID
 {
@@ -199,7 +198,12 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 }
 @end
 @implementation WizDownloadAttachment
-
+- (void) downloadOver
+{
+    [super downloadOver];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [index setAttachmentServerChanged:self.objGuid changed:NO];
+}
 
 - (BOOL) downloadAttachment:(NSString *)attachmentGUID
 {
