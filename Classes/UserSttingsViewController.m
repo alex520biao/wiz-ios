@@ -16,6 +16,7 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
 #import "WizUserSettingCell.h"
+
 #define ChangePasswordTag 888
 #define RemoveAccountTag  1002
 #define ProtectPasswordTag 1003
@@ -593,7 +594,21 @@
     [text release];
 
 }
+- (void) sendFeedback
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
+        mailPocker.mailComposeDelegate = self;
+        [mailPocker setSubject:[NSString stringWithFormat:@"%@ by %@",NSLocalizedString(@"Feedback", nil),self.accountUserId]];
+        NSArray* toRecipients = [NSArray arrayWithObject: @"dongzhao@wiz.cn"];
+        [mailPocker setToRecipients:toRecipients];
+        [mailPocker setMessageBody:NSLocalizedString(@"Your advice", nil) isHTML:YES];
+        mailPocker.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentModalViewController: mailPocker animated:YES];  
+        [mailPocker release];
+    }
 
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -629,7 +644,14 @@
         }
     }
     else if ( (0 == indexPath.row ||1 == indexPath.row) && 3 == indexPath.section) { 
-        NSURL* url = [[NSURL alloc] initWithString:@"http://www.baidu.com"];
+        NSURL* url = nil;
+        if (indexPath.row ==0) {
+            url = [[NSURL alloc] initWithString:@"http://api.wiz.cn/?p=wiz&v=3.0.0.0&c=iphonehelp&l="];
+        }
+        else
+        {
+            url = [[NSURL alloc] initWithString:@"http://api.wiz.cn/?p=wiz&v=3.0.0.0&c=iphonehelp&l="];
+        }
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
         UIWebView* web = [[UIWebView alloc] init];
         UIViewController* con = [[UIViewController alloc] init];
@@ -640,6 +662,9 @@
         [url release];
         [web release];
         [con release];
+    }
+    else if (2 == indexPath.row && 3 == indexPath.section) {
+        [self sendFeedback];
     }
     
 }
@@ -686,4 +711,42 @@
     }
     return @"";
 }
+- (void) alertWithTitle: (NSString *)_title_ msg: (NSString *)msg   
+{  
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_title_   
+                                                    message:msg   
+                                                   delegate:nil   
+                                          cancelButtonTitle:@"确定"   
+                                          otherButtonTitles:nil];  
+    [alert show];  
+    [alert release];  
+}  
+- (void)mailComposeController:(MFMailComposeViewController *)controller   
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error   
+{  
+    NSString *msg;  
+    
+    switch (result)   
+    {  
+        case MFMailComposeResultCancelled:  
+            msg = @"邮件发送取消";  
+            break;  
+        case MFMailComposeResultSaved:  
+            msg = @"邮件保存成功";  
+            [self alertWithTitle:nil msg:msg];  
+            break;  
+        case MFMailComposeResultSent:  
+            msg = @"邮件发送成功";  
+            [self alertWithTitle:nil msg:msg];  
+            break;  
+        case MFMailComposeResultFailed:  
+            msg = @"邮件发送失败";  
+            [self alertWithTitle:nil msg:msg];  
+            break;  
+        default:  
+            break;  
+    }  
+    
+    [self dismissModalViewControllerAnimated:YES];  
+}  
 @end

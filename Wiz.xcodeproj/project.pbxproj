@@ -333,7 +333,7 @@
 		73CAAA0E14EA1AF900D5FF9B /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CAAA0D14EA1AF600D5FF9B /* Default-Portrait~ipad.png */; };
 		73CAAA1014EA1B2400D5FF9B /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CAAA0F14EA1B2200D5FF9B /* Default-Landscape~ipad.png */; };
 		73CAAA1214EA1C2700D5FF9B /* documentViewDetail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CAAA1114EA1C2700D5FF9B /* documentViewDetail@2x.png */; };
-		73CAAA1614EA25EA00D5FF9B /* WizFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CAAA1414EA25E900D5FF9B /* WizFeedBackViewController.m */; };
+		73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CAAA1C14EA388500D5FF9B /* MessageUI.framework */; };
 		73E71F3814E1490F00437208 /* categoryBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3614E1490F00437208 /* categoryBackgroud.png */; };
 		73E71F3914E1490F00437208 /* categoryBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */; };
 		73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E71F3C14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m */; };
@@ -831,8 +831,7 @@
 		73CAAA0D14EA1AF600D5FF9B /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		73CAAA0F14EA1B2200D5FF9B /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		73CAAA1114EA1C2700D5FF9B /* documentViewDetail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "documentViewDetail@2x.png"; path = "icons/ipad/documentViewDetail@2x.png"; sourceTree = SOURCE_ROOT; };
-		73CAAA1314EA25E800D5FF9B /* WizFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizFeedBackViewController.h; sourceTree = "<group>"; };
-		73CAAA1414EA25E900D5FF9B /* WizFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizFeedBackViewController.m; sourceTree = "<group>"; };
+		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		73E71F3614E1490F00437208 /* categoryBackgroud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = categoryBackgroud.png; sourceTree = "<group>"; };
 		73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "categoryBackgroud@2x.png"; sourceTree = "<group>"; };
 		73E71F3B14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewCheckAttachmentsController.h; sourceTree = "<group>"; };
@@ -875,6 +874,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */,
 				4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */,
 				4495D52114BAB5870045F1EA /* CFNetwork.framework in Frameworks */,
 				4495D51F14BAB5600045F1EA /* AudioToolbox.framework in Frameworks */,
@@ -922,6 +922,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				73CAAA1C14EA388500D5FF9B /* MessageUI.framework */,
 				73CAAA0F14EA1B2200D5FF9B /* Default-Landscape~ipad.png */,
 				73CAAA0D14EA1AF600D5FF9B /* Default-Portrait~ipad.png */,
 				73C994C214E67EE600B338DE /* Default@2x.png */,
@@ -1454,8 +1455,6 @@
 				449A94811499D07E00FC5D2B /* CreateNewAccountViewController.xib */,
 				73CAA9F914E901DF00D5FF9B /* WizUserSettingCell.h */,
 				73CAA9FA14E901DF00D5FF9B /* WizUserSettingCell.m */,
-				73CAAA1314EA25E800D5FF9B /* WizFeedBackViewController.h */,
-				73CAAA1414EA25E900D5FF9B /* WizFeedBackViewController.m */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -2221,7 +2220,6 @@
 				73931C7F14E12998003C431C /* WizPadCheckAttachments.m in Sources */,
 				73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */,
 				73CAA9FB14E901DF00D5FF9B /* WizUserSettingCell.m in Sources */,
-				73CAAA1614EA25EA00D5FF9B /* WizFeedBackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

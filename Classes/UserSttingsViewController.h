@@ -6,8 +6,8 @@
 //  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
 #import <UIKit/UIKit.h>
-
-@interface UserSttingsViewController:UITableViewController <UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+#import <MessageUI/MessageUI.h>
+@interface UserSttingsViewController:UITableViewController <UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate>
 {
     NSString* accountUserId;
     UITableViewCell *mobileViewCell;
