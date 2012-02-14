@@ -40,4 +40,7 @@
 
 #define MessageOfPadFolderWillReload        @"MessageOfPadFolderWillReload"
 #define MessageOfPadTagWillReload           @"MessageOfPadTagWillReload"
+
+#define MessageOfViewWillOrientent          @"MessageOfViewWillOrientent"
+#define TypeOfViewInterface                 @"TypeOfViewInterface"
 #endif

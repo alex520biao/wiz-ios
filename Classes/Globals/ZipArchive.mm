@@ -173,6 +173,7 @@
 
 -(BOOL) UnzipFileTo:(NSString*) path overWrite:(BOOL) overwrite
 {
+    NSLog(@"up zip thread %@" ,[[NSThread currentThread] name]);
 	BOOL success = YES;
 	int ret = unzGoToFirstFile( _unzFile );
 	unsigned char		buffer[4096] = {0};

@@ -983,7 +983,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         [result setObject:succeed forKey:@"is_succeed"];
         [result setObject:objSize forKey:@"obj_size"];
         if(eof) {
-            [index updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID];
+            [index  updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID];
             [result setObject:objSize forKey:@"current_size"];
         }
         else

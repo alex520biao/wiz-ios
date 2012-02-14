@@ -22,10 +22,8 @@
 #import "RecentDcoumentListView.h"
 #import "SearchViewControllerIphone.h"
 #import "TagsListTreeView.h"
-#import "LoginViewController.h"
 #import "WizPhoneNotificationMessage.h"
 //wiz-dzpqzb test
-#import "LoginViewController.h"
 #import "FoldersViewControllerNew.h"
 #import "TagsListTreeControllerNew.h"
  #define NEWNOTEENTRY 101

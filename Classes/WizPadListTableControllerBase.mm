@@ -307,7 +307,6 @@
     }
     self.isLandscape = UIInterfaceOrientationIsLandscape((self.interfaceOrientation));
     self.kOrderIndex = kOrderReverseDate;
-    [self reloadDocuments];
     [self reloadAllData];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAddNewDocument:) name:MessageOfPadNewDocument object:nil];

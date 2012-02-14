@@ -921,6 +921,7 @@ NSInteger compareTag(id location1, id location2, void*);
 -(BOOL) updateObjectDataByPath:(NSString*) objectZipFilePath objectGuid:(NSString*)objectGuid{
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objectGuid];
     ZipArchive* zip = [[ZipArchive alloc] init];
+    NSLog(@"prepare upzip thread %@" ,[[NSThread currentThread] name]);
     [zip UnzipOpenFile:objectZipFilePath];
     [zip UnzipFileTo:documentPath overWrite:YES];
     [zip UnzipCloseFile];

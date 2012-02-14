@@ -31,10 +31,7 @@
     
     UIPopoverController* currentPopoverController;
     UIButton* zoomOrShrinkButton;
-    @private
-    UIAlertView* alertView;
 }
-@property (nonatomic,retain) UIAlertView* alertView;
 @property (nonatomic,retain) UIButton* zoomOrShrinkButton;
 @property (nonatomic, retain)  UIWebView* webView;
 @property (nonatomic, retain) UIView* headerView;

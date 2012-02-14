@@ -93,9 +93,12 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 - (void) prepareForAppear
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
-
+    BOOL isAbstractExist = [index abstractExist:self.doc.guid];
     WizAbstract*   abstract = [index  abstractOfDocument:self.doc.guid];
-    if ([index abstractExist:self.doc.guid] && abstract!= nil) {
+    if (!isAbstractExist && ![index documentServerChanged:self.doc.guid]) {
+        [index extractSummary:doc.guid];
+    }
+    if ( isAbstractExist && abstract!= nil) {
         UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
         NSString* title = [NSString stringWithString:self.doc.title];
         if (nil == abstract.image) {
@@ -172,6 +175,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         [self.abstractLabel setText:nameStr];
         [dateStr release];
         [nameStr release];
+        [text release];
     }
 
 }

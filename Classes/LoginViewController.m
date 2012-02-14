@@ -60,27 +60,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.contentTableView = [[[UITableView alloc] initWithFrame:CGRectMake(10, 260, 300, 80) style:UITableViewStyleGrouped] autorelease];
-        self.contentTableView.delegate = self;
-        [self.contentTableView setScrollEnabled:NO];
-        [self.contentTableView setDataSource:self];
-        self.contentTableView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
-        
-        [self.view addSubview:self.contentTableView];
-        self.userNameTextField.delegate = self;
-        self.userPasswordTextField.delegate = self;
-        self.userPasswordCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.userNameCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.userPasswordTextField.secureTextEntry = YES;
-        [self.view setFrame:CGRectMake(0.0 , 0.0, 320, 480)];
-        self.userNameLabel.text = NSLocalizedString(@"ID", @"用户名");
-        self.userPasswordLabel.text = NSLocalizedString(@"Password", @"密码");
-        [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-        [self.loginButton setTitle:NSLocalizedString(@"Log In", nil) forState:UIControlStateNormal];
-        self.addAccountCell.selectionStyle=UITableViewCellSelectionStyleNone;
-        self.userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
-        [self.checkOtherAccountButton setTitle:NSLocalizedString(@"Check Other Accounts", nil) forState:UIControlStateNormal];
-        self.willChangedUser = NO;
+
     }
     return self;
 }
@@ -282,6 +262,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UITableView* table = [[UITableView alloc] initWithFrame:CGRectMake(10, 260, 300, 80) style:UITableViewStyleGrouped];
+    self.contentTableView = table;
+    [table release];
+    self.contentTableView.delegate = self;
+    self.contentTableView.dataSource = self;
+    self.contentTableView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+    [self.view addSubview:self.contentTableView];
+    
+    self.userNameTextField.delegate = self;
+    self.userPasswordTextField.delegate = self;
+    
+    self.userPasswordCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.userNameCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.userPasswordTextField.secureTextEntry = YES;
+    [self.view setFrame:CGRectMake(0.0 , 0.0, 320, 480)];
+    self.userNameLabel.text = NSLocalizedString(@"ID", @"用户名");
+    self.userPasswordLabel.text = NSLocalizedString(@"Password", @"密码");
+    [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
+    [self.loginButton setTitle:NSLocalizedString(@"Log In", nil) forState:UIControlStateNormal];
+    self.addAccountCell.selectionStyle=UITableViewCellSelectionStyleNone;
+    self.userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    [self.checkOtherAccountButton setTitle:NSLocalizedString(@"Check Other Accounts", nil) forState:UIControlStateNormal];
+    self.willChangedUser = NO;
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];
     [self.view insertSubview:backGroud atIndex:0];
     [backGroud release];
@@ -512,11 +516,14 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.accountsArray = [WizSettings accounts];
     if (0 == [accountsArray count]) {
+        [self.contentTableView reloadData];
         self.loginButton.hidden = NO;
         self.contentTableView.scrollEnabled = NO;
     } 
     else
     {
+        self.loginButton.hidden = YES;
+        self.contentTableView.scrollEnabled = YES;
         float height = self.view.frame.size.height/2;
         float contentviewY = self.view.frame.size.height*3/4;
         
@@ -528,11 +535,10 @@
         }
         contentviewY = contentviewY - height/2;
         self.contentTableView.frame = CGRectMake(10, contentviewY, 300, height);
-        self.loginButton.hidden = YES;
-        self.contentTableView.scrollEnabled = YES;
+
     }
-    self.contentTableView.hidden = NO;
     if (!self.willChangedUser) {
+        self.willChangedUser = YES;
         NSString* defaultUserId = [WizSettings defaultAccountUserId];
         if (defaultUserId != nil && ![defaultUserId isEqualToString:@""]) {
             [self didSelectedAccount:defaultUserId];
@@ -546,6 +552,5 @@
             }
         }
     }
-   
 }
 @end

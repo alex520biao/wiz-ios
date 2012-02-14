@@ -125,7 +125,6 @@
 {
     if (!WizDeviceIsPad()) {
         DocumentListViewControllerBaseNew* base = (DocumentListViewControllerBaseNew*) self.delegate;
-        
         if (0 == indexPath.row) {
             base.kOrder = kOrderDate;
         }    
@@ -146,7 +145,6 @@
             base.kOrder = kOrderDate;
         }
         base.isReverseDateOrdered = NO;
-        [base reloadAllData];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else

@@ -27,6 +27,7 @@
 #import "UIBadgeView.h"
 #import "WizPadDocumentViewCheckAttachmentsController.h"
 
+#define EditTag 1000
 
 
 #define TableLandscapeFrame CGRectMake(0.0, 0.0, 320, 660)
@@ -90,7 +91,6 @@
 @end
 
 @implementation WizPadDocumentViewController
-@synthesize alertView;
 @synthesize zoomOrShrinkButton;
 @synthesize refreshIndicatorView;
 @synthesize webView;
@@ -129,7 +129,6 @@
     self.headerView = nil;
     self.webView = nil;
     self.currentPopoverController = nil;
-    self.alertView = nil;
     [super dealloc];
 
 }
@@ -177,9 +176,11 @@
         self.documentList.frame = TableLandscapeFrame;
         self.webView.frame = WebViewLandscapeFrame;
         self.headerView.frame = HeadViewLandScapeFrame;
+        self.zoomOrShrinkButton.hidden = NO;
     }
     else
     {
+        self.zoomOrShrinkButton.hidden = YES;
         self.documentList.frame = TablePortraitFrame;
         self.webView.frame = WebViewPortraitFrame;
         self.headerView.frame = HeadViewPortraitFrame;
@@ -435,10 +436,13 @@
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if( buttonIndex == 0 ) //Edit
-	{
-		[self onEditCurrentDocument];
-	}
+    if (alertView.tag == EditTag) {
+        if( buttonIndex == 0 ) //Edit
+        {
+            [self onEditCurrentDocument];
+        }
+    }
+    
 }
 
 - (IBAction) editCurrentDocument: (id)sender
@@ -454,7 +458,7 @@
                                               cancelButtonTitle:nil 
                                               otherButtonTitles:NSLocalizedString(@"Continue Editing", nil),WizStrCancel, nil];
         alert.delegate = self;
-        
+        alert.tag = EditTag;
         [alert show];
         [alert release];
     }
@@ -487,7 +491,7 @@
 - (void) buildToolBar
 {
     UIButton* editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [editBtn setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
+    [editBtn setImage:[UIImage imageNamed:@"documentViewEdit"] forState:UIControlStateNormal];
     editBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
     [editBtn addTarget:self action:@selector(editCurrentDocument:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
@@ -500,7 +504,7 @@
     UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
     NSLog(@"attach %@",attach);
     attach.frame = CGRectMake(0.0, 0.0, 44, 44);
-    [attach setImage:[UIImage imageNamed:@"newNoteAttach"] forState:UIControlStateNormal];
+    [attach setImage:[UIImage imageNamed:@"documentViewAttachment"] forState:UIControlStateNormal];
     [attach addSubview:self.attachmentCountBadge];
     [attach addTarget:self action:@selector(checkAttachment) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* attachment = [[UIBarButtonItem alloc]initWithCustomView:attach];
@@ -510,7 +514,7 @@
     UIButton* detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     NSLog(@"detailBtn %@",detailBtn);
     
-    [detailBtn setImage:[UIImage imageNamed:@"detail"] forState:UIControlStateNormal];
+    [detailBtn setImage:[UIImage imageNamed:@"documentViewDetail"] forState:UIControlStateNormal];
     [detailBtn addTarget:self action:@selector(checkDocumentDtail) forControlEvents:UIControlEventTouchUpInside];
     detailBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
     UIBarButtonItem* detail = [[UIBarButtonItem alloc] initWithCustomView:detailBtn];
@@ -681,12 +685,6 @@
     [self documentsOrderedByDate];
     self.view.backgroundColor = [UIColor blackColor];
     [self buildToolBar];
-
-//    if (self.navigationItem.leftBarButtonItem == nil) {
-//        UIBarButtonItem* bar = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(popSelf)];
-//        self.navigationItem.leftBarButtonItem = bar;
-//        [bar release];
-//    }
 }
 - (void)viewDidUnload
 {
@@ -704,6 +702,7 @@
 
     [self setViewsFrame]; 
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfViewWillOrientent object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:toInterfaceOrientation] forKey:TypeOfViewInterface]];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

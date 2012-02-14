@@ -202,7 +202,6 @@
     }
     else if ([methodName isEqualToString:SyncMethod_UploadObject])
     {
-        processText = NSLocalizedString(@"Uploading notes", nil);
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -483,6 +482,13 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadLoginViewChangeUser object:nil userInfo:nil];
 }
 
+- (void) viewWillChange:(NSNotification*)nc
+{
+    NSDictionary* userInfo = [nc userInfo];
+    NSNumber* interface = [userInfo valueForKey:TypeOfViewInterface];
+    [self willAnimateRotationToInterfaceOrientation:[interface intValue] duration:0.5];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -492,6 +498,7 @@
     [nc removeObserver:self];
     [nc addObserver:self selector:@selector(checkDocument:) name:TypeOfCheckDocument object:nil];
     [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
+    [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
     [self buildToolBar];
     [self buildNavigationItems];
 }

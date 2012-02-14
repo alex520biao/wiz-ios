@@ -12,7 +12,6 @@
 #import "WizGlobalData.h"
 #import "WizSettings.h"
 #import "CommonString.h"
-#import "LoginViewController.h"
 #import "PickViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
@@ -92,9 +91,19 @@
     {
         [index setDownloadDocumentData:NO];
     }
-    if (self.newAccountPassword != nil && ![self.newAccountPassword isEqualToString:@""]) {
-        [WizSettings changeAccountPassword:self.accountUserId password:self.newAccountPassword];
-        [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
+    if (newAccountPassword != nil && ![newAccountPassword isEqualToString:@""]) {
+        [WizSettings changeAccountPassword:accountUserId password:newAccountPassword];
+        [[WizGlobalData sharedData] removeAccountData:accountUserId];
+        if (WizDeviceIsPad()) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPoperviewDismiss object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:NO];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
+        }
+        return;
     }
     if (self.defaultUserSwitch.on) {
         [WizSettings setDefalutAccount:self.accountUserId];
@@ -305,7 +314,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -323,6 +332,8 @@
             {
                 return 3;
             }
+        case 3:
+            return 3;
         default:
             return 0;
     }
@@ -336,7 +347,9 @@
 		return [NSString stringWithString: NSLocalizedString(@"Account Settings", nil)];
 	else if (2 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Operate Account", nil)];
-	else 
+	else if (3 == section)
+		return [NSString stringWithString: NSLocalizedString(@"Other", nil)];
+	else
 		return nil;
 }
 
@@ -438,7 +451,24 @@
     {
         return self.defaultUserCell;
     }
-    
+    else if (0 == indexPath.row && 3 == indexPath.section)
+    {
+        cell.textLabel.text =NSLocalizedString( @"About Wiz", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if (1 == indexPath.row && 3 == indexPath.section)
+    {
+        cell.textLabel.text =NSLocalizedString( @"User Manual", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if (2 == indexPath.row && 3 == indexPath.section)
+    {
+        cell.textLabel.text =NSLocalizedString( @"Feedback", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
     return cell;
 }
 - (IBAction)setUserProtectPassword:(id)sender
@@ -502,9 +532,6 @@
             }
             else
             {
-                LoginViewController* mainView = [[WizGlobalData sharedData] wizMainLoginView:DataMainOfWiz];
-                mainView.contentTableView.hidden = NO;
-                mainView.willChangedUser = YES;
                 [self.navigationController popViewControllerAnimated:NO];
                 [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
             }
@@ -597,15 +624,22 @@
         }
         else
         {
-            LoginViewController* mainView = [[WizGlobalData sharedData] wizMainLoginView:DataMainOfWiz];
-            mainView.willChangedUser = YES;
-            mainView.contentTableView.hidden = NO;
             [self.navigationController popViewControllerAnimated:NO];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
-            mainView.accountsArray = [WizSettings accounts];
-            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
-            [mainView.contentTableView reloadData];
         }
+    }
+    else if ( (0 == indexPath.row ||1 == indexPath.row) && 3 == indexPath.section) { 
+        NSURL* url = [[NSURL alloc] initWithString:@"http://www.baidu.com"];
+        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+        UIWebView* web = [[UIWebView alloc] init];
+        UIViewController* con = [[UIViewController alloc] init];
+        con.view = web;
+        [web loadRequest:req];
+        [self.navigationController pushViewController:con animated:YES];
+        [req release];
+        [url release];
+        [web release];
+        [con release];
     }
     
 }

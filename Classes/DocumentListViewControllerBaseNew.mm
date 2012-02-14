@@ -290,7 +290,7 @@
           {
               return NSLocalizedString(@"The Day Before Yesterday", nil);
           }
-          else if ([date isThisWeek])
+          else if ([date daysBeforeDate:[NSDate date]] >= 3 && [date daysBeforeDate:[NSDate date]] <7)
           {
               return NSLocalizedString(@"Within A Week", nil);
           }
@@ -298,7 +298,6 @@
           {
               return NSLocalizedString(@"A Week Ago", nil);
           }
-
           
       }
       else if(kOrderFirstLetter == self.kOrder || kOrderReverseFirstLetter == self.kOrder)

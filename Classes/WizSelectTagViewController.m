@@ -291,7 +291,7 @@
 - (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row ==0 && isNewTag) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+        WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
         WizTag* tag = [index newTag:self.searchBar.text description:@"" parentTagGuid:nil];
         [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
         [[self.tags objectAtIndex:0] addObject:tag];
