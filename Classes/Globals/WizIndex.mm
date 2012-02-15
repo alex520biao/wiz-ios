@@ -18,6 +18,7 @@
 #import "TFHpple.h"
 #import "pinyin.h"
 #import "RegexKitLite.h"
+#import "WizGlobalDictionaryKey.h"
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -421,7 +422,9 @@ NSInteger compareTag(id location1, id location2, void*);
 {
     CIndex& index = [_indexData index];
     WIZDOCUMENTATTACH attach;
-    index.AttachFromGUID([attachmentGUID UTF8String], attach);
+    if (!index.AttachFromGUID([attachmentGUID UTF8String], attach)) {
+        return nil;
+    } ;
     return [[[WizDocumentAttach alloc] initFromAttachmentGuidData:attach]autorelease];
 }
 
@@ -439,7 +442,9 @@ NSInteger compareTag(id location1, id location2, void*);
 {
     CIndex& index = [_indexData index];
     WIZTAGDATA tagData;
-    index.TagFromGUID([guid UTF8String], tagData);
+    if (!index.TagFromGUID([guid UTF8String], tagData)) {
+        return nil;
+    }
     WizTag* tag = [[[WizTag alloc] initFromWizTagData:tagData] autorelease];
     return tag;
 }
@@ -829,17 +834,17 @@ NSInteger compareTag(id location1, id location2, void*);
     data.nAttachmentCount = [nAttachmentCount intValue];
 	CIndex& index = [_indexData index];
 	//
-    BOOL localchange = [self documentLocalChanged:guid];
-    BOOL serverchange = [self documentServerChanged:guid];
+//    BOOL localchange = [self documentLocalChanged:guid];
+//    BOOL serverchange = [self documentServerChanged:guid];
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
-    BOOL newLocalChange = [self documentLocalChanged:guid];
-    BOOL newServerChange = [self documentServerChanged:guid];
-    if (localchange != newLocalChange) {
-        [self setDocumentLocalChanged:guid changed:newLocalChange];
-    }
-    if (serverchange != newServerChange) {
-        [self setDocumentServerChanged:guid changed:newServerChange];
-    }
+//    BOOL newLocalChange = [self documentLocalChanged:guid];
+//    BOOL newServerChange = [self documentServerChanged:guid];
+//    if (localchange != newLocalChange) {
+//        [self setDocumentLocalChanged:guid changed:newLocalChange];
+//    }
+//    if (serverchange != newServerChange) {
+//        [self setDocumentServerChanged:guid changed:newServerChange];
+//    }
 	return ret;
 }
 
@@ -994,11 +999,11 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* documentLocation = [documentData valueForKey:TypeOfDocumentLocation];
     NSArray* attachmentsGUIDs = [documentData valueForKey:TypeOfAttachmentGuids];
     NSString* documentGUID = [documentData valueForKey:TypeOfDocumentGUID];
+    NSString* documentTags = [documentData valueForKey:TypeOfDocumentTags];
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
     NSString* documentOrgFileName = [WizIndex documentOrgFileName:self.accountUserId documentGUID:documentGUID fileExt:@".txt"];
     NSString* attachmentsDirectory = [documentPath stringByAppendingPathComponent:@"index_files"];
     NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
-    
     [WizGlobals ensurePathExists:attachmentsDirectory];
     
     NSMutableArray* audioNames = [NSMutableArray array];
@@ -1064,18 +1069,30 @@ NSInteger compareTag(id location1, id location2, void*);
 		return NO;
 	}
 	//
-	CIndex& index = [_indexData index];
-	//
+
 	if (documentLocation == nil)
 	{
-		documentLocation = @"";
+		documentLocation = @"/My Mobile/";
 	}
-	//
-	BOOL bRet = index.NewNote([documentGUID UTF8String], [documentTitle UTF8String], [documentLocation UTF8String]) ? YES : NO;
-	//
-	[self onNewDocument:documentGUID];
+
+    NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
+    NSMutableDictionary* doc = [NSMutableDictionary dictionary];
+    NSDate* currentDate = [NSDate date];
+    NSNumber* nAttachmentCount = [NSNumber numberWithInt:[attachmentsGUIDs count]];
+    [doc setObject:documentGUID forKey:TypeOfUpdateDocumentGuid];
+    [doc setObject:documentTitle forKey:TypeOfUpdateDocumentTitle];
+    [doc setObject:documentLocation forKey:TypeOfUpdateDocumentLocation];
+    [doc setObject:documentMd5 forKey:TypeOfUpdateDocumentDataMd5];
+    [doc setObject:[NSString string] forKey:TypeOfUpdateDocumentUrl];
+    [doc setObject:currentDate forKey:TypeOfUpdateDocumentDateCreated];
+    [doc setObject:currentDate forKey:TypeOfUpdateDocumentDateModified];
+    [doc setObject:TypeOfDocumentTypeOfNote forKey:TypeOfUpdateDocumentType];
+    [doc setObject:TypeOfDocumentFileTypeOfNote forKey:TypeOfUpdateDocumentFileType];
+    [doc setObject:nAttachmentCount forKey:TypeOfUpdateDocumentAttchmentCount];
+    [doc setObject:documentTags forKey:TypeOfUpdateDocumentTagGuids];
+    BOOL bRet = [self updateDocument:doc];
     [self setDocumentLocalChanged:documentGUID changed:YES];
-	//
+    [self setDocumentServerChanged:documentGUID changed:NO];
 	return bRet;
 }
 
@@ -1336,10 +1353,6 @@ NSInteger compareTag(id location1, id location2, void*);
         [self deleteAbstractByGUID:documentGUID];
         [self extractSummary:documentGUID];
     }
-    else
-    {
-        [self extractSummary:documentGUID];
-    }
 	return index.SetDocumentLocalChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
 }
 - (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed
@@ -1411,8 +1424,6 @@ NSInteger compareTag(id location1, id location2, void*);
         [self deleteAttachment:each.attachmentGuid];
         [self addDeletedGUIDRecord:each.attachmentGuid type:@"attachment"];
     }
-    
-    
 	CIndex& index = [_indexData index];
 	//
 	return index.DeleteDocument([documentGUID UTF8String]) ? YES : NO;
@@ -1439,6 +1450,24 @@ NSInteger compareTag(id location1, id location2, void*);
 -(BOOL) deleteAttachment:(NSString *)attachGuid
 {
     CIndex& index = [_indexData index];
+    WizDocumentAttach* attach = [self attachmentFromGUID:attachGuid];
+    if (attach != nil) {
+        
+        NSLog(@"attachment guid is %@",attach.attachmentDocumentGuid);
+        
+        NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentDocumentGuid];
+        NSString* documentIndexFilesPath = [documentPath stringByAppendingPathComponent:@"index_files"];
+        NSString* attachmentInDcoumentPath = [documentIndexFilesPath stringByAppendingPathComponent:attach.attachmentName];
+        if ([[NSFileManager defaultManager] removeItemAtPath:attachmentInDcoumentPath error:nil]) {
+        }
+        
+        NSString* attachmentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentGuid];
+        NSString* attachmentFileNamePath = [attachmentFilePath stringByAppendingPathComponent:attach.attachmentName];
+        if ([[NSFileManager defaultManager] removeItemAtPath:attachmentFileNamePath error:nil]) {
+        }
+        NSLog(@"the document path is %@", documentIndexFilesPath);
+        NSLog(@"the attachment path is %@",attachmentFileNamePath);
+    }
     return index.DeleteAttachment([attachGuid UTF8String]) ? YES : NO;
 }
 - (void) initAccountSetting

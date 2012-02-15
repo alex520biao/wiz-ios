@@ -15,6 +15,7 @@
 #import "WizIndex.h"
 #import "PickViewController.h"
 #import "LoginViewController.h"
+#import "WizPhoneNotificationMessage.h"
 @implementation CreateNewAccountViewController
 @synthesize userIdLabel;
 @synthesize userIdTextFiled;
@@ -221,30 +222,33 @@
 		{
 			[WizSettings addAccount:self.userIdTextFiled.text password:userPasswordTextFiled.text];
 			//
-			WizIndex* index = [[WizGlobalData sharedData] indexData:userIdTextFiled.text];
-			if (index)
-			{
-				if (![index isOpened])
-				{
-					if (![index open])
-					{
-						[WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
-					}
-				}
-			}
-			//
-            LoginViewController* login = (LoginViewController*) self.owner;
-            
-            
-            PickerViewController* pick = [[WizGlobalData sharedData] wizPickerViewOfUser:self.userIdTextFiled.text];
-            login.loginButton.hidden = YES;
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            [UIView beginAnimations:nil context:context];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
-            [UIView setAnimationDuration:0.5];
+//			WizIndex* index = [[WizGlobalData sharedData] indexData:userIdTextFiled.text];
+//			if (index)
+//			{
+//				if (![index isOpened])
+//				{
+//					if (![index open])
+//					{
+//						[WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
+//					}
+//				}
+//			}
+//			//
+//            LoginViewController* login = (LoginViewController*) self.owner;
+//            
+//            
+//            PickerViewController* pick = [[WizGlobalData sharedData] wizPickerViewOfUser:self.userIdTextFiled.text];
+//            login.loginButton.hidden = YES;
+//            CGContextRef context = UIGraphicsGetCurrentContext();
+//            [UIView beginAnimations:nil context:context];
+//            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
+//            [UIView setAnimationDuration:0.5];
+//            [self.navigationController popViewControllerAnimated:NO];
+//            [login.navigationController pushViewController:pick animated:YES];
+//            [UIView commitAnimations];
             [self.navigationController popViewControllerAnimated:NO];
-            [login.navigationController pushViewController:pick animated:YES];
-            [UIView commitAnimations];
+            NSDictionary* userInfo = [NSDictionary dictionaryWithObject:userIdTextFiled.text  forKey:TypeOfPhoneAccountUserId];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDidSelectedAccount object:nil userInfo:userInfo];
 
 		}
 		else {

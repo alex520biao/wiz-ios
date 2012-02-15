@@ -18,6 +18,7 @@
 #import "DocumentInfoViewController.h"
 #import "CommonString.h"
 #import "UIBadgeView.h"
+#import "WizDictionaryMessage.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -170,12 +171,13 @@
 
 - (void)editCurrentDocument
 {
-    NewNoteView* newNote= [[NewNoteView alloc]init];
-    newNote.accountUserId =self.accountUserID;
-    newNote.isNewDocument = NO;
-    newNote.titleTextFiled.text = self.doc.title;
-    newNote.bodyTextField.text =[self.web bodyText];
-    newNote.documentGUID = self.doc.guid;
+    NSMutableDictionary* data = [NSMutableDictionary dictionary];
+    NewNoteView* newNote= [[NewNoteView alloc]initWithAccountId:self.accountUserID];
+    [data setObject:self.doc.title forKey:TypeOfDocumentTitle];
+    [data setObject:self.doc.guid forKey:TypeOfDocumentGUID];
+    [data setObject:[self.web bodyText] forKey:TypeOfDocumentBody];
+    [newNote prepareForEdit:data];
+    
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];

@@ -24,6 +24,8 @@
 #import "RecentDcoumentListView.h"
 #import "CommonString.h"
 #import "WizPhoneNotificationMessage.h"
+#import "WizPadCheckAttachments.h"
+
 
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
@@ -45,7 +47,7 @@
 @synthesize documentFloder;
 @synthesize currentRecodingFilePath;
 @synthesize isNewDocument;
-@synthesize AddAttachments;
+@synthesize attachmentsSourcePaths;
 @synthesize documentGUID;
 @synthesize voiceInput;
 @synthesize keyControl;
@@ -66,7 +68,7 @@
     self.attachmentsCountLabel = nil;
     self.currentRecodingFilePath = nil;
     self.recoderLabel = nil;
-    self.AddAttachments =nil;
+    self.attachmentsSourcePaths =nil;
     self.voiceInput = nil;
     self.keyControl=nil;
     self.addDocumentInfoView = nil;
@@ -80,49 +82,16 @@
 
 -(void) displayAttachmentsCount
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSString* attachmentCount = [NSString stringWithFormat:@"%d",[index attachmentCountOfDocument:self.documentGUID]];
-    NSString* displayString = [NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"Attachments", nil), attachmentCount];
+    if (nil == self.attachmentsSourcePaths) {
+        NSLog(@"nil");
+    }
+    NSString* displayString = [NSString stringWithFormat:@"%@:%d",NSLocalizedString(@"Attachments", nil), [self.attachmentsSourcePaths count]];
     [self.attachmentsTableviewEntryButton setTitle:displayString forState:UIControlStateNormal];
 }
 
 -(void) updateAttachment:(NSString*) filePath
-{    
-    NSArray* fileNameTempArray = [filePath componentsSeparatedByString:@"/"];
-    NSString* fileName = [fileNameTempArray lastObject];
-    
-    NSArray* dateCreatedTempArray = [fileName componentsSeparatedByString:@"."];
-    NSString* dateCreatedString = [dateCreatedTempArray objectAtIndex:0];
-    NSString* guid = [WizGlobals genGUID];
-    NSString* dataMd5 = [WizApi fileMD5:filePath];
-    NSMutableDictionary* atttachNew = [NSMutableDictionary dictionary];
-    fileName = [fileName stringByReplacingOccurrencesOfString:@":" withString:@"-"];
-    [atttachNew setObject:fileName forKey:@"attachment_name"];
-    [atttachNew setObject:guid forKey:@"attachment_guid"];
-    [atttachNew setObject:self.documentGUID forKey:@"attachment_document_guid"];
-    [atttachNew setObject:[WizGlobals sqlTimeStringToDate:dateCreatedString] forKey:@"dt_data_modified"];
-    [atttachNew setObject:dataMd5 forKey:@"data_md5"];
-    
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index updateAttachement:atttachNew];
-    
-
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:guid];
-    [WizGlobals ensurePathExists:objectPath];
-    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:fileName];
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSError* error = [[NSError alloc]init];
-    if(![fileManager moveItemAtPath:filePath toPath:fileNamePath error:&error])
-    {
-        NSLog(@"move error");
-    }
-    [error release];
-    [atttachNew setObject:fileNamePath forKey:@"attachment_location"];
-    [index setAttachmentServerChanged:guid changed:NO];
-    [index setAttachmentLocalChanged:guid changed:YES];
-    //set data md5
-    //    [index setAttachmentDataExist:guid changed:YES];
-    [self.AddAttachments addObject:guid];
+{   
+    [self.attachmentsSourcePaths addObject:filePath];
     [self displayAttachmentsCount];
 }
 
@@ -313,11 +282,10 @@
 }
 -(void) attachmentsViewSelect
 {
-    AttachmentsView* attach = [[AttachmentsView alloc]init];
-    attach.accountUserId = self.accountUserId;
-    attach.docGuid = self.documentGUID;
-    [self.navigationController pushViewController:attach animated:YES];
-    [attach release];
+    WizPadCheckAttachments* checkAttachments = [[WizPadCheckAttachments alloc] init];
+    checkAttachments.source = self.attachmentsSourcePaths;
+    [self.navigationController pushViewController:checkAttachments animated:YES];
+    [checkAttachments release];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view
 {
@@ -378,7 +346,7 @@
         self.addAttachmentView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
     }
     UIImageView* audioRecording = [[UIImageView alloc] initWithFrame:CGRectMake(5, 1, 102, 107)];
-    audioRecording.backgroundColor = [UIColor lightTextColor];
+    audioRecording.backgroundColor = [UIColor clearColor];
     audioRecording.tag = 101;
     UIImageView* back = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recorderTimeBack"]];
     back.frame = CGRectMake(10, 30, 80, 30);
@@ -760,33 +728,36 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.documentGUID forKey:TypeOfDocumentGUID];
+    
     if([self.documentFloder isEqualToString:@""])
         self.documentFloder = [NSMutableString stringWithFormat:@"/My Mobiles/"];
-    [dic setObject:self.documentFloder forKey:TypeOfDocumentLocation];
+    
     if (self.titleTextFiled.text == nil) {
         self.titleTextFiled.text = @"";
     }
     if (self.bodyTextField.text == nil) {
         self.bodyTextField.text = @"";
     }
+    NSMutableArray* attachmentsGuid = [NSMutableArray array];
+    if ([self.attachmentsSourcePaths count]) {
+        for (NSString* each in self.attachmentsSourcePaths) {
+            NSArray* dir = [each componentsSeparatedByString:@"/"];
+            NSString* pathDir = [dir objectAtIndex:[dir count] -2];
+            if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
+                [attachmentsGuid addObject:pathDir];
+                continue;
+            }
+            NSString* newAttachmentGuid = [index newAttachment:each documentGUID:self.documentGUID];
+            [attachmentsGuid addObject:newAttachmentGuid];
+        }
+    }
+    [dic setObject:self.documentGUID forKey:TypeOfDocumentGUID];
+    [dic setObject:attachmentsGuid forKey:TypeOfAttachmentGuids];
     [dic setObject:self.titleTextFiled.text forKey:TypeOfDocumentTitle];
     [dic setObject:self.bodyTextField.text forKey:TypeOfDocumentBody];
-    
-    NSMutableArray* attachments = [NSMutableArray array];
-    for (NSString* each in self.AddAttachments) {
-        WizDocumentAttach* attach = [index attachmentFromGUID:each];
-        [attachments addObject:attach.attachmentGuid];
-    }
-    [dic setObject:attachments forKey:TypeOfAttachmentGuids];
+    [dic setObject:self.documentFloder forKey:TypeOfDocumentLocation];
+    [dic setObject:self.documentTags forKey:TypeOfDocumentTags];
     [index newNoteWithGuidAndData:dic];
-    
-//    [index newNoteWithGUID:self.titleTextFiled.text text:self.bodyTextField.text location:self.documentFloder GUID:self.documentGUID];
-    [index setDocumentLocalChanged:self.documentGUID changed:YES];
-    [index setDocumentAttachCount:self.documentGUID count:[index attachmentCountOfDocument:self.documentGUID]];
-    [index setDocumentLocation:self.documentGUID location:documentFloder];
-    [index setDocumentTags:self.documentGUID tags:self.documentTags];
-    [index setDocumentMD5:self.documentGUID md5:[WizGlobals documentMD5:self.documentGUID  :self.accountUserId]];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
     
 }
@@ -797,45 +768,31 @@
 }
 -(void) saveDocument
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if(isNewDocument)
-    {
-        [self newDocument];
-        
-    } else {
-        //update document
-        [index editDocument:self.documentGUID documentText:self.bodyTextField.text documentTitle:self.titleTextFiled.text];
-        [index setDocumentTags:self.documentGUID tags:self.documentTags];
-        [index setDocumentMD5:self.documentGUID md5:[WizGlobals documentMD5:self.documentGUID  :self.accountUserId]];
-        [index setDocumentLocalChanged:self.documentGUID changed:YES];
-    }
+    [self newDocument];
     [self postSelectedMessageToPicker];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (void) cancelSave
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    for (NSString* each in self.AddAttachments){
-        [index deleteAttachment:each];
-    }
-    if (isNewDocument) {
-        [self postSelectedMessageToPicker];
-    }
+    [self postSelectedMessageToPicker];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
--(id) init
+-(id) initWithAccountId:(NSString*)accountGuid
 {
     self = [super init];
-    [self buildInterface];
-    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrSave style:UIBarButtonItemStyleDone target:self action:@selector(saveDocument)];
-	self.navigationItem.rightBarButtonItem = editButton;
-    
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel style:UIBarButtonItemStyleDone target:self action:@selector(cancelSave)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
-    [editButton release];
-    [cancelButton release];
+    if (self) {
+        [self buildInterface];
+        self.accountUserId = accountGuid;
+        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrSave style:UIBarButtonItemStyleDone target:self action:@selector(saveDocument)];
+        self.navigationItem.rightBarButtonItem = editButton;
+        
+        UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel style:UIBarButtonItemStyleDone target:self action:@selector(cancelSave)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
+        [editButton release];
+        [cancelButton release];
+    }
     return self;
 }
 
@@ -854,49 +811,65 @@
     [UIView commitAnimations];
     
 }
-
-- (void)viewDidLoad
+- (void) prepareForEdit:(NSDictionary*)data
 {
-    if(![self startAudioSession])
+    NSString* title = [data valueForKey:TypeOfDocumentTitle];
+    NSString* body = [data valueForKey:TypeOfDocumentBody];
+    NSString* documentGUID_ = [data valueForKey:TypeOfDocumentGUID];
+    self.documentGUID = documentGUID_;
+    self.titleTextFiled.text = title;
+    self.bodyTextField.text = body;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizDocument* doc = [index documentFromGUID:self.documentGUID];
+
+    self.documentTags = [NSMutableString stringWithString:doc.tagGuids];
+    self.documentFloder = [NSMutableString stringWithString:doc.location];
+    NSArray* attachs = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:doc.guid]];
+    if(nil == self.attachmentsSourcePaths)
     {
+        self.attachmentsSourcePaths = [NSMutableArray array];
+        for (WizDocumentAttach* each in attachs) {
+            NSString* filePath = [WizIndex documentFilePath:self.accountUserId documentGUID:each.attachmentGuid];
+            NSString* fileNamePath = [filePath stringByAppendingPathComponent:each.attachmentName];
+            [self.attachmentsSourcePaths addObject:fileNamePath];
+        }
     }
-    [super viewDidLoad];
     self.addAttachmentView.tag = HIDDENTTAG;
     self.addDocumentInfoView.tag = NOHIDDENTTAG;
-    
+    self.isNewDocument = NO;
+}
+
+- (void) prepareForNewDocument
+{
+    self.documentGUID = [WizGlobals genGUID];
+    self.documentTags = [NSMutableString string];
+    self.documentFloder = [NSMutableString string];
+    if(nil == self.attachmentsSourcePaths)
+        self.attachmentsSourcePaths = [NSMutableArray array];
+    self.isNewDocument = YES;
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    if(![self startAudioSession])
+    {
+        NSLog(@"can not recorder");
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+  
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.view.alpha = 0.0;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    //prepare data
-    if (self.documentFloder == nil || documentTags == nil) {    
-        if (!self.isNewDocument) {
-            WizDocument* doc = [index documentFromGUID:self.documentGUID];
-            self.documentTags = [[doc.tagGuids mutableCopy] autorelease];
-            self.documentFloder = [[doc.location mutableCopy] autorelease];
-        } else {
-            self.documentGUID = [WizGlobals genGUID];
-            self.documentTags = [NSMutableString string];
-            self.documentFloder = [NSMutableString string];
-        }
-    }
-    if(nil == self.AddAttachments)
-        self.AddAttachments = [[[NSMutableArray alloc]init] autorelease];
-    [self.view setAlpha:1.0f];
-    [self displayAttachmentsCount];
-    if (self.isNewDocument) {
-        if (self.addAttachmentView.tag == HIDDENTTAG) {
-            [self addAttachmentsViewAnimation];
-        }
-        else  if (self.addDocumentInfoView.tag == HIDDENTTAG) {
-            [self addDocumentInfoViewAnimation];
-        }
-        
-    }
     [super viewWillAppear:animated];
+    
+    if (self.addAttachmentView.tag == HIDDENTTAG) {
+        [self addAttachmentsViewAnimation];
+    }
+    else  if (self.addDocumentInfoView.tag == HIDDENTTAG) {
+        [self addDocumentInfoViewAnimation];
+    }
+    [self displayAttachmentsCount];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -915,6 +888,7 @@
     {
         self.addAttachmentView.tag = NOHIDDENTTAG;
     }
+    
     [super viewWillDisappear:animated];
 }
 

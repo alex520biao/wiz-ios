@@ -16,5 +16,6 @@
 #define TypeOfPictrueFileNames                  @"pictrue_file_names"
 #define TypeOfAudioFileNames                    @"audio_file_names"
 #define TypeOfAttachmentGuids                   @"attachment_guids"
+#define TypeOfDocumentTags                      @"document_tags"
 
 #endif

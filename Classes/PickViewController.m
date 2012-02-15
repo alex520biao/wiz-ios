@@ -62,9 +62,8 @@
  
 -(void) newNote
 {
-    NewNoteView* newNote= [[NewNoteView alloc]init];
-    newNote.accountUserId =self.accountUserId;
-    newNote.isNewDocument = YES;
+    NewNoteView* newNote= [[NewNoteView alloc]initWithAccountId:self.accountUserId];
+    [newNote prepareForNewDocument];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];

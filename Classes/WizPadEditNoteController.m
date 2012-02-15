@@ -381,18 +381,20 @@
         }
     }
     NSMutableDictionary* documentData = [NSMutableDictionary dictionary];
-    [documentData setObject:self.documentGUID forKey:TypeOfDocumentGUID];
-    [documentData setObject:self.documentFloder forKey:TypeOfDocumentLocation];
+
     if (nil == self.titleInputTextField.text) {
         self.titleInputTextField.text = @"";
     }
-    [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
+    
     if (nil == self.bodyInputTextView.text) {
         self.bodyInputTextView.text = @"";
     }
+    [documentData setObject:self.documentGUID forKey:TypeOfDocumentGUID];
+    [documentData setObject:self.documentFloder forKey:TypeOfDocumentLocation];
     [documentData setObject:self.bodyInputTextView.text forKey:TypeOfDocumentBody];
     [documentData setObject:attachmentsGuid forKey:TypeOfAttachmentGuids];
-    [index setDocumentTags:self.documentGUID tags:tagGuids];
+    [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
+    [documentData setObject:tagGuids forKey:TypeOfDocumentTags];
     if (isNewDocument) {
         [index newNoteWithGuidAndData:documentData];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfDocumentKeyString]];

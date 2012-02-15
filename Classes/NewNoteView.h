@@ -14,10 +14,13 @@
 @class AVAudioSession;
 @class VoiceRecognition;
 @interface NewNoteView : UIViewController <AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>{
+     NSString* accountUserId;
+    //audio
     AVAudioRecorder *recorder;
 	AVAudioSession *session;
-    NSString* accountUserId;
     NSTimer* timer;
+    float  currentTIme;
+    
     UILabel* recoderLabel;
     UITextField* titleTextFiled;
     UITextView* bodyTextField;
@@ -32,8 +35,7 @@
     UIView* addDocumentInfoView;
     UIView* inputContentView;
     UIImageView* keyControl;
-    NSMutableArray* AddAttachments;
-    float  currentTIme;
+    NSMutableArray* attachmentsSourcePaths;
     VoiceRecognition* voiceInput;
     id firtResponser;
 }
@@ -50,21 +52,22 @@
 @property (nonatomic, retain) NSMutableString* documentFloder;
 @property (nonatomic, retain) NSMutableString* currentRecodingFilePath;
 @property (nonatomic, retain) NSString*         documentGUID;
-@property (nonatomic, retain) NSMutableArray* AddAttachments;
+@property (nonatomic, retain) NSMutableArray* attachmentsSourcePaths;
 @property (nonatomic, retain) UIImageView* keyControl;
-
 @property (nonatomic, retain) UIView* addAttachmentView;
 @property (nonatomic, retain) UIView* addDocumentInfoView;
 @property (nonatomic, retain) UIView* inputContentView;
-@property (nonatomic, retain)     UIButton* attachmentsTableviewEntryButton;
+@property (nonatomic, retain) UIButton* attachmentsTableviewEntryButton;
 @property (nonatomic, retain) id firtResponser;
 @property  BOOL          isNewDocument;
 @property float currentTime;
-
+- (id) initWithAccountId:(NSString*)accountGuid;
 -(BOOL) startAudioSession;
 -(void) updateAttachment:(NSString*) filePath;
 - (void) addDocumentInfoViewAnimation;
 - (void) addAttachmentsViewAnimation;
 - (void) startVoiceInput;
 - (void) voiceInputOver:(NSString*)result;
+- (void) prepareForEdit:(NSDictionary*)data;
+- (void) prepareForNewDocument;
 @end

@@ -9,9 +9,9 @@
 #ifndef Wiz_WizPhoneNotificationMessage_h
 #define Wiz_WizPhoneNotificationMessage_h
 
-#define MessageOfTagViewVillReloadData   @"MessageOfTagViewVillReloadData"
-#define MessageOfFolderViewVillReloadData @"MessageOfFolderViewVillReloadData"
-#define MessageOfNewDocument               @"wizMessageOfNewDocument"
+#define MessageOfTagViewVillReloadData      @"MessageOfTagViewVillReloadData"
+#define MessageOfFolderViewVillReloadData   @"MessageOfFolderViewVillReloadData"
+#define MessageOfNewDocument                @"wizMessageOfNewDocument"
 #define MessageOfMainPickSelectedView       @"wizMessageOfMainPickSelectedView"
 
 #define TypeOfMainPickerViewIndex           @"wizTypeOfMainPickerViewIndex"
@@ -20,4 +20,9 @@
 #define MessageOfPhoneDeleteDocument        @"MessageOfPhoneDeleteDocument"
 #define TypeOfPhoneDocumentGuid             @"TypeOfPhoneDocumentGuid"
 #define TypeOfPhoneDocumentIndexPathInTable @"TypeOfPhoneDocumentIndexPathInTable"
+
+#define MessageOfPhoneDidSelectedAccount         @"MessageOfDidSelectedAccount"
+#define TypeOfPhoneAccountUserId            @"TypeOfPhoneAccountUserId"
+
+
 #endif

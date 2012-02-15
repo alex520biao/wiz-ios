@@ -816,6 +816,7 @@
 		73931C6B14E0E492003C431C /* WizSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSearchViewController.m; sourceTree = "<group>"; };
 		73931C7D14E12992003C431C /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
 		73931C7E14E12994003C431C /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
+		73B82FDB14EBA30C008BB962 /* WizGlobalDictionaryKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalDictionaryKey.h; sourceTree = "<group>"; };
 		73C994B414E63F4800B338DE /* separetorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separetorLine.png; path = icons/ipad/separetorLine.png; sourceTree = "<group>"; };
 		73C994B514E63F4800B338DE /* separetorLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "separetorLine@2x.png"; path = "icons/ipad/separetorLine@2x.png"; sourceTree = "<group>"; };
 		73C994BC14E67D2900B338DE /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
@@ -1265,6 +1266,7 @@
 				307B7A91132B097F00069E45 /* WizSync.m */,
 				3074B0011327123700E601F3 /* WizGlobalData.h */,
 				3074B0021327123700E601F3 /* WizGlobalData.m */,
+				73B82FDB14EBA30C008BB962 /* WizGlobalDictionaryKey.h */,
 				307D5C271325CB4C0016547B /* WizIndex.h */,
 				307D5C281325CB4C0016547B /* WizIndex.mm */,
 				3075B25F13264A3400123A01 /* WizSettings.h */,

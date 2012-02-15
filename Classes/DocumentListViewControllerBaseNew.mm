@@ -537,7 +537,10 @@
 - (void) onSyncEnd
 {
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-	[nc removeObserver:self];
+    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
+    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
+    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
+    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
     [self stopLoading];
     [nc postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
     [nc postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
@@ -763,8 +766,6 @@
 - (void) displayProcessInfo
 {
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-	[nc removeObserver:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
 }
 -(void) refresh

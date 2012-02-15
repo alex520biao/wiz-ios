@@ -182,8 +182,13 @@
 }
 -(void) onUploadObjectSucceedAndCleanTemp
 {
-    [self callAttachmentPostSimpleData:self.objectGUID];
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    if (![self callAttachmentPostSimpleData:self.objectGUID]) {
+        [index deleteAttachment:self.objectGUID];
+        [index addDeletedGUIDRecord:self.objectGUID type:[WizGlobals attachmentKeyString]];
+        [super onUploadObjectSucceedAndCleanTemp];
+        return;
+    }
     [index setAttachmentLocalChanged:self.objectGUID changed:NO];
     [super onUploadObjectSucceedAndCleanTemp];
 

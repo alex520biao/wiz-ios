@@ -102,7 +102,13 @@
     [super viewDidLoad];
 
 }
-
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.tableArray == nil) {
+        self.tableArray = [NSMutableArray array];
+    }
+}
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

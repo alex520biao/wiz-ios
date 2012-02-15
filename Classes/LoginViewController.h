@@ -26,6 +26,7 @@
     NSArray* accountsArray;
     NSString* selecteAccountId;
     BOOL willChangedUser;
+    BOOL willAddUser;
 }
 @property (nonatomic, retain) IBOutlet UITableViewCell* userNameCell;
 @property (nonatomic, retain) IBOutlet UITableViewCell* userPasswordCell;
@@ -43,11 +44,12 @@
 @property (nonatomic, retain) NSArray* accountsArray;
 @property (nonatomic, retain)   NSString* selecteAccountId;
 @property (assign)  BOOL willChangedUser;
+@property (assign)  BOOL willAddUser;
 - (void) xmlrpcDone: (NSNotification*)nc;
 - (IBAction)userLogin:(id)sender;
 - (void)addAccountEntry;
 - (IBAction) getNewAccount:(id)sender;
 - (IBAction) checkOtherAccounts:(id)sender;
-- (void) didSelectedAccount:(NSString*)userID;
+- (void) didSelectedAccount:(NSNotification*)nc;
 
 @end
