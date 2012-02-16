@@ -125,7 +125,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:51.0/255 green:141.0/255 blue:201.0/255 alpha:1.0];
     NSArray* tagArray = [[[WizGlobalData sharedData] indexData:accountUserId] allTagsForTree];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     tree = [[LocationTreeNode alloc]init] ;

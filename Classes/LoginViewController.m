@@ -219,7 +219,7 @@
     NSString* userProtectPassword = [WizSettings accountProtectPassword];
     if (userProtectPassword != nil && ![userProtectPassword isEqualToString:@""]) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
-                                                        message:NSLocalizedString(@"Device does not support a photo", nil)
+                                                        message:NSLocalizedString(@"                                       ", nil)
                                                        delegate:self 
                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) 
                                               otherButtonTitles:nil];

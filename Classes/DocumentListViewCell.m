@@ -98,7 +98,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     if (!isAbstractExist && ![index documentServerChanged:self.doc.guid]) {
         NSString* documentFilePath = [WizIndex documentFileName:self.accoutUserId documentGUID:self.doc.guid];
         if ([[NSFileManager defaultManager] fileExistsAtPath:documentFilePath]) {
-            [index performSelectorInBackground:@selector(extractSummary:) withObject:doc.guid];
+            [index performSelectorOnMainThread:@selector(extractSummary:) withObject:doc.guid waitUntilDone:YES];
+//            [index performSelectorInBackground: withObject:];
         }
         NSLog(@"%@",doc.title);
     }

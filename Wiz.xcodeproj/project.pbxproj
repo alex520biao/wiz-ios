@@ -263,7 +263,6 @@
 		73931C2814E0DC12003C431C /* newNoteFolder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BA614E0DC11003C431C /* newNoteFolder@2x.png */; };
 		73931C2914E0DC12003C431C /* newNoteIcoForMain.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BA714E0DC11003C431C /* newNoteIcoForMain.png */; };
 		73931C2A14E0DC12003C431C /* newNoteTag.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BA814E0DC11003C431C /* newNoteTag.png */; };
-		73931C2B14E0DC12003C431C /* newNoteTag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BA914E0DC11003C431C /* newNoteTag@2x.png */; };
 		73931C2C14E0DC12003C431C /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BAA14E0DC11003C431C /* picture.png */; };
 		73931C2D14E0DC12003C431C /* picture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BAB14E0DC11003C431C /* picture@2x.png */; };
 		73931C2E14E0DC12003C431C /* pushDownRemind.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BAC14E0DC11003C431C /* pushDownRemind.png */; };
@@ -319,6 +318,7 @@
 		73931C6314E0DC12003C431C /* zoom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931BE114E0DC11003C431C /* zoom@2x.png */; };
 		73931C6C14E0E492003C431C /* WizSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73931C6B14E0E492003C431C /* WizSearchViewController.m */; };
 		73931C7F14E12998003C431C /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73931C7E14E12994003C431C /* WizPadCheckAttachments.m */; };
+		73B82FE314ECD741008BB962 /* newNoteTag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73B82FE214ECD741008BB962 /* newNoteTag@2x.png */; };
 		73C994B614E63F4800B338DE /* separetorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994B414E63F4800B338DE /* separetorLine.png */; };
 		73C994B714E63F4800B338DE /* separetorLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994B514E63F4800B338DE /* separetorLine@2x.png */; };
 		73C994BD14E67D2900B338DE /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994BC14E67D2900B338DE /* about.png */; };
@@ -758,7 +758,6 @@
 		73931BA614E0DC11003C431C /* newNoteFolder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "newNoteFolder@2x.png"; path = "icons/newNoteFolder@2x.png"; sourceTree = "<group>"; };
 		73931BA714E0DC11003C431C /* newNoteIcoForMain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteIcoForMain.png; path = icons/newNoteIcoForMain.png; sourceTree = "<group>"; };
 		73931BA814E0DC11003C431C /* newNoteTag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteTag.png; path = icons/newNoteTag.png; sourceTree = "<group>"; };
-		73931BA914E0DC11003C431C /* newNoteTag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "newNoteTag@2x.png"; path = "icons/newNoteTag@2x.png"; sourceTree = "<group>"; };
 		73931BAA14E0DC11003C431C /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = picture.png; path = icons/picture.png; sourceTree = "<group>"; };
 		73931BAB14E0DC11003C431C /* picture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picture@2x.png"; path = "icons/picture@2x.png"; sourceTree = "<group>"; };
 		73931BAC14E0DC11003C431C /* pushDownRemind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pushDownRemind.png; path = icons/pushDownRemind.png; sourceTree = "<group>"; };
@@ -817,6 +816,7 @@
 		73931C7D14E12992003C431C /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
 		73931C7E14E12994003C431C /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73B82FDB14EBA30C008BB962 /* WizGlobalDictionaryKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalDictionaryKey.h; sourceTree = "<group>"; };
+		73B82FE214ECD741008BB962 /* newNoteTag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "newNoteTag@2x.png"; path = "icons/newNoteTag@2x.png"; sourceTree = "<group>"; };
 		73C994B414E63F4800B338DE /* separetorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = separetorLine.png; path = icons/ipad/separetorLine.png; sourceTree = "<group>"; };
 		73C994B514E63F4800B338DE /* separetorLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "separetorLine@2x.png"; path = "icons/ipad/separetorLine@2x.png"; sourceTree = "<group>"; };
 		73C994BC14E67D2900B338DE /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
@@ -1643,7 +1643,7 @@
 				73931BA514E0DC11003C431C /* newNoteFolder.png */,
 				73931BA614E0DC11003C431C /* newNoteFolder@2x.png */,
 				73931BA814E0DC11003C431C /* newNoteTag.png */,
-				73931BA914E0DC11003C431C /* newNoteTag@2x.png */,
+				73B82FE214ECD741008BB962 /* newNoteTag@2x.png */,
 				73931BAA14E0DC11003C431C /* picture.png */,
 				73931BAB14E0DC11003C431C /* picture@2x.png */,
 				73931BAC14E0DC11003C431C /* pushDownRemind.png */,
@@ -2004,7 +2004,6 @@
 				73931C2814E0DC12003C431C /* newNoteFolder@2x.png in Resources */,
 				73931C2914E0DC12003C431C /* newNoteIcoForMain.png in Resources */,
 				73931C2A14E0DC12003C431C /* newNoteTag.png in Resources */,
-				73931C2B14E0DC12003C431C /* newNoteTag@2x.png in Resources */,
 				73931C2C14E0DC12003C431C /* picture.png in Resources */,
 				73931C2D14E0DC12003C431C /* picture@2x.png in Resources */,
 				73931C2E14E0DC12003C431C /* pushDownRemind.png in Resources */,
@@ -2073,6 +2072,7 @@
 				73CAAA0E14EA1AF900D5FF9B /* Default-Portrait~ipad.png in Resources */,
 				73CAAA1014EA1B2400D5FF9B /* Default-Landscape~ipad.png in Resources */,
 				73CAAA1214EA1C2700D5FF9B /* documentViewDetail@2x.png in Resources */,
+				73B82FE314ECD741008BB962 /* newNoteTag@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2332,14 +2332,17 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wiz_Prefix.pch;
 				INFOPLIST_FILE = "Wiz-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/lib/iFlyISR.framework\"",
 				);
 				PRODUCT_NAME = Wiz;
+				PROVISIONING_PROFILE = "129F2F61-7710-43CB-9331-B22C9B8FE127";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -2361,14 +2364,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wiz_Prefix.pch;
 				INFOPLIST_FILE = "Wiz-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/lib/iFlyISR.framework\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "A5554343-832B-4A8C-9904-0158A5264E41";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A5554343-832B-4A8C-9904-0158A5264E41";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2415,7 +2416,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Wiz_Prefix.pch;
 				INFOPLIST_FILE = "Wiz-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/lib/iFlyISR.framework\"",

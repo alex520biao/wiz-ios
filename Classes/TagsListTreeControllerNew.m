@@ -115,7 +115,6 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:51.0/255 green:141.0/255 blue:201.0/255 alpha:1.0];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfTagViewVillReloadData object:nil];
     [self reloadAllData];
     self.closedImage = [UIImage imageNamed:@"treePlus"];

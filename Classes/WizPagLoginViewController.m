@@ -17,6 +17,8 @@
 #import "WizIndex.h"
 #import "WizPadNotificationMessage.h"
 
+#define PROTECTALERT 1004
+
 @implementation WizPagLoginViewController
 @synthesize loginButton;
 @synthesize backgroudView;
@@ -50,7 +52,80 @@
         self.checkExistedAccountButton.frame = CGRectMake(274, 501, 220, 40);
     }
 }
+- (void) selectDefaultAccount
+{
+    NSString* defaultUserId = [WizSettings defaultAccountUserId];
+    
+    if (defaultUserId != nil && ![defaultUserId isEqualToString:@""]) {
+        NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:defaultUserId, @"accountUserId", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
+        [userInfo release];
+    }
+    else
+    {
+        if ([[WizSettings  accounts] count]) {
+            NSArray* accountsArray =[WizSettings accounts];
+            defaultUserId = [WizSettings accountUserIdAtIndex:accountsArray index:0];
+            NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:defaultUserId, @"accountUserId", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
+            [userInfo release];
+        }
+    }
+}
+- (void) protectAlert
+{
+    NSString* userProtectPassword = [WizSettings accountProtectPassword];
+    if (userProtectPassword != nil && ![userProtectPassword isEqualToString:@""]) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
+                                                        message:NSLocalizedString(@"                                         ", nil)
+                                                       delegate:self 
+                                              cancelButtonTitle:NSLocalizedString(@"OK",nil) 
+                                              otherButtonTitles:nil];
+        UITextField* text = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+        text.keyboardType = UIKeyboardTypeNumberPad;
+        [text becomeFirstResponder];
+        [text setBackgroundColor:[UIColor whiteColor]];
+        [alert addSubview:text];
+        text.placeholder = NSLocalizedString(@"password", nil);
+        [alert show];
+        alert.tag = PROTECTALERT;
+        [alert release];
+        [text release];
+        return;
+    }
+    else
+    {
+        [self selectDefaultAccount];
+    }
+}
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (PROTECTALERT == alertView.tag) {
+        for (UIView* each in alertView.subviews) {
+            if ([each isKindOfClass:[UITextField class]]) {
+                [each resignFirstResponder];
+                UITextField* textField = (UITextField*)each;
+                NSString* text = textField.text;
+                if (nil != text && [text isEqualToString:[WizSettings accountProtectPassword]]) {
+                    [self selectDefaultAccount];
+                }
+                else
+                {
+                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
+                                                                    message:NSLocalizedString(@"Password is wrong", nil)
+                                                                   delegate:self 
+                                                          cancelButtonTitle:@"OK" 
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                    [alert release];
+                    [self protectAlert];
+                }
+            }
+        }
+    }
+    
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,26 +165,7 @@
 {
     [super viewDidAppear:animated];
     //load the default account
-    if (willFirstAppear) {
-        NSString* defaultUserId = [WizSettings defaultAccountUserId];
-        
-        if (defaultUserId != nil && ![defaultUserId isEqualToString:@""]) {
-            NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:defaultUserId, @"accountUserId", nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-            [userInfo release];
-        }
-        else
-        {
-            if ([[WizSettings  accounts] count]) {
-                NSArray* accountsArray =[WizSettings accounts];
-                defaultUserId = [WizSettings accountUserIdAtIndex:accountsArray index:0];
-                NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:defaultUserId, @"accountUserId", nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-                [userInfo release];
-            }
-        }
-        self.willFirstAppear = NO;
-    }
+
 }
 - (void)didReceiveMemoryWarning
 {
@@ -145,6 +201,10 @@
     NSString* str = [NSString stringWithFormat:@"中国人abc"];
     NSLog(@"length is %d", str.length);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
+    if (willFirstAppear) {
+        [self protectAlert];
+        self.willFirstAppear = NO;
+    }
 }
 
 - (void)viewDidUnload

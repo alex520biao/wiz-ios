@@ -204,10 +204,6 @@
 -(UIImage*) imageReduceRect:(NSString*) imageName
 {
     UIImage* image = [UIImage imageNamed:imageName];
-    //    UIGraphicsBeginImageContext(CGSizeMake(321, 321));
-    //    [image drawInRect:CGRectMake(100 , 53, 107, 107)];
-    //    image = UIGraphicsGetImageFromCurrentImageContext();
-    //    UIGraphicsEndImageContext();
     return image;
     
 }
@@ -554,8 +550,7 @@
     
     //tag
     UIImageView* tag = [[UIImageView alloc]initWithFrame:CGRectMake(160, 4, 100, 100)];
-    UIImageView* tagFront = [[UIImageView alloc] initWithFrame:CGRectMake(25, 25, 47, 47)];
-    [tag addSubview:tagFront];
+    tag.image = [self imageReduceRect:@"newNoteTag"];
     UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
     tagLabel.backgroundColor = [UIColor clearColor];
     [tagLabel setFont:[UIFont systemFontOfSize:13]];
@@ -564,11 +559,9 @@
     tagLabel.text = NSLocalizedString(@"Tag", nil);
     [tag addSubview:tagLabel];
     [tagLabel release];
-    tagFront.image = [self imageReduceRect:@"newNoteTag"];
     [self addSelcetorToView:@selector(tagViewSelect) :tag];
     [self.addDocumentInfoView addSubview:tag];
     [tag release];
-    [tagFront release];
     [self.view addSubview:self.addDocumentInfoView];
     
 }
@@ -757,7 +750,13 @@
     [dic setObject:self.bodyTextField.text forKey:TypeOfDocumentBody];
     [dic setObject:self.documentFloder forKey:TypeOfDocumentLocation];
     [dic setObject:self.documentTags forKey:TypeOfDocumentTags];
-    [index newNoteWithGuidAndData:dic];
+    if (isNewDocument) {
+        [index newNoteWithGuidAndData:dic];
+    }
+    else
+    {
+        [index editDocumentWithGuidAndData:dic];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
     
 }

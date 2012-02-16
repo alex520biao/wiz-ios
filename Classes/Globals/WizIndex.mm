@@ -19,6 +19,7 @@
 #import "pinyin.h"
 #import "RegexKitLite.h"
 #import "WizGlobalDictionaryKey.h"
+#import "NSDate-Utilities.h"
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -111,19 +112,19 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc
 {
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] compare:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
+    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
 }
 - (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc
 {
-    return ![[WizGlobals sqlTimeStringToDate:self.dateCreated] compare:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
+    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
 }
 - (NSComparisonResult) compareDate:(WizDocument *)doc
 {
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] compare:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
+    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
 }
 - (NSComparisonResult) compareReverseDate:(WizDocument *)doc
 {
-    return ![[WizGlobals sqlTimeStringToDate:self.dateModified] compare:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
+    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
 }
 
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
@@ -1007,7 +1008,105 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (BOOL) editDocumentWithGuidAndData:(NSDictionary*)documentData
 {
-    return [self newNoteWithGuidAndData:documentData];
+    NSString* documentTitle = [documentData valueForKey:TypeOfDocumentTitle];
+    NSString* documentBody = [documentData valueForKey:TypeOfDocumentBody];
+    NSString* documentLocation = [documentData valueForKey:TypeOfDocumentLocation];
+    NSArray* attachmentsGUIDs = [documentData valueForKey:TypeOfAttachmentGuids];
+    NSString* documentGUID = [documentData valueForKey:TypeOfDocumentGUID];
+    NSString* documentTags = [documentData valueForKey:TypeOfDocumentTags];
+    NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
+    NSString* documentOrgFileName = [WizIndex documentOrgFileName:self.accountUserId documentGUID:documentGUID fileExt:@".txt"];
+    NSString* attachmentsDirectory = [documentPath stringByAppendingPathComponent:@"index_files"];
+    NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
+    [WizGlobals ensurePathExists:attachmentsDirectory];
+    
+    NSMutableArray* audioNames = [NSMutableArray array];
+    NSMutableArray* pictureNames = [NSMutableArray array];
+    for (NSString* eachGuid in attachmentsGUIDs) {
+        WizDocumentAttach* attach = [self attachmentFromGUID:eachGuid];
+        NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentGuid];
+        NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attach.attachmentName];
+        attachmentFilePath = [attachmentFilePath stringByReplacingOccurrencesOfString:@":" withString:@"-"];
+        if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
+        {
+            [pictureNames addObject:attach.attachmentName];
+        }
+        if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+            [audioNames addObject:attach.attachmentName];
+        }
+        NSError* error = [[NSError alloc]init];
+        NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+        if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+        {
+            NSLog(@"move error");
+        }
+    }
+	NSError* errOrg = nil;
+	[documentBody writeToFile:documentOrgFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errOrg];
+	if (errOrg != nil)
+	{
+		[WizGlobals reportError:errOrg];
+		return NO;
+	}
+    if (documentBody == nil || [documentBody length] ==0) {
+        documentBody = @"";
+    }
+    if (documentTitle == nil || [documentTitle length] == 0)
+	{
+		documentTitle = [documentBody firstLine];
+	}
+	if (documentTitle == nil || [documentTitle length] == 0)
+	{
+		documentTitle = [NSString stringWithString:@"No title"];
+	}
+    
+    NSString* htmlTitle = [NSString stringWithFormat:@"<title>%@</title>",documentTitle];
+    NSString* htmlBodyText = [NSString stringWithFormat:@"<p>%@</p>",[documentBody toHtml]];
+    NSMutableString* htmlPictrue = [NSMutableString stringWithFormat:@"<ul>"];
+    
+    for (NSString* each in pictureNames) {
+        [htmlPictrue appendFormat:@"<li><img src=\"index_files/%@\" alt=\"%@\" ></li>",each,each];
+    }
+    [htmlPictrue appendFormat:@"</ul>"];
+    
+    NSMutableString* htmlAudio = [NSMutableString stringWithFormat:@"<ul>"];
+    for (NSString* each in audioNames) {
+        [htmlAudio appendFormat:@"<li><embed src=\"index_files/%@\" autostart=false></li>",each];
+    }
+    [htmlAudio appendFormat:@"</ul>"];
+    NSString* htmlFinal = [NSString stringWithFormat:@"<html>%@<body>%@%@%@</body></html>",htmlTitle,htmlBodyText,htmlAudio,htmlPictrue];
+    NSError* errHtml = nil;
+	[htmlFinal writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
+    if (errHtml != nil)
+	{
+		[WizGlobals reportError:errHtml];
+		return NO;
+	}
+	//
+    
+	if (documentLocation == nil || [documentLocation isEqualToString:@""])
+	{
+		documentLocation = @"/My Mobile/";
+	}
+    
+    NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
+    NSMutableDictionary* doc = [NSMutableDictionary dictionary];
+    NSDate* currentDate = [NSDate date];
+    NSNumber* nAttachmentCount = [NSNumber numberWithInt:[attachmentsGUIDs count]];
+    [doc setObject:documentGUID forKey:TypeOfUpdateDocumentGuid];
+    [doc setObject:documentTitle forKey:TypeOfUpdateDocumentTitle];
+    [doc setObject:documentLocation forKey:TypeOfUpdateDocumentLocation];
+    [doc setObject:documentMd5 forKey:TypeOfUpdateDocumentDataMd5];
+    [doc setObject:[NSString string] forKey:TypeOfUpdateDocumentUrl];
+    [doc setObject:currentDate forKey:TypeOfUpdateDocumentDateModified];
+    [doc setObject:TypeOfDocumentTypeOfNote forKey:TypeOfUpdateDocumentType];
+    [doc setObject:TypeOfDocumentFileTypeOfNote forKey:TypeOfUpdateDocumentFileType];
+    [doc setObject:nAttachmentCount forKey:TypeOfUpdateDocumentAttchmentCount];
+    [doc setObject:documentTags forKey:TypeOfUpdateDocumentTagGuids];
+    [doc setObject:[NSNumber numberWithInt:1] forKey:TypeOfUpdateDocumentLocalchanged];
+    BOOL bRet = [self updateDocument:doc];
+    [self setDocumentServerChanged:documentGUID changed:NO];
+	return bRet;
 }
 - (BOOL) newNoteWithGuidAndData:(NSDictionary*)documentData
 {
@@ -1382,7 +1481,7 @@ NSInteger compareTag(id location1, id location2, void*);
     else
     {
         [self deleteAbstractByGUID:documentGUID];
-        [self extractSummary:documentGUID];
+        [self performSelectorOnMainThread:@selector(extractSummary:) withObject:documentGUID waitUntilDone:YES];
     }
 	return index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
 }

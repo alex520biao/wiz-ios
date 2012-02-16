@@ -100,7 +100,6 @@
         
         self.navigationController.delegate = self;
     }
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:51.0/255 green:141.0/255 blue:201.0/255 alpha:1.0];
 }
 
 - (void)viewDidUnload

@@ -242,7 +242,7 @@
         [self.view addSubview:self.searchBar];
     }
     if (nil == self.localsearchView) {
-        self.localsearchView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 52, 320, 40)] autorelease];
+        self.localsearchView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 50, 320, 40)] autorelease];
         self.localsearchView.image = [UIImage imageNamed:@"searchBackgroud"];
         self.localsearchView.userInteractionEnabled = YES;
         [self.view addSubview:self.localsearchView];
@@ -286,9 +286,9 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:51.0/255 green:141.0/255 blue:201.0/255 alpha:1.0];
     [self searchBarCancelButtonClicked:self.searchBar];
     [self.historyView reloadData];
+    self.localSearchSwitch.on = YES;
     [super viewWillAppear:animated];
 }
 

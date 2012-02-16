@@ -69,7 +69,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    self.attachmentsAraay = [NSMutableArray arrayWithArray:[[index attachmentsByDocumentGUID:self.docGuid] mutableCopy]];
+    self.attachmentsAraay = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:self.docGuid] ];
     self.lastIndexPath = [NSIndexPath  indexPathForRow:-1 inSection:-1] ;
     self.isPlayingAudio = NO;
     [super viewWillAppear:animated];

@@ -167,7 +167,6 @@
     }
     
     if (![WizGlobals WizDeviceIsPad]) {
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:51.0/255 green:141.0/255 blue:201.0/255 alpha:1.0];
         if (![WizGlobals WizDeviceIsPad]) {
             if ([WizGlobals WizDeviceVersion] < 5.0) {
                 self.navigationController.delegate = self;
@@ -268,13 +267,20 @@
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (tableView == self.tableView) {
-        if(kOrderDate == self.kOrder || kOrderCreatedDate == self.kOrder || kOrderReverseCreatedDate == self.kOrder )
+        if(kOrderDate == self.kOrder )
       {
           WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
           NSRange range = NSMakeRange(0, 7);
           NSString* sectionTitle = [doc.dateModified substringWithRange:range];
           return sectionTitle;
       }
+        else if ( kOrderCreatedDate == self.kOrder || kOrderReverseCreatedDate == self.kOrder )
+        {
+            WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
+            NSRange range = NSMakeRange(0, 7);
+            NSString* sectionTitle = [doc.dateCreated substringWithRange:range];
+            return sectionTitle;
+        }
       else if (kOrderReverseDate == self.kOrder)
       {
           WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
@@ -344,7 +350,7 @@
             WizDocument* doc2 = [array objectAtIndex:k-1];
             if(k == 1)
             {
-                if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+                if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
                     [sectionArray addObject:doc1];
                     [sectionArray addObject:doc2];
                     [self.tableArray addObject:sectionArray];
@@ -358,7 +364,7 @@
                 }
                 return;
             }
-            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+            if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
                 [sectionArray addObject:doc1];
             } else
             {
