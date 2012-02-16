@@ -268,7 +268,7 @@
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (tableView == self.tableView) {
-      if(kOrderDate == self.kOrder )
+        if(kOrderDate == self.kOrder || kOrderCreatedDate == self.kOrder || kOrderReverseCreatedDate == self.kOrder )
       {
           WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
           NSRange range = NSMakeRange(0, 7);
@@ -315,27 +315,62 @@
     }
 }
 
-
-//- (NSArray*) sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    
-//    NSMutableArray* arr = [NSMutableArray array];
-
-//    for (NSArray* each in self.tableArray) {
-//        WizDocument* doc = [each objectAtIndex:0];
-//        if(kOrderDate == self.kOrder || kOrderReverseDate == self.kOrder)
-//        {
-//            [arr addObject:@""];
-//        }
-//        else if(kOrderFirstLetter == self.kOrder || kOrderReverseFirstLetter == self.kOrder)
-//        {
-//            NSString* firstLetter = [[NSString stringWithFormat:@"%c",pinyinFirstLetter([doc.title characterAtIndex:0])] uppercaseString];
-//            [arr addObject:firstLetter];
-//        }
-//    }
-//    return arr;
-//
-//}
+- (void) orderByCreateDate
+{
+    NSMutableArray* array = [NSMutableArray arrayWithArray:self.sourceArray];
+    [self.tableArray removeAllObjects];
+    NSRange range = NSMakeRange(0, 7);
+    if (self.kOrder == kOrderCreatedDate) {
+        [array sortUsingSelector:@selector(compareCreateDate:)];
+    }
+    else if (self.kOrder == kOrderReverseCreatedDate) {
+        [array sortUsingSelector:@selector(compareReverseCreateDate:)];
+    }
+    if ([array count] == 1) {
+        NSMutableArray* sectionArray = [NSMutableArray array];
+        [sectionArray addObject:[array objectAtIndex:0]];
+        [self.tableArray addObject:sectionArray];
+        return;
+    }
+    if ([array count] == 0) {
+        return;
+    }
+    int docIndex = [self.sourceArray count]-1;
+    for (int i =0; i<12; i++) {
+        NSMutableArray* sectionArray = [NSMutableArray array];
+        for(int k = docIndex; k >= 0; k--)
+        {
+            WizDocument* doc1 = [array objectAtIndex:k];
+            WizDocument* doc2 = [array objectAtIndex:k-1];
+            if(k == 1)
+            {
+                if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+                    [sectionArray addObject:doc1];
+                    [sectionArray addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                } else
+                {
+                    [sectionArray addObject:doc1];
+                    NSMutableArray* sectionArr = [NSMutableArray array];
+                    [sectionArr addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                    [self.tableArray addObject:sectionArr];
+                }
+                return;
+            }
+            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+                [sectionArray addObject:doc1];
+            } else
+            {
+                [sectionArray addObject:doc1];
+                [self.tableArray addObject:sectionArray];
+                docIndex = k-1;
+                break;
+            }
+            
+        }
+    }
+}
 - (void) orderByReverseDate
 {
     NSMutableArray* array = [self.sourceArray mutableCopy];
@@ -406,6 +441,10 @@
             break;
         case kOrderReverseFirstLetter:
             [self orderByFirstLetter];
+            break;
+        case kOrderCreatedDate:
+        case kOrderReverseCreatedDate:
+            [self orderByCreateDate];
             break;
         default:
             break;

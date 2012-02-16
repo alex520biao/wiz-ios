@@ -11,6 +11,8 @@
 #define kOrderReverseDate           2
 #define kOrderFirstLetter           3
 #define kOrderReverseFirstLetter    4
+#define kOrderCreatedDate           5
+#define kOrderReverseCreatedDate    6
 @class WizIndexData;
 @class ZipArchive;
 @class WizTempIndexData;
@@ -78,6 +80,8 @@
 - (NSComparisonResult) compareReverseDate:(WizDocument*) doc;
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
+- (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
+- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
 @end
 
 @interface WizDeletedGUID : NSObject

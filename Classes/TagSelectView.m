@@ -9,6 +9,7 @@
 #import "TagSelectView.h"
 #import "Globals/WizGlobalData.h"
 #import "WizIndex.h"
+#import "WizNewTagCell.h"
 
 @implementation TagSelectView
 
@@ -238,11 +239,9 @@
         {
             if(indexPath.row == 0)
             {
-                NSString* displayString = [NSString stringWithFormat:@"%@ %@",
-                                           NSLocalizedString(@"New Tag Named", nil),
-                                           self.searchBar.text];
-                cell.textLabel.text = displayString;
-                cell.accessoryType = UITableViewCellAccessoryNone;
+                WizNewTagCell* cell = [[WizNewTagCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell0"];
+                [cell setTextFieldText:self.searchBar.text];
+                return cell;
             }
             else
             {
@@ -369,7 +368,7 @@
         {
             if(indexPath.row == 0)
             {
-                WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+                WizIndex* index  = [[WizGlobalData sharedData] indexData:self.accountUserId];
                 WizTag* tag = [index newTag:self.searchBar.text description:@"" parentTagGuid:nil];
                 [self.tagsWillAdd addObject:tag];
                 UITableViewCell* cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
@@ -377,6 +376,7 @@
                 [self.tagsSearch insertObject:tag atIndex:0];
                 //add the new tag to self.tags
                 [self.tags insertObject:tag atIndex:0];
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
                 NSIndexPath* insertIndexPath = [NSIndexPath indexPathForRow:[self.tags indexOfObject:tag] inSection:1];
                 [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:insertIndexPath] withRowAnimation:UITableViewRowAnimationTop];
                 //

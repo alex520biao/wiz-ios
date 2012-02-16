@@ -59,11 +59,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    self.attachmentsAraay = [[[index attachmentsByDocumentGUID:self.docGuid] mutableCopy] autorelease];
-    
-    self.lastIndexPath = [NSIndexPath  indexPathForRow:-1 inSection:-1] ;
-    self.isPlayingAudio = NO;
 }
 
 - (void)viewDidUnload
@@ -73,12 +68,19 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    self.attachmentsAraay = [NSMutableArray arrayWithArray:[[index attachmentsByDocumentGUID:self.docGuid] mutableCopy]];
+    self.lastIndexPath = [NSIndexPath  indexPathForRow:-1 inSection:-1] ;
+    self.isPlayingAudio = NO;
     [super viewWillAppear:animated];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -147,15 +149,15 @@
 
 
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    WizDocumentAttach* attach = [self.attachmentsAraay objectAtIndex:indexPath.row];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    [index deleteAttachment:attach.attachmentGuid];
-    [index addDeletedGUIDRecord:attach.attachmentGuid type:@"attachment"];
-    [self.attachmentsAraay removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]withRowAnimation:YES];
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    WizDocumentAttach* attach = [self.attachmentsAraay objectAtIndex:indexPath.row];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+//    [index deleteAttachment:attach.attachmentGuid];
+//    [index addDeletedGUIDRecord:attach.attachmentGuid type:@"attachment"];
+//    [self.attachmentsAraay removeObjectAtIndex:indexPath.row];
+//    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]withRowAnimation:YES];
+//}
 
 
 /*

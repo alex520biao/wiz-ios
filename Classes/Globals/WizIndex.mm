@@ -109,6 +109,14 @@ NSInteger compareTag(id location1, id location2, void*);
 	[super dealloc];
 }
 
+- (NSComparisonResult) compareCreateDate:(WizDocument*)doc
+{
+    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] compare:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
+}
+- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc
+{
+    return ![[WizGlobals sqlTimeStringToDate:self.dateCreated] compare:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
+}
 - (NSComparisonResult) compareDate:(WizDocument *)doc
 {
     return [[WizGlobals sqlTimeStringToDate:self.dateModified] compare:[WizGlobals sqlTimeStringToDate:doc.dateModified]];

@@ -41,10 +41,12 @@
 
 - (void)viewDidLoad
 {
-    self.options = [NSArray arrayWithObjects:NSLocalizedString(@"Sort By Date" , nil)
-                    ,NSLocalizedString(@"Reverse Sort By Date" , nil)
+    self.options = [NSArray arrayWithObjects:NSLocalizedString(@"Sort By Modified Date" , nil)
+                    ,NSLocalizedString(@"Reverse Sort By Modified Date" , nil)
                     ,NSLocalizedString(@"Sort By First Letter", nil)
                     ,NSLocalizedString(@"Reverse Sort By First Letter", nil)
+                    ,NSLocalizedString(@"Sort By Created Date", nil)
+                    ,NSLocalizedString(@"Reverse Sort By Created Date", nil)
                     ,nil];
     [super viewDidLoad];
 
@@ -140,7 +142,15 @@
         {
             base.kOrder = kOrderReverseFirstLetter;
         }
-        else
+        else if (4 == indexPath.row)
+        {
+            base.kOrder = kOrderCreatedDate;
+        }
+        else if (5 == indexPath.row)
+        {
+            base.kOrder = kOrderReverseCreatedDate;
+        }
+        else 
         {
             base.kOrder = kOrderDate;
         }
