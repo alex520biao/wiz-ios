@@ -448,7 +448,7 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 	WIZDOCUMENTDATA dataExists;
 	if (DocumentFromGUID(data.strGUID.c_str(), dataExists))
 	{
-		if (dataExists.nLocalChanged)
+		if (dataExists.nLocalChanged && !data.nLocalChanged)
 			return true;
 		//
 		std::string strServerChanged = (dataExists.nServerChanged==1 || data.strDataMd5 != dataExists.strDataMd5) ? "1" : "0";

@@ -358,7 +358,7 @@
 - (void) saveDocument
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+
     NSString* tagGuids = [NSMutableString string];
     if ([self.selectedTags count]) {
         for (int i = 0; i <[self.selectedTags count]-1; i++) {
@@ -396,7 +396,7 @@
     [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
     [documentData setObject:tagGuids forKey:TypeOfDocumentTags];
     if (isNewDocument) {
-        [index newNoteWithGuidAndData:documentData];
+         [index  newNoteWithGuidAndData:documentData];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfDocumentKeyString]];
     }
     else
@@ -404,6 +404,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfEditDocumentDone object:nil userInfo:nil];
         [index editDocumentWithGuidAndData:documentData];
     }
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (float) updateTime

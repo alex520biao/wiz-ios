@@ -819,6 +819,7 @@ NSInteger compareTag(id location1, id location2, void*);
     NSNumber* nAttachmentCount = [doc valueForKey:@"document_attachment_count"];
 	//
 	//wiz-dzpqzb
+    NSNumber* localChanged = [doc valueForKey:TypeOfUpdateDocumentLocalchanged];
 	WIZDOCUMENTDATA data;
 	data.strGUID = [guid UTF8String];
 	data.strTitle = [title UTF8String];
@@ -832,6 +833,14 @@ NSInteger compareTag(id location1, id location2, void*);
 	data.strType = [type UTF8String];
 	data.strFileType = [fileType UTF8String];
     data.nAttachmentCount = [nAttachmentCount intValue];
+    if (localChanged == nil) {
+        data.nLocalChanged = 0;
+    }
+    else
+    {
+        data.nLocalChanged = [localChanged intValue];
+    }
+     
 	CIndex& index = [_indexData index];
 	//
 //    BOOL localchange = [self documentLocalChanged:guid];
@@ -906,9 +915,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	//
 	return YES;
 }
-
 -(NSNumber*) appendObjectDataByPath:(NSString*) objectFilePath data:(NSData*)data {
-    
     NSFileHandle* file = [NSFileHandle fileHandleForWritingAtPath:objectFilePath];
     if(nil == file) {
         [[NSFileManager defaultManager] createFileAtPath:objectFilePath contents:nil attributes:nil];
@@ -925,13 +932,15 @@ NSInteger compareTag(id location1, id location2, void*);
 
 -(BOOL) updateObjectDataByPath:(NSString*) objectZipFilePath objectGuid:(NSString*)objectGuid{
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objectGuid];
-    ZipArchive* zip = [[ZipArchive alloc] init];
-    NSLog(@"prepare upzip thread %@" ,[[NSThread currentThread] name]);
-    [zip UnzipOpenFile:objectZipFilePath];
-    [zip UnzipFileTo:documentPath overWrite:YES];
-    [zip UnzipCloseFile];
-    [zip release];
-    [WizGlobals deleteFile:objectZipFilePath];
+    @synchronized(documentPath)
+    {
+        ZipArchive* zip = [[ZipArchive alloc] init];
+        [zip UnzipOpenFile:objectZipFilePath];
+        [zip UnzipFileTo:documentPath overWrite:YES];
+        [zip UnzipCloseFile];
+        [zip release];
+        [WizGlobals deleteFile:objectZipFilePath];
+    }
     return YES;
 }
 
@@ -1070,7 +1079,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	//
 
-	if (documentLocation == nil)
+	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
 		documentLocation = @"/My Mobile/";
 	}
@@ -1090,8 +1099,8 @@ NSInteger compareTag(id location1, id location2, void*);
     [doc setObject:TypeOfDocumentFileTypeOfNote forKey:TypeOfUpdateDocumentFileType];
     [doc setObject:nAttachmentCount forKey:TypeOfUpdateDocumentAttchmentCount];
     [doc setObject:documentTags forKey:TypeOfUpdateDocumentTagGuids];
+    [doc setObject:[NSNumber numberWithInt:1] forKey:TypeOfUpdateDocumentLocalchanged];
     BOOL bRet = [self updateDocument:doc];
-    [self setDocumentLocalChanged:documentGUID changed:YES];
     [self setDocumentServerChanged:documentGUID changed:NO];
 	return bRet;
 }
@@ -1364,6 +1373,7 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     else
     {
+        [self deleteAbstractByGUID:documentGUID];
         [self extractSummary:documentGUID];
     }
 	return index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
@@ -1454,19 +1464,22 @@ NSInteger compareTag(id location1, id location2, void*);
     if (attach != nil) {
         
         NSLog(@"attachment guid is %@",attach.attachmentDocumentGuid);
-        
-        NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentDocumentGuid];
-        NSString* documentIndexFilesPath = [documentPath stringByAppendingPathComponent:@"index_files"];
-        NSString* attachmentInDcoumentPath = [documentIndexFilesPath stringByAppendingPathComponent:attach.attachmentName];
-        if ([[NSFileManager defaultManager] removeItemAtPath:attachmentInDcoumentPath error:nil]) {
+        if (attach.attachmentDocumentGuid != nil && ![attach.attachmentDocumentGuid isEqualToString:@""]) {
+            NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentDocumentGuid];
+            NSString* documentIndexFilesPath = [documentPath stringByAppendingPathComponent:@"index_files"];
+            NSString* attachmentInDcoumentPath = [documentIndexFilesPath stringByAppendingPathComponent:attach.attachmentName];
+            if ([[NSFileManager defaultManager] removeItemAtPath:attachmentInDcoumentPath error:nil]) {
+            }
+            NSLog(@"the document path is %@", documentIndexFilesPath);
         }
-        
-        NSString* attachmentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentGuid];
-        NSString* attachmentFileNamePath = [attachmentFilePath stringByAppendingPathComponent:attach.attachmentName];
-        if ([[NSFileManager defaultManager] removeItemAtPath:attachmentFileNamePath error:nil]) {
+        if (attach.attachmentName != nil && ![attach.attachmentName isEqualToString:@""]) {
+            NSString* attachmentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentGuid];
+            NSString* attachmentFileNamePath = [attachmentFilePath stringByAppendingPathComponent:attach.attachmentName];
+            if ([[NSFileManager defaultManager] removeItemAtPath:attachmentFileNamePath error:nil]) {
+            }
+            
+            NSLog(@"the attachment path is %@",attachmentFileNamePath);
         }
-        NSLog(@"the document path is %@", documentIndexFilesPath);
-        NSLog(@"the attachment path is %@",attachmentFileNamePath);
     }
     return index.DeleteAttachment([attachGuid UTF8String]) ? YES : NO;
 }
@@ -2060,25 +2073,19 @@ static NSString* FirstLog                       = @"UserFirstLog";
         }
         else
         {
-            compassWidth = 70;
-            compassHeight = 70;
+            compassWidth = 140;
+            compassHeight = 140;
         }
 
-        compassImage = [maxImage compressedImage:compassWidth];
+        compassImage = [maxImage compressedImageWidth:compassWidth];
         compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2), WizAbs((compassImage.size.height -compassHeight)/2), compassImage.size.width>compassWidth?compassWidth:compassImage.size.width, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
-//        if (maxImage.size.width > compassWidth) {
-//            compassImage = [maxImage compressedImage:compassWidth];
-//            NSLog(@"compassImage %f %f",compassImage.size.height, compassImage.size.width);
-//            
-//            compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2),0.0, compassImage.size.width>compassWidth?compassWidth:compassImage.size.width,compassHeight);
-//        }
-//        else {
-//            compassImage = [maxImage compressedImage:compassHeight];
-//            compassRect = CGRectMake(0.0, WizAbs((compassImage.size.height -compassHeight)/2), compassWidth, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
-//        }
-//        NSLog(@" compass is %f %f %f %f",compassRect.origin.x, compassRect.origin.y, compassRect.size.height , compassRect.size.width);
         compassImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect(compassImage.CGImage, compassRect)];
     }
+    static int i = 0;
+    NSString* str = [WizIndex documentFilePath:self.accountUserId documentGUID:@"IMAGE"];
+    [WizGlobals ensurePathExists:str];
+    [UIImagePNGRepresentation(compassImage) writeToFile:[str stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",i++]] atomically:NO ];
+    
     abstractImageData = [compassImage compressedData:1.0];
     abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
     abstract.imageDataLength = [abstractImageData length];

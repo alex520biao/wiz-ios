@@ -612,7 +612,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    if ( 1 == indexPath.section) {
+    if ( 1 == indexPath.section && (2 == indexPath.row || 3 == indexPath.row)) {
         UIPickerView* pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, self.tableView.contentOffset.y+self.view.frame.size.height-180, 320, 200)];
         pick.delegate = self;
         pick.dataSource = self;

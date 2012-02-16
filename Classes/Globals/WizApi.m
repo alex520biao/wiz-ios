@@ -1280,6 +1280,9 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
     NSDictionary* md5s = [index attachmentFileMd5:attachmentGUID];
     NSString* dataMD5 = [md5s objectForKey:@"data_file_md5"];
+    if (dataMD5 == nil) {
+        return NO;
+    }
     NSString* ziwMD5 = [md5s objectForKey:@"ziw_file_md5"];
     WizDocumentAttach* attach = [index attachmentFromGUID:attachmentGUID];
     NSDate* dateModified = [WizGlobals sqlTimeStringToDate:attach.attachmentModifiedDate];

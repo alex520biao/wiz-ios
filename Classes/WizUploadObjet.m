@@ -184,10 +184,12 @@
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
     if (![self callAttachmentPostSimpleData:self.objectGUID]) {
-        [index deleteAttachment:self.objectGUID];
-        [index addDeletedGUIDRecord:self.objectGUID type:[WizGlobals attachmentKeyString]];
-        [super onUploadObjectSucceedAndCleanTemp];
-        return;
+        if (![[NSFileManager defaultManager] fileExistsAtPath:[[WizIndex documentFilePath:self.accountUserId documentGUID:self.objectGUID] stringByAppendingPathComponent:[[index attachmentFromGUID:self.objectGUID] attachmentName]]]) {
+            [index deleteAttachment:self.objectGUID];
+            [index addDeletedGUIDRecord:self.objectGUID type:[WizGlobals attachmentKeyString]];
+            [super onUploadObjectSucceedAndCleanTemp];
+            return;
+        }
     }
     [index setAttachmentLocalChanged:self.objectGUID changed:NO];
     [super onUploadObjectSucceedAndCleanTemp];

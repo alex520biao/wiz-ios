@@ -20,6 +20,7 @@
 #define TypeOfUpdateDocumentType            @"document_type"
 #define TypeOfUpdateDocumentFileType        @"document_filetype"
 #define TypeOfUpdateDocumentAttchmentCount  @"document_attachment_count"
+#define TypeOfUpdateDocumentLocalchanged    @"document_localchanged"
 
 #define TypeOfDocumentTypeOfNote            @"note"
 #define TypeOfDocumentFileTypeOfNote        @".text"

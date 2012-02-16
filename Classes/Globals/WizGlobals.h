@@ -68,7 +68,7 @@ extern BOOL WizDeviceIsPad(void);
 @interface UIImage (Compress)  
 
 - (UIImage *)compressedImage:(float)qulity;  
-
+- (UIImage *)compressedImageWidth:(float)qulity;
 - (CGFloat)compressionQuality;  
 
 - (NSData *)compressedData;  

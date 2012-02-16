@@ -412,6 +412,9 @@
 }
 - (void) onEditDone
 {
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID];
+    NSLog(@"doc tag is %@",doc.tagGuids);
     [self.webView reload];
 }
 - (void) onEditCurrentDocument
@@ -431,7 +434,6 @@
     [self.navigationController presentModalViewController:nav animated:YES];
     [nav release];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEditDone) name:MessageOfEditDocumentDone object:nil];
-    
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

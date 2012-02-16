@@ -96,7 +96,10 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     BOOL isAbstractExist = [index abstractExist:self.doc.guid];
     WizAbstract*   abstract = [index  abstractOfDocument:self.doc.guid];
     if (!isAbstractExist && ![index documentServerChanged:self.doc.guid]) {
-        [index extractSummary:doc.guid];
+        NSString* documentFilePath = [WizIndex documentFileName:self.accoutUserId documentGUID:self.doc.guid];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFilePath]) {
+            [index performSelectorInBackground:@selector(extractSummary:) withObject:doc.guid];
+        }
     }
     if ( isAbstractExist && abstract!= nil) {
         UIFont* stringFont = [UIFont boldSystemFontOfSize:15];

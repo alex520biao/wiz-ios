@@ -97,12 +97,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix] object: nil userInfo: userInfo];
 	[userInfo release];
     [ret release];
-   
 }
 -(NSMutableDictionary*) onDownloadObject:(id)retObject
 {
 	
-    NSDictionary* dic = [super onDownloadObject:retObject];
+    NSDictionary* dic = [super  onDownloadObject:retObject];
     
     NSNumber* fileSize = [dic valueForKey:@"obj_size"];
     NSNumber* currentSize=[dic valueForKey:@"current_size"];
