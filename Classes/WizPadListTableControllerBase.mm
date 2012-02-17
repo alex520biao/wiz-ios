@@ -267,6 +267,30 @@
 - (void) reloadAllData
 {
     [self reloadDocuments];
+    if (![self.sourceArray count]) {
+        UIView* back = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1024, 768)];
+       UILabel* remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(414, 284, 200, 200)];;
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+           remindLabel.frame = CGRectMake(314, 184, 400, 200);
+        }
+        else
+        {
+           remindLabel.frame = CGRectMake(184, 314, 400, 200);
+        }
+        [back addSubview:remindLabel];
+        remindLabel.numberOfLines = 0;
+        remindLabel.text = NSLocalizedString(@"You don't have any notes \n Tap new note to get started!", nil);
+        remindLabel.textAlignment = UITextAlignmentCenter;
+        remindLabel.textColor = [UIColor lightTextColor];
+        remindLabel.font= [UIFont systemFontOfSize:35];
+        remindLabel.backgroundColor = [UIColor clearColor];;
+        self.tableView.backgroundView = back;
+    }
+    else
+    {
+        self.tableView.backgroundView = nil;
+    }
     switch (self.kOrderIndex) {
         case kOrderDate:
             [self orderByDate];
@@ -327,6 +351,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+
     [super viewDidAppear:animated];
 }
 

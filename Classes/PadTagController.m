@@ -107,6 +107,7 @@
     }
     self.portraitContentArray =  [NSMutableArray arrayWithArray:[self arrayToPotraitCellArraty:tagsWithoutBlank]];
     self.landscapeContentArray =  [NSMutableArray arrayWithArray:[self arrayToLoanscapeCellArray:tagsWithoutBlank] ];
+    [self.tableView reloadData];
 }
 
 - (void) didSelectedCatelog:(NSString *)keywords

@@ -1205,11 +1205,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 - (BOOL) callChangePassword:(NSString*)password
 {
     if (self.accountUserId == nil || [self.accountUserId length] == 0)
+    {
+        NSLog(@"account user id null");
 		return NO;
-	//
-	if (self.accountPassword == nil || [self.accountPassword length] == 0)
-		return NO;
-	//
+    }
 	self.token = nil;
     NSMutableDictionary* postParams = [NSMutableDictionary dictionary];
     [postParams setObject:self.accountUserId forKey:TypeOfChangePasswordAccountUserId];

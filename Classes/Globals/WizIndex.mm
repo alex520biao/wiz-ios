@@ -941,15 +941,14 @@ NSInteger compareTag(id location1, id location2, void*);
 
 -(BOOL) updateObjectDataByPath:(NSString*) objectZipFilePath objectGuid:(NSString*)objectGuid{
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objectGuid];
-    @synchronized(documentPath)
-    {
-        ZipArchive* zip = [[ZipArchive alloc] init];
-        [zip UnzipOpenFile:objectZipFilePath];
-        [zip UnzipFileTo:documentPath overWrite:YES];
-        [zip UnzipCloseFile];
-        [zip release];
-        [WizGlobals deleteFile:objectZipFilePath];
-    }
+    NSLog(@"%@ will upzip", objectGuid);
+    ZipArchive* zip = [[ZipArchive alloc] init];
+    [zip UnzipOpenFile:objectZipFilePath];
+    [zip UnzipFileTo:documentPath overWrite:YES];
+    [zip UnzipCloseFile];
+    [zip release];
+    NSLog(@"%@ upzip", objectGuid);
+    [WizGlobals deleteFile:objectZipFilePath];
     return YES;
 }
 
@@ -1481,9 +1480,13 @@ NSInteger compareTag(id location1, id location2, void*);
     else
     {
         [self deleteAbstractByGUID:documentGUID];
-        [self performSelectorOnMainThread:@selector(extractSummary:) withObject:documentGUID waitUntilDone:YES];
+        [self extractSummary:documentGUID];
     }
-	return index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
+    BOOL ret = index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
+    
+    NSLog(@"change local %d",ret);
+    NSLog(@"%@ severchanged",documentGUID);
+	return ret;
 }
 
 - (BOOL) setAttachmentLocalChanged:(NSString *)attchmentGUID changed:(BOOL)changed

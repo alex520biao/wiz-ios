@@ -392,10 +392,7 @@
     
     UIBarButtonItem* flexSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    
-
-    UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newNote)];
-    
+    UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"New Note", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
@@ -411,9 +408,10 @@
     self.refreshProcessLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 44)] autorelease];
     [self.refreshProcessLabel setFont:[UIFont systemFontOfSize:13]];
     refreshProcessLabel.backgroundColor = [UIColor clearColor];
+    refreshProcessLabel.textAlignment = UITextAlignmentRight;
     
      UIBarButtonItem* refreshItemInfo = [[UIBarButtonItem alloc] initWithCustomView:refreshProcessLabel];
-    NSArray* arr = [NSArray arrayWithObjects:refreshItem,refreshItemInfo,flexSpaceItem,viewOptionItemL,flexSpaceItem,flexSpaceItem,flexSpaceItem,newNoteItem, nil];
+    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,viewOptionItemL,flexSpaceItem,refreshItemInfo,refreshItem, nil];
     [self setToolbarItems:arr];
     [refreshItem_ release];
     [refreshItemInfo release];
@@ -501,6 +499,7 @@
     [nc addObserver:self selector:@selector(checkDocument:) name:TypeOfCheckDocument object:nil];
     [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
     [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
+    [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
     [self buildToolBar];
     [self buildNavigationItems];
 }

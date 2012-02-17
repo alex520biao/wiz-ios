@@ -16,6 +16,7 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
 #import "WizUserSettingCell.h"
+#import "WizChangePasswordController.h"
 
 #define ChangePasswordTag 888
 #define RemoveAccountTag  1002
@@ -37,7 +38,6 @@
 @synthesize defaultUserCell;
 @synthesize defaultUserLabel;
 @synthesize defaultUserSwitch;
-@synthesize newAccountPassword;
 @synthesize downloadDuration;
 @synthesize imageQulity;
 @synthesize pickView;
@@ -52,7 +52,6 @@
     self.pickView = nil;
     self.imageQualityData = nil;
     self.downloadDurationData = nil;
-    self.newAccountPassword = nil;
     self.accountUserId = nil;
     self.defaultUserCell = nil;
     self.defaultUserLabel = nil;
@@ -93,20 +92,6 @@
     else
     {
         [index setDownloadDocumentData:NO];
-    }
-    if (newAccountPassword != nil && ![newAccountPassword isEqualToString:@""]) {
-        [WizSettings changeAccountPassword:accountUserId password:newAccountPassword];
-        [[WizGlobalData sharedData] removeAccountData:accountUserId];
-        if (WizDeviceIsPad()) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPoperviewDismiss object:nil userInfo:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-        }
-        else
-        {
-            [self.navigationController popViewControllerAnimated:NO];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
-        }
-        return;
     }
     if (self.defaultUserSwitch.on) {
         [WizSettings setDefalutAccount:self.accountUserId];
@@ -519,19 +504,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == ChangePasswordTag) {
-        if (buttonIndex == 1) {
-            for (UIView* each in alertView.subviews) {
-                if ([each isKindOfClass:[UITextField class]]) {
-                    UITextField* textField = (UITextField*)each;
-                    NSString* text = textField.text;
-                    if (nil != text && ![text isEqualToString:@""]) {
-                        self.newAccountPassword = text;
-                    }
-                }
-            }
-
-        }
-        
         return;
     }
     else   if (alertView.tag == RemoveAccountTag) {
@@ -592,19 +564,24 @@
 
 - (void) changeUserPassword
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
-                                                    message:NSLocalizedString(@"\n\n\n", nil)
-                                                   delegate:self 
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                          otherButtonTitles:NSLocalizedString(@"OK", nil),nil];
-    UITextField* text = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
-    [text becomeFirstResponder];
-    [text setBackgroundColor:[UIColor whiteColor]];
-    [alert addSubview:text];
-    [alert show];
-        alert.tag = ChangePasswordTag;
-    [alert release];
-    [text release];
+//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
+//                                                    message:NSLocalizedString(@"\n\n\n", nil)
+//                                                   delegate:self 
+//                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+//                                          otherButtonTitles:NSLocalizedString(@"OK", nil),nil];
+//    UITextField* text = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
+//    [text becomeFirstResponder];
+//    [text setBackgroundColor:[UIColor whiteColor]];
+//    [alert addSubview:text];
+//    [alert show];
+//        alert.tag = ChangePasswordTag;
+//    [alert release];
+//    [text release];
+    
+    WizChangePasswordController* changepw = [[WizChangePasswordController alloc] init];
+    changepw.accountUserId = self.accountUserId;
+    [self.navigationController pushViewController:changepw animated:YES];
+    [changepw release];
 
 }
 - (void) sendFeedback

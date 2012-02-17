@@ -35,6 +35,7 @@ extern NSString* SyncMethod_AttachmentPostSimpleData;
 extern NSString* WizGlobalSyncProcessInfo;
 extern NSString* SyncMethod_GetUserInfo;
 extern NSString* WizGlobalStopSync;
+extern NSString* SyncMethod_ChangeAccountPassword;
 @class XMLRPCConnection;
 @class WizDocument;
 @class WizDocumentAttach;

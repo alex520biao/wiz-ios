@@ -77,7 +77,6 @@
             [download release];
         }
     }
-   
     return download;
 }
 - (void) removeDownloadProcess:(NSString*)objectGUID  type:(NSString*)objectType

@@ -12,7 +12,7 @@
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
 #import "WizUploadObjet.h"
-
+#import "WizDownloadPool.h"
 
 #define READPARTSIZE 100*1024
 
@@ -66,7 +66,8 @@
         return;
     }
     WizDocument* each = [self.download lastObject];
-    WizDownloadDocument* downloader = [[WizGlobalData sharedData] downloadDocumentData:self.accountUserId];
+    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
+    WizDownloadDocument* downloader = [pool getDownloadProcess:each.guid type:[WizGlobals documentKeyString]];
     downloader.owner = self;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     //
@@ -74,6 +75,7 @@
     [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
     NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
     [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
+    NSLog(@"download the document %@",each.guid);
     [downloader downloadWithoutLogin:self.apiURL kbguid:self.kbguid token:self.token documentGUID:each.guid];
     [self.download removeLastObject];
 }

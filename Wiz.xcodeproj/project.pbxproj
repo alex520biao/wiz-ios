@@ -197,6 +197,8 @@
 		7362D54E14DD3C94003E9E19 /* zoom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54814DD3C94003E9E19 /* zoom@2x.png */; };
 		7365B04814EE0F91008C69AC /* WizChangePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365B04714EE0F91008C69AC /* WizChangePasswordController.m */; };
 		7365B04E14EE12ED008C69AC /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365B04D14EE12EA008C69AC /* WizChangePassword.m */; };
+		7365B5C514EE6136006D646D /* ipadNewAttach.png in Resources */ = {isa = PBXBuildFile; fileRef = 7365B5C314EE6136006D646D /* ipadNewAttach.png */; };
+		7365B5C614EE6136006D646D /* ipadNewAttach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7365B5C414EE6136006D646D /* ipadNewAttach@2x.png */; };
 		73931BE214E0DC12003C431C /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6014E0DC11003C431C /* arrow.png */; };
 		73931BE314E0DC12003C431C /* attachBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6114E0DC11003C431C /* attachBack.png */; };
 		73931BE414E0DC12003C431C /* attachBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6214E0DC11003C431C /* attachBack@2x.png */; };
@@ -695,6 +697,8 @@
 		7365B04714EE0F91008C69AC /* WizChangePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePasswordController.m; sourceTree = "<group>"; };
 		7365B04C14EE12E9008C69AC /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePassword.h; sourceTree = "<group>"; };
 		7365B04D14EE12EA008C69AC /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePassword.m; sourceTree = "<group>"; };
+		7365B5C314EE6136006D646D /* ipadNewAttach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ipadNewAttach.png; path = icons/ipad/ipadNewAttach.png; sourceTree = SOURCE_ROOT; };
+		7365B5C414EE6136006D646D /* ipadNewAttach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ipadNewAttach@2x.png"; path = "icons/ipad/ipadNewAttach@2x.png"; sourceTree = SOURCE_ROOT; };
 		738A8E3814DFB0FD00F69CBF /* WizPhoneNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneNotificationMessage.h; sourceTree = "<group>"; };
 		73931B6014E0DC11003C431C /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = icons/arrow.png; sourceTree = "<group>"; };
 		73931B6114E0DC11003C431C /* attachBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = attachBack.png; path = icons/attachBack.png; sourceTree = "<group>"; };
@@ -1162,6 +1166,8 @@
 		4484BB1814A978F5006CC9D4 /* PadImage */ = {
 			isa = PBXGroup;
 			children = (
+				7365B5C314EE6136006D646D /* ipadNewAttach.png */,
+				7365B5C414EE6136006D646D /* ipadNewAttach@2x.png */,
 				73E71F3514E1490F00437208 /* ipad */,
 				73FDF05814DB888900078EE3 /* attachRecorderPad.png */,
 				73FDF05914DB888900078EE3 /* attachRecorderPad@2x.png */,
@@ -2083,6 +2089,8 @@
 				73CAAA1014EA1B2400D5FF9B /* Default-Landscape~ipad.png in Resources */,
 				73CAAA1214EA1C2700D5FF9B /* documentViewDetail@2x.png in Resources */,
 				73B82FE314ECD741008BB962 /* newNoteTag@2x.png in Resources */,
+				7365B5C514EE6136006D646D /* ipadNewAttach.png in Resources */,
+				7365B5C614EE6136006D646D /* ipadNewAttach@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

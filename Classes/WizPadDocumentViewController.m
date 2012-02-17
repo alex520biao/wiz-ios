@@ -228,7 +228,6 @@
     
     
     UIButton* zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSLog(@"zoomButton %@",zoomButton);
     zoomButton.frame = CGRectMake(0.0, 0.0, 44, 44);
     [self.headerView addSubview:zoomButton];
     [zoomButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
@@ -497,14 +496,12 @@
     editBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
     [editBtn addTarget:self action:@selector(editCurrentDocument:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
-    NSLog(@"edit btn %@",editBtn);
     edit.width = 80;
 
     UIBadgeView* attachCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 20, 20)];
     self.attachmentCountBadge = attachCount;
     [attachCount release];
     UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSLog(@"attach %@",attach);
     attach.frame = CGRectMake(0.0, 0.0, 44, 44);
     [attach setImage:[UIImage imageNamed:@"documentViewAttachment"] forState:UIControlStateNormal];
     [attach addSubview:self.attachmentCountBadge];
@@ -514,7 +511,6 @@
     
 
     UIButton* detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSLog(@"detailBtn %@",detailBtn);
     
     [detailBtn setImage:[UIImage imageNamed:@"documentViewDetail"] forState:UIControlStateNormal];
     [detailBtn addTarget:self action:@selector(checkDocumentDtail) forControlEvents:UIControlEventTouchUpInside];
@@ -651,6 +647,9 @@
     }
     else
     {
+        if (self.documentsArray == nil || ![self.documentsArray count]) {
+            return;
+        }
         WizDocument* doc = [[self.documentsArray objectAtIndex:0] objectAtIndex:0];
         if (nil != doc) {
             [self didSelectedDocument:doc];

@@ -11,14 +11,20 @@
 #import "WizGlobalData.h"
 #import "WizChangePassword.h"
 #import "WizSettings.h"
+#import "WizGlobals.h"
+#import "WizPadNotificationMessage.h"
+#import "WizPhoneNotificationMessage.h"
+
 #define WaitAlertTag 1101
 @implementation WizChangePasswordController
 @synthesize oldPassword;
 @synthesize passwordConfirmNew;
 @synthesize passwordNew;
 @synthesize accountUserId;
+@synthesize waitAlert;
 - (void) dealloc
 {
+    self.waitAlert = nil;
     self.accountUserId = nil;
     self.oldPassword = nil;
     self.passwordNew = nil;
@@ -35,7 +41,7 @@
 }
 - (WizInputView*) addSubviewByPointY:(float)y
 {
-    WizInputView* input = [[WizInputView alloc] initWithFrame:CGRectMake(100, y, 320, 40)];
+    WizInputView* input = [[WizInputView alloc] initWithFrame:CGRectMake(5, y, 310, 40)];
     [self.view addSubview:input];
     [input release];
     return input;
@@ -58,7 +64,7 @@
 */
 - (void) cancel
 {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void) alertMessage:(NSString*)msg
 {
@@ -67,11 +73,12 @@
     [alert release];
 }
 - (void) xmlrpcDone: (NSNotification*)nc
-{
+{ 
 	NSDictionary* userInfo = [nc userInfo];
+    [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
     self.waitAlert = nil;
 	NSString* method = [userInfo valueForKey:@"method"];
-	if (method != nil && [method isEqualToString:@"accounts.createAccount"])
+	if (method != nil && [method isEqualToString:SyncMethod_ChangeAccountPassword])
 	{
 		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
 		if (succeeded)
@@ -108,8 +115,8 @@
         return;
     }
     
-    if (![oldPwStr isEqualToString:pwNewStr]) {
-        [self alertMessage:NSLocalizedString(@"The new password does not match the old password", nil)];
+    if ([oldPwStr isEqualToString:pwNewStr]) {
+        [self alertMessage:NSLocalizedString(@"The new password is equal to the old password", nil)];
         return;
     }
     WizChangePassword* changePw = [[WizGlobalData sharedData] dataOfChangePassword:self.accountUserId];
@@ -125,8 +132,10 @@
     [waitAlert_ release];
     
 }
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void) viewDidAppear:(BOOL)animated
 {
+    [self.oldPassword.textInputField becomeFirstResponder];
+    [super viewDidAppear:animated];
     
 }
 - (void)viewDidLoad
@@ -154,6 +163,7 @@
     self.navigationItem.rightBarButtonItem = changeButton;
 	self.navigationItem.leftBarButtonItem = cancelButton;
     self.title = NSLocalizedString(@"Change Account Password", nil);
+    self.view.backgroundColor = [UIColor lightTextColor];
     [cancelButton release];
     [changeButton release];
 }

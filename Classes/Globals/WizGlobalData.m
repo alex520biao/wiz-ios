@@ -26,6 +26,8 @@
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
 #import "WizChangePassword.h"
+#import "WizSettings.h"
+
 NSString* DataTypeOfSync = @"Sync";
 NSString* DataTypeOfCreateAccount = @"CreateAccount";
 NSString* DataTypeOfVerifyAccount = @"VerifyAccount";

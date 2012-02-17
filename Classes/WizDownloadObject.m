@@ -76,7 +76,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 	busy = NO;
 }
-
 -(void) onClientLogin: (id)retObject
 {
 	[super onClientLogin:retObject];
@@ -169,6 +168,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 {
     [super downloadOver];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    NSLog(@"%@ will severchanged",self.objGuid);
     [index setDocumentServerChanged:self.objGuid changed:NO];
 }
 - (BOOL) downloadDocument:(NSString *)documentGUID

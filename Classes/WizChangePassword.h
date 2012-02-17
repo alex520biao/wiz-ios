@@ -11,8 +11,10 @@
 @interface WizChangePassword : WizApi
 {
     BOOL busy;
+    id owner;
 }
 @property (readonly) BOOL busy;
+@property (nonatomic, retain) id owner;
 - (void) onError:(id)retObject;
 - (BOOL) changeAccountPassword:(NSString*)password;
 - (void) onChangePassword:(id)retObject;

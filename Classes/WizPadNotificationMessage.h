@@ -45,4 +45,6 @@
 #define TypeOfViewInterface                 @"TypeOfViewInterface"
 
 #define MessageOfDownloadError              @"MessageOfDownloadError"
+
+#define MessageOfNewFirstDocument            @"MessageOfNewFirstDocument"
 #endif
