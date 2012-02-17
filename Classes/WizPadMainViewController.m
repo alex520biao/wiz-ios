@@ -411,7 +411,7 @@
     refreshProcessLabel.textAlignment = UITextAlignmentRight;
     
      UIBarButtonItem* refreshItemInfo = [[UIBarButtonItem alloc] initWithCustomView:refreshProcessLabel];
-    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,viewOptionItemL,flexSpaceItem,refreshItemInfo,refreshItem, nil];
+    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,flexSpaceItem,viewOptionItemL,flexSpaceItem,refreshItemInfo,refreshItem, nil];
     [self setToolbarItems:arr];
     [refreshItem_ release];
     [refreshItemInfo release];
