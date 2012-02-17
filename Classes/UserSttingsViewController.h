@@ -26,7 +26,7 @@
     UIPickerView* pickView;
     NSArray* downloadDurationData;
     NSArray* imageQualityData;
-    
+    NSArray* downloadDurationRemind;
     int downloadDuration;
     int imageQulity;
 }
@@ -45,6 +45,7 @@
 @property (nonatomic, retain) UIPickerView* pickView;
 @property (nonatomic, retain) NSArray* downloadDurationData;
 @property (nonatomic, retain) NSArray* imageQualityData;
+@property (nonatomic, retain) NSArray* downloadDurationRemind;
 @property int downloadDuration;
 @property int imageQulity;
 @property (nonatomic, retain) NSString* oldPassword;

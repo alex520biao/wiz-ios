@@ -432,7 +432,6 @@
     }
     else
     {
-        NSLog(@"%d",[accountsArray count]);
         return [accountsArray count];
     }
 }

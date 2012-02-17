@@ -43,4 +43,6 @@
 
 #define MessageOfViewWillOrientent          @"MessageOfViewWillOrientent"
 #define TypeOfViewInterface                 @"TypeOfViewInterface"
+
+#define MessageOfDownloadError              @"MessageOfDownloadError"
 #endif

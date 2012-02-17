@@ -154,6 +154,7 @@
     nameInput.nameLable.text = NSLocalizedString(@"ID", nil);
     nameInput.textInputField.placeholder = @"exmaple@email.com";
     nameInput.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
+    nameInput.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     WizInputView* passwordInput_ = [[WizInputView alloc] initWithFrame:CGRectMake(100, 120, 320, 40)];
      [self.view addSubview:passwordInput_];

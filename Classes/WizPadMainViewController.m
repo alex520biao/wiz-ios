@@ -174,7 +174,6 @@
     }
     
     else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-        processText = NSLocalizedString(@"synchronizing document list", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
@@ -184,6 +183,9 @@
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
         processText = NSLocalizedString(@"synchronize folder list", nil);
+        if ([total isEqualToNumber:current]) {
+            [self.recentList reloadAllData];
+        }
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])

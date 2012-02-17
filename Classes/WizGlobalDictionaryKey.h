@@ -24,4 +24,8 @@
 
 #define TypeOfDocumentTypeOfNote            @"note"
 #define TypeOfDocumentFileTypeOfNote        @".text"
+
+#define TypeOfChangePasswordAccountUserId       @"user_id"
+#define TypeOfChangePasswordOldPassword         @"old_password"
+#define TypeOfChangePasswordNewPassword         @"new_password"
 #endif

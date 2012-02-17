@@ -146,7 +146,9 @@ extern NSString* WizGlobalStopSync;
 // 
 -(BOOL) callPostTagList;
 -(void) onPostTagList:(id) retObject;
-
+//
+- (BOOL) callChangePassword:(NSString*)password;
+- (void) onChangePassword:(id)retObject;
 //
 -(BOOL) callDocumentPostSimpleData:(NSString*) documentGUID withZipMD5:(NSString*) zipMD5;
 -(void) onDocumentPostSimpleData:(id) retObject;

@@ -7,7 +7,7 @@
 //
 #import <CommonCrypto/CommonDigest.h>
 #import "WizApi.h"
-
+#import "WizGlobalDictionaryKey.h"
 #import "XMLRPCConnection.h"
 #import "XMLRPCRequest.h"
 #import "WizSettings.h"
@@ -40,6 +40,7 @@ NSString* SyncMethod_DownloadDeletedList = @"deleted.getList";
 NSString* SyncMethod_UploadDeletedList = @"deleted.postList";
 NSString* SyncMethod_DocumentsByKey = @"document.getSimpleListByKey";
 
+NSString* SyncMethod_ChangeAccountPassword = @"accounts.changePassword";
 //wiz-dzpqzb
 NSString* SyncMethod_DownloadObject = @"data.download";
 NSString* SyncMethod_UploadObject = @"data.upload";
@@ -332,6 +333,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		{
 			[self onCreateAccount:ret];
 		}
+        else if ([method isEqualToString:SyncMethod_ChangeAccountPassword])
+        {
+            [self onChangePassword:ret];
+        }
 		else if ([method isEqualToString:SyncMethod_GetAllCategories])
 		{
 			[self onAllCategories:ret];
@@ -1197,7 +1202,25 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	[index clearDeletedGUIDs];
 }
 
-
+- (BOOL) callChangePassword:(NSString*)password
+{
+    if (self.accountUserId == nil || [self.accountUserId length] == 0)
+		return NO;
+	//
+	if (self.accountPassword == nil || [self.accountPassword length] == 0)
+		return NO;
+	//
+	self.token = nil;
+    NSMutableDictionary* postParams = [NSMutableDictionary dictionary];
+    [postParams setObject:self.accountUserId forKey:TypeOfChangePasswordAccountUserId];
+    NSString* oldPassword = [WizSettings accountPasswordByUserId:self.accountUserId];
+    [postParams setObject:oldPassword forKey:TypeOfChangePasswordOldPassword];
+    [postParams setObject:password forKey:TypeOfChangePasswordNewPassword];
+    [self addCommonParams:postParams];
+    NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+	//
+	return [self executeXmlRpc:self.accountURL method:SyncMethod_ChangeAccountPassword args:args];
+}
 
 -(BOOL) callCreateAccount
 {
@@ -1220,7 +1243,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	//
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_CreateAccount args:args];
 }
-
+- (void) onChangePassword:(id)retObject
+{
+    
+}
 -(void) onCreateAccount: (id)retObject
 {
 }

@@ -73,6 +73,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         [super onError:retObject];
     }
     self.owner = nil;
+
 	busy = NO;
 }
 
@@ -167,7 +168,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 - (void) downloadOver
 {
     [super downloadOver];
-    NSLog(@"%@" ,[[NSThread currentThread] name]);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [index setDocumentServerChanged:self.objGuid changed:NO];
 }

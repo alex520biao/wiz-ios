@@ -25,6 +25,7 @@
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
+#import "WizChangePassword.h"
 NSString* DataTypeOfSync = @"Sync";
 NSString* DataTypeOfCreateAccount = @"CreateAccount";
 NSString* DataTypeOfVerifyAccount = @"VerifyAccount";
@@ -43,6 +44,7 @@ NSString* DataTypeOfIndex = @"Index";
 NSString* DataTypeOfPickerView = @"PickViewOfUser";
 NSString* DataTypeOfLoginView = @"wizLgoin";
 NSString* DataMainOfWiz = @"wizMain";
+NSString* DataTypeOfChangePassword = @"changeUserPassword";
 static NSString* DataTypeOfSyncByTag = @"SyncByTag";
 static NSString* DataTypeOfSyncByLocation = @"SyncByLocation";
 static NSString* DataTypeOfSyncByKey = @"SyncByKey";
@@ -125,7 +127,17 @@ static WizGlobalData* g_data;
 	 [data release];  return data;
 }
 
-
+- (WizChangePassword*) dataOfChangePassword:(NSString *)userId
+{
+    id data = [self dataOfAccount:userId dataType: DataTypeOfChangePassword];
+	if (data != nil)
+		return data;
+	//
+	data = [[WizChangePassword alloc] initWithAccount:userId password:@""];
+	[self setDataOfAccount:userId dataType:DataTypeOfChangePassword data:data];
+    [data release]; 
+    return data;
+}
 - (WizDownloadDocument*) downloadDocumentData:(NSString*) userId
 {
     id data = [self dataOfAccount:userId dataType: DataTypeOfDownloadDocument];

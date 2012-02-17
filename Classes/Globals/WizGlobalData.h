@@ -55,6 +55,7 @@ extern NSString* DataMainOfWiz;
 @class WizSyncByKey;
 @class WizSyncByLocation;
 @class WizDownloadPool;
+@class WizChangePassword;
 @interface WizGlobalData : NSObject {
 	NSMutableDictionary* dict;
 }
@@ -85,6 +86,7 @@ extern NSString* DataMainOfWiz;
 - (WizSyncByLocation*) syncByLocationData:(NSString*) userId;
 - (void) removeAccountData:(NSString*)userId;
 - (WizDownloadPool*) globalDownloadPool:(NSString *)userId;
+- (WizChangePassword*) dataOfChangePassword:(NSString*)userId;
 + (WizGlobalData*) sharedData;
 + (void) deleteShareData;
 

@@ -37,8 +37,14 @@
 }
 - (BOOL) documentIsDownloading:(NSString*)documentGUID
 {
-    id data = [self.processPool valueForKey:[self processKey:documentGUID type:[WizGlobals documentKeyString]]];
-    return nil != data;
+    WizDownloadDocument* data = [self.processPool valueForKey:[self processKey:documentGUID type:[WizGlobals documentKeyString]]];
+    if (nil != data) {
+        return YES;
+    }
+    else
+    {
+        return data.busy;
+    }
 }
 - (BOOL) attachmentIsDownloading:(NSString*)attachmentGUID
 {

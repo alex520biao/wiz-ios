@@ -84,7 +84,6 @@
 -(float) updateTime
 {
     self.currentTime += 0.1f;
-    NSLog(@"------");
     return self.currentTime;
 }
 

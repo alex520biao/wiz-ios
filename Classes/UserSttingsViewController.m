@@ -44,8 +44,10 @@
 @synthesize imageQualityData;
 @synthesize downloadDurationData;
 @synthesize accountProtectPassword;
+@synthesize downloadDurationRemind;
 - (void) dealloc
 {
+    self.downloadDurationRemind = nil;
     self.accountProtectPassword = nil;
     self.pickView = nil;
     self.imageQualityData = nil;
@@ -273,7 +275,15 @@
                                       NSLocalizedString(@"A Day", nil),
                                       NSLocalizedString(@"Week", nil),
                                       NSLocalizedString(@"All", nil), nil];
+    
+    NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Do not download", nil),
+                                       NSLocalizedString(@"Data within a day", nil),
+                                       NSLocalizedString(@"Data within a week", nil),
+                                       NSLocalizedString(@"All data", nil),
+                                       nil];
+    
     self.downloadDurationData = downloadDurationItems;
+    self.downloadDurationRemind = downloadDurationRemind_;
     self.downloadDuration = [index durationForDownloadDocument];
     self.imageQulity = [index imageQualityValue];
 }
@@ -315,7 +325,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -324,8 +334,10 @@
         case 0:
             return 4;
         case 1  :
-            return 4;
+            return 3;
         case 2:
+            return 1;
+        case 3:
             if ([[WizSettings accounts] count] >1) {
                 return 4;
             }
@@ -333,7 +345,7 @@
             {
                 return 3;
             }
-        case 3:
+        case 4:
             return 3;
         default:
             return 0;
@@ -346,9 +358,11 @@
 		return [NSString stringWithString: NSLocalizedString(@"Account Info", nil)];
 	else if (1 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Account Settings", nil)];
-	else if (2 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Operate Account", nil)];
+    else if (2 == section)
+		return [NSString stringWithString: NSLocalizedString(@"Sync Settings", nil)];
 	else if (3 == section)
+		return [NSString stringWithString: NSLocalizedString(@"Operate Account", nil)];
+	else if (4 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Other", nil)];
 	else
 		return nil;
@@ -418,53 +432,52 @@
     }
     else if (2 == indexPath.row && 1 == indexPath.section)
     {
-        cell.nameLabel.text = NSLocalizedString(@"Download Data Duration", nil);
-        cell.valueLabel.text  = [self.downloadDurationData objectAtIndex:[self indexOfDownloadDuration:self.downloadDuration]];
-        return cell;
-
-    }
-    else if (3 == indexPath.row && 1 == indexPath.section)
-    {
         cell.nameLabel.text = NSLocalizedString(@"Image Quality", nil);
         cell.valueLabel.text = [self.imageQualityData objectAtIndex:[self indexOfImageQuality:self.imageQulity]];
         return cell;
     }
-    
     else if (0 == indexPath.row && 2 == indexPath.section)
+    {
+        cell.nameLabel.text = NSLocalizedString(@"Download the document data", nil);
+        cell.valueLabel.text  = [self.downloadDurationData objectAtIndex:[self indexOfDownloadDuration:self.downloadDuration]];
+        return cell;
+    }
+    
+    else if (0 == indexPath.row && 3 == indexPath.section)
     {
         cell.textLabel.text = NSLocalizedString(@"Change Password", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (1 == indexPath.row && 2 == indexPath.section)
+    else if (1 == indexPath.row && 3 == indexPath.section)
     {
         cell.textLabel.text = NSLocalizedString(@"Remove Account", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (2 == indexPath.row && 2 == indexPath.section)
+    else if (2 == indexPath.row && 3 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"Change Account", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (3 == indexPath.row && 2 == indexPath.section)
+    else if (3 == indexPath.row && 3 == indexPath.section)
     {
         return self.defaultUserCell;
     }
-    else if (0 == indexPath.row && 3 == indexPath.section)
+    else if (0 == indexPath.row && 4 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"About Wiz", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (1 == indexPath.row && 3 == indexPath.section)
+    else if (1 == indexPath.row && 4 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"User Manual", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (2 == indexPath.row && 3 == indexPath.section)
+    else if (2 == indexPath.row && 4 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"Feedback", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -506,7 +519,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == ChangePasswordTag) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
             for (UIView* each in alertView.subviews) {
                 if ([each isKindOfClass:[UITextField class]]) {
                     UITextField* textField = (UITextField*)each;
@@ -580,10 +593,10 @@
 - (void) changeUserPassword
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
-                                                    message:NSLocalizedString(@"                     ", nil)
+                                                    message:NSLocalizedString(@"\n\n\n", nil)
                                                    delegate:self 
-                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                          otherButtonTitles:nil];
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                          otherButtonTitles:NSLocalizedString(@"OK", nil),nil];
     UITextField* text = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
     [text becomeFirstResponder];
     [text setBackgroundColor:[UIColor whiteColor]];
@@ -600,7 +613,7 @@
         MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
         mailPocker.mailComposeDelegate = self;
         [mailPocker setSubject:[NSString stringWithFormat:@"%@ by %@",NSLocalizedString(@"Feedback", nil),self.accountUserId]];
-        NSArray* toRecipients = [NSArray arrayWithObject: @"dongzhao@wiz.cn"];
+        NSArray* toRecipients = [NSArray arrayWithObject: @"ios@wiz.cn"];
         [mailPocker setToRecipients:toRecipients];
         [mailPocker setMessageBody:NSLocalizedString(@"Your advice", nil) isHTML:YES];
         mailPocker.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -612,28 +625,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    if ( 1 == indexPath.section && (2 == indexPath.row || 3 == indexPath.row)) {
+    
+    if ( 1 == indexPath.section && 2 == indexPath.row ) {
         UIPickerView* pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, self.tableView.contentOffset.y+self.view.frame.size.height-180, 320, 200)];
         pick.delegate = self;
         pick.dataSource = self;
         pick.showsSelectionIndicator = YES;
-        if (2== indexPath.row) {
-            pick.tag = DownloadDurationTag;
-        }
-        else if (3 == indexPath.row)
-        {
-            pick.tag = ImageQualityTag;
-        }
+        pick.tag = ImageQualityTag;
         self.tableView.scrollEnabled = NO;
         [self.view addSubview:pick];
     }
     else if (0 == indexPath.row && 2 == indexPath.section) {
+        UIPickerView* pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, self.tableView.contentOffset.y+self.view.frame.size.height-180, 320, 200)];
+        pick.delegate = self;
+        pick.dataSource = self;
+        pick.showsSelectionIndicator = YES;
+        pick.tag = DownloadDurationTag;
+        self.tableView.scrollEnabled = NO;
+        [self.view addSubview:pick];
+    }
+    else if (0 == indexPath.row && 3 == indexPath.section) {
         [self changeUserPassword];
     }
-    else if (1 == indexPath.row && 2 == indexPath.section) {
+    else if (1 == indexPath.row && 3 == indexPath.section) {
         [self removeAccount];
     }
-    else if (2 == indexPath.row && 2 == indexPath.section) {
+    else if (2 == indexPath.row && 3 == indexPath.section) {
         if (WizDeviceIsPad()) {
             [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
         }
@@ -643,7 +660,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
         }
     }
-    else if ( (0 == indexPath.row ||1 == indexPath.row) && 3 == indexPath.section) { 
+    else if ( (0 == indexPath.row ||1 == indexPath.row) && 4 == indexPath.section) { 
         NSURL* url = nil;
         if (indexPath.row ==0) {
             url = [[NSURL alloc] initWithString:@"http://api.wiz.cn/?p=wiz&v=3.0.0.0&c=iphonehelp&l="];
@@ -663,7 +680,7 @@
         [web release];
         [con release];
     }
-    else if (2 == indexPath.row && 3 == indexPath.section) {
+    else if (2 == indexPath.row && 4 == indexPath.section) {
         [self sendFeedback];
     }
     
@@ -674,12 +691,12 @@
 {
     if (pickerView.tag == ImageQualityTag) {
         self.imageQulity = [self imageQulityFormIndex:row];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:3 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
     }
     else if (pickerView.tag == DownloadDurationTag)
     {
         self.downloadDuration = [self downloadDurationFromIndex:row];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationRight];
     }
     self.tableView.scrollEnabled = YES;
     [pickerView removeFromSuperview];
@@ -707,7 +724,7 @@
     }
     else if (pickerView.tag == DownloadDurationTag)
     {
-        return [downloadDurationData objectAtIndex:row];
+        return [downloadDurationRemind objectAtIndex:row];
     }
     return @"";
 }

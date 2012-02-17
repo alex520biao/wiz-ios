@@ -159,7 +159,6 @@
     }
     else
     {
-        NSLog(@"sort view");
         switch (indexPath.row) {
             case 0:
                 self.kOrder = kOrderDate;

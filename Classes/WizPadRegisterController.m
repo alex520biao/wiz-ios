@@ -166,6 +166,8 @@
     self.accountEmail.textInputField.placeholder = @"example@email.com";
     self.accountEmail.nameLable.text = NSLocalizedString(@"Email", nil);
     self.accountEmail.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
+    self.accountEmail.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    
     self.accountPassword = [self addSubviewByPointY:120];
     self.accountPassword.textInputField.placeholder = @"password";
     self.accountPassword.textInputField.secureTextEntry = YES;

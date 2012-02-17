@@ -59,7 +59,6 @@
 - (void) updateMeters
 {
     self.currentLabel.text = [NSString stringWithFormat:@"%@",[WizIndex timerStringFromTimerInver:self.player.currentTime]];
-    NSLog(@"%@",[WizIndex timerStringFromTimerInver:self.player.currentTime]);
     self.processSlider.value = self.player.currentTime/self.player.duration;
     if (self.processSlider.value == 0) {
         [self stop];

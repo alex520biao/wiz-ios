@@ -195,6 +195,8 @@
 		7362D54C14DD3C94003E9E19 /* stopRecorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54614DD3C94003E9E19 /* stopRecorder@2x.png */; };
 		7362D54D14DD3C94003E9E19 /* zoom.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54714DD3C94003E9E19 /* zoom.png */; };
 		7362D54E14DD3C94003E9E19 /* zoom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7362D54814DD3C94003E9E19 /* zoom@2x.png */; };
+		7365B04814EE0F91008C69AC /* WizChangePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365B04714EE0F91008C69AC /* WizChangePasswordController.m */; };
+		7365B04E14EE12ED008C69AC /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365B04D14EE12EA008C69AC /* WizChangePassword.m */; };
 		73931BE214E0DC12003C431C /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6014E0DC11003C431C /* arrow.png */; };
 		73931BE314E0DC12003C431C /* attachBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6114E0DC11003C431C /* attachBack.png */; };
 		73931BE414E0DC12003C431C /* attachBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73931B6214E0DC11003C431C /* attachBack@2x.png */; };
@@ -689,6 +691,10 @@
 		7362D54614DD3C94003E9E19 /* stopRecorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stopRecorder@2x.png"; sourceTree = "<group>"; };
 		7362D54714DD3C94003E9E19 /* zoom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom.png; sourceTree = "<group>"; };
 		7362D54814DD3C94003E9E19 /* zoom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom@2x.png"; sourceTree = "<group>"; };
+		7365B04614EE0F90008C69AC /* WizChangePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePasswordController.h; sourceTree = "<group>"; };
+		7365B04714EE0F91008C69AC /* WizChangePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePasswordController.m; sourceTree = "<group>"; };
+		7365B04C14EE12E9008C69AC /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePassword.h; sourceTree = "<group>"; };
+		7365B04D14EE12EA008C69AC /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePassword.m; sourceTree = "<group>"; };
 		738A8E3814DFB0FD00F69CBF /* WizPhoneNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneNotificationMessage.h; sourceTree = "<group>"; };
 		73931B6014E0DC11003C431C /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = icons/arrow.png; sourceTree = "<group>"; };
 		73931B6114E0DC11003C431C /* attachBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = attachBack.png; path = icons/attachBack.png; sourceTree = "<group>"; };
@@ -1147,6 +1153,8 @@
 				449108FF14A9AC5000E142DE /* WizPadRegisterController.m */,
 				4491090214A9BBF200E142DE /* WizCheckAccounsController.h */,
 				4491090314A9BBF200E142DE /* WizCheckAccounsController.m */,
+				7365B04614EE0F90008C69AC /* WizChangePasswordController.h */,
+				7365B04714EE0F91008C69AC /* WizChangePasswordController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1249,6 +1257,7 @@
 			isa = PBXGroup;
 			children = (
 				73FDF04E14D94DF300078EE3 /* WizDictionaryMessage.h */,
+				73B82FDB14EBA30C008BB962 /* WizGlobalDictionaryKey.h */,
 				4493BAA514BC423600DA4D49 /* WizUiTypeIndex.h */,
 				73FDF01A14D8DB4700078EE3 /* WizDownloadPool.h */,
 				73FDF01B14D8DB4800078EE3 /* WizDownloadPool.m */,
@@ -1258,6 +1267,8 @@
 				307E3E5C13305C19002B77DE /* WizDownloadRecentDocuments.m */,
 				3087BD52132F0135002D2402 /* WizApi.h */,
 				3087BD53132F0135002D2402 /* WizApi.m */,
+				7365B04C14EE12E9008C69AC /* WizChangePassword.h */,
+				7365B04D14EE12EA008C69AC /* WizChangePassword.m */,
 				3087BD54132F0135002D2402 /* WizCreateAccount.h */,
 				3087BD55132F0135002D2402 /* WizCreateAccount.m */,
 				3087BD56132F0135002D2402 /* WizVerifyAccount.h */,
@@ -1266,7 +1277,6 @@
 				307B7A91132B097F00069E45 /* WizSync.m */,
 				3074B0011327123700E601F3 /* WizGlobalData.h */,
 				3074B0021327123700E601F3 /* WizGlobalData.m */,
-				73B82FDB14EBA30C008BB962 /* WizGlobalDictionaryKey.h */,
 				307D5C271325CB4C0016547B /* WizIndex.h */,
 				307D5C281325CB4C0016547B /* WizIndex.mm */,
 				3075B25F13264A3400123A01 /* WizSettings.h */,
@@ -2222,6 +2232,8 @@
 				73931C7F14E12998003C431C /* WizPadCheckAttachments.m in Sources */,
 				73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */,
 				73CAA9FB14E901DF00D5FF9B /* WizUserSettingCell.m in Sources */,
+				7365B04814EE0F91008C69AC /* WizChangePasswordController.m in Sources */,
+				7365B04E14EE12ED008C69AC /* WizChangePassword.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
