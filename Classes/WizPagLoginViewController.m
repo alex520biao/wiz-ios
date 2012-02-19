@@ -25,8 +25,10 @@
 @synthesize registerButton;
 @synthesize checkExistedAccountButton;
 @synthesize willFirstAppear;
+@synthesize CripytLabel;
 - (void) dealloc
 {
+    self.CripytLabel = nil;
     self.willFirstAppear = NO;
     self.loginButton = nil;
     self.backgroudView = nil;
@@ -38,18 +40,20 @@
 {
     if (UIInterfaceOrientationIsLandscape(interface)) {
         self.backgroudView.frame = CGRectMake(0.0, 0.0, 1024, 768);
-        self.backgroudView.image = [UIImage imageNamed:@"horizontalLoginBackgroud"];
+        self.backgroudView.image = [UIImage imageNamed:@"Default-Landscape~ipad"];
         self.loginButton.frame = CGRectMake(292, 660, 220, 40);
         self.registerButton.frame = CGRectMake(522, 660, 220, 40);
-        self.checkExistedAccountButton.frame = CGRectMake(402, 400, 220, 40);
+        self.checkExistedAccountButton.frame = CGRectMake(402, 530, 220, 40);
+        self.CripytLabel.frame = CGRectMake(445, 724, 135, 21);
     }
     else
     {
         self.backgroudView.frame = CGRectMake(0.0, 0.0, 768, 1024);
-        self.backgroudView.image = [UIImage imageNamed:@"verticalLoginBackgroud"];
+        self.backgroudView.image = [UIImage imageNamed:@"Default-Portrait~ipad"];
         self.loginButton.frame = CGRectMake(160, 875, 220, 40);
         self.registerButton.frame = CGRectMake(390, 875, 220, 40);
-        self.checkExistedAccountButton.frame = CGRectMake(274, 501, 220, 40);
+        self.checkExistedAccountButton.frame = CGRectMake(274, 630, 220, 40);
+        self.CripytLabel.frame = CGRectMake(318, 972, 132, 21);
     }
 }
 - (void) selectDefaultAccount

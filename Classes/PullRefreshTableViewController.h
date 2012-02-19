@@ -46,6 +46,9 @@
     NSString *textPull;
     NSString *textRelease;
     NSString *textLoading;
+    
+    UIBarButtonItem* startRefrshItem;
+    UIBarButtonItem* refreshingItem;
 }
 
 @property (nonatomic, retain) UIView *refreshHeaderView;
@@ -56,6 +59,8 @@
 @property (nonatomic, copy) NSString *textRelease;
 @property (nonatomic, copy) NSString *textLoading;
 @property (nonatomic, copy) UILabel* refreshDetailLabel;
+@property (nonatomic, copy) UIBarButtonItem* startRefrshItem;
+@property (nonatomic, copy) UIBarButtonItem* refreshingItem;
 - (void)addPullToRefreshHeader;
 - (void)startLoading;
 - (void)stopLoading;

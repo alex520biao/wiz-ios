@@ -1603,11 +1603,15 @@ NSInteger compareTag(id location1, id location2, void*);
         if (0 == [self webFontSize]) {
             [self setWebFontSize:270];
         }
-        if (0 == [self durationForDownloadDocument]) {
+        if (-1 == [self durationForDownloadDocument]) {
             [self setDurationForDownloadDocument:1];
         }
         if (0 == [self isMoblieView]) {
             [self setDocumentMoblleView:YES];
+        }
+        NSLog(@"the init order is %lld",[self userTablelistViewOption]);
+        if (-1 == [self userTablelistViewOption]) {
+            [self setUserTableListViewOption:kOrderReverseDate];
         }
     }
     else
@@ -1620,6 +1624,7 @@ NSInteger compareTag(id location1, id location2, void*);
         if ([self imageQualityValue] ==0) {
             [self setImageQualityValue:750];
         }
+        [self setUserTableListViewOption:kOrderReverseDate];
     }
     [self setDownloadAllList:YES];
 }
@@ -1710,6 +1715,7 @@ static NSString* DatabaseVesion                 = @"DATABASE";
 static NSString* ImageQuality                   = @"IMAGEQUALITY";
 static NSString* ProtectPssword                 = @"PROTECTPASSWORD";
 static NSString* FirstLog                       = @"UserFirstLog";
+static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
 - (int64_t) syncVersion:(NSString*)type
 {
 	NSString* str = [self meta:KeyOfSyncVersion key:type];
@@ -1855,6 +1861,21 @@ static NSString* FirstLog                       = @"UserFirstLog";
     return [self setUserInfo:UserTrafficLimit info:info];
 }
 
+-(BOOL) setUserTableListViewOption:(int64_t)option
+{
+    NSString* info = [NSString stringWithFormat:@"%lld",option];
+    return [self setUserInfo:UserTablelistViewOption info:info];
+}
+
+- (int64_t) userTablelistViewOption
+{
+    NSString* str = [self userInfo:UserTablelistViewOption];
+    if (str == nil || [str isEqualToString:@""]) {
+        return -1;
+    }
+    else
+        return [str longLongValue];
+}
 -(int64_t) userTrafficUsage
 {
     NSString* str = [self userInfo:UserTrafficUsage];
@@ -1961,7 +1982,7 @@ static NSString* FirstLog                       = @"UserFirstLog";
 {
     NSString* duration = [self userInfo:DurationForDownloadDocument];
     if(!duration)
-        return 0;
+        return -1;
     else
         return [duration longLongValue];
 }

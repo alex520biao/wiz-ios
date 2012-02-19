@@ -37,6 +37,7 @@
 @synthesize lastIndexPath;
 @synthesize assertAlerView;
 @synthesize sourceArray;
+@synthesize isWillReloadAllData;
 - (void) dealloc
 {
     self.tableArray = nil;
@@ -153,38 +154,29 @@
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationLeft];
     
 }
+- (void) willReloadAllData
+{
+    isWillReloadAllData = YES;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addNewDocument:) name:MessageOfNewDocument object:nil];
-    if(0 == self.kOrder)
-    {
-        self.kOrder = kOrderReverseDate;
-        self.isReverseDateOrdered = NO;
-    }
     if (nil == self.tableArray) {
         self.tableArray = [NSMutableArray array];
     }
-    
-    if (![WizGlobals WizDeviceIsPad]) {
-        if (![WizGlobals WizDeviceIsPad]) {
-            if ([WizGlobals WizDeviceVersion] < 5.0) {
-                self.navigationController.delegate = self;
-            }
-            UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"View Options",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(optionsView)];
-            self.navigationItem.rightBarButtonItem = item;
-            [item release];
-        }
+    if ([WizGlobals WizDeviceVersion] < 5.0) {
+        self.navigationController.delegate = self;
     }
+    isWillReloadAllData = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willReloadAllData) name:MessageOfDocumentlistWillReloadData object:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfNewDocument object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = nil;
@@ -201,16 +193,12 @@
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.lastIndexPath] withRowAnimation:UITableViewRowAnimationNone];
         self.lastIndexPath = nil;
     }
-    else
-    {
-        if (!self.isReverseDateOrdered) {
-            [self reloadAllData];
-        }
-    }
-    for (UIView* each in self.view.subviews) {
-        if (each.frame.size.width == 21.0) {
-            each.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1.0];
-        }
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    self.kOrder = [index userTablelistViewOption];
+    NSLog(@"korder %d",self.kOrder);
+    if (self.isWillReloadAllData) {
+        [self reloadAllData];
+        isWillReloadAllData = NO;
     }
 }
 
@@ -239,7 +227,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
     return [self.tableArray count];
 }
 
@@ -568,16 +555,14 @@
 {
     UIImageView* sectionView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 20)] autorelease];
     sectionView.image = [UIImage imageNamed:@"tableSectionHeader"];
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(3.0, 4.0, 320, 15)];
-    [label setFont:[UIFont systemFontOfSize:16]];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(10, 4.0, 320, 15)];
+    [label setFont:[UIFont systemFontOfSize:13]];
     [sectionView addSubview:label];
     label.backgroundColor = [UIColor clearColor];
     [label release];
     label.text = [self tableView:self.tableView titleForHeaderInSection:section];
     return sectionView;
 }
-
-
 
 - (void) onSyncEnd
 {
@@ -592,6 +577,7 @@
     [nc addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
     UIView* remindView = [self.view viewWithTag:10001];
     [remindView removeFromSuperview];
+    [nc postNotificationName:MessageOfDocumentlistWillReloadData object:nil];
     [self reloadAllData];
     
 }

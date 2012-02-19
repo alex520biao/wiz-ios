@@ -23,6 +23,6 @@
 
 #define MessageOfPhoneDidSelectedAccount         @"MessageOfDidSelectedAccount"
 #define TypeOfPhoneAccountUserId            @"TypeOfPhoneAccountUserId"
-
+#define MessageOfDocumentlistWillReloadData @"MessageOfDocumentlistWillReloadData"
 
 #endif

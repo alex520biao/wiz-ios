@@ -234,7 +234,8 @@
 - (int64_t) imageQualityValue;
 - (BOOL) setImageQualityValue:(int64_t)value;
 - (int) webFontSize;
-
+- (BOOL) setUserTableListViewOption:(int64_t)option;
+- (int64_t) userTablelistViewOption;
 - (BOOL) setWebFontSize:(int)fontsize;
 - (BOOL) attachmentSeverChanged:(NSString*)attachmentGUID;
 - (NSString*) attachmentVersionString;

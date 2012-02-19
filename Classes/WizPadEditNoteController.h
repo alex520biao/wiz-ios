@@ -8,7 +8,7 @@
 
 #import "WizEditNoteBase.h"
 @class UIBadgeView;
-@interface WizPadEditNoteController : WizEditNoteBase <UIScrollViewDelegate,UIPopoverControllerDelegate,UITextFieldDelegate>
+@interface WizPadEditNoteController : WizEditNoteBase <UIActionSheetDelegate,UIScrollViewDelegate,UIPopoverControllerDelegate,UITextFieldDelegate>
 {
     @private
     UITextView* bodyInputTextView;

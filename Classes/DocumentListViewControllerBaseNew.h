@@ -8,10 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "PullRefreshTableViewController.h"
-#define kOrderDate                  1
-#define kOrderReverseDate           2
-#define kOrderFirstLetter           3
-#define kOrderReverseFirstLetter    4
 @class WizDocument;
 
 @protocol WizDocumentListMethod <NSObject>
@@ -29,6 +25,7 @@
     BOOL        isReverseDateOrdered;
     NSIndexPath* lastIndexPath;
     UIAlertView* assertAlerView;
+    BOOL isWillReloadAllData;
 }
 @property (nonatomic, retain) NSMutableArray* tableArray;
 @property (nonatomic, retain) NSString* accountUserID;
@@ -36,6 +33,7 @@
 @property (nonatomic, retain) NSIndexPath* lastIndexPath;
 @property (nonatomic, retain) UIAlertView* assertAlerView;
 @property (nonatomic, retain) NSMutableArray* sourceArray;
+@property (readonly) BOOL isWillReloadAllData;
 @property (assign)  BOOL        isReverseDateOrdered;
 @property int       kOrder;
 - (void) reloadAllData;

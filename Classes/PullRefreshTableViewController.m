@@ -34,7 +34,7 @@
 
 @implementation PullRefreshTableViewController
 
-@synthesize textPull, textRelease, textLoading, refreshHeaderView, refreshLabel, refreshArrow, refreshSpinner;
+@synthesize textPull, textRelease, textLoading, refreshHeaderView, refreshLabel, refreshArrow, refreshSpinner,refreshingItem,startRefrshItem;
 @synthesize refreshDetailLabel;
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -49,6 +49,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addPullToRefreshHeader];
+    UIBarButtonItem* refresh = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(startLoading)];
+    self.navigationItem.rightBarButtonItem = refresh;
+    [refresh release];
+    
 }
 
 
@@ -135,6 +139,14 @@
     [UIView commitAnimations];
     // Refresh action!
     [self performSelector:@selector(displayProcessInfo) withObject:nil];
+    UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
+    [activity startAnimating];
+    UIBarButtonItem* refreshing = [[UIBarButtonItem alloc] initWithCustomView:activity];
+    refreshing.style = UIBarButtonItemStyleBordered;
+    [activity release];
+    self.navigationItem.rightBarButtonItem = refreshing;
+    [refreshing release];
+    
     [self refresh];
 }
 
@@ -150,6 +162,10 @@
     [UIView commitAnimations];
     self.refreshDetailLabel.text = @"";
     self.refreshLabel.text = @"";
+
+    UIBarButtonItem* refresh = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(startLoading)];
+    self.navigationItem.rightBarButtonItem = refresh;
+    [refresh release];
 }
 
 - (void)stopLoadingComplete:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
@@ -171,6 +187,8 @@
     [refreshArrow release];
     [refreshSpinner release];
     [refreshDetailLabel release];
+    self.refreshingItem = nil;
+    self.startRefrshItem = nil;
     [super dealloc];
 }
 

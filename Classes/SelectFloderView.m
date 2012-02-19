@@ -77,7 +77,7 @@
         [self.selectedFloder addObject:[self.allFloders objectAtIndex:0]];
         self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
     }
-    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"OK", nil) style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
 	self.navigationItem.rightBarButtonItem = editButton;
     [editButton release];
 }

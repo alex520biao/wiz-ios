@@ -13,7 +13,7 @@
 @class AVAudioRecorder;
 @class AVAudioSession;
 @class VoiceRecognition;
-@interface NewNoteView : UIViewController <AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>{
+@interface NewNoteView : UIViewController <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>{
      NSString* accountUserId;
     //audio
     AVAudioRecorder *recorder;

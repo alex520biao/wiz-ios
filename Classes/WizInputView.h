@@ -17,4 +17,6 @@
 @property (nonatomic, retain) UIImageView* backgroundView;
 @property (nonatomic, retain) UILabel* nameLable;
 @property (nonatomic, retain) UITextField* textInputField;
+
+- (id) initWithFrame:(CGRect)frame title:(NSString*)title placeHoder:(NSString*)placeHoder;
 @end

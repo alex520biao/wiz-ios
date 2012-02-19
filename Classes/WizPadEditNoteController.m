@@ -350,9 +350,22 @@
     [UIView commitAnimations];
 
 }
+- (void) actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        return;
+    }
+    else if (buttonIndex == 0)
+    {
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    }
+}
+
 - (void) cancelSave
 {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Sure", nil) otherButtonTitles:nil, nil];
+    [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+    [actionSheet release];
 }
 
 - (void) saveDocument

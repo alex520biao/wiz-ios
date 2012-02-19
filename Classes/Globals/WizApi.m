@@ -23,9 +23,6 @@ NSString *WizSyncXmlRpcErrorNotificationPrefix = @"WizSyncXmlRpcErrorNotificatio
 NSString* WizSyncXmlRpcDoneNotificationPrefix = @"WizSyncXmlRpcDoneNotification";
 NSString* WizSyncXmlRpcDonlowadDoneNotificationPrefix = @"WizSyncXmlRpcDonlowadDoneNotificationPrefix";
 NSString* WizSyncXmlRpcUploadDoneNotificationPrefix = @"WizSyncXmlRpcUploadDoneNotificationPrefix";
-
-
-
 NSString* SyncMethod_ClientLogin = @"accounts.clientLogin";
 NSString* SyncMethod_ClientLogout = @"accounts.clientLogout";
 NSString* SyncMethod_CreateAccount = @"accounts.createAccount";

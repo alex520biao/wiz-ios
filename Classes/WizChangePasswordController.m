@@ -141,19 +141,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.oldPassword = [self addSubviewByPointY:40];
-    self.oldPassword.textInputField.placeholder = @"example@email.com";
+    self.oldPassword = [self addSubviewByPointY:20];
+    self.oldPassword.textInputField.placeholder = NSLocalizedString(@"Old Password",nil);
     self.oldPassword.nameLable.text = NSLocalizedString(@"Old", nil);
     self.oldPassword.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     self.oldPassword.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
-    self.passwordNew = [self addSubviewByPointY:120];
-    self.passwordNew.textInputField.placeholder = @"New";
+    self.passwordNew = [self addSubviewByPointY:70];
+    self.passwordNew.textInputField.placeholder = NSLocalizedString(@"New Password",nil);
     self.passwordNew.textInputField.secureTextEntry = YES;
-    self.passwordNew.nameLable.text = NSLocalizedString(@"Password", nil);
+    self.passwordNew.nameLable.text = NSLocalizedString(@"New", nil);
     
-    self.passwordConfirmNew = [self addSubviewByPointY:200];
-    self.passwordConfirmNew.textInputField.placeholder = @"password";
+    self.passwordConfirmNew = [self addSubviewByPointY:120];
+    self.passwordConfirmNew.textInputField.placeholder = NSLocalizedString(@"New Password",nil);
     self.passwordConfirmNew.textInputField.secureTextEntry = YES;
     self.passwordConfirmNew.nameLable.text = NSLocalizedString(@"Confirm", nil);
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel

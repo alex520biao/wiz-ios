@@ -34,7 +34,8 @@
         valueLabel.textColor = [UIColor grayColor];
         nameLabel.textAlignment = UITextAlignmentLeft;
         valueLabel.textAlignment = UITextAlignmentRight;
-        [valueLabel setFont:[UIFont systemFontOfSize:15]];
+        [valueLabel setFont:[UIFont systemFontOfSize:13]];
+        nameLabel.font = [UIFont systemFontOfSize:15];
         nameLabel.backgroundColor = [UIColor clearColor];
         valueLabel.backgroundColor = [UIColor clearColor];
     }

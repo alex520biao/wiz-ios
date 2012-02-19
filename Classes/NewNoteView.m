@@ -32,8 +32,11 @@
 #define HIDDENTTAG  300
 #define NOHIDDENTTAG 301
 
-#define INFOVIEWHEIGN  110
-#define ATTACHMENTSVIEWHEIGH 145
+#define INFOVIEWHEIGN  68
+#define ATTACHMENTSVIEWHEIGH 105
+
+
+
 @implementation NewNoteView
 @synthesize session;
 @synthesize recorder;
@@ -85,7 +88,7 @@
     if (nil == self.attachmentsSourcePaths) {
         NSLog(@"nil");
     }
-    NSString* displayString = [NSString stringWithFormat:@"%@:%d",NSLocalizedString(@"Attachments", nil), [self.attachmentsSourcePaths count]];
+    NSString* displayString = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"Attachments", nil), [self.attachmentsSourcePaths count]];
     [self.attachmentsTableviewEntryButton setTitle:displayString forState:UIControlStateNormal];
 }
 
@@ -169,8 +172,8 @@
 
 - (void) audioStartRecode
 {
-    UIImageView* first = (UIImageView*)[self.view viewWithTag:100];
-    UIImageView* second = (UIImageView*) [self.view viewWithTag:101];
+    UIView* first = (UIView*)[self.view viewWithTag:100];
+    UIView* second = (UIView*) [self.view viewWithTag:101];
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:second cache:YES];
@@ -186,8 +189,8 @@
 
 -(void) audioStopRecord
 {
-    UIImageView* first = (UIImageView*)[self.view viewWithTag:101];
-    UIImageView* second = (UIImageView*) [self.view viewWithTag:100];
+    UIView* first = (UIView*)[self.view viewWithTag:101];
+    UIView* second = (UIView*) [self.view viewWithTag:100];
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:second cache:YES];
@@ -326,107 +329,129 @@
         [picker release];
     }
 }
-
-- (void) buildAddAttachmentsView
+ -(void) addAudioRecorderStopView
 {
-    if (nil == self.addAttachmentView) {
-        
-        UIView* addAttach = [[UIView alloc] initWithFrame:CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, 100)];
-        self.addAttachmentView = addAttach;
-        [addAttach release];
-        UIImageView* bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"attachBack"]];
-        bg.frame = CGRectMake(0.0, 0.0, 320, 110);
-        [self.addAttachmentView addSubview:bg];
-        [bg release];
-        self.addAttachmentView.tag = HIDDENTTAG;
-        self.addAttachmentView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
-    }
-    UIImageView* audioRecording = [[UIImageView alloc] initWithFrame:CGRectMake(5, 1, 102, 107)];
+    UIView* audioRecording = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
     audioRecording.backgroundColor = [UIColor clearColor];
     audioRecording.tag = 101;
     UIImageView* back = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recorderTimeBack"]];
-    back.frame = CGRectMake(10, 30, 80, 30);
+    back.frame = CGRectMake(10, 5, 80, 24);
     [audioRecording addSubview:back];
     [back release];
-    [self addSelcetorToView:@selector(audioStopRecord) :audioRecording];
     audioRecording.userInteractionEnabled = YES;
-    UILabel* stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
+    UILabel* stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 26, 100, 24)];
     stopLabel.backgroundColor = [UIColor clearColor];
     [stopLabel setFont:[UIFont systemFontOfSize:13]];
     [stopLabel setTextColor:[UIColor grayColor]];
     stopLabel.textAlignment = UITextAlignmentCenter;
     stopLabel.text = NSLocalizedString(@"Tap to stop", nil);
     [audioRecording addSubview:stopLabel];
-    UILabel* recoderL = [[UILabel alloc]initWithFrame:CGRectMake(22, 35, 60, 20)] ;
-    
+    UILabel* recoderL = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 80, 24)] ;
     self.recoderLabel = recoderL;
-    [recoderL release];
     [audioRecording addSubview:self.recoderLabel];
-    [self.recoderLabel setFont:[UIFont systemFontOfSize:21]];
+    recoderL.font = [UIFont systemFontOfSize:15];
+    recoderL.textAlignment = UITextAlignmentCenter;
     self.recoderLabel.backgroundColor = [UIColor clearColor];
-    
+    [recoderL release];
     [self.addAttachmentView addSubview:audioRecording];
+    [self addSelcetorToView:@selector(audioStopRecord) :audioRecording];
     [audioRecording setAlpha:0.0f];
-    
+    [audioRecording release];
+    [stopLabel release];
+}
+- (void) addAudioRecorderStartView
+{
     //recoding start
-    UIImageView* audioRecordStart = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 90)];
-    audioRecordStart.image = [self imageReduceRect:@"recorder"];
-    audioRecordStart.tag = 100;
-    [self addSelcetorToView:@selector(audioStartRecode) :audioRecordStart];
+    UIView* audio = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
+    UIImageView* audioRecordStart = [[UIImageView alloc] initWithFrame:CGRectMake(23, 13, 24, 24)];
+    audioRecordStart.image = [self imageReduceRect:@"attachRecorderPad"];
+    [self addSelcetorToView:@selector(audioStartRecode) :audio];
     audioRecordStart.userInteractionEnabled = YES;
-    [self.addAttachmentView addSubview:audioRecordStart];
-    UILabel* startLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
+    [audio addSubview:audioRecordStart];
+    UILabel* startLabel = [[UILabel alloc] initWithFrame:CGRectMake(53, 15, 50, 20)];
     startLabel.backgroundColor = [UIColor clearColor];
     [startLabel setFont:[UIFont systemFontOfSize:13]];
     [startLabel setTextColor:[UIColor grayColor]];
-    startLabel.textAlignment = UITextAlignmentCenter;
+    startLabel.textAlignment = UITextAlignmentLeft;
     startLabel.text = NSLocalizedString(@"Record", nil);
-    [audioRecordStart addSubview:startLabel];
-    [audioRecording release];
-    [audioRecordStart release];
+    [audio addSubview:startLabel];
     [startLabel release];
-    [stopLabel release];
-    // photo
-    UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(105  , 5, 100, 90)];
-    photo.image = [self imageReduceRect:@"picture"];
-    [self addSelcetorToView:@selector(photoViewSelected) :photo];
-    [self.addAttachmentView addSubview:photo];
-    UILabel* pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
+    [audioRecordStart release];
+    audio.tag = 100;
+    [self.addAttachmentView addSubview:audio];
+}
+
+- (void) addSelectedPhotoView
+{
+    UIView* selecte = [[UIView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
+    UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(23, 13, 24, 24)];
+    photo.image = [self imageReduceRect:@"attachSelectPhotoPad"];
+    [self addSelcetorToView:@selector(photoViewSelected) :selecte];
+    [selecte addSubview:photo];
+    UILabel* pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(53, 15, 50, 20)];
     pictureLabel.backgroundColor = [UIColor clearColor];
     [pictureLabel setFont:[UIFont systemFontOfSize:13]];
     [pictureLabel setTextColor:[UIColor grayColor]];
-    pictureLabel.textAlignment = UITextAlignmentCenter;
+    pictureLabel.textAlignment = UITextAlignmentLeft;
     pictureLabel.text = NSLocalizedString(@"Camera roll", nil);
-    [photo addSubview:pictureLabel];
+    [selecte addSubview:pictureLabel];
     [pictureLabel release];
     [photo release];
-    
-    UIImageView* buttonBack = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"attachmentsButtonBack"]];
-    buttonBack.frame = CGRectMake(5, 115, 310, 30);
-    [self.addAttachmentView addSubview:buttonBack];
-    [buttonBack release];
-    self.attachmentsTableviewEntryButton = [[[UIButton alloc] initWithFrame:CGRectMake(5, 115, 310, 30)] autorelease];
-    
-    [self.attachmentsTableviewEntryButton setTitle:@"ddd" forState:UIControlStateNormal];
-    [self.attachmentsTableviewEntryButton addTarget:self action:@selector(attachmentsViewSelect) forControlEvents:UIControlEventTouchUpInside];
-    [self.addAttachmentView addSubview:self.attachmentsTableviewEntryButton];
-    
-    //takephoto
-    UIImageView* takePhoto = [[UIImageView alloc]initWithFrame:CGRectMake(210, 5, 100, 90)];
-    takePhoto.image = [self imageReduceRect:@"attachTakePhoto"];
-    [self addSelcetorToView:@selector(takePhotoViewSelcevted) :takePhoto];
-    [self.addAttachmentView addSubview:takePhoto];
-    UILabel* photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
+    [self.addAttachmentView addSubview:selecte];
+    [selecte release];
+}
+- (void) addTakePhotoView
+{
+    UIView* take = [[UIView alloc] initWithFrame:CGRectMake(210, 11, 100, 48)];
+    UIImageView* takePhoto = [[UIImageView alloc]initWithFrame:CGRectMake(23, 13, 24, 24)];
+    takePhoto.image = [self imageReduceRect:@"attachTakePhotoPad"];
+    [self addSelcetorToView:@selector(takePhotoViewSelcevted) :take];
+    [take addSubview:takePhoto];
+    UILabel* photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(53, 15, 50, 20)];
     photoLabel.backgroundColor = [UIColor clearColor];
     [photoLabel setFont:[UIFont systemFontOfSize:13]];
     [photoLabel setTextColor:[UIColor grayColor]];
-    photoLabel.textAlignment = UITextAlignmentCenter;
+    photoLabel.textAlignment = UITextAlignmentLeft;
     photoLabel.text = NSLocalizedString(@"Snapshot", nil);
-    [takePhoto addSubview:photoLabel];
+    [take addSubview:photoLabel];
     [photoLabel release];
     [takePhoto release];
-    
+    [self.addAttachmentView addSubview:take];
+    [take release];
+}
+- (void) buildAddAttachmentsView
+{
+    if (nil == self.addAttachmentView) {
+        UIView* addAttach = [[UIView alloc] initWithFrame:CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, 100)];
+        self.addAttachmentView = addAttach;
+        [addAttach release];
+        UIImageView* bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"attachBack"]];
+        bg.frame = CGRectMake(0.0, 0.0, 320, ATTACHMENTSVIEWHEIGH);
+        [self.addAttachmentView addSubview:bg];
+        [bg release];
+        self.addAttachmentView.tag = HIDDENTTAG;
+        self.addAttachmentView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
+    }
+    [self addAudioRecorderStopView];
+    [self addAudioRecorderStartView];
+    // photo
+    [self addSelectedPhotoView];
+    //takephoto
+    [self addTakePhotoView];
+    // attachments entry
+    UIButton* attachmentsTableEntry = [[UIButton alloc] initWithFrame:CGRectMake(11, 74, 310, 20)];
+    self.attachmentsTableviewEntryButton = attachmentsTableEntry;
+
+    [self.attachmentsTableviewEntryButton setTitle:@"ddd" forState:UIControlStateNormal];
+    [self.attachmentsTableviewEntryButton addTarget:self action:@selector(attachmentsViewSelect) forControlEvents:UIControlEventTouchUpInside];
+    attachmentsTableEntry.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    attachmentsTableEntry.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    attachmentsTableEntry.titleLabel.font = [UIFont systemFontOfSize:13];
+    attachmentsTableEntry.titleLabel.textColor = [UIColor grayColor];
+
+    [self.addAttachmentView addSubview:self.attachmentsTableviewEntryButton];
     [self.view addSubview:self.addAttachmentView];
+    [attachmentsTableEntry release];
 }
 
 - (void) addAttachemntsViewDisappear
@@ -435,12 +460,10 @@
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
-    self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, INFOVIEWHEIGN);
+    self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, ATTACHMENTSVIEWHEIGH);
     self.inputContentView.frame = CGRectMake(0.0, 0.0, 320, 400);
     self.addAttachmentView.tag = HIDDENTTAG;
     [UIView commitAnimations];
-    
-    
 }
 
 - (void) addAttachmentsViewAppear
@@ -460,7 +483,6 @@
     [self keyHideOrShow];
     self.addAttachmentView.tag = NOHIDDENTTAG;
     [UIView commitAnimations];
-    
 }
 
 - (void) addAttachmentsViewAnimation
@@ -481,12 +503,10 @@
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
-    self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, 320, INFOVIEWHEIGN);
+    self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, 320, INFOVIEWHEIGN-10);
     self.inputContentView.frame = CGRectMake(0.0, 0.0, 320, 400);
     self.addDocumentInfoView.tag = HIDDENTTAG;
     [UIView commitAnimations];
-    
-    
 }
 
 - (void) addDocumentInfoAppear
@@ -529,38 +549,43 @@
         self.addDocumentInfoView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, -INFOVIEWHEIGN, 320, INFOVIEWHEIGN)] autorelease];
         self.addDocumentInfoView.tag = HIDDENTTAG;
         UIImageView* backGroud = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newNoteDetailBackgroud"]]autorelease];
-        backGroud.frame = CGRectMake(0.0,0.0, 320, 110);
+        backGroud.frame = CGRectMake(0.0,0.0, 320, INFOVIEWHEIGN);
         [self.addDocumentInfoView addSubview:backGroud];
         self.addDocumentInfoView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
     }
     // floader
-    UIImageView* floder = [[UIImageView alloc]initWithFrame:CGRectMake(60, 4, 100, 100)];
+    
+    UIView* folderView = [[UIView alloc] initWithFrame:CGRectMake(60, 4, 100, 48)];
+    UIImageView* floder = [[UIImageView alloc]initWithFrame:CGRectMake(23, 17, 24, 24)];
     floder.image = [self imageReduceRect:@"newNoteFolder"];
-    [self addSelcetorToView:@selector(floderViewSelected) :floder];
-    [self.addDocumentInfoView addSubview:floder];
-    UILabel* folderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
+    [self addSelcetorToView:@selector(floderViewSelected) :folderView];
+    [folderView addSubview:floder];
+    [self.addDocumentInfoView addSubview:folderView];
+    UILabel* folderLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 19, 50, 20)];
     folderLabel.backgroundColor = [UIColor clearColor];
     [folderLabel setFont:[UIFont systemFontOfSize:13]];
     [folderLabel setTextColor:[UIColor grayColor]];
     folderLabel.textAlignment = UITextAlignmentCenter;
     folderLabel.text = NSLocalizedString(@"Folder", nil);
-    [floder addSubview:folderLabel];
+    [folderView addSubview:folderLabel];
     [folderLabel release];
     [floder release];
-    
+    [folderView release];
     //tag
-    UIImageView* tag = [[UIImageView alloc]initWithFrame:CGRectMake(160, 4, 100, 100)];
+    UIView* tagView = [[UIView alloc] initWithFrame:CGRectMake(160, 4, 100, 48)];
+    UIImageView* tag = [[UIImageView alloc]initWithFrame:CGRectMake(23, 17, 24, 24)];
     tag.image = [self imageReduceRect:@"newNoteTag"];
-    UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70, 100, 20)];
+    UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 19, 50, 20)];
     tagLabel.backgroundColor = [UIColor clearColor];
     [tagLabel setFont:[UIFont systemFontOfSize:13]];
     [tagLabel setTextColor:[UIColor grayColor]];
     tagLabel.textAlignment = UITextAlignmentCenter;
     tagLabel.text = NSLocalizedString(@"Tag", nil);
-    [tag addSubview:tagLabel];
+    [tagView addSubview:tagLabel];
     [tagLabel release];
-    [self addSelcetorToView:@selector(tagViewSelect) :tag];
-    [self.addDocumentInfoView addSubview:tag];
+    [self addSelcetorToView:@selector(tagViewSelect) :tagView];
+    [tagView addSubview:tag];
+    [self.addDocumentInfoView addSubview:tagView];
     [tag release];
     [self.view addSubview:self.addDocumentInfoView];
     
@@ -588,7 +613,7 @@
 	
 	//Set to titleView
 	self.navigationItem.titleView = titleView;
-	[titleView release];//release titleView
+	[titleView release];
 }
 
 - (void) setUserInterfaceEnableSelf:(BOOL)enable
@@ -610,11 +635,12 @@
 {
     if (nil == self.inputContentView) {
         self.inputContentView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 400)] autorelease];
+        self.inputContentView.backgroundColor = [UIColor whiteColor];
     }
     //titile input
-    self.titleTextFiled = [[[UITextField alloc] initWithFrame:CGRectMake(0.0, 5, 320, 30)] autorelease];
-    //    self.titleTextFiled.borderStyle = UITextBorderStyleLine;
-    self.titleTextFiled.placeholder = NSLocalizedString(@"No title file", nil);
+    self.titleTextFiled = [[[UITextField alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 30)] autorelease];
+    self.titleTextFiled.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    self.titleTextFiled.placeholder = NSLocalizedString(@"Untitled", nil);
     self.titleTextFiled.delegate = self;
     [self.inputContentView addSubview:self.titleTextFiled];
     //body text input
@@ -714,6 +740,14 @@
     reg.owner = self;
     [self.view addSubview:reg];
     [reg release];
+    
+    
+//    self.addAttachmentView.backgroundColor = [UIColor redColor];
+//    self.addDocumentInfoView.backgroundColor = [UIColor blueColor];
+//    self.view.backgroundColor = [UIColor greenColor];
+//    self.inputContentView.backgroundColor = [UIColor blackColor];
+//    self.titleTextFiled.backgroundColor = [UIColor orangeColor];
+//    self.bodyTextField.backgroundColor = [UIColor yellowColor];
 }
 
 - (void) newDocument
@@ -772,10 +806,23 @@
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
+- (void) actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        return;
+    }
+    else if (buttonIndex == 0)
+    {
+        [self postSelectedMessageToPicker];
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    }
+}
+
 - (void) cancelSave
 {
-    [self postSelectedMessageToPicker];
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Sure", nil) otherButtonTitles:nil, nil];
+    [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+    [actionSheet release];
 }
 
 -(id) initWithAccountId:(NSString*)accountGuid
@@ -854,6 +901,7 @@
     {
         NSLog(@"can not recorder");
     }
+    self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   
 }

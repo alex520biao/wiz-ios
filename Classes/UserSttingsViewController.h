@@ -26,10 +26,13 @@
     NSArray* downloadDurationData;
     NSArray* imageQualityData;
     NSArray* downloadDurationRemind;
+    NSArray* viewOptions;
     int downloadDuration;
     int imageQulity;
+    int tablelistViewOption;
 }
 @property (nonatomic, retain) NSString* accountUserId;
+@property (nonatomic, retain) NSArray* viewOptions;
 @property (nonatomic, retain) IBOutlet UITableViewCell *mobileViewCell;
 @property (nonatomic, retain) IBOutlet UILabel* mbileViewCellLabel;
 @property (nonatomic, retain) IBOutlet UISwitch* mobileViewSwitch;
@@ -46,6 +49,7 @@
 @property (nonatomic, retain) NSArray* downloadDurationRemind;
 @property int downloadDuration;
 @property int imageQulity;
+@property int tablelistViewOption;
 @property (nonatomic, retain) NSString* oldPassword;
 - (IBAction)setUserProtectPassword:(id)sender;
 @end

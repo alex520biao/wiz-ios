@@ -16,7 +16,7 @@
 #import "WizVerifyAccount.h"
 #import "UIView-TagExtensions.h"
 #import "PickViewController.h"
-#import "CreateNewAccountViewController.h"
+#import "WizPhoneCreateAccountViewController.h"
 #import "WizPhoneNotificationMessage.h"
 
 #define PROTECTALERT 300
@@ -121,7 +121,10 @@
         {
             height = [accountsArray count]* 40 + 40;
         }
-        contentviewY = contentviewY - height/2;
+        if (height > height/2) {
+            height = height/2;
+        }
+        contentviewY = contentviewY -height;
         return CGRectMake(10, contentviewY, 300, height);
     }
     else
@@ -170,11 +173,9 @@
 
 - (void) getNewAccount:(id)sender
 {
-    CreateNewAccountViewController *createAccountView = [[CreateNewAccountViewController alloc] initWithNibName:@"CreateNewAccountViewController" bundle:nil];
-    createAccountView.owner = self;
+    WizPhoneCreateAccountViewController *createAccountView = [[WizPhoneCreateAccountViewController alloc] init];
     [self.navigationController pushViewController:createAccountView animated:YES];
     [createAccountView release];
-    
 }
 - (void) didSelectedAccount:(NSNotification*)nc
 {
@@ -276,7 +277,7 @@
     self.willChangedUser = NO;
     [self.createdAccountButton setTitle:NSLocalizedString(@"Add New Account", nil) forState:UIControlStateNormal];
     [self.createdAccountButton addTarget:self action:@selector(addAccountEntry) forControlEvents:UIControlEventTouchUpInside];
-    
+    self.createdAccountButton.frame = CGRectMake(0.0, self.view.frame.size.height/2 -30, 320, 30);
     [self.addAccountButton setTitle:NSLocalizedString(@"Get Free Account From Wiz", nil) forState:UIControlStateNormal];
     self.addAccountButton.hidden = NO;
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];
@@ -287,7 +288,6 @@
     
     [self protectAlert];
 }
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];

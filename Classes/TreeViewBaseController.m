@@ -171,7 +171,7 @@
         cell.imageView.image = self.closedImage;
     }
     if (![node hasChildren]) {
-        cell.imageView.image = [UIImage imageNamed:@"treeBack"];
+        cell.imageView.image = [UIImage imageNamed:@"treeFolder"];
     }
    
 }

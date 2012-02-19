@@ -146,14 +146,14 @@ AAgACAAIAAEAAQABAAE</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">16</float>
-								<object class="IBUIFontDescription" key="IBUIFontDescription">
+								<float key="IBUIMinimumFontSize">15</float>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="920300689">
 									<int key="type">1</int>
-									<double key="pointSize">16</double>
+									<double key="pointSize">15</double>
 								</object>
-								<object class="NSFont" key="IBUIFont">
+								<object class="NSFont" key="IBUIFont" id="1028149955">
 									<string key="NSName">Helvetica</string>
-									<double key="NSSize">16</double>
+									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
@@ -229,16 +229,9 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<reference key="IBUITextColor" ref="522586189"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">16</float>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="455995841">
-									<int key="type">1</int>
-									<double key="pointSize">17</double>
-								</object>
-								<object class="NSFont" key="IBUIFont" id="212976528">
-									<string key="NSName">Helvetica</string>
-									<double key="NSSize">17</double>
-									<int key="NSfFlags">16</int>
-								</object>
+								<float key="IBUIMinimumFontSize">15</float>
+								<reference key="IBUIFontDescription" ref="920300689"/>
+								<reference key="IBUIFont" ref="1028149955"/>
 							</object>
 							<object class="IBUISwitch" id="1045725782">
 								<reference key="NSNextResponder" ref="746716745"/>
@@ -302,9 +295,9 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<reference key="IBUITextColor" ref="522586189"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">16</float>
-								<reference key="IBUIFontDescription" ref="455995841"/>
-								<reference key="IBUIFont" ref="212976528"/>
+								<float key="IBUIMinimumFontSize">15</float>
+								<reference key="IBUIFontDescription" ref="920300689"/>
+								<reference key="IBUIFont" ref="1028149955"/>
 							</object>
 							<object class="IBUISwitch" id="706369048">
 								<reference key="NSNextResponder" ref="399158526"/>
