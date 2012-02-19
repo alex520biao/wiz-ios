@@ -15,12 +15,9 @@
 @interface WizAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UINavigationController* navController;
-	
 	UISplitViewController *splitViewController;
-    
     RootViewController *rootViewController;
     DetailViewController *detailViewController;
-	//
 	SplashViewController* splashViewController;
 }
 

@@ -17,6 +17,7 @@
 #import "WizPadNotificationMessage.h"
 #import "WizUserSettingCell.h"
 #import "WizChangePasswordController.h"
+#import "WizCheckProtectPassword.h"
 
 #define ChangePasswordTag 888
 #define RemoveAccountTag  1002
@@ -609,17 +610,21 @@
 }
 - (void) sendFeedback
 {
-    if ([MFMailComposeViewController canSendMail]) {
-        MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
-        mailPocker.mailComposeDelegate = self;
-        [mailPocker setSubject:[NSString stringWithFormat:@"%@ by %@",NSLocalizedString(@"Feedback", nil),self.accountUserId]];
-        NSArray* toRecipients = [NSArray arrayWithObject: @"ios@wiz.cn"];
-        [mailPocker setToRecipients:toRecipients];
-        [mailPocker setMessageBody:NSLocalizedString(@"Your advice", nil) isHTML:YES];
-        mailPocker.modalPresentationStyle = UIModalPresentationFormSheet;
-        [self presentModalViewController: mailPocker animated:YES];  
-        [mailPocker release];
-    }
+ 
+    WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
+    [self.navigationController pushViewController:check animated:YES];
+    [check release];
+//    if ([MFMailComposeViewController canSendMail]) {
+//        MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
+//        mailPocker.mailComposeDelegate = self;
+//        [mailPocker setSubject:[NSString stringWithFormat:@"%@ by %@",NSLocalizedString(@"Feedback", nil),self.accountUserId]];
+//        NSArray* toRecipients = [NSArray arrayWithObject: @"ios@wiz.cn"];
+//        [mailPocker setToRecipients:toRecipients];
+//        [mailPocker setMessageBody:NSLocalizedString(@"Your advice", nil) isHTML:YES];
+//        mailPocker.modalPresentationStyle = UIModalPresentationFormSheet;
+//        [self presentModalViewController: mailPocker animated:YES];  
+//        [mailPocker release];
+//    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

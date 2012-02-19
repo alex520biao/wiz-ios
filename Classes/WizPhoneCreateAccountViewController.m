@@ -198,7 +198,6 @@
     b2.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
     [self.view addSubview:b2];
     [b2 release];
-    
 }
 
 - (void)viewDidUnload

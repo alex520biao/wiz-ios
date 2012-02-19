@@ -112,19 +112,16 @@
 - (CGRect) getContentViewFrame
 {
     if ([accountsArray count] && !willAddUser) {
-        float height = self.view.frame.size.height/2;
         float contentviewY = self.view.frame.size.height*3/4;
-        
-        if (height >= [accountsArray count]*40 + 40) {
+        float height = self.view.frame.size.height/2;
+        if (height >= [accountsArray count]*40 ) {
             height = height -20;
         } else
         {
-            height = [accountsArray count]* 40 + 40;
+            height = [accountsArray count]* 40 ;
         }
-        if (height > height/2) {
-            height = height/2;
-        }
-        contentviewY = contentviewY -height;
+        contentviewY = contentviewY -height/2;
+        NSLog(@"%f",height);
         return CGRectMake(10, contentviewY, 300, height);
     }
     else

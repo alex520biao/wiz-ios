@@ -315,6 +315,7 @@
 		73CDDA8B14F0E26E00A2E7B7 /* treeFolder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA8714F0E26D00A2E7B7 /* treeFolder@2x.png */; };
 		73CDDA8C14F0E26E00A2E7B7 /* treeTag.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA8814F0E26D00A2E7B7 /* treeTag.png */; };
 		73CDDA8D14F0E26E00A2E7B7 /* treeTag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA8914F0E26D00A2E7B7 /* treeTag@2x.png */; };
+		73CDDA9414F0FE4C00A2E7B7 /* WizCheckProtectPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CDDA9314F0FE4900A2E7B7 /* WizCheckProtectPassword.m */; };
 		73E71F3814E1490F00437208 /* categoryBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3614E1490F00437208 /* categoryBackgroud.png */; };
 		73E71F3914E1490F00437208 /* categoryBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */; };
 		73E71F3D14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E71F3C14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.m */; };
@@ -782,6 +783,8 @@
 		73CDDA8714F0E26D00A2E7B7 /* treeFolder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "treeFolder@2x.png"; path = "icons/treeFolder@2x.png"; sourceTree = SOURCE_ROOT; };
 		73CDDA8814F0E26D00A2E7B7 /* treeTag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = treeTag.png; path = icons/treeTag.png; sourceTree = SOURCE_ROOT; };
 		73CDDA8914F0E26D00A2E7B7 /* treeTag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "treeTag@2x.png"; path = "icons/treeTag@2x.png"; sourceTree = SOURCE_ROOT; };
+		73CDDA9214F0FE4700A2E7B7 /* WizCheckProtectPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckProtectPassword.h; sourceTree = "<group>"; };
+		73CDDA9314F0FE4900A2E7B7 /* WizCheckProtectPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCheckProtectPassword.m; sourceTree = "<group>"; };
 		73E71F3614E1490F00437208 /* categoryBackgroud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = categoryBackgroud.png; sourceTree = "<group>"; };
 		73E71F3714E1490F00437208 /* categoryBackgroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "categoryBackgroud@2x.png"; sourceTree = "<group>"; };
 		73E71F3B14E276E600437208 /* WizPadDocumentViewCheckAttachmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewCheckAttachmentsController.h; sourceTree = "<group>"; };
@@ -984,6 +987,8 @@
 			children = (
 				44A6249414985FFC00073F39 /* OldUI */,
 				449B40BC1456B32D007A4FE7 /* NewUi */,
+				73CDDA9214F0FE4700A2E7B7 /* WizCheckProtectPassword.h */,
+				73CDDA9314F0FE4900A2E7B7 /* WizCheckProtectPassword.m */,
 			);
 			name = Iphone;
 			sourceTree = "<group>";
@@ -2094,6 +2099,7 @@
 				7365B04814EE0F91008C69AC /* WizChangePasswordController.m in Sources */,
 				7365B04E14EE12ED008C69AC /* WizChangePassword.m in Sources */,
 				73CDDA6F14F0DD8300A2E7B7 /* WizPhoneCreateAccountViewController.m in Sources */,
+				73CDDA9414F0FE4C00A2E7B7 /* WizCheckProtectPassword.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
