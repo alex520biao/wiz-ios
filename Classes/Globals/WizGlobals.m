@@ -658,8 +658,13 @@ BOOL WizDeviceIsPad(void)
     
     UIImage *newImage = nil;  
     CGFloat widthFactor = qulity / width;  
+    CGFloat heightFactor = qulity / height;  
     CGFloat scaleFactor = 0.0;  
-    scaleFactor = widthFactor; // scale to fit width  
+    
+    if (widthFactor < heightFactor)  
+        scaleFactor = heightFactor; // scale to fit height  
+    else  
+        scaleFactor = widthFactor; // scale to fit width  
     
     CGFloat scaledWidth  = width * scaleFactor;  
     CGFloat scaledHeight = height * scaleFactor;  
@@ -678,7 +683,7 @@ BOOL WizDeviceIsPad(void)
     //pop the context to get back to the default  
     UIGraphicsEndImageContext();  
     
-    return newImage;  
+    return newImage;
     
 } 
 - (NSData *)compressedData:(CGFloat)compressionQuality {  

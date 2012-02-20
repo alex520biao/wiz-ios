@@ -5,30 +5,40 @@
 //  Created by wiz on 12-2-19.
 //  Copyright 2012年 __MyCompanyName__. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "WizCheckProtectPassword.h"
-
+#import "WizGlobalNotificationMessage.h"
 @implementation WizCheckProtectPassword
 @synthesize number1,number2,number3,number4;
+@synthesize willMakeSure;
+@synthesize isMakeSure;
+@synthesize finalPassword;
 - (void) dealloc
 {
+    self.finalPassword = nil;
     self.number4 = nil;
     self.number3 = nil;
     self.number2 = nil;
     self.number1 = nil;
     [super dealloc];
 }
-- (UITextField*) textView
+- (UITextView*) textView
 {
-    UITextField* n1 = [[UITextField alloc] init];
+    UITextView* n1 = [[UITextView alloc] init];
     n1.keyboardAppearance = UIKeyboardAppearanceAlert;
     n1.keyboardType = UIKeyboardTypeNumberPad;
     n1.delegate = self;
-    n1.backgroundColor = [UIColor lightGrayColor];
-    n1.font = [UIFont systemFontOfSize:25];
+    n1.backgroundColor = [UIColor whiteColor];
+    n1.font = [UIFont boldSystemFontOfSize:30];
+    n1.secureTextEntry = YES;
     n1.textAlignment = UITextAlignmentCenter;
-    n1.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    n1.inputDelegate = self;
+    CALayer* layer = n1.layer;
+    layer.borderColor = [UIColor grayColor].CGColor;
+    layer.borderWidth = 1.0f;
+    layer.shadowColor = [UIColor grayColor].CGColor;
+    layer.shadowOffset = CGSizeMake(1, 1);
+    layer.shadowOpacity = 0.5;
+    layer.shadowRadius = 0.5;
     return [n1 autorelease];
 }
 -  (id) init
@@ -40,15 +50,19 @@
         self.number3 = [self textView];
         self.number4 = [self textView];
         
-        self.number1.frame = CGRectMake(32, 20, 40, 40);
-        self.number2.frame = CGRectMake(104, 20, 40, 40);
-        self.number3.frame = CGRectMake(176, 20, 40, 40);
-        self.number4.frame = CGRectMake(248, 20, 40, 40);
-        
+        UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title"]];
+        logo.frame  = CGRectMake(0.0, 20, 320, 40);
+        [self.view addSubview:logo];
+        [logo release];
+        self.number1.frame = CGRectMake(25, 110, 60, 60);
+        self.number2.frame = CGRectMake(95, 110, 60, 60);
+        self.number3.frame = CGRectMake(165, 110, 60, 60);
+        self.number4.frame = CGRectMake(235, 110, 60, 60);
         [self.view addSubview:number1];
         [self.view addSubview:number2];
         [self.view addSubview:number3];
         [self.view addSubview:number4];
+        self.isMakeSure = NO;
     }
     return self;
 }
@@ -60,28 +74,59 @@
     }
     return self;
 }
-- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+- (void) makeSure:(NSNotification*)nc
 {
-    NSLog(@"%@",textField.text);
-    if (textField == number1) {
+    NSDictionary* userInfo = [nc userInfo];
+    NSString* password = [userInfo valueForKey:TypeOfProtectPassword];
+    if (![self.finalPassword isEqualToString:password]) {
+        self.finalPassword = @"-1";
+    }
+}
+
+- (void) textViewDidChange:(UITextView *)textView
+{
+    textView.editable = NO;
+    self.finalPassword = [finalPassword stringByAppendingString:textView.text];
+    textView.text = @"*";
+    if (textView == number1) {
+
         [number2 becomeFirstResponder];
     }
-    else if (textField == number2)
+    else if (textView == number2)
     {
         [number3 becomeFirstResponder];
     }
-    else if (textField == number3)
+    else if (textView == number3)
     {
         [number4 becomeFirstResponder];
     }
-
-    return YES;
+    else if (textView == number4)
+    {
+        if (willMakeSure) {
+            WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
+            check.willMakeSure = NO;
+            check.title = NSLocalizedString(@"Confirm", nil);
+            check.isMakeSure = YES;
+            [self.navigationController pushViewController:check animated:YES];
+            self.isMakeSure = YES;
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makeSure:) name:MessageOfCheckPasswordMakesure object:nil];
+        }
+        else
+        {
+            if (self.isMakeSure) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckPasswordMakesure object:nil userInfo:[NSDictionary dictionaryWithObject:finalPassword forKey:TypeOfProtectPassword]];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else
+            {
+                [self.navigationController popViewControllerAnimated:NO];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfProtectPasswordInputEnd object:nil userInfo:[NSDictionary dictionaryWithObject:finalPassword forKey:TypeOfProtectPassword]];
+            }
+            
+        }
+        
+    }
 }
-
-//- (void) textViewDidChange:(UITextView *)textView
-//{
-//    }
-//}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -89,23 +134,39 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
+    if (self.finalPassword == nil) {
+        self.finalPassword = @"";
+    }
+    self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
 
+}
+- (void) viewDidUnload
+{
+    
+}
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self.number1 becomeFirstResponder];
+    if (!willMakeSure && !isMakeSure) {
+        [self.navigationController setNavigationBarHidden:YES];
+    }
 }
-- (void)viewDidUnload
+- (void) viewDidAppear:(BOOL)animated
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [super viewDidAppear:animated];
+    if (self.willMakeSure && self.isMakeSure) {
+        [self.navigationController popViewControllerAnimated:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfProtectPasswordInputEnd object:nil userInfo:[NSDictionary dictionaryWithObject:finalPassword forKey:TypeOfProtectPassword]];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

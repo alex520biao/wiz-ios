@@ -7,16 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#define MessageOfCheckPasswordMakesure @"MessageOfCheckPasswordMakesure"
 
-@interface WizCheckProtectPassword : UIViewController <UITextFieldDelegate>
-{
-    UITextField* number1;
-    UITextField* number2;
-    UITextField* number3;
-    UITextField* number4;
+@interface WizCheckProtectPassword : UIViewController <UITextViewDelegate>
+{ 
+    UITextView* number1;
+    UITextView* number2;
+    UITextView* number3;
+    UITextView* number4;
+    NSString* finalPassword;
+    BOOL willMakeSure;
+    BOOL isMakeSure;
 }
-@property (nonatomic, retain) UITextField* number1;
-@property (nonatomic, retain) UITextField* number2;
-@property (nonatomic, retain) UITextField* number3;
-@property (nonatomic, retain) UITextField* number4;
+@property (nonatomic, retain) UITextView* number1;
+@property (nonatomic, retain) UITextView* number2;
+@property (nonatomic, retain) UITextView* number3;
+@property (nonatomic, retain) UITextView* number4;
+@property (nonatomic, retain)  NSString* finalPassword;
+@property BOOL willMakeSure;
+@property BOOL isMakeSure;
 @end

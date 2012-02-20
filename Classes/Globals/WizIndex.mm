@@ -2184,14 +2184,8 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
             maxImage = imageArea > maxImageArea  ? currentImage: maxImage;
             maxImageArea = imageArea > maxImageArea ? imageArea:maxImageArea;
 
-        
-            // old mathod
-//            maxImageFilePath = currentImageFileLength > imageFileLength && currentImageFileLength >4096?sourceImageFilePath:maxImageFilePath;
-//            imageFileLength = currentImageFileLength > imageFileLength&& currentImageFileLength >4096? currentImageFileLength:imageFileLength;
         }
     }
-  
-//    UIImage* image = [UIImage imageWithContentsOfFile:maxImageFilePath];
     UIImage* compassImage = nil;
     if (nil != maxImage) {
         NSLog(@" max is %f %f ",maxImage.size.height, maxImage.size.width);
@@ -2207,7 +2201,6 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
             compassWidth = 140;
             compassHeight = 140;
         }
-
         compassImage = [maxImage compressedImageWidth:compassWidth];
         compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2), WizAbs((compassImage.size.height -compassHeight)/2), compassImage.size.width>compassWidth?compassWidth:compassImage.size.width, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
         compassImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect(compassImage.CGImage, compassRect)];

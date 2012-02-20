@@ -29,7 +29,7 @@
 @property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
 
 - (void) didAccountSelect: (NSNotification*)nc;
-
+- (void) accountProtect;
 
 
 @end

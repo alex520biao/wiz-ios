@@ -212,32 +212,6 @@
         }
     }
 }
-- (void) protectAlert
-{
-    NSString* userProtectPassword = [WizSettings accountProtectPassword];
-    if (userProtectPassword != nil && ![userProtectPassword isEqualToString:@""]) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
-                                                        message:NSLocalizedString(@"                                       ", nil)
-                                                       delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"OK",nil) 
-                                              otherButtonTitles:nil];
-        UITextField* text = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
-        text.keyboardType = UIKeyboardTypeNumberPad;
-        [text becomeFirstResponder];
-        [text setBackgroundColor:[UIColor whiteColor]];
-        [alert addSubview:text];
-        text.placeholder = NSLocalizedString(@"password", nil);
-        [alert show];
-        alert.tag = PROTECTALERT;
-        [alert release];
-        [text release];
-        return;
-    }
-    else
-    {
-        [self selectDefaultAccount];
-    }
-}
 
 - (void)viewDidLoad
 {
@@ -282,8 +256,7 @@
     [backGroud release];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectedAccount:) name:MessageOfPhoneDidSelectedAccount object:nil];
-    
-    [self protectAlert];
+    [self selectDefaultAccount];
 }
 - (void)viewDidUnload
 {
@@ -375,35 +348,6 @@
 	api.accountPassword = userPasswordTextField.text;
 	[api verifyAccount];
 }
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (PROTECTALERT == alertView.tag) {
-        for (UIView* each in alertView.subviews) {
-            if ([each isKindOfClass:[UITextField class]]) {
-                [each resignFirstResponder];
-                UITextField* textField = (UITextField*)each;
-                NSString* text = textField.text;
-                if (nil != text && [text isEqualToString:[WizSettings accountProtectPassword]]) {
-                    [self selectDefaultAccount];
-                }
-                else
-                {
-                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-                                                                    message:NSLocalizedString(@"Password is wrong", nil)
-                                                                   delegate:self 
-                                                          cancelButtonTitle:@"OK" 
-                                                          otherButtonTitles:nil];
-                    [alert show];
-                    [alert release];
-                    [self protectAlert];
-                }
-            }
-        }
-    }
-    
-}
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -501,6 +445,5 @@
         [self checkOtherAccounts:nil];
     }
     self.contentTableView.frame = [self getContentViewFrame];
-    
 }
 @end

@@ -18,6 +18,9 @@
 #import "WizPadMainViewController.h"
 #import "UIView-TagExtensions.h"
 #import "WizIndex.h"
+#import "WizCheckProtectPassword.h"
+#import "WizGlobalNotificationMessage.h"
+
 @implementation WizAppDelegate
 
 @synthesize window;
@@ -102,25 +105,39 @@
 }
 
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    /*
-     Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
-     */
+
+- (void) checkProtectPassword:(NSNotification*)nc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
+    NSDictionary* userInfo = [nc userInfo];
+    NSString* password = [userInfo valueForKey:TypeOfProtectPassword];
+    NSString* protectPw = [WizSettings accountProtectPassword];
+    if (![password isEqualToString:protectPw] ) {
+        [self accountProtect];
+    }
+}
+- (void) accountProtect
+{
+    WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
+    check.willMakeSure = NO;
+    [self.navController pushViewController:check animated:YES];
+    [check release];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];
+}
+- (void)applicationWillEnterForeground:(UIApplication *)application 
+{
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+    NSString* protectPw = [WizSettings accountProtectPassword];
+    if (protectPw != nil && ![protectPw isEqualToString:@""]) {
+        [self accountProtect];
+    }
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    /*
-     Called when the application is about to terminate.
-     See also applicationDidEnterBackground:.
-     */
 	[WizGlobalData deleteShareData];
 }
 
@@ -137,7 +154,6 @@
 
 - (void)dealloc {
     [window release];
-	//[navController release];
     [super dealloc];
 }
 

@@ -153,21 +153,23 @@
     [super viewDidLoad];
     
     UIImageView* logi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title"]];
-    logi.frame = CGRectMake(0.0, 0.0, 320, 40);
+    logi.frame = CGRectMake(0.0, 20, 320, 40);
     [self.view addSubview:logi];
-    WizInputView* name = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 60, 320, 40) title:@"Email" placeHoder:@"email@example.com"];
+    WizInputView* name = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 80, 320, 40) title:@"Email" placeHoder:@"email@example.com"];
     name.textInputField.delegate = self;
     name.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     self.idInputView = name;
     [name release];
     
-    WizInputView* password = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 120, 320, 40) title:@"Password" placeHoder:@"Password"];
+    WizInputView* password = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 140, 320, 40) title:@"Password" placeHoder:@"Password"];
     self.passwordInputView = password;
+    password.textInputField.secureTextEntry = YES;
     password.textInputField.delegate = self;
     [password release];
     
-    WizInputView* confirm = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 180, 320, 40) title:@"Confirm" placeHoder:@"Password"];
+    WizInputView* confirm = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 200, 320, 40) title:@"Confirm" placeHoder:@"Password"];
     self.confirmInputView = confirm;
+    confirm.textInputField.secureTextEntry = YES;
     confirm.textInputField.delegate = self;
     [confirm release];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keybordHide) name:UIKeyboardDidHideNotification object:nil];
@@ -175,26 +177,18 @@
     [self.view addSubview:self.passwordInputView];
     [self.view addSubview:self.confirmInputView];
     self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
     
-    UIButton* logButton = [[UIButton alloc] initWithFrame:CGRectMake(30, 240, 260, 40)];
-    
-//    UIButton* logButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton* logButton = [[UIButton alloc] initWithFrame:CGRectMake(30, 260, 260, 40)];
     [logButton setTitle:NSLocalizedString(@"Register", nil) forState:UIControlStateNormal];
-//    logButton.frame = ;
-//
     [self.view addSubview:logButton];
     [logButton addTarget:self action:@selector(createAccount) forControlEvents:UIControlEventTouchUpInside];
     logButton.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
-//    self.registerButton = logButton;
     [logButton release];
-//    
-//    
-    UIView* b1 = [[UIView alloc] initWithFrame:CGRectMake(0.0, 300, 320, 1)];
+    UIView* b1 = [[UIView alloc] initWithFrame:CGRectMake(0.0, 320, 320, 1)];
     b1.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
     [self.view addSubview:b1];
     [b1 release];
-    UIView* b2 = [[UIView alloc] initWithFrame:CGRectMake(0.0, 301, 320, 1)];
+    UIView* b2 = [[UIView alloc] initWithFrame:CGRectMake(0.0, 321, 320, 1)];
     b2.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
     [self.view addSubview:b2];
     [b2 release];

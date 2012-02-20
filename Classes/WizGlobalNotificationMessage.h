@@ -8,3 +8,5 @@
 
 #import <Foundation/Foundation.h>
 #define TypeOfGlobalMessageOfUpdateDocument @"TypeOfGlobalMessageOfUpdateDocument"
+#define MessageOfProtectPasswordInputEnd    @"MessageOfProtectPasswordInputEnd"
+#define TypeOfProtectPassword               @"TypeOfProtectPassword"

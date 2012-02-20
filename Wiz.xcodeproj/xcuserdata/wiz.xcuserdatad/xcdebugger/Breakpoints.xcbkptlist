@@ -48,34 +48,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Classes/LoginViewController.m"
-         timestampString = "351336583.112579"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "503"
-         endingLineNumber = "503"
-         landmarkName = "-viewWillAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/LoginViewController.m"
-         timestampString = "351336583.112579"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "478"
-         endingLineNumber = "478"
-         landmarkName = "-viewDidAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
          filePath = "Classes/WizUploadObjet.m"
          timestampString = "350981351.534081"
          startingColumnNumber = "9223372036854775807"
@@ -301,11 +273,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351253514.363106"
+         timestampString = "351412058.930572"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2270"
-         endingLineNumber = "2270"
+         startingLineNumber = "2263"
+         endingLineNumber = "2263"
          landmarkName = "-newAttachment:documentGUID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -427,11 +399,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/UserSttingsViewController.m"
-         timestampString = "351340326.056941"
+         timestampString = "351402018.082548"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "255"
-         endingLineNumber = "255"
+         startingLineNumber = "256"
+         endingLineNumber = "256"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -553,11 +525,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LoginViewController.m"
-         timestampString = "351336583.112579"
+         timestampString = "351397575.711126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "246"
-         endingLineNumber = "246"
+         startingLineNumber = "220"
+         endingLineNumber = "220"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>

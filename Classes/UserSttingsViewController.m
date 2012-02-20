@@ -18,6 +18,7 @@
 #import "WizUserSettingCell.h"
 #import "WizChangePasswordController.h"
 #import "WizCheckProtectPassword.h"
+#import "WizGlobalNotificationMessage.h"
 
 #define ChangePasswordTag 888
 #define RemoveAccountTag  1002
@@ -508,33 +509,44 @@
     }
     return cell;
 }
-- (IBAction)setUserProtectPassword:(id)sender
+
+- (void) makeSureProtectPassword:(NSNotification*)nc
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if (self.protectCellSwitch.on) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password", nil)
-                                                        message:NSLocalizedString(@"                        ", nil)
-                                                       delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                              otherButtonTitles:nil];
-        UITextField* text = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 25)];
-        text.keyboardType = UIKeyboardTypeNumberPad;
-        [text becomeFirstResponder];
-        [text setBackgroundColor:[UIColor whiteColor]];
-        [alert addSubview:text];
-        NSString* password = [WizSettings accountProtectPassword];
-        if (password == nil) {
-            password = @"";
-        }
-        text.text = password;
-        alert.tag = ProtectPasswordTag;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
+    NSDictionary* userInfo = [nc userInfo];
+
+    NSString* protectPassword = [userInfo valueForKey:TypeOfProtectPassword];
+    NSLog(@"%@",protectPassword);
+    if ([protectPassword isEqualToString:@"-1"]) {
+        self.protectCellSwitch.on = NO;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                 message:NSLocalizedString(@"The password you entered does not match", nil) 
+                                                delegate:nil 
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil , nil];
         [alert show];
         [alert release];
-        [text release];
+        return;
+    }
+    self.accountProtectPassword = protectPassword;
+}
+
+- (void) setProtectPassword
+{
+    WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
+    check.title = NSLocalizedString(@"Password", nil);
+    check.willMakeSure = YES;
+    [self.navigationController pushViewController:check animated:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makeSureProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];
+}
+- (IBAction)setUserProtectPassword:(id)sender
+{
+
+    if (self.protectCellSwitch.on) {
+        [self setProtectPassword];
     }
     else
     {
-        [index setUserProtectPassword:@""];
+        self.accountProtectPassword = @"";
     }
 }
 
