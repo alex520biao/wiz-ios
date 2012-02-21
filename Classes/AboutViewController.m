@@ -23,7 +23,7 @@
 {
 	
 	self.navigationController.navigationBarHidden= NO;
-	self.title = NSLocalizedString(@"About Wiz", nil);
+	self.title = NSLocalizedString(@"About WizNote", nil);
 	
 	[super viewWillAppear:animated];
 }

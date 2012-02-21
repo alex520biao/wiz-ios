@@ -41,7 +41,7 @@
 }
 - (WizInputView*) addSubviewByPointY:(float)y
 {
-    WizInputView* input = [[WizInputView alloc] initWithFrame:CGRectMake(5, y, 310, 40)];
+    WizInputView* input = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, y, 320, 40)];
     [self.view addSubview:input];
     [input release];
     return input;
@@ -143,14 +143,14 @@
     [super viewDidLoad];
     self.oldPassword = [self addSubviewByPointY:20];
     self.oldPassword.textInputField.placeholder = NSLocalizedString(@"Old Password",nil);
-    self.oldPassword.nameLable.text = NSLocalizedString(@"Old", nil);
+    self.oldPassword.nameLable.text = NSLocalizedString(@"Old Password", nil);
     self.oldPassword.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     self.oldPassword.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     self.passwordNew = [self addSubviewByPointY:70];
     self.passwordNew.textInputField.placeholder = NSLocalizedString(@"New Password",nil);
     self.passwordNew.textInputField.secureTextEntry = YES;
-    self.passwordNew.nameLable.text = NSLocalizedString(@"New", nil);
+    self.passwordNew.nameLable.text = NSLocalizedString(@"New Password", nil);
     
     self.passwordConfirmNew = [self addSubviewByPointY:120];
     self.passwordConfirmNew.textInputField.placeholder = NSLocalizedString(@"New Password",nil);
@@ -162,7 +162,7 @@
     UIBarButtonItem* changeButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Change", nil) style:UIBarButtonItemStyleDone target:self action:@selector(changePassword)];
     self.navigationItem.rightBarButtonItem = changeButton;
 	self.navigationItem.leftBarButtonItem = cancelButton;
-    self.title = NSLocalizedString(@"Change Account Password", nil);
+    self.title = NSLocalizedString(@"Change account password", nil);
     self.view.backgroundColor = [UIColor lightTextColor];
     [cancelButton release];
     [changeButton release];

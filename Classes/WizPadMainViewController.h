@@ -25,7 +25,6 @@
     
     UIBarButtonItem* refreshItem;
     UIBarButtonItem* stopRefreshItem;
-    UIBarButtonItem* viewOptionItem;
     @private
     BOOL syncWillStop;
     UIButton* refreshButton;
@@ -40,7 +39,6 @@
 @property (nonatomic, retain) WizPadListTableControllerBase* recentList;
 @property (nonatomic, retain) PadTagController* tagList;
 @property (nonatomic, retain) PadFoldersController* folderList;
-@property (nonatomic, retain) UIBarButtonItem* viewOptionItem;
 @property (nonatomic, retain)    UIButton* refreshButton;
 @property BOOL syncWillStop;
 @property int selectedControllerIndex;

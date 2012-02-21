@@ -39,8 +39,8 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self != nil) {
-        textPull= NSLocalizedString(@"Pull down to refresh...", nil);
-        textRelease = NSLocalizedString(@"Release to refresh...", nil);
+        textPull= NSLocalizedString(@"Pull down to sync...", nil);
+        textRelease = NSLocalizedString(@"Release to sync...", nil);
         textLoading = NSLocalizedString(@"Loading...", nil);
     }
     return self;
@@ -49,7 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addPullToRefreshHeader];
-    UIBarButtonItem* refresh = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(startLoading)];
+    UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStyleBordered target:self action:@selector(startLoading)];
     self.navigationItem.rightBarButtonItem = refresh;
     [refresh release];
     

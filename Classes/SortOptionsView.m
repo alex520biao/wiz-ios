@@ -41,12 +41,12 @@
 
 - (void)viewDidLoad
 {
-    self.options = [NSArray arrayWithObjects:NSLocalizedString(@"Sort By Modified Date" , nil)
-                    ,NSLocalizedString(@"Reverse Sort By Modified Date" , nil)
-                    ,NSLocalizedString(@"Sort By First Letter", nil)
-                    ,NSLocalizedString(@"Reverse Sort By First Letter", nil)
-                    ,NSLocalizedString(@"Sort By Created Date", nil)
-                    ,NSLocalizedString(@"Reverse Sort By Created Date", nil)
+    self.options = [NSArray arrayWithObjects:NSLocalizedString(@"Sort by modified date" , nil)
+                    ,NSLocalizedString(@"Reverse sort by modified date" , nil)
+                    ,NSLocalizedString(@"Sort By first letter", nil)
+                    ,NSLocalizedString(@"Reverse sort by first letter", nil)
+                    ,NSLocalizedString(@"Sort by created date", nil)
+                    ,NSLocalizedString(@"Reverse sort by created date", nil)
                     ,nil];
     [super viewDidLoad];
 

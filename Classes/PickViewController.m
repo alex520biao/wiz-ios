@@ -149,7 +149,7 @@
     
     UIImageView* view = [[UIImageView alloc] init] ;
     UINavigationController* emptyController = [[UINavigationController alloc]init];
-    emptyController.title = NSLocalizedString(@"NEW", nil);
+    emptyController.title = NSLocalizedString(@"New", nil);
     emptyController.tabBarItem.tag = 1000;
     emptyController.tabBarItem.image = [UIImage imageNamed:@"barItemNewNote"];
     [emptyController.view addSubview:view];

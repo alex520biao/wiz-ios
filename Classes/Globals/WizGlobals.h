@@ -20,7 +20,7 @@
 +(NSDate*) sqlTimeStringToDate:(NSString*) str;
 +(NSString*) dateToSqlString:(NSDate*) date;
 +(NSString*) documentsPath;
-
++(NSNumber*) wizNoteAppleID;
 +(void) showAlertView:(NSString*)title message:(NSString*)message delegate: (id)callback retView:(UIAlertView**) pAlertView;
 
 +(BOOL) ensurePathExists:(NSString*)path;

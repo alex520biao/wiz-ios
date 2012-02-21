@@ -8,6 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
+#import "WizGlobals.h"
 @implementation WizCheckProtectPassword
 @synthesize number1,number2,number3,number4;
 @synthesize willMakeSure;
@@ -49,15 +50,28 @@
         self.number2 = [self textView];
         self.number3 = [self textView];
         self.number4 = [self textView];
-        
         UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title"]];
-        logo.frame  = CGRectMake(0.0, 20, 320, 40);
+        float zoomWidth = 0;
+        if (WizDeviceIsPad()) {
+            zoomWidth = 110;
+        }
+        else
+        {
+            zoomWidth = 0;
+        }
+        logo.frame  = CGRectMake(0.0 + zoomWidth, 20, 320, 40);
         [self.view addSubview:logo];
         [logo release];
-        self.number1.frame = CGRectMake(25, 110, 60, 60);
-        self.number2.frame = CGRectMake(95, 110, 60, 60);
-        self.number3.frame = CGRectMake(165, 110, 60, 60);
-        self.number4.frame = CGRectMake(235, 110, 60, 60);
+        self.number1.frame = CGRectMake(25+ zoomWidth, 110, 60, 60);
+        self.number2.frame = CGRectMake(95+ zoomWidth, 110, 60, 60);
+        self.number3.frame = CGRectMake(165+ zoomWidth, 110, 60, 60);
+        self.number4.frame = CGRectMake(235+ zoomWidth, 110, 60, 60);
+        
+        
+        number1.scrollEnabled = NO;
+        number2.scrollEnabled = NO;
+        number3.scrollEnabled = NO;
+        number4.scrollEnabled = NO;
         [self.view addSubview:number1];
         [self.view addSubview:number2];
         [self.view addSubview:number3];
@@ -74,6 +88,21 @@
     }
     return self;
 }
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+
+    if (self.finalPassword == nil) {
+        self.finalPassword = @"";
+    }
+    self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
+    
+}
+- (void) viewDidUnload
+{
+    
+}
 - (void) makeSure:(NSNotification*)nc
 {
     NSDictionary* userInfo = [nc userInfo];
@@ -85,6 +114,9 @@
 
 - (void) textViewDidChange:(UITextView *)textView
 {
+    if (textView.text == nil || [textView.text isEqualToString:@""]) {
+        return;
+    }
     textView.editable = NO;
     self.finalPassword = [finalPassword stringByAppendingString:textView.text];
     textView.text = @"*";
@@ -119,10 +151,9 @@
             }
             else
             {
-                [self.navigationController popViewControllerAnimated:NO];
+                [self.navigationController dismissModalViewControllerAnimated:NO];
                 [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfProtectPasswordInputEnd object:nil userInfo:[NSDictionary dictionaryWithObject:finalPassword forKey:TypeOfProtectPassword]];
             }
-            
         }
         
     }
@@ -131,19 +162,7 @@
 {
     [super didReceiveMemoryWarning];
 }
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    if (self.finalPassword == nil) {
-        self.finalPassword = @"";
-    }
-    self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
 
-}
-- (void) viewDidUnload
-{
-    
-}
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -160,7 +179,7 @@
 {
     [super viewDidAppear:animated];
     if (self.willMakeSure && self.isMakeSure) {
-        [self.navigationController popViewControllerAnimated:NO];
+        [self.navigationController dismissModalViewControllerAnimated:NO];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfProtectPasswordInputEnd object:nil userInfo:[NSDictionary dictionaryWithObject:finalPassword forKey:TypeOfProtectPassword]];
     }
 }

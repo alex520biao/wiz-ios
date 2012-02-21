@@ -20,6 +20,8 @@
 #import "RegexKitLite.h"
 #import "WizGlobalDictionaryKey.h"
 #import "NSDate-Utilities.h"
+#import "WizSettings.h"
+
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -1609,10 +1611,7 @@ NSInteger compareTag(id location1, id location2, void*);
         if (0 == [self isMoblieView]) {
             [self setDocumentMoblleView:YES];
         }
-        NSLog(@"the init order is %lld",[self userTablelistViewOption]);
-        if (-1 == [self userTablelistViewOption]) {
-            [self setUserTableListViewOption:kOrderReverseDate];
-        }
+
     }
     else
     {
@@ -1624,6 +1623,9 @@ NSInteger compareTag(id location1, id location2, void*);
         if ([self imageQualityValue] ==0) {
             [self setImageQualityValue:750];
         }
+    }
+    NSLog(@"the init order is %lld",[self userTablelistViewOption]);
+    if (-1 == [self userTablelistViewOption]) {
         [self setUserTableListViewOption:kOrderReverseDate];
     }
     [self setDownloadAllList:YES];
@@ -1716,6 +1718,7 @@ static NSString* ImageQuality                   = @"IMAGEQUALITY";
 static NSString* ProtectPssword                 = @"PROTECTPASSWORD";
 static NSString* FirstLog                       = @"UserFirstLog";
 static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
+static NSString* WizIosAppVersion               = @"WizIosAppVersion";
 - (int64_t) syncVersion:(NSString*)type
 {
 	NSString* str = [self meta:KeyOfSyncVersion key:type];
@@ -1815,7 +1818,14 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
     NSString* imageValue = [NSString stringWithFormat:@"%lld",value];
     return [self setUserInfo:ImageQuality info:imageValue];
 }
-
+- (BOOL) setWizIosAppVersion:(NSString*)ver
+{
+    return [self setUserInfo:WizIosAppVersion info:ver];
+}
+- (NSString*) wizIosAppVersion
+{
+    return [self userInfo:WizIosAppVersion];
+}
 - (int64_t) imageQualityValue
 {
     NSString* str = [self userInfo:ImageQuality];
@@ -2104,7 +2114,7 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
     NSString* prepareStr = [removeCOntrol stringByReplacingOccurrencesOfRegex:@"<[^>]*>" withString:@""];
     NSString* destStr = [prepareStr stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     if (destStr == nil || [destStr isEqualToString:@""]) {
-        destStr = @"NULL";
+        destStr = @"";
     }
     if (WizDeviceIsPad) {
         NSRange range = NSMakeRange(0, 100);
@@ -2121,7 +2131,6 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
         }
         abstractText = [destStr substringWithRange:range];
     }
-    
     NSString* sourcePath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
     NSString* sourceImagePath = [sourcePath stringByAppendingPathComponent:@"index_files"];
     NSArray* imageFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:sourceImagePath  error:nil];

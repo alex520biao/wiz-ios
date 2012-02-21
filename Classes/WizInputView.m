@@ -33,16 +33,15 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        UIImageView* imageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0.0, 300, frame.size.height)];
+        UIImageView* imageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, frame.size.height)];
         [self addSubview:imageView_];
         [imageView_ release];
         self.backgroundView = imageView_;
         self.backgroundView.image = [UIImage imageNamed:@"inputBackground"];
-        
-        UILabel* nameLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 80, frame.size.height)];
+        UILabel* nameLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 75, frame.size.height)];
         nameLabel_.font = [UIFont systemFontOfSize:13];
-
         self.nameLable = nameLabel_;
+        self.nameLable.adjustsFontSizeToFitWidth = YES;
         [nameLabel_ release];
         self.nameLable.textAlignment = UITextAlignmentCenter;
         self.nameLable.backgroundColor = [UIColor clearColor];

@@ -22,8 +22,8 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self != nil) {
-        textPull= NSLocalizedString(@"Pull down to download data...", nil);
-        textRelease = NSLocalizedString(@"Release to download data...", nil);
+        textPull= NSLocalizedString(@"Pull down to sync notes...", nil);
+        textRelease = NSLocalizedString(@"Release to sync note...", nil);
         textLoading = NSLocalizedString(@"Loading...", nil);
     }
     return self;
@@ -98,8 +98,8 @@
     syncByTag.tag = self.tag.guid;
     if( ![syncByTag startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronizing Error", nil)
-                                                        message:NSLocalizedString(@"There is anthoer synchronizing process already!", nil)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
+                                                        message:NSLocalizedString(@"Already in sync, please wait...", nil)
                                                        delegate:nil 
                                               cancelButtonTitle:@"ok" 
                                               otherButtonTitles:nil];

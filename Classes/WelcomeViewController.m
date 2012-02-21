@@ -34,7 +34,7 @@ static BOOL firstShowWelcomeViewController = YES;
 
 - (void) viewDidLoad
 {
-	self.title = NSLocalizedString(@"Wiz", nil);
+	self.title = NSLocalizedString(@"WizNote", nil);
 	//
 	[self.tableView setSectionHeaderHeight:0.0f];
 	//
@@ -193,7 +193,7 @@ cellForRowAtIndexPath: (NSIndexPath *)indexPath
 					 initWithStyle:UITableViewCellStyleDefault
 					 reuseIdentifier:CellId] autorelease];
 		}
-		cell.textLabel.text = NSLocalizedString(@"About Wiz", nil);
+		cell.textLabel.text = NSLocalizedString(@"About WizNote", nil);
 		cell.imageView.image = imgAboutSmall;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}

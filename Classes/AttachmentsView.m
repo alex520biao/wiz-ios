@@ -237,7 +237,7 @@
         NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(downloadingAttachment:) name:[downloader notificationName:WizGlobalSyncProcessInfo] object:nil];
         UIAlertView* alert = nil;
-         [WizGlobals showAlertView:NSLocalizedString(@"Downloading Attachment", nil) message:NSLocalizedString(@"Please wait while Downloading Attachment...!", nil) delegate:self retView:&alert];
+         [WizGlobals showAlertView:NSLocalizedString(@"Downloading Attachment", nil) message:NSLocalizedString(@"Please wait while downloading attachment...!", nil) delegate:self retView:&alert];
          [alert show];
          //
          self.waitAlertView = alert;

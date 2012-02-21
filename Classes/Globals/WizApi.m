@@ -434,7 +434,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:url];
 	if (!request)
     {
-        
 		return NO;
     }
 	//

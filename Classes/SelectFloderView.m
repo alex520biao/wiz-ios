@@ -161,9 +161,9 @@
 -(NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if(0 == section)
-        return NSLocalizedString(@"Selected Folder",nil);
+        return NSLocalizedString(@"Selected folder",nil);
     if(1 == section)
-        return NSLocalizedString(@"All Folders", nil);
+        return NSLocalizedString(@"All folders", nil);
     return @"";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

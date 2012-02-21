@@ -820,7 +820,17 @@
 
 - (void) cancelSave
 {
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Sure", nil) otherButtonTitles:nil, nil];
+    if (self.titleTextFiled.text == nil || [self.titleTextFiled.text isEqualToString:@""]  ) {
+        if ( self.bodyTextField.text == nil || [self.bodyTextField.text isEqualToString:@""]) {
+            if ([self.attachmentsSourcePaths count] == 0) {
+                [self postSelectedMessageToPicker];
+                [self.navigationController dismissModalViewControllerAnimated:YES];
+                return;
+            }
+        }
+    }
+    
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Quit with saving", nil) otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }

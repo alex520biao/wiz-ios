@@ -22,7 +22,6 @@
 #import "WizDictionaryMessage.h"
 #import "UserSttingsViewController.h"
 #import "SearchResultViewController.h"
-#import "WizPagLoginViewController.h"
 
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
 @implementation WizPadMainViewController
@@ -37,7 +36,6 @@
 @synthesize recentList;
 @synthesize tagList;
 @synthesize folderList;
-@synthesize viewOptionItem;
 @synthesize syncWillStop;
 @synthesize refreshButton;
 - (void) dealloc
@@ -46,7 +44,6 @@
     self.tagList = nil;
     self.folderList = nil;
     self.recentList = nil;
-    self.viewOptionItem = nil;
     self.refreshItem = nil;
     self.stopRefreshItem = nil;
     self.currentPoperController = nil;
@@ -96,7 +93,6 @@
                 self.tagList.accountUserId = self.accountUserId;
                 tagList.willToOrientation = self.interfaceOrientation;
             }
-            self.viewOptionItem.enabled = NO;
             self.view = tagList.view;
 
             self.selectedControllerIndex = 2;
@@ -107,7 +103,6 @@
                 self.folderList.accountUserId = accountUserId;
                 folderList.willToOrientation = self.interfaceOrientation;
             }
-            self.viewOptionItem.enabled = NO;
             self.view = folderList.view;
 
             self.selectedControllerIndex = 1;
@@ -119,7 +114,6 @@
             }
             self.view = recentList.view;          
             self.selectedControllerIndex = 0;
-            self.viewOptionItem.enabled = YES;
             break;
         default:
             break;
@@ -243,7 +237,7 @@
         processText = @"......";
     }
     if (self.syncWillStop) {
-        processText = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Sync process will stop after", nil),processText];
+        processText = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Stopping sync", nil),processText];
     }
     self.refreshProcessLabel.text = processText;
     return;
@@ -251,8 +245,8 @@
 - (void) stopSyncByUser
 {
     UIAlertView* alert = [[[UIAlertView alloc] 
-                           initWithTitle:NSLocalizedString(@"Please Confirm",nil)
-                           message:NSLocalizedString(@"The synchronizing proceess will stop!",nil)
+                           initWithTitle:NSLocalizedString(@"Please confirm",nil)
+                           message:NSLocalizedString(@"The sync proceess will stop!",nil)
                            delegate:self 
                            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                            otherButtonTitles:NSLocalizedString(@"OK", nil), nil] autorelease];
@@ -294,8 +288,8 @@
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
     if( ![sync startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronizing Error", nil)
-                                                        message:NSLocalizedString(@"There is anthoer synchronizing process already!", nil)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
+                                                        message:NSLocalizedString(@"Already in sync, please wait...", nil)
                                                        delegate:nil 
                                               cancelButtonTitle:@"ok" 
                                               otherButtonTitles:nil];
@@ -316,7 +310,7 @@
 //    [sender removeTarget:self action:@selector(refreshAccountBegin:)];
     [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
-    self.refreshProcessLabel.text = NSLocalizedString(@"Begin syncing", nil);
+    self.refreshProcessLabel.text = NSLocalizedString(@"Start syncing", nil);
 
 //    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
@@ -403,7 +397,7 @@
     self.refreshItem = refreshItem_;
 
     
-    UIBarButtonItem* viewOptionItemL = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"View Options", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(changeOrderIndex:)];
+
 
     self.refreshProcessLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 44)] autorelease];
     [self.refreshProcessLabel setFont:[UIFont systemFontOfSize:13]];
@@ -411,14 +405,12 @@
     refreshProcessLabel.textAlignment = UITextAlignmentRight;
     
      UIBarButtonItem* refreshItemInfo = [[UIBarButtonItem alloc] initWithCustomView:refreshProcessLabel];
-    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,flexSpaceItem,viewOptionItemL,flexSpaceItem,refreshItemInfo,refreshItem, nil];
+    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,refreshItemInfo,refreshItem, nil];
     [self setToolbarItems:arr];
     [refreshItem_ release];
     [refreshItemInfo release];
     [newNoteItem release];
     [flexSpaceItem release];
-    self.viewOptionItem = viewOptionItemL;
-    [viewOptionItemL release];
 }
 
 - (void) buildNavigationItems
@@ -553,6 +545,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillAppear:animated];
 }
 

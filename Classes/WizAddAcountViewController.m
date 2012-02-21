@@ -151,7 +151,7 @@
     [nameInput_ release];
     self.nameInput = nameInput_;
    
-    nameInput.nameLable.text = NSLocalizedString(@"ID", nil);
+    nameInput.nameLable.text = NSLocalizedString(@"User ID", nil);
     nameInput.textInputField.placeholder = @"exmaple@email.com";
     nameInput.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     nameInput.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;

@@ -120,9 +120,7 @@
     
     
     self.selectCount = 0;
-    
-    
-    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"ok" style:UIBarButtonItemStyleDone target:self action:@selector(addTagsToWizDocument)];
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStyleDone target:self action:@selector(addTagsToWizDocument)];
 	self.navigationItem.rightBarButtonItem = editButton;
     [editButton release];
 }

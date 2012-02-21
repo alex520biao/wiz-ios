@@ -281,15 +281,15 @@
           }
           else if ([[date dateByAddingDays:2] isToday])
           {
-              return NSLocalizedString(@"The Day Before Yesterday", nil);
+              return NSLocalizedString(@"The day before yesterday", nil);
           }
           else if ([date daysBeforeDate:[NSDate date]] >= 3 && [date daysBeforeDate:[NSDate date]] <7)
           {
-              return NSLocalizedString(@"Within A Week", nil);
+              return NSLocalizedString(@"One week", nil);
           }
           else 
           {
-              return NSLocalizedString(@"A Week Ago", nil);
+              return NSLocalizedString(@"One week ago", nil);
           }
           
       }
@@ -598,8 +598,8 @@
 - (void) stopSyncing
 {
     self.assertAlerView = [[[UIAlertView alloc] 
-                           initWithTitle:NSLocalizedString(@"Please Confirm",nil)
-                           message:NSLocalizedString(@"The synchronizing proceess will stop!",nil)
+                           initWithTitle:NSLocalizedString(@"Please confirm",nil)
+                           message:NSLocalizedString(@"The sync proceess will stop!",nil)
                            delegate:self 
                            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                            otherButtonTitles:NSLocalizedString(@"OK", nil), nil] autorelease];
@@ -616,145 +616,50 @@
     NSString* objectName = [userInfo objectForKey:@"object_name"];
     
     if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-        self.refreshLabel.text = NSLocalizedString(@"logining", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in logining", nil);
-            
-        }
-        else
-        {
-            self.refreshDetailLabel.text = NSLocalizedString(@"begin in logging", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Signing in", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-        self.refreshLabel.text = NSLocalizedString(@"loging out", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in loging out", nil);
-            self.refreshDetailLabel.text = @"";
-           
-        }
-        else
-        {
-             self.refreshDetailLabel.text = NSLocalizedString(@"begin in loging out", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Signing out", nil);
     }
     
     
     else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing the tags", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succedd in downloading the tags", nil);
-        }
-        else
-        {
-//            NSString* display = [NSString stringWithFormat:@"%@ %d ,%@ %d",
-//                                 NSLocalizedString(@"begin version is",nil),
-//                                 [total intValue],
-//                                 NSLocalizedString(@"request count is", nil),
-//                                 [current intValue]];
-            NSString* display = @"......";
-            self.refreshDetailLabel.text= display;
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing tags", nil);
     }
     
     else if([methodName isEqualToString:SyncMethod_PostTagList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing the tags", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succedd in uploading the tags", nil);
-        }
-        else
-        {
-            self.refreshDetailLabel.text= NSLocalizedString(@"uploading the tags", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing tags", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing document list", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in synchronizing document list", nil);
-        }
-        else
-        {
-//            NSString* display = [NSString stringWithFormat:@"%@ %d ,%@ %d",
-//                                 NSLocalizedString(@"begin version is",nil),
-//                                 [total intValue],
-//                                 NSLocalizedString(@"request count is", nil),
-//                                 [current intValue]];
-             NSString* display = @"......";
-            self.refreshDetailLabel.text= display;
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing notes list", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing attachment list", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in downloading attachment list", nil);
-        }
-        else
-        {
-//            NSString* display = [NSString stringWithFormat:@"%@ %d ,%@ %d",
-//                                 NSLocalizedString(@"begin version is",nil),
-//                                 [total intValue],
-//                                 NSLocalizedString(@"request count is", nil),
-//                                 [current intValue]];
-             NSString* display = @"......";
-            self.refreshDetailLabel.text= display;
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing attachment list", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronize folder list", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in synchronizing folder list", nil);
-        } 
-        else
-        {
-            self.refreshDetailLabel.text = NSLocalizedString(@"synchronizing folder list", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing folders", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronize user's info", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in synchronizing folder list", nil);
-        } 
-        else
-        {
-            self.refreshDetailLabel.text = NSLocalizedString(@"synchronizing user's info", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing user infomation", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing deleted notes", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in uploading deleted notes", nil);
-        } 
-        else
-        {
-            self.refreshDetailLabel.text = NSLocalizedString(@"uploading deleted notes", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing deleted notes", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"synchronizing deleted notes", nil);
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = NSLocalizedString(@"succeed in downloading deleted notes", nil);
-        } 
-        else
-        {
-            self.refreshDetailLabel.text = NSLocalizedString(@"downloading deleted notes", nil);
-        }
+        self.refreshLabel.text = NSLocalizedString(@"Syncing deleted notes", nil);
     }
-    
-    
-    
-    
     else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
         self.refreshLabel.text = NSLocalizedString(@"Uploading notes", nil);
         NSRange range = NSMakeRange(0, 20);
@@ -775,7 +680,7 @@
     }
    
     if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-        self.refreshLabel.text = NSLocalizedString(@"downloading the doument data", nil);
+        self.refreshLabel.text = NSLocalizedString(@"Downloading notes data", nil);
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -804,8 +709,8 @@
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
     if( ![sync startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronizing Error", nil)
-                                                        message:NSLocalizedString(@"There is anthoer synchronizing process already!", nil)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
+                                                        message:NSLocalizedString(@"Already in sync, please wait...", nil)
                                                        delegate:nil 
                                               cancelButtonTitle:@"ok" 
                                               otherButtonTitles:nil];

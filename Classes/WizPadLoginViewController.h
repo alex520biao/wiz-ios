@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WizPagLoginViewController : UIViewController <UIAlertViewDelegate>
+@interface WizPadLoginViewController : UIViewController <UIAlertViewDelegate>
 {
     @private
     UIButton* loginButton;

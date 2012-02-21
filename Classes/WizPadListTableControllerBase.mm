@@ -264,6 +264,63 @@
         }
     }
 }
+
+- (void) orderByCreateDate
+{
+    NSMutableArray* array = [NSMutableArray arrayWithArray:self.sourceArray];
+    [self.tableArray removeAllObjects];
+    NSRange range = NSMakeRange(0, 7);
+    if (self.kOrderIndex == kOrderCreatedDate) {
+        [array sortUsingSelector:@selector(compareCreateDate:)];
+    }
+    else if (self.kOrderIndex == kOrderReverseCreatedDate) {
+        [array sortUsingSelector:@selector(compareReverseCreateDate:)];
+    }
+    if ([array count] == 1) {
+        NSMutableArray* sectionArray = [NSMutableArray array];
+        [sectionArray addObject:[array objectAtIndex:0]];
+        [self.tableArray addObject:sectionArray];
+        return;
+    }
+    if ([array count] == 0) {
+        return;
+    }
+    int docIndex = [self.sourceArray count]-1;
+    for (int i =0; i<12; i++) {
+        NSMutableArray* sectionArray = [NSMutableArray array];
+        for(int k = docIndex; k >= 0; k--)
+        {
+            WizDocument* doc1 = [array objectAtIndex:k];
+            WizDocument* doc2 = [array objectAtIndex:k-1];
+            if(k == 1)
+            {
+                if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
+                    [sectionArray addObject:doc1];
+                    [sectionArray addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                } else
+                {
+                    [sectionArray addObject:doc1];
+                    NSMutableArray* sectionArr = [NSMutableArray array];
+                    [sectionArr addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                    [self.tableArray addObject:sectionArr];
+                }
+                return;
+            }
+            if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
+                [sectionArray addObject:doc1];
+            } else
+            {
+                [sectionArray addObject:doc1];
+                [self.tableArray addObject:sectionArray];
+                docIndex = k-1;
+                break;
+            }
+            
+        }
+    }
+}
 - (void) reloadAllData
 {
     [self reloadDocuments];
@@ -280,7 +337,7 @@
         }
         [back addSubview:remindLabel];
         remindLabel.numberOfLines = 0;
-        remindLabel.text = NSLocalizedString(@"You don't have any notes \n Tap new note to get started!", nil);
+        remindLabel.text = NSLocalizedString(@"You don't have any notes.\n Tap new note to get started!", nil);
         remindLabel.textAlignment = UITextAlignmentCenter;
         remindLabel.textColor = [UIColor lightTextColor];
         remindLabel.font= [UIFont systemFontOfSize:35];
@@ -291,6 +348,8 @@
     {
         self.tableView.backgroundView = nil;
     }
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    self.kOrderIndex = [index userTablelistViewOption];
     switch (self.kOrderIndex) {
         case kOrderDate:
             [self orderByDate];
@@ -303,6 +362,9 @@
             break;
         case kOrderReverseFirstLetter:
             [self orderByFirstLetter];
+        case kOrderCreatedDate:
+        case kOrderReverseCreatedDate:
+            [self orderByCreateDate];
             break;
         default:
             break;
@@ -330,11 +392,10 @@
         self.tableArray = [NSMutableArray array];
     }
     self.isLandscape = UIInterfaceOrientationIsLandscape((self.interfaceOrientation));
-    self.kOrderIndex = kOrderReverseDate;
     [self reloadAllData];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAddNewDocument:) name:MessageOfPadNewDocument object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfChangeDocumentListOrderMethod object:nil];
 }
 
 - (void)viewDidUnload
@@ -460,15 +521,15 @@
             }
             else if ([[date dateByAddingDays:2] isToday])
             {
-                return NSLocalizedString(@"The Day Before Yesterday", nil);
+                return NSLocalizedString(@"The day before yesterday", nil);
             }
             else if ([date isThisWeek])
             {
-                return NSLocalizedString(@"Within A Week", nil);
+                return NSLocalizedString(@"One week", nil);
             }
             else 
             {
-                return NSLocalizedString(@"A Week Ago", nil);
+                return NSLocalizedString(@"One week ago", nil);
             }
             
             

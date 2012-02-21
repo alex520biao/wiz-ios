@@ -133,15 +133,12 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     NSString* key = [[self.history objectAtIndex:indexPath.row] objectForKey:@"key_words"];
-    NSString* date = [[self.history objectAtIndex:indexPath.row] objectForKey:@"date"];
     NSNumber* count = [[self.history objectAtIndex:indexPath.row] objectForKey:@"count"];
     cell.textLabel.text = key;
-    cell.accessibilityValue = @"dddddd";
-    NSString* detailString = [NSString stringWithFormat:@"%@ %@ %d %@",
-                              date,
-                              NSLocalizedString(@"find", nil),
-                              [count intValue],
-                              NSLocalizedString(@"files", nil)];
+    if (count == nil) {
+        count = [NSNumber numberWithInt:0];
+    }
+    NSString* detailString = [NSString stringWithFormat:NSLocalizedString(@"find %d notes", nil),[count intValue]];
     cell.detailTextLabel.text = detailString;
     cell.imageView.image = [UIImage imageNamed:@"searchIcon"];
     return cell;

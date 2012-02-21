@@ -13,6 +13,9 @@
 #define kOrderReverseFirstLetter    4
 #define kOrderCreatedDate           5
 #define kOrderReverseCreatedDate    6
+
+#define WizIosAppVersionKeyString  @"3.0.5"
+
 @class WizIndexData;
 @class ZipArchive;
 @class WizTempIndexData;
@@ -270,6 +273,8 @@
 - (BOOL) setFirstLog:(BOOL)first;
 - (BOOL) isFirstLog;
 - (BOOL) setDocumentMoblleView:(BOOL)mobileView;
+- (BOOL) setWizIosAppVersion:(NSString*)ver;
+- (NSString*) wizIosAppVersion;
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (NSString*) accountPath: (NSString*)userId;

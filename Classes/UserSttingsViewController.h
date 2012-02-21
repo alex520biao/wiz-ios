@@ -19,7 +19,6 @@
     UITableViewCell* defaultUserCell;
     UILabel* defaultUserLabel;
     UISwitch* defaultUserSwitch;
-    NSString* oldPassword;
     NSString* accountProtectPassword;
     
     UIPickerView* pickView;
@@ -50,6 +49,5 @@
 @property int downloadDuration;
 @property int imageQulity;
 @property int tablelistViewOption;
-@property (nonatomic, retain) NSString* oldPassword;
 - (IBAction)setUserProtectPassword:(id)sender;
 @end

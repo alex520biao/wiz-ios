@@ -12,11 +12,6 @@
 	<string>about.png</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>about-ipad(3).png</string>
-		<string>about-ipad.png</string>
-		<string>about-Small-50.png</string>
-		<string>about@x2(1).png</string>
-		<string>about@x2(2).png</string>
 		<string>about.png</string>
 		<string>about@x2.png</string>
 	</array>
@@ -40,10 +35,19 @@
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow-iPad</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 </dict>
 </plist>

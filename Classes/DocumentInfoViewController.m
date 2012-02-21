@@ -33,6 +33,7 @@
     self.nameLabel.textAlignment = UITextAlignmentLeft;
     self.nameLabel.backgroundColor = [UIColor clearColor];
     [self.nameLabel setFont:[UIFont systemFontOfSize:15.0]];
+    self.nameLabel.adjustsFontSizeToFitWidth = YES;
     self.valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(64, 0.0, 240, 40)] autorelease];
     [self addSubview:self.valueLabel];
     valueLabel.textAlignment = UITextAlignmentRight;
@@ -195,6 +196,7 @@
         name.backgroundColor = [UIColor clearColor];
         name.text = NSLocalizedString(@"Font Size", nil);
         [name setFont:[UIFont systemFontOfSize:15.0]];
+        name.adjustsFontSizeToFitWidth = YES;
         self.fontSlider = [[[UISlider alloc] initWithFrame:CGRectMake(110, 0.0, 200, 40)] autorelease];
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 
@@ -236,11 +238,11 @@
     }
     
     else if (3 == indexPath.row) {
-        cell.nameLabel.text =  NSLocalizedString(@"Modified Date", nil);
+        cell.nameLabel.text =  NSLocalizedString(@"Date modified", nil);
         cell.valueLabel.text = doc.dateModified;
     }
     else if (4 == indexPath.row) {
-        cell.nameLabel.text = NSLocalizedString(@"Created Date", nil);
+        cell.nameLabel.text = NSLocalizedString(@"Date created", nil);
         cell.valueLabel.text = doc.dateCreated;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

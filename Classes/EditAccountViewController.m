@@ -215,7 +215,7 @@
 titleForHeaderInSection: (NSInteger)section
 {
 	if (0 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Account Info", nil)];
+		return [NSString stringWithString: NSLocalizedString(@"Account Information", nil)];
 	else if (1 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Account Settings", nil)];
 	else if (2 == section)

@@ -142,7 +142,10 @@
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@",[index fileCountOfTag:cell.treeNode.locationKey],NSLocalizedString(@"notes", nil)];
+    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[index fileCountOfTag:cell.treeNode.locationKey]];
+    if (![cell.treeNode hasChildren]) {
+        cell.imageView.image = [UIImage imageNamed:@"treeTag"];
+    }
 }
 - (void)viewDidUnload
 {

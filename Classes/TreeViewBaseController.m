@@ -158,7 +158,7 @@
 	cell.selectionStyle=UITableViewCellSelectionStyleBlue;
     cell.textLabel.text = NSLocalizedString(node.title, nil);
     cell.textLabel.backgroundColor = [UIColor clearColor];
-    [self setDetail:cell];
+
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.closedImage = self.closedImage;
@@ -173,6 +173,7 @@
     if (![node hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeFolder"];
     }
+    [self setDetail:cell];
    
 }
 

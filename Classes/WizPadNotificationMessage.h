@@ -47,4 +47,6 @@
 #define MessageOfDownloadError              @"MessageOfDownloadError"
 
 #define MessageOfNewFirstDocument            @"MessageOfNewFirstDocument"
+#define MessageOfChangeDocumentListOrderMethod @"MessageOfChangeDocumentListOrderMethod"
+
 #endif

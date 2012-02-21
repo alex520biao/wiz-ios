@@ -43,4 +43,6 @@ extern NSString* KeyOfPassword;
 +(NSString*) defaultAccountUserId;
 + (NSString*) accountProtectPassword;
 + (void) setAccountProtectPassword:(NSString*)password;
++(void) setWizIosAppVersion:(NSString*)version;
++ (NSString*) wizIosAppVersion;
 @end

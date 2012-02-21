@@ -14,7 +14,7 @@
 #import "Globals/WizGlobals.h"
 #import "Globals/WizSettings.h"
 #import "LoginViewController.h"
-#import "WizPagLoginViewController.h"
+#import "WizPadLoginViewController.h"
 #import "WizPadMainViewController.h"
 #import "UIView-TagExtensions.h"
 #import "WizIndex.h"
@@ -65,7 +65,7 @@
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selecteAccount:) name:@"didAccountSelect" object:nil];
         
-        WizPagLoginViewController* pad = [[WizPagLoginViewController alloc] init];
+        WizPadLoginViewController* pad = [[WizPadLoginViewController alloc] init];
         [self.navController pushViewController:pad animated:YES];
         pad.view.tag = 109;
         [pad release];
@@ -120,8 +120,12 @@
 {
     WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
     check.willMakeSure = NO;
-    [self.navController pushViewController:check animated:YES];
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
+    nav.view.frame = CGRectMake(0.0, 0.0, 320, 480);
+    nav.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self.navController presentModalViewController:nav animated:YES];
     [check release];
+    [nav release];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];
 }
 - (void)applicationWillEnterForeground:(UIApplication *)application 
@@ -130,6 +134,12 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    NSString* appVersion = [WizSettings wizIosAppVersion];
+    if (appVersion == nil || [appVersion isEqualToString:@""] || ![appVersion isEqualToString:WizIosAppVersionKeyString]) {
+        [WizSettings setAccountProtectPassword:@""];
+        [WizSettings setWizIosAppVersion:WizIosAppVersionKeyString];
+        return;
+    }
     NSString* protectPw = [WizSettings accountProtectPassword];
     if (protectPw != nil && ![protectPw isEqualToString:@""]) {
         [self accountProtect];
