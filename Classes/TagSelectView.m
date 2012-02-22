@@ -223,7 +223,11 @@
         }
         if(1 == indexPath.section)
         {
-            cell.textLabel.text = NSLocalizedString([[self.tags objectAtIndex:indexPath.row] name],nil);
+            NSString* tagName = [[self.tags objectAtIndex:indexPath.row] name];
+            if ([tagName isEqualToString:@"$public-documents$"]) {
+                tagName = @"Share with friends";
+            }
+            cell.textLabel.text = NSLocalizedString(tagName,nil);
             if([self.select containsObject:[self.tags objectAtIndex:indexPath.row]])
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
             else

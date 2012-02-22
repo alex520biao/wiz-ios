@@ -271,7 +271,11 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         }
         WizTag* tag = [[tags objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.textLabel.text = NSLocalizedString( [tag name], nil);
+        NSString* tagName = [tag name];
+        if ([[tag name] isEqualToString:@"$public-documents$"]) {
+            tagName = @"Share with friends";
+        }
+        cell.textLabel.text = NSLocalizedString(tagName, nil);
         if ([self checkTagIsSeleted:tag]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         }

@@ -71,7 +71,11 @@
     for (WizTag* each in tagArray)
     {
         LocationTreeNode* node = [[LocationTreeNode alloc] init];
-        node.title = each.name;
+        NSString* tagName = [each name];
+        if ([[each name] isEqualToString:@"$public-documents$"]) {
+            tagName = @"Share with friends";
+        }
+        node.title = tagName;
         node.locationKey = each.guid;
         if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
             LocationTreeNode* parent = [LocationTreeNode findNodeByKey:each.parentGUID :self.tree];
