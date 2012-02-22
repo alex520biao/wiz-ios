@@ -13,7 +13,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		306E500E133306DE0099D6A5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306E500C133306DE0099D6A5 /* AboutViewController.xib */; };
 		3072572E132494E2009DA753 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3072572A132494E2009DA753 /* CppSQLite3.cpp */; };
 		3072572F132494E2009DA753 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3072572C132494E2009DA753 /* index.cpp */; };
 		3072573E132494F8009DA753 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 30725733132494F8009DA753 /* GDataXMLNode.m */; };
@@ -32,11 +31,9 @@
 		3075B26113264A3400123A01 /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3075B26013264A3400123A01 /* WizSettings.m */; };
 		3077FA1B134B0F00000C9172 /* WizDocumentsByKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3077FA1A134B0F00000C9172 /* WizDocumentsByKey.m */; };
 		3077FA4E134B17A5000C9172 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3077FA4D134B17A5000C9172 /* SearchResultViewController.m */; };
-		3077FAD4134B257E000C9172 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3077FAD3134B257E000C9172 /* SearchViewController.xib */; };
 		307B7A92132B097F00069E45 /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 307B7A91132B097F00069E45 /* WizSync.m */; };
 		307D5C291325CB4C0016547B /* WizIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307D5C281325CB4C0016547B /* WizIndex.mm */; };
 		307E3E5D13305C19002B77DE /* WizDownloadRecentDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E3E5C13305C19002B77DE /* WizDownloadRecentDocuments.m */; };
-		307F2217138A3A2C0003364C /* PadDocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307F2215138A3A2C0003364C /* PadDocumentViewController.xib */; };
 		307F37BB138F8626003B47CE /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307F37BA138F8626003B47CE /* DetailViewController.xib */; };
 		307FEE43138FDE4D009D95A9 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E3E481138503A000ACB649 /* MainWindow-iPad.xib */; };
 		3084FE84132DB391004C3BE1 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3084FE83132DB391004C3BE1 /* FoldersViewController.m */; };
@@ -48,18 +45,12 @@
 		3087BE01132F232D002D2402 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3087BDFB132F232D002D2402 /* unzip.c */; };
 		3087BE02132F232D002D2402 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3087BDFD132F232D002D2402 /* zip.c */; };
 		3087BE06132F2346002D2402 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3087BE05132F2346002D2402 /* ZipArchive.mm */; };
-		3087BFF3132F3EF1002D2402 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3087BFF1132F3EF1002D2402 /* DocumentViewController.xib */; };
 		3087C064132F4C3C002D2402 /* WizDocumentsByLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087C063132F4C3C002D2402 /* WizDocumentsByLocation.m */; };
 		3087C077132F4EB6002D2402 /* WizDocumentsByTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087C076132F4EB6002D2402 /* WizDocumentsByTag.m */; };
 		30E3E3AC1384F18500ACB649 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3E3A81384F18500ACB649 /* DetailViewController.m */; };
 		30E3E3AD1384F18500ACB649 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3E3AA1384F18500ACB649 /* RootViewController.m */; };
 		30F778351339F1430096FF74 /* CommonString.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F778341339F1430096FF74 /* CommonString.m */; };
 		30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F7799E133A12BA0096FF74 /* Localizable.strings */; };
-		30F779D8133A140A0096FF74 /* CreateAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30F779D7133A140A0096FF74 /* CreateAccountViewController.xib */; };
-		30F779DC133A143A0096FF74 /* EditAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30F779DB133A143A0096FF74 /* EditAccountViewController.xib */; };
-		30F779E3133A147F0096FF74 /* InputTextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307B7C30132B6A5700069E45 /* InputTextViewController.xib */; };
-		30F779E7133A14890096FF74 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30F779E6133A14890096FF74 /* CameraViewController.xib */; };
-		30F77A3A133A1C040096FF74 /* SetupAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30F77A39133A1C040096FF74 /* SetupAccountViewController.xib */; };
 		30F77A49133A1CE30096FF74 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F77A48133A1CE30096FF74 /* infoPlist.strings */; };
 		442D1E8A1484D2AB00DC7221 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 442D1E891484D2AB00DC7221 /* libz.1.2.5.dylib */; };
 		442D1E8F1484D5E200DC7221 /* PickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 442D1E8E1484D5E200DC7221 /* PickViewController.m */; };
@@ -157,6 +148,8 @@
 		44A385C314A2D88A00510D1A /* AttachmentImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44A385C114A2D88900510D1A /* AttachmentImageViewController.xib */; };
 		44A9446F14A197F30009CFA1 /* TagsListTreeControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A9446E14A197F30009CFA1 /* TagsListTreeControllerNew.m */; };
 		44A952711495B688001A2ED8 /* TagsListTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A952701495B688001A2ED8 /* TagsListTreeView.m */; };
+		733B1D4A14F4DA44007F3402 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 733B1D4814F4DA44007F3402 /* Overlay.png */; };
+		733B1D4B14F4DA44007F3402 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 733B1D4914F4DA44007F3402 /* Overlay@2x.png */; };
 		7362D54114DCEAD9003E9E19 /* WizPadEditTagTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362D54014DCEAD8003E9E19 /* WizPadEditTagTextFiled.m */; };
 		7365B04814EE0F91008C69AC /* WizChangePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365B04714EE0F91008C69AC /* WizChangePasswordController.m */; };
 		7365B04E14EE12ED008C69AC /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365B04D14EE12EA008C69AC /* WizChangePassword.m */; };
@@ -238,8 +231,6 @@
 		73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CAAA1C14EA388500D5FF9B /* MessageUI.framework */; };
 		73CDDA2A14EFF7B500A2E7B7 /* newNoteLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9F714EFF7B500A2E7B7 /* newNoteLocation.png */; };
 		73CDDA2B14EFF7B500A2E7B7 /* newNoteLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9F814EFF7B500A2E7B7 /* newNoteLocation@2x.png */; };
-		73CDDA2C14EFF7B500A2E7B7 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9F914EFF7B500A2E7B7 /* picture.png */; };
-		73CDDA2D14EFF7B500A2E7B7 /* picture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9FA14EFF7B500A2E7B7 /* picture@2x.png */; };
 		73CDDA2E14EFF7B500A2E7B7 /* pushDownRemind.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9FB14EFF7B500A2E7B7 /* pushDownRemind.png */; };
 		73CDDA2F14EFF7B500A2E7B7 /* pushDownRemind@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9FC14EFF7B500A2E7B7 /* pushDownRemind@2x.png */; };
 		73CDDA3014EFF7B500A2E7B7 /* recentRemind.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDD9FD14EFF7B500A2E7B7 /* recentRemind.png */; };
@@ -322,7 +313,6 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		306E500C133306DE0099D6A5 /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutViewController.xib; path = Classes/AboutViewController.xib; sourceTree = "<group>"; };
 		3072572A132494E2009DA753 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CppSQLite3.cpp; path = "C++/CppSQLite3.cpp"; sourceTree = "<group>"; };
 		3072572B132494E2009DA753 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CppSQLite3.h; path = "C++/CppSQLite3.h"; sourceTree = "<group>"; };
 		3072572C132494E2009DA753 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = index.cpp; path = "C++/index.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -349,26 +339,20 @@
 		3072578F132496C1009DA753 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		307257F0132498C1009DA753 /* WizActivityIndicatorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizActivityIndicatorTableViewCell.h; path = Globals/WizActivityIndicatorTableViewCell.h; sourceTree = "<group>"; };
 		307257F1132498C1009DA753 /* WizActivityIndicatorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizActivityIndicatorTableViewCell.m; path = Globals/WizActivityIndicatorTableViewCell.m; sourceTree = "<group>"; };
-		30736F7E1328797C00D5F88F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/EditAccountViewController.xib; sourceTree = "<group>"; };
-		3073704A1328885700D5F88F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/CreateAccountViewController.xib; sourceTree = "<group>"; };
 		3074B0011327123700E601F3 /* WizGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGlobalData.h; path = Globals/WizGlobalData.h; sourceTree = "<group>"; };
 		3074B0021327123700E601F3 /* WizGlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGlobalData.m; path = Globals/WizGlobalData.m; sourceTree = "<group>"; };
 		3075B25F13264A3400123A01 /* WizSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSettings.h; path = Globals/WizSettings.h; sourceTree = "<group>"; };
 		3075B26013264A3400123A01 /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSettings.m; path = Globals/WizSettings.m; sourceTree = "<group>"; };
-		3077F98A134B0094000C9172 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/SearchViewController.xib; sourceTree = "<group>"; };
 		3077FA19134B0F00000C9172 /* WizDocumentsByKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentsByKey.h; path = Globals/WizDocumentsByKey.h; sourceTree = "<group>"; };
 		3077FA1A134B0F00000C9172 /* WizDocumentsByKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentsByKey.m; path = Globals/WizDocumentsByKey.m; sourceTree = "<group>"; };
 		3077FA4C134B17A5000C9172 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		3077FA4D134B17A5000C9172 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
-		3077FAD5134B2583000C9172 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/SearchViewController.xib; sourceTree = "<group>"; };
 		307B7A90132B097F00069E45 /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSync.h; path = Globals/WizSync.h; sourceTree = "<group>"; };
 		307B7A91132B097F00069E45 /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSync.m; path = Globals/WizSync.m; sourceTree = "<group>"; };
-		307B7C30132B6A5700069E45 /* InputTextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = InputTextViewController.xib; path = Classes/InputTextViewController.xib; sourceTree = "<group>"; };
 		307D5C271325CB4C0016547B /* WizIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizIndex.h; path = Globals/WizIndex.h; sourceTree = "<group>"; };
 		307D5C281325CB4C0016547B /* WizIndex.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = WizIndex.mm; path = Globals/WizIndex.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		307E3E5B13305C19002B77DE /* WizDownloadRecentDocuments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDownloadRecentDocuments.h; path = Globals/WizDownloadRecentDocuments.h; sourceTree = "<group>"; };
 		307E3E5C13305C19002B77DE /* WizDownloadRecentDocuments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDownloadRecentDocuments.m; path = Globals/WizDownloadRecentDocuments.m; sourceTree = "<group>"; };
-		307F2215138A3A2C0003364C /* PadDocumentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PadDocumentViewController.xib; path = Classes/PadDocumentViewController.xib; sourceTree = "<group>"; };
 		307F37BC138F862D003B47CE /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		3084FE82132DB391004C3BE1 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
 		3084FE83132DB391004C3BE1 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
@@ -390,12 +374,10 @@
 		3087BE04132F2346002D2402 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = Globals/ZipArchive.h; sourceTree = "<group>"; };
 		3087BE05132F2346002D2402 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ZipArchive.mm; path = Globals/ZipArchive.mm; sourceTree = "<group>"; };
 		3087BE0B132F23E6002D2402 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = usr/lib/libbz2.1.0.dylib; sourceTree = SDKROOT; };
-		3087BFF1132F3EF1002D2402 /* DocumentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DocumentViewController.xib; path = Classes/DocumentViewController.xib; sourceTree = "<group>"; };
 		3087C062132F4C3C002D2402 /* WizDocumentsByLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentsByLocation.h; path = Globals/WizDocumentsByLocation.h; sourceTree = "<group>"; };
 		3087C063132F4C3C002D2402 /* WizDocumentsByLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentsByLocation.m; path = Globals/WizDocumentsByLocation.m; sourceTree = "<group>"; };
 		3087C075132F4EB6002D2402 /* WizDocumentsByTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentsByTag.h; path = Globals/WizDocumentsByTag.h; sourceTree = "<group>"; };
 		3087C076132F4EB6002D2402 /* WizDocumentsByTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentsByTag.m; path = Globals/WizDocumentsByTag.m; sourceTree = "<group>"; };
-		30B2D3E01331AA67003FA16E /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/CameraViewController.xib; sourceTree = "<group>"; };
 		30E3E3A61384F18500ACB649 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		30E3E3A71384F18500ACB649 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		30E3E3A81384F18500ACB649 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
@@ -406,11 +388,6 @@
 		30F778341339F1430096FF74 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonString.m; sourceTree = "<group>"; };
 		30F7799C133A12B10096FF74 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30F779A0133A12C20096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
-		30F779D9133A140F0096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/CreateAccountViewController.xib; sourceTree = "<group>"; };
-		30F779DD133A143F0096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/EditAccountViewController.xib; sourceTree = "<group>"; };
-		30F779E8133A148E0096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/CameraViewController.xib; sourceTree = "<group>"; };
-		30F77A37133A1BFF0096FF74 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/SetupAccountViewController.xib; sourceTree = "<group>"; };
-		30F77A3B133A1C080096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/SetupAccountViewController.xib; sourceTree = "<group>"; };
 		30F77A46133A1CAD0096FF74 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		30F77A4A133A1CE70096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Wiz_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiz_Prefix.pch; sourceTree = "<group>"; };
@@ -583,6 +560,8 @@
 		44A9446E14A197F30009CFA1 /* TagsListTreeControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeControllerNew.m; sourceTree = "<group>"; };
 		44A9526F1495B688001A2ED8 /* TagsListTreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsListTreeView.h; sourceTree = "<group>"; };
 		44A952701495B688001A2ED8 /* TagsListTreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeView.m; sourceTree = "<group>"; };
+		733B1D4814F4DA44007F3402 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Overlay.png; path = icons/Overlay.png; sourceTree = "<group>"; };
+		733B1D4914F4DA44007F3402 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Overlay@2x.png"; path = "icons/Overlay@2x.png"; sourceTree = "<group>"; };
 		7362D53F14DCEAD8003E9E19 /* WizPadEditTagTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditTagTextFiled.h; sourceTree = "<group>"; };
 		7362D54014DCEAD8003E9E19 /* WizPadEditTagTextFiled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditTagTextFiled.m; sourceTree = "<group>"; };
 		7365B04614EE0F90008C69AC /* WizChangePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePasswordController.h; sourceTree = "<group>"; };
@@ -674,8 +653,6 @@
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		73CDD9F714EFF7B500A2E7B7 /* newNoteLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteLocation.png; path = icons/newNoteLocation.png; sourceTree = "<group>"; };
 		73CDD9F814EFF7B500A2E7B7 /* newNoteLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "newNoteLocation@2x.png"; path = "icons/newNoteLocation@2x.png"; sourceTree = "<group>"; };
-		73CDD9F914EFF7B500A2E7B7 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = picture.png; path = icons/picture.png; sourceTree = "<group>"; };
-		73CDD9FA14EFF7B500A2E7B7 /* picture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "picture@2x.png"; path = "icons/picture@2x.png"; sourceTree = "<group>"; };
 		73CDD9FB14EFF7B500A2E7B7 /* pushDownRemind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pushDownRemind.png; path = icons/pushDownRemind.png; sourceTree = "<group>"; };
 		73CDD9FC14EFF7B500A2E7B7 /* pushDownRemind@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pushDownRemind@2x.png"; path = "icons/pushDownRemind@2x.png"; sourceTree = "<group>"; };
 		73CDD9FD14EFF7B500A2E7B7 /* recentRemind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recentRemind.png; path = icons/recentRemind.png; sourceTree = "<group>"; };
@@ -842,16 +819,8 @@
 			children = (
 				4494721614A2F035000F8B11 /* JavaScript */,
 				44A094951495F56500B487FD /* Images */,
-				3077FAD3134B257E000C9172 /* SearchViewController.xib */,
 				30F77A48133A1CE30096FF74 /* infoPlist.strings */,
-				30F77A39133A1C040096FF74 /* SetupAccountViewController.xib */,
 				30F7799E133A12BA0096FF74 /* Localizable.strings */,
-				306E500C133306DE0099D6A5 /* AboutViewController.xib */,
-				30F779E6133A14890096FF74 /* CameraViewController.xib */,
-				3087BFF1132F3EF1002D2402 /* DocumentViewController.xib */,
-				307B7C30132B6A5700069E45 /* InputTextViewController.xib */,
-				30F779DB133A143A0096FF74 /* EditAccountViewController.xib */,
-				30F779D7133A140A0096FF74 /* CreateAccountViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Wiz-Info.plist */,
 			);
@@ -947,6 +916,8 @@
 		30736FBF13287C8D00D5F88F /* AppIcon */ = {
 			isa = PBXGroup;
 			children = (
+				733B1D4814F4DA44007F3402 /* Overlay.png */,
+				733B1D4914F4DA44007F3402 /* Overlay@2x.png */,
 				73CDDA6614F0085700A2E7B7 /* about@x2.png */,
 				73CDDA6414F0085300A2E7B7 /* about.png */,
 				73C994BE14E67D5A00B338DE /* Default.png */,
@@ -985,7 +956,6 @@
 		30E3E3661384D89700ACB649 /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
-				307F2215138A3A2C0003364C /* PadDocumentViewController.xib */,
 				307F37BA138F8626003B47CE /* DetailViewController.xib */,
 				30E3E481138503A000ACB649 /* MainWindow-iPad.xib */,
 			);
@@ -1505,8 +1475,6 @@
 				73B82FE214ECD741008BB962 /* newNoteTag@2x.png */,
 				73CDD9F714EFF7B500A2E7B7 /* newNoteLocation.png */,
 				73CDD9F814EFF7B500A2E7B7 /* newNoteLocation@2x.png */,
-				73CDD9F914EFF7B500A2E7B7 /* picture.png */,
-				73CDD9FA14EFF7B500A2E7B7 /* picture@2x.png */,
 				73931B6114E0DC11003C431C /* attachBack.png */,
 				73931B6214E0DC11003C431C /* attachBack@2x.png */,
 				73931B6514E0DC11003C431C /* attachRecorderPad.png */,
@@ -1752,19 +1720,10 @@
 			files = (
 				4494722114A30E49000F8B11 /* SearchWebView.js in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				30F779DC133A143A0096FF74 /* EditAccountViewController.xib in Resources */,
-				30F779D8133A140A0096FF74 /* CreateAccountViewController.xib in Resources */,
-				30F779E3133A147F0096FF74 /* InputTextViewController.xib in Resources */,
-				3087BFF3132F3EF1002D2402 /* DocumentViewController.xib in Resources */,
-				30F779E7133A14890096FF74 /* CameraViewController.xib in Resources */,
-				306E500E133306DE0099D6A5 /* AboutViewController.xib in Resources */,
 				30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */,
-				30F77A3A133A1C040096FF74 /* SetupAccountViewController.xib in Resources */,
 				30F77A49133A1CE30096FF74 /* infoPlist.strings in Resources */,
-				3077FAD4134B257E000C9172 /* SearchViewController.xib in Resources */,
 				307F37BB138F8626003B47CE /* DetailViewController.xib in Resources */,
 				307FEE43138FDE4D009D95A9 /* MainWindow-iPad.xib in Resources */,
-				307F2217138A3A2C0003364C /* PadDocumentViewController.xib in Resources */,
 				448A2D541457EF960046624D /* NewWelcomePage.xib in Resources */,
 				448C9CD314678FBE0005F3D1 /* AttachmentView.xib in Resources */,
 				4490D61214824A0A0091E3C0 /* ELCImagePickerController.xib in Resources */,
@@ -1842,8 +1801,6 @@
 				7365B60A14EF9613006D646D /* Default-Landscape~ipad.png in Resources */,
 				73CDDA2A14EFF7B500A2E7B7 /* newNoteLocation.png in Resources */,
 				73CDDA2B14EFF7B500A2E7B7 /* newNoteLocation@2x.png in Resources */,
-				73CDDA2C14EFF7B500A2E7B7 /* picture.png in Resources */,
-				73CDDA2D14EFF7B500A2E7B7 /* picture@2x.png in Resources */,
 				73CDDA2E14EFF7B500A2E7B7 /* pushDownRemind.png in Resources */,
 				73CDDA2F14EFF7B500A2E7B7 /* pushDownRemind@2x.png in Resources */,
 				73CDDA3014EFF7B500A2E7B7 /* recentRemind.png in Resources */,
@@ -1911,6 +1868,8 @@
 				7390AA8614F2658E0042F7E9 /* loginButtonBackgroud1@2x.png in Resources */,
 				73C69EB414F4C8C900925507 /* setting1.png in Resources */,
 				73C69EB714F4C8D200925507 /* setting1@2x.png in Resources */,
+				733B1D4A14F4DA44007F3402 /* Overlay.png in Resources */,
+				733B1D4B14F4DA44007F3402 /* Overlay@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2053,15 +2012,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		3077FAD3134B257E000C9172 /* SearchViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3077F98A134B0094000C9172 /* English */,
-				3077FAD5134B2583000C9172 /* zh_CN */,
-			);
-			name = SearchViewController.xib;
-			sourceTree = "<group>";
-		};
 		307F37BA138F8626003B47CE /* DetailViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2078,42 +2028,6 @@
 				30F779A0133A12C20096FF74 /* zh_CN */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		30F779D7133A140A0096FF74 /* CreateAccountViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3073704A1328885700D5F88F /* English */,
-				30F779D9133A140F0096FF74 /* zh_CN */,
-			);
-			name = CreateAccountViewController.xib;
-			sourceTree = "<group>";
-		};
-		30F779DB133A143A0096FF74 /* EditAccountViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30736F7E1328797C00D5F88F /* English */,
-				30F779DD133A143F0096FF74 /* zh_CN */,
-			);
-			name = EditAccountViewController.xib;
-			sourceTree = "<group>";
-		};
-		30F779E6133A14890096FF74 /* CameraViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30B2D3E01331AA67003FA16E /* English */,
-				30F779E8133A148E0096FF74 /* zh_CN */,
-			);
-			name = CameraViewController.xib;
-			sourceTree = "<group>";
-		};
-		30F77A39133A1C040096FF74 /* SetupAccountViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30F77A37133A1BFF0096FF74 /* English */,
-				30F77A3B133A1C080096FF74 /* zh_CN */,
-			);
-			name = SetupAccountViewController.xib;
 			sourceTree = "<group>";
 		};
 		30F77A48133A1CE30096FF74 /* infoPlist.strings */ = {

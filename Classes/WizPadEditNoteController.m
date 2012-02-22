@@ -595,7 +595,7 @@
     [titleView addSubview:selectPhoto];
     
     UIButton* attachmentsCheck = [UIButton buttonWithType:UIButtonTypeCustom];
-    [attachmentsCheck setImage:[UIImage imageNamed:@"ipadNewAttach"] forState:UIControlStateNormal];
+    [attachmentsCheck setImage:[UIImage imageNamed:@"newNoteAttach"] forState:UIControlStateNormal];
     [titleView addSubview:attachmentsCheck];
     UIBadgeView* attachmentsCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(25, -5, 20, 20)];
     attachmentsCount.badgeString = [NSString stringWithFormat:@"%d",[self.attachmentSourcePath count]];
