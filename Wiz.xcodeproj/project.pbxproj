@@ -827,10 +827,6 @@
 			children = (
 				73CDDA6614F0085700A2E7B7 /* about@x2.png */,
 				73CDDA6414F0085300A2E7B7 /* about.png */,
-				73CAAA1C14EA388500D5FF9B /* MessageUI.framework */,
-				4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */,
-				4495D52014BAB5870045F1EA /* CFNetwork.framework */,
-				4495D51E14BAB5600045F1EA /* AudioToolbox.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -879,6 +875,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73CAAA1C14EA388500D5FF9B /* MessageUI.framework */,
+				4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */,
+				4495D52014BAB5870045F1EA /* CFNetwork.framework */,
+				4495D51E14BAB5600045F1EA /* AudioToolbox.framework */,
 				4495D50F14BAA5930045F1EA /* iFlyISR.framework */,
 				4495D51014BAA5930045F1EA /* iFlyTTS.framework */,
 				4497AA7114B1971D002A2E4A /* CoreText.framework */,
@@ -932,6 +932,8 @@
 		3072577B13249660009DA753 /* Globals */ = {
 			isa = PBXGroup;
 			children = (
+				30F778331339F1430096FF74 /* CommonString.h */,
+				30F778341339F1430096FF74 /* CommonString.m */,
 				73FDF00214D7EEB900078EE3 /* WizGlobalNotificationMessage */,
 				448E2E4214C3CA2D00ECE1A6 /* UIBadgeView.h */,
 				448E2E4314C3CA2D00ECE1A6 /* UIBadgeView.m */,
@@ -949,7 +951,6 @@
 		307257EF13249888009DA753 /* Iphone */ = {
 			isa = PBXGroup;
 			children = (
-				44A6249414985FFC00073F39 /* OldUI */,
 				449B40BC1456B32D007A4FE7 /* NewUi */,
 				73CDDA9214F0FE4700A2E7B7 /* WizCheckProtectPassword.h */,
 				73CDDA9314F0FE4900A2E7B7 /* WizCheckProtectPassword.m */,
@@ -1583,15 +1584,6 @@
 				449DE0CD14A184EF009A51F6 /* FoldersViewControllerNew.m */,
 			);
 			name = FoldersTreeLlistVIew;
-			sourceTree = "<group>";
-		};
-		44A6249414985FFC00073F39 /* OldUI */ = {
-			isa = PBXGroup;
-			children = (
-				30F778331339F1430096FF74 /* CommonString.h */,
-				30F778341339F1430096FF74 /* CommonString.m */,
-			);
-			name = OldUI;
 			sourceTree = "<group>";
 		};
 		44A8063914919F7200FC4241 /* PlayMusicCell */ = {
