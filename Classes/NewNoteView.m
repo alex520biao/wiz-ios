@@ -789,13 +789,14 @@
     [dic setObject:self.documentTags forKey:TypeOfDocumentTags];
     if (isNewDocument) {
         [index newNoteWithGuidAndData:dic];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
+    
     }
     else
     {
         [index editDocumentWithGuidAndData:dic];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
-    
+
 }
 
 - (void) postSelectedMessageToPicker
