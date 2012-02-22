@@ -36,7 +36,7 @@ static CloudReview* _sharedReview = nil;
 -(void)reviewFor:(int)appleID  
 {  
     m_appleID = appleID;  
-    BOOL neverRate = [[NSUserDefaults standardUserDefaults] boolForKey:@"neverRate"];  
+    BOOL neverRate = NO;
     if(neverRate != YES) {  
         //Show alert here  
         UIAlertView *alert;  
@@ -44,21 +44,14 @@ static CloudReview* _sharedReview = nil;
                                            message:NSLocalizedString(@"Please Rate WizNote",nil)  
                                           delegate: self  
                                  cancelButtonTitle:NSLocalizedString(@"Cancel",nil)  
-                                 otherButtonTitles: NSLocalizedString(@"Rate Now",nil),  
-                 NSLocalizedString(@"Never Rate",nil), nil];  
+                                 otherButtonTitles: NSLocalizedString(@"Rate Now",nil),  nil];  
         [alert show];  
         [alert release];  
     }  
 }  
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex  
 {  
-    // Never Review Button  
-    if (buttonIndex == 2)  
-    {  
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"neverRate"];  
-    }  
-    // Review Button  
-    else if (buttonIndex == 1)  
+    if (buttonIndex == 1)  
     {  
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"neverRate"];  
         NSString *str = [NSString stringWithFormat:  

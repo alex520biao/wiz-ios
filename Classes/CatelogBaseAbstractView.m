@@ -14,9 +14,11 @@
 @synthesize abstractLabel;
 @synthesize owner;
 @synthesize keywords;
+@synthesize backGroud;
 - (void) dealloc
 {
     self.keywords = nil;
+    self.backGroud = nil;
     self.nameLabel = nil;
     self.documentsCountLabel = nil;
     self.abstractLabel = nil;
@@ -41,7 +43,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         UIImageView* backgroud = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0 , frame.size.width, frame.size.height - 66)];
-        backgroud.image = [UIImage imageNamed:@"categoryBackgroud"];
+        self.backGroud = backgroud;
         [self addSubview:backgroud];
         [backgroud release];
         UILabel* name = [[UILabel alloc] initWithFrame:CGRectMake(0.0,frame.size.height - 70 , frame.size.width, 40)];

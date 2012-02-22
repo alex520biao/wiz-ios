@@ -21,6 +21,7 @@
 #import "WizGlobalNotificationMessage.h"
 #import "CloudReview.h"
 
+#define ClearCacheTag          1201
 #define ChangePasswordTag 888
 #define RemoveAccountTag  1002
 #define ProtectPasswordTag 1003
@@ -350,7 +351,7 @@
         case 2:
             return 1;
         case 3:
-            return 2;
+            return 3;
         case 4:
             return 1;
         case 5:
@@ -475,6 +476,10 @@
     }
     else if (1 == indexPath.row && 3 == indexPath.section)
     {
+        cell.textLabel.text = NSLocalizedString(@"Clear cache",nil);
+    }
+    else if (2 == indexPath.row && 3 == indexPath.section)
+    {
         return self.protectCell;
     }
 
@@ -530,7 +535,17 @@
     }
     self.accountProtectPassword = protectPassword;
 }
-
+- (void) clearCache
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
+                                                       message:NSLocalizedString(@"You will delete all the cache files, are you sure?",nil)   
+                                                       delegate:self   
+                                                       cancelButtonTitle:@"Cancel"   
+                                                       otherButtonTitles:NSLocalizedString(@"Delete",nil),nil];  
+    alert.tag = ClearCacheTag;
+    [alert show];
+    [alert release];
+}
 - (void) setProtectPassword
 {
     WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
@@ -694,7 +709,10 @@
         self.tableView.scrollEnabled = NO;
         [self.view addSubview:pick];
     }
-
+        else if (1 == indexPath.row && 3 == indexPath.section)
+            {
+                    [self clearCache];
+                }
     else if (0 == indexPath.row && 4 == indexPath.section) {
         if (WizDeviceIsPad()) {
             [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];

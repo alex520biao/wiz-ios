@@ -23,6 +23,7 @@
     for (int i = 0; i < [arr count]; i++) {
         WizPadCatelogData* data = [arr objectAtIndex:i];
         CatelogBaseAbstractView* abstractView = [[CatelogBaseAbstractView alloc] initWithFrame:CGRectMake(55+55*i+180*i, 15, 180, PADABSTRACTVELLHEIGTH-30)];
+        abstractView.backGroud.image = [UIImage imageNamed:@"tagBackgroud"];
         abstractView.owner = self.owner;
         abstractView.nameLabel.text = NSLocalizedString(data.name, nil);
         abstractView.keywords = data.keyWords;

@@ -2231,7 +2231,16 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
         tempIndex.UpdateIphoneAbstract(abstract);
     }
 }
-
+- (BOOL) clearCache
+{
+        if ([self isOpened]) {
+                [self close];
+        }
+        NSString* tempFileName = [WizIndex accountTempFileName:self.accountUserId];
+        BOOL ret = [[NSFileManager defaultManager] removeItemAtPath:tempFileName error:nil];
+        [self open];
+        return ret;
+    }
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID
 {
     CTempIndex& tempIndex = [_tempIndexData tempIndex];
@@ -2245,8 +2254,7 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     }
     NSString* text = [[NSString alloc] initWithUTF8String:abstract.text.c_str()];
     if (nil == text || [text isEqualToString:@""]) {
-        [text release];
-        return nil;
+        text = @"";
     }
     NSData* imageData = [[NSData alloc] initWithBytes:abstract.imageData length:abstract.imageDataLength];
     UIImage* image = [UIImage imageWithData:imageData];

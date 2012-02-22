@@ -363,12 +363,13 @@
 {
     //recoding start
     UIView* audio = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
-    UIImageView* audioRecordStart = [[UIImageView alloc] initWithFrame:CGRectMake(23, 13, 24, 24)];
+    UIImageView* audioRecordStart = [[UIImageView alloc] initWithFrame:CGRectMake(18, 13, 24, 24)];
     audioRecordStart.image = [self imageReduceRect:@"attachRecorderPad"];
     [self addSelcetorToView:@selector(audioStartRecode) :audio];
     audioRecordStart.userInteractionEnabled = YES;
     [audio addSubview:audioRecordStart];
-    UILabel* startLabel = [[UILabel alloc] initWithFrame:CGRectMake(53, 15, 50, 20)];
+    UILabel* startLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
+    startLabel.adjustsFontSizeToFitWidth = YES;
     startLabel.backgroundColor = [UIColor clearColor];
     [startLabel setFont:[UIFont systemFontOfSize:13]];
     [startLabel setTextColor:[UIColor grayColor]];
@@ -384,11 +385,12 @@
 - (void) addSelectedPhotoView
 {
     UIView* selecte = [[UIView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
-    UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(23, 13, 24, 24)];
+    UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(18, 13, 24, 24)];
     photo.image = [self imageReduceRect:@"attachSelectPhotoPad"];
     [self addSelcetorToView:@selector(photoViewSelected) :selecte];
     [selecte addSubview:photo];
-    UILabel* pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(53, 15, 50, 20)];
+    UILabel* pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
+    pictureLabel.adjustsFontSizeToFitWidth = YES;
     pictureLabel.backgroundColor = [UIColor clearColor];
     [pictureLabel setFont:[UIFont systemFontOfSize:13]];
     [pictureLabel setTextColor:[UIColor grayColor]];
@@ -403,11 +405,12 @@
 - (void) addTakePhotoView
 {
     UIView* take = [[UIView alloc] initWithFrame:CGRectMake(210, 11, 100, 48)];
-    UIImageView* takePhoto = [[UIImageView alloc]initWithFrame:CGRectMake(23, 13, 24, 24)];
+    UIImageView* takePhoto = [[UIImageView alloc]initWithFrame:CGRectMake(18, 13, 24, 24)];
     takePhoto.image = [self imageReduceRect:@"attachTakePhotoPad"];
     [self addSelcetorToView:@selector(takePhotoViewSelcevted) :take];
     [take addSubview:takePhoto];
-    UILabel* photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(53, 15, 50, 20)];
+    UILabel* photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
+    photoLabel.adjustsFontSizeToFitWidth = YES;
     photoLabel.backgroundColor = [UIColor clearColor];
     [photoLabel setFont:[UIFont systemFontOfSize:13]];
     [photoLabel setTextColor:[UIColor grayColor]];

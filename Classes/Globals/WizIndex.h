@@ -275,6 +275,8 @@
 - (BOOL) setDocumentMoblleView:(BOOL)mobileView;
 - (BOOL) setWizIosAppVersion:(NSString*)ver;
 - (NSString*) wizIosAppVersion;
+//2012-2-22
+- (BOOL) clearCache;
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (NSString*) accountPath: (NSString*)userId;
