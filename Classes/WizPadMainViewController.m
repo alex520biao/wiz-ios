@@ -148,56 +148,54 @@
     NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
     NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
     NSString* objectName = [userInfo objectForKey:@"object_name"];
+
     if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-        
-        processText = NSLocalizedString(@"logining", nil);
+        processText = NSLocalizedString(@"Signing in", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-        processText = NSLocalizedString(@"loging out", nil);
+        processText = NSLocalizedString(@"Signing out", nil);
     }
     
     
     else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-        processText = NSLocalizedString(@"synchronizing the tags", nil);
+        processText = NSLocalizedString(@"Syncing tags", nil);
     }
     
     else if([methodName isEqualToString:SyncMethod_PostTagList])
     {
-        processText = NSLocalizedString(@"synchronizing the tags", nil);
+        processText = NSLocalizedString(@"Syncing tags", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
+        processText = NSLocalizedString(@"Syncing notes list", nil);
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-        processText = NSLocalizedString(@"synchronizing attachment list", nil);
+        processText = NSLocalizedString(@"Syncing attachment list", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
-        processText = NSLocalizedString(@"synchronize folder list", nil);
-        if ([total isEqualToNumber:current]) {
-            [self.recentList reloadAllData];
-        }
+        processText = NSLocalizedString(@"Syncing folders", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
     {
-        processText = NSLocalizedString(@"synchronize user's info", nil);
+        processText = NSLocalizedString(@"Syncing user infomation", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
     {
-        processText = NSLocalizedString(@"uploading deleted notes", nil);
+        processText = NSLocalizedString(@"Syncing deleted notes", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
     {
-        processText = NSLocalizedString(@"downloading deleted notes", nil);
+        processText = NSLocalizedString(@"Syncing deleted notes", nil);
     }
-    else if ([methodName isEqualToString:SyncMethod_UploadObject])
-    {
+    else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
+        processText = NSLocalizedString(@"Uploading notes", nil);
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -207,14 +205,16 @@
         {
             displayName = objectName;
         }
-        processText = [NSString stringWithFormat:@"%@ %@ %d%%",NSLocalizedString(@"Uploading", nil),displayName,(int)([current floatValue]/[total floatValue]*100)];
+        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
         if ([total isEqualToNumber:current]) {
-            processText =[NSString stringWithFormat:@"%@ %@",
-                          displayName,
-                          NSLocalizedString(@"uploaded successfully", nil)];
+            processText = [NSString stringWithFormat:@"%@ %@",
+                                            displayName,
+                                            NSLocalizedString(@"uploaded successfully", nil)];
         }
     }
-    else if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
+    
+    if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
+        processText = NSLocalizedString(@"Downloading notes data", nil);
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -224,20 +224,14 @@
         {
             displayName = objectName;
         }
-        processText = [NSString stringWithFormat:@"%@ %@ %d%%",NSLocalizedString(@"Downloading", nil),displayName,(int)([current floatValue]/[total floatValue]*100)];
+        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
         if ([total isEqualToNumber:current]) {
-            processText =[NSString stringWithFormat:@"%@ %@",
+            processText=[NSString stringWithFormat:@"%@ %@",
                                            displayName,
-                                           NSLocalizedString(@"downloaded successfully", nil)];
-        }
+                                           NSLocalizedString(@"downloaded successfully", nil)];        }
     }
-    else
-    {
-        NSLog(@"%@",methodName);
-        processText = @"......";
-    }
-    if (self.syncWillStop) {
-        processText = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"Stopping sync", nil),processText];
+    if ([processText isEqualToString:@""]) {
+        processText = @"...";
     }
     self.refreshProcessLabel.text = processText;
     return;
@@ -415,7 +409,7 @@
 
 - (void) buildNavigationItems
 {
-    UIBarButtonItem* settingItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting"] style:UIBarButtonItemStyleBordered target:self action:@selector(setAccountSettings:)];
+    UIBarButtonItem* settingItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting1"] style:UIBarButtonItemStyleBordered target:self action:@selector(setAccountSettings:)];
     self.navigationItem.leftBarButtonItem = settingItem;
     [settingItem release];
     
