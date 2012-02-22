@@ -10,7 +10,6 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "EditAccountViewController.h"
 #import "WizSettings.h"
 #import "UserSttingsViewController.h"
 #import "NSDate-Utilities.h"

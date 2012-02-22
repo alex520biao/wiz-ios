@@ -13,9 +13,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		306E500D133306DE0099D6A5 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 306E500B133306DE0099D6A5 /* AboutViewController.m */; };
 		306E500E133306DE0099D6A5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306E500C133306DE0099D6A5 /* AboutViewController.xib */; };
-		3072561513246389009DA753 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3072561413246389009DA753 /* WelcomeViewController.m */; };
 		3072572E132494E2009DA753 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3072572A132494E2009DA753 /* CppSQLite3.cpp */; };
 		3072572F132494E2009DA753 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3072572C132494E2009DA753 /* index.cpp */; };
 		3072573E132494F8009DA753 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 30725733132494F8009DA753 /* GDataXMLNode.m */; };
@@ -30,31 +28,18 @@
 		3072578E132496BB009DA753 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072578D132496BB009DA753 /* libxml2.dylib */; };
 		30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072578F132496C1009DA753 /* libsqlite3.dylib */; };
 		307257F2132498C1009DA753 /* WizActivityIndicatorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 307257F1132498C1009DA753 /* WizActivityIndicatorTableViewCell.m */; };
-		30736F7F1328797C00D5F88F /* EditAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30736F7D1328797C00D5F88F /* EditAccountViewController.m */; };
-		3073704B1328885700D5F88F /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307370491328885700D5F88F /* CreateAccountViewController.m */; };
 		3074B0031327123700E601F3 /* WizGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3074B0021327123700E601F3 /* WizGlobalData.m */; };
-		3074B0951327236500E601F3 /* SetupAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3074B0941327236500E601F3 /* SetupAccountViewController.m */; };
-		3075B18B1326245500123A01 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3075B18A1326245500123A01 /* AccountViewController.m */; };
-		3075B1C0132641FB00123A01 /* WizLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3075B1BF132641FB00123A01 /* WizLogoView.m */; };
 		3075B26113264A3400123A01 /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3075B26013264A3400123A01 /* WizSettings.m */; };
-		3077F98B134B0094000C9172 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3077F989134B0094000C9172 /* SearchViewController.m */; };
 		3077FA1B134B0F00000C9172 /* WizDocumentsByKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 3077FA1A134B0F00000C9172 /* WizDocumentsByKey.m */; };
 		3077FA4E134B17A5000C9172 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3077FA4D134B17A5000C9172 /* SearchResultViewController.m */; };
 		3077FAD4134B257E000C9172 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3077FAD3134B257E000C9172 /* SearchViewController.xib */; };
 		307B7A92132B097F00069E45 /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 307B7A91132B097F00069E45 /* WizSync.m */; };
-		307B7C31132B6A5700069E45 /* InputTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307B7C2F132B6A5700069E45 /* InputTextViewController.m */; };
 		307D5C291325CB4C0016547B /* WizIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307D5C281325CB4C0016547B /* WizIndex.mm */; };
-		307E205A132C9B6F00681094 /* FolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E2059132C9B6F00681094 /* FolderViewController.m */; };
-		307E3D8013304C48002B77DE /* DocumentListViewControllerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E3D7F13304C48002B77DE /* DocumentListViewControllerBase.m */; };
-		307E3E2E13305943002B77DE /* RecentDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E3E2D13305943002B77DE /* RecentDocumentViewController.m */; };
 		307E3E5D13305C19002B77DE /* WizDownloadRecentDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E3E5C13305C19002B77DE /* WizDownloadRecentDocuments.m */; };
-		307E3E9D1330700F002B77DE /* NewNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 307E3E9B1330700E002B77DE /* NewNoteViewController.m */; };
 		307F2217138A3A2C0003364C /* PadDocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307F2215138A3A2C0003364C /* PadDocumentViewController.xib */; };
 		307F37BB138F8626003B47CE /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307F37BA138F8626003B47CE /* DetailViewController.xib */; };
 		307FEE43138FDE4D009D95A9 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30E3E481138503A000ACB649 /* MainWindow-iPad.xib */; };
-		30840092132E009C004C3BE1 /* TagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30840091132E009C004C3BE1 /* TagViewController.m */; };
 		3084FE84132DB391004C3BE1 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3084FE83132DB391004C3BE1 /* FoldersViewController.m */; };
-		3084FEBD132DB667004C3BE1 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3084FEBC132DB667004C3BE1 /* TagsViewController.m */; };
 		3087BD58132F0135002D2402 /* WizApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087BD53132F0135002D2402 /* WizApi.m */; };
 		3087BD59132F0135002D2402 /* WizCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087BD55132F0135002D2402 /* WizCreateAccount.m */; };
 		3087BD5A132F0135002D2402 /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087BD57132F0135002D2402 /* WizVerifyAccount.m */; };
@@ -63,12 +48,9 @@
 		3087BE01132F232D002D2402 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3087BDFB132F232D002D2402 /* unzip.c */; };
 		3087BE02132F232D002D2402 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 3087BDFD132F232D002D2402 /* zip.c */; };
 		3087BE06132F2346002D2402 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3087BE05132F2346002D2402 /* ZipArchive.mm */; };
-		3087BFF2132F3EF1002D2402 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087BFF0132F3EF1002D2402 /* DocumentViewController.m */; };
 		3087BFF3132F3EF1002D2402 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3087BFF1132F3EF1002D2402 /* DocumentViewController.xib */; };
 		3087C064132F4C3C002D2402 /* WizDocumentsByLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087C063132F4C3C002D2402 /* WizDocumentsByLocation.m */; };
 		3087C077132F4EB6002D2402 /* WizDocumentsByTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 3087C076132F4EB6002D2402 /* WizDocumentsByTag.m */; };
-		30909A94133709A700DAED05 /* EditDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30909A92133709A700DAED05 /* EditDocumentViewController.m */; };
-		30909AAB13370B5700DAED05 /* TextEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30909AA913370B5700DAED05 /* TextEditViewController.m */; };
 		30E3E3AC1384F18500ACB649 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3E3A81384F18500ACB649 /* DetailViewController.m */; };
 		30E3E3AD1384F18500ACB649 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E3E3AA1384F18500ACB649 /* RootViewController.m */; };
 		30F778351339F1430096FF74 /* CommonString.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F778341339F1430096FF74 /* CommonString.m */; };
@@ -345,11 +327,7 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		306E500A133306DE0099D6A5 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
-		306E500B133306DE0099D6A5 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		306E500C133306DE0099D6A5 /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutViewController.xib; path = Classes/AboutViewController.xib; sourceTree = "<group>"; };
-		3072561313246389009DA753 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
-		3072561413246389009DA753 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		3072572A132494E2009DA753 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CppSQLite3.cpp; path = "C++/CppSQLite3.cpp"; sourceTree = "<group>"; };
 		3072572B132494E2009DA753 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CppSQLite3.h; path = "C++/CppSQLite3.h"; sourceTree = "<group>"; };
 		3072572C132494E2009DA753 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = index.cpp; path = "C++/index.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -376,24 +354,12 @@
 		3072578F132496C1009DA753 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		307257F0132498C1009DA753 /* WizActivityIndicatorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizActivityIndicatorTableViewCell.h; path = Globals/WizActivityIndicatorTableViewCell.h; sourceTree = "<group>"; };
 		307257F1132498C1009DA753 /* WizActivityIndicatorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizActivityIndicatorTableViewCell.m; path = Globals/WizActivityIndicatorTableViewCell.m; sourceTree = "<group>"; };
-		30736F7C1328797C00D5F88F /* EditAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountViewController.h; sourceTree = "<group>"; };
-		30736F7D1328797C00D5F88F /* EditAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountViewController.m; sourceTree = "<group>"; };
 		30736F7E1328797C00D5F88F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/EditAccountViewController.xib; sourceTree = "<group>"; };
-		307370481328885700D5F88F /* CreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateAccountViewController.h; sourceTree = "<group>"; };
-		307370491328885700D5F88F /* CreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateAccountViewController.m; sourceTree = "<group>"; };
 		3073704A1328885700D5F88F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/CreateAccountViewController.xib; sourceTree = "<group>"; };
 		3074B0011327123700E601F3 /* WizGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGlobalData.h; path = Globals/WizGlobalData.h; sourceTree = "<group>"; };
 		3074B0021327123700E601F3 /* WizGlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGlobalData.m; path = Globals/WizGlobalData.m; sourceTree = "<group>"; };
-		3074B0931327236500E601F3 /* SetupAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupAccountViewController.h; sourceTree = "<group>"; };
-		3074B0941327236500E601F3 /* SetupAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupAccountViewController.m; sourceTree = "<group>"; };
-		3075B1891326245500123A01 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
-		3075B18A1326245500123A01 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
-		3075B1BE132641FB00123A01 /* WizLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizLogoView.h; sourceTree = "<group>"; };
-		3075B1BF132641FB00123A01 /* WizLogoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizLogoView.m; sourceTree = "<group>"; };
 		3075B25F13264A3400123A01 /* WizSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSettings.h; path = Globals/WizSettings.h; sourceTree = "<group>"; };
 		3075B26013264A3400123A01 /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSettings.m; path = Globals/WizSettings.m; sourceTree = "<group>"; };
-		3077F988134B0094000C9172 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		3077F989134B0094000C9172 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		3077F98A134B0094000C9172 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/SearchViewController.xib; sourceTree = "<group>"; };
 		3077FA19134B0F00000C9172 /* WizDocumentsByKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentsByKey.h; path = Globals/WizDocumentsByKey.h; sourceTree = "<group>"; };
 		3077FA1A134B0F00000C9172 /* WizDocumentsByKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentsByKey.m; path = Globals/WizDocumentsByKey.m; sourceTree = "<group>"; };
@@ -402,29 +368,15 @@
 		3077FAD5134B2583000C9172 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/SearchViewController.xib; sourceTree = "<group>"; };
 		307B7A90132B097F00069E45 /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSync.h; path = Globals/WizSync.h; sourceTree = "<group>"; };
 		307B7A91132B097F00069E45 /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSync.m; path = Globals/WizSync.m; sourceTree = "<group>"; };
-		307B7C2E132B6A5700069E45 /* InputTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputTextViewController.h; sourceTree = "<group>"; };
-		307B7C2F132B6A5700069E45 /* InputTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputTextViewController.m; sourceTree = "<group>"; };
 		307B7C30132B6A5700069E45 /* InputTextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = InputTextViewController.xib; path = Classes/InputTextViewController.xib; sourceTree = "<group>"; };
 		307D5C271325CB4C0016547B /* WizIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizIndex.h; path = Globals/WizIndex.h; sourceTree = "<group>"; };
 		307D5C281325CB4C0016547B /* WizIndex.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = WizIndex.mm; path = Globals/WizIndex.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		307E2058132C9B6F00681094 /* FolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderViewController.h; sourceTree = "<group>"; };
-		307E2059132C9B6F00681094 /* FolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderViewController.m; sourceTree = "<group>"; };
-		307E3D7E13304C48002B77DE /* DocumentListViewControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentListViewControllerBase.h; sourceTree = "<group>"; };
-		307E3D7F13304C48002B77DE /* DocumentListViewControllerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewControllerBase.m; sourceTree = "<group>"; };
-		307E3E2C13305943002B77DE /* RecentDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentDocumentViewController.h; sourceTree = "<group>"; };
-		307E3E2D13305943002B77DE /* RecentDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentDocumentViewController.m; sourceTree = "<group>"; };
 		307E3E5B13305C19002B77DE /* WizDownloadRecentDocuments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDownloadRecentDocuments.h; path = Globals/WizDownloadRecentDocuments.h; sourceTree = "<group>"; };
 		307E3E5C13305C19002B77DE /* WizDownloadRecentDocuments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDownloadRecentDocuments.m; path = Globals/WizDownloadRecentDocuments.m; sourceTree = "<group>"; };
-		307E3E9A1330700E002B77DE /* NewNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewNoteViewController.h; sourceTree = "<group>"; };
-		307E3E9B1330700E002B77DE /* NewNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewNoteViewController.m; sourceTree = "<group>"; };
 		307F2215138A3A2C0003364C /* PadDocumentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PadDocumentViewController.xib; path = Classes/PadDocumentViewController.xib; sourceTree = "<group>"; };
 		307F37BC138F862D003B47CE /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = Classes/zh_CN.lproj/DetailViewController.xib; sourceTree = "<group>"; };
-		30840090132E009C004C3BE1 /* TagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagViewController.h; sourceTree = "<group>"; };
-		30840091132E009C004C3BE1 /* TagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagViewController.m; sourceTree = "<group>"; };
 		3084FE82132DB391004C3BE1 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
 		3084FE83132DB391004C3BE1 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
-		3084FEBB132DB667004C3BE1 /* TagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsViewController.h; sourceTree = "<group>"; };
-		3084FEBC132DB667004C3BE1 /* TagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsViewController.m; sourceTree = "<group>"; };
 		3087BD52132F0135002D2402 /* WizApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizApi.h; path = Globals/WizApi.h; sourceTree = "<group>"; };
 		3087BD53132F0135002D2402 /* WizApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizApi.m; path = Globals/WizApi.m; sourceTree = "<group>"; };
 		3087BD54132F0135002D2402 /* WizCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCreateAccount.h; path = Globals/WizCreateAccount.h; sourceTree = "<group>"; };
@@ -443,17 +395,11 @@
 		3087BE04132F2346002D2402 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = Globals/ZipArchive.h; sourceTree = "<group>"; };
 		3087BE05132F2346002D2402 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ZipArchive.mm; path = Globals/ZipArchive.mm; sourceTree = "<group>"; };
 		3087BE0B132F23E6002D2402 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = usr/lib/libbz2.1.0.dylib; sourceTree = SDKROOT; };
-		3087BFEF132F3EF1002D2402 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
-		3087BFF0132F3EF1002D2402 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
 		3087BFF1132F3EF1002D2402 /* DocumentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DocumentViewController.xib; path = Classes/DocumentViewController.xib; sourceTree = "<group>"; };
 		3087C062132F4C3C002D2402 /* WizDocumentsByLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentsByLocation.h; path = Globals/WizDocumentsByLocation.h; sourceTree = "<group>"; };
 		3087C063132F4C3C002D2402 /* WizDocumentsByLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentsByLocation.m; path = Globals/WizDocumentsByLocation.m; sourceTree = "<group>"; };
 		3087C075132F4EB6002D2402 /* WizDocumentsByTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentsByTag.h; path = Globals/WizDocumentsByTag.h; sourceTree = "<group>"; };
 		3087C076132F4EB6002D2402 /* WizDocumentsByTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentsByTag.m; path = Globals/WizDocumentsByTag.m; sourceTree = "<group>"; };
-		30909A91133709A700DAED05 /* EditDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDocumentViewController.h; sourceTree = "<group>"; };
-		30909A92133709A700DAED05 /* EditDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDocumentViewController.m; sourceTree = "<group>"; };
-		30909AA813370B5700DAED05 /* TextEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEditViewController.h; sourceTree = "<group>"; };
-		30909AA913370B5700DAED05 /* TextEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextEditViewController.m; sourceTree = "<group>"; };
 		30B2D3E01331AA67003FA16E /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/CameraViewController.xib; sourceTree = "<group>"; };
 		30E3E3A61384F18500ACB649 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		30E3E3A71384F18500ACB649 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -1642,44 +1588,8 @@
 		44A6249414985FFC00073F39 /* OldUI */ = {
 			isa = PBXGroup;
 			children = (
-				306E500A133306DE0099D6A5 /* AboutViewController.h */,
-				306E500B133306DE0099D6A5 /* AboutViewController.m */,
-				3072561313246389009DA753 /* WelcomeViewController.h */,
-				3072561413246389009DA753 /* WelcomeViewController.m */,
-				3075B1891326245500123A01 /* AccountViewController.h */,
-				3075B18A1326245500123A01 /* AccountViewController.m */,
-				3075B1BE132641FB00123A01 /* WizLogoView.h */,
-				3075B1BF132641FB00123A01 /* WizLogoView.m */,
-				307370481328885700D5F88F /* CreateAccountViewController.h */,
-				307370491328885700D5F88F /* CreateAccountViewController.m */,
-				307B7C2E132B6A5700069E45 /* InputTextViewController.h */,
-				307B7C2F132B6A5700069E45 /* InputTextViewController.m */,
-				307E3D7E13304C48002B77DE /* DocumentListViewControllerBase.h */,
-				307E3D7F13304C48002B77DE /* DocumentListViewControllerBase.m */,
-				307E2058132C9B6F00681094 /* FolderViewController.h */,
-				307E2059132C9B6F00681094 /* FolderViewController.m */,
-				3084FEBB132DB667004C3BE1 /* TagsViewController.h */,
-				3084FEBC132DB667004C3BE1 /* TagsViewController.m */,
-				30840090132E009C004C3BE1 /* TagViewController.h */,
-				30840091132E009C004C3BE1 /* TagViewController.m */,
-				3087BFEF132F3EF1002D2402 /* DocumentViewController.h */,
-				3087BFF0132F3EF1002D2402 /* DocumentViewController.m */,
-				307E3E2C13305943002B77DE /* RecentDocumentViewController.h */,
-				307E3E2D13305943002B77DE /* RecentDocumentViewController.m */,
-				307E3E9A1330700E002B77DE /* NewNoteViewController.h */,
-				307E3E9B1330700E002B77DE /* NewNoteViewController.m */,
-				30909A91133709A700DAED05 /* EditDocumentViewController.h */,
-				30909A92133709A700DAED05 /* EditDocumentViewController.m */,
-				30909AA813370B5700DAED05 /* TextEditViewController.h */,
-				30909AA913370B5700DAED05 /* TextEditViewController.m */,
 				30F778331339F1430096FF74 /* CommonString.h */,
 				30F778341339F1430096FF74 /* CommonString.m */,
-				3077F988134B0094000C9172 /* SearchViewController.h */,
-				3077F989134B0094000C9172 /* SearchViewController.m */,
-				3074B0931327236500E601F3 /* SetupAccountViewController.h */,
-				3074B0941327236500E601F3 /* SetupAccountViewController.m */,
-				30736F7C1328797C00D5F88F /* EditAccountViewController.h */,
-				30736F7D1328797C00D5F88F /* EditAccountViewController.m */,
 			);
 			name = OldUI;
 			sourceTree = "<group>";
@@ -1994,7 +1904,6 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* WizAppDelegate.m in Sources */,
-				3072561513246389009DA753 /* WelcomeViewController.m in Sources */,
 				3072572E132494E2009DA753 /* CppSQLite3.cpp in Sources */,
 				3072572F132494E2009DA753 /* index.cpp in Sources */,
 				3072573E132494F8009DA753 /* GDataXMLNode.m in Sources */,
@@ -2008,19 +1917,10 @@
 				307257831324968A009DA753 /* WizMisc.cpp in Sources */,
 				307257F2132498C1009DA753 /* WizActivityIndicatorTableViewCell.m in Sources */,
 				307D5C291325CB4C0016547B /* WizIndex.mm in Sources */,
-				3075B18B1326245500123A01 /* AccountViewController.m in Sources */,
-				3075B1C0132641FB00123A01 /* WizLogoView.m in Sources */,
 				3075B26113264A3400123A01 /* WizSettings.m in Sources */,
 				3074B0031327123700E601F3 /* WizGlobalData.m in Sources */,
-				3074B0951327236500E601F3 /* SetupAccountViewController.m in Sources */,
-				30736F7F1328797C00D5F88F /* EditAccountViewController.m in Sources */,
-				3073704B1328885700D5F88F /* CreateAccountViewController.m in Sources */,
 				307B7A92132B097F00069E45 /* WizSync.m in Sources */,
-				307B7C31132B6A5700069E45 /* InputTextViewController.m in Sources */,
-				307E205A132C9B6F00681094 /* FolderViewController.m in Sources */,
 				3084FE84132DB391004C3BE1 /* FoldersViewController.m in Sources */,
-				3084FEBD132DB667004C3BE1 /* TagsViewController.m in Sources */,
-				30840092132E009C004C3BE1 /* TagViewController.m in Sources */,
 				3087BD58132F0135002D2402 /* WizApi.m in Sources */,
 				3087BD59132F0135002D2402 /* WizCreateAccount.m in Sources */,
 				3087BD5A132F0135002D2402 /* WizVerifyAccount.m in Sources */,
@@ -2029,18 +1929,10 @@
 				3087BE01132F232D002D2402 /* unzip.c in Sources */,
 				3087BE02132F232D002D2402 /* zip.c in Sources */,
 				3087BE06132F2346002D2402 /* ZipArchive.mm in Sources */,
-				3087BFF2132F3EF1002D2402 /* DocumentViewController.m in Sources */,
 				3087C064132F4C3C002D2402 /* WizDocumentsByLocation.m in Sources */,
 				3087C077132F4EB6002D2402 /* WizDocumentsByTag.m in Sources */,
-				307E3D8013304C48002B77DE /* DocumentListViewControllerBase.m in Sources */,
-				307E3E2E13305943002B77DE /* RecentDocumentViewController.m in Sources */,
 				307E3E5D13305C19002B77DE /* WizDownloadRecentDocuments.m in Sources */,
-				307E3E9D1330700F002B77DE /* NewNoteViewController.m in Sources */,
-				306E500D133306DE0099D6A5 /* AboutViewController.m in Sources */,
-				30909A94133709A700DAED05 /* EditDocumentViewController.m in Sources */,
-				30909AAB13370B5700DAED05 /* TextEditViewController.m in Sources */,
 				30F778351339F1430096FF74 /* CommonString.m in Sources */,
-				3077F98B134B0094000C9172 /* SearchViewController.m in Sources */,
 				3077FA1B134B0F00000C9172 /* WizDocumentsByKey.m in Sources */,
 				3077FA4E134B17A5000C9172 /* SearchResultViewController.m in Sources */,
 				30E3E3AC1384F18500ACB649 /* DetailViewController.m in Sources */,

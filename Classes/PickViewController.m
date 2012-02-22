@@ -9,11 +9,8 @@
  
  #import "PickViewController.h"
  #import "FoldersViewController.h"
- #import "TagsViewController.h"
  #import "NewNoteView.h"
- #import "RecentDocumentViewController.h"
  #import "UIView-TagExtensions.h"
-#import "SearchViewController.h"
 #import "WizSettings.h"
 #import "WizIndex.h"
 #import "CommonString.h"

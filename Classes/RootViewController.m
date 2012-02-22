@@ -8,7 +8,6 @@
 
 #import "RootViewController.h"
 #import "DetailViewController.h"
-#import "WelcomeViewController.h"
 #import "Globals/WizIndex.h"
 #import "Globals/WizGlobalData.h"
 #import "Globals/WizSync.h"
@@ -89,13 +88,6 @@
 
 - (IBAction) onManageAccounts: (id)sender
 {
-	WelcomeViewController* welcome = [[WelcomeViewController alloc] initWithStyle: UITableViewStyleGrouped];
-	UINavigationController *modalNavigationController = [[UINavigationController alloc] initWithRootViewController:welcome];
-	modalNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	modalNavigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-	[self.splitViewController presentModalViewController:modalNavigationController animated:YES];
-	[modalNavigationController release];
-    [welcome release];
 }
 
 - (IBAction) onSyncAll: (id)sender

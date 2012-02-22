@@ -8,11 +8,6 @@
 
 #import "DetailViewController.h"
 #import "RootViewController.h"
-#import "DocumentViewController.h"
-#import "NewNoteViewController.h"
-#import "SearchViewController.h"
-
-#import "DocumentListViewControllerBase.h"
 #import "Globals/WizGlobalData.h"
 #import "Globals/WizIndex.h"
 #import "Globals/WizGlobals.h"
@@ -239,20 +234,7 @@
 
 - (void) viewDocument
 {
-	if (!self.currentDocument)
-		return;
-	//
-	NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:self.currentDocument.guid];
-	if (![WizGlobals pathFileExists:documentFileName])
-		return;
-	//
-	DocumentViewController* docView = [[DocumentViewController alloc] initWithNibName:@"PadDocumentViewController" bundle:nil];
-	docView.accountUserId = self.accountUserId;
-	docView.doc = self.currentDocument;
-	//
-	[self showModalView:docView fullScreen:YES];
-	//
-	[docView release];
+
 }
 
 
@@ -455,17 +437,7 @@ accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath
 
 -(void) newNote
 {
-	NewNoteViewController* noteView = [[NewNoteViewController alloc] init];//initWithCoder:<#(NSCoder *)aDecoder#> initWithNibName:@"TextEditViewController" bundle:nil];
-	
-	noteView.accountUserId = self.accountUserId;
-	if (documentsFolder == self.documentsType)
-	{
-		noteView.location = self.documentsTypeData;
-	}
-	
-	[self showModalView:noteView fullScreen:YES];
-	
-	[noteView release];	
+
 	
 }
 
@@ -476,13 +448,6 @@ accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath
 
 -(IBAction) onSearch:(id)sender
 {
-	SearchViewController* searchView = [[SearchViewController alloc] initWithNibName:@"SearchViewController" bundle:nil];
-	searchView.accountUserId = self.accountUserId;
-	searchView.detailViewController = self;
-	//
-	[self showModalView:searchView fullScreen:NO];
-	//
-	[searchView release];
 }
 
 -(void) clearData
