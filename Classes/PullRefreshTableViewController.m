@@ -163,7 +163,7 @@
     self.refreshDetailLabel.text = @"";
     self.refreshLabel.text = @"";
 
-    UIBarButtonItem* refresh = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(startLoading)];
+    UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStyleBordered target:self action:@selector(startLoading)];
     self.navigationItem.rightBarButtonItem = refresh;
     [refresh release];
 }

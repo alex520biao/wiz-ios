@@ -272,19 +272,6 @@
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
     self.protectCellNameLabel.text = NSLocalizedString(@"App Lunch Protection", nil);
     self.defaultUserLabel.text = NSLocalizedString(@"Set default account", nil);
-    
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     self.mobileViewSwitch.on = [index isMoblieView];
     NSString* password = [WizSettings accountProtectPassword];
@@ -311,6 +298,20 @@
     self.downloadDuration = [index durationForDownloadDocument];
     self.imageQulity = [index imageQualityValue];
     self.tablelistViewOption = [index userTablelistViewOption];
+    
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -520,7 +521,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
     NSDictionary* userInfo = [nc userInfo];
-
     NSString* protectPassword = [userInfo valueForKey:TypeOfProtectPassword];
     NSLog(@"%@",protectPassword);
     if ([protectPassword isEqualToString:@"-1"]) {
@@ -608,6 +608,13 @@
                     self.accountProtectPassword = text;
                 }
             }
+        }
+    }
+    else if (alertView.tag = ClearCacheTag)
+    {
+        if (buttonIndex == 1) {
+            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+            [index clearCache];
         }
     }
 }
@@ -710,9 +717,9 @@
         [self.view addSubview:pick];
     }
         else if (1 == indexPath.row && 3 == indexPath.section)
-            {
+        {
                     [self clearCache];
-                }
+    }
     else if (0 == indexPath.row && 4 == indexPath.section) {
         if (WizDeviceIsPad()) {
             [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];

@@ -68,7 +68,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.abstractImageView = abstractImageView_;
         [abstractImageView_ release];
         self.interfaceOrientation = UIInterfaceOrientationPortrait;
-//        self.contentView.backgroundColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1.0];
         CALayer* layer = [abstractImageView layer];
         layer.borderColor = [UIColor whiteColor].CGColor;
         layer.borderWidth = 0.5f;
@@ -163,16 +162,25 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
         [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
         
-        NSString* tagstr = [NSString stringWithFormat:@"%@:%@\n%@:",NSLocalizedString(@"Folder", nil),self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location],NSLocalizedString(@"Tags", nil)];
+        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",NSLocalizedString(@"Folder", nil),self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
+        NSString* tagstr = [NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tag", nil)];
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
         NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
         for (WizTag* each in tags) {
-            tagstr = [tagstr stringByAppendingFormat:@"|%@",NSLocalizedString(each.name, nil)];
+            NSString* tagName = each.name;
+            if ([tagName isEqualToString:@"$public-documents$"]) {
+                tagName = @"Share with friends";
+            }
+            tagstr = [tagstr stringByAppendingFormat:@"%@|",NSLocalizedString(each.name, nil)];
+        }
+        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tag", nil)]]) {
+            tagstr = [tagstr substringToIndex:tagstr.length-1];
+            folder = [folder stringByAppendingString:tagstr];
         }
         
         UIFont* textFont = [UIFont systemFontOfSize:13];
         CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
-        NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:tagstr];
+        NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:folder];
         [text addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor grayColor] CGColor] range:NSMakeRange(0,text.length)];
         [text addAttribute:(NSString*)kCTFontAttributeName value:(id)textCtfont range:NSMakeRange(0,text.length)];
         [dateStr appendAttributedString:text];
