@@ -540,7 +540,7 @@
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
                                                        message:NSLocalizedString(@"You will delete all the cache files, are you sure?",nil)   
                                                        delegate:self   
-                                                       cancelButtonTitle:@"Cancel"   
+                                                       cancelButtonTitle:NSLocalizedString(@"Cancel" ,nil) 
                                                        otherButtonTitles:NSLocalizedString(@"Delete",nil),nil];  
     alert.tag = ClearCacheTag;
     [alert show];

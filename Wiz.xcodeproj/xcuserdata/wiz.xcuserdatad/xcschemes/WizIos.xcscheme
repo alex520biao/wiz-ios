@@ -69,7 +69,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Distribution"
+      buildConfiguration = "Release"
       customArchiveName = "Wiz"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>

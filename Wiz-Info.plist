@@ -14,6 +14,7 @@
 	<array>
 		<string>about.png</string>
 		<string>about@x2.png</string>
+		<string>icon_ipad.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>cn.wiz.wiz</string>
@@ -44,10 +45,10 @@
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>
