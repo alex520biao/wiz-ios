@@ -157,6 +157,8 @@
 		7365B60814EF95FC006D646D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C994C214E67EE600B338DE /* Default@2x.png */; };
 		7365B60914EF960D006D646D /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CAAA0D14EA1AF600D5FF9B /* Default-Portrait~ipad.png */; };
 		7365B60A14EF9613006D646D /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CAAA0F14EA1B2200D5FF9B /* Default-Landscape~ipad.png */; };
+		7379A59914F4E68E006593CD /* stopRecorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 7379A59814F4E68E006593CD /* stopRecorder.png */; };
+		7379A59C14F4E698006593CD /* stopRecorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7379A59B14F4E698006593CD /* stopRecorder@2x.png */; };
 		7390AA7E14F253460042F7E9 /* WizLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7390AA7D14F253450042F7E9 /* WizLog.m */; };
 		7390AA8114F264A40042F7E9 /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 7390AA7F14F264A40042F7E9 /* sync.png */; };
 		7390AA8214F264A40042F7E9 /* sync@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7390AA8014F264A40042F7E9 /* sync@2x.png */; };
@@ -257,8 +259,6 @@
 		73CDDA4714EFF7B500A2E7B7 /* shrink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1414EFF7B500A2E7B7 /* shrink@2x.png */; };
 		73CDDA4814EFF7B500A2E7B7 /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1514EFF7B500A2E7B7 /* stop.png */; };
 		73CDDA4914EFF7B500A2E7B7 /* stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1614EFF7B500A2E7B7 /* stop@2x.png */; };
-		73CDDA4A14EFF7B500A2E7B7 /* stopRecorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1714EFF7B500A2E7B7 /* stopRecorder.png */; };
-		73CDDA4B14EFF7B500A2E7B7 /* stopRecorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1814EFF7B500A2E7B7 /* stopRecorder@2x.png */; };
 		73CDDA4C14EFF7B500A2E7B7 /* tableSectionHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1914EFF7B500A2E7B7 /* tableSectionHeader.png */; };
 		73CDDA4D14EFF7B500A2E7B7 /* tableSectionHeader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1A14EFF7B500A2E7B7 /* tableSectionHeader@2x.png */; };
 		73CDDA4E14EFF7B500A2E7B7 /* tagRemind.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CDDA1B14EFF7B500A2E7B7 /* tagRemind.png */; };
@@ -568,6 +568,8 @@
 		7365B04714EE0F91008C69AC /* WizChangePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePasswordController.m; sourceTree = "<group>"; };
 		7365B04C14EE12E9008C69AC /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePassword.h; sourceTree = "<group>"; };
 		7365B04D14EE12EA008C69AC /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePassword.m; sourceTree = "<group>"; };
+		7379A59814F4E68E006593CD /* stopRecorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopRecorder.png; path = ../../Downloads/stopRecorder.png; sourceTree = "<group>"; };
+		7379A59B14F4E698006593CD /* stopRecorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stopRecorder@2x.png"; path = "../../Downloads/stopRecorder@2x.png"; sourceTree = "<group>"; };
 		738A8E3814DFB0FD00F69CBF /* WizPhoneNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneNotificationMessage.h; sourceTree = "<group>"; };
 		7390AA7C14F253440042F7E9 /* WizLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizLog.h; sourceTree = "<group>"; };
 		7390AA7D14F253450042F7E9 /* WizLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizLog.m; sourceTree = "<group>"; };
@@ -679,8 +681,6 @@
 		73CDDA1414EFF7B500A2E7B7 /* shrink@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shrink@2x.png"; path = "icons/shrink@2x.png"; sourceTree = "<group>"; };
 		73CDDA1514EFF7B500A2E7B7 /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stop.png; path = icons/stop.png; sourceTree = "<group>"; };
 		73CDDA1614EFF7B500A2E7B7 /* stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stop@2x.png"; path = "icons/stop@2x.png"; sourceTree = "<group>"; };
-		73CDDA1714EFF7B500A2E7B7 /* stopRecorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopRecorder.png; path = icons/stopRecorder.png; sourceTree = "<group>"; };
-		73CDDA1814EFF7B500A2E7B7 /* stopRecorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stopRecorder@2x.png"; path = "icons/stopRecorder@2x.png"; sourceTree = "<group>"; };
 		73CDDA1914EFF7B500A2E7B7 /* tableSectionHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tableSectionHeader.png; path = icons/tableSectionHeader.png; sourceTree = "<group>"; };
 		73CDDA1A14EFF7B500A2E7B7 /* tableSectionHeader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tableSectionHeader@2x.png"; path = "icons/tableSectionHeader@2x.png"; sourceTree = "<group>"; };
 		73CDDA1B14EFF7B500A2E7B7 /* tagRemind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tagRemind.png; path = icons/tagRemind.png; sourceTree = "<group>"; };
@@ -1453,12 +1453,12 @@
 		733B1D3F14F4D0F6007F3402 /* NewNoteView */ = {
 			isa = PBXGroup;
 			children = (
+				7379A59B14F4E698006593CD /* stopRecorder@2x.png */,
+				7379A59814F4E68E006593CD /* stopRecorder.png */,
 				73CDDA0314EFF7B500A2E7B7 /* recorderPause.png */,
 				73CDDA0414EFF7B500A2E7B7 /* recorderPause@2x.png */,
 				73CDDA0514EFF7B500A2E7B7 /* recorderPlay.png */,
 				73CDDA0614EFF7B500A2E7B7 /* recorderPlay@2x.png */,
-				73CDDA1714EFF7B500A2E7B7 /* stopRecorder.png */,
-				73CDDA1814EFF7B500A2E7B7 /* stopRecorder@2x.png */,
 				73CDDA2614EFF7B500A2E7B7 /* voiceInput.png */,
 				73CDDA2714EFF7B500A2E7B7 /* voiceInput@2x.png */,
 				73CDDA0814EFF7B500A2E7B7 /* recorderTimeBack@2x.png */,
@@ -1827,8 +1827,6 @@
 				73CDDA4714EFF7B500A2E7B7 /* shrink@2x.png in Resources */,
 				73CDDA4814EFF7B500A2E7B7 /* stop.png in Resources */,
 				73CDDA4914EFF7B500A2E7B7 /* stop@2x.png in Resources */,
-				73CDDA4A14EFF7B500A2E7B7 /* stopRecorder.png in Resources */,
-				73CDDA4B14EFF7B500A2E7B7 /* stopRecorder@2x.png in Resources */,
 				73CDDA4C14EFF7B500A2E7B7 /* tableSectionHeader.png in Resources */,
 				73CDDA4D14EFF7B500A2E7B7 /* tableSectionHeader@2x.png in Resources */,
 				73CDDA4E14EFF7B500A2E7B7 /* tagRemind.png in Resources */,
@@ -1870,6 +1868,8 @@
 				73C69EB714F4C8D200925507 /* setting1@2x.png in Resources */,
 				733B1D4A14F4DA44007F3402 /* Overlay.png in Resources */,
 				733B1D4B14F4DA44007F3402 /* Overlay@2x.png in Resources */,
+				7379A59914F4E68E006593CD /* stopRecorder.png in Resources */,
+				7379A59C14F4E698006593CD /* stopRecorder@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
