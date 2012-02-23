@@ -195,7 +195,6 @@
     }
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.kOrder = [index userTablelistViewOption];
-    NSLog(@"korder %d",self.kOrder);
     if (self.isWillReloadAllData) {
         [self reloadAllData];
         isWillReloadAllData = NO;

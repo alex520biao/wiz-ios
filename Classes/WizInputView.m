@@ -48,6 +48,7 @@
         
         UITextField* textInputField_ = [[UITextField alloc] initWithFrame:CGRectMake(10, 0.0, 300, frame.size.height)];
         [self addSubview:textInputField_];
+        textInputField_.autocorrectionType = UITextAutocorrectionTypeNo;
         [textInputField_ release];
         textInputField_.leftViewMode = UITextFieldViewModeAlways;
         textInputField_.leftView = self.nameLable;

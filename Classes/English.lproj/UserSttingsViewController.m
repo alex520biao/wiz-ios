@@ -105,12 +105,13 @@
         
     }
     [index setDocumentMoblleView:self.mobileViewSwitch.on];
-    if (self.downloadDuration) {
+    if (self.downloadDuration == 0) {
         [index setDownloadDocumentData:YES];
         [index setDurationForDownloadDocument:self.downloadDuration];
     }
     else
     {
+        [index setDurationForDownloadDocument:self.downloadDuration];
         [index setDownloadDocumentData:NO];
     }
     if (self.defaultUserSwitch.on) {

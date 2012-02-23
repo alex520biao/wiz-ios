@@ -52,14 +52,14 @@
         for (LocationTreeNode* each in arr) {
             [self removeBlockLocationNode:each];
         }
-        if (![node hasChildren] && ![index fileCountOfLocation:node.locationKey]) {
+        if (![node hasChildren] && [index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"]) {
             [node.parentLocationNode removeChild:node];
         }
         [arr release];
     }
     else
     {
-        if (![index fileCountOfLocation:node.locationKey]) {
+        if ([index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"] ) {
             [node.parentLocationNode removeChild:node];
         }
     }

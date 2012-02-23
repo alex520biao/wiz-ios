@@ -122,7 +122,7 @@
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
     nav.view.frame = CGRectMake(0.0, 0.0, 320, 480);
     nav.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self.navController presentModalViewController:nav animated:YES];
+    [self.navController presentModalViewController:nav animated:NO];
     [check release];
     [nav release];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];

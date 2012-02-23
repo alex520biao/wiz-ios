@@ -16,6 +16,7 @@
 #import "WizPhoneNotificationMessage.h"
 
 #define WaitAlertTag 1101
+#define SucceedTag 1201
 @implementation WizChangePasswordController
 @synthesize oldPassword;
 @synthesize passwordConfirmNew;
@@ -72,6 +73,12 @@
     [alert show];
     [alert release];
 }
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == SucceedTag) {
+        [self cancel];
+    }
+}
 - (void) xmlrpcDone: (NSNotification*)nc
 { 
 	NSDictionary* userInfo = [nc userInfo];
@@ -84,7 +91,13 @@
 		if (succeeded)
 		{
             [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
-            [self cancel];
+            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
+            
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Succeed",nil) message:NSLocalizedString(@"Change your password succeessfully",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            alert.tag = SucceedTag;
+            [alert show];
+            [alert release];
+            
 		}
 	}
 }
@@ -145,6 +158,7 @@
     self.oldPassword.textInputField.placeholder = NSLocalizedString(@"Old Password",nil);
     self.oldPassword.nameLable.text = NSLocalizedString(@"Old Password", nil);
     self.oldPassword.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
+    oldPassword.textInputField.secureTextEntry = YES;
     self.oldPassword.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     self.passwordNew = [self addSubviewByPointY:70];

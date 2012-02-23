@@ -140,10 +140,8 @@
 	[api createAccount];
 	UIAlertView* alert = nil;
 	[WizGlobals showAlertView:NSLocalizedString(@"Create Account", nil) message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
+    self.waitAlertView = alert;
 	[alert show];
-	//
-	self.waitAlertView = alert;
-	//
 	[alert release];
 	//
     

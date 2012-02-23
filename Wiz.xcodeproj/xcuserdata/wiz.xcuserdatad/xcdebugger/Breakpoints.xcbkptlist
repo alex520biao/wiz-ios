@@ -413,11 +413,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/DocumentListViewControllerBaseNew.mm"
-         timestampString = "351326281.728998"
+         timestampString = "351679810.779019"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "424"
-         endingLineNumber = "424"
+         startingLineNumber = "423"
+         endingLineNumber = "423"
          landmarkName = "-reloadAllData"
          landmarkType = "5">
       </FileBreakpoint>
@@ -511,7 +511,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/FoldersViewControllerNew.m"
-         timestampString = "351414867.35038"
+         timestampString = "351679810.779019"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "145"
@@ -632,31 +632,17 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/DocumentListViewControllerBaseNew.mm"
-         timestampString = "351669104.504161"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "664"
-         endingLineNumber = "664"
-         landmarkName = "-syncGoing:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Classes/WizPadDocumentViewCheckAttachmentsController.m"
-         timestampString = "351672955.165321"
+         filePath = "Classes/DocumentListViewControllerBaseNew.mm"
+         timestampString = "351679810.779019"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "148"
-         endingLineNumber = "148"
-         landmarkName = "-checkAttachment:"
+         startingLineNumber = "663"
+         endingLineNumber = "663"
+         landmarkName = "-syncGoing:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

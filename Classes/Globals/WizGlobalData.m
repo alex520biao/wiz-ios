@@ -368,7 +368,6 @@ static WizGlobalData* g_data;
     [self removeShareObjectData:DataTypeOfUploadObject userId:userId];
     [self removeShareObjectData:DataTypeOfUploadDocument userId:userId];
     [self removeShareObjectData:DataTypeOfUploadAttachment userId:userId];
-    [self removeShareObjectData:DataTypeOfPickerView userId:userId];
     [self removeShareObjectData:DataTypeOfCreateAccount userId:userId];
     [self removeShareObjectData:DataTypeOfSync userId:userId];
     [self removeShareObjectData:DataTypeOfSyncByKey userId:userId];

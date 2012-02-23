@@ -426,13 +426,12 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.accountsArray = [WizSettings accounts];
-    
+    self.checkOtherAccountButton.hidden = YES;
     if (0 == [accountsArray count] ) {
         self.loginButton.hidden = NO;
         self.contentTableView.scrollEnabled = NO;
         self.addAccountButton.hidden = NO;
         self.createdAccountButton.hidden = YES;
-        self.checkOtherAccountButton.hidden = NO;
         [self addAccountEntry];
     } 
     else
@@ -441,7 +440,6 @@
         self.contentTableView.scrollEnabled = YES;
         self.addAccountButton.hidden = YES;
         self.createdAccountButton.hidden = NO;
-        self.checkOtherAccountButton.hidden = YES;
         [self checkOtherAccounts:nil];
     }
     self.contentTableView.frame = [self getContentViewFrame];

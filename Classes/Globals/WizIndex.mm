@@ -1599,11 +1599,11 @@ NSInteger compareTag(id location1, id location2, void*);
         }
         if (-1 == [self durationForDownloadDocument]) {
             [self setDurationForDownloadDocument:1];
+            [self setDownloadDocumentData:YES];
         }
         if (0 == [self isMoblieView]) {
             [self setDocumentMoblleView:YES];
         }
-
     }
     else
     {
