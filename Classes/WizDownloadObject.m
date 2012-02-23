@@ -91,12 +91,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     {
         [self callClientLogout];
     }
-    NSDictionary* ret = [[NSDictionary alloc] initWithObjectsAndKeys:self.currentDownloadObjectGUID,  @"document_guid",  nil];
    
-    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:SyncMethod_DownloadObject, @"method",ret,@"ret",[NSNumber numberWithBool:YES], @"succeeded", nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix] object: nil userInfo: userInfo];
-	[userInfo release];
-    [ret release];
 }
 -(NSMutableDictionary*) onDownloadObject:(id)retObject
 {
@@ -170,6 +165,12 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSLog(@"%@ will severchanged",self.objGuid);
     [index setDocumentServerChanged:self.objGuid changed:NO];
+    NSDictionary* ret = [[NSDictionary alloc] initWithObjectsAndKeys:self.currentDownloadObjectGUID,  @"document_guid",  nil];
+    
+    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:SyncMethod_DownloadObject, @"method",ret,@"ret",[NSNumber numberWithBool:YES], @"succeeded", nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix] object: nil userInfo: userInfo];
+	[userInfo release];
+    [ret release];
 }
 - (BOOL) downloadDocument:(NSString *)documentGUID
 {
@@ -203,6 +204,12 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     [super downloadOver];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [index setAttachmentServerChanged:self.objGuid changed:NO];
+    NSDictionary* ret = [[NSDictionary alloc] initWithObjectsAndKeys:self.currentDownloadObjectGUID,  @"document_guid",  nil];
+    
+    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:SyncMethod_DownloadObject, @"method",ret,@"ret",[NSNumber numberWithBool:YES], @"succeeded", nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix] object: nil userInfo: userInfo];
+	[userInfo release];
+    [ret release];
 }
 
 - (BOOL) downloadAttachment:(NSString *)attachmentGUID

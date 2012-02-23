@@ -18,7 +18,16 @@
 @synthesize documentGUID;
 @synthesize accountUserId;
 @synthesize attachments;
+@synthesize waitAlert;
 
+- (void) dealloc
+{
+    self.documentGUID = nil;
+    self.accountUserId = nil;
+    self.attachments = nil;
+    self.waitAlert = nil;
+    [super dealloc];
+}
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -104,36 +113,41 @@
     }
     WizDocumentAttach* attach = [self.attachments objectAtIndex:indexPath.row];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
     if ([index attachmentSeverChanged:attach.attachmentGuid]) {
         cell.detailTextLabel.text = NSLocalizedString(@"Tap to download", nil);
-        if ([downloader attachmentIsDownloading:attach.attachmentGuid]) {
-            cell.detailTextLabel.text = NSLocalizedString(@"Downloading the attachment", nil);
-        }
+    }
+    else
+    {
+        cell.detailTextLabel.text = NSLocalizedString(@"Tap to check", nil);
+    }
+    if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+        cell.imageView.image = [UIImage imageNamed:@"icon_video_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsPPT:attach.attachmentType])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_ppt_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsWord:attach.attachmentType])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_word_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsExcel:attach.attachmentType])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_excel_img"];
+    }
+    else 
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
     }
     cell.textLabel.text = attach.attachmentName;
     return cell;
 }
-- (void) downloadDone:(NSNotification*)nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSDictionary* ret = [userInfo valueForKey:@"ret"];
-    NSString* documentGUID_ = [ret valueForKey:@"document_guid"];
-    for (int i = 0; i<[self.attachments count]; i++) {
-        WizDocumentAttach* attach = [self.attachments objectAtIndex:i];
-        if ([attach.attachmentGuid isEqualToString:documentGUID_]) {
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-            return;
-        }
-    }
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void) checkAttachment:(WizDocumentAttach*) attachment
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
-    if (![index attachmentSeverChanged:attch.attachmentGuid]) {
-        NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attch.attachmentGuid];
-        NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attch.attachmentName];
+    if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
+        NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
+        NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
         UIWebView* webview = [[UIWebView alloc] init];
         webview.multipleTouchEnabled = YES;
         webview.scalesPageToFit = YES;
@@ -152,17 +166,45 @@
     else
     {
         WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
-        if ([downloader attachmentIsDownloading:attch.attachmentGuid]) {
+        if ([downloader attachmentIsDownloading:attachment.attachmentGuid]) {
             return;
         }
         else
         {
-            WizDownloadAttachment* download = [downloader getDownloadProcess:attch.attachmentGuid type:[WizGlobals attachmentKeyString]];
+            WizDownloadAttachment* download = [downloader getDownloadProcess:attachment.attachmentGuid type:[WizGlobals attachmentKeyString]];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ]object:nil];
-            [download downloadAttachment:attch.attachmentGuid];
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [download downloadAttachment:attachment.attachmentGuid];
+            UIAlertView* alert = nil;
+            [WizGlobals showAlertView:NSLocalizedString(@"Refresh Attachment", nil) 
+                              message:NSLocalizedString(@"Please wait while downloading attachment...!", nil) 
+                             delegate:self 
+                              retView:&alert];
+            self.waitAlert = alert;
+            [alert show];
         }
     }
+
+}
+- (void) downloadDone:(NSNotification*)nc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
+    self.waitAlert = nil;
+    NSDictionary* userInfo = [nc userInfo];
+    NSDictionary* ret = [userInfo valueForKey:@"ret"];
+    NSString* documentGUID_ = [ret valueForKey:@"document_guid"];
+    for (int i = 0; i<[self.attachments count]; i++) {
+        WizDocumentAttach* attach = [self.attachments objectAtIndex:i];
+        if ([attach.attachmentGuid isEqualToString:documentGUID_]) {
+            [self checkAttachment:attach];
+        }
+    }
+    
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
+    [self checkAttachment:attch];
 }
 
 @end

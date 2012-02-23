@@ -19,6 +19,7 @@
 #import "CommonString.h"
 #import "UIBadgeView.h"
 #import "WizDictionaryMessage.h"
+#import "WizPadDocumentViewCheckAttachmentsController.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -162,11 +163,11 @@
 
 - (IBAction)viewAttachments:(id)sender
 {
-    AttachmentsView* viewAttachment = [[AttachmentsView alloc] init];
-    viewAttachment.accountUserId = self.accountUserID;
-    viewAttachment.docGuid = self.doc.guid;
-    [self.navigationController pushViewController:viewAttachment animated:YES];
-    [viewAttachment release];
+    WizPadDocumentViewCheckAttachmentsController* checkAttach = [[WizPadDocumentViewCheckAttachmentsController alloc] init];
+    checkAttach.documentGUID = self.doc.guid;
+    checkAttach.accountUserId = accountUserID;
+    [self.navigationController pushViewController:checkAttach animated:YES];
+    [checkAttach release];
 }
 
 - (void)editCurrentDocument

@@ -775,7 +775,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     NSArray* dicArray = retObject;
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSMutableArray* dicMutableArray = [dicArray mutableCopy];
-    
     for(NSDictionary* each in dicMutableArray )
     {
         [each setValue:[NSNumber numberWithInt:1] forKey:@"sever_changed"];

@@ -91,28 +91,19 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
     if(self.attachmentsForUpdated == nil)
-        self.attachmentsForUpdated = [[[index attachmentsForUpload] mutableCopy] autorelease];
-
-    if([self.attachmentsForUpdated count] == 0)
+        self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
+    NSLog(@"attchment upload count is %d",[self.attachmentsForUpdated count]);
+    if(self.attachmentsForUpdated == nil || [self.attachmentsForUpdated count] == 0)
     {
-        NSArray* arr = [index attachmentsForUpload];
-        if (0 == [arr count]) 
-        {
-            if ([index downloadDocumentData]) {
-                WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-                self.download  = [[[index documentForDownload] mutableCopy] autorelease];
-                [self downAllDocument];
-                return YES;
-            }
-            else {
-                [self callClientLogout];
-                return YES;
-            }
+        if ([index downloadDocumentData]) {
+            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+            self.download  = [NSMutableArray arrayWithArray:[index documentForDownload]];
+            [self downAllDocument];
+            return YES;
         }
-        else
-        {
-            self.attachmentsForUpdated = nil;
-            self.attachmentsForUpdated = [[[index attachmentsForUpload] mutableCopy] autorelease];
+        else {
+            [self callClientLogout];
+            return YES;
         }
     }
     WizDocumentAttach* attach = [self.attachmentsForUpdated lastObject];
@@ -190,7 +181,6 @@
         [self callClientLogout];
         return;
     }
-    [super onDownloadAttachmentList:retObject];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     int64_t oldVer = [index attachmentVersion];
     [super onDownloadAttachmentList:retObject];

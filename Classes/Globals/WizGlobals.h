@@ -44,6 +44,10 @@
 +(float) WizDeviceVersion;
 + (NSString*) documentKeyString;
 + (NSString*) attachmentKeyString;
+//2012-2-22
++ (BOOL) checkAttachmentTypeIsPPT:(NSString*)type;
++ (BOOL) checkAttachmentTypeIsWord:(NSString*)type;
++ (BOOL) checkAttachmentTypeIsExcel:(NSString*)type;
 @end
 
 

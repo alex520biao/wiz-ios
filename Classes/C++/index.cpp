@@ -666,6 +666,7 @@ bool CIndex::GetDocumentsForUpdate(CWizDocumentDataArray& arrayDocument)
 bool CIndex::GetAttachmentForUpload(CWizDocumentAttachmentArray& arrayAttach)
 {
     std::string sql = std::string("select ") + g_lpsDocumentAttachFieldSQL + " from WIZ_DOCUMENT_ATTACHMENT where LOCAL_CHANGED=1";
+    printf("%s",sql.c_str());
     return SQLToAttachments(sql.c_str(), arrayAttach);
 }
 

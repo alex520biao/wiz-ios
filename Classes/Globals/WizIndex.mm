@@ -798,6 +798,8 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* attachmentName = [attachment valueForKey:@"attachment_name"];
     NSString* attachmentDataMd5 = [attachment valueForKey:@"data_md5"];
     NSDate* dtDataModified = [attachment valueForKey:@"dt_data_modified"];
+    
+    NSLog(@"the update attachment guid is %@",attachmentGuid);
     WIZDOCUMENTATTACH data;
     data.serverChanged = [[attachment valueForKey:@"sever_changed"] intValue];
     
@@ -854,17 +856,7 @@ NSInteger compareTag(id location1, id location2, void*);
      
 	CIndex& index = [_indexData index];
 	//
-//    BOOL localchange = [self documentLocalChanged:guid];
-//    BOOL serverchange = [self documentServerChanged:guid];
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
-//    BOOL newLocalChange = [self documentLocalChanged:guid];
-//    BOOL newServerChange = [self documentServerChanged:guid];
-//    if (localchange != newLocalChange) {
-//        [self setDocumentLocalChanged:guid changed:newLocalChange];
-//    }
-//    if (serverchange != newServerChange) {
-//        [self setDocumentServerChanged:guid changed:newServerChange];
-//    }
 	return ret;
 }
 

@@ -35,11 +35,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351482823.207441"
+         timestampString = "351665193.178557"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2079"
-         endingLineNumber = "2079"
+         startingLineNumber = "2071"
+         endingLineNumber = "2071"
          landmarkName = "@implementation WizIndex"
          landmarkType = "3">
       </FileBreakpoint>
@@ -119,11 +119,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351420087.978443"
+         timestampString = "351665599.722656"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "817"
-         endingLineNumber = "817"
+         startingLineNumber = "824"
+         endingLineNumber = "824"
          landmarkName = "-updateDocument:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -147,11 +147,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351420087.978443"
+         timestampString = "351665193.178557"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1559"
-         endingLineNumber = "1559"
+         startingLineNumber = "1551"
+         endingLineNumber = "1551"
          landmarkName = "-fileCountOfLocation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -259,11 +259,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351420087.978443"
+         timestampString = "351665193.178557"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1116"
-         endingLineNumber = "1116"
+         startingLineNumber = "1108"
+         endingLineNumber = "1108"
          landmarkName = "-newNoteWithGuidAndData:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -273,11 +273,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351585430.260151"
+         timestampString = "351665193.178557"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2280"
-         endingLineNumber = "2280"
+         startingLineNumber = "2272"
+         endingLineNumber = "2272"
          landmarkName = "-newAttachment:documentGUID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -343,11 +343,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351420087.978443"
+         timestampString = "351665193.178557"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1124"
-         endingLineNumber = "1124"
+         startingLineNumber = "1116"
+         endingLineNumber = "1116"
          landmarkName = "-newNoteWithGuidAndData:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -357,7 +357,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351420087.978443"
+         timestampString = "351665193.178557"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "859"
@@ -385,11 +385,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/WizDownloadObject.m"
-         timestampString = "351158387.341314"
+         timestampString = "351673060.241256"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "134"
-         endingLineNumber = "134"
+         startingLineNumber = "129"
+         endingLineNumber = "129"
          landmarkName = "-onClientLogout:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -545,6 +545,118 @@
          startingLineNumber = "42"
          endingLineNumber = "42"
          landmarkName = "-dealloc"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/Globals/WizApi.m"
+         timestampString = "351665244.594107"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "776"
+         endingLineNumber = "776"
+         landmarkName = "-onDownloadAttachmentList:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/C++/index.cpp"
+         timestampString = "351666274.216197"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "449"
+         endingLineNumber = "449"
+         landmarkName = "CIndex::UpdateDocument(const WIZDOCUMENTDATA&amp; data)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/Globals/WizSync.m"
+         timestampString = "351667464.482848"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "152"
+         endingLineNumber = "152"
+         landmarkName = "-uploadAllObject"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/C++/index.cpp"
+         timestampString = "351667637.406068"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "669"
+         endingLineNumber = "669"
+         landmarkName = "CIndex::GetAttachmentForUpload(CWizDocumentAttachmentArray&amp; arrayAttach)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/Globals/WizSync.m"
+         timestampString = "351667891.769647"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "184"
+         endingLineNumber = "184"
+         landmarkName = "-onDownloadAttachmentList:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/Globals/WizSync.m"
+         timestampString = "351668378.731625"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
+         landmarkName = "-uploadAllObject"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/DocumentListViewControllerBaseNew.mm"
+         timestampString = "351669104.504161"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "664"
+         endingLineNumber = "664"
+         landmarkName = "-syncGoing:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/WizPadDocumentViewCheckAttachmentsController.m"
+         timestampString = "351672955.165321"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "148"
+         endingLineNumber = "148"
+         landmarkName = "-checkAttachment:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

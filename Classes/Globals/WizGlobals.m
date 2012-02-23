@@ -190,8 +190,47 @@
         return NO;
     }
 }
-
-
++ (BOOL) checkAttachmentTypeIsPPT:(NSString*)type
+{
+    if ([[type lowercaseString] isEqualToString:@"ppt"]) {
+        return YES;
+    }
+    else if([[type lowercaseString] isEqualToString:@"pptx"])
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
++ (BOOL) checkAttachmentTypeIsWord:(NSString*)type
+{
+    if ([[type lowercaseString] isEqualToString:@"doc"]) {
+        return YES;
+    }
+    else if ([[type lowercaseString] isEqualToString:@"docx"])
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
++ (BOOL) checkAttachmentTypeIsExcel:(NSString*)type
+{
+    if ([[type lowercaseString] isEqualToString:@"xls"]) {
+        return YES;
+    }
+    else if([[type lowercaseString] isEqualToString:@"xlsx"])
+    {
+        return YES;
+    }
+    {
+        return NO;
+    }
+}
 +(NSDate *) sqlTimeStringToDate:(NSString*) str
 {
 	NSDateFormatter* formatter = [[NSDateFormatter alloc] init];

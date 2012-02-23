@@ -972,7 +972,6 @@
 		30E3E3AE1384F19300ACB649 /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				4484BB2014A981EB006CC9D4 /* WizControl */,
 				449D723814A1DE4800BDD39D /* NewUI */,
 				30E3E3A71384F18500ACB649 /* DetailViewController.h */,
 				30E3E3A81384F18500ACB649 /* DetailViewController.m */,
@@ -1399,6 +1398,7 @@
 		449D723814A1DE4800BDD39D /* NewUI */ = {
 			isa = PBXGroup;
 			children = (
+				4484BB2014A981EB006CC9D4 /* WizControl */,
 				73931C6814E0E470003C431C /* PadSearchView */,
 				73FDF03614D9365200078EE3 /* PadNewNote */,
 				442F2A1914C3FBC00028A0C6 /* CatelogBase */,
