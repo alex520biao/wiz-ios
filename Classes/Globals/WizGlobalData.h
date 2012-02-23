@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "CommonString.h"
 extern  NSString* DataTypeOfSync;
 extern NSString* DataTypeOfCreateAccount ;
 extern NSString* DataTypeOfVerifyAccount ;

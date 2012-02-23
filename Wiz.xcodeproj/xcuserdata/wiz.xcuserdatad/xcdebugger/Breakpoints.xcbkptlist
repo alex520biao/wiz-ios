@@ -399,12 +399,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/UserSttingsViewController.m"
-         timestampString = "351414299.230602"
+         timestampString = "351685165.527061"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "250"
-         endingLineNumber = "250"
-         landmarkName = "-viewDidLoad"
+         startingLineNumber = "251"
+         endingLineNumber = "251"
+         landmarkName = "-buildDisplayInfo"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

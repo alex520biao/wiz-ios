@@ -11,6 +11,7 @@
 #import "WizGlobalData.h"
 #import "TTTAttributedLabel.h"
 #import "WizGlobals.h"
+#import "CommonString.h"
 
 #define CellWithImageFrame CGRectMake(10,10,225,70) 
 #define CellWithoutImageFrame CGRectMake(10,10,300,70)
@@ -167,17 +168,13 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
         NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
         for (WizTag* each in tags) {
-            NSString* tagName = each.name;
-            if ([tagName isEqualToString:@"$public-documents$"]) {
-                tagName = @"Share with friends";
-            }
-            tagstr = [tagstr stringByAppendingFormat:@"%@|",NSLocalizedString(each.name, nil)];
+            NSString* tagName = getTagDisplayName(each.name);
+            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
         }
         if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tag", nil)]]) {
             tagstr = [tagstr substringToIndex:tagstr.length-1];
             folder = [folder stringByAppendingString:tagstr];
         }
-        
         UIFont* textFont = [UIFont systemFontOfSize:13];
         CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
         NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:folder];

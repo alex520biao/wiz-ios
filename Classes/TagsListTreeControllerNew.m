@@ -16,7 +16,7 @@
 #import "TagDocumentListView.h"
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
-
+#import "CommonString.h"
 @implementation TagsListTreeControllerNew
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -71,10 +71,7 @@
     for (WizTag* each in tagArray)
     {
         LocationTreeNode* node = [[LocationTreeNode alloc] init];
-        NSString* tagName = [each name];
-        if ([[each name] isEqualToString:@"$public-documents$"]) {
-            tagName = @"Share with friends";
-        }
+        NSString* tagName = getTagDisplayName(each.name);
         node.title = tagName;
         node.locationKey = each.guid;
         if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
@@ -136,7 +133,7 @@
     [searchFooter release];
     [footerView release];
     UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(90, 0, 200, 100)];
-    remind.text = NSLocalizedString(@"tagRemind", nil);
+    remind.text = NSLocalizedString(@"Tag is an usual way to organize your notes,you can give a unified feature note with the same tag.also we provide you the note view as a tree form so that it is convenient for you to find one tag in multiple tags.", nil);
     remind.backgroundColor = [UIColor clearColor];
     remind.textColor = [UIColor grayColor];
     [searchFooter addSubview:remind];

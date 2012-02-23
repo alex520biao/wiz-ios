@@ -110,7 +110,7 @@
     [footerView release];
     
     UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(90, 7, 210, 100)];
-    remind.text = NSLocalizedString(@"searchRemind", nil);
+    remind.text = NSLocalizedString(@"You can search your own account here ,and we will save your recent searching records so that when you use it next time you should not search it.", nil);
     remind.backgroundColor = [UIColor clearColor];
     remind.textColor = [UIColor grayColor];
     [searchFooter addSubview:remind];

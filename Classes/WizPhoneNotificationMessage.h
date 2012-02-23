@@ -21,7 +21,7 @@
 #define TypeOfPhoneDocumentGuid             @"TypeOfPhoneDocumentGuid"
 #define TypeOfPhoneDocumentIndexPathInTable @"TypeOfPhoneDocumentIndexPathInTable"
 
-#define MessageOfPhoneDidSelectedAccount         @"MessageOfDidSelectedAccount"
+#define MessageOfPhoneDidSelectedAccount    @"MessageOfDidSelectedAccount"
 #define TypeOfPhoneAccountUserId            @"TypeOfPhoneAccountUserId"
 #define MessageOfDocumentlistWillReloadData @"MessageOfDocumentlistWillReloadData"
 
