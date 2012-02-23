@@ -121,7 +121,6 @@
             height = [accountsArray count]* 40 ;
         }
         contentviewY = contentviewY -height/2;
-        NSLog(@"%f",height);
         return CGRectMake(10, contentviewY, 300, height);
     }
     else

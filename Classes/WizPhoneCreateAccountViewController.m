@@ -176,12 +176,13 @@
     [self.view addSubview:self.confirmInputView];
     self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
     
-    UIButton* logButton = [[UIButton alloc] initWithFrame:CGRectMake(30, 260, 260, 40)];
+    UIButton* logButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logButton.frame = CGRectMake(10, 260, 300, 40);
     [logButton setTitle:NSLocalizedString(@"Register", nil) forState:UIControlStateNormal];
+    logButton.titleLabel.textAlignment = UITextAlignmentCenter;
     [self.view addSubview:logButton];
     [logButton addTarget:self action:@selector(createAccount) forControlEvents:UIControlEventTouchUpInside];
-    logButton.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
-    [logButton release];
+    [logButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud1"] forState:UIControlStateNormal];
     UIView* b1 = [[UIView alloc] initWithFrame:CGRectMake(0.0, 320, 320, 1)];
     b1.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
     [self.view addSubview:b1];

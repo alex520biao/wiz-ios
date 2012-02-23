@@ -133,11 +133,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LoginViewController.m"
-         timestampString = "351336583.112579"
+         timestampString = "351682534.853953"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "179"
-         endingLineNumber = "179"
+         startingLineNumber = "178"
+         endingLineNumber = "178"
          landmarkName = "-didSelectedAccount:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -483,11 +483,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LoginViewController.m"
-         timestampString = "351336583.112579"
+         timestampString = "351682534.853953"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "155"
-         endingLineNumber = "155"
+         startingLineNumber = "154"
+         endingLineNumber = "154"
          landmarkName = "-addAccountEntry"
          landmarkType = "5">
       </FileBreakpoint>
@@ -497,11 +497,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LoginViewController.m"
-         timestampString = "351397575.711126"
+         timestampString = "351682534.853953"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "220"
-         endingLineNumber = "220"
+         startingLineNumber = "219"
+         endingLineNumber = "219"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -643,6 +643,20 @@
          startingLineNumber = "663"
          endingLineNumber = "663"
          landmarkName = "-syncGoing:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/LoginViewController.m"
+         timestampString = "351682530.408762"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
+         landmarkName = "-getContentViewFrame"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
