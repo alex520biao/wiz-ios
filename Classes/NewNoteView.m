@@ -25,7 +25,8 @@
 #import "CommonString.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadCheckAttachments.h"
-
+#import "WizPadNotificationMessage.h"
+#import "WizSelectTagViewController.h"
 
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
@@ -38,6 +39,7 @@
 
 
 @implementation NewNoteView
+@synthesize selectedTags;
 @synthesize session;
 @synthesize recorder;
 @synthesize accountUserId;
@@ -46,7 +48,6 @@
 @synthesize titleTextFiled;
 @synthesize bodyTextField;
 @synthesize attachmentsCountLabel;
-@synthesize documentTags;
 @synthesize documentFloder;
 @synthesize currentRecodingFilePath;
 @synthesize isNewDocument;
@@ -62,6 +63,7 @@
 @synthesize firtResponser;
 -(void) dealloc
 {
+    self.selectedTags = nil;
     self.firtResponser = nil;
     self.session = nil;
     self.recorder = nil;
@@ -226,14 +228,40 @@
     [self.titleTextFiled resignFirstResponder];
     [self.bodyTextField resignFirstResponder];
 }
+- (void) addTag:(NSNotification*)nc
+{
+    NSDictionary* dic = [nc userInfo];
+    WizTag* tag = [dic valueForKey:TypeOfTagKey];
+    [self.selectedTags addObject:tag];
+}
+
+- (NSUInteger) tagIndexAtSlectedArray:(WizTag*)tag
+{
+    for (int i = 0; i < [self.selectedTags count]; i++) {
+        if ([[[self.selectedTags objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+- (void) removeTag:(NSNotification*)nc
+{
+    NSDictionary* dic = [nc userInfo];
+    WizTag* tag = [dic valueForKey:TypeOfTagKey];
+    [self.selectedTags removeObjectAtIndex:[self tagIndexAtSlectedArray:tag]];
+}
 
 -(void) tagViewSelect
 {
-    TagSelectView* tagView = [[TagSelectView alloc] initWithStyle:UITableViewStyleGrouped];
-    tagView.documentTagsGUID = self.documentTags;
+    WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
     tagView.accountUserId = self.accountUserId;
+    tagView.initSelectedTags = self.selectedTags;
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
+
 }
 
 -(void) floderViewSelected
@@ -786,7 +814,16 @@
     [dic setObject:self.titleTextFiled.text forKey:TypeOfDocumentTitle];
     [dic setObject:self.bodyTextField.text forKey:TypeOfDocumentBody];
     [dic setObject:self.documentFloder forKey:TypeOfDocumentLocation];
-    [dic setObject:self.documentTags forKey:TypeOfDocumentTags];
+    
+    NSString* tagGuids = [NSMutableString string];
+    if ([self.selectedTags count]) {
+        for (int i = 0; i <[self.selectedTags count]-1; i++) {
+            WizTag* tag = [self.selectedTags objectAtIndex:i];
+            tagGuids = [tagGuids stringByAppendingFormat:@"%@*",[tag guid]];
+        }
+        tagGuids = [tagGuids stringByAppendingFormat:@"%@",[[self.selectedTags lastObject] guid]];
+    }
+    [dic setObject:tagGuids forKey:TypeOfDocumentTags];
     if (isNewDocument) {
         [index newNoteWithGuidAndData:dic];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
@@ -882,7 +919,10 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     WizDocument* doc = [index documentFromGUID:self.documentGUID];
 
-    self.documentTags = [NSMutableString stringWithString:doc.tagGuids];
+    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:documentGUID_]];
+    if (selectedTags == nil) {
+        self.selectedTags = [NSMutableArray array];
+    }
     self.documentFloder = [NSMutableString stringWithString:doc.location];
     NSArray* attachs = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:doc.guid]];
     if(nil == self.attachmentsSourcePaths)
@@ -902,7 +942,7 @@
 - (void) prepareForNewDocument
 {
     self.documentGUID = [WizGlobals genGUID];
-    self.documentTags = [NSMutableString string];
+    self.selectedTags = [NSMutableArray array];
     self.documentFloder = [NSMutableString string];
     if(nil == self.attachmentsSourcePaths)
         self.attachmentsSourcePaths = [NSMutableArray array];
@@ -923,6 +963,9 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:TypeOfSelectedTag object:nil];
+    [nc removeObserver:self name:TypeOfUnSelectedTag object:nil];
     
     if (self.addAttachmentView.tag == HIDDENTTAG) {
         [self addAttachmentsViewAnimation];

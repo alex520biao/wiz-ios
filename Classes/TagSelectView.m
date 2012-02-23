@@ -10,7 +10,7 @@
 #import "Globals/WizGlobalData.h"
 #import "WizIndex.h"
 #import "WizNewTagCell.h"
-
+#import "WizPhoneNotificationMessage.h"
 @implementation TagSelectView
 
 @synthesize select;
@@ -369,6 +369,7 @@
             {
                 WizIndex* index  = [[WizGlobalData sharedData] indexData:self.accountUserId];
                 WizTag* tag = [index newTag:self.searchBar.text description:@"" parentTagGuid:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil];
                 [self.tagsWillAdd addObject:tag];
                 UITableViewCell* cell = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
                 [self.tagsSearch removeObjectAtIndex:0];

@@ -20,13 +20,11 @@
 	AVAudioSession *session;
     NSTimer* timer;
     float  currentTIme;
-    
     UILabel* recoderLabel;
     UITextField* titleTextFiled;
     UITextView* bodyTextField;
     UILabel* attachmentsCountLabel;
     NSMutableString* currentRecodingFilePath;
-    NSMutableString* documentTags;
     NSMutableString* documentFloder;
     BOOL            isNewDocument;
     NSString* documentGUID;
@@ -36,9 +34,12 @@
     UIView* inputContentView;
     UIImageView* keyControl;
     NSMutableArray* attachmentsSourcePaths;
+    
+    NSMutableArray* selectedTags;
     VoiceRecognition* voiceInput;
     id firtResponser;
 }
+@property (nonatomic, retain) NSMutableArray* selectedTags;
 @property (retain) AVAudioSession           *session;
 @property (retain) AVAudioRecorder          *recorder;
 @property (retain)  VoiceRecognition* voiceInput;
@@ -48,7 +49,6 @@
 @property (nonatomic, retain) UITextField*  titleTextFiled;
 @property (nonatomic, retain) UITextView*   bodyTextField;
 @property (nonatomic, retain) UILabel*      attachmentsCountLabel;
-@property (nonatomic, retain) NSMutableString* documentTags;
 @property (nonatomic, retain) NSMutableString* documentFloder;
 @property (nonatomic, retain) NSMutableString* currentRecodingFilePath;
 @property (nonatomic, retain) NSString*         documentGUID;

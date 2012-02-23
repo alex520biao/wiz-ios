@@ -11,6 +11,9 @@
 #import "WizGlobalData.h"
 #import "WizNewTagCell.h"
 #import "WizPadNotificationMessage.h"
+#import "WizPhoneNotificationMessage.h"
+#import "WizGlobals.h"
+
 @implementation WizSelectTagViewController
 
 @synthesize searchBar;
@@ -69,7 +72,7 @@
         if([cc isKindOfClass:[UIButton class]])
         {
             UIButton *btn = (UIButton *)cc;
-            [btn setTitle:@"OK"  forState:UIControlStateNormal];
+            [btn setTitle:NSLocalizedString(@"OK", nil) forState:UIControlStateNormal];
         }
     }
 }
@@ -299,7 +302,13 @@
         [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
         [self postSlectedTagMessage:tag];
         self.isNewTag = NO;
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+        if (WizDeviceIsPad()) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+        }
+        else
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
+        }
     }
     else
     {
