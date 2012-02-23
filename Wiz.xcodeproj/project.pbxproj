@@ -152,6 +152,8 @@
 		7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311620A14F5091D007EC8AC /* Default-Landscape~ipad.png */; };
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
+		7311621E14F5EDC5007EC8AC /* setting1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621C14F5EDC5007EC8AC /* setting1.png */; };
+		7311621F14F5EDC5007EC8AC /* setting1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621D14F5EDC5007EC8AC /* setting1@2x.png */; };
 		733B1D4A14F4DA44007F3402 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 733B1D4814F4DA44007F3402 /* Overlay.png */; };
 		733B1D4B14F4DA44007F3402 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 733B1D4914F4DA44007F3402 /* Overlay@2x.png */; };
 		7362D54114DCEAD9003E9E19 /* WizPadEditTagTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362D54014DCEAD8003E9E19 /* WizPadEditTagTextFiled.m */; };
@@ -568,6 +570,8 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		7311621C14F5EDC5007EC8AC /* setting1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = setting1.png; path = icons/setting1.png; sourceTree = "<group>"; };
+		7311621D14F5EDC5007EC8AC /* setting1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "setting1@2x.png"; path = "icons/setting1@2x.png"; sourceTree = "<group>"; };
 		733B1D4814F4DA44007F3402 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Overlay.png; path = icons/Overlay.png; sourceTree = "<group>"; };
 		733B1D4914F4DA44007F3402 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Overlay@2x.png"; path = "icons/Overlay@2x.png"; sourceTree = "<group>"; };
 		7362D53F14DCEAD8003E9E19 /* WizPadEditTagTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditTagTextFiled.h; sourceTree = "<group>"; };
@@ -1532,6 +1536,8 @@
 		733B1D4214F4D18E007F3402 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				7311621C14F5EDC5007EC8AC /* setting1.png */,
+				7311621D14F5EDC5007EC8AC /* setting1@2x.png */,
 				73931B9B14E0DC11003C431C /* loginBackgroud.png */,
 				73931B9C14E0DC11003C431C /* loginBackgroud@2x.png */,
 				73931B9F14E0DC11003C431C /* loginButtonBackgroud.png */,
@@ -1882,6 +1888,8 @@
 				7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */,
 				7311621314F50AC0007EC8AC /* Default.png in Resources */,
 				7311621014F50ABB007EC8AC /* Default@2x.png in Resources */,
+				7311621E14F5EDC5007EC8AC /* setting1.png in Resources */,
+				7311621F14F5EDC5007EC8AC /* setting1@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
