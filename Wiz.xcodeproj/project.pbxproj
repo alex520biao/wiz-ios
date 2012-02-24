@@ -560,6 +560,8 @@
 		44A952701495B688001A2ED8 /* TagsListTreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeView.m; sourceTree = "<group>"; };
 		730B2F1B14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/loginBackgroud.png; sourceTree = "<group>"; };
 		730B2F1D14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/loginBackgroud@2x.png"; sourceTree = "<group>"; };
+		730B2F3214F7920400707A07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/loginBackgroud.png"; sourceTree = "<group>"; };
+		730B2F3314F7920900707A07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/loginBackgroud@2x.png"; sourceTree = "<group>"; };
 		731161FD14F5028D007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		731161FF14F5029C007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7311620314F503DF007EC8AC /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
@@ -2052,6 +2054,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				730B2F1B14F78B8700707A07 /* English */,
+				730B2F3214F7920400707A07 /* zh-Hans */,
 			);
 			name = loginBackgroud.png;
 			sourceTree = "<group>";
@@ -2060,6 +2063,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				730B2F1D14F78B8700707A07 /* English */,
+				730B2F3314F7920900707A07 /* zh-Hans */,
 			);
 			name = "loginBackgroud@2x.png";
 			sourceTree = "<group>";
