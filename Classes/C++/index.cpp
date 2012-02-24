@@ -755,7 +755,7 @@ bool CIndex::documentsWillDowload(int duration, CWizDocumentDataArray &array)
     int month = duration/30 %12;
     int year = duration/(365);
     std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT where DT_MODIFIED >= datetime('now', '-" +WizIntToStdString(day) + " day','-" + WizIntToStdString(month) + " month','-" + WizIntToStdString(year) + " year') and SERVER_CHANGED=1";
-
+    printf("%s",sql.c_str());
     if(!SQLToDocuments(sql.c_str(), array))
         return false;
     else

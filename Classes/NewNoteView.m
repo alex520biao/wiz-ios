@@ -12,7 +12,6 @@
 #import "WizIndex.h"
 #import "Globals/WizGlobalData.h"
 #import "Globals/WizGlobals.h"
-#import "TagSelectView.h"
 #import "AttachmentsView.h"
 #import "WizApi.h"
 #import "SelectFloderView.h"

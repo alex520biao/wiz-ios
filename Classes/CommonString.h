@@ -16,9 +16,9 @@
 #define WizStrLogin		NSLocalizedString(@"Login", nil)
 #define WizStrDocuments	NSLocalizedString(@"Documents", nil)
 #define WizStrRemove	NSLocalizedString(@"Remove", nil)
-
+#define WizStrSucceed   NSLocalizedString(@"Succeed", nil)
 #define WizStrSync		NSLocalizedString(@"Sync", nil)
-
+#define WizStrDelete		NSLocalizedString(@"Delete", nil)
 #define WizStrRefresh		NSLocalizedString(@"Refresh", nil)
 
 #define WizStrTags		NSLocalizedString(@"Tags", nil)

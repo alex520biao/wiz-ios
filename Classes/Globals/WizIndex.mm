@@ -1606,7 +1606,6 @@ NSInteger compareTag(id location1, id location2, void*);
         }
         if (-1 == [self durationForDownloadDocument]) {
             [self setDurationForDownloadDocument:1];
-            [self setDownloadDocumentData:YES];
         }
         if (0 == [self isMoblieView]) {
             [self setDocumentMoblleView:YES];
@@ -1617,12 +1616,13 @@ NSInteger compareTag(id location1, id location2, void*);
 
         if ([self durationForDownloadDocument]==0) {
             [self setDurationForDownloadDocument:1];
-            [self setDownloadDocumentData:YES];
+
         }
         if ([self imageQualityValue] ==0) {
             [self setImageQualityValue:750];
         }
     }
+    [self setDownloadDocumentData:YES];
     NSLog(@"the init order is %lld",[self userTablelistViewOption]);
     if (-1 == [self userTablelistViewOption]) {
         [self setUserTableListViewOption:kOrderReverseDate];

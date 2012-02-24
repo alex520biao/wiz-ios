@@ -13,11 +13,8 @@
     WizDocument* doc;
     NSString* accountUserId;
     UISlider* fontSlider;
-    
-    
     NSMutableString* documentFloder;
-    NSMutableString* documentTags;
-    
+    NSMutableArray* documentTags;
     NSIndexPath* lastIndexPath;
 }
 @property (nonatomic, retain) WizDocument* doc;
@@ -25,6 +22,6 @@
 @property (nonatomic, retain)  UISlider* fontSlider;
 
 @property (nonatomic, retain) NSMutableString* documentFloder;
-@property (nonatomic, retain) NSMutableString* documentTags;
+@property (nonatomic, retain) NSMutableArray* documentTags;
 @property (nonatomic, retain)    NSIndexPath* lastIndexPath;
 @end

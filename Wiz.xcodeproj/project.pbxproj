@@ -69,7 +69,6 @@
 		448688F21473708200F74358 /* UIView-TagExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 448688F11473708200F74358 /* UIView-TagExtensions.m */; };
 		448777EF14C50EC800B67FF2 /* PadTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 448777EE14C50EC400B67FF2 /* PadTagController.m */; };
 		448777F214C511A400B67FF2 /* CatelogTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 448777F114C511A300B67FF2 /* CatelogTagCell.m */; };
-		4487A3361470AD3300619ED4 /* TagSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4487A3351470AD3300619ED4 /* TagSelectView.m */; };
 		4488C0DF14AC5B05001C162D /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4488C0DE14AC5B05001C162D /* RegexKitLite.m */; };
 		4488C0E114AC5C17001C162D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4488C0E014AC5C17001C162D /* libicucore.dylib */; };
 		4488F70C14677CAC0004E153 /* AttachmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4488F70B14677CAC0004E153 /* AttachmentView.m */; };
@@ -425,8 +424,6 @@
 		448777EE14C50EC400B67FF2 /* PadTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadTagController.m; sourceTree = "<group>"; };
 		448777F014C511A200B67FF2 /* CatelogTagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatelogTagCell.h; sourceTree = "<group>"; };
 		448777F114C511A300B67FF2 /* CatelogTagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatelogTagCell.m; sourceTree = "<group>"; };
-		4487A3341470AD3300619ED4 /* TagSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagSelectView.h; sourceTree = "<group>"; };
-		4487A3351470AD3300619ED4 /* TagSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagSelectView.m; sourceTree = "<group>"; };
 		4488C0DD14AC5B05001C162D /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		4488C0DE14AC5B05001C162D /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		4488C0E014AC5C17001C162D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -1052,15 +1049,6 @@
 			name = ViewTag;
 			sourceTree = "<group>";
 		};
-		4487A32F1470AC6A00619ED4 /* TagSelect */ = {
-			isa = PBXGroup;
-			children = (
-				4487A3341470AD3300619ED4 /* TagSelectView.h */,
-				4487A3351470AD3300619ED4 /* TagSelectView.m */,
-			);
-			name = TagSelect;
-			sourceTree = "<group>";
-		};
 		4488C0DB14AC5AF1001C162D /* Regex */ = {
 			isa = PBXGroup;
 			children = (
@@ -1339,7 +1327,6 @@
 				449A22681485C0AC002D1759 /* TreeViewBase */,
 				4490D601148249D50091E3C0 /* MultiSelectPicture */,
 				448688C414735BE600F74358 /* NewNote */,
-				4487A32F1470AC6A00619ED4 /* TagSelect */,
 				4488F70814677C740004E153 /* FlowSelected */,
 				442D1E8D1484D5E200DC7221 /* PickViewController.h */,
 				442D1E8E1484D5E200DC7221 /* PickViewController.m */,
@@ -1945,7 +1932,6 @@
 				44892177145E8C360019273A /* WizDownloadObject.m in Sources */,
 				44895E17145FF966001C2291 /* WizUploadObjet.m in Sources */,
 				4488F70C14677CAC0004E153 /* AttachmentView.m in Sources */,
-				4487A3361470AD3300619ED4 /* TagSelectView.m in Sources */,
 				448688DB1473657800F74358 /* NewNoteView.m in Sources */,
 				448688DE14736A0200F74358 /* TouchImageView.m in Sources */,
 				448688F21473708200F74358 /* UIView-TagExtensions.m in Sources */,

@@ -29,7 +29,7 @@
 #define ImageQualityTag 1000
 #define DownloadDurationTag 1001
 #define TableListViewOptionTag 1101
-
+#define ProtectPasswordSucceedTag 1301
 
 @implementation UserSttingsViewController
 @synthesize accountUserId;
@@ -105,15 +105,7 @@
         
     }
     [index setDocumentMoblleView:self.mobileViewSwitch.on];
-    if (self.downloadDuration == 0) {
-        [index setDownloadDocumentData:YES];
-        [index setDurationForDownloadDocument:self.downloadDuration];
-    }
-    else
-    {
-        [index setDurationForDownloadDocument:self.downloadDuration];
-        [index setDownloadDocumentData:YES];
-    }
+    [index setDurationForDownloadDocument:self.downloadDuration];
     if (self.defaultUserSwitch.on) {
         [WizSettings setDefalutAccount:self.accountUserId];
     }
@@ -526,13 +518,21 @@
     NSLog(@"%@",protectPassword);
     if ([protectPassword isEqualToString:@"-1"]) {
         self.protectCellSwitch.on = NO;
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error"
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError
                                                  message:NSLocalizedString(@"The password you entered does not match", nil) 
                                                 delegate:nil 
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil , nil];
+                                              cancelButtonTitle:WizStrCancel otherButtonTitles:nil , nil];
         [alert show];
         [alert release];
         return;
+    }
+    else {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed
+                                                        message:NSLocalizedString(@"Set the protect password  successfully", nil) 
+                                                       delegate:self
+                                              cancelButtonTitle:WizStrOK otherButtonTitles:nil , nil];
+        [alert show];
+        [alert release];
     }
     self.accountProtectPassword = protectPassword;
 }
@@ -541,8 +541,8 @@
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
                                                        message:NSLocalizedString(@"You will delete all the cache files, are you sure?",nil)   
                                                        delegate:self   
-                                                       cancelButtonTitle:NSLocalizedString(@"Cancel" ,nil) 
-                                                       otherButtonTitles:NSLocalizedString(@"Delete",nil),nil];  
+                                                       cancelButtonTitle:WizStrCancel 
+                                                       otherButtonTitles:WizStrDelete,nil];  
     alert.tag = ClearCacheTag;
     [alert show];
     [alert release];
@@ -820,7 +820,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:_title_   
                                                     message:msg   
                                                    delegate:nil   
-                                          cancelButtonTitle:@"确定"   
+                                          cancelButtonTitle:WizStrOK 
                                           otherButtonTitles:nil];  
     [alert show];  
     [alert release];  
@@ -833,18 +833,18 @@
     switch (result)   
     {  
         case MFMailComposeResultCancelled:  
-            msg = @"邮件发送取消";  
+            msg = NSLocalizedString(@"Mail has been canceled", nil);
             break;  
         case MFMailComposeResultSaved:  
-            msg = @"邮件保存成功";  
+            msg =NSLocalizedString(@"Mail saved successfully", nil);
             [self alertWithTitle:nil msg:msg];  
             break;  
         case MFMailComposeResultSent:  
-            msg = @"邮件发送成功";  
+            msg = NSLocalizedString(@"Mail sended succeddfully", nil);  
             [self alertWithTitle:nil msg:msg];  
             break;  
         case MFMailComposeResultFailed:  
-            msg = @"邮件发送失败";  
+            msg = NSLocalizedString(@"Mail sended failed" , nil);
             [self alertWithTitle:nil msg:msg];  
             break;  
         default:  

@@ -9,10 +9,11 @@
 #import "DocumentInfoViewController.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
-#import "TagSelectView.h"
 #import "SelectFloderView.h"
 #import "WizGlobals.h"
-
+#import "CommonString.h"
+#import "WizPadNotificationMessage.h"
+#import "WizSelectTagViewController.h"
 @interface DocumentInfoCell : UITableViewCell {
     UILabel* nameLabel;
     UILabel* valueLabel;
@@ -74,15 +75,39 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+- (void) addTag:(NSNotification*)nc
+{
+    NSDictionary* dic = [nc userInfo];
+    WizTag* tag = [dic valueForKey:TypeOfTagKey];
+    [self.documentTags addObject:tag];
+}
 
+- (NSUInteger) tagIndexAtSlectedArray:(WizTag*)tag
+{
+    for (int i = 0; i < [self.documentTags count]; i++) {
+        if ([[[self.documentTags objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+- (void) removeTag:(NSNotification*)nc
+{
+    NSDictionary* dic = [nc userInfo];
+    WizTag* tag = [dic valueForKey:TypeOfTagKey];
+    [self.documentTags removeObjectAtIndex:[self tagIndexAtSlectedArray:tag]];
+}
 #pragma mark - View lifecycle
 -(void) tagViewSelect
 {
-    TagSelectView* tagView = [[TagSelectView alloc] initWithStyle:UITableViewStyleGrouped];
-    tagView.documentTagsGUID = self.documentTags;
+    WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
     tagView.accountUserId = self.accountUserId;
+    tagView.initSelectedTags = self.documentTags;
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
 }
 
 -(void) floderViewSelected
@@ -98,6 +123,11 @@
 {
     [super viewDidLoad];
     [self.tableView reloadData];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    self.documentTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:self.doc.guid]];
+    if (self.documentTags == nil) {
+        self.documentTags = [NSMutableArray array];
+    }
     self.tableView.scrollEnabled = NO;
     self.lastIndexPath = nil;
 }
@@ -120,10 +150,6 @@
         [index setDocumentLocation:doc.guid location:self.documentFloder];
         [index setDocumentLocalChanged:doc.guid changed:YES];
     }
-    if (![self.documentTags isEqualToString:doc.tagGuids]) {
-        [index setDocumentTags:doc.guid tags:self.documentTags];
-        [index setDocumentLocalChanged:doc.guid changed:YES];
-    }
     if (nil !=self.lastIndexPath) {
         [self.tableView beginUpdates];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.lastIndexPath ] withRowAnimation:UITableViewRowAnimationNone];
@@ -141,6 +167,26 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    BOOL tagChenged = NO;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    NSMutableString* tagGuids = [NSMutableString string];
+    for (WizTag* each in documentTags) {
+
+        [tagGuids appendFormat:@"%@*",each.guid];
+        if ([doc.tagGuids rangeOfString:each.guid].length == 0) {
+            NSLog(@"changed ");
+            tagChenged = YES;
+        }
+    }
+    if ([documentTags count] != [[index tagsByDocumentGuid:self.doc.guid] count]) {
+        tagChenged = YES;
+    }
+    if (tagChenged == YES) {
+        NSString* tags = [tagGuids substringToIndex:tagGuids.length-1];
+
+        [index setDocumentTags:self.doc.guid tags:tags];
+        [index setDocumentLocalChanged:self.doc.guid changed:YES];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -213,9 +259,6 @@
     if (cell == nil) {
         cell = [[[DocumentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    
-    
     if (0 == indexPath.row) {
         cell.nameLabel.text = NSLocalizedString(@"Name", nil);
         cell.valueLabel.text = doc.title;
@@ -223,15 +266,12 @@
     
     if (1 == indexPath.row) {
         cell.nameLabel.text = NSLocalizedString(@"Tags", nil);
-        NSArray* tags = [self.documentTags componentsSeparatedByString:@"*"];
-        NSMutableString* tagNames =[NSMutableString string];
-        for (NSString* each in tags) {
-            WizTag* tag = [index tagFromGuid:each];
-            [tagNames appendFormat:@"|%@",NSLocalizedString(tag.name, nil)];
+        NSMutableString* tagNames = [NSMutableString string];
+        for (WizTag* each in self.documentTags) {
+            [tagNames appendFormat:@"|%@",getTagDisplayName(each.name)];
         }
         cell.valueLabel.text = tagNames;
     }
-    
     else if (2 == indexPath.row) {
         cell.nameLabel.text = NSLocalizedString(@"Folders", nil);
         cell.valueLabel.text = [WizGlobals folderStringToLocal:self.documentFloder];
