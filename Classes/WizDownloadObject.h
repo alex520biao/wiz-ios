@@ -31,7 +31,7 @@ extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 -(void) onClientLogout:(id)retObject;
 -(NSMutableDictionary*) onDownloadObject:(id)retObject;
 -(BOOL) downloadObject;
-- (void) downloadOver;
+- (void) downloadOver:(BOOL)unzipIsSucceed;
 - (NSString*) padNotificationName:(NSString*)prefix;
 @end
 

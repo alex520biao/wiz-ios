@@ -266,27 +266,48 @@
     self.searchDocumentBar.hidden = !self.searchDocumentBar.hidden;
     [UIView commitAnimations];
 }
-- (void) downloadDocumentDone
+- (void) downloadDocument
+{
+    self.download = [[[WizDownloadDocument alloc] initWithAccount:self.accountUserID password:@""] autorelease];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone) name:[self.download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[self.download notificationName:WizGlobalSyncProcessInfo] object:nil];
+    [self.download downloadDocument:self.doc.guid];
+    return;
+}
+- (void) checkDocument
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-    if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
-    {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
-                                                        message:NSLocalizedString(@"This version does not support encrytion!", nil)
-                                                       delegate:self 
-                                              cancelButtonTitle:@"ok" 
-                                              otherButtonTitles:nil];
-        alert.tag = NOSUPPOURTALERT;
-        [alert show];
-        [alert release];
-        return;
-    }
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     [self.web loadRequest:req];
     [req release];
     [url release];
+}
+- (void) displayEncryInfo
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
+                                                    message:NSLocalizedString(@"This version does not support encrytion!", nil)
+                                                   delegate:self 
+                                          cancelButtonTitle:@"ok" 
+                                          otherButtonTitles:nil];
+    alert.tag = NOSUPPOURTALERT;
+    [alert show];
+    [alert release];
+    return;
+}
+- (void) downloadDocumentDone
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+            [self checkDocument];
+        }
+    }
+    else {
+        [self displayEncryInfo];
+    }
 }
 
 - (void)viewDidUnload
@@ -336,6 +357,7 @@
     [super viewWillAppear:animated];
     
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -365,33 +387,21 @@
     self.searchItem.enabled = NO;
     [self.downloadActivity startAnimating];
     NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-
-    if ([index documentServerChanged:self.doc.guid])
-    {
-        self.download = [[[WizDownloadDocument alloc] initWithAccount:self.accountUserID password:@""] autorelease];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone) name:[self.download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[self.download notificationName:WizGlobalSyncProcessInfo] object:nil];
-        [self.download downloadDocument:self.doc.guid];
-        return;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
+        if ([index documentServerChanged:self.doc.guid]) {
+            [self downloadDocument];
+        }
+        else {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+                [self checkDocument];
+            }
+            else {
+                [self downloadDocument];
+            }
+        }
     }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName] && ![index documentServerChanged:self.doc.guid]) {
-        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-        [self.web loadRequest:req];
-        [req release];
-        [url release];
-    }
-    else
-    {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
-                                                        message:NSLocalizedString(@"This version does not support encrytion!", nil)
-                                                       delegate:self 
-                                              cancelButtonTitle:@"ok" 
-                                              otherButtonTitles:nil];
-        alert.tag = NOSUPPOURTALERT;
-        [alert show];
-        [alert release];
-        return;
+    else {
+        [self displayEncryInfo];
     }
 }
 

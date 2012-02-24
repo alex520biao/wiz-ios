@@ -834,8 +834,8 @@ NSInteger compareTag(id location1, id location2, void*);
 	//wiz-dzpqzb
     NSNumber* localChanged = [doc valueForKey:TypeOfUpdateDocumentLocalchanged];
 	WIZDOCUMENTDATA data;
-	data.strGUID = [guid UTF8String];
-	data.strTitle = [title UTF8String];
+	data.strGUID =[guid UTF8String];
+	data.strTitle =[title UTF8String];
 	data.strLocation = [location UTF8String];
     if(dataMd5 != nil)
         data.strDataMd5 = [dataMd5 UTF8String];
@@ -932,17 +932,36 @@ NSInteger compareTag(id location1, id location2, void*);
     //[file release];
     return  fileSize;
 }
-
+- (NSString*) updateObjectDateTempFilePath:(NSString*)objGUID
+{
+    NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objGUID];
+    NSString* fileNamePath = [documentPath stringByAppendingPathComponent:@"temp.zip"];
+    return fileNamePath;
+}
 -(BOOL) updateObjectDataByPath:(NSString*) objectZipFilePath objectGuid:(NSString*)objectGuid{
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objectGuid];
     NSLog(@"%@ will upzip", objectGuid);
     ZipArchive* zip = [[ZipArchive alloc] init];
     [zip UnzipOpenFile:objectZipFilePath];
-    [zip UnzipFileTo:documentPath overWrite:YES];
+    BOOL zipResult = [zip UnzipFileTo:documentPath overWrite:YES];
     [zip UnzipCloseFile];
     [zip release];
-    NSLog(@"%@ upzip", objectGuid);
-    [WizGlobals deleteFile:objectZipFilePath];
+    if (!zipResult) {
+        NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:objectZipFilePath];
+        NSData* data  = [file readDataOfLength:4];
+        unsigned char* sd =(unsigned char*)[data bytes];
+        if (sd[0] == 90 && sd[1] == 73 && sd[2] == 87 && sd[3] == 82) {
+            return YES;
+        }
+        else {
+            [WizGlobals deleteFile:objectZipFilePath];
+            return NO;
+        }
+    }
+    else {
+        [WizGlobals deleteFile:objectZipFilePath];
+        return YES;
+    }
     return YES;
 }
 

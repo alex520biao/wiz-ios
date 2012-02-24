@@ -314,10 +314,6 @@
 	//
 	busy = YES;
     self.isStopByUser = NO;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if ([index durationForDownloadDocument] == 0) {
-        [index setDurationForDownloadDocument:30];
-    }
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
     [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];

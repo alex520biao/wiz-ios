@@ -277,6 +277,8 @@
 - (NSString*) wizIosAppVersion;
 //2012-2-22
 - (BOOL) clearCache;
+//2012-2-24
+- (NSString*) updateObjectDateTempFilePath:(NSString*)objGUID;
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (NSString*) accountPath: (NSString*)userId;

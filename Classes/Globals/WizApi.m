@@ -980,16 +980,17 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"temp.zip"];
         NSNumber* currentObjectSize = [index appendObjectDataByPath:fileNamePath data:data]; //返回当前文件大小
         NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:@"is_succeed"];
-        [result setObject:objSize forKey:@"obj_size"];
+        [result setObject:succeed forKey:TypeOfDownloadDocumentDicMsgIsSucceed];
+        [result setObject:objSize forKey:TypeOfDownloadDocumentDicMsgObjSize];
         if(eof) {
-            [index  updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID];
-            [result setObject:objSize forKey:@"current_size"];
+            if ([index  updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID]) {
+                [result setObject:[NSNumber numberWithInt:1] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
+            }
+            else {
+                [result setObject:[NSNumber numberWithInt:0] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
+            }
         }
-        else
-        {
-            [result setObject:currentObjectSize forKey:@"current_size"];
-        }
+        [result setObject:currentObjectSize forKey:TypeOfDownloadDocumentDicMsgCurrentSize];
         return [result autorelease];
 
     }

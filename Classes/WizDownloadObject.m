@@ -16,6 +16,7 @@
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
+#import "WizGlobalDictionaryKey.h"
 NSString* SyncMethod_DownloadProcessPartBeginWithGuid = @"DownloadProcessPartBegin";
 NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd";
 
@@ -82,7 +83,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     [self callDownloadObject:self.objGuid startPos:0 objType:self.objType];
 }
 
-- (void) downloadOver
+- (void) downloadOver:(BOOL)unzipIsSucceed
 {
     if (isLogin) {
         self.busy = NO;
@@ -98,9 +99,9 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 	
     NSDictionary* dic = [super  onDownloadObject:retObject];
     
-    NSNumber* fileSize = [dic valueForKey:@"obj_size"];
-    NSNumber* currentSize=[dic valueForKey:@"current_size"];
-    NSNumber* succeed = [dic valueForKey:@"is_succeed"];
+    NSNumber* fileSize = [dic valueForKey:TypeOfDownloadDocumentDicMsgObjSize];
+    NSNumber* currentSize=[dic valueForKey:TypeOfDownloadDocumentDicMsgCurrentSize];
+    NSNumber* succeed = [dic valueForKey:TypeOfDownloadDocumentDicMsgIsSucceed];
     
     if(!succeed) {
         [self callDownloadObject:objGuid startPos:self.currentPos objType:objType];
@@ -118,7 +119,9 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
             self.currentPos = [currentSize intValue];
             [self callDownloadObject:self.objGuid startPos:self.currentPos objType:self.objType];
         } else {
-            [self downloadOver];
+            NSNumber* unzip = [dic valueForKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
+            BOOL suced = [unzip intValue] == 1? YES:NO;
+            [self downloadOver:suced];
         }
     }
           return [NSMutableArray array];
@@ -159,12 +162,14 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 @implementation WizDownloadDocument
 
-- (void) downloadOver
+- (void) downloadOver:(BOOL)unzipIsSucceed
 {
-    [super downloadOver];
+    [super downloadOver:unzipIsSucceed];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSLog(@"%@ will severchanged",self.objGuid);
-    [index setDocumentServerChanged:self.objGuid changed:NO];
+    if (unzipIsSucceed) {
+        [index setDocumentServerChanged:self.objGuid changed:NO]; 
+    }
     NSDictionary* ret = [[NSDictionary alloc] initWithObjectsAndKeys:self.currentDownloadObjectGUID,  @"document_guid",  nil];
     
     NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:SyncMethod_DownloadObject, @"method",ret,@"ret",[NSNumber numberWithBool:YES], @"succeeded", nil];
@@ -199,11 +204,13 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 }
 @end
 @implementation WizDownloadAttachment
-- (void) downloadOver
+- (void) downloadOver:(BOOL)unzipIsSucceed
 {
-    [super downloadOver];
+    [super downloadOver:unzipIsSucceed];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index setAttachmentServerChanged:self.objGuid changed:NO];
+    if (unzipIsSucceed) {
+        [index setAttachmentServerChanged:self.objGuid changed:NO];
+    }
     NSDictionary* ret = [[NSDictionary alloc] initWithObjectsAndKeys:self.currentDownloadObjectGUID,  @"document_guid",  nil];
     
     NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:SyncMethod_DownloadObject, @"method",ret,@"ret",[NSNumber numberWithBool:YES], @"succeeded", nil];

@@ -28,4 +28,9 @@
 #define TypeOfChangePasswordAccountUserId       @"user_id"
 #define TypeOfChangePasswordOldPassword         @"old_password"
 #define TypeOfChangePasswordNewPassword         @"new_password"
+
+#define TypeOfDownloadDocumentDicMsgObjSize     @"obj_size"
+#define TypeOfDownloadDocumentDicMsgCurrentSize @"current_size"
+#define TypeOfDownloadDocumentDicMsgIsSucceed   @"is_succeed"
+#define TypeOfDownloadDocumentDicMsgUnzipIsSucceed @"is_unzip_succeed"
 #endif

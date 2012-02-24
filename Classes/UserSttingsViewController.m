@@ -287,7 +287,6 @@
     {
         self.defaultUserSwitch.on = NO;
     }
-    
     self.downloadDuration = [index durationForDownloadDocument];
     self.imageQulity = [index imageQualityValue];
     self.tablelistViewOption = [index userTablelistViewOption];

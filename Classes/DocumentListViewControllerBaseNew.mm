@@ -735,8 +735,7 @@
 	[docView release];
 }
 
-- (void) tableView: (UITableView *)tableView
-didSelectRowAtIndexPath: (NSIndexPath *)indexPath
+- (void) tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath
 {
     WizDocument* doc = [[self.tableArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     self.currentDoc = doc;
