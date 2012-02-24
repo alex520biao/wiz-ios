@@ -242,8 +242,8 @@
                            initWithTitle:NSLocalizedString(@"Please confirm",nil)
                            message:NSLocalizedString(@"The sync proceess will stop!",nil)
                            delegate:self 
-                           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                           otherButtonTitles:NSLocalizedString(@"OK", nil), nil] autorelease];
+                           cancelButtonTitle:WizStrCancel
+                           otherButtonTitles:WizStrOK, nil] autorelease];
     alert.delegate = self;
     [alert show];
 }
@@ -285,7 +285,7 @@
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
                                                         message:NSLocalizedString(@"Already in sync, please wait...", nil)
                                                        delegate:nil 
-                                              cancelButtonTitle:@"ok" 
+                                              cancelButtonTitle:WizStrOK 
                                               otherButtonTitles:nil];
         [alert show];
         [alert release];
@@ -305,14 +305,6 @@
     [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
     self.refreshProcessLabel.text = NSLocalizedString(@"Start syncing", nil);
-
-//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
-//    btn.frame = CGRectMake(0.0, 0.0, 44, 44);
-//    [btn addTarget:self action:@selector(log) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem* stopRefresh = [[UIBarButtonItem alloc] initWithCustomView:btn];
-//    [btn release];
-//    self.refreshItem = stopRefresh;
 
     
     [self refreshAccout];

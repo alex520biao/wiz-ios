@@ -28,7 +28,7 @@
 #import "WizPadDocumentViewCheckAttachmentsController.h"
 
 #define EditTag 1000
-
+#define NOSUPPOURTALERT 1201
 
 #define TableLandscapeFrame CGRectMake(0.0, 0.0, 320, 660)
 #define ToolbarLandscapeFrame CGRectMake(0.0, 660, 1024, 44)
@@ -340,50 +340,6 @@
 - (void) documentsOrderedByDate
 {
     [self documentsOrderedBtMonth:self.sourceArray];
-//    NSMutableArray* today = [NSMutableArray array];
-//    NSMutableArray* yestorday = [NSMutableArray array];
-//    NSMutableArray* dateBeforeYestorday = [NSMutableArray array];
-//    NSMutableArray* week = [NSMutableArray array];
-//    NSDate* todayDate = [NSDate date];
-//    for(int k = 0; k <[self.sourceArray count]; k++)
-//    {
-//        WizDocument* doc = [self.sourceArray objectAtIndex:k];
-//        NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
-//        NSUInteger daysBeforeToday = [date daysBeforeDate:todayDate];
-//        if (daysBeforeToday > 7) {
-//            NSArray* subArray = [self.sourceArray subarrayWithRange:NSMakeRange(k, [self.sourceArray count] -k)];
-//            [self documentsOrderedBtMonth:subArray];
-//            break;
-//        }
-//        else if(daysBeforeToday >3 )
-//        {
-//            [week addObject:doc];
-//        }
-//        else if (daysBeforeToday >2)
-//        {
-//            [dateBeforeYestorday addObject:doc];
-//        }
-//        else if (daysBeforeToday > 1)
-//        {
-//            [yestorday addObject:doc];
-//        }
-//        else
-//        {
-//            [today addObject:doc];
-//        }
-//    }
-//    if ([today count]) {
-//        [self.documentsArray addObject:today];
-//    }
-//    if ([yestorday count]) {
-//        [self.documentsArray addObject:yestorday];
-//    }
-//    if ([dateBeforeYestorday count]) {
-//        [self.documentsArray addObject:dateBeforeYestorday];
-//    }
-//    if ([week count]) {
-//        [self.documentsArray addObject:week];
-//    }
 }
 - (void) log
 {
@@ -583,6 +539,40 @@
 {
     
 }
+- (void) downloadDocument:(NSString*)guid
+{
+    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
+    if ([downloadPool documentIsDownloading:guid]) {
+        return;
+    }
+    WizDownloadDocument* download = [downloadPool getDownloadProcess:guid type:[WizGlobals documentKeyString]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
+    [download downloadDocument:guid];
+    [self.refreshIndicatorView startAnimating];
+}
+- (void) checkDocument:(NSString*)guid
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    NSString* documentFileName = [index documentViewFilename:guid];
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+    [self.webView loadRequest:req];
+    [req release];
+    [url release];
+}
+- (void) displayEncryInfo
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
+                                                    message:NSLocalizedString(@"This version does not support encrytion!", nil)
+                                                   delegate:self 
+                                          cancelButtonTitle:WizStrOK 
+                                          otherButtonTitles:nil];
+    alert.tag = NOSUPPOURTALERT;
+    [alert show];
+    [alert release];
+    return;
+}
 - (void) didSelectedDocument:(WizDocument*)doc
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
@@ -590,40 +580,24 @@
     self.documentNameLabel.text = doc.title;
     [self.webView loadHTMLString:@"" baseURL:nil];
     self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",[index attachmentCountOfDocument:selectedDocumentGUID]];
-    if ([index documentServerChanged:doc.guid])
-    {
-        WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-        if ([downloadPool documentIsDownloading:doc.guid]) {
-            return;
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
+        if ([index documentServerChanged:doc.guid]) {
+            [self downloadDocument:doc.guid];
         }
-        WizDownloadDocument* download = [downloadPool getDownloadProcess:doc.guid type:[WizGlobals documentKeyString]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
-        [download downloadDocument:doc.guid];
-        [self.refreshIndicatorView startAnimating];
-        return;
+        else {
+            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+            NSString* documentFileName = [index documentViewFilename:doc.guid];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+                [self checkDocument:doc.guid];
+            }
+            else {
+                [self downloadDocument:doc.guid];
+            }
+        }
     }
-    else
-    {
-        WizDocument* selectedDocument = [index documentFromGUID:selectedDocumentGUID];
-        NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
-                                                            message:NSLocalizedString(@"This version does not support encrytion!", nil)
-                                                           delegate:self 
-                                                  cancelButtonTitle:@"ok" 
-                                                  otherButtonTitles:nil];
-            alert.tag = 100;
-            [alert show];
-            [alert release];
-            return;
-        }
-        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-        [self.webView loadRequest:req];
-        [req release];
-        [url release];
+    else {
+        [self displayEncryInfo];
     }
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

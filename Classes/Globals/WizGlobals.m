@@ -146,6 +146,7 @@
 	return ret;
 }
 
+
 + (BOOL) checkAttachmentTypeIsAudio:(NSString *)attachmentType
 {
     if ([attachmentType isEqualToString:@"aif"]) {

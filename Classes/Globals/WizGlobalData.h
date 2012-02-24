@@ -32,7 +32,8 @@ extern NSString* DataTypeOfPickerView;
 extern NSString* DataTypeOfLoginView ;
 
 extern NSString* DataMainOfWiz;
-
+#define DataOfAttributesForDocumentListName  @"attributesForDocumentListName"
+#define DataOfGlobalShareDataWiz             @"DataOfGlobalShareDataWiz"
 @class WizSync;
 @class WizIndex;
 @class WizCreateAccount;

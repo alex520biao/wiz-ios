@@ -27,6 +27,7 @@
 #import "WizSyncByKey.h"
 #import "WizChangePassword.h"
 #import "WizSettings.h"
+#import "TTTAttributedLabel.h"
 
 NSString* DataTypeOfSync = @"Sync";
 NSString* DataTypeOfCreateAccount = @"CreateAccount";
@@ -108,6 +109,7 @@ static WizGlobalData* g_data;
 	[self setDataOfAccount:userId dataType:DataTypeOfSync data:data];
 	 [data release];  return data;
 }
+
 - (WizCreateAccount *) createAccountData:(NSString*) userId
 {
 	id data = [self dataOfAccount:userId dataType: DataTypeOfCreateAccount];
@@ -206,7 +208,24 @@ static WizGlobalData* g_data;
     [data release];
     return data;
 }
-
++(NSDictionary*) attributesForDocumentListName
+{
+    id data = [self dataOfAccount:userId dataType: DataTypeOfSyncByKey];
+    id data = [self dataOfAccount:DataOfGlobalShareDataWiz dataType:DataOfAttributesForDocumentListName];
+	if (data != nil)
+		return data;
+	//
+    
+    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
+    CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
+    [dic setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
+    CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
+    CTParagraphStyleSetting settings[]={lineBreakMode};
+    CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
+    [dic setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
+    [self set
+     }
 - (WizSyncByKey*) syncByKeyData:(NSString*) userId
 {
     id data = [self dataOfAccount:userId dataType: DataTypeOfSyncByKey];

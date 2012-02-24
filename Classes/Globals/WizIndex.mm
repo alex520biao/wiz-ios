@@ -1633,8 +1633,8 @@ NSInteger compareTag(id location1, id location2, void*);
     else
     {
 
-        if ([self durationForDownloadDocument]==0) {
-            [self setDurationForDownloadDocument:1];
+        if ([self durationForDownloadDocument]== -1) {
+            [self setDurationForDownloadDocument:0];
 
         }
         if ([self imageQualityValue] ==0) {
@@ -2009,7 +2009,7 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
 - (int64_t) durationForDownloadDocument
 {
     NSString* duration = [self userInfo:DurationForDownloadDocument];
-    if(!duration)
+    if(duration == nil || [duration isEqualToString:@""])
         return -1;
     else
         return [duration longLongValue];
