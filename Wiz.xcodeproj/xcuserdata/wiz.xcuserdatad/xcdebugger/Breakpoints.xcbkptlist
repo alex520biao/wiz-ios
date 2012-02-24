@@ -35,13 +35,13 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351665193.178557"
+         timestampString = "351756044.828567"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2071"
-         endingLineNumber = "2071"
-         landmarkName = "@implementation WizIndex"
-         landmarkType = "3">
+         startingLineNumber = "2080"
+         endingLineNumber = "2080"
+         landmarkName = "-documentAbstractStringFilePath:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -147,13 +147,13 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351665193.178557"
+         timestampString = "351756044.828567"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1551"
-         endingLineNumber = "1551"
-         landmarkName = "-fileCountOfLocation:"
-         landmarkType = "5">
+         startingLineNumber = "1560"
+         endingLineNumber = "1560"
+         landmarkName = "@implementation WizIndex"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -166,7 +166,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "905"
          endingLineNumber = "905"
-         landmarkName = "-prepareForNewDocument"
+         landmarkName = "-keyboardWillShow:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -180,7 +180,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "931"
          endingLineNumber = "931"
-         landmarkName = "-viewWillAppear:"
+         landmarkName = "-prepareForEdit:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -194,7 +194,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "762"
          endingLineNumber = "762"
-         landmarkName = "-newDocument"
+         landmarkName = "-buildInterface"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -208,7 +208,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "267"
          endingLineNumber = "267"
-         landmarkName = "-elcImagePickerController:didFinishPickingMediaWithInfo:"
+         landmarkName = "-floderViewSelected"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -259,11 +259,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351665193.178557"
+         timestampString = "351756044.828567"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1108"
-         endingLineNumber = "1108"
+         startingLineNumber = "1112"
+         endingLineNumber = "1112"
          landmarkName = "-newNoteWithGuidAndData:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -273,11 +273,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351665193.178557"
+         timestampString = "351756044.828567"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2272"
-         endingLineNumber = "2272"
+         startingLineNumber = "2281"
+         endingLineNumber = "2281"
          landmarkName = "-newAttachment:documentGUID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -343,11 +343,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/Globals/WizIndex.mm"
-         timestampString = "351665193.178557"
+         timestampString = "351756044.828567"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1116"
-         endingLineNumber = "1116"
+         startingLineNumber = "1120"
+         endingLineNumber = "1120"
          landmarkName = "-newNoteWithGuidAndData:"
          landmarkType = "5">
       </FileBreakpoint>

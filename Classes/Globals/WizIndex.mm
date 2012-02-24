@@ -1070,6 +1070,10 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* htmlFinal = [NSString stringWithFormat:@"<html>%@<body>%@%@%@</body></html>",htmlTitle,htmlBodyText,htmlAudio,htmlPictrue];
     NSError* errHtml = nil;
 	[htmlFinal writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
+    NSString* documentViewFileName = [self documentViewFilename:documentGUID];
+    if (![documentFileName isEqualToString:documentViewFileName]) {
+        [htmlFinal writeToFile:documentViewFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
+    }
     if (errHtml != nil)
 	{
 		[WizGlobals reportError:errHtml];
@@ -1112,7 +1116,6 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
     NSString* documentOrgFileName = [WizIndex documentOrgFileName:self.accountUserId documentGUID:documentGUID fileExt:@".txt"];
     NSString* attachmentsDirectory = [documentPath stringByAppendingPathComponent:@"index_files"];
-    NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
     [WizGlobals ensurePathExists:attachmentsDirectory];
     
     NSMutableArray* audioNames = [NSMutableArray array];
@@ -1171,7 +1174,13 @@ NSInteger compareTag(id location1, id location2, void*);
     [htmlAudio appendFormat:@"</ul>"];
     NSString* htmlFinal = [NSString stringWithFormat:@"<html>%@<body>%@%@%@</body></html>",htmlTitle,htmlBodyText,htmlAudio,htmlPictrue];
     NSError* errHtml = nil;
+    NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
 	[htmlFinal writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
+    
+    NSString* documentViewFileName = [self documentViewFilename:documentGUID];
+    if (![documentFileName isEqualToString:documentViewFileName]) {
+        [htmlFinal writeToFile:documentViewFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
+    }
     if (errHtml != nil)
 	{
 		[WizGlobals reportError:errHtml];
@@ -1264,9 +1273,7 @@ NSInteger compareTag(id location1, id location2, void*);
 {
 	if (text == nil)
 		return NO;
-	//
 	NSString* guid = [WizGlobals genGUID];
-	
 	NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:guid];
 	[WizGlobals ensurePathExists:documentPath];
 	

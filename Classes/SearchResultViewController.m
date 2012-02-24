@@ -21,7 +21,11 @@
 {
 	return YES;
 }
-
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = nil;
+}
  -(BOOL) canSync
 {
 	return NO;
@@ -48,6 +52,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 }
