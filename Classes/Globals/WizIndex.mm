@@ -1176,11 +1176,11 @@ NSInteger compareTag(id location1, id location2, void*);
     NSError* errHtml = nil;
     NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
 	[htmlFinal writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
-    
-    NSString* documentViewFileName = [self documentViewFilename:documentGUID];
-    if (![documentFileName isEqualToString:documentViewFileName]) {
-        [htmlFinal writeToFile:documentViewFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
-    }
+//    
+//    NSString* documentViewFileName = [self documentViewFilename:documentGUID];
+//    if (![documentFileName isEqualToString:documentViewFileName]) {
+//        [htmlFinal writeToFile:documentViewFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errHtml];
+//    }
     if (errHtml != nil)
 	{
 		[WizGlobals reportError:errHtml];
