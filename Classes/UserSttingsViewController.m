@@ -527,7 +527,7 @@
     }
     else {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed
-                                                        message:NSLocalizedString(@"Set the protect password  successfully", nil) 
+                                                        message:NSLocalizedString(@"The protect password will be setted after saving setting", nil) 
                                                        delegate:self
                                               cancelButtonTitle:WizStrOK otherButtonTitles:nil , nil];
         [alert show];

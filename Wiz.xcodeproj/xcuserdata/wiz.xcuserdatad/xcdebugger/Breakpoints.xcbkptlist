@@ -161,11 +161,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/NewNoteView.m"
-         timestampString = "351760031.519816"
+         timestampString = "351842304.472564"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "904"
-         endingLineNumber = "904"
+         startingLineNumber = "889"
+         endingLineNumber = "889"
          landmarkName = "-keyboardWillShow:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -175,11 +175,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/NewNoteView.m"
-         timestampString = "351760031.519816"
+         timestampString = "351842304.472564"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "930"
-         endingLineNumber = "930"
+         startingLineNumber = "915"
+         endingLineNumber = "915"
          landmarkName = "-prepareForEdit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -189,11 +189,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/NewNoteView.m"
-         timestampString = "351760031.519816"
+         timestampString = "351842304.472564"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "761"
-         endingLineNumber = "761"
+         startingLineNumber = "754"
+         endingLineNumber = "754"
          landmarkName = "-buildInterface"
          landmarkType = "5">
       </FileBreakpoint>
@@ -696,6 +696,19 @@
          startingLineNumber = "290"
          endingLineNumber = "290"
          landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/WizPadDocumentAbstractView.m"
+         timestampString = "351842304.472564"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
+         landmarkName = "-setDocument:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

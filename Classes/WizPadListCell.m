@@ -12,28 +12,27 @@
 @implementation WizPadListCell
 @synthesize accountUserId;
 @synthesize owner;
+@synthesize abstractArray;
 - (void) dealloc
 {
+    self.abstractArray = nil;
     self.owner = nil;
     self.accountUserId = nil;
     [super dealloc];
 }
 - (void) setDocuments:(NSArray*) arr
 {
-    if ([arr count]) {
-        for (UIView* each in [self.contentView subviews]) {
-            [each removeFromSuperview];
-        }
-
-    }
     for (int i = 0; i < [arr count]; i++) {
         WizDocument* doc = [arr objectAtIndex:i];
-        WizPadDocumentAbstractView* abstractView = [[WizPadDocumentAbstractView alloc] initWithFrame:CGRectMake(35*(i+1)+205*i, 15, 205, PADABSTRACTVELLHEIGTH-50)];
-        abstractView.accountUserId = self.accountUserId;
-        abstractView.owner = self.owner;
-        [abstractView setDocument:doc];
-        [self.contentView addSubview:abstractView];
-        [abstractView release];
+        WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
+        [abst setDocument:doc];
+        abst.accountUserId = self.accountUserId;
+        abst.owner = self.owner;
+        abst.alpha = 1.0f;
+    }
+    for (int i =[ arr count]; i < 4; i++) {
+        WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
+        abst.alpha = 0.0f;
     }
 }
 
@@ -46,6 +45,14 @@
         self.accessoryView.backgroundColor = [UIColor grayColor];
         self.backgroundColor = [UIColor grayColor];
         self.accessoryType = UITableViewCellAccessoryNone;
+        self.abstractArray = [NSMutableArray arrayWithCapacity:4];
+        for (int i = 0; i < 4; i++) {
+            WizPadDocumentAbstractView* abstractView = [[WizPadDocumentAbstractView alloc] initWithFrame:CGRectMake(35*(i+1)+205*i, 15, 205, PADABSTRACTVELLHEIGTH-50)];
+            abstractView.accountUserId = self.accountUserId;
+            [self.contentView addSubview:abstractView];
+            [self.abstractArray addObject:abstractView];
+            [abstractView release];
+        }
     }
     return self;
 }

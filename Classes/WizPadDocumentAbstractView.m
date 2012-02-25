@@ -55,7 +55,6 @@
         [nameLabel_ release];
         self.nameLabel = nameLabel_;
         self.nameLabel.backgroundColor = [UIColor clearColor];
-        
         TTTAttributedLabel* abstractLabel_ = [[TTTAttributedLabel alloc] initWithFrame:AbstractLabelWithImageFrame];
         abstractLabel_.lineBreakMode = UILineBreakModeCharacterWrap;
         abstractLabel_.numberOfLines  =0;
@@ -83,30 +82,6 @@
     [self.owner performSelector:@selector(didSelectedDocument:) withObject:self.doc];
 }
 
-- (NSDictionary*) stringAttributes
-{
-    NSMutableDictionary* attributeDic = [NSMutableDictionary dictionary];
-    [attributeDic setObject:(id)[UIColor lightGrayColor].CGColor forKey:(NSString*)kCTUnderlineColorAttributeName];
-    [attributeDic setObject:(id)[[UIColor grayColor] CGColor]  forKey:(NSString *)kCTForegroundColorAttributeName];
-    long characheterSpacing = 0.5f;
-    char characheter = (char)characheterSpacing;
-    CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt8Type, &characheter);
-    [attributeDic setObject:(id)num forKey:(NSString *)kCTKernAttributeName];
-    
-    CGFloat lineSpace = 19;
-    CTParagraphStyleSetting lineSpaceStyle;
-    lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
-    lineSpaceStyle.valueSize = sizeof(lineSpace);
-    lineSpaceStyle.value = &lineSpace;
-    CTParagraphStyleSetting settings[] = {lineSpaceStyle};
-    CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
-    [attributeDic setObject:(id)style forKey:(id)kCTParagraphStyleAttributeName];
-    UIFont* stringFont = [UIFont systemFontOfSize:13];
-    CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-    [attributeDic setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
-    return attributeDic;
-}
-
 - (void) setDocument:(WizDocument*) document
 {
     self.doc = document;
@@ -122,17 +97,14 @@
         WizAbstract* abstract = [index abstractOfDocument:document.guid];
         NSMutableAttributedString* abstractText = [[NSMutableAttributedString alloc] initWithString:abstract.text];
         NSRange textRange =NSMakeRange(0, abstractText.length);
-        [abstractText addAttributes:[self stringAttributes] range:textRange];
+        [abstractText addAttributes:[[WizGlobalData sharedData] attributesForAbstractViewParagraphPad]  range:textRange];
         [abstractString appendAttributedString:abstractText];
          if (nil != abstract.image) {
             self.abstractLabel.frame = AbstractLabelWithImageFrame;
             self.abstractImageView.frame = AbstractImageviewFrame;
             self.abstractImageView.image = abstract.image;
-//             float imageWidth = abstract.image.size.width;
-//             float imageHeigth = abstract.image.size.height;
-//             float imageSizeRatio = 175/imageWidth < 85/imageHeigth ? 175/imageWidth: 85/imageHeigth;
-             self.abstractImageView.frame= CGRectMake(0.0, 0.0, abstract.image.size.width , abstract.image.size.height);
-             self.abstractImageView.center = CGPointMake(102.5, 187.5);
+            self.abstractImageView.frame= CGRectMake(0.0, 0.0, abstract.image.size.width , abstract.image.size.height);
+            self.abstractImageView.center = CGPointMake(102.5, 187.5);
         }else
         {
             self.abstractLabel.frame = AbstractLabelWithoutImageFrame;

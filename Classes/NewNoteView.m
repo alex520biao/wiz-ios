@@ -622,25 +622,18 @@
 }
 - (void) buildNavigationButtons
 {
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationItem.titleView.frame.size.width/2 - 40, 0, 90, 30)];//allocate titleView
-	
-    
-	//Create Round UIButton
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(self.navigationItem.titleView.frame.size.width/2 - 40, 0, 90, 30)];
 	UIButton *btnNormal = [UIButton buttonWithType:UIButtonTypeCustom];
-    
     [btnNormal setImage:[UIImage imageNamed:@"newNoteAttach"] forState:UIControlStateNormal];
 	[btnNormal setFrame:CGRectMake(0, 0, 40, 30)];
 	[btnNormal addTarget:self action:@selector(addAttachmentsViewAnimation) forControlEvents:UIControlEventTouchUpInside];
 	[btnNormal setTitle:@"Normal" forState:UIControlStateNormal];
 	[titleView addSubview:btnNormal];
-	
 	//Create Builtin type UIButton
 	UIButton *btnBuiltinType = [UIButton buttonWithType:UIButtonTypeInfoLight];
 	[btnBuiltinType setFrame:CGRectMake(45, 0, 40, 30)];
 	[btnBuiltinType addTarget:self action:@selector(addDocumentInfoViewAnimation) forControlEvents:UIControlEventTouchUpInside];
 	[titleView addSubview:btnBuiltinType];
-	
-	
 	//Set to titleView
 	self.navigationItem.titleView = titleView;
 	[titleView release];
@@ -770,14 +763,6 @@
     reg.owner = self;
     [self.view addSubview:reg];
     [reg release];
-    
-    
-//    self.addAttachmentView.backgroundColor = [UIColor redColor];
-//    self.addDocumentInfoView.backgroundColor = [UIColor blueColor];
-//    self.view.backgroundColor = [UIColor greenColor];
-//    self.inputContentView.backgroundColor = [UIColor blackColor];
-//    self.titleTextFiled.backgroundColor = [UIColor orangeColor];
-//    self.bodyTextField.backgroundColor = [UIColor yellowColor];
 }
 
 - (void) newDocument

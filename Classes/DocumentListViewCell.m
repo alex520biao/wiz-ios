@@ -117,13 +117,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             abstractLabel.frame = CellWithImageFrame;
             abstractImageView.hidden = NO;
         }
-        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
         NSMutableAttributedString* nameStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",title]];
-        [nameStr addAttribute:(NSString*)kCTFontAttributeName value:(id)font range:NSMakeRange(0, nameStr.length)];
-        CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
-        CTParagraphStyleSetting settings[]={lineBreakMode};
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
-        [nameStr addAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:NSMakeRange(0, nameStr.length)];
+        [nameStr addAttributes:[[WizGlobalData sharedData] attributesForDocumentListName] range:NSMakeRange(0, nameStr.length)];
         NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
         [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
         self.hasAbstract = YES;
@@ -146,20 +141,14 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     }
     else
     {
-        UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
         NSString* title = [NSString stringWithString:self.doc.title];
         NSRange titleRange = NSMakeRange(0, 20<title.length?20:title.length);
         abstractLabel.frame = CellWithImageFrame;
         abstractImageView.hidden = NO;
         abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
         title = [title substringWithRange:titleRange];
-        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
         NSMutableAttributedString* nameStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",title]];
-        [nameStr addAttribute:(NSString*)kCTFontAttributeName value:(id)font range:NSMakeRange(0, nameStr.length)];
-        CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
-        CTParagraphStyleSetting settings[]={lineBreakMode};
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
-        [nameStr addAttribute:(id)kCTParagraphStyleAttributeName value:(id)paragraphStyle range:NSMakeRange(0, nameStr.length)];
+        [nameStr addAttributes:[[WizGlobalData sharedData] attributesForDocumentListName] range:NSMakeRange(0, nameStr.length)];
         NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
         [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
         
