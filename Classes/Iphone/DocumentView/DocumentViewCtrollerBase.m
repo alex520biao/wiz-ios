@@ -401,7 +401,13 @@
         }
     }
     else {
-        [self displayEncryInfo];
+        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
+            [self downloadDocument];
+        }
+        else {
+           [self displayEncryInfo]; 
+        }
+        
     }
 }
 

@@ -11,6 +11,7 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizPadNotificationMessage.h"
+#import "WizGlobals.h"
 @implementation SelectFloderView
 
 @synthesize selectedFloder;
@@ -77,9 +78,11 @@
         [self.selectedFloder addObject:[self.allFloders objectAtIndex:0]];
         self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
     }
-    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"OK", nil) style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
-	self.navigationItem.rightBarButtonItem = editButton;
-    [editButton release];
+    if (![WizGlobals WizDeviceIsPad]) {
+        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"OK", nil) style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
+        self.navigationItem.rightBarButtonItem = editButton;
+        [editButton release];
+    }
 }
 
 - (void)viewDidUnload

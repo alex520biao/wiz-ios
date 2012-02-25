@@ -448,7 +448,7 @@
 - (void) buildToolBar
 {
     UIButton* editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [editBtn setImage:[UIImage imageNamed:@"documentViewEdit"] forState:UIControlStateNormal];
+    [editBtn setImage:[UIImage imageNamed:@"edit_gray"] forState:UIControlStateNormal];
     editBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
     [editBtn addTarget:self action:@selector(editCurrentDocument:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
@@ -459,29 +459,20 @@
     [attachCount release];
     UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
     attach.frame = CGRectMake(0.0, 0.0, 44, 44);
-    [attach setImage:[UIImage imageNamed:@"documentViewAttachment"] forState:UIControlStateNormal];
+    [attach setImage:[UIImage imageNamed:@"newNoteAttach_gray"] forState:UIControlStateNormal];
     [attach addSubview:self.attachmentCountBadge];
     [attach addTarget:self action:@selector(checkAttachment) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* attachment = [[UIBarButtonItem alloc]initWithCustomView:attach];
     attachment.width = 80;
-    
-
     UIButton* detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    [detailBtn setImage:[UIImage imageNamed:@"documentViewDetail"] forState:UIControlStateNormal];
+    [detailBtn setImage:[UIImage imageNamed:@"detail_gray"] forState:UIControlStateNormal];
     [detailBtn addTarget:self action:@selector(checkDocumentDtail) forControlEvents:UIControlEventTouchUpInside];
     detailBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
     UIBarButtonItem* detail = [[UIBarButtonItem alloc] initWithCustomView:detailBtn];
     detail.width = 80;
-    
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flex.width = 344;
-    
-//    UIBarButtonItem* search = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(log)];
-//    search.width = 80;
-    
-    UIBarButtonItem* newNote = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newNote)];
-    
+    UIBarButtonItem* newNote =[[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
     UIActivityIndicatorView* activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityView.frame = CGRectMake(10, 10, 24, 24);
     self.refreshIndicatorView = activityView;
@@ -597,7 +588,13 @@
         }
     }
     else {
-        [self displayEncryInfo];
+        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
+            [self downloadDocument:doc.guid];
+        }
+        else {
+           [self displayEncryInfo]; 
+        }
+        
     }
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

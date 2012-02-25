@@ -23,11 +23,13 @@
 - (void) setDocuments:(NSArray*) arr
 {
     for (int i = 0; i < [arr count]; i++) {
+        
         WizDocument* doc = [arr objectAtIndex:i];
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
-        [abst setDocument:doc];
         abst.accountUserId = self.accountUserId;
         abst.owner = self.owner;
+        [abst setDocument:doc];
+
         abst.alpha = 1.0f;
     }
     for (int i =[ arr count]; i < 4; i++) {
@@ -48,7 +50,6 @@
         self.abstractArray = [NSMutableArray arrayWithCapacity:4];
         for (int i = 0; i < 4; i++) {
             WizPadDocumentAbstractView* abstractView = [[WizPadDocumentAbstractView alloc] initWithFrame:CGRectMake(35*(i+1)+205*i, 15, 205, PADABSTRACTVELLHEIGTH-50)];
-            abstractView.accountUserId = self.accountUserId;
             [self.contentView addSubview:abstractView];
             [self.abstractArray addObject:abstractView];
             [abstractView release];

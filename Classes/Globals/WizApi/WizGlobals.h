@@ -48,6 +48,8 @@
 + (BOOL) checkAttachmentTypeIsPPT:(NSString*)type;
 + (BOOL) checkAttachmentTypeIsWord:(NSString*)type;
 + (BOOL) checkAttachmentTypeIsExcel:(NSString*)type;
+//2012-2-25
++ (BOOL) checkFileIsEncry:(NSString*)filePath;
 @end
 
 
@@ -74,6 +76,7 @@ extern BOOL WizDeviceIsPad(void);
 - (UIImage *)compressedImage:(float)qulity;  
 - (UIImage *)compressedImageWidth:(float)qulity;
 - (CGFloat)compressionQuality;  
+- (UIImage*) wizCompressedImageWidth:(float)width   height:(CGFloat)height;
 
 - (NSData *)compressedData;  
 

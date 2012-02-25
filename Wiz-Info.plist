@@ -9,13 +9,25 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>about.png</string>
+	<string>icon.png</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>about.png</string>
-		<string>about@x2.png</string>
+		<string>icon.png</string>
+		<string>icon@x2.png</string>
 		<string>icon_ipad.png</string>
 	</array>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>icon.png</string>
+				<string>icon@x2.png</string>
+				<string>icon_ipad.png</string>
+			</array>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>cn.wiz.wiz</string>
 	<key>CFBundleInfoDictionaryVersion</key>

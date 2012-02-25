@@ -90,7 +90,18 @@
     [WizGlobals deleteFile:zip];
     return md5;
 }
-
++ (BOOL) checkFileIsEncry:(NSString*)filePath
+{
+    NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:filePath];
+    NSData* data  = [file readDataOfLength:4];
+    unsigned char* sd =(unsigned char*)[data bytes];
+    if (sd[0] == 90 && sd[1] == 73 && sd[2] == 87 && sd[3] == 82) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
 +(float) heightForWizTableFooter:(int)exisitCellCount
 {
     float currentTableHeight = exisitCellCount*44.0;
@@ -686,6 +697,15 @@ BOOL WizDeviceIsPad(void)
     return newImage;  
     
 }  
+#define WizAbs(x) x>0?x:-x
+- (UIImage*) wizCompressedImageWidth:(float)width   height:(CGFloat)height
+{
+    UIImage* compassImage = [self compressedImageWidth:width];
+    CGRect compassRect = CGRectMake( WizAbs((compassImage.size.width -width)/2), WizAbs((compassImage.size.height -height)/2), compassImage.size.width>width?width:compassImage.size.width, compassImage.size.height>height?height:compassImage.size.height);
+    compassImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect(compassImage.CGImage, compassRect)]; 
+    return compassImage;
+}
+
 - (UIImage *)compressedImageWidth:(float)qulity {  
     CGSize imageSize = self.size;  
     CGFloat width = imageSize.width;  

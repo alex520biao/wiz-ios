@@ -261,7 +261,7 @@
     self.syncWillStop = NO;
     [self.refreshButton removeTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
     [self.refreshButton addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
-    [self.refreshButton setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    [self.refreshButton setImage:[UIImage imageNamed:@"sync_gray"] forState:UIControlStateNormal];
     [self.recentList reloadAllData];
     
 }
@@ -375,7 +375,7 @@
     UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"New Note", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"sync_gray"] forState:UIControlStateNormal];
     btn.frame = CGRectMake(0.0, 0.0, 44, 44);
     [btn addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* refreshItem_ = [[UIBarButtonItem alloc] initWithCustomView:btn];

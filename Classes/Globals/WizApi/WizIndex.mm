@@ -947,10 +947,7 @@ NSInteger compareTag(id location1, id location2, void*);
     [zip UnzipCloseFile];
     [zip release];
     if (!zipResult) {
-        NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:objectZipFilePath];
-        NSData* data  = [file readDataOfLength:4];
-        unsigned char* sd =(unsigned char*)[data bytes];
-        if (sd[0] == 90 && sd[1] == 73 && sd[2] == 87 && sd[3] == 82) {
+        if ([WizGlobals checkFileIsEncry:objectZipFilePath]) {
             return YES;
         }
         else {
@@ -2214,35 +2211,34 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
         }
     }
     UIImage* compassImage = nil;
+//    UIImage* compassImageBig = nil;
     if (nil != maxImage) {
-        NSLog(@" max is %f %f ",maxImage.size.height, maxImage.size.width);
-        CGRect compassRect;
         float compassWidth=0;
         float compassHeight = 0;
         if (WizDeviceIsPad) {
             compassWidth = 175;
             compassHeight = 85;
+            compassImage = [maxImage wizCompressedImageWidth:compassWidth height:compassHeight];
+//            compassImageBig = [maxImage wizCompressedImageWidth:140 height:140];
         }
         else
         {
-            compassWidth = 140;
-            compassHeight = 140;
+            compassImage = [maxImage wizCompressedImageWidth:140 height:140];
         }
-        compassImage = [maxImage compressedImageWidth:compassWidth];
-        compassRect = CGRectMake( WizAbs((compassImage.size.width -compassWidth)/2), WizAbs((compassImage.size.height -compassHeight)/2), compassImage.size.width>compassWidth?compassWidth:compassImage.size.width, compassImage.size.height>compassHeight?compassHeight:compassImage.size.height);
-        compassImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect(compassImage.CGImage, compassRect)];
+        
     }
-    static int i = 0;
-    NSString* str = [WizIndex documentFilePath:self.accountUserId documentGUID:@"IMAGE"];
-    [WizGlobals ensurePathExists:str];
-    [UIImagePNGRepresentation(compassImage) writeToFile:[str stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",i++]] atomically:NO ];
-    
     abstractImageData = [compassImage compressedData:1.0];
     abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
     abstract.imageDataLength = [abstractImageData length];
     abstract.text = [abstractText UTF8String];
     if (WizDeviceIsPad) {
         tempIndex.UpdatePadAbstract(abstract);
+//        WIZABSTRACT abstractLitle;
+//        NSData* absData = [compassImageBig compressedData:1.0];
+//        abstractLitle.setData((unsigned char *)[absData bytes], [absData length]);
+//        abstractLitle.imageDataLength = [absData length];
+//        abstractLitle.text = [abstractText UTF8String];
+//        tempIndex.UpdateIphoneAbstract(abstractLitle);
     }
     else
     {
