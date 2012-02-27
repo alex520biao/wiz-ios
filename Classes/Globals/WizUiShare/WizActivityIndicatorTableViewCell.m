@@ -26,7 +26,7 @@
 		
 		[self.contentView addSubview:activityIndicatorView];
 		[self.contentView bringSubviewToFront:activityIndicatorView];
-		
+    
     }
     return self;
 }

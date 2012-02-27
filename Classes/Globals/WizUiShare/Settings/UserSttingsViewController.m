@@ -526,12 +526,12 @@
         return;
     }
     else {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed
-                                                        message:NSLocalizedString(@"The protect password will be setted after saving setting", nil) 
-                                                       delegate:self
-                                              cancelButtonTitle:WizStrOK otherButtonTitles:nil , nil];
-        [alert show];
-        [alert release];
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed
+//                                                        message:NSLocalizedString(@"The protect password will be setted after saving setting", nil) 
+//                                                       delegate:self
+//                                              cancelButtonTitle:WizStrOK otherButtonTitles:nil , nil];
+//        [alert show];
+//        [alert release];
     }
     self.accountProtectPassword = protectPassword;
 }

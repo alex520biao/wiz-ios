@@ -285,7 +285,7 @@
 }
 - (void) displayEncryInfo
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(WizStrError, nil)
                                                     message:NSLocalizedString(@"This version does not support encrytion!", nil)
                                                    delegate:self 
                                           cancelButtonTitle:@"ok" 
