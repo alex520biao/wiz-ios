@@ -709,7 +709,7 @@
     if( ![sync startSync])
     {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
-                                                        message:NSLocalizedString(@"Already in sync, please wait...", nil)
+                                                        message:NSLocalizedString(@"Sync already in progress, please wait...", nil)
                                                        delegate:nil 
                                               cancelButtonTitle:@"ok" 
                                               otherButtonTitles:nil];
