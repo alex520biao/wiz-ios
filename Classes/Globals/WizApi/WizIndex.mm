@@ -1024,7 +1024,6 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* documentGUID = [documentData valueForKey:TypeOfDocumentGUID];
     NSString* documentTags = [documentData valueForKey:TypeOfDocumentTags];
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
-    NSString* documentOrgFileName = [WizIndex documentOrgFileName:self.accountUserId documentGUID:documentGUID fileExt:@".txt"];
     NSString* attachmentsDirectory = [documentPath stringByAppendingPathComponent:@"index_files"];
     NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
     [WizGlobals ensurePathExists:attachmentsDirectory];
@@ -1051,7 +1050,6 @@ NSInteger compareTag(id location1, id location2, void*);
         }
     }
 	NSError* errOrg = nil;
-	[documentBody writeToFile:documentOrgFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errOrg];
 	if (errOrg != nil)
 	{
 		[WizGlobals reportError:errOrg];
@@ -1130,7 +1128,6 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* documentGUID = [documentData valueForKey:TypeOfDocumentGUID];
     NSString* documentTags = [documentData valueForKey:TypeOfDocumentTags];
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
-    NSString* documentOrgFileName = [WizIndex documentOrgFileName:self.accountUserId documentGUID:documentGUID fileExt:@".txt"];
     NSString* attachmentsDirectory = [documentPath stringByAppendingPathComponent:@"index_files"];
     [WizGlobals ensurePathExists:attachmentsDirectory];
     
@@ -1156,7 +1153,6 @@ NSInteger compareTag(id location1, id location2, void*);
         }
     }
 	NSError* errOrg = nil;
-	[documentBody writeToFile:documentOrgFileName atomically:NO encoding:NSUnicodeStringEncoding error:&errOrg];
 	if (errOrg != nil)
 	{
 		[WizGlobals reportError:errOrg];

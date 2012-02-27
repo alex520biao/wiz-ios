@@ -134,6 +134,10 @@
     {
         cell.imageView.image = [UIImage imageNamed:@"icon_excel_img"];
     }
+    else if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_image_img"];
+    }
     else 
     {
         cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
