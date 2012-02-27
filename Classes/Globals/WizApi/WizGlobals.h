@@ -50,6 +50,8 @@
 + (BOOL) checkAttachmentTypeIsExcel:(NSString*)type;
 //2012-2-25
 + (BOOL) checkFileIsEncry:(NSString*)filePath;
+//2012-2-27
++(NSString*)getAttachmentSourceFileName:(NSString*)userId;
 @end
 
 

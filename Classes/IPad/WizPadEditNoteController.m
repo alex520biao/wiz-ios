@@ -384,6 +384,7 @@
     NSMutableArray* attachmentsGuid = [NSMutableArray array];
     if ([self.attachmentSourcePath count]) {
         for (NSString* each in self.attachmentSourcePath) {
+            NSLog(@"each is %@",each);
             NSArray* dir = [each componentsSeparatedByString:@"/"];
             NSString* pathDir = [dir objectAtIndex:[dir count] -2];
             if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
@@ -471,14 +472,8 @@
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         UIImage* image = [each objectForKey:UIImagePickerControllerOriginalImage];
         image = [image compressedImage:[index imageQualityValue]];
-        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-        [WizGlobals ensurePathExists:objectPath];
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSString* dateString = [formatter stringFromDate:[NSDate date]];
-        [formatter release];
-        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-        [UIImagePNGRepresentation(image) writeToFile:fileNamePath atomically:YES];
+        NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
+        [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
         [self.attachmentSourcePath addObject:fileNamePath];
         self.attachmentsCountView.badgeString = [NSString stringWithFormat:@"%d",[self.attachmentSourcePath count]];
     }
@@ -489,16 +484,11 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
     image = [image compressedImage:[index imageQualityValue]];
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-    [WizGlobals ensurePathExists:objectPath];
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-    [formatter release];
-    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-    [UIImagePNGRepresentation(image) writeToFile:fileNamePath atomically:YES];
+    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
+    [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
     [picker dismissModalViewControllerAnimated:YES];
-    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
+    //2012-2-26 delete
+//    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
     [self.attachmentSourcePath addObject:fileNamePath];
     self.attachmentsCountView.badgeString = [NSString stringWithFormat:@"%d",[self.attachmentSourcePath count]];
 }

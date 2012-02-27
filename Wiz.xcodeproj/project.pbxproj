@@ -42,6 +42,8 @@
 		7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311620A14F5091D007EC8AC /* Default-Landscape~ipad.png */; };
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
+		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
+		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
 		73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */; };
 		73A7855814F8CC23001387F6 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841C14F8CC22001387F6 /* index.cpp */; };
 		73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841E14F8CC22001387F6 /* tempIndex.cpp */; };
@@ -69,11 +71,6 @@
 		73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */; };
 		73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */; };
 		73A7857114F8CC23001387F6 /* DocumentListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845514F8CC22001387F6 /* DocumentListViewCell.m */; };
-		73A7857214F8CC23001387F6 /* AttachmentImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845814F8CC22001387F6 /* AttachmentImageViewController.m */; };
-		73A7857314F8CC23001387F6 /* AttachmentImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7845914F8CC22001387F6 /* AttachmentImageViewController.xib */; };
-		73A7857414F8CC23001387F6 /* AttachmentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845B14F8CC22001387F6 /* AttachmentsView.m */; };
-		73A7857514F8CC23001387F6 /* AttachmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845D14F8CC22001387F6 /* AttachmentView.m */; };
-		73A7857614F8CC23001387F6 /* AttachmentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7845E14F8CC22001387F6 /* AttachmentView.xib */; };
 		73A7857714F8CC23001387F6 /* CommonString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846014F8CC22001387F6 /* CommonString.m */; };
 		73A7857814F8CC23001387F6 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846314F8CC22001387F6 /* DetailViewController.m */; };
 		73A7857914F8CC23001387F6 /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846614F8CC22001387F6 /* WizChangePassword.m */; };
@@ -95,17 +92,13 @@
 		73A7858914F8CC23001387F6 /* CatelogBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7848814F8CC22001387F6 /* CatelogBaseCell.m */; };
 		73A7858A14F8CC23001387F6 /* CatelogBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7848A14F8CC22001387F6 /* CatelogBaseController.m */; };
 		73A7858B14F8CC23001387F6 /* CatelogTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7848C14F8CC22001387F6 /* CatelogTagCell.m */; };
-		73A7858C14F8CC23001387F6 /* PadDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7848E14F8CC22001387F6 /* PadDocumentViewController.m */; };
-		73A7858D14F8CC23001387F6 /* PadDocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7848F14F8CC22001387F6 /* PadDocumentViewController.xib */; };
 		73A7858E14F8CC23001387F6 /* PadFoldersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849114F8CC22001387F6 /* PadFoldersController.m */; };
 		73A7858F14F8CC23001387F6 /* PadTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849314F8CC22001387F6 /* PadTagController.m */; };
 		73A7859014F8CC23001387F6 /* PickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849514F8CC22001387F6 /* PickViewController.m */; };
 		73A7859114F8CC23001387F6 /* WizAddAcountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */; };
 		73A7859214F8CC23001387F6 /* WizCheckAccounsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */; };
-		73A7859314F8CC23001387F6 /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849B14F8CC22001387F6 /* WizPadCheckAttachments.m */; };
 		73A7859414F8CC23001387F6 /* WizPadDocumentAbstractView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */; };
 		73A7859514F8CC23001387F6 /* WizPadDocumentListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849F14F8CC22001387F6 /* WizPadDocumentListController.m */; };
-		73A7859614F8CC23001387F6 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A114F8CC22001387F6 /* WizPadDocumentViewCheckAttachmentsController.m */; };
 		73A7859714F8CC23001387F6 /* WizPadDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */; };
 		73A7859814F8CC23001387F6 /* WizPadEditNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */; };
 		73A7859914F8CC23001387F6 /* WizPadEditTagTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */; };
@@ -142,7 +135,6 @@
 		73A785B814F8CC23001387F6 /* VoiceRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E714F8CC22001387F6 /* VoiceRecognition.m */; };
 		73A785B914F8CC23001387F6 /* NewWelcomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784EA14F8CC22001387F6 /* NewWelcomePage.m */; };
 		73A785BA14F8CC23001387F6 /* NewWelcomePage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784EB14F8CC22001387F6 /* NewWelcomePage.xib */; };
-		73A785BB14F8CC23001387F6 /* PlayAudioAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784ED14F8CC22001387F6 /* PlayAudioAttachmentCell.m */; };
 		73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F014F8CC22001387F6 /* SearchHistoryView.m */; };
 		73A785BD14F8CC23001387F6 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F214F8CC22001387F6 /* SearchResultViewController.m */; };
 		73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F414F8CC22001387F6 /* SearchViewControllerIphone.m */; };
@@ -374,6 +366,9 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
+		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
+		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
 		73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		73A7841B14F8CC22001387F6 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
 		73A7841C14F8CC22001387F6 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -431,14 +426,6 @@
 		73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoViewController.m; sourceTree = "<group>"; };
 		73A7845414F8CC22001387F6 /* DocumentListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentListViewCell.h; sourceTree = "<group>"; };
 		73A7845514F8CC22001387F6 /* DocumentListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewCell.m; sourceTree = "<group>"; };
-		73A7845714F8CC22001387F6 /* AttachmentImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentImageViewController.h; sourceTree = "<group>"; };
-		73A7845814F8CC22001387F6 /* AttachmentImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentImageViewController.m; sourceTree = "<group>"; };
-		73A7845914F8CC22001387F6 /* AttachmentImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttachmentImageViewController.xib; sourceTree = "<group>"; };
-		73A7845A14F8CC22001387F6 /* AttachmentsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsView.h; sourceTree = "<group>"; };
-		73A7845B14F8CC22001387F6 /* AttachmentsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsView.m; sourceTree = "<group>"; };
-		73A7845C14F8CC22001387F6 /* AttachmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentView.h; sourceTree = "<group>"; };
-		73A7845D14F8CC22001387F6 /* AttachmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentView.m; sourceTree = "<group>"; };
-		73A7845E14F8CC22001387F6 /* AttachmentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttachmentView.xib; sourceTree = "<group>"; };
 		73A7845F14F8CC22001387F6 /* CommonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonString.h; sourceTree = "<group>"; };
 		73A7846014F8CC22001387F6 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonString.m; sourceTree = "<group>"; };
 		73A7846214F8CC22001387F6 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -471,8 +458,8 @@
 		73A7847F14F8CC22001387F6 /* WizSelectTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSelectTagViewController.h; sourceTree = "<group>"; };
 		73A7848014F8CC22001387F6 /* WizSelectTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSelectTagViewController.m; sourceTree = "<group>"; };
 		73A7848114F8CC22001387F6 /* WizUiTypeIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUiTypeIndex.h; sourceTree = "<group>"; };
-		73A7848214F8CC22001387F6 /* WizUserSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUserSettingCell.h; sourceTree = "<group>"; };
-		73A7848314F8CC22001387F6 /* WizUserSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizUserSettingCell.m; sourceTree = "<group>"; };
+		73A7848214F8CC22001387F6 /* WizUserSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizUserSettingCell.h; path = ../WizUserSettingCell.h; sourceTree = "<group>"; };
+		73A7848314F8CC22001387F6 /* WizUserSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizUserSettingCell.m; path = ../WizUserSettingCell.m; sourceTree = "<group>"; };
 		73A7848514F8CC22001387F6 /* CatelogBaseAbstractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatelogBaseAbstractView.h; sourceTree = "<group>"; };
 		73A7848614F8CC22001387F6 /* CatelogBaseAbstractView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatelogBaseAbstractView.m; sourceTree = "<group>"; };
 		73A7848714F8CC22001387F6 /* CatelogBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatelogBaseCell.h; sourceTree = "<group>"; };
@@ -481,9 +468,6 @@
 		73A7848A14F8CC22001387F6 /* CatelogBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatelogBaseController.m; sourceTree = "<group>"; };
 		73A7848B14F8CC22001387F6 /* CatelogTagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatelogTagCell.h; sourceTree = "<group>"; };
 		73A7848C14F8CC22001387F6 /* CatelogTagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatelogTagCell.m; sourceTree = "<group>"; };
-		73A7848D14F8CC22001387F6 /* PadDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadDocumentViewController.h; sourceTree = "<group>"; };
-		73A7848E14F8CC22001387F6 /* PadDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadDocumentViewController.m; sourceTree = "<group>"; };
-		73A7848F14F8CC22001387F6 /* PadDocumentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PadDocumentViewController.xib; sourceTree = "<group>"; };
 		73A7849014F8CC22001387F6 /* PadFoldersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadFoldersController.h; sourceTree = "<group>"; };
 		73A7849114F8CC22001387F6 /* PadFoldersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadFoldersController.m; sourceTree = "<group>"; };
 		73A7849214F8CC22001387F6 /* PadTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadTagController.h; sourceTree = "<group>"; };
@@ -495,13 +479,10 @@
 		73A7849814F8CC22001387F6 /* WizCheckAccounsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckAccounsController.h; sourceTree = "<group>"; };
 		73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCheckAccounsController.m; sourceTree = "<group>"; };
 		73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
-		73A7849B14F8CC22001387F6 /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentAbstractView.h; sourceTree = "<group>"; };
 		73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentAbstractView.m; sourceTree = "<group>"; };
 		73A7849E14F8CC22001387F6 /* WizPadDocumentListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentListController.h; sourceTree = "<group>"; };
 		73A7849F14F8CC22001387F6 /* WizPadDocumentListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentListController.m; sourceTree = "<group>"; };
-		73A784A014F8CC22001387F6 /* WizPadDocumentViewCheckAttachmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewCheckAttachmentsController.h; sourceTree = "<group>"; };
-		73A784A114F8CC22001387F6 /* WizPadDocumentViewCheckAttachmentsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentViewCheckAttachmentsController.m; sourceTree = "<group>"; };
 		73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewController.h; sourceTree = "<group>"; };
 		73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentViewController.m; sourceTree = "<group>"; };
 		73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditNoteController.h; sourceTree = "<group>"; };
@@ -569,8 +550,6 @@
 		73A784E914F8CC22001387F6 /* NewWelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewWelcomePage.h; sourceTree = "<group>"; };
 		73A784EA14F8CC22001387F6 /* NewWelcomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewWelcomePage.m; sourceTree = "<group>"; };
 		73A784EB14F8CC22001387F6 /* NewWelcomePage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewWelcomePage.xib; sourceTree = "<group>"; };
-		73A784EC14F8CC22001387F6 /* PlayAudioAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayAudioAttachmentCell.h; sourceTree = "<group>"; };
-		73A784ED14F8CC22001387F6 /* PlayAudioAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayAudioAttachmentCell.m; sourceTree = "<group>"; };
 		73A784EF14F8CC22001387F6 /* SearchHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHistoryView.h; sourceTree = "<group>"; };
 		73A784F014F8CC22001387F6 /* SearchHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchHistoryView.m; sourceTree = "<group>"; };
 		73A784F114F8CC22001387F6 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
@@ -1037,8 +1016,6 @@
 				73A7847F14F8CC22001387F6 /* WizSelectTagViewController.h */,
 				73A7848014F8CC22001387F6 /* WizSelectTagViewController.m */,
 				73A7848114F8CC22001387F6 /* WizUiTypeIndex.h */,
-				73A7848214F8CC22001387F6 /* WizUserSettingCell.h */,
-				73A7848314F8CC22001387F6 /* WizUserSettingCell.m */,
 			);
 			path = WizUiShare;
 			sourceTree = "<group>";
@@ -1057,14 +1034,8 @@
 		73A7845614F8CC22001387F6 /* attachmentView */ = {
 			isa = PBXGroup;
 			children = (
-				73A7845714F8CC22001387F6 /* AttachmentImageViewController.h */,
-				73A7845814F8CC22001387F6 /* AttachmentImageViewController.m */,
-				73A7845914F8CC22001387F6 /* AttachmentImageViewController.xib */,
-				73A7845A14F8CC22001387F6 /* AttachmentsView.h */,
-				73A7845B14F8CC22001387F6 /* AttachmentsView.m */,
-				73A7845C14F8CC22001387F6 /* AttachmentView.h */,
-				73A7845D14F8CC22001387F6 /* AttachmentView.m */,
-				73A7845E14F8CC22001387F6 /* AttachmentView.xib */,
+				73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */,
+				73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */,
 			);
 			path = attachmentView;
 			sourceTree = "<group>";
@@ -1092,6 +1063,8 @@
 		73A7846D14F8CC22001387F6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				73A7848214F8CC22001387F6 /* WizUserSettingCell.h */,
+				73A7848314F8CC22001387F6 /* WizUserSettingCell.m */,
 				73A7846E14F8CC22001387F6 /* UserSttingsViewController.h */,
 				73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */,
 				73A7847014F8CC22001387F6 /* UserSttingsViewController.xib */,
@@ -1110,9 +1083,6 @@
 				73A7848A14F8CC22001387F6 /* CatelogBaseController.m */,
 				73A7848B14F8CC22001387F6 /* CatelogTagCell.h */,
 				73A7848C14F8CC22001387F6 /* CatelogTagCell.m */,
-				73A7848D14F8CC22001387F6 /* PadDocumentViewController.h */,
-				73A7848E14F8CC22001387F6 /* PadDocumentViewController.m */,
-				73A7848F14F8CC22001387F6 /* PadDocumentViewController.xib */,
 				73A7849014F8CC22001387F6 /* PadFoldersController.h */,
 				73A7849114F8CC22001387F6 /* PadFoldersController.m */,
 				73A7849214F8CC22001387F6 /* PadTagController.h */,
@@ -1124,13 +1094,11 @@
 				73A7849814F8CC22001387F6 /* WizCheckAccounsController.h */,
 				73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */,
 				73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */,
-				73A7849B14F8CC22001387F6 /* WizPadCheckAttachments.m */,
+				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
 				73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */,
 				73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */,
 				73A7849E14F8CC22001387F6 /* WizPadDocumentListController.h */,
 				73A7849F14F8CC22001387F6 /* WizPadDocumentListController.m */,
-				73A784A014F8CC22001387F6 /* WizPadDocumentViewCheckAttachmentsController.h */,
-				73A784A114F8CC22001387F6 /* WizPadDocumentViewCheckAttachmentsController.m */,
 				73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */,
 				73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */,
 				73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */,
@@ -1255,8 +1223,6 @@
 				73A784E914F8CC22001387F6 /* NewWelcomePage.h */,
 				73A784EA14F8CC22001387F6 /* NewWelcomePage.m */,
 				73A784EB14F8CC22001387F6 /* NewWelcomePage.xib */,
-				73A784EC14F8CC22001387F6 /* PlayAudioAttachmentCell.h */,
-				73A784ED14F8CC22001387F6 /* PlayAudioAttachmentCell.m */,
 			);
 			path = OldClasses;
 			sourceTree = "<group>";
@@ -1688,10 +1654,7 @@
 				7311621014F50ABB007EC8AC /* Default@2x.png in Resources */,
 				730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */,
 				730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */,
-				73A7857314F8CC23001387F6 /* AttachmentImageViewController.xib in Resources */,
-				73A7857614F8CC23001387F6 /* AttachmentView.xib in Resources */,
 				73A7857E14F8CC23001387F6 /* UserSttingsViewController.xib in Resources */,
-				73A7858D14F8CC23001387F6 /* PadDocumentViewController.xib in Resources */,
 				73A7859D14F8CC23001387F6 /* WizPadLoginViewController.xib in Resources */,
 				73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */,
 				73A785A714F8CC23001387F6 /* DocumentViewController.xib in Resources */,
@@ -1891,9 +1854,6 @@
 				73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */,
 				73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */,
 				73A7857114F8CC23001387F6 /* DocumentListViewCell.m in Sources */,
-				73A7857214F8CC23001387F6 /* AttachmentImageViewController.m in Sources */,
-				73A7857414F8CC23001387F6 /* AttachmentsView.m in Sources */,
-				73A7857514F8CC23001387F6 /* AttachmentView.m in Sources */,
 				73A7857714F8CC23001387F6 /* CommonString.m in Sources */,
 				73A7857814F8CC23001387F6 /* DetailViewController.m in Sources */,
 				73A7857914F8CC23001387F6 /* WizChangePassword.m in Sources */,
@@ -1914,16 +1874,13 @@
 				73A7858914F8CC23001387F6 /* CatelogBaseCell.m in Sources */,
 				73A7858A14F8CC23001387F6 /* CatelogBaseController.m in Sources */,
 				73A7858B14F8CC23001387F6 /* CatelogTagCell.m in Sources */,
-				73A7858C14F8CC23001387F6 /* PadDocumentViewController.m in Sources */,
 				73A7858E14F8CC23001387F6 /* PadFoldersController.m in Sources */,
 				73A7858F14F8CC23001387F6 /* PadTagController.m in Sources */,
 				73A7859014F8CC23001387F6 /* PickViewController.m in Sources */,
 				73A7859114F8CC23001387F6 /* WizAddAcountViewController.m in Sources */,
 				73A7859214F8CC23001387F6 /* WizCheckAccounsController.m in Sources */,
-				73A7859314F8CC23001387F6 /* WizPadCheckAttachments.m in Sources */,
 				73A7859414F8CC23001387F6 /* WizPadDocumentAbstractView.m in Sources */,
 				73A7859514F8CC23001387F6 /* WizPadDocumentListController.m in Sources */,
-				73A7859614F8CC23001387F6 /* WizPadDocumentViewCheckAttachmentsController.m in Sources */,
 				73A7859714F8CC23001387F6 /* WizPadDocumentViewController.m in Sources */,
 				73A7859814F8CC23001387F6 /* WizPadEditNoteController.m in Sources */,
 				73A7859914F8CC23001387F6 /* WizPadEditTagTextFiled.m in Sources */,
@@ -1954,7 +1911,6 @@
 				73A785B714F8CC23001387F6 /* NewNoteView.m in Sources */,
 				73A785B814F8CC23001387F6 /* VoiceRecognition.m in Sources */,
 				73A785B914F8CC23001387F6 /* NewWelcomePage.m in Sources */,
-				73A785BB14F8CC23001387F6 /* PlayAudioAttachmentCell.m in Sources */,
 				73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */,
 				73A785BD14F8CC23001387F6 /* SearchResultViewController.m in Sources */,
 				73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */,
@@ -1990,6 +1946,8 @@
 				73A785E014F8CC23001387F6 /* main.m in Sources */,
 				73A785E314F8CC23001387F6 /* RootViewController.m in Sources */,
 				73A785E414F8CC23001387F6 /* WizAppDelegate.m in Sources */,
+				73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */,
+				73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2140,7 +2098,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = ddd;
@@ -2150,7 +2108,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7F1E1F75-EA0B-4278-854C-682E49B65981";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2191,7 +2149,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2199,7 +2157,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7F1E1F75-EA0B-4278-854C-682E49B65981";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2210,7 +2168,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2219,7 +2177,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7F1E1F75-EA0B-4278-854C-682E49B65981";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos;
 			};

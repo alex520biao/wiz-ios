@@ -104,7 +104,7 @@
 	}
 	if (confirm == nil || [confirm length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter confirm password!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter the password again!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -139,7 +139,7 @@
     api.accountPassword = password;
 	[api createAccount];
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:NSLocalizedString(@"Create Account", nil) message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:NSLocalizedString(@"Create account", nil) message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
     self.waitAlertView = alert;
 	[alert show];
 	[alert release];

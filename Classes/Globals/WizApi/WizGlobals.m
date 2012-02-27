@@ -9,6 +9,9 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizIndex.h"
+
+#define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
+
 #define MD5PART 10*1024
 @implementation WizGlobals
 
@@ -237,11 +240,46 @@
     }
     else if([[type lowercaseString] isEqualToString:@"xlsx"])
     {
+       
         return YES;
     }
     {
         return NO;
     }
+}
++(NSString*)getAttachmentSourceFileName:(NSString*)userId
+{
+    NSString* ret = [NSString string];
+    for (int i = 0;;i++) {
+        NSString* objectPath = [WizIndex documentFilePath:userId documentGUID:ATTACHMENTTEMPFLITER];
+        [WizGlobals ensurePathExists:objectPath];
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
+        NSString* dateString = [formatter stringFromDate:[NSDate date]];
+        ret = [objectPath stringByAppendingPathComponent:dateString];
+        if (i != 0) {
+            ret = [ret stringByAppendingFormat:@"%d",i];
+        }
+        [formatter release];
+        NSArray* fileExist = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
+        BOOL fileNotExist = YES;
+        for (NSString* each in fileExist) {
+            NSArray* nameArray = [each componentsSeparatedByString:@"."];
+            for (NSString* ea in nameArray) {
+                NSLog(@"the name is %@",ea);
+                if ([ea isEqualToString:dateString]) {
+                    fileNotExist = NO;
+                }
+            }
+        }
+        if (fileNotExist) {
+            break;
+        }
+        else {
+            continue;
+        }
+    }
+    return ret;
 }
 +(NSDate *) sqlTimeStringToDate:(NSString*) str
 {

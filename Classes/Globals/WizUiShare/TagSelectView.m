@@ -266,11 +266,11 @@
     
     if(0 == section)
     {
-        return NSLocalizedString(@"Tags Selected",nil);
+        return NSLocalizedString(@"Tags selected",nil);
     }
     else if(1 == section)
     {
-        return NSLocalizedString(@"All Tags",nil);
+        return NSLocalizedString(@"All tags",nil);
     }
     else
     {

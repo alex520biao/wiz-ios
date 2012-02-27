@@ -173,7 +173,7 @@
     UIButton* loginButton_ = [[UIButton alloc] initWithFrame:CGRectMake(110, 200, 300, 40)];
     
     [loginButton_ setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [loginButton_ setTitle:NSLocalizedString(@"Log In", nil) forState:UIControlStateNormal];
+    [loginButton_ setTitle:NSLocalizedString(@"Log in", nil) forState:UIControlStateNormal];
     [loginButton_ addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton_];
     [loginButton_ release];

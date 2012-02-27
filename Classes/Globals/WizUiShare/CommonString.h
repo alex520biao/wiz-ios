@@ -36,7 +36,7 @@
 #define WizStrAccounts		NSLocalizedString(@"Accounts", nil)
 
 #define WizStrHome			NSLocalizedString(@"Home", nil)
-#define WizStrNewNote        NSLocalizedString(@"New Note",nil)
+#define WizStrNewNote        NSLocalizedString(@"New note",nil)
 #define WizTagPublic			NSLocalizedString(@"Public Notes", nil)
 #define WizTagProtected			NSLocalizedString(@"Share with friends", nil)
 NSString* getTagDisplayName(NSString* tagName);

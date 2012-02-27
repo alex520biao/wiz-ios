@@ -12,7 +12,6 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizSync.h"
-#import "AttachmentsView.h"
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"

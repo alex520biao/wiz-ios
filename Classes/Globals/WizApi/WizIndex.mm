@@ -2502,7 +2502,7 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
         }
         else
         {
-            if(! [zip addFileToZip:path newname:[NSString stringWithFormat:@"/%@/%@",name,each]]) 
+            if(![zip addFileToZip:path newname:[NSString stringWithFormat:@"%@/%@",name,each]]) 
             {
                 return NO;
             }

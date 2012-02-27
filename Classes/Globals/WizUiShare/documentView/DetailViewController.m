@@ -395,7 +395,7 @@ accessoryButtonTappedForRowWithIndexPath: (NSIndexPath *)indexPath
 		return;
 	//
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:NSLocalizedString(@"Refresh Documents", nil) 
+	[WizGlobals showAlertView:NSLocalizedString(@"Refresh documents", nil) 
 					  message:NSLocalizedString(@"Please wait while downloading document...!", nil) 
 					  delegate:self 
 					  retView:&alert];

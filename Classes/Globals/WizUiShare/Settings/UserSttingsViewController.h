@@ -21,6 +21,7 @@
     UISwitch* defaultUserSwitch;
     NSString* accountProtectPassword;
     
+    
     UIPickerView* pickView;
     NSArray* downloadDurationData;
     NSArray* imageQualityData;

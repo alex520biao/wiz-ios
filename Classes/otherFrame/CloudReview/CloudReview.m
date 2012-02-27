@@ -41,10 +41,10 @@ static CloudReview* _sharedReview = nil;
         //Show alert here  
         UIAlertView *alert;  
         alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rate WizNote",nil)  
-                                           message:NSLocalizedString(@"Please Rate WizNote",nil)  
+                                           message:NSLocalizedString(@"Please rate WizNote",nil)  
                                           delegate: self  
                                  cancelButtonTitle:NSLocalizedString(@"Cancel",nil)  
-                                 otherButtonTitles: NSLocalizedString(@"Rate Now",nil),  nil];  
+                                 otherButtonTitles: NSLocalizedString(@"Rate now",nil),  nil];  
         [alert show];  
         [alert release];  
     }  

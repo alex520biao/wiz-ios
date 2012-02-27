@@ -263,7 +263,7 @@
      [self buildDisplayInfo];
     self.title = self.accountUserId;
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
-    self.protectCellNameLabel.text = NSLocalizedString(@"App Lunch Protection", nil);
+    self.protectCellNameLabel.text = NSLocalizedString(@"App lunch protection", nil);
     self.defaultUserLabel.text = NSLocalizedString(@"Set default account", nil);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     self.mobileViewSwitch.on = [index isMoblieView];
@@ -430,13 +430,13 @@
     }
     else if ( 4 == indexPath.row && 0 == indexPath.section)
     {
-        cell.textLabel.text = NSLocalizedString(@"Change Password", nil);
+        cell.textLabel.text = NSLocalizedString(@"Change password", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
     else if (5 == indexPath.row && 0 == indexPath.section)
     {
-        cell.textLabel.text = NSLocalizedString(@"Remove Account", nil);
+        cell.textLabel.text = NSLocalizedString(@"Remove account", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }

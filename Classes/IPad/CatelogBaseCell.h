@@ -11,8 +11,10 @@
 @interface CatelogBaseCell : UITableViewCell
 {
     NSString* accountUserId;
+
     id owner;
 }
+@property (nonatomic, retain) NSArray* abstractViewArray;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) id owner;
 - (void) setContent:(NSArray*) arr;

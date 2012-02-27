@@ -240,7 +240,7 @@
     self.userNameLabel.text = NSLocalizedString(@"User ID", nil);
     self.userPasswordLabel.text = NSLocalizedString(@"Password", @"密码");
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [self.loginButton setTitle:NSLocalizedString(@"Log In", nil) forState:UIControlStateNormal];
+    [self.loginButton setTitle:NSLocalizedString(@"Log in", nil) forState:UIControlStateNormal];
     self.addAccountCell.selectionStyle=UITableViewCellSelectionStyleNone;
     self.userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.checkOtherAccountButton setTitle:NSLocalizedString(@"Switch accounts", nil) forState:UIControlStateNormal];

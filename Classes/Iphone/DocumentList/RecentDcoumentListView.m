@@ -73,7 +73,7 @@
 
 - (NSString*) titleForView
 {
-	return [NSString stringWithString:NSLocalizedString(@"Recent Notes", nil)];
+	return [NSString stringWithString:NSLocalizedString(@"Recent notes", nil)];
 }
 
 

@@ -674,7 +674,7 @@
         if ([total isEqualToNumber:current]) {
             self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %@",
                                             displayName,
-                                            NSLocalizedString(@"uploaded successfully", nil)];
+                                            NSLocalizedString(@"Uploaded successfully", nil)];
         }
     }
    

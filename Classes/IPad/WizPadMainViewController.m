@@ -209,7 +209,7 @@
         if ([total isEqualToNumber:current]) {
             processText = [NSString stringWithFormat:@"%@ %@",
                                             displayName,
-                                            NSLocalizedString(@"uploaded successfully", nil)];
+                                            NSLocalizedString(@"Uploaded successfully", nil)];
         }
     }
     
@@ -372,7 +372,7 @@
     
     UIBarButtonItem* flexSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"New Note", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
+    UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"New note", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:[UIImage imageNamed:@"sync_gray"] forState:UIControlStateNormal];
@@ -438,7 +438,7 @@
     self.controllersArray = [NSMutableArray array] ;
     if (nil == self.mainSegment) {
         NSArray* arr = [NSArray arrayWithObjects:
-                        NSLocalizedString(@"Recent Notes", nil),
+                        NSLocalizedString(@"Recent notes", nil),
                         NSLocalizedString(@"Folders", nil),
                         NSLocalizedString(@"Tags", nil),
                         nil];

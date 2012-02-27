@@ -119,7 +119,7 @@
     }
     
     if (pwNewStrConfirm == nil || [pwNewStrConfirm isEqualToString:@""]) {
-        [self alertMessage:NSLocalizedString(@"The new Password cofirmed is null", nil)];
+        [self alertMessage:NSLocalizedString(@"The new password cofirmed is null", nil)];
         return;
     }
     
@@ -138,7 +138,7 @@
     [nc removeObserver:self];
     [nc addObserver:self selector:@selector(xmlrpcDone:) name:[changePw notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
     
-    UIAlertView* waitAlert_ = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Change Passwrd", nil) message:NSLocalizedString(@"Please waiting ...", nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    UIAlertView* waitAlert_ = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Change password", nil) message:NSLocalizedString(@"Please waiting ...", nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
     waitAlert_.tag = WaitAlertTag;
     self.waitAlert = waitAlert_;
     [waitAlert_ show];
@@ -155,19 +155,19 @@
 {
     [super viewDidLoad];
     self.oldPassword = [self addSubviewByPointY:20];
-    self.oldPassword.textInputField.placeholder = NSLocalizedString(@"Old Password",nil);
-    self.oldPassword.nameLable.text = NSLocalizedString(@"Old Password", nil);
+    self.oldPassword.textInputField.placeholder = NSLocalizedString(@"Old password",nil);
+    self.oldPassword.nameLable.text = NSLocalizedString(@"Old password", nil);
     self.oldPassword.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     oldPassword.textInputField.secureTextEntry = YES;
     self.oldPassword.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     self.passwordNew = [self addSubviewByPointY:70];
-    self.passwordNew.textInputField.placeholder = NSLocalizedString(@"New Password",nil);
+    self.passwordNew.textInputField.placeholder = NSLocalizedString(@"New password",nil);
     self.passwordNew.textInputField.secureTextEntry = YES;
-    self.passwordNew.nameLable.text = NSLocalizedString(@"New Password", nil);
+    self.passwordNew.nameLable.text = NSLocalizedString(@"New password", nil);
     
     self.passwordConfirmNew = [self addSubviewByPointY:120];
-    self.passwordConfirmNew.textInputField.placeholder = NSLocalizedString(@"New Password",nil);
+    self.passwordConfirmNew.textInputField.placeholder = NSLocalizedString(@"New password",nil);
     self.passwordConfirmNew.textInputField.secureTextEntry = YES;
     self.passwordConfirmNew.nameLable.text = NSLocalizedString(@"Confirm", nil);
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel

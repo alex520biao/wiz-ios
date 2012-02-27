@@ -11,7 +11,6 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizSync.h"
-#import "AttachmentsView.h"
 #import "WizDocumentsByLocation.h"
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
@@ -40,14 +39,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     if (self.owner != nil && [self.owner isKindOfClass:[WizSync class]]) {
         WizSync* sync = (WizSync*)self.owner;
         [sync onError:retObject];
-    }
-    
-    else if (self.owner != nil && [self.owner isKindOfClass:[AttachmentsView class]])
-    {
-        AttachmentsView* attachts = (AttachmentsView*)self.owner;
-        [attachts.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-        attachts.waitAlertView = nil;
-        [super onError:retObject];
     }
     else if (self.owner != nil && [self.owner isKindOfClass:[WizDocumentsByLocation class]])
     {

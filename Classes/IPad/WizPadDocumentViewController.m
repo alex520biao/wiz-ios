@@ -25,7 +25,7 @@
 #import "WizDictionaryMessage.h"
 #import "WizPadNotificationMessage.h"
 #import "UIBadgeView.h"
-#import "WizPadDocumentViewCheckAttachmentsController.h"
+#import "WizCheckAttachments.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -176,10 +176,12 @@
         self.documentList.frame = TableLandscapeFrame;
         self.webView.frame = WebViewLandscapeFrame;
         self.headerView.frame = HeadViewLandScapeFrame;
+        self.documentNameLabel.frame = CGRectMake(44, 0.0, 680, 44);
         self.zoomOrShrinkButton.hidden = NO;
     }
     else
     {
+        self.documentNameLabel.frame = CGRectMake(5.0, 0.0, 768, 44);
         self.zoomOrShrinkButton.hidden = YES;
         self.documentList.frame = TablePortraitFrame;
         self.webView.frame = WebViewPortraitFrame;
@@ -239,14 +241,35 @@
     [namelabel_ release];
     
 }
+- (NSUInteger) indexOfDocument:(NSString*)guid
+{
+    NSInteger index = 0;
+    for (int i = 0; i < [self.documentsArray count]; i++) {
+        NSArray* arr = [documentsArray objectAtIndex:i];
+        for (WizDocument* each in arr) {
+            index++;
+            if ([each.guid isEqualToString:guid]) {
+                return index;
+            }
+        }
+    }
+    
+    return -1;
+}
+
+- (void) updateTheNavigationTitle
+{
+     NSString* title_ = [NSString stringWithFormat:NSLocalizedString(@"%d note in %d notes",nil),[self indexOfDocument:self.selectedDocumentGUID],[self.sourceArray count]];
+    self.title = title_;
+}
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
-    
     UILabel* countLabel = [[UILabel  alloc] initWithFrame:CGRectMake(0.0, 5, 230, 20)];
-    countLabel.text = [NSString stringWithFormat:@"%d %@",[self.sourceArray count],NSLocalizedString(@"notes", nil)];
+    NSString* title_ = [NSString stringWithFormat:NSLocalizedString(@"%d notes",nil),[self.sourceArray count]];
+    countLabel.text = title_;
     countLabel.textAlignment = UITextAlignmentCenter;
     countLabel.textColor = [UIColor grayColor];
     self.documentList.tableHeaderView = countLabel;
@@ -432,7 +455,7 @@
     if (nil != self.currentPopoverController) {
         [currentPopoverController dismissPopoverAnimated:YES];
     }
-    WizPadDocumentViewCheckAttachmentsController* checkAttach = [[WizPadDocumentViewCheckAttachmentsController alloc] init];
+    WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
     checkAttach.documentGUID = [NSString stringWithString:selectedDocumentGUID];
     checkAttach.accountUserId = accountUserId;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:checkAttach];
@@ -509,7 +532,7 @@
         NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
         if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
         {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
                                                             message:NSLocalizedString(@"This version does not support encrytion!", nil)
                                                            delegate:self 
                                                   cancelButtonTitle:@"ok" 
@@ -554,7 +577,7 @@
 }
 - (void) displayEncryInfo
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
                                                     message:NSLocalizedString(@"This version does not support encrytion!", nil)
                                                    delegate:self 
                                           cancelButtonTitle:WizStrOK 
@@ -596,6 +619,7 @@
         }
         
     }
+    [self updateTheNavigationTitle];
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

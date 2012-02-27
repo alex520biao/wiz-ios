@@ -14,12 +14,11 @@
 #import "WizGlobalData.h"
 #import "WizApi.h"
 #import "WizDownloadObject.h"
-#import "AttachmentsView.h"
 #import "DocumentInfoViewController.h"
 #import "CommonString.h"
 #import "UIBadgeView.h"
 #import "WizDictionaryMessage.h"
-#import "WizPadDocumentViewCheckAttachmentsController.h"
+#import "WizCheckAttachments.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -163,7 +162,7 @@
 
 - (IBAction)viewAttachments:(id)sender
 {
-    WizPadDocumentViewCheckAttachmentsController* checkAttach = [[WizPadDocumentViewCheckAttachmentsController alloc] init];
+    WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
     checkAttach.documentGUID = self.doc.guid;
     checkAttach.accountUserId = accountUserID;
     [self.navigationController pushViewController:checkAttach animated:YES];
@@ -286,7 +285,7 @@
 }
 - (void) displayEncryInfo
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not Supported", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
                                                     message:NSLocalizedString(@"This version does not support encrytion!", nil)
                                                    delegate:self 
                                           cancelButtonTitle:@"ok" 

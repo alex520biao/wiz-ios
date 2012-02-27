@@ -1,22 +1,21 @@
 //
-//  WizCheckAccounsController.m
+//  WizPadCheckAttachments.m
 //  Wiz
 //
-//  Created by dong yishuiliunian on 11-12-27.
-//  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
+//  Created by wiz on 12-2-7.
+//  Copyright 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "WizCheckAccounsController.h"
-#import "WizSettings.h"
-@implementation WizCheckAccounsController
-@synthesize accounts;
+#import "WizPadCheckAttachments.h"
+#import "WizPadNotificationMessage.h"
+@implementation WizPadCheckAttachments
+@synthesize source;
 
 - (void) dealloc
 {
-    self.accounts = nil;
+    self.source = nil;
     [super dealloc];
 }
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -35,22 +34,11 @@
 }
 
 #pragma mark - View lifecycle
-- (void) cancel
-{
-    [self.navigationController dismissModalViewControllerAnimated:YES];
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.accounts = [WizSettings accounts];
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) 
-                                                                     style:UIBarButtonItemStyleDone
-                                                                    target:self 
-                                                                    action:@selector(cancel)];
 
-	self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -61,7 +49,8 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,14 +83,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    return [self.accounts count];
+    return [self.source count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,24 +97,36 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    
-    cell.textLabel.text = [WizSettings accountUserIdAtIndex:self.accounts index:indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.imageView.image = [UIImage imageNamed:@"userIcon"];
+    NSArray* dir = [[self.source objectAtIndex:indexPath.row] componentsSeparatedByString:@"/"];
+    cell.textLabel.text = [dir lastObject];
     return cell;
+}
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[self.source objectAtIndex:indexPath.row] forKey:TypeOfAttachmentFilePath];
+        [self.source removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfDeleteAttachments object:nil userInfo:userInfo];
+    }
 }
 
 
-#pragma mark - Table view delegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
-    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[WizSettings accountUserIdAtIndex:self.accounts index:indexPath.row], @"accountUserId", nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-    [userInfo release];
+    UIWebView* webview = [[UIWebView alloc] init];
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:[self.source objectAtIndex:indexPath.row]];
+    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+    [webview loadRequest:req];
+    [req release];
+    [url release];
+    UIViewController* contr = [[UIViewController alloc] init];
+    contr.view = webview;
+    [self.navigationController pushViewController:contr animated:YES];
+    [contr release];
+    [webview release];
 }
 
 @end

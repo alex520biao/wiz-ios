@@ -508,6 +508,12 @@
             NSString* sectionTitle = [doc.dateModified substringWithRange:range];
             return sectionTitle;
         }
+        else if (kOrderCreatedDate == self.kOrderIndex || kOrderReverseCreatedDate == self.kOrderIndex) {
+            WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
+            NSRange range = NSMakeRange(0, 7);
+            NSString* sectionTitle = [doc.dateCreated substringWithRange:range];
+            return sectionTitle;
+        }
         else if (kOrderReverseDate == self.kOrderIndex)
         {
             WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];

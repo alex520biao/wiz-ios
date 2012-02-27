@@ -12,7 +12,6 @@
 #import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
-#import "AttachmentsView.h"
 #import "WizApi.h"
 #import "SelectFloderView.h"
 #import "ELCAlbumPickerController.h"
@@ -140,13 +139,15 @@
     [settings setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
     [settings setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
     [settings setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-    [WizGlobals ensurePathExists:objectPath];
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-    [formatter release];
-    NSString* audioFileName = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.aif",dateString]];
+//    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
+//    [WizGlobals ensurePathExists:objectPath];
+//    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+//	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    NSString* dateString = [formatter stringFromDate:[NSDate date]];
+//    [formatter release];
+//    NSString* audioFileName = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.aif",dateString]];
+    
+    NSString* audioFileName = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".aif"];
     self.currentRecodingFilePath = [[audioFileName mutableCopy] autorelease];
     NSURL* url = [NSURL fileURLWithPath:audioFileName];
     self.recorder = [[[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error ] autorelease];
@@ -294,14 +295,15 @@
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         UIImage* image = [each objectForKey:@"UIImagePickerControllerOriginalImage"];
         image = [image compressedImage:[index imageQualityValue]];
-        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-        [WizGlobals ensurePathExists:objectPath];
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSString* dateString = [formatter stringFromDate:[NSDate date]];
-        [formatter release];
-        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-        [UIImagePNGRepresentation(image) writeToFile:fileNamePath atomically:YES];
+//        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
+//        [WizGlobals ensurePathExists:objectPath];
+//        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        NSString* dateString = [formatter stringFromDate:[NSDate date]];
+//        [formatter release];
+//        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
+           NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
+        [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
         [self updateAttachment:fileNamePath];
     }
     [self elcImagePickerControllerDidCancel:picker];
@@ -326,17 +328,19 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
     image = [image compressedImage:[index imageQualityValue]];
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-    [WizGlobals ensurePathExists:objectPath];
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-    [formatter release];
-    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-    [UIImagePNGRepresentation(image) writeToFile:fileNamePath atomically:YES];
+//    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
+//    [WizGlobals ensurePathExists:objectPath];
+//    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    NSString* dateString = [formatter stringFromDate:[NSDate date]];
+//    [formatter release];
+//    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
+    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
+    [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
     [self updateAttachment:fileNamePath];
     [picker dismissModalViewControllerAnimated:YES];
-    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
+    //2012-2-26 delete
+//    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
     [picker.navigationController dismissModalViewControllerAnimated:YES];
 }
 
