@@ -21,6 +21,9 @@
     UISwitch* defaultUserSwitch;
     NSString* accountProtectPassword;
     
+    UITableViewCell* connectViaWifiCell;
+    UILabel* connectViaWifiLabel;
+    UISwitch* connectViaWifiSwitch;
     
     UIPickerView* pickView;
     NSArray* downloadDurationData;
@@ -42,6 +45,9 @@
 @property (nonatomic, retain) IBOutlet UITableViewCell* defaultUserCell;
 @property (nonatomic, retain) IBOutlet UILabel* defaultUserLabel;
 @property (nonatomic, retain) IBOutlet UISwitch* defaultUserSwitch;
+@property (nonatomic, retain) IBOutlet UITableViewCell* connectViaWifiCell;
+@property (nonatomic, retain) IBOutlet UILabel* connectViaWifiLabel;
+@property (nonatomic, retain) IBOutlet UISwitch* connectViaWifiSwitch;
 @property (nonatomic, retain) NSString* accountProtectPassword;
 @property (nonatomic, retain) UIPickerView* pickView;
 @property (nonatomic, retain) NSArray* downloadDurationData;

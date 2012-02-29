@@ -39,8 +39,8 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self != nil) {
-        textPull= NSLocalizedString(@"Pull down to sync...", nil);
-        textRelease = NSLocalizedString(@"Release to sync...", nil);
+        textPull= NSLocalizedString(@"Pull down to sync notes...", nil);
+        textRelease = NSLocalizedString(@"Release to sync notes...", nil);
         textLoading = NSLocalizedString(@"Loading...", nil);
     }
     return self;
@@ -176,8 +176,7 @@
 }
 
 - (void)refresh {
-    // This is just a demo. Override this method with your custom reload action.
-    // Don't forget to call stopLoading at the end.
+
     [self performSelector:@selector(stopLoading) withObject:nil afterDelay:2.0];
 }
 

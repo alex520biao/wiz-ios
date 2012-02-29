@@ -13,7 +13,7 @@
 #import "WizDownloadObject.h"
 #import "WizUploadObjet.h"
 #import "WizDownloadPool.h"
-
+#import "Reachability.h"
 #define READPARTSIZE 100*1024
 
 
@@ -59,14 +59,28 @@
         [self callClientLogout];
         return;
     }
+    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
 
+    BOOL willDownload = YES;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    if ([index connectOnlyViaWifi]) {
+        Reachability* rech = [Reachability reachabilityForInternetConnection];
+        NetworkStatus netStatus = [rech currentReachabilityStatus];
+        if (netStatus != ReachableViaWiFi) {
+            willDownload = NO;
+        }
+    }
     if([self.download count] == 0) 
     {
         [self callClientLogout];
         return;
     }
+    if (!willDownload) {
+        [self callClientLogout];
+        return;
+    }
     WizDocument* each = [self.download lastObject];
-    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
+   
     WizDownloadDocument* downloader = [pool getDownloadProcess:each.guid type:[WizGlobals documentKeyString]];
     downloader.owner = self;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -89,7 +103,6 @@
         return NO;
     }
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	//
     if(self.attachmentsForUpdated == nil)
         self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
     NSLog(@"attchment upload count is %d",[self.attachmentsForUpdated count]);

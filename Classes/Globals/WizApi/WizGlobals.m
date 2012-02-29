@@ -250,24 +250,26 @@
 +(NSString*)getAttachmentSourceFileName:(NSString*)userId
 {
     NSString* ret = [NSString string];
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
+    NSString* dateString = [formatter stringFromDate:[NSDate date]];
+    [formatter release];
+    NSString* objectPath = [WizIndex documentFilePath:userId documentGUID:ATTACHMENTTEMPFLITER];
+    [WizGlobals ensurePathExists:objectPath];
     for (int i = 0;;i++) {
-        NSString* objectPath = [WizIndex documentFilePath:userId documentGUID:ATTACHMENTTEMPFLITER];
-        [WizGlobals ensurePathExists:objectPath];
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
-        NSString* dateString = [formatter stringFromDate:[NSDate date]];
-        ret = [objectPath stringByAppendingPathComponent:dateString];
+        NSString* dateAppend = [NSString stringWithString:dateString];
         if (i != 0) {
-            ret = [ret stringByAppendingFormat:@"%d",i];
+            dateAppend = [dateString stringByAppendingFormat:@"%d",i];
         }
-        [formatter release];
+        ret = [objectPath stringByAppendingPathComponent:dateAppend];
+        
         NSArray* fileExist = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
         BOOL fileNotExist = YES;
         for (NSString* each in fileExist) {
             NSArray* nameArray = [each componentsSeparatedByString:@"."];
             for (NSString* ea in nameArray) {
                 NSLog(@"the name is %@",ea);
-                if ([ea isEqualToString:dateString]) {
+                if ([ea isEqualToString:dateAppend]) {
                     fileNotExist = NO;
                 }
             }
@@ -382,7 +384,7 @@
 
 +(void) reportErrorWithString:(NSString*)error
 {
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:error delegate:nil cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 	[alert show];
 	[alert release];
 }
@@ -390,6 +392,17 @@
 {
 	[WizGlobals reportErrorWithString:[error localizedDescription]];
 }
++(void) reportWarningWithString:(NSString*)error
+{
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning message:error delegate:nil cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+	[alert show];
+	[alert release];
+}
++ (void) reportWarning:(NSError*)error
+{
+    [WizGlobals reportWarningWithString:[error localizedDescription]];
+}
+
 +(BOOL) ensurePathExists:(NSString*)path
 {
 	NSFileManager *fileManager = [[NSFileManager alloc] init];

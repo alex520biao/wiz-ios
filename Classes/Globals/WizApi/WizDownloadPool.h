@@ -19,4 +19,5 @@
 - (BOOL) documentIsDownloading:(NSString*)documentGUID;
 - (BOOL) attachmentIsDownloading:(NSString*)attachmentGUID;
 - (void) removeDownloadData:(NSNotification*)nc;
+- (BOOL) checkCanProduceAProcess;
 @end

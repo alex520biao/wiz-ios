@@ -17,7 +17,6 @@
 #import "WizSync.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
-#import "SortOptionsView.h"
 #import "WizPadEditNoteController.h"
 #import "WizDictionaryMessage.h"
 #import "UserSttingsViewController.h"
@@ -182,7 +181,7 @@
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
     {
-        processText = NSLocalizedString(@"Syncing user infomation", nil);
+        processText = NSLocalizedString(@"Syncing user information", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
@@ -240,7 +239,7 @@
 {
     UIAlertView* alert = [[[UIAlertView alloc] 
                            initWithTitle:NSLocalizedString(@"Please confirm",nil)
-                           message:NSLocalizedString(@"The sync proceess will stop!",nil)
+                           message:NSLocalizedString(@"The sync process will stop!",nil)
                            delegate:self 
                            cancelButtonTitle:WizStrCancel
                            otherButtonTitles:WizStrOK, nil] autorelease];
@@ -319,24 +318,7 @@
     self.currentPoperController = nil;
     [recentList reloadAllData];
 }
-- (void) changeOrderIndex:(id) sender
-{
-    NSLog(@"changed succeed!");
-    if (nil == self.currentPoperController) {
-        if (nil != self.currentPoperController) {
-            [currentPoperController dismissPopoverAnimated:YES];
-        }
-        SortOptionsView* sortView = [[SortOptionsView alloc] initWithStyle:UITableViewStyleGrouped];
-        UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:sortView];
-        [sortView release];
-        self.currentPoperController = pop;
-        [pop release];
-        self.currentPoperController.delegate = self;
-        self.currentPoperController.popoverContentSize = CGSizeMake(320, 190);
-        [self.currentPoperController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangedSortedOrder:) name:TypeOfChangeSortedOrder object:nil];
-    }
-}
+
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     self.currentPoperController = nil;

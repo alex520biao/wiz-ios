@@ -56,7 +56,7 @@
     NSLog(@"done enumerating photos");
 	
 	[self.tableView reloadData];
-	[self.navigationItem setTitle:@"Pick Photos"];
+	[self.navigationItem setTitle:NSLocalizedString(@"Pick Photos",nil)];
     
     [pool release];
 

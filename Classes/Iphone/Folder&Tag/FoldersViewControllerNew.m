@@ -133,7 +133,7 @@
     [searchFooter release];
     [footerView release];
     UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(90, 0, 200, 100)];
-    remind.text = NSLocalizedString(@"Tag is an usual way to organize your notes,you can give a unified feature note with the same tag.also we provide you the note view as a tree form so that it is convenient for you to find one tag in multiple tags.", nil);
+    remind.text = NSLocalizedString(@"Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use.", nil);
     remind.backgroundColor = [UIColor clearColor];
     remind.textColor = [UIColor grayColor];
     [searchFooter addSubview:remind];

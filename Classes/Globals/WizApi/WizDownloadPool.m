@@ -53,11 +53,25 @@
 }
 - (void) removeDownloadData:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    NSDictionary* ret = [userInfo valueForKey:@"ret"];
-    NSString* documentGUID = [ret valueForKey:@"document_guid"];
-    [self removeDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
-    [self removeDownloadProcess:documentGUID type:[WizGlobals attachmentKeyString]];
+    for (WizDownloadObject* each in [self.processPool allValues]) {
+        if (!each.busy) {
+            [self removeDownloadProcess:each.objGuid type:each.objType];
+        }
+    }
+}
+
+- (BOOL) checkCanProduceAProcess
+{
+    if ([[self.processPool allValues] count] < MaxDownloadProcessCount) {
+        return YES;
+    }
+    else {
+        int count = [[self.processPool allValues] count];
+        NSString* msg = [NSString stringWithFormat:NSLocalizedString(@"There are %d notes that is downloaded, please wait a while....", nil),count ];
+        NSError* error = [NSError errorWithDomain:@"MyDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:msg forKey:NSLocalizedDescriptionKey]];
+        [WizGlobals reportWarning:error];
+        return NO;
+    }
 }
 - (id) getDownloadProcess:(NSString*)objectGUID  type:(NSString*)objectType
 {
@@ -74,6 +88,7 @@
             download = [[WizDownloadAttachment alloc] initWithAccount:accountUserId password:@""];
             [self.processPool setObject:download forKey:proceessKey];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeDownloadData:) name:[download notificationName: WizSyncXmlRpcDonlowadDoneNotificationPrefix] object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeDownloadData:) name:[download notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
             [download release];
         }
     }

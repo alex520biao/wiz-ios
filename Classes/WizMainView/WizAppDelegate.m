@@ -9,7 +9,6 @@
 #import "WizAppDelegate.h"
 #import "WizGlobalData.h"
 #import "RootViewController.h"
-#import "DetailViewController.h"
 #import "WizGlobals.h"
 #import "WizSettings.h"
 #import "LoginViewController.h"

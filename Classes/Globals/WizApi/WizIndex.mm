@@ -1639,6 +1639,7 @@ NSInteger compareTag(id location1, id location2, void*);
     if (-1 == [self userTablelistViewOption]) {
         [self setUserTableListViewOption:kOrderReverseDate];
     }
+    [self connectOnlyViaWifi];
     [self setDownloadAllList:YES];
 }
 - (NSString*) meta: (NSString*)name key:(NSString*)key
@@ -1823,7 +1824,6 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
 {
     return [self setSyncVersion:TagVersion version:ver];
 }
-
 - (BOOL) setImageQualityValue:(int64_t)value
 {
     NSString* imageValue = [NSString stringWithFormat:@"%lld",value];
@@ -1833,6 +1833,23 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
 {
     return [self setUserInfo:WizIosAppVersion info:ver];
 }
+- (BOOL) setConnectOnlyViaWifi:(BOOL)wifi
+{
+    NSString* wifiStr = [NSString stringWithFormat:@"%d",wifi?1:0];
+    return [self setUserInfo:ConnectServerOnlyByWif info:wifiStr];
+}
+
+- (BOOL) connectOnlyViaWifi
+{
+    NSString* wifiStr = [self userInfo:ConnectServerOnlyByWif];
+    if (wifiStr == nil) {
+        [self setConnectOnlyViaWifi:NO];
+        return NO;
+    }
+    BOOL ret = [wifiStr intValue] == 1? YES: NO;
+    return ret;
+}
+
 - (NSString*) wizIosAppVersion
 {
     return [self userInfo:WizIosAppVersion];
@@ -2292,7 +2309,7 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
         NSLog(@"move error");
     }
     NSString* dateCreatedString = [WizGlobals dateToSqlString:[NSDate date]];
-    NSString* dataMd5 = [WizGlobals fileMD5:filePath];
+    NSString* dataMd5 = [WizGlobals fileMD5:fileNamePath];
     NSMutableDictionary* atttachNew = [NSMutableDictionary dictionary];
     fileName = [fileName stringByReplacingOccurrencesOfString:@":" withString:@"-"];
     [atttachNew setObject:fileName forKey:@"attachment_name"];

@@ -20,7 +20,6 @@
 #import "WizDocumentsByLocation.h"
 #import "WizDownloadObject.h"
 #import "ZipArchive.h"
-#import "SortOptionsView.h"
 #import "DocumentViewCtrollerBase.h"
 #import "PickViewController.h"
 #import "FoldersViewControllerNew.h"
@@ -67,9 +66,6 @@
 #pragma mark - View lifecycle
 - (void) optionsView
 {
-    SortOptionsView* optionsView = [[[SortOptionsView alloc] init] autorelease];
-    optionsView.delegate = self;
-    [self.navigationController pushViewController:optionsView animated:YES];
 }
 - (void) addNewDocument:(NSNotification*)nc
 {
@@ -598,7 +594,7 @@
 {
     self.assertAlerView = [[[UIAlertView alloc] 
                            initWithTitle:NSLocalizedString(@"Please confirm",nil)
-                           message:NSLocalizedString(@"The sync proceess will stop!",nil)
+                           message:NSLocalizedString(@"The sync process will stop!",nil)
                            delegate:self 
                            cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                            otherButtonTitles:NSLocalizedString(@"OK", nil), nil] autorelease];
@@ -647,7 +643,7 @@
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
     {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing user infomation", nil);
+        self.refreshLabel.text = NSLocalizedString(@"Syncing user information", nil);
     }
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])

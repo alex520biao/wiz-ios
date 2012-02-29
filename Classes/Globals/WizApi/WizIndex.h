@@ -15,7 +15,7 @@
 #define kOrderReverseCreatedDate    6
 
 #define WizIosAppVersionKeyString  @"3.0.5"
-
+#define ConnectServerOnlyByWif      @"ConnectServerOnlyByWif"
 @class WizIndexData;
 @class ZipArchive;
 @class WizTempIndexData;
@@ -279,6 +279,9 @@
 - (BOOL) clearCache;
 //2012-2-24
 - (NSString*) updateObjectDateTempFilePath:(NSString*)objGUID;
+//2012-2-18
+- (BOOL) setConnectOnlyViaWifi:(BOOL)wifi;
+- (BOOL) connectOnlyViaWifi;
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (NSString*) accountPath: (NSString*)userId;

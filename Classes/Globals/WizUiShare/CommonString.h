@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-
+#define WizStrWarning   NSLocalizedString(@"Warning", nil)
 #define WizStrOK		NSLocalizedString(@"OK", nil)
 #define WizStrCancel	NSLocalizedString(@"Cancel", nil)
 #define WizStrError		NSLocalizedString(@"Error", nil)
 #define WizStrSave		NSLocalizedString(@"Save", nil)
-#define WizStrLogin		NSLocalizedString(@"Login", nil)
+#define WizStrLogin		NSLocalizedString(@"Log in", nil)
 #define WizStrDocuments	NSLocalizedString(@"Documents", nil)
 #define WizStrRemove	NSLocalizedString(@"Remove", nil)
 #define WizStrSucceed   NSLocalizedString(@"Succeed", nil)
@@ -37,7 +37,7 @@
 
 #define WizStrHome			NSLocalizedString(@"Home", nil)
 #define WizStrNewNote        NSLocalizedString(@"New note",nil)
-#define WizTagPublic			NSLocalizedString(@"Public Notes", nil)
+#define WizTagPublic			NSLocalizedString(@"Public notes", nil)
 #define WizTagProtected			NSLocalizedString(@"Share with friends", nil)
 NSString* getTagDisplayName(NSString* tagName);
 

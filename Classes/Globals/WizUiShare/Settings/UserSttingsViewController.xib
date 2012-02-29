@@ -41,6 +41,7 @@
 				<int key="NSvFlags">274</int>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">10</int>
@@ -263,6 +264,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{12, 11}, {184, 21}}</string>
 								<reference key="NSSuperview" ref="399158526"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="706369048"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -282,6 +284,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{199, 8}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="399158526"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -292,6 +295,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 						</object>
 						<string key="NSFrameSize">{320, 43}</string>
 						<reference key="NSSuperview" ref="417756636"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="193004340"/>
 						<reference key="IBUIBackgroundColor" ref="72708522"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -303,6 +307,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 				</object>
 				<string key="NSFrameSize">{320, 44}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="399158526"/>
 				<reference key="IBUIBackgroundColor" ref="804514832"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -325,6 +330,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{12, 11}, {184, 21}}</string>
 								<reference key="NSSuperview" ref="852049800"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="204098898"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -335,7 +341,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<reference key="IBUITextColor" ref="522586189"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">15</float>
+								<float key="IBUIMinimumFontSize">8</float>
 								<reference key="IBUIFontDescription" ref="920300689"/>
 								<reference key="IBUIFont" ref="1028149955"/>
 							</object>
@@ -344,6 +350,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{199, 8}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="852049800"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -354,6 +361,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 						</object>
 						<string key="NSFrameSize">{320, 43}</string>
 						<reference key="NSSuperview" ref="750850551"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="330022049"/>
 						<reference key="IBUIBackgroundColor" ref="72708522"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -365,6 +373,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 				</object>
 				<string key="NSFrameSize">{320, 44}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="852049800"/>
 				<reference key="IBUIBackgroundColor" ref="804514832"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -455,6 +464,30 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<reference key="destination" ref="706369048"/>
 					</object>
 					<int key="connectionID">54</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">connectViaWifiCell</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="750850551"/>
+					</object>
+					<int key="connectionID">58</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">connectViaWifiLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="330022049"/>
+					</object>
+					<int key="connectionID">59</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">connectViaWifiSwitch</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="204098898"/>
+					</object>
+					<int key="connectionID">60</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -581,7 +614,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<reference ref="204098898"/>
 						</object>
 						<reference key="parent" ref="0"/>
-						<string key="objectName">SaveToLocal</string>
+						<string key="objectName">ConnectViaWifi</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">56</int>
@@ -650,9 +683,134 @@ AAgACAAIAAEAAQABAAE</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">57</int>
+			<int key="maxID">60</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">UserSttingsViewController</string>
+					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">setUserProtectPassword:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">setUserProtectPassword:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">setUserProtectPassword:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>connectViaWifiCell</string>
+							<string>connectViaWifiLabel</string>
+							<string>connectViaWifiSwitch</string>
+							<string>defaultUserCell</string>
+							<string>defaultUserLabel</string>
+							<string>defaultUserSwitch</string>
+							<string>mbileViewCellLabel</string>
+							<string>mobileViewCell</string>
+							<string>mobileViewSwitch</string>
+							<string>protectCell</string>
+							<string>protectCellNameLabel</string>
+							<string>protectCellSwitch</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UITableViewCell</string>
+							<string>UILabel</string>
+							<string>UISwitch</string>
+							<string>UITableViewCell</string>
+							<string>UILabel</string>
+							<string>UISwitch</string>
+							<string>UILabel</string>
+							<string>UITableViewCell</string>
+							<string>UISwitch</string>
+							<string>UITableViewCell</string>
+							<string>UILabel</string>
+							<string>UISwitch</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>connectViaWifiCell</string>
+							<string>connectViaWifiLabel</string>
+							<string>connectViaWifiSwitch</string>
+							<string>defaultUserCell</string>
+							<string>defaultUserLabel</string>
+							<string>defaultUserSwitch</string>
+							<string>mbileViewCellLabel</string>
+							<string>mobileViewCell</string>
+							<string>mobileViewSwitch</string>
+							<string>protectCell</string>
+							<string>protectCellNameLabel</string>
+							<string>protectCellSwitch</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">connectViaWifiCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">connectViaWifiLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">connectViaWifiSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">defaultUserCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">defaultUserLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">defaultUserSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">mbileViewCellLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">mobileViewCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">mobileViewSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">protectCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">protectCellNameLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">protectCellSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/UserSttingsViewController.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">

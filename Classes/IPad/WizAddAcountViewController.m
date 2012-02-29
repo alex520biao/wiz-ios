@@ -133,7 +133,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	//
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrLogin message:NSLocalizedString(@"Please wait while logining!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrLogin message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;
@@ -173,7 +173,7 @@
     UIButton* loginButton_ = [[UIButton alloc] initWithFrame:CGRectMake(110, 200, 300, 40)];
     
     [loginButton_ setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [loginButton_ setTitle:NSLocalizedString(@"Log in", nil) forState:UIControlStateNormal];
+    [loginButton_ setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
     [loginButton_ addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton_];
     [loginButton_ release];

@@ -7,7 +7,6 @@
 //
 
 #import "RootViewController.h"
-#import "DetailViewController.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizSync.h"
@@ -279,7 +278,6 @@ titleForHeaderInSection: (NSInteger)section
 -(void) setAccount:(NSString*)userId
 {
 	self.accountUserId = userId;
-	self.detailViewController.accountUserId = userId;
 	//
 	[self reloadAllData];
 	//

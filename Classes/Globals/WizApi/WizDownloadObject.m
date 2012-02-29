@@ -16,6 +16,8 @@
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
 #import "WizGlobalDictionaryKey.h"
+#import "Reachability.h"
+
 NSString* SyncMethod_DownloadProcessPartBeginWithGuid = @"DownloadProcessPartBegin";
 NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd";
 
@@ -36,6 +38,8 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 -(void) onError: (id)retObject
 {
+    self.owner = nil;
+	busy = NO;
     if (self.owner != nil && [self.owner isKindOfClass:[WizSync class]]) {
         WizSync* sync = (WizSync*)self.owner;
         [sync onError:retObject];
@@ -64,9 +68,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     {
         [super onError:retObject];
     }
-    self.owner = nil;
-
-	busy = NO;
 }
 -(void) onClientLogin: (id)retObject
 {
@@ -76,8 +77,9 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 - (void) downloadOver:(BOOL)unzipIsSucceed
 {
+    self.busy = NO;
     if (isLogin) {
-        self.busy = NO;
+        
     }
     else
     {
@@ -128,7 +130,16 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 - (BOOL) downloadObject
 {
-	
+//	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if ([index connectOnlyViaWifi]) {
+//        Reachability* rech = [Reachability reachabilityForInternetConnection];
+//        NetworkStatus netStatus = [rech currentReachabilityStatus];
+//        if (netStatus != ReachableViaWiFi) {
+//            NSError* error = [NSError errorWithDomain:NSOSStatusErrorDomain code:1 userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"You set downloading notes only over wifi! \nThe note will not be downloaded!", nil) forKey:NSLocalizedDescriptionKey]];
+//            [self onError:error]; 
+//            return NO;
+//        }
+//    }
     //删除以前可能会留下的临时文件
     NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.objGuid];
     [WizGlobals ensurePathExists:objectPath];
@@ -142,12 +153,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     {
         return [self callClientLogin];
     }
-}
-- (NSString*) padNotificationName:(NSString*)prefix
-{
-    NSString* string = [super notificationName:prefix];
-    NSString* ret = [NSString stringWithFormat:@"%@%@",self,string];
-    return ret;
 }
 @end
 

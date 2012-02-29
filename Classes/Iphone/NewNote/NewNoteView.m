@@ -919,7 +919,9 @@
         for (WizDocumentAttach* each in attachs) {
             NSString* filePath = [WizIndex documentFilePath:self.accountUserId documentGUID:each.attachmentGuid];
             NSString* fileNamePath = [filePath stringByAppendingPathComponent:each.attachmentName];
-            [self.attachmentsSourcePaths addObject:fileNamePath];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath]) {
+                [self.attachmentsSourcePaths addObject:fileNamePath];
+            }
         }
     }
     self.addAttachmentView.tag = HIDDENTTAG;

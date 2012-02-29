@@ -384,7 +384,6 @@
     NSMutableArray* attachmentsGuid = [NSMutableArray array];
     if ([self.attachmentSourcePath count]) {
         for (NSString* each in self.attachmentSourcePath) {
-            NSLog(@"each is %@",each);
             NSArray* dir = [each componentsSeparatedByString:@"/"];
             NSString* pathDir = [dir objectAtIndex:[dir count] -2];
             if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
@@ -655,7 +654,10 @@
     NSArray* attachments = [index attachmentsByDocumentGUID:self.documentGUID];
     for (WizDocumentAttach* eachAttach in attachments) {
         NSString* filePath = [[WizIndex documentFilePath:self.accountUserId documentGUID:eachAttach.attachmentGuid] stringByAppendingPathComponent:eachAttach.attachmentName];
-        [self.attachmentSourcePath addObject:filePath];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [self.attachmentSourcePath addObject:filePath];
+        }
+
     }
     self.folderTextField.text = [WizGlobals folderStringToLocal:self.documentFloder];
 }

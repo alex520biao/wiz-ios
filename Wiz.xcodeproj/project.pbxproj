@@ -44,6 +44,7 @@
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
+		738DA46F14FC92850075BFC9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 738DA46E14FC92850075BFC9 /* Reachability.m */; };
 		73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */; };
 		73A7855814F8CC23001387F6 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841C14F8CC22001387F6 /* index.cpp */; };
 		73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841E14F8CC22001387F6 /* tempIndex.cpp */; };
@@ -72,14 +73,12 @@
 		73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */; };
 		73A7857114F8CC23001387F6 /* DocumentListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845514F8CC22001387F6 /* DocumentListViewCell.m */; };
 		73A7857714F8CC23001387F6 /* CommonString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846014F8CC22001387F6 /* CommonString.m */; };
-		73A7857814F8CC23001387F6 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846314F8CC22001387F6 /* DetailViewController.m */; };
 		73A7857914F8CC23001387F6 /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846614F8CC22001387F6 /* WizChangePassword.m */; };
 		73A7857A14F8CC23001387F6 /* WizChangePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846814F8CC22001387F6 /* WizChangePasswordController.m */; };
 		73A7857B14F8CC23001387F6 /* ScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */; };
 		73A7857C14F8CC23001387F6 /* SelectFloderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846C14F8CC22001387F6 /* SelectFloderView.m */; };
 		73A7857D14F8CC23001387F6 /* UserSttingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */; };
 		73A7857E14F8CC23001387F6 /* UserSttingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7847014F8CC22001387F6 /* UserSttingsViewController.xib */; };
-		73A7857F14F8CC23001387F6 /* SortOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847214F8CC22001387F6 /* SortOptionsView.m */; };
 		73A7858014F8CC23001387F6 /* TagSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847414F8CC22001387F6 /* TagSelectView.m */; };
 		73A7858114F8CC23001387F6 /* WizActivityIndicatorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */; };
 		73A7858214F8CC23001387F6 /* WizCheckProtectPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847814F8CC22001387F6 /* WizCheckProtectPassword.m */; };
@@ -369,6 +368,8 @@
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
+		738DA46D14FC92850075BFC9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		738DA46E14FC92850075BFC9 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		73A7841B14F8CC22001387F6 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
 		73A7841C14F8CC22001387F6 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -428,8 +429,6 @@
 		73A7845514F8CC22001387F6 /* DocumentListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewCell.m; sourceTree = "<group>"; };
 		73A7845F14F8CC22001387F6 /* CommonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonString.h; sourceTree = "<group>"; };
 		73A7846014F8CC22001387F6 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonString.m; sourceTree = "<group>"; };
-		73A7846214F8CC22001387F6 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		73A7846314F8CC22001387F6 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		73A7846514F8CC22001387F6 /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePassword.h; sourceTree = "<group>"; };
 		73A7846614F8CC22001387F6 /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePassword.m; sourceTree = "<group>"; };
 		73A7846714F8CC22001387F6 /* WizChangePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePasswordController.h; sourceTree = "<group>"; };
@@ -441,8 +440,6 @@
 		73A7846E14F8CC22001387F6 /* UserSttingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSttingsViewController.h; sourceTree = "<group>"; };
 		73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSttingsViewController.m; sourceTree = "<group>"; };
 		73A7847014F8CC22001387F6 /* UserSttingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSttingsViewController.xib; sourceTree = "<group>"; };
-		73A7847114F8CC22001387F6 /* SortOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortOptionsView.h; sourceTree = "<group>"; };
-		73A7847214F8CC22001387F6 /* SortOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortOptionsView.m; sourceTree = "<group>"; };
 		73A7847314F8CC22001387F6 /* TagSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagSelectView.h; sourceTree = "<group>"; };
 		73A7847414F8CC22001387F6 /* TagSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagSelectView.m; sourceTree = "<group>"; };
 		73A7847514F8CC22001387F6 /* WizActivityIndicatorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizActivityIndicatorTableViewCell.h; sourceTree = "<group>"; };
@@ -895,6 +892,15 @@
 			name = LunchImages;
 			sourceTree = "<group>";
 		};
+		738DA46C14FC92850075BFC9 /* NetworkDetect */ = {
+			isa = PBXGroup;
+			children = (
+				738DA46D14FC92850075BFC9 /* Reachability.h */,
+				738DA46E14FC92850075BFC9 /* Reachability.m */,
+			);
+			path = NetworkDetect;
+			sourceTree = "<group>";
+		};
 		73A7840714F8CC22001387F6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -999,8 +1005,6 @@
 				73A7846B14F8CC22001387F6 /* SelectFloderView.h */,
 				73A7846C14F8CC22001387F6 /* SelectFloderView.m */,
 				73A7846D14F8CC22001387F6 /* Settings */,
-				73A7847114F8CC22001387F6 /* SortOptionsView.h */,
-				73A7847214F8CC22001387F6 /* SortOptionsView.m */,
 				73A7847314F8CC22001387F6 /* TagSelectView.h */,
 				73A7847414F8CC22001387F6 /* TagSelectView.m */,
 				73A7847514F8CC22001387F6 /* WizActivityIndicatorTableViewCell.h */,
@@ -1043,8 +1047,6 @@
 		73A7846114F8CC22001387F6 /* documentView */ = {
 			isa = PBXGroup;
 			children = (
-				73A7846214F8CC22001387F6 /* DetailViewController.h */,
-				73A7846314F8CC22001387F6 /* DetailViewController.m */,
 			);
 			path = documentView;
 			sourceTree = "<group>";
@@ -1251,6 +1253,7 @@
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
 			isa = PBXGroup;
 			children = (
+				738DA46C14FC92850075BFC9 /* NetworkDetect */,
 				73A784F914F8CC22001387F6 /* CloudReview */,
 				73A784FC14F8CC22001387F6 /* ElcMutilSeleted */,
 				73A7850B14F8CC22001387F6 /* minizip */,
@@ -1855,13 +1858,11 @@
 				73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */,
 				73A7857114F8CC23001387F6 /* DocumentListViewCell.m in Sources */,
 				73A7857714F8CC23001387F6 /* CommonString.m in Sources */,
-				73A7857814F8CC23001387F6 /* DetailViewController.m in Sources */,
 				73A7857914F8CC23001387F6 /* WizChangePassword.m in Sources */,
 				73A7857A14F8CC23001387F6 /* WizChangePasswordController.m in Sources */,
 				73A7857B14F8CC23001387F6 /* ScrollTableViewCell.m in Sources */,
 				73A7857C14F8CC23001387F6 /* SelectFloderView.m in Sources */,
 				73A7857D14F8CC23001387F6 /* UserSttingsViewController.m in Sources */,
-				73A7857F14F8CC23001387F6 /* SortOptionsView.m in Sources */,
 				73A7858014F8CC23001387F6 /* TagSelectView.m in Sources */,
 				73A7858114F8CC23001387F6 /* WizActivityIndicatorTableViewCell.m in Sources */,
 				73A7858214F8CC23001387F6 /* WizCheckProtectPassword.m in Sources */,
@@ -1948,6 +1949,7 @@
 				73A785E414F8CC23001387F6 /* WizAppDelegate.m in Sources */,
 				73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */,
 				73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */,
+				738DA46F14FC92850075BFC9 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

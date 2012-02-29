@@ -24,7 +24,7 @@
     self = [super initWithStyle:style];
     if (self != nil) {
         textPull= NSLocalizedString(@"Pull down to sync notes...", nil);
-        textRelease = NSLocalizedString(@"Release to sync note...", nil);
+        textRelease = NSLocalizedString(@"Release to sync notes...", nil);
         textLoading = NSLocalizedString(@"Loading...", nil);
     }
     return self;

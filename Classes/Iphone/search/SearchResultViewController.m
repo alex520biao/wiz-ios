@@ -33,7 +33,7 @@
 
 - (NSString*) titleForView
 {
-	return [NSString stringWithString:NSLocalizedString(@"Search resault", nil)];
+	return [NSString stringWithString:NSLocalizedString(@"Search result", nil)];
 }
 - (void)addPullToRefreshHeader {
 }

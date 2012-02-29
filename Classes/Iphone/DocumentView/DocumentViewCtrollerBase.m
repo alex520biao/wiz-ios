@@ -206,11 +206,11 @@
 	//
 	if (b || ![self.doc.type isEqualToString:@"note"])
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Edit Document", nil) 
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Edit note", nil) 
 														message:NSLocalizedString(@"If you choose to edit this document, images and text-formatting will be lost.", nil) 
 													   delegate:self 
 											  cancelButtonTitle:nil 
-											  otherButtonTitles:NSLocalizedString(@"Continue Editing", nil),WizStrCancel, nil];
+											  otherButtonTitles:NSLocalizedString(@"Continue editing", nil),WizStrCancel, nil];
 		
 		[alert show];
 		[alert release];
@@ -286,7 +286,7 @@
 - (void) displayEncryInfo
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(WizStrError, nil)
-                                                    message:NSLocalizedString(@"This version does not support encrytion!", nil)
+                                                    message:NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
                                                    delegate:self 
                                           cancelButtonTitle:@"ok" 
                                           otherButtonTitles:nil];
@@ -335,6 +335,30 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
+        if ([index documentServerChanged:self.doc.guid]) {
+            [self downloadDocument];
+        }
+        else {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+                [self checkDocument];
+            }
+            else {
+                [self downloadDocument];
+            }
+        }
+    }
+    else {
+        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
+            [self downloadDocument];
+        }
+        else {
+            [self displayEncryInfo]; 
+        }
+    }
+
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -360,8 +384,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-
     if (nil == self.downloadActivity) {
         self.downloadActivity = [[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(150, 150, 20, 20)] autorelease];
         [self.downloadActivity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
@@ -385,30 +407,7 @@
     self.editBarItem.enabled = NO;
     self.searchItem.enabled = NO;
     [self.downloadActivity startAnimating];
-    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
-        if ([index documentServerChanged:self.doc.guid]) {
-            [self downloadDocument];
-        }
-        else {
-            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-                [self checkDocument];
-            }
-            else {
-                [self downloadDocument];
-            }
-        }
-    }
-    else {
-        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
-            [self downloadDocument];
-        }
-        else {
-           [self displayEncryInfo]; 
-        }
-        
-    }
-}
+ }
 
 @end
 

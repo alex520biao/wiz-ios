@@ -141,7 +141,7 @@
         [searchFooter release];
         [footerView release];
         UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(90, 0, 210, 100)];
-        remind.text = NSLocalizedString(@"Recent note can show which note you modified recently,and provide four sortords to convenient for finding documents.", nil);
+        remind.text = NSLocalizedString(@"Recent note view shows the notes that you modified recently.", nil);
         remind.backgroundColor = [UIColor clearColor];
         remind.textColor = [UIColor grayColor];
         [searchFooter addSubview:remind];

@@ -716,11 +716,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/IPad/WizPadDocumentViewController.m"
-         timestampString = "352011218.517108"
+         timestampString = "352106458.146413"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "598"
-         endingLineNumber = "598"
+         startingLineNumber = "601"
+         endingLineNumber = "601"
          landmarkName = "-didSelectedDocument:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -729,11 +729,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizIndex.mm"
-         timestampString = "352023789.363588"
+         timestampString = "352103820.10879"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2485"
-         endingLineNumber = "2485"
+         startingLineNumber = "2502"
+         endingLineNumber = "2502"
          landmarkName = "-createZipByGuid:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -748,6 +748,84 @@
          startingLineNumber = "185"
          endingLineNumber = "185"
          landmarkName = "-onUploadObjectSucceedAndCleanTemp"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
+         timestampString = "352092548.103199"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "340"
+         endingLineNumber = "340"
+         landmarkName = "-viewDidAppear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizDownloadObject.m"
+         timestampString = "352102589.987479"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "80"
+         endingLineNumber = "80"
+         landmarkName = "-downloadOver:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizApi.m"
+         timestampString = "352094307.367615"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "523"
+         endingLineNumber = "523"
+         landmarkName = "-callClientLogout"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizApi.m"
+         timestampString = "352094404.8903"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "524"
+         endingLineNumber = "524"
+         landmarkName = "-callClientLogout"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizDownloadPool.m"
+         timestampString = "352095373.846052"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "58"
+         endingLineNumber = "58"
+         landmarkName = "-removeDownloadData:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizIndex.mm"
+         timestampString = "352109053.795548"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "2311"
+         endingLineNumber = "2311"
+         landmarkName = "-newAttachment:documentGUID:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

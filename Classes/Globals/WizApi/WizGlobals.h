@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define MaxDownloadProcessCount 2
 
 @interface WizGlobals : NSObject {
 
@@ -52,6 +52,9 @@
 + (BOOL) checkFileIsEncry:(NSString*)filePath;
 //2012-2-27
 +(NSString*)getAttachmentSourceFileName:(NSString*)userId;
+//2012-2-28
++(void) reportWarningWithString:(NSString*)error;
++ (void) reportWarning:(NSError*)error;
 @end
 
 

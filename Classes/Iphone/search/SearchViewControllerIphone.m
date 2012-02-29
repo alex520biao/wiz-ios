@@ -270,7 +270,7 @@
     self.title = NSLocalizedString(@"Search", nil);
     self.localsearchView.hidden = YES;
     self.searchBar.delegate = self;
-    self.localSearchSwitchString.text = NSLocalizedString(@"Search local data only" , nil);
+    self.localSearchSwitchString.text = NSLocalizedString(@"Search local notes only" , nil);
     [super viewDidLoad];
 }
 

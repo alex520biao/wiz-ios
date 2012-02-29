@@ -432,11 +432,11 @@
     WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID]; 
     if (b || ![doc.type isEqualToString:@"note"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Edit Document", nil) 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Edit note", nil) 
                                                         message:NSLocalizedString(@"If you choose to edit this document, images and text-formatting will be lost.", nil) 
                                                        delegate:self 
                                               cancelButtonTitle:nil 
-                                              otherButtonTitles:NSLocalizedString(@"Continue Editing", nil),WizStrCancel, nil];
+                                              otherButtonTitles:NSLocalizedString(@"Continue editing", nil),WizStrCancel, nil];
         alert.delegate = self;
         alert.tag = EditTag;
         [alert show];
@@ -533,7 +533,7 @@
         if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
-                                                            message:NSLocalizedString(@"This version does not support encrytion!", nil)
+                                                            message:NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
                                                            delegate:self 
                                                   cancelButtonTitle:@"ok" 
                                                   otherButtonTitles:nil];
@@ -559,6 +559,9 @@
     if ([downloadPool documentIsDownloading:guid]) {
         return;
     }
+    if (![downloadPool checkCanProduceAProcess]) {
+        return;
+    }
     WizDownloadDocument* download = [downloadPool getDownloadProcess:guid type:[WizGlobals documentKeyString]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
@@ -578,7 +581,7 @@
 - (void) displayEncryInfo
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
-                                                    message:NSLocalizedString(@"This version does not support encrytion!", nil)
+                                                    message:NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
                                                    delegate:self 
                                           cancelButtonTitle:WizStrOK 
                                           otherButtonTitles:nil];

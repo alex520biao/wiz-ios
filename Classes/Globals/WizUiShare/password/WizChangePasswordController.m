@@ -93,7 +93,7 @@
             [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
             [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Succeed",nil) message:NSLocalizedString(@"Change your password succeessfully",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Succeed",nil) message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             alert.tag = SucceedTag;
             [alert show];
             [alert release];
@@ -109,7 +109,7 @@
     NSString* pwNewStrConfirm = self.passwordConfirmNew.textInputField.text;
     
     if (oldPwStr == nil || [oldPwStr isEqualToString:@""]) {
-        [self alertMessage:NSLocalizedString(@"The old Password is null", nil)];
+        [self alertMessage:NSLocalizedString(@"The old password is null", nil)];
         return;
     }
     

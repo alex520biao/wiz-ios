@@ -174,6 +174,9 @@
         }
         else
         {
+            if (![downloader checkCanProduceAProcess]) {
+                return;
+            }
             WizDownloadAttachment* download = [downloader getDownloadProcess:attachment.attachmentGuid type:[WizGlobals attachmentKeyString]];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ]object:nil];
             [download downloadAttachment:attachment.attachmentGuid];

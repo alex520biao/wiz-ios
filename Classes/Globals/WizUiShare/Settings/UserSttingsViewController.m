@@ -51,6 +51,9 @@
 @synthesize accountProtectPassword;
 @synthesize downloadDurationRemind;
 @synthesize viewOptions;
+@synthesize connectViaWifiCell;
+@synthesize connectViaWifiLabel;
+@synthesize connectViaWifiSwitch;
 - (void) dealloc
 {
     self.viewOptions = nil;
@@ -66,6 +69,9 @@
     self.mobileViewCell = nil;
     self.mobileViewSwitch = nil;
     self.mbileViewCellLabel = nil;
+    self.connectViaWifiSwitch = nil;
+    self.connectViaWifiLabel = nil;
+    self.connectViaWifiCell = nil;
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -124,6 +130,7 @@
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPoperviewDismiss object:nil userInfo:nil];
     }
+    [index setConnectOnlyViaWifi:self.connectViaWifiSwitch.on];
 }
 
 - (void) cancelSettings
@@ -219,16 +226,16 @@
 }
 - (void) buildDisplayInfo
 {
-    NSArray* imageQulityItems = [NSArray arrayWithObjects:NSLocalizedString(@"Low", nil),
+    NSArray* imageQulityItems = [NSArray arrayWithObjects:NSLocalizedString(@"Small", nil),
                                  NSLocalizedString(@"Medium", nil),
-                                 NSLocalizedString(@"High", nil), nil];
+                                 NSLocalizedString(@"Large", nil), nil];
     self.imageQualityData = imageQulityItems;
     NSArray* downloadDurationItems = [NSArray arrayWithObjects:NSLocalizedString(@"Zero", nil), 
                                       NSLocalizedString(@"One day", nil),
                                       NSLocalizedString(@"One week", nil),
                                       NSLocalizedString(@"All", nil), nil];
     
-    NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Do not download any notes data", nil),
+    NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes data automatic", nil),
                                         NSLocalizedString(@"Download notes data in one day", nil),
                                         NSLocalizedString(@"Download notes data in one week", nil),
                                         NSLocalizedString(@"Download all notes data", nil),
@@ -263,8 +270,8 @@
      [self buildDisplayInfo];
     self.title = self.accountUserId;
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
-    self.protectCellNameLabel.text = NSLocalizedString(@"App lunch protection", nil);
-    self.defaultUserLabel.text = NSLocalizedString(@"Set default account", nil);
+    self.protectCellNameLabel.text = NSLocalizedString(@"App launch protection", nil);
+    self.defaultUserLabel.text = NSLocalizedString(@"Set as default account", nil);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     self.mobileViewSwitch.on = [index isMoblieView];
     NSString* password = [WizSettings accountProtectPassword];
@@ -290,6 +297,9 @@
     self.downloadDuration = [index durationForDownloadDocument];
     self.imageQulity = [index imageQualityValue];
     self.tablelistViewOption = [index userTablelistViewOption];
+    self.connectViaWifiSwitch.on = [index connectOnlyViaWifi];
+    self.connectViaWifiLabel.text = NSLocalizedString(@"Download notes only over wifi", nil);
+    self.connectViaWifiLabel.adjustsFontSizeToFitWidth = YES;
     
 }
 
@@ -342,7 +352,7 @@
         case 1  :
             return 2;
         case 2:
-            return 1;
+            return 2;
         case 3:
             return 3;
         case 4:
@@ -456,14 +466,16 @@
     }
     else if (0 == indexPath.row && 2 == indexPath.section)
     {
-        cell.nameLabel.text = NSLocalizedString(@"Download the document data", nil);
+        cell.nameLabel.text = NSLocalizedString(@"Download notes data", nil);
         cell.valueLabel.text  = [self.downloadDurationData objectAtIndex:[self indexOfDownloadDuration:self.downloadDuration]];
         return cell;
-        
+    }
+    else if (1 == indexPath.row && 2 == indexPath.section) {
+        return self.connectViaWifiCell;
     }
     else if (0 == indexPath.row && 3 == indexPath.section)
     {
-        cell.nameLabel.text = NSLocalizedString(@"Image dimensions", nil);
+        cell.nameLabel.text = NSLocalizedString(@"Image size", nil);
         cell.valueLabel.text = [self.imageQualityData objectAtIndex:[self indexOfImageQuality:self.imageQulity]];
         return cell;
     }
@@ -538,7 +550,7 @@
 - (void) clearCache
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
-                                                       message:NSLocalizedString(@"You will delete all the cache files, are you sure?",nil)   
+                                                       message:NSLocalizedString(@"You will remove all the cache files, are you sure?",nil)   
                                                        delegate:self   
                                                        cancelButtonTitle:WizStrCancel 
                                                        otherButtonTitles:WizStrDelete,nil];  
@@ -575,8 +587,8 @@
     if (alertView.tag == ChangePasswordTag) {
         return;
     }
-    else   if (alertView.tag == RemoveAccountTag) {
-
+    else  if (alertView.tag == RemoveAccountTag)
+    {
         if( buttonIndex == 0 ) //NO
         {
             [[[WizGlobalData sharedData] indexData:accountUserId] close];
