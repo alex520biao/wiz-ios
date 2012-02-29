@@ -39,7 +39,6 @@
 {
     self.busy = NO;
 	[super onError:retObject];
-	
 }
 -(void) onClientLogout: (id)retObject
 {
@@ -89,7 +88,6 @@
     [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
     NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
     [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
-    NSLog(@"download the document %@",each.guid);
     [downloader downloadWithoutLogin:self.apiURL kbguid:self.kbguid token:self.token documentGUID:each.guid];
     [self.download removeLastObject];
 }
@@ -105,7 +103,6 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if(self.attachmentsForUpdated == nil)
         self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
-    NSLog(@"attchment upload count is %d",[self.attachmentsForUpdated count]);
     if(self.attachmentsForUpdated == nil || [self.attachmentsForUpdated count] == 0)
     {
         if ([index downloadDocumentData]) {

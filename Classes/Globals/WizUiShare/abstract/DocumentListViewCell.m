@@ -100,7 +100,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         if ([[NSFileManager defaultManager] fileExistsAtPath:documentFilePath]) {
             [index performSelectorOnMainThread:@selector(extractSummary:) withObject:doc.guid waitUntilDone:YES];
         }
-        NSLog(@"%@",doc.title);
     }
     if ( isAbstractExist && abstract!= nil) {
         UIFont* stringFont = [UIFont boldSystemFontOfSize:15];

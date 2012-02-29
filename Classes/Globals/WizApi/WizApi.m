@@ -1202,7 +1202,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 {
     if (self.accountUserId == nil || [self.accountUserId length] == 0)
     {
-        NSLog(@"account user id null");
+
 		return NO;
     }
 	self.token = nil;
@@ -1334,6 +1334,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
 	if ([retObject isKindOfClass:[NSError class]])
 	{  
+        NSError* error = (NSError*)retObject;
+        if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && error.code == -1) {
+            return;
+        }
 		[WizGlobals reportError:retObject];
 	}
 }

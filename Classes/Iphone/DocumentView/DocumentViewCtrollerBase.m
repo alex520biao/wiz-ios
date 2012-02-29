@@ -365,10 +365,13 @@
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.doc = [index documentFromGUID:self.doc.guid];
-    UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
-    count.badgeString = [NSString stringWithFormat:@"%d",[index attachmentCountOfDocument:self.doc.guid]];
-    [self.view addSubview:count];
-    [count release];
+    NSUInteger attachmentsCount = [index attachmentCountOfDocument:self.doc.guid];
+    if (attachmentsCount > 0) {
+        UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
+        count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+        [self.view addSubview:count];
+        [count release];
+    }
     int size = [index webFontSize];
     [self fontSizeChanged:size];
     self.title = self.doc.title;

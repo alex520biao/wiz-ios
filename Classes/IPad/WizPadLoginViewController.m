@@ -152,8 +152,6 @@
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:NSLocalizedString(@"Register", nil) forState:UIControlStateNormal];
     [self.checkExistedAccountButton setTitle:NSLocalizedString(@"Switch accounts", nil) forState:UIControlStateNormal];
-    NSString* str = [NSString stringWithFormat:@"中国人abc"];
-    NSLog(@"length is %d", str.length);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
 
 }

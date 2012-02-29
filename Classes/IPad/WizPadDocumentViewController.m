@@ -477,7 +477,7 @@
     UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
     edit.width = 80;
 
-    UIBadgeView* attachCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 20, 20)];
+    UIBadgeView* attachCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 60, 20)];
     self.attachmentCountBadge = attachCount;
     [attachCount release];
     UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -596,7 +596,15 @@
     self.selectedDocumentGUID = doc.guid;
     self.documentNameLabel.text = doc.title;
     [self.webView loadHTMLString:@"" baseURL:nil];
-    self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",[index attachmentCountOfDocument:selectedDocumentGUID]];
+    NSUInteger attachmentsCount = [index attachmentCountOfDocument:selectedDocumentGUID];
+    if (attachmentsCount > 0) {
+        self.attachmentCountBadge.hidden = NO;
+        self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+    }
+    else {
+        self.attachmentCountBadge.hidden = YES;
+    }
+    
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
         if ([index documentServerChanged:doc.guid]) {

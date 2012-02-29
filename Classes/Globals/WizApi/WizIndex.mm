@@ -799,7 +799,6 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* attachmentDataMd5 = [attachment valueForKey:@"data_md5"];
     NSDate* dtDataModified = [attachment valueForKey:@"dt_data_modified"];
     
-    NSLog(@"the update attachment guid is %@",attachmentGuid);
     WIZDOCUMENTATTACH data;
     data.serverChanged = [[attachment valueForKey:@"sever_changed"] intValue];
     
@@ -940,7 +939,6 @@ NSInteger compareTag(id location1, id location2, void*);
 }
 -(BOOL) updateObjectDataByPath:(NSString*) objectZipFilePath objectGuid:(NSString*)objectGuid{
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objectGuid];
-    NSLog(@"%@ will upzip", objectGuid);
     ZipArchive* zip = [[ZipArchive alloc] init];
     [zip UnzipOpenFile:objectZipFilePath];
     BOOL zipResult = [zip UnzipFileTo:documentPath overWrite:YES];
@@ -1496,9 +1494,7 @@ NSInteger compareTag(id location1, id location2, void*);
         [self extractSummary:documentGUID];
     }
     BOOL ret = index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
-    
-    NSLog(@"change local %d",ret);
-    NSLog(@"%@ severchanged",documentGUID);
+
 	return ret;
 }
 
@@ -1585,23 +1581,19 @@ NSInteger compareTag(id location1, id location2, void*);
     CIndex& index = [_indexData index];
     WizDocumentAttach* attach = [self attachmentFromGUID:attachGuid];
     if (attach != nil) {
-        
-        NSLog(@"attachment guid is %@",attach.attachmentDocumentGuid);
+
         if (attach.attachmentDocumentGuid != nil && ![attach.attachmentDocumentGuid isEqualToString:@""]) {
             NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentDocumentGuid];
             NSString* documentIndexFilesPath = [documentPath stringByAppendingPathComponent:@"index_files"];
             NSString* attachmentInDcoumentPath = [documentIndexFilesPath stringByAppendingPathComponent:attach.attachmentName];
             if ([[NSFileManager defaultManager] removeItemAtPath:attachmentInDcoumentPath error:nil]) {
             }
-            NSLog(@"the document path is %@", documentIndexFilesPath);
         }
         if (attach.attachmentName != nil && ![attach.attachmentName isEqualToString:@""]) {
             NSString* attachmentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:attach.attachmentGuid];
             NSString* attachmentFileNamePath = [attachmentFilePath stringByAppendingPathComponent:attach.attachmentName];
             if ([[NSFileManager defaultManager] removeItemAtPath:attachmentFileNamePath error:nil]) {
             }
-            
-            NSLog(@"the attachment path is %@",attachmentFileNamePath);
         }
     }
     return index.DeleteAttachment([attachGuid UTF8String]) ? YES : NO;
@@ -1635,7 +1627,7 @@ NSInteger compareTag(id location1, id location2, void*);
         }
     }
     [self setDownloadDocumentData:YES];
-    NSLog(@"the init order is %lld",[self userTablelistViewOption]);
+
     if (-1 == [self userTablelistViewOption]) {
         [self setUserTableListViewOption:kOrderReverseDate];
     }

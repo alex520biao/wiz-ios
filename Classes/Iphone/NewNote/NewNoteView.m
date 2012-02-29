@@ -86,7 +86,7 @@
 -(void) displayAttachmentsCount
 {
     if (nil == self.attachmentsSourcePaths) {
-        NSLog(@"nil");
+        
     }
     NSString* displayString = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"Attachments", nil), [self.attachmentsSourcePaths count]];
     [self.attachmentsTableviewEntryButton setTitle:displayString forState:UIControlStateNormal];

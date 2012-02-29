@@ -162,7 +162,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 {
     [super downloadOver:unzipIsSucceed];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSLog(@"%@ will severchanged",self.objGuid);
     if (unzipIsSucceed) {
         [index setDocumentServerChanged:self.objGuid changed:NO]; 
     }

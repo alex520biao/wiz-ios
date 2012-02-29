@@ -18,6 +18,10 @@
 #import "WizIndex.h"
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
+#import "NSDate-Utilities.h"
+
+
+#define WizAbs(x) x>0?x:-x
 
 @implementation WizAppDelegate
 
@@ -55,7 +59,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-	UINavigationController* root = [[UINavigationController alloc] init];
+    UINavigationController* root = [[UINavigationController alloc] init];
     self.navController = root;
     [window addSubview:self.navController.view];
     [root release];
@@ -95,13 +99,6 @@
 }
 
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
-     */
-}
-
 
 
 - (void) checkProtectPassword:(NSNotification*)nc
@@ -128,10 +125,17 @@
 }
 - (void)applicationWillEnterForeground:(UIApplication *)application 
 {
+    
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    if (WizAbs([[WizSettings lastActiveTime] timeIntervalSinceNow]) > 1800 ) {
+        for (int i = 0; i < [[WizSettings accounts] count]; i++) {
+            NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
+            [[WizGlobalData sharedData] removeAccountData:userId];
+        }
+    }
     NSString* appVersion = [WizSettings wizIosAppVersion];
     if (appVersion == nil || [appVersion isEqualToString:@""] || ![appVersion isEqualToString:WizIosAppVersionKeyString]) {
         [WizSettings setAccountProtectPassword:@""];
@@ -143,6 +147,10 @@
         [self accountProtect];
     }
 }
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [WizSettings setLastActiveTime];
+}
+
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {

@@ -20,7 +20,7 @@
 #define WizStrSync		NSLocalizedString(@"Sync", nil)
 #define WizStrDelete		NSLocalizedString(@"Delete", nil)
 #define WizStrRefresh		NSLocalizedString(@"Refresh", nil)
-
+#define WizStrSettings  NSLocalizedString(@"Settings",nil)
 #define WizStrTags		NSLocalizedString(@"Tags", nil)
 
 

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#define MaxDownloadProcessCount 2
-
+#define MaxDownloadProcessCount 5
+#define TestFlightToken @"5bfb46cb74291758452c20108e140b4e_NjY0MzAyMDEyLTAyLTI5IDA0OjIwOjI3LjkzNDUxOQ"
 @interface WizGlobals : NSObject {
 
 }

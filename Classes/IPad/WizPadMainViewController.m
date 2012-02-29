@@ -312,7 +312,6 @@
 {
     NSDictionary* userInfo = [nc userInfo];
     NSNumber* orderIndex = [userInfo valueForKey:TypeOfChangeSortedOrderIndex];
-    NSLog(@"changed order %d!",[orderIndex intValue]);
     self.recentList.kOrderIndex = [orderIndex intValue];
     [self.currentPoperController dismissPopoverAnimated:YES];
     self.currentPoperController = nil;
@@ -400,7 +399,7 @@
 }
 - (void) searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-    NSLog(@"end");
+  
 }
 
 -  (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -413,7 +412,7 @@
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSLog(@"ddddd");
+    
 }
 - (void) buildMainSegment
 {

@@ -268,7 +268,6 @@
         for (NSString* each in fileExist) {
             NSArray* nameArray = [each componentsSeparatedByString:@"."];
             for (NSString* ea in nameArray) {
-                NSLog(@"the name is %@",ea);
                 if ([ea isEqualToString:dateAppend]) {
                     fileNotExist = NO;
                 }

@@ -141,7 +141,6 @@
     [index deleteDocument:documentGuid];
     [index addDeletedGUIDRecord:documentGuid type:@"document"];
     [[self.tableArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-    NSLog(@"the document count is %d",[[self.tableArray objectAtIndex:indexPath.section] count]);
     if (![[self.tableArray objectAtIndex:indexPath.section] count]) {
         [self.tableArray removeObjectAtIndex:indexPath.section];
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationLeft];

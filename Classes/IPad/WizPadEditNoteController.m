@@ -364,7 +364,7 @@
 
 - (void) cancelSave
 {
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Quit with saving", nil) otherButtonTitles:nil, nil];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Quit without saving", nil) otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }
@@ -633,6 +633,10 @@
     [self buildNavigationItems];
     [self buildNavigtionTitleView];
 }
+//- (BOOL) checkIsAttachmen:(NSString*)name
+//{
+//    
+//}
 - (void) prepareEditingData:(NSDictionary*)data
 {
     [self buildView];
@@ -651,6 +655,16 @@
         }
         [self addTagToDocument:each];
     }
+    
+//    NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
+//    NSString* indexFiles = [documentPath stringByAppendingPathComponent:@"index_files"];
+//    NSArray* attachmentsFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:indexFiles error:nil];
+//    for (NSString* eachFile in attachmentsFiles) {
+//        NSArray* sepre = [eachFile componentsSeparatedByString:@"."];
+//        if ([self checkIsAttachmen:[sepre objectAtIndex:0]]) {
+//            
+//        }
+//    }
     NSArray* attachments = [index attachmentsByDocumentGUID:self.documentGUID];
     for (WizDocumentAttach* eachAttach in attachments) {
         NSString* filePath = [[WizIndex documentFilePath:self.accountUserId documentGUID:eachAttach.attachmentGuid] stringByAppendingPathComponent:eachAttach.attachmentName];

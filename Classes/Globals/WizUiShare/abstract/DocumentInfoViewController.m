@@ -174,7 +174,6 @@
 
         [tagGuids appendFormat:@"%@*",each.guid];
         if ([doc.tagGuids rangeOfString:each.guid].length == 0) {
-            NSLog(@"changed ");
             tagChenged = YES;
         }
     }

@@ -80,7 +80,6 @@
 				}
 			}
 			//
-            NSLog(@"register succeed");
             [self.navigationController dismissModalViewControllerAnimated:YES];
             NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:emailString, @"accountUserId", nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];

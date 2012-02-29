@@ -56,8 +56,7 @@
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Album Error: %@ - %@", [error localizedDescription], [error localizedRecoverySuggestion]] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [alert show];
             [alert release];
-            
-            NSLog(@"A problem occured %@", [error description]);	                                 
+            	                                 
         };	
                 
         // Enumerate Albums

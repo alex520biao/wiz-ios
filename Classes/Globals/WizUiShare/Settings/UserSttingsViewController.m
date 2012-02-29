@@ -96,33 +96,13 @@
 {
     return indexPath.row == row && indexPath.section == section;
 }
+
 - (void) saveSettings
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if (self.tablelistViewOption != [index userTablelistViewOption]) {
-        [index setUserTableListViewOption:self.tablelistViewOption];
-        if ([WizGlobals WizDeviceIsPad]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
-        }
-        else
-        {
-           [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfDocumentlistWillReloadData object:nil]; 
-        }
-        
-    }
-    [index setDocumentMoblleView:self.mobileViewSwitch.on];
-    [index setDurationForDownloadDocument:self.downloadDuration];
-    if (self.defaultUserSwitch.on) {
-        [WizSettings setDefalutAccount:self.accountUserId];
-    }
-    if (!self.protectCellSwitch.on) {
-        [WizSettings setAccountProtectPassword:@""];
-    }
-    else
-    {
-        [WizSettings setAccountProtectPassword:self.accountProtectPassword];
-    }
-    [index setImageQualityValue:self.imageQulity];
+
+    
+   
+    
     if (!WizDeviceIsPad()) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -130,9 +110,35 @@
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPoperviewDismiss object:nil userInfo:nil];
     }
+}
+- (IBAction)setDownloadOnlyByWifi:(id)sender
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [index setConnectOnlyViaWifi:self.connectViaWifiSwitch.on];
 }
-
+- (IBAction)setAsDefaultUser:(id)sender
+{
+    if ([[WizSettings accounts] count] > 1) {
+        if (self.defaultUserSwitch.on) {
+            [WizSettings setDefalutAccount:self.accountUserId];
+        }
+        else 
+        {
+            for (int i = 0 ; i < [[WizSettings accounts] count] ; i++)
+            {
+                NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
+                if (![userId isEqualToString:self.accountUserId]) {
+                    [WizSettings setDefalutAccount:userId];
+                }
+            }
+        }
+    }
+}
+- (IBAction)setMobileView:(id)sender
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [index setDocumentMoblleView:self.mobileViewSwitch.on];
+}
 - (void) cancelSettings
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -230,7 +236,7 @@
                                  NSLocalizedString(@"Medium", nil),
                                  NSLocalizedString(@"Large", nil), nil];
     self.imageQualityData = imageQulityItems;
-    NSArray* downloadDurationItems = [NSArray arrayWithObjects:NSLocalizedString(@"Zero", nil), 
+    NSArray* downloadDurationItems = [NSArray arrayWithObjects:NSLocalizedString(@"Do not download", nil), 
                                       NSLocalizedString(@"One day", nil),
                                       NSLocalizedString(@"One week", nil),
                                       NSLocalizedString(@"All", nil), nil];
@@ -255,20 +261,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-                                                                                   target:self action:@selector(saveSettings)];
-    self.navigationItem.rightBarButtonItem = anotherButton;
-    [anotherButton release];
-    
-    if (!WizDeviceIsPad()) {
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                                                      target:self action:@selector(cancelSettings)];
-        self.navigationItem.leftBarButtonItem = cancelButton;
-        [cancelButton release];
-    }  
+//    if (!WizDeviceIsPad()) {
+//        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+//                                                                                      target:self action:@selector(cancelSettings)];
+//        self.navigationItem.leftBarButtonItem = cancelButton;
+//        [cancelButton release];
+//    }  
      [self buildDisplayInfo];
-    self.title = self.accountUserId;
+    self.title = WizStrSettings;
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
     self.protectCellNameLabel.text = NSLocalizedString(@"App launch protection", nil);
     self.defaultUserLabel.text = NSLocalizedString(@"Set as default account", nil);
@@ -348,7 +348,12 @@
 {
     switch (section) {
         case 0:
-            return 7;
+            if ([[WizSettings accounts] count] > 1) {
+                return 7;
+            }
+            else {
+                return 6;
+            }
         case 1  :
             return 2;
         case 2:
@@ -526,7 +531,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
     NSDictionary* userInfo = [nc userInfo];
     NSString* protectPassword = [userInfo valueForKey:TypeOfProtectPassword];
-    NSLog(@"%@",protectPassword);
+
+    
     if ([protectPassword isEqualToString:@"-1"]) {
         self.protectCellSwitch.on = NO;
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError
@@ -546,6 +552,14 @@
 //        [alert release];
     }
     self.accountProtectPassword = protectPassword;
+    
+    if (!self.protectCellSwitch.on) {
+        [WizSettings setAccountProtectPassword:@""];
+    }
+    else
+    {
+        [WizSettings setAccountProtectPassword:self.accountProtectPassword];
+    }
 }
 - (void) clearCache
 {
@@ -571,13 +585,13 @@
 }
 - (IBAction)setUserProtectPassword:(id)sender
 {
-
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (self.protectCellSwitch.on) {
         [self setProtectPassword];
     }
     else
     {
-        self.accountProtectPassword = @"";
+        [index setUserProtectPassword:@""];
     }
 }
 
@@ -626,6 +640,7 @@
     {
         if (buttonIndex == 1) {
             WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             [index clearCache];
         }
     }
@@ -774,18 +789,32 @@
 //picker delegate
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (pickerView.tag == ImageQualityTag) {
         self.imageQulity = [self imageQulityFormIndex:row];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationRight];
+        [index setImageQualityValue:self.imageQulity];
     }
     else if (pickerView.tag == DownloadDurationTag)
     {
         self.downloadDuration = [self downloadDurationFromIndex:row];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationRight];
+        [index setDurationForDownloadDocument:self.downloadDuration];
     }
     else if (pickerView.tag == TableListViewOptionTag)
     {
         self.tablelistViewOption = row+1;
+        if (self.tablelistViewOption != [index userTablelistViewOption]) {
+            [index setUserTableListViewOption:self.tablelistViewOption];
+            if ([WizGlobals WizDeviceIsPad]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
+            }
+            else
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfDocumentlistWillReloadData object:nil]; 
+            }
+            
+        }
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
     }
     self.tableView.scrollEnabled = YES;

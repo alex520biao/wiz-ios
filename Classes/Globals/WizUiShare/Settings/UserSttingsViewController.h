@@ -57,4 +57,7 @@
 @property int imageQulity;
 @property int tablelistViewOption;
 - (IBAction)setUserProtectPassword:(id)sender;
+- (IBAction)setMobileView:(id)sender;
+- (IBAction)setAsDefaultUser:(id)sender;
+- (IBAction)setDownloadOnlyByWifi:(id)sender;
 @end

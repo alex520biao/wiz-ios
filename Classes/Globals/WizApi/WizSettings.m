@@ -124,7 +124,21 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 {
     [WizSettings writeSettings:KeyOfDefaultUserId value:accountUserId];
 }
-
++ (void) setLastActiveTime
+{
+    NSDate* date = [NSDate date];
+    [WizSettings writeSettings:WizNoteAppLastActiveTime value:date];
+}
++ (NSDate*) lastActiveTime
+{
+    id activeTime = [WizSettings readSettings:WizNoteAppLastActiveTime];
+    if (activeTime != nil && [activeTime isKindOfClass:[NSDate class]]) {
+        return (NSDate*)activeTime;
+    }
+    else {
+        return [NSDate date];
+    }
+}
 +(void) setWizIosAppVersion:(NSString*)version
 {
     [WizSettings writeSettings:keyOfWizIosAppVersion value:version];

@@ -14,7 +14,7 @@ extern NSString* SettingsFileName;
 extern NSString* KeyOfAccounts;
 extern NSString* KeyOfUserId;
 extern NSString* KeyOfPassword;
-
+#define WizNoteAppLastActiveTime @"WizNoteAppLastActiveTime"
 
 @interface WizSettings : NSObject {
 @private
@@ -45,4 +45,7 @@ extern NSString* KeyOfPassword;
 + (void) setAccountProtectPassword:(NSString*)password;
 +(void) setWizIosAppVersion:(NSString*)version;
 + (NSString*) wizIosAppVersion;
+//2012-2-29
++ (void) setLastActiveTime;
++ (NSDate*) lastActiveTime;
 @end
