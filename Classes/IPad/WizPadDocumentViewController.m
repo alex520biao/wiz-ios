@@ -432,7 +432,7 @@
     WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID]; 
     if (b || ![doc.type isEqualToString:@"note"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Edit note", nil) 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
                                                         message:NSLocalizedString(@"If you choose to edit this document, images and text-formatting will be lost.", nil) 
                                                        delegate:self 
                                               cancelButtonTitle:nil 

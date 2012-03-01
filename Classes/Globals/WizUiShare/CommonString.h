@@ -44,6 +44,9 @@
 #define WizStrTitle   NSLocalizedString(@"Title",nil)
 #define WizStrToday NSLocalizedString(@"Today",nil)
 #define WizStrYesterday NSLocalizedString(@"Yesterday",nil)
-
+#define WizStrEditNote NSLocalizedString(@"Edit note",nil)
+#define WizStrCreateAccount NSLocalizedString(@"Create account", nil)
+#define WizStrRecentNotes NSLocalizedString(@"Recent notes", nil)
+#define WizStrChangePassword NSLocalizedString(@"Change password", nil)
 NSString* getTagDisplayName(NSString* tagName);
 

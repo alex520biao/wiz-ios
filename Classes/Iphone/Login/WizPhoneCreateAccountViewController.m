@@ -139,7 +139,7 @@
     api.accountPassword = password;
 	[api createAccount];
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:NSLocalizedString(@"Create account", nil) message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrCreateAccount message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
     self.waitAlertView = alert;
 	[alert show];
 	[alert release];
@@ -178,7 +178,7 @@
     
     UIButton* logButton = [UIButton buttonWithType:UIButtonTypeCustom];
     logButton.frame = CGRectMake(10, 260, 300, 40);
-    [logButton setTitle:NSLocalizedString(@"Register", nil) forState:UIControlStateNormal];
+    [logButton setTitle:WizStrRegister forState:UIControlStateNormal];
     logButton.titleLabel.textAlignment = UITextAlignmentCenter;
     [self.view addSubview:logButton];
     [logButton addTarget:self action:@selector(createAccount) forControlEvents:UIControlEventTouchUpInside];

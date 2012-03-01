@@ -453,7 +453,7 @@
     }
     else if ( 4 == indexPath.row && 0 == indexPath.section)
     {
-        cell.textLabel.text = NSLocalizedString(@"Change password", nil);
+        cell.textLabel.text = WizStrChangePassword;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }

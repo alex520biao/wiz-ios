@@ -519,11 +519,11 @@
             WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
             NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
             if ([date isToday]) {
-                return NSLocalizedString(@"Today", nil);
+                return WizStrToday;
             }
             else if( [date isYesterday])
             {
-                return NSLocalizedString(@"Yesterday", nil);
+                return WizStrYesterday;
             }
             else if ([[date dateByAddingDays:2] isToday])
             {

@@ -146,7 +146,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	//
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:NSLocalizedString(@"Create account", nil) message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrCreateAccount message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;

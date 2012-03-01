@@ -92,7 +92,7 @@
             [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
             [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Succeed",nil) message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
             alert.tag = SucceedTag;
             [alert show];
             [alert release];
@@ -137,7 +137,7 @@
     [nc removeObserver:self];
     [nc addObserver:self selector:@selector(xmlrpcDone:) name:[changePw notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
     
-    UIAlertView* waitAlert_ = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Change password", nil) message:NSLocalizedString(@"Please waiting ...", nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    UIAlertView* waitAlert_ = [[UIAlertView alloc] initWithTitle:WizStrChangePassword message:NSLocalizedString(@"Please waiting ...", nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
     waitAlert_.tag = WaitAlertTag;
     self.waitAlert = waitAlert_;
     [waitAlert_ show];

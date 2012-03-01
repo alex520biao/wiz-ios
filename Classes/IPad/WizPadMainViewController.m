@@ -419,7 +419,7 @@
     self.controllersArray = [NSMutableArray array] ;
     if (nil == self.mainSegment) {
         NSArray* arr = [NSArray arrayWithObjects:
-                        NSLocalizedString(@"Recent notes", nil),
+                        WizStrRecentNotes,
                         WizStrFolders,
                         WizStrTags,
                         nil];

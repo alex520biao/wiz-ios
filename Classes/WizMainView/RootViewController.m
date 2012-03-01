@@ -168,7 +168,7 @@ titleForHeaderInSection: (NSInteger)section
 		
 		if (0 == indexPath.row)
 		{
-			cell.textLabel.text = NSLocalizedString(@"Recent notes", nil);
+			cell.textLabel.text = WizStrRecentNotes;
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		}
 		//
