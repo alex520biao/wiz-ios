@@ -90,21 +90,21 @@
     NSString* confirm = self.confirmInputView.textInputField.text;
 	if (name == nil|| [name length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenteuserid delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (password == nil || [password length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterpassword delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (confirm == nil || [confirm length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter the password again!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterthepasswordagain delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -119,7 +119,7 @@
 	//
 	if (-1 != [WizSettings findAccount:name])
 	{
-		NSString* msg = [NSString stringWithFormat:NSLocalizedString(@"Account %@ has already exists!", nil), name];
+		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, name];
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
@@ -139,7 +139,7 @@
     api.accountPassword = password;
 	[api createAccount];
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrCreateAccount message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];
     self.waitAlertView = alert;
 	[alert show];
 	[alert release];

@@ -533,7 +533,7 @@
         if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
-                                                            message:NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
+                                                            message:WizStrThisversionofWizNotdoesnotsupportdecryption
                                                            delegate:self 
                                                   cancelButtonTitle:WizStrOK 
                                                   otherButtonTitles:nil];

@@ -75,7 +75,7 @@
 				{
 					if (![index open])
 					{
-						[WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
+						[WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
 					}
 				}
 			}
@@ -99,28 +99,28 @@
     NSString* passwordConfirmString = self.accountPasswordConfirm.textInputField.text;
 	if (emailString == nil|| [emailString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenteuserid delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (passwordString == nil || [passwordString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterpassword delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (passwordConfirmString == nil || [passwordConfirmString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter the password again!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterthepasswordagain delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (![passwordConfirmString isEqualToString:passwordString])
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Passwords does not match!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPasswordsdoesnotmatch delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -128,7 +128,7 @@
 	//
 	if (-1 != [WizSettings findAccount:emailString])
 	{
-		NSString* msg = [NSString stringWithFormat:NSLocalizedString(@"Account %@ has already exists!", nil), emailString];
+		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, emailString];
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
@@ -146,7 +146,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	//
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrCreateAccount message:NSLocalizedString(@"Please wait while creatting account...!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;

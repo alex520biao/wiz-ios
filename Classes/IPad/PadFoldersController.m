@@ -47,7 +47,7 @@
         }
         WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
         data.name = [WizGlobals folderStringToLocal:each];
-        data.count = [NSString stringWithFormat:@"%d %@",[documents count],NSLocalizedString(@"notes", nil)];
+        data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
         data.keyWords = each;
         NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
         int max = ([documents count] > 8? 8:[documents count]);

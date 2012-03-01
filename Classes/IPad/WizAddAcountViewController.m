@@ -102,7 +102,7 @@
     
 	if (accountIDString == nil|| [accountIDString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenteuserid delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -133,7 +133,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	//
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrSignIn message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrSignIn message:WizStrPleasewaitwhileloggingin delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;

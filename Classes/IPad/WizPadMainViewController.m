@@ -149,52 +149,52 @@
     NSString* objectName = [userInfo objectForKey:@"object_name"];
 
     if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-        processText = NSLocalizedString(@"Signing in", nil);
+        processText = WizStrSigningIn;
     }
     
     else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-        processText = NSLocalizedString(@"Signing out", nil);
+        processText = WizStrSigningOut;
     }
     
     
     else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-        processText = NSLocalizedString(@"Syncing tags", nil);
+        processText = WizStrSyncingtags;
     }
     
     else if([methodName isEqualToString:SyncMethod_PostTagList])
     {
-        processText = NSLocalizedString(@"Syncing tags", nil);
+        processText = WizStrSyncingtags ;
     }
     
     else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-        processText = NSLocalizedString(@"Syncing notes list", nil);
+        processText = WizStrSyncingnoteslist;
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-        processText = NSLocalizedString(@"Syncing attachment list", nil);
+        processText = WizStrSyncingattachmentlist;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
-        processText = NSLocalizedString(@"Syncing folders", nil);
+        processText = WizStrSyncingfolders;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
     {
-        processText = NSLocalizedString(@"Syncing user information", nil);
+        processText = WizStrSyncinguserinformation;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
     {
-        processText = NSLocalizedString(@"Syncing deleted notes", nil);
+        processText = WizStrSyncingdeletednotes;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
     {
-        processText = NSLocalizedString(@"Syncing deleted notes", nil);
+        processText = WizStrSyncingdeletednotes;
     }
     else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-        processText = NSLocalizedString(@"Uploading notes", nil);
+        processText = WizStrUploadingnotes;
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -208,12 +208,12 @@
         if ([total isEqualToNumber:current]) {
             processText = [NSString stringWithFormat:@"%@ %@",
                                             displayName,
-                                            NSLocalizedString(@"Upload successfully", nil)];
+                                            WizStrUploadsuccessfully];
         }
     }
     
     if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-        processText = NSLocalizedString(@"Downloading notes data", nil);
+        processText = WizStrDownloadingNotes;
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -227,7 +227,7 @@
         if ([total isEqualToNumber:current]) {
             processText=[NSString stringWithFormat:@"%@ %@",
                                            displayName,
-                                           NSLocalizedString(@"download successfully", nil)];        }
+                                           WizStrDownloadSuccessfully];        }
     }
     if ([processText isEqualToString:@""]) {
         processText = @"...";
@@ -238,8 +238,8 @@
 - (void) stopSyncByUser
 {
     UIAlertView* alert = [[[UIAlertView alloc] 
-                           initWithTitle:NSLocalizedString(@"Please confirm",nil)
-                           message:NSLocalizedString(@"The sync process will stop!",nil)
+                           initWithTitle:WizStrPleaseConfirm
+                           message:WizStrThesyncprocesswillstop
                            delegate:self 
                            cancelButtonTitle:WizStrCancel
                            otherButtonTitles:WizStrOK, nil] autorelease];
@@ -281,8 +281,8 @@
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
     if( ![sync startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
-                                                        message:NSLocalizedString(@"Sync already in progress, please wait...", nil)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
+                                                        message:WizStrSyncAlreadyInProcess
                                                        delegate:nil 
                                               cancelButtonTitle:WizStrOK 
                                               otherButtonTitles:nil];

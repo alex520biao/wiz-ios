@@ -859,7 +859,7 @@
         }
     }
     
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:NSLocalizedString(@"Quit without saving", nil) otherButtonTitles:nil, nil];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }

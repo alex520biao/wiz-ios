@@ -207,10 +207,10 @@
 	if (b || ![self.doc.type isEqualToString:@"note"])
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote 
-														message:NSLocalizedString(@"If you choose to edit this document, images and text-formatting will be lost.", nil) 
+														message:WizStrIfyouchoosetoeditthisdocument
 													   delegate:self 
 											  cancelButtonTitle:nil 
-											  otherButtonTitles:NSLocalizedString(@"Continue editing", nil),WizStrCancel, nil];
+											  otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
 		
 		[alert show];
 		[alert release];
@@ -285,8 +285,8 @@
 }
 - (void) displayEncryInfo
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(WizStrError, nil)
-                                                    message:NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError
+                                                    message:WizStrThisversionofWizNotdoesnotsupportdecryption
                                                    delegate:self 
                                           cancelButtonTitle:WizStrOK
                                           otherButtonTitles:nil];

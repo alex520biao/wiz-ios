@@ -182,7 +182,7 @@
     {
         if (![index open])
         {
-            [WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
+            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
             return;
         }
     }
@@ -237,18 +237,18 @@
     self.userNameCell.selectionStyle = UITableViewCellSelectionStyleNone;
     self.userPasswordTextField.secureTextEntry = YES;
     [self.view setFrame:CGRectMake(0.0 , 0.0, 320, 480)];
-    self.userNameLabel.text = NSLocalizedString(@"User ID", nil);
+    self.userNameLabel.text = WizStrUserId;
     self.userPasswordLabel.text = WizStrPassword;
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     self.addAccountCell.selectionStyle=UITableViewCellSelectionStyleNone;
     self.userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
-    [self.checkOtherAccountButton setTitle:NSLocalizedString(@"Switch accounts", nil) forState:UIControlStateNormal];
+    [self.checkOtherAccountButton setTitle:WizStrSwitchAccounts forState:UIControlStateNormal];
     self.willChangedUser = NO;
     [self.createdAccountButton setTitle:NSLocalizedString(@"Add New Account", nil) forState:UIControlStateNormal];
     [self.createdAccountButton addTarget:self action:@selector(addAccountEntry) forControlEvents:UIControlEventTouchUpInside];
     self.createdAccountButton.frame = CGRectMake(0.0, self.view.frame.size.height/2 -30, 320, 30);
-    [self.addAccountButton setTitle:NSLocalizedString(@"Get Free WizNote Account", nil) forState:UIControlStateNormal];
+    [self.addAccountButton setTitle:NSLocalizedString(@"Get WizNote Account For Free", nil) forState:UIControlStateNormal];
     self.addAccountButton.hidden = NO;
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];
     [self.view insertSubview:backGroud atIndex:0];
@@ -315,21 +315,21 @@
     NSString* error = WizStrError;
 	if (self.userNameTextField.text == nil|| [userNameTextField.text length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenteuserid delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (userPasswordTextField.text == nil || [userPasswordTextField.text length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterpassword delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (-1 != [WizSettings findAccount:userNameTextField.text])
 	{
-		NSString* msg = [NSString stringWithFormat:NSLocalizedString(@"Account %@ has already exists!", nil), userNameTextField.text];
+		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, userNameTextField.text];
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
@@ -340,7 +340,7 @@
 	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
 	[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrSignIn message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrSignIn message:WizStrPleasewaitwhileloggingin delegate:self retView:&alert];
 	[alert show];
 	self.waitAlertView = alert;
 	[alert release];

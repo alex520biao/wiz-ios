@@ -275,7 +275,7 @@
           }
           else if ([[date dateByAddingDays:2] isToday])
           {
-              return NSLocalizedString(@"The day before yesterday", nil);
+              return WizStrThedaybeforeyesterday;
           }
           else if ([date daysBeforeDate:[NSDate date]] >= 3 && [date daysBeforeDate:[NSDate date]] <7)
           {
@@ -283,7 +283,7 @@
           }
           else 
           {
-              return NSLocalizedString(@"One week ago", nil);
+              return WizStrOneWeekAgo;
           }
           
       }
@@ -592,8 +592,8 @@
 - (void) stopSyncing
 {
     self.assertAlerView = [[[UIAlertView alloc] 
-                           initWithTitle:NSLocalizedString(@"Please confirm",nil)
-                           message:NSLocalizedString(@"The sync process will stop!",nil)
+                           initWithTitle:WizStrPleaseConfirm
+                           message:WizStrThesyncprocesswillstop
                            delegate:self 
                            cancelButtonTitle:WizStrCancel
                            otherButtonTitles:WizStrOK, nil] autorelease];
@@ -610,52 +610,52 @@
     NSString* objectName = [userInfo objectForKey:@"object_name"];
     
     if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-        self.refreshLabel.text = NSLocalizedString(@"Signing in", nil);
+        self.refreshLabel.text = WizStrSigningIn;
     }
     
     else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-        self.refreshLabel.text = NSLocalizedString(@"Signing out", nil);
+        self.refreshLabel.text =WizStrSigningOut;
     }
     
     
     else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing tags", nil);
+        self.refreshLabel.text = WizStrSyncingtags;
     }
     
     else if([methodName isEqualToString:SyncMethod_PostTagList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing tags", nil);
+        self.refreshLabel.text = WizStrSyncingtags;
     }
     
     else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing notes list", nil);
+        self.refreshLabel.text = WizStrSyncingnoteslist;
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing attachment list", nil);
+        self.refreshLabel.text = WizStrSyncingattachmentlist;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing folders", nil);
+        self.refreshLabel.text = WizStrSyncingfolders;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
     {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing user information", nil);
+        self.refreshLabel.text = WizStrSyncinguserinformation;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing deleted notes", nil);
+        self.refreshLabel.text = WizStrSyncingdeletednotes;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
     {
-        self.refreshLabel.text = NSLocalizedString(@"Syncing deleted notes", nil);
+        self.refreshLabel.text =WizStrSyncingdeletednotes;
     }
     else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-        self.refreshLabel.text = NSLocalizedString(@"Uploading notes", nil);
+        self.refreshLabel.text = WizStrUploadingnotes;
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -669,12 +669,12 @@
         if ([total isEqualToNumber:current]) {
             self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %@",
                                             displayName,
-                                            NSLocalizedString(@"Upload successfully", nil)];
+                                            WizStrUploadsuccessfully];
         }
     }
    
     if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-        self.refreshLabel.text = NSLocalizedString(@"Downloading notes data", nil);
+        self.refreshLabel.text = WizStrDownloadingNotes;
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -688,7 +688,7 @@
         if ([total isEqualToNumber:current]) {
             self.refreshDetailLabel.text =[NSString stringWithFormat:@"%@ %@",
                                            displayName,
-                                           NSLocalizedString(@"download successfully", nil)];        }
+                                           WizStrDownloadSuccessfully];        }
     }
     return;
 }
@@ -703,8 +703,8 @@
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
     if( ![sync startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
-                                                        message:NSLocalizedString(@"Sync already in progress, please wait...", nil)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
+                                                        message:WizStrSyncAlreadyInProcess
                                                        delegate:nil 
                                               cancelButtonTitle:WizStrOK
                                               otherButtonTitles:nil];

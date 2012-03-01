@@ -527,7 +527,7 @@
     }
     else if (3 == indexPath.row && 5 == indexPath.section)
     {
-        cell.textLabel.text =NSLocalizedString( @"Rate WizNote", nil);
+        cell.textLabel.text =WizStrRateWizNote;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }

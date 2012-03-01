@@ -46,9 +46,9 @@
 - (void) setTextFieldText:(NSString*)str
 {
     NSString* textFieldText = [NSString stringWithFormat:@"  %@%@%@"
-                               ,NSLocalizedString(@"\"", nil)
+                               ,@"\""
                                ,str
-                               ,NSLocalizedString(@"\"", nil)];
+                               ,"\""];
     self.textField.text = textFieldText;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

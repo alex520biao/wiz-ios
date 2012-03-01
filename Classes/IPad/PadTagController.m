@@ -66,7 +66,7 @@
         if ([documents count]) {
             WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
             data.name = eachTag.name;
-            data.count = [NSString stringWithFormat:@"%d %@",[documents count],NSLocalizedString(@"notes", nil)];
+            data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
             NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
             int max = ([documents count] > 8? 8:[documents count]);
             for (int i = 0; i <max; i++) {
