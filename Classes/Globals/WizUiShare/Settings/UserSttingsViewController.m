@@ -242,8 +242,8 @@
                                       NSLocalizedString(@"All", nil), nil];
     
     NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes data automatic", nil),
-                                        NSLocalizedString(@"Download notes in one day", nil),
-                                        NSLocalizedString(@"Download notes in one week", nil),
+                                        NSLocalizedString(@"Download notes within a day", nil),
+                                        NSLocalizedString(@"Download notes within a week", nil),
                                         NSLocalizedString(@"Download all notes", nil),
                                         nil];
     
@@ -649,9 +649,9 @@
 {
 	NSString *title = nil;
 	if(accountUserId != nil && [accountUserId length] > 0 )
-		title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete %@?", nil), accountUserId];
+		title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to remove %@?", nil), accountUserId];
 	else
-		title = [NSString stringWithString:NSLocalizedString(@"Are you sure you want to delete this account?", nil)];
+		title = [NSString stringWithString:NSLocalizedString(@"Are you sure you want to remove this account?", nil)];
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:NSLocalizedString(@"The account information and local drafts will be deleted permanently from your device.", nil) 
 												   delegate:self 
