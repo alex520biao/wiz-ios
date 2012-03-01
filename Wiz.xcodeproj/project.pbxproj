@@ -42,6 +42,7 @@
 		7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311620A14F5091D007EC8AC /* Default-Landscape~ipad.png */; };
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
+		731CDBB714FF07CA00F9F364 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 731CDBB514FF07CA00F9F364 /* libTestFlight.a */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
 		738DA46F14FC92850075BFC9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 738DA46E14FC92850075BFC9 /* Reachability.m */; };
@@ -365,6 +366,8 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		731CDBB514FF07CA00F9F364 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		731CDBB614FF07CA00F9F364 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
@@ -787,6 +790,7 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				3072578E132496BB009DA753 /* libxml2.dylib in Frameworks */,
 				30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */,
+				731CDBB714FF07CA00F9F364 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +874,15 @@
 				733B1D4214F4D18E007F3402 /* Login */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		731CDBB414FF07CA00F9F364 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				731CDBB514FF07CA00F9F364 /* libTestFlight.a */,
+				731CDBB614FF07CA00F9F364 /* TestFlight.h */,
+			);
+			path = TestFlight;
 			sourceTree = "<group>";
 		};
 		733B1D4214F4D18E007F3402 /* Login */ = {
@@ -1253,6 +1266,7 @@
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
 			isa = PBXGroup;
 			children = (
+				731CDBB414FF07CA00F9F364 /* TestFlight */,
 				738DA46C14FC92850075BFC9 /* NetworkDetect */,
 				73A784F914F8CC22001387F6 /* CloudReview */,
 				73A784FC14F8CC22001387F6 /* ElcMutilSeleted */,
