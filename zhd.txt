@@ -1,0 +1,977 @@
+/* No comment provided by engineer. */
+"%d notes" = "%d 个笔记";
+
+/* No comment provided by engineer. */
+"Account %@ has already exists!" = "账号 %@ 已经存在!";
+
+/* No comment provided by engineer. */
+"Add" = "添加";
+
+/* No comment provided by engineer. */
+"Add New Account" = "添加新账号";
+
+/* No comment provided by engineer. */
+"All folders" = "所有文件夹";
+
+/* No comment provided by engineer. */
+"All tags" = "所有标签";
+
+/* No comment provided by engineer. */
+"Sync already in progress, please wait..." = "已经在同步中，请耐心等待...";
+
+/* No comment provided by engineer. */
+"Are you sure you want to quit without saving?" = "是否放弃保存，直接退出？";
+
+/* No comment provided by engineer. */
+"Attachments" = "附件";
+
+/* No comment provided by engineer. */
+"Camera roll" = "相册";
+
+/* No comment provided by engineer. */
+"Can not find %@" = "找不到 %@";
+
+/* No comment provided by engineer. */
+"Cancel" = "取消";
+
+/* No comment provided by engineer. */
+"Change" = "更改";
+
+/* No comment provided by engineer. */
+"Change account password" = "更改账号密码";
+
+/* No comment provided by engineer. */
+"Change password" = "更改密码";
+
+/* No comment provided by engineer. */
+"You have successfully changed your password" = "您的密码已经成功修改！";
+
+/* No comment provided by engineer. */
+"Confirm" = "确认";
+
+/* No comment provided by engineer. */
+"Continue editing" = "继续编辑";
+
+/* No comment provided by engineer. */
+"Create account" = "创建账号";
+
+/* No comment provided by engineer. */
+"Date created" = "创建日期";
+
+/* No comment provided by engineer. */
+"Date modified" = "修改日期";
+
+/* No comment provided by engineer. */
+"Detail" = "详细信息";
+
+/* No comment provided by engineer. */
+"Device does not support a photo library" = "设备不支持照片库！";
+
+/* No comment provided by engineer. */
+"downloaded successfully" = "下载成功";
+
+/* No comment provided by engineer. */
+"Downloading attachment" = "下载附件";
+
+/* No comment provided by engineer. */
+"Downloading notes data" = "下载笔记";
+
+/* No comment provided by engineer. */
+"Edit note" = "编辑笔记";
+
+/* No comment provided by engineer. */
+"Email" = "邮箱";
+
+/* No comment provided by engineer. */
+"Error" = "错误";
+
+/* No comment provided by engineer. */
+"Failed to create account!\n%@" = "创建 %@ 账号失败!\n";
+
+/* No comment provided by engineer. */
+"Failed to create account!\nUnknown error!" = "创建账号失败!\n未知错误！";
+
+/* No comment provided by engineer. */
+"Failed to login!\n%@" = "登录失败！\n%@";
+
+/* No comment provided by engineer. */
+"Failed to login!\nUnknown error!" = "登录失败！!\n未知错误！";
+
+/* No comment provided by engineer. */
+"Failed to open account data!" = "打开账号数据失败！";
+
+/* No comment provided by engineer. */
+"Favorites" = "最喜欢的";
+
+/* No comment provided by engineer. */
+"find %d notes" = "找到 %d 个文件";
+
+/* No comment provided by engineer. */
+"Folder" = "文件夹";
+
+
+/* No comment provided by engineer. */
+"Folders" = "文件夹";
+
+/* No comment provided by engineer. */
+"Font Size" = "字体大小";
+
+/* No comment provided by engineer. */
+"Get Free WizNote Account" = "免费获得为知笔记帐号";
+
+/* No comment provided by engineer. */
+"If you choose to edit this document, images and text-formatting will be lost." = "如果您选择编辑当前文档，图片和文字格式等将会丢失。";
+
+/* No comment provided by engineer. */
+"Loading..." = "加载中...";
+
+/* No comment provided by engineer. */
+"Sign in" = "登录";
+
+/* No comment provided by engineer. */
+"Name" = "名称";
+
+/* No comment provided by engineer. */
+"New" = "新建";
+
+/* No comment provided by engineer. */
+"New note" = "新建笔记";
+
+/* No comment provided by engineer. */
+"New password" = "新密码";
+
+/* No comment provided by engineer. */
+"Does not support" = "不支持";
+
+/* No comment provided by engineer. */
+"notes" = "笔记";
+
+/* No comment provided by engineer. */
+"OK" = "确定";
+
+/* No comment provided by engineer. */
+"Old password" = "旧密码";
+
+/* 密码 */
+"Password" = "密码";
+
+/* No comment provided by engineer. */
+"Passwords does not match!" = "两次输入的密码不符！";
+
+/* No comment provided by engineer. */
+"Please confirm" = "请确认";
+
+/* No comment provided by engineer. */
+"Please enter the password again!" = "请再次输入密码！";
+
+/* No comment provided by engineer. */
+"Please enter keywords!" = "请输入关键字！";
+
+/* No comment provided by engineer. */
+"Please enter password!" = "请输入密码！";
+
+/* No comment provided by engineer. */
+"Please enter user id!" = "请输入您的账号名！";
+
+/* No comment provided by engineer. */
+"Please rate WizNote" = "请给为知笔记评个分";
+
+/* No comment provided by engineer. */
+"Please wait while creating account...!" = "创建账号中，请耐心等待...";
+
+/* No comment provided by engineer. */
+"Please wait while downloading attachment...!" = "下载附件中，请耐心等待...";
+/* No comment provided by engineer. */
+"Please wait while logging in!" = "登录中，请耐心等待...";
+
+/* No comment provided by engineer. */
+"Please wait while searching!" = "搜索中，请耐心等待...";
+
+/* No comment provided by engineer. */
+"Please waiting ..." = "请耐心等待 ...";
+
+/* No comment provided by engineer. */
+"Pull down to sync notes..." = "下拉以同步笔记...";
+
+
+
+/* No comment provided by engineer. */
+"Rate now" = "现在就去评价";
+
+/* No comment provided by engineer. */
+"Rate WizNote" = "评价为知笔记";
+
+/* No comment provided by engineer. */
+"Recent notes" = "近期笔记";
+
+/* No comment provided by engineer. */
+"Record" = "录音";
+
+/* No comment provided by engineer. */
+"Refresh attachment" = "同步附件";
+
+/* No comment provided by engineer. */
+"Register" = "注册";
+
+/* No comment provided by engineer. */
+"Release to sync notes..." = "放开以同步笔记...";
+
+
+/* No comment provided by engineer. */
+"Reverse sort by created date" = "创建日期（逆序）";
+
+/* No comment provided by engineer. */
+"Reverse sort by first letter" = "标题（逆序）";
+
+/* No comment provided by engineer. */
+"Reverse sort by modified date" = "修改日期（逆序）";
+
+/* No comment provided by engineer. */
+"Search" = "搜索";
+
+/* No comment provided by engineer. */
+"Search local notes only" = "只搜索本地数据";
+
+/* No comment provided by engineer. */
+"Search result" = "搜索结果";
+
+/* No comment provided by engineer. */
+"Selected folders" = "选中的文件夹";
+
+/* No comment provided by engineer. */
+"Settings" = "设置";
+
+/* No comment provided by engineer. */
+"Signing in" = "登录中";
+
+/* No comment provided by engineer. */
+"Signing out" = "登出中";
+
+/* No comment provided by engineer. */
+"Snapshot" = "拍照";
+
+/* No comment provided by engineer. */
+"Start syncing" = "开始同步";
+
+
+/* No comment provided by engineer. */
+"Succeed" = "成功";
+"The protect password will be setted after saving setting"="程序保护密码将会在保存设置后生效！";
+/* No comment provided by engineer. */
+"Switch accounts" = "切换账号";
+
+/* No comment provided by engineer. */
+"Can not sync" = "同步出错";
+
+/* No comment provided by engineer. */
+"Syncing attachment list" = "同步附件列表";
+
+/* No comment provided by engineer. */
+"Syncing deleted notes" = "同步删除的笔记";
+
+/* No comment provided by engineer. */
+"Syncing folders" = "同步文件夹";
+
+/* No comment provided by engineer. */
+"Syncing notes list" = "同步笔记列表";
+
+/* No comment provided by engineer. */
+"Syncing tags" = "同步标签";
+
+/* No comment provided by engineer. */
+"Syncing user information" = "同步账号信息";
+
+/* No comment provided by engineer. */
+"Tag" = "标签";
+
+
+/* No comment provided by engineer. */
+"Tags" = "标签";
+
+/* No comment provided by engineer. */
+"Tags selected" = "选中的标签";
+
+/* No comment provided by engineer. */
+"Tap to check" = "单击以查看";
+
+/* No comment provided by engineer. */
+"Tap to download" = "单击以下载";
+
+/* No comment provided by engineer. */
+"Tap to stop" = "单击以停止";
+
+/* No comment provided by engineer. */
+"The new password does not match the confirm password" = "您两次输入的新密码不符！";
+
+/* No comment provided by engineer. */
+"The new password is equal to the old password" = "新密码与旧密码相同";
+
+/* No comment provided by engineer. */
+"The new Password is empty" = "您没有输入新密码";
+
+/* No comment provided by engineer. */
+"The old Password is empty" = "您没有输入旧密码";
+
+/* No comment provided by engineer. */
+"The sync will be stopped!" = "同步将会停止！";
+
+/* No comment provided by engineer. */
+"This version of WizNote does not support decryption!" = "本版本不支持笔记加密解密！请使用PC客户端查看笔记。";
+
+/* No comment provided by engineer. */
+"Title" = "标题";
+
+/* No comment provided by engineer. */
+"Untitled" = "没有标题的笔记";
+
+/* No comment provided by engineer. */
+"Uploaded successfully" = "上传成功";
+
+/* No comment provided by engineer. */
+"Uploading notes" = "上传笔记";
+
+/* No comment provided by engineer. */
+"User ID" = "账号";
+
+/* No comment provided by engineer. */
+"You can pull down to sync your notes or tap the plus-icon to create a new a note" = "您可以下拉同步您在云端的笔记，或者点击下面的新建按钮创建您的第一个笔记。";
+
+"My Mobiles"="我的手机";
+
+/* No comment provided by engineer. */
+"About WizNote" = "关于为知笔记";
+
+/* No comment provided by engineer. */
+"Account" = "账号";
+
+/* No comment provided by engineer. */
+"All" = "全部";
+
+/* No comment provided by engineer. */
+"App launch protection" = "程序启动保护";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete %@?" = "你确定要删除 %@?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove this account?" = "你确定要删除这个账号吗？";
+
+/* No comment provided by engineer. */
+"Clear cache" = "清除缓存";
+
+/* No comment provided by engineer. */
+"Date created" = "创建日期";
+
+/* No comment provided by engineer. */
+"Date created (Reverse)" = "创建日期（逆序）";
+
+/* No comment provided by engineer. */
+"Date modified" = "修改日期";
+
+/* No comment provided by engineer. */
+"Date modified (Reverse)" = "修改日期（逆序）";
+
+/* No comment provided by engineer. */
+"Delete" = "删除";
+
+/* No comment provided by engineer. */
+"Does not download any notes data automatic" = "不自动下载任何笔记数据";
+
+/* No comment provided by engineer. */
+"Download all notes data" = "下载所有笔记数据";
+
+/* No comment provided by engineer. */
+"Download notes data in one day" = "下载一天内的笔记数据";
+
+/* No comment provided by engineer. */
+"Download notes data in one week" = "下载一周内的笔记数据";
+
+/* No comment provided by engineer. */
+"Download notes data" = "下载笔记数据";
+
+/* No comment provided by engineer. */
+"Feedback" = "反馈";
+
+/* No comment provided by engineer. */
+"Help" = "帮助";
+
+/* No comment provided by engineer. */
+"Large" = "大";
+
+/* No comment provided by engineer. */
+"Image size" = "笔记图片大小";
+
+/* No comment provided by engineer. */
+"Small" = "小";
+
+/* No comment provided by engineer. */
+"Mail save successfully" = "邮件保存成功！";
+
+/* No comment provided by engineer. */
+"Mail send failed" = "邮件发送失败！";
+
+"Save"="保存";
+/* No comment provided by engineer. */
+"Mail send successfully" = "邮件发送成功！";
+
+"Mail is canceled"="邮件发送被取消！";
+/* No comment provided by engineer. */
+"Medium" = "中等";
+
+/* No comment provided by engineer. */
+"Mobile view" = "手机视图查看";
+
+/* No comment provided by engineer. */
+"Notes sort order" = "笔记排序方式";
+
+/* No comment provided by engineer. */
+"One day" = "一天内";
+
+/* No comment provided by engineer. */
+"One week" = "一周内";
+
+/* No comment provided by engineer. */
+"Password" = "密码";
+
+/* No comment provided by engineer. */
+"Rate WizNote" = "评价为知笔记";
+
+/* No comment provided by engineer. */
+"Remove account" = "删除账号";
+
+"Remove"="删除";
+
+/* No comment provided by engineer. */
+"Mail is canceled" = "发送邮件被取消！";
+
+/* No comment provided by engineer. */
+"Set as default account" = "设置为默认账号";
+
+/* No comment provided by engineer. */
+"Settings" = "设置";
+
+/* No comment provided by engineer. */
+"Sync" = "同步";
+
+/* No comment provided by engineer. */
+"The account information and local drafts will be deleted permanently from your device." = "账号信息和本地数据将会从您的设备中删除.";
+
+/* No comment provided by engineer. */
+"The password you entered does not match" = "您输入的密码不符";
+
+/* No comment provided by engineer. */
+"Title" = "标题";
+
+/* No comment provided by engineer. */
+"Title (Reverse)" = "标题（逆序）";
+
+/* No comment provided by engineer. */
+"Traffic Usage" = "流量";
+
+/* No comment provided by engineer. */
+"User ID" = "账号ID";
+
+/* No comment provided by engineer. */
+"User Manual" = "帮助手册";
+
+/* No comment provided by engineer. */
+"User Points" = "积分";
+
+/* No comment provided by engineer. */
+"User Type" = "类型";
+
+/* No comment provided by engineer. */
+"View" = "查看";
+
+/* No comment provided by engineer. */
+"All the cache files will be deleted, are you sure?" = "你将删除所有的缓存文件，你确定要删除？";
+
+/* No comment provided by engineer. */
+"Your advice" = "您的建议：";
+
+/* No comment provided by engineer. */
+"Zero" = "零";
+
+/* No comment provided by engineer. */
+"One week ago" = "一周前";
+
+/* No comment provided by engineer. */
+"Please confirm" = "请确认";
+
+
+/* No comment provided by engineer. */
+"The day before yesterday" = "前天";
+
+/* No comment provided by engineer. */
+"The sync will be stopped!" = "同步将会停止!";
+
+/* No comment provided by engineer. */
+"Today" = "今天";
+
+"Yesterday" = "昨天";
+
+/* No comment provided by engineer. */
+"You don't have any notes.\n Tap new note to get started!" = "您没有任何笔记\n 请单击新建笔记以开始。";
+
+/* No comment provided by engineer. */
+"My Drafts" = "我的草稿";
+
+/* No comment provided by engineer. */
+"My Events" = "我的事件";
+
+/* No comment provided by engineer. */
+"My Journals" = "我的日记";
+
+/* No comment provided by engineer. */
+"My Mobiles" = "我的手机";
+
+/* No comment provided by engineer. */
+"My Notes" = "我的笔记";
+
+"My Mobiles" = "我的手机";
+
+"My Tasks" = "我的任务";
+
+"My Emails" = "我的邮件";
+
+"Inbox" = "收集箱";
+
+"My Shared Notes" = "共享的笔记";
+
+"Recent notes."="近期笔记显示您最近创建/修改的笔记，并且为您提供了四种排序方式方便您查找文件。";
+
+"Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use."="文件夹允许您以喜好的方式整理您的笔记。您的笔记将与您的每一版本的WizNote同步。";
+
+"Tap on a tag above to see all notes with that tag. Make your notes easier to find by creating and assinging more tags."="轻点上方的标签查看带有该标签的所有笔记。创建并分配更多的标签，可以让笔记更容易被找到。";
+
+"Tap the search field to get started."="在这里，您可以搜索自己的帐号内容。并且我们会为您保存近期的搜索记录，方便您下次查找时使用。";
+
+"Tap the field above to search your notes. Tap a recent or saved search to view the results of that search."="单击搜索栏，以便搜索您的笔记。单击最近搜索中的字段，将查看该搜索的结果。";
+"Recent note view shows the notes that you modified recently."="近期笔记将显示您最近编辑的笔记。";
+"You can push down to refresh and tap the plus-icon to create a new a note"="请下拉以同步您在服务器的笔记，或者单击新建按钮来新建您的第一个笔记。";
+/* No comment provided by engineer. */
+"Accounts" = "账号";
+
+/* No comment provided by engineer. */
+"Home" = "主页面";
+
+/* No comment provided by engineer. */
+"Sign in" = "登录";
+
+
+/* No comment provided by engineer. */
+"Public notes" = "完全公开的笔记";
+
+/* No comment provided by engineer. */
+"Refresh" = "刷新";
+
+/* No comment provided by engineer. */
+"Share with friends" = "分享给朋友的笔记";
+
+/* No comment provided by engineer. */
+"Succeed" = "成功";
+"Select an Album"="选择一个相册";
+"Pick Photos"="选择照片";
+"Download notes only over wifi"="只通过Wifi下载数据";
+"The sync process will stop!"="同步进程将会停止！";
+"You set downloading notes only over wifi! \nThe note will not be downloaded!"="您设置了只通过WIFI下载数据！\n将不会下载笔记数据！";
+"There are %d notes that is downloaded, please wait a while...."="已经有%d个笔记正在现在，请您稍等一会儿....";
+"Warning"="警告";
+"You will remove all the cache files, are you sure?"="你将删除所有的缓存文件，确定吗？";
+"Image size"="笔记图片大小";
+"Failed to login!\nUnknown error!"="登录失败！!\n未知错误！";
+"Title"="标题";
+"Tap to download"="单击以下载";
+"Yesterday"="昨天";
+"All tags"="所有标签";
+"Image size"="笔记图片大小";
+"Failed to login!\nUnknown error!"="登录失败！!\n未知错误！";
+"Title"="标题";
+"Tap to download"="单击以下载";
+"Yesterday"="昨天";
+"All tags"="所有标签";
+"The new password cofirmed is null"="第二次输入的密码为空";
+"The old password is null"="旧密码为空";
+"Today"="今天";
+"The account information and local drafts will be deleted permanently from your device."="账号信息和本地数据将会从您的设备中删除.";
+","="，";
+"Old password"="旧密码";
+"Uploaded successfully"="上传成功";
+"Succeed"="成功";
+"%d note in %d notes"="第%d个文件在%d个文件中";
+"Start syncing"="开始同步";
+"Sign in"="登录";
+"Change"="更改";
+"Account"="账号";
+"About WizNote"="关于为知笔记";
+"Favorites"="最喜欢的";
+"The new password does not match the password confirmed"="两次输入的密码不符";
+"Date modified (Reverse)"="修改日期（逆序）";
+"One week"="一周内";
+"Switch accounts"="切换账号";
+"Traffic Usage"="流量";
+"Refresh"="刷新";
+"Large"="大";
+"My Drafts"="我的草稿";
+"This version of WizNote does not support decryption!"="本版本不支持笔记加密解密！请使用PC客户端查看笔记。";
+"Please wait while creatting account...!"="正在创建账号中，请稍等....";
+"Download notes data in one day"="下载一天内的笔记数据";
+"\"="";
+"Help"="帮助";
+"Download all notes data"="下载所有笔记数据";
+"Continue editing"="继续编辑";
+"OK"="确定";
+"Failed to save image"="保存照片失败";
+"Download notes data"="下载笔记数据";
+"Please rate WizNote"="请给为知笔记评个分";
+"App launch protection"="程序启动保护";
+"Failed to create account!\n%@"="创建 %@ 账号失败!\n";
+"Sync error"="同步错误";
+"Please wait while downloading attachment...!"="下载附件中，请耐心等待...";
+"Passwords does not match!"="两次输入的密码不符！";
+"Failed to create account!\nUnknown error!"="创建账号失败!\n未知错误！";
+"Tag"="标签";
+"Accounts"="账号";
+"Refresh attachment"="同步附件";
+"Uploading notes"="上传笔记";
+"Rate now"="现在就去评价";
+"notes"="笔记";
+"Documents"="笔记";
+"Please enter user id!"="请输入您的账号名！";
+"Confirm"="确认";
+"Change account password"="更改账号密码";
+"The day before yesterday"="前天";
+"New"="新建";
+"Save"="保存";
+"Email"="邮箱";
+"Medium"="中等";
+"Are you sure you want to delete this account?"="你确定要删除这个账号吗？";
+"Attachments"="附件";
+"Settings"="设置";
+"Your advice"="您的建议：";
+"Pick Photos"="选择照片";
+"Syncing attachment list"="同步附件列表";
+"Warning"="警告";
+"Download notes data in one week"="下载一周内的笔记数据";
+"Syncing deleted notes"="同步删除的笔记";
+"Mobile view"="手机视图查看";
+"Syncing folders"="同步文件夹";
+"Syncing tags"="同步标签";
+"All folders"="所有文件夹";
+"Failed to login!\n%@"="登录失败！\n%@";
+"Date created (Reverse)"="创建日期（逆序）";
+"You have successfully changed your password"="您的密码已经成功修改！";
+"Selected folders"="选中的文件夹";
+"Get Free WizNote Account"="免费获得为知笔记帐号";
+"New password"="新密码";
+"User Type"="类型";
+"Rate WizNote"="评价为知笔记";
+"Notes sort order"="笔记排序方式";
+"User Manual"="帮助手册";
+"Camera roll"="相册";
+"downloaded successfully"="下载成功";
+"Untitled"="没有标题的笔记";
+"Please waiting ..."="请耐心等待 ...";
+"Date created"="创建日期";
+"You will remove all the cache files, are you sure?"="你将删除所有的缓存文件，确定吗？";
+"Syncing notes list"="同步笔记列表";
+"Record"="录音";
+"You can push down to refresh and tap the plus-icon to create a new a note"="请下拉以同步您在服务器的笔记，或者单击新建按钮来新建您的第一个笔记。";
+"Sync"="同步";
+"The protect password will be setted after saving setting"="程序保护密码将会在保存设置后生效！";
+"The new Password is null"="新密码为空";
+"Zero"="零";
+"The sync process will stop!"="同步进程将会停止！";
+"Are you sure you want to delete %@?"="你确定要删除 %@?";
+"Home"="主页面";
+"Log in"="登录";
+"My Events"="我的事件";
+"Quit with saving"="保存并退出";
+"Tap to check"="单击以查看";
+"Detail"="详细信息";
+"Add New Account"="添加新账号";
+"Add"="添加";
+"Please enter keywords!"="请输入关键字！";
+"Please confirm"="请确认";
+"Pull down to sync notes..."="下拉以同步笔记...";
+"Failed to open account data!"="打开账号数据失败！";
+"Mail sended failed"="邮件发送失败";
+"Search result"="搜索结果";
+"Edit note"="编辑笔记";
+"Clear cache"="清除缓存";
+"Please wait while searching!"="搜索中，请耐心等待...";
+"Tags"="标签";
+"My Mobiels"="我的手机";
+"Please enter password!"="请输入密码！";
+"User ID"="账号ID";
+"Release to sync notes..."="放开以同步笔记...";
+"Are you sure you want to quit without saving?"="是否放弃保存，直接退出？";
+"Delete"="删除";
+"Search"="搜索";
+"Date modified"="修改日期";
+"Please wait while logging in!"="登录中，请耐心等待...";
+"Tap the field above to search your notes. Tap a recent or saved search to view the results of that search."="单击搜索栏，以便搜索您的笔记。单击最近搜索中的字段，将查看该搜索的结果。";
+"Snapshot"="拍照";
+"Error"="错误";
+"Small"="小";
+"There are %d notes that is downloaded, please wait a while...."="已经有%d个笔记正在现在，请您稍等一会儿....";
+"Can not find %@"="找不到 %@";
+"Mail saved successfully"="邮件保存成功";
+"You set downloading notes only over wifi! \nThe note will not be downloaded!"="您设置了只通过WIFI下载数据！\n将不会下载笔记数据！";
+"Mail has been canceled"="邮件发送取消";
+"Remove account"="删除账号";
+"Feedback"="反馈";
+"Downloading notes data"="下载笔记";
+"Set as default account"="设置为默认账号";
+"Select an Album"="选择一个相册";
+"Cancel"="取消";
+"Loading..."="加载中...";
+"If you choose to edit this document, images and text-formatting will be lost."="如果您选择编辑当前文档，图片和文字格式等将会丢失。";
+"My Journals"="我的日记";
+"Change password"="更改密码";
+"You don't have any notes.\n Tap new note to get started!"="您没有任何笔记\n 请单击新建笔记以开始。";
+"Does not download any notes data automatic"="不自动下载任何笔记数据";
+"One day"="一天内";
+"Signing in"="登录中";
+"Unknown xml-rpc method!"="未知错误";
+"New note"="新建笔记";
+"Folder"="文件夹";
+"Create account"="创建账号";
+"Folders"="文件夹";
+"Title (Reverse)"="标题（逆序）";
+"Does not support"="不支持";
+"%d notes"="%d 个笔记";
+"Mail sended succeddfully"="邮件发送成功";
+"Tags selected"="选中的标签";
+"Download notes only over wifi"="只通过Wifi下载数据";
+"find %d notes"="找到 %d 个文件";
+"Password"="密码";
+"Register"="注册";
+"Name"="名称";
+"Search local notes only"="只搜索本地数据";
+"The new password is equal to the old password"="新密码与旧密码相同";
+"Public notes"="完全公开的笔记";
+"User Points"="积分";
+"Remove"="删除";
+"One week ago"="一周前";
+"Share with friends"="分享给朋友的笔记";
+"Font Size"="字体大小";
+"Please enter the password again!"="请再次输入密码！";
+"Syncing user information"="同步账号信息";
+"Tap to stop"="单击以停止";
+"View"="查看";
+"All"="全部";
+"Recent note view shows the notes that you modified recently."="近期笔记将显示您最近编辑的笔记。";
+"Signing out"="登出中";
+"Recent notes"="近期笔记";
+"The password you entered does not match"="您输入的密码不符";
+"Account %@ has already exists!"="账号 %@ 已经存在!";
+"My Notes"="我的笔记";
+"Sync already in progress, please wait..."="已经在同步中，请耐心等待...";
+"Quit without saving"="保存并退出";
+"Image size"="笔记图片大小";
+"Failed to login!\nUnknown error!"="登录失败！!\n未知错误！";
+"Title"="标题";
+"Tap to download"="单击以下载";
+"Yesterday"="昨天";
+"All tags"="所有标签";
+"The new password cofirmed is null"="第二次输入的密码为空";
+"Upload successfully"="上传成功";
+"The old password is null"="旧密码为空";
+"Today"="今天";
+"Download notes in one week"="下载一周内的笔记";
+"The account information and local drafts will be deleted permanently from your device."="账号信息和本地数据将会从您的设备中删除.";
+","="，";
+"Old password"="旧密码";
+"Uploaded successfully"="上传成功";
+"Succeed"="成功";
+"%d note in %d notes"="第%d个文件在%d个文件中";
+"Start syncing"="开始同步";
+"Sign in"="登录";
+"The confirmation password is empty!"="第二次输入的密码为空！";
+"Change"="更改";
+"Account"="账号";
+"About WizNote"="关于为知笔记";
+"Favorites"="最喜欢的";
+"The new password does not match the password confirmed"="两次输入的密码不符";
+"Date modified (Reverse)"="修改日期（逆序）";
+"One week"="一周内";
+"Switch accounts"="切换账号";
+"Traffic Usage"="流量";
+"Refresh"="刷新";
+"Large"="大";
+"My Drafts"="我的草稿";
+"This version of WizNote does not support decryption!"="本版本不支持笔记加密解密！请使用PC客户端查看笔记。";
+"Please wait while creatting account...!"="正在创建账号中，请稍等....";
+"Download notes data in one day"="下载一天内的笔记数据";
+"\"="";
+"Help"="帮助";
+"Download all notes data"="下载所有笔记数据";
+"Continue editing"="继续编辑";
+"OK"="确定";
+"Failed to save image"="保存照片失败";
+"Download notes data"="下载笔记数据";
+"Please rate WizNote"="请给为知笔记评个分";
+"App launch protection"="程序启动保护";
+"Failed to create account!\n%@"="创建 %@ 账号失败!\n";
+"Sync error"="同步错误";
+"Please wait while downloading attachment...!"="下载附件中，请耐心等待...";
+"Passwords does not match!"="两次输入的密码不符！";
+"Failed to create account!\nUnknown error!"="创建账号失败!\n未知错误！";
+"Tag"="标签";
+"Accounts"="账号";
+"Refresh attachment"="同步附件";
+"With in a week"="一周内";
+"Uploading notes"="上传笔记";
+"Rate now"="现在就去评价";
+"Fail to send"="邮件发送失败";
+"notes"="笔记";
+"Documents"="笔记";
+"Please enter user id!"="请输入您的账号名！";
+"Confirm"="确认";
+"Change account password"="更改账号密码";
+"The day before yesterday"="前天";
+"New"="新建";
+"Save"="保存";
+"Email"="邮箱";
+"Medium"="中等";
+"Are you sure you want to delete this account?"="你确定要删除这个账号吗？";
+"Attachments"="附件";
+"Settings"="设置";
+"Your advice"="您的建议：";
+"Pick Photos"="选择照片";
+"Syncing attachment list"="同步附件列表";
+"Warning"="警告";
+"Download notes data in one week"="下载一周内的笔记数据";
+"Syncing deleted notes"="同步删除的笔记";
+"Mobile view"="手机视图查看";
+"Syncing folders"="同步文件夹";
+"Syncing tags"="同步标签";
+"All folders"="所有文件夹";
+"Failed to login!\n%@"="登录失败！\n%@";
+"Date created (Reverse)"="创建日期（逆序）";
+"You have successfully changed your password"="您的密码已经成功修改！";
+"Selected folders"="选中的文件夹";
+"Get Free WizNote Account"="免费获得为知笔记帐号";
+"New password"="新密码";
+"User Type"="类型";
+"Rate WizNote"="评价为知笔记";
+"Notes sort order"="笔记排序方式";
+"User Manual"="帮助手册";
+"Camera roll"="相册";
+"downloaded successfully"="下载成功";
+"Untitled"="没有标题的笔记";
+"Notes sorted by"="笔记排序方式";
+"Please waiting ..."="请耐心等待 ...";
+"Date created"="创建日期";
+"You will remove all the cache files, are you sure?"="你将删除所有的缓存文件，确定吗？";
+"Syncing notes list"="同步笔记列表";
+"Record"="录音";
+"You can push down to refresh and tap the plus-icon to create a new a note"="请下拉以同步您在服务器的笔记，或者单击新建按钮来新建您的第一个笔记。";
+"Sync"="同步";
+"The protect password will be setted after saving setting"="程序保护密码将会在保存设置后生效！";
+"The new Password is null"="新密码为空";
+"Zero"="零";
+"The sync process will stop!"="同步进程将会停止！";
+"Are you sure you want to delete %@?"="你确定要删除 %@?";
+"The old password is empty!"="旧密码为空！";
+"Home"="主页面";
+"Log in"="登录";
+"My Events"="我的事件";
+"Quit with saving"="保存并退出";
+"Tap to check"="单击以查看";
+"Detail"="详细信息";
+"Add New Account"="添加新账号";
+"Add"="添加";
+"Please enter keywords!"="请输入关键字！";
+"Please confirm"="请确认";
+"Pull down to sync notes..."="下拉以同步笔记...";
+"Failed to open account data!"="打开账号数据失败！";
+"Mail sended failed"="邮件发送失败";
+"Download notes in one day"="下载一天内的笔记";
+"Search result"="搜索结果";
+"Edit note"="编辑笔记";
+"Clear cache"="清除缓存";
+"Please wait while searching!"="搜索中，请耐心等待...";
+"Tags"="标签";
+"My Mobiels"="我的手机";
+"Please enter password!"="请输入密码！";
+"User ID"="账号ID";
+"The new password is empty!"="新密码为空！";
+"Release to sync notes..."="放开以同步笔记...";
+"Are you sure you want to quit without saving?"="是否放弃保存，直接退出？";
+"Delete"="删除";
+"Login time out or login in other places, please retry login!"="登录超时,或在其它终端登录,请重新登录!";
+"Mail sent successfully"="邮件发送成功";
+"Search"="搜索";
+"Date modified"="修改日期";
+"Please wait while logging in!"="登录中，请耐心等待...";
+"Do not download"="不下载";
+"Tap the field above to search your notes. Tap a recent or saved search to view the results of that search."="单击搜索栏，以便搜索您的笔记。单击最近搜索中的字段，将查看该搜索的结果。";
+"Download all notes"="下载所有笔记";
+"Snapshot"="拍照";
+"Error"="错误";
+"Small"="小";
+"There are %d notes that is downloaded, please wait a while...."="已经有%d个笔记正在现在，请您稍等一会儿....";
+"Can not find %@"="找不到 %@";
+"Mail saved successfully"="邮件保存成功";
+"You set downloading notes only over wifi! \nThe note will not be downloaded!"="您设置了只通过WIFI下载数据！\n将不会下载笔记数据！";
+"Does not download any notes data automatic"="不自动下载任何笔记数据";
+"Remove account"="删除账号";
+"Feedback"="反馈";
+"Downloading notes data"="下载笔记";
+"Set as default account"="设置为默认账号";
+"Select an Album"="选择一个相册";
+"Cancel"="取消";
+"The password you supplied don't match!"="您输入的两次密码不符！";
+"Loading..."="加载中...";
+"If you choose to edit this document, images and text-formatting will be lost."="如果您选择编辑当前文档，图片和文字格式等将会丢失。";
+"There are %d notes that is downloaded, please wait for a while...."="已经有%d个笔记正在下载，请稍等一会儿...";
+"My Journals"="我的日记";
+"download successfully"="下载成功";
+"Change password"="更改密码";
+"You don't have any notes.\n Tap new note to get started!"="您没有任何笔记\n 请单击新建笔记以开始。";
+"New password and old password are the same!"="新密码和旧密码相同！";
+"%d/%d"="%d/%d";
+"Mail has been canceled"="邮件发送取消";
+"One day"="一天内";
+"Signing in"="登录中";
+"Unknown xml-rpc method!"="未知错误";
+"New note"="新建笔记";
+"Folder"="文件夹";
+"Create account"="创建账号";
+"Folders"="文件夹";
+"Title (Reverse)"="标题（逆序）";
+"Does not support"="不支持";
+"%d notes"="%d 个笔记";
+"Mail sended succeddfully"="邮件发送成功";
+"Tags selected"="选中的标签";
+"Download notes only over wifi"="只通过Wifi下载数据";
+"find %d notes"="找到 %d 个文件";
+"Password"="密码";
+"Register"="注册";
+"Name"="名称";
+"Search local notes only"="只搜索本地数据";
+"The new password is equal to the old password"="新密码与旧密码相同";
+"Public notes"="完全公开的笔记";
+"User Points"="积分";
+"Remove"="删除";
+"One week ago"="一周前";
+"Share with friends"="分享给朋友的笔记";
+"Font Size"="字体大小";
+"Please enter the password again!"="请再次输入密码！";
+"Syncing user information"="同步账号信息";
+"Tap to stop"="单击以停止";
+"View"="查看";
+"All"="全部";
+"Recent note view shows the notes that you modified recently."="近期笔记将显示您最近编辑的笔记。";
+"Signing out"="登出中";
+"Recent notes"="近期笔记";
+"The password you entered does not match"="您输入的密码不符";
+"Account %@ has already exists!"="账号 %@ 已经存在!";
+"My Notes"="我的笔记";
+"Sync already in progress, please wait..."="已经在同步中，请耐心等待...";
+"Quit without saving"="保存并退出";
+"Get WizNote Account For Free"="获得免费的为知笔记账号";
+"Sync attachment"="同步附件";
+"Confirm"="确认";
