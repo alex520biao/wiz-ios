@@ -1335,7 +1335,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	if ([retObject isKindOfClass:[NSError class]])
 	{  
         NSError* error = (NSError*)retObject;
-        if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && error.code == -1) {
+        if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && [error.localizedDescription isEqualToString:NSLocalizedString(@"Login time out or login in other places, please retry login!", nil)]) {
             return;
         }
 		[WizGlobals reportError:retObject];

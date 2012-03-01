@@ -59,13 +59,11 @@
         return;
     }
     WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
-
     BOOL willDownload = YES;
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if ([index connectOnlyViaWifi]) {
         Reachability* rech = [Reachability reachabilityForInternetConnection];
         NetworkStatus netStatus = [rech currentReachabilityStatus];
-        NSLog(@"current netStatus %@",netStatus);
         if (netStatus != ReachableViaWiFi) {
             willDownload = NO;
         }
