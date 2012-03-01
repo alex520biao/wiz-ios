@@ -238,9 +238,9 @@
     self.userPasswordTextField.secureTextEntry = YES;
     [self.view setFrame:CGRectMake(0.0 , 0.0, 320, 480)];
     self.userNameLabel.text = NSLocalizedString(@"User ID", nil);
-    self.userPasswordLabel.text = NSLocalizedString(@"Password", @"密码");
+    self.userPasswordLabel.text = WizStrPassword;
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [self.loginButton setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
+    [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     self.addAccountCell.selectionStyle=UITableViewCellSelectionStyleNone;
     self.userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.checkOtherAccountButton setTitle:NSLocalizedString(@"Switch accounts", nil) forState:UIControlStateNormal];
@@ -312,17 +312,17 @@
     [self.userNameTextField resignFirstResponder];
     [self.userPasswordTextField resignFirstResponder];
     [self loginViewMoveDown];
-    NSString* error = NSLocalizedString(@"Error", nil);
+    NSString* error = WizStrError;
 	if (self.userNameTextField.text == nil|| [userNameTextField.text length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (userPasswordTextField.text == nil || [userPasswordTextField.text length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -340,7 +340,7 @@
 	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
 	[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrLogin message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrSignIn message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
 	[alert show];
 	self.waitAlertView = alert;
 	[alert release];

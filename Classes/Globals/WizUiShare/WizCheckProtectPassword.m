@@ -137,7 +137,7 @@
         if (willMakeSure) {
             WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
             check.willMakeSure = NO;
-            check.title = NSLocalizedString(@"Confirm", nil);
+            check.title = WizStrConfirm;
             check.isMakeSure = YES;
             [self.navigationController pushViewController:check animated:YES];
             self.isMakeSure = YES;

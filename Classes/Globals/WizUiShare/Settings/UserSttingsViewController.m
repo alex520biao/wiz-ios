@@ -247,11 +247,11 @@
                                         NSLocalizedString(@"Download all notes", nil),
                                         nil];
     
-    self.viewOptions = [NSArray arrayWithObjects:NSLocalizedString(@"Date modified" , nil)
+    self.viewOptions = [NSArray arrayWithObjects:WizStrDateModified
                     ,NSLocalizedString(@"Date modified (Reverse)" , nil)
-                    ,NSLocalizedString(@"Title", nil)
+                    ,WizStrTitle
                     ,NSLocalizedString(@"Title (Reverse)", nil)
-                    ,NSLocalizedString(@"Date created", nil)
+                    ,WizStrDateCreated
                     ,NSLocalizedString(@"Date created (Reverse)", nil)
                     ,nil];
     
@@ -384,9 +384,9 @@
 	else if (1 == section)
 		return [NSString stringWithString: NSLocalizedString(@"View", nil)];
     else if (2 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Sync", nil)];
+		return [NSString stringWithString: WizStrSync];
     else if (3 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Settings", nil)];
+		return [NSString stringWithString: WizStrSettings];
 	else if (4 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Switch accounts", nil)];
 	else if (5 == section)
@@ -574,7 +574,7 @@
 - (void) setProtectPassword
 {
     WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
-    check.title = NSLocalizedString(@"Password", nil);
+    check.title = WizStrPassword;
     check.willMakeSure = YES;
     UINavigationController* nav = [[UINavigationController alloc ] initWithRootViewController:check];
     [check release];

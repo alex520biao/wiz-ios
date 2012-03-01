@@ -120,7 +120,7 @@
     
     
     self.selectCount = 0;
-    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStyleDone target:self action:@selector(addTagsToWizDocument)];
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrOK style:UIBarButtonItemStyleDone target:self action:@selector(addTagsToWizDocument)];
 	self.navigationItem.rightBarButtonItem = editButton;
     [editButton release];
 }
@@ -440,7 +440,7 @@
                 if([cc isKindOfClass:[UIButton class]])
                 {
                     UIButton* btn = (UIButton*) cc;
-                    [btn setTitle:@"OK" forState:UIControlStateNormal];
+                    [btn setTitle:WizStrOK forState:UIControlStateNormal];
                     [btn addTarget:self action:@selector(addTagsToSelectArray) forControlEvents:UIControlEventTouchUpInside];
                 }
             }
@@ -452,7 +452,7 @@
                 if([cc isKindOfClass:[UIButton class]])
                 {
                     UIButton* btn = (UIButton*) cc;
-                    [btn setTitle:@"Cancel" forState:UIControlStateNormal];
+                    [btn setTitle:WizStrCancel forState:UIControlStateNormal];
                     [btn removeTarget:select action:@selector(addTagsToSelectArray) forControlEvents:UIControlEventTouchUpInside];
                 }
             }

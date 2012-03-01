@@ -44,7 +44,7 @@
 {
     [super viewDidLoad];
     self.accounts = [WizSettings accounts];
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) 
+    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
                                                                      style:UIBarButtonItemStyleDone
                                                                     target:self 
                                                                     action:@selector(cancel)];

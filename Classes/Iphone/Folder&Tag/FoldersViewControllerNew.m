@@ -120,7 +120,7 @@
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfFolderViewVillReloadData object:nil];
-    self.title = NSLocalizedString(@"Folders", nil);
+    self.title = WizStrFolders;
     [self reloadAllData];
     self.closedImage = [UIImage imageNamed:@"treePlus"];
     self.expandImage = [UIImage imageNamed:@"treeCut"];

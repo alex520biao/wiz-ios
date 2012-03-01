@@ -124,7 +124,7 @@
     folderView.accountUserId = self.accountUserId;
     UINavigationController* folderController = [[UINavigationController alloc] init] ;
     [folderController  pushViewController:folderView animated:NO];
-    folderView.title = NSLocalizedString(@"Folders", nil);
+    folderView.title = WizStrFolders;
     folderController.tabBarItem.image = [UIImage imageNamed:@"barItemFolde"];
     [folderView release];
 

@@ -96,20 +96,20 @@
 {
     [self.nameInput.textInputField resignFirstResponder];
     [self.passwordInput.textInputField resignFirstResponder];
-    NSString* error = NSLocalizedString(@"Error", nil);
+    NSString* error = WizStrError;
     NSString* accountIDString = nameInput.textInputField.text;
     NSString* accountPasswordString = passwordInput.textInputField.text;
     
 	if (accountIDString == nil|| [accountIDString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (accountPasswordString == nil || [accountPasswordString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -133,7 +133,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	//
 	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrLogin message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
+	[WizGlobals showAlertView:WizStrSignIn message:NSLocalizedString(@"Please wait while logging in!", nil) delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;
@@ -160,10 +160,10 @@
      [self.view addSubview:passwordInput_];
     [passwordInput_ release];
     self.passwordInput = passwordInput_;
-    passwordInput.nameLable.text = NSLocalizedString(@"Password", nil);
+    passwordInput.nameLable.text = WizStrPassword;
     passwordInput.textInputField.placeholder = @"password";
     passwordInput.textInputField.secureTextEntry = YES;
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) 
+    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
                                                                      style:UIBarButtonItemStyleDone
                                                                     target:self 
                                                                     action:@selector(cancel)];
@@ -173,7 +173,7 @@
     UIButton* loginButton_ = [[UIButton alloc] initWithFrame:CGRectMake(110, 200, 300, 40)];
     
     [loginButton_ setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [loginButton_ setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
+    [loginButton_ setTitle:WizStrSignIn forState:UIControlStateNormal];
     [loginButton_ addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton_];
     [loginButton_ release];

@@ -147,7 +147,7 @@
     [super viewDidLoad];
     self.willFirstAppear = YES;
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [self.loginButton setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
+    [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:NSLocalizedString(@"Register", nil) forState:UIControlStateNormal];

@@ -535,7 +535,7 @@
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
                                                             message:NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
                                                            delegate:self 
-                                                  cancelButtonTitle:@"ok" 
+                                                  cancelButtonTitle:WizStrOK 
                                                   otherButtonTitles:nil];
             alert.tag = 100;
             [alert show];

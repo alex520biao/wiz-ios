@@ -267,11 +267,11 @@
           WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
           NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
           if ([date isToday]) {
-              return NSLocalizedString(@"Today", nil);
+              return WizStrToday;
           }
           else if( [date isYesterday])
           {
-              return NSLocalizedString(@"Yesterday", nil);
+              return WizStrYesterday;
           }
           else if ([[date dateByAddingDays:2] isToday])
           {
@@ -595,8 +595,8 @@
                            initWithTitle:NSLocalizedString(@"Please confirm",nil)
                            message:NSLocalizedString(@"The sync process will stop!",nil)
                            delegate:self 
-                           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                           otherButtonTitles:NSLocalizedString(@"OK", nil), nil] autorelease];
+                           cancelButtonTitle:WizStrCancel
+                           otherButtonTitles:WizStrOK, nil] autorelease];
     [self.assertAlerView show];
     
 }
@@ -706,7 +706,7 @@
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
                                                         message:NSLocalizedString(@"Sync already in progress, please wait...", nil)
                                                        delegate:nil 
-                                              cancelButtonTitle:@"ok" 
+                                              cancelButtonTitle:WizStrOK
                                               otherButtonTitles:nil];
         [alert show];
         [alert release];

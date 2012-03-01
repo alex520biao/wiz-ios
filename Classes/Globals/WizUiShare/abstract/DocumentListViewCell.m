@@ -149,16 +149,16 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         [nameStr addAttributes:[[WizGlobalData sharedData] attributesForDocumentListName] range:NSMakeRange(0, nameStr.length)];
         NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
         [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
-        
-        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",NSLocalizedString(@"Folder", nil),self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
-        NSString* tagstr = [NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tag", nil)];
+    
+        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
+        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
         NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
         for (WizTag* each in tags) {
             NSString* tagName = getTagDisplayName(each.name);
             tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
         }
-        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tag", nil)]]) {
+        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
             tagstr = [tagstr substringToIndex:tagstr.length-1];
             folder = [folder stringByAppendingString:tagstr];
         }

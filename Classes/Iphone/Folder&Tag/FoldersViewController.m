@@ -63,7 +63,7 @@
 -(id) init
 {
     self = [super init];
-    self.title = NSLocalizedString(@"Folders", nil);
+    self.title = WizStrFolders;
     self.tabBarItem.image = [UIImage imageNamed:@"folders.png"];
     return self;
 }

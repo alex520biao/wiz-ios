@@ -95,7 +95,7 @@
 - (void) viewDidLoad
 {
     self.title = [self titleForView];
-    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Settings",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
 
     self.navigationItem.leftBarButtonItem = item;
     [item release];

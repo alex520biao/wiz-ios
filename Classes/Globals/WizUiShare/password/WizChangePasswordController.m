@@ -14,7 +14,6 @@
 #import "WizGlobals.h"
 #import "WizPadNotificationMessage.h"
 #import "WizPhoneNotificationMessage.h"
-
 #define WaitAlertTag 1101
 #define SucceedTag 1201
 @implementation WizChangePasswordController
@@ -69,7 +68,7 @@
 }
 - (void) alertMessage:(NSString*)msg
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:msg delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil, nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:nil, nil];
     [alert show];
     [alert release];
 }
@@ -93,7 +92,7 @@
             [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
             [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Succeed",nil) message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Succeed",nil) message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
             alert.tag = SucceedTag;
             [alert show];
             [alert release];
@@ -169,7 +168,7 @@
     self.passwordConfirmNew = [self addSubviewByPointY:120];
     self.passwordConfirmNew.textInputField.placeholder = NSLocalizedString(@"New password",nil);
     self.passwordConfirmNew.textInputField.secureTextEntry = YES;
-    self.passwordConfirmNew.nameLable.text = NSLocalizedString(@"Confirm", nil);
+    self.passwordConfirmNew.nameLable.text = WizStrConfirm;
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                   target:self 
                                                                                   action:@selector(cancel)];

@@ -6,4 +6,5 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
     #import "TestFlight.h"
+    #import "CommonString.h"
 #endif

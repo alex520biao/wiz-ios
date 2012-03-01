@@ -93,34 +93,34 @@
 
 - (IBAction) registerAccount: (id)sender
 {
-	NSString* error = NSLocalizedString(@"Error", nil);
+	NSString* error = WizStrError;
     NSString* emailString = self.accountEmail.textInputField.text;
     NSString* passwordString = self.accountPassword.textInputField.text;
     NSString* passwordConfirmString = self.accountPasswordConfirm.textInputField.text;
 	if (emailString == nil|| [emailString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter user id!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (passwordString == nil || [passwordString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (passwordConfirmString == nil || [passwordConfirmString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter the password again!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter the password again!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (![passwordConfirmString isEqualToString:passwordString])
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Passwords does not match!", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Passwords does not match!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
@@ -163,20 +163,20 @@
     [super viewDidLoad];
     self.accountEmail = [self addSubviewByPointY:40];
     self.accountEmail.textInputField.placeholder = @"example@email.com";
-    self.accountEmail.nameLable.text = NSLocalizedString(@"Email", nil);
+    self.accountEmail.nameLable.text = WizStrEmail;
     self.accountEmail.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     self.accountEmail.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     self.accountPassword = [self addSubviewByPointY:120];
     self.accountPassword.textInputField.placeholder = @"password";
     self.accountPassword.textInputField.secureTextEntry = YES;
-    self.accountPassword.nameLable.text = NSLocalizedString(@"Password", nil);
+    self.accountPassword.nameLable.text = WizStrPassword;
     
     self.accountPasswordConfirm = [self addSubviewByPointY:200];
     self.accountPasswordConfirm.textInputField.placeholder = @"password";
     self.accountPasswordConfirm.textInputField.secureTextEntry = YES;
-    self.accountPasswordConfirm.nameLable.text = NSLocalizedString(@"Confirm", nil);
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel",nil) 
+    self.accountPasswordConfirm.nameLable.text = WizStrConfirm;
+    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel
                                                                      style:UIBarButtonItemStyleDone
                                                                     target:self 
                                                                     action:@selector(cancel)];
@@ -186,7 +186,7 @@
     UIButton* registerButton = [[UIButton alloc] initWithFrame:CGRectMake(110, 280, 300, 40)];
     
     [registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [registerButton setTitle:NSLocalizedString(@"Register", nil) forState:UIControlStateNormal];
+    [registerButton setTitle:WizStrRegister forState:UIControlStateNormal];
     [registerButton addTarget:self action:@selector(registerAccount:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:registerButton];
     [registerButton release];

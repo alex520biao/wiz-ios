@@ -234,7 +234,7 @@
     [self.backgroudScrollView addSubview:title];
     self.titleInputTextField = title;
     title.backgroundColor = [UIColor whiteColor];
-    NSString* titleRemindText = [NSString stringWithFormat:@"%@:",NSLocalizedString(@"Title", nil)];
+    NSString* titleRemindText = [NSString stringWithFormat:@"%@:",WizStrTitle];
     UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0.0, [titleRemindText sizeWithFont:font].width +10, 44)];
     titleLabel.text = titleRemindText;
     titleLabel.textAlignment = UITextAlignmentCenter;
@@ -250,7 +250,7 @@
     tag.delegate = self;
     [self.backgroudScrollView addSubview:tag];
     self.tagTextField = tag;
-    NSString* tagRemindText = [NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tags", nil)];
+    NSString* tagRemindText = [NSString stringWithFormat:@"%@:",WizStrTags];
     UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, [tagRemindText sizeWithFont:font].width + 10, 44)];
     tag.leftViewMode = UITextFieldViewModeAlways;
     tag.leftView = tagLabel;
@@ -272,7 +272,7 @@
     [self.backgroudScrollView addSubview:folder];
     folder.delegate = self;
     self.folderTextField = folder;
-    NSString* folderRemindText = [NSString stringWithFormat:@"%@:",NSLocalizedString(@"Folder", nil)];
+    NSString* folderRemindText = [NSString stringWithFormat:@"%@:",WizStrFolders];
     UILabel* folderLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, [folderRemindText sizeWithFont:font].width+10, 44)];
     folder.leftView = folderLabel;
     folder.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -364,7 +364,7 @@
 
 - (void) cancelSave
 {
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Quit without saving", nil) otherButtonTitles:nil, nil];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:NSLocalizedString(@"Quit without saving", nil) otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }

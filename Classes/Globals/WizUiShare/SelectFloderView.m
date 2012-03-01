@@ -79,7 +79,7 @@
         self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
     }
     if (![WizGlobals WizDeviceIsPad]) {
-        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"OK", nil) style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
+        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrOK style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
         self.navigationItem.rightBarButtonItem = editButton;
         [editButton release];
     }

@@ -600,7 +600,7 @@
     [folderLabel setFont:[UIFont systemFontOfSize:13]];
     [folderLabel setTextColor:[UIColor grayColor]];
     folderLabel.textAlignment = UITextAlignmentCenter;
-    folderLabel.text = NSLocalizedString(@"Folder", nil);
+    folderLabel.text = WizStrFolders;
     [folderView addSubview:folderLabel];
     [folderLabel release];
     [floder release];
@@ -614,7 +614,7 @@
     [tagLabel setFont:[UIFont systemFontOfSize:13]];
     [tagLabel setTextColor:[UIColor grayColor]];
     tagLabel.textAlignment = UITextAlignmentCenter;
-    tagLabel.text = NSLocalizedString(@"Tag", nil);
+    tagLabel.text = WizStrTags;
     [tagView addSubview:tagLabel];
     [tagLabel release];
     [self addSelcetorToView:@selector(tagViewSelect) :tagView];
@@ -859,7 +859,7 @@
         }
     }
     
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Quit without saving", nil) otherButtonTitles:nil, nil];
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to quit without saving?", nil) delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:NSLocalizedString(@"Quit without saving", nil) otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }

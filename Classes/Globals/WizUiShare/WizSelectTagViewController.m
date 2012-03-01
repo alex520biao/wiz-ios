@@ -72,7 +72,7 @@
         if([cc isKindOfClass:[UIButton class]])
         {
             UIButton *btn = (UIButton *)cc;
-            [btn setTitle:NSLocalizedString(@"OK", nil) forState:UIControlStateNormal];
+            [btn setTitle:WizStrOK forState:UIControlStateNormal];
         }
     }
 }

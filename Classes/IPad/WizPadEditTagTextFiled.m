@@ -8,6 +8,7 @@
 
 #import "WizPadEditTagTextFiled.h"
 #import "UIBadgeView.h"
+#import "CommonString.h"
 @implementation WizPadEditTagTextFiled
 
 - (id)init
@@ -16,7 +17,7 @@
     if (self) {
 
         UIFont* font = [UIFont systemFontOfSize:17];
-        NSString* tagRemindText = [NSString stringWithFormat:@"%@:",NSLocalizedString(@"Tags", nil)];
+        NSString* tagRemindText = [NSString stringWithFormat:@"%@:",WizStrTags];
         UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, [tagRemindText sizeWithFont:font].width + 10, 44)];
         self.leftViewMode = UITextFieldViewModeAlways;
         self.leftView = tagLabel;

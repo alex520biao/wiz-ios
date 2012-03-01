@@ -259,12 +259,12 @@
         cell = [[[DocumentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     if (0 == indexPath.row) {
-        cell.nameLabel.text = NSLocalizedString(@"Name", nil);
+        cell.nameLabel.text = WizStrName;
         cell.valueLabel.text = doc.title;
     }
     
     if (1 == indexPath.row) {
-        cell.nameLabel.text = NSLocalizedString(@"Tags", nil);
+        cell.nameLabel.text = WizStrTags;
         NSMutableString* tagNames = [NSMutableString string];
         for (WizTag* each in self.documentTags) {
             [tagNames appendFormat:@"|%@",getTagDisplayName(each.name)];
@@ -272,16 +272,16 @@
         cell.valueLabel.text = tagNames;
     }
     else if (2 == indexPath.row) {
-        cell.nameLabel.text = NSLocalizedString(@"Folders", nil);
+        cell.nameLabel.text = WizStrFolders;
         cell.valueLabel.text = [WizGlobals folderStringToLocal:self.documentFloder];
     }
     
     else if (3 == indexPath.row) {
-        cell.nameLabel.text =  NSLocalizedString(@"Date modified", nil);
+        cell.nameLabel.text =  WizStrDateModified;
         cell.valueLabel.text = doc.dateModified;
     }
     else if (4 == indexPath.row) {
-        cell.nameLabel.text = NSLocalizedString(@"Date created", nil);
+        cell.nameLabel.text = WizStrDateCreated;
         cell.valueLabel.text = doc.dateCreated;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

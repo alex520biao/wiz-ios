@@ -164,7 +164,7 @@
 				msg = NSLocalizedString(@"Failed to login!\nUnknown error!", nil);
 			}
 			
-			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:msg delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
+			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 			
 			[alert show];
 			[alert release];
@@ -267,7 +267,7 @@
         [self.view addSubview:view];
         [view release];
     }
-    self.title = NSLocalizedString(@"Search", nil);
+    self.title = WizStrSearch;
     self.localsearchView.hidden = YES;
     self.searchBar.delegate = self;
     self.localSearchSwitchString.text = NSLocalizedString(@"Search local notes only" , nil);

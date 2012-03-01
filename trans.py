@@ -35,20 +35,33 @@ for line in transLines:
 	transDic[en]=zh;
 needFile = codecs.open(outPutDir+'/Localizable.strings','rw','utf-16')
 needTransDic = {}
+def sortDict(adict):
+	items = adict.items()
+	items.sort()
+	return [value for key, value in items]
 for line in needFile.readlines():
-        if(len(line)==0):
-                continue
-        strr = line.split('=')
-        if(len(strr) == 1):
-                continue
-        en = strr[0]
-        en = en[en.index('"')+1:len(en)]
-        en = en[0:en.index('"')]
-	zh=''
-	needTransDic[en]=zh
-needFile.close()
+	try:
+		if(len(line)==0):
+			continue
+		strr = line.split('=')
+		if(len(strr) == 1):
+			continue
+		en = strr[0]
+		en = en[en.index('"')+1:len(en)]
+		en = en[0:en.index('"')]
+		print needTransDic[en]
+		print en + '\n'
+	except KeyError:
+		strr = line.split('=')
+		en = strr[0]
+		en = en[en.index('"')+1:len(en)]
+		en = en[0:en.index('"')]
+		zh=''
+		needTransDic[en]=zh
 print 'need trans dic len is'
 print  len(needTransDic)
+needTransDic = sortDict(needTransDic)
+print needTransDic
 print 'dic len is'
 print len(transDic)
 for key in needTransDic.keys():
@@ -61,9 +74,10 @@ for key in needTransDic.keys():
 		transilation = raw_input('please input the translation of ***'+key+'*****:')
 		print transilation
 		needTransDic[key]=transilation
-transFile.close()
 outFile = codecs.open('result.txt','w','utf-8')
-outEnglishFile = codecs.open(outPutDir+'/Localizable.strings','w','utf-16')
+ooutEnglishFile = cdecs.open(outPutDir+'/Localizable.strings','w','utf-16')
+needTransDic = sortDict(needTransDic)
+print needTransDic
 for key in needTransDic.keys():
 	try:
 		outFile.write('"'+key+'"="'+needTransDic[key]+'";\n')
