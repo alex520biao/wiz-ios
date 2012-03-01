@@ -35,10 +35,6 @@ for line in transLines:
 	transDic[en]=zh;
 needFile = codecs.open(outPutDir+'/Localizable.strings','rw','utf-16')
 needTransDic = {}
-def sortDict(adict):
-	items = adict.items()
-	items.sort()
-	return [value for key, value in items]
 for line in needFile.readlines():
 	try:
 		if(len(line)==0):
@@ -60,8 +56,6 @@ for line in needFile.readlines():
 		needTransDic[en]=zh
 print 'need trans dic len is'
 print  len(needTransDic)
-needTransDic = sortDict(needTransDic)
-print needTransDic
 print 'dic len is'
 print len(transDic)
 for key in needTransDic.keys():
@@ -75,12 +69,13 @@ for key in needTransDic.keys():
 		print transilation
 		needTransDic[key]=transilation
 outFile = codecs.open('result.txt','w','utf-8')
-ooutEnglishFile = cdecs.open(outPutDir+'/Localizable.strings','w','utf-16')
-needTransDic = sortDict(needTransDic)
+outEnglishFile = codecs.open(outPutDir+'/Localizable.strings','w','utf-16')
 print needTransDic
-for key in needTransDic.keys():
+for key in needTransDic:
 	try:
 		outFile.write('"'+key+'"="'+needTransDic[key]+'";\n')
 		outEnglishFile.write('"'+key+'"="'+key+'";\n')
-	except UnicodeDecodeError,e:
+	except UnicodeDecodeError :
+		continue
+	except TypeError:
 		continue

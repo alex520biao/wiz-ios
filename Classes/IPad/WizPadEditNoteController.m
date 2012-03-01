@@ -124,7 +124,7 @@
 
 - (NSString*) displayTagName:(NSString*)tagName
 {
-    return [NSString stringWithFormat:@"%@%@%@%@",NSLocalizedString(@"\"", nil),tagName,NSLocalizedString(@"\"", nil),NSLocalizedString(@",", nil)];
+    return [NSString stringWithFormat:@"%@%@%@%@",@"\"",tagName,@"\"",@","];
 }
 
 - (void) addTagToDocument:(WizTag*)tag
