@@ -238,7 +238,7 @@
     self.imageQualityData = imageQulityItems;
     NSArray* downloadDurationItems = [NSArray arrayWithObjects:NSLocalizedString(@"Do not download", nil), 
                                       NSLocalizedString(@"One day", nil),
-                                      NSLocalizedString(@"One week", nil),
+                                      WizStrOneWeek,
                                       NSLocalizedString(@"All", nil), nil];
     
     NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes data automatic", nil),
@@ -388,7 +388,7 @@
     else if (3 == section)
 		return [NSString stringWithString: WizStrSettings];
 	else if (4 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Switch accounts", nil)];
+		return [NSString stringWithString: WizStrSwitchAccounts];
 	else if (5 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Help", nil)];
 	else
@@ -426,7 +426,7 @@
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.detailTextLabel.text = @"";
     if (0 == indexPath.row && 0 == indexPath.section) {
-        cell.nameLabel.text = NSLocalizedString(@"User ID", nil);
+        cell.nameLabel.text = WizStrUserId;
         cell.valueLabel.text = self.accountUserId;
         cell.selectionStyle  = UITableViewCellSelectionStyleNone;
         return cell;

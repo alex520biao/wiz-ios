@@ -75,7 +75,7 @@
             {
                 if (![index open])
                 {
-                    [WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
+                    [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
                     //
                     return;
                 }
@@ -109,14 +109,14 @@
 	}
 	if (accountPasswordString == nil || [accountPasswordString length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Please enter password!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterpassword delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
 	}
 	if (-1 != [WizSettings findAccount:accountIDString])
 	{
-		NSString* msg = [NSString stringWithFormat:NSLocalizedString(@"Account %@ has already exists!", nil), accountIDString];
+		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, accountIDString];
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
@@ -151,7 +151,7 @@
     [nameInput_ release];
     self.nameInput = nameInput_;
    
-    nameInput.nameLable.text = NSLocalizedString(@"User ID", nil);
+    nameInput.nameLable.text = WizStrUserId;
     nameInput.textInputField.placeholder = @"exmaple@email.com";
     nameInput.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     nameInput.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;

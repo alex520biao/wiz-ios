@@ -527,15 +527,15 @@
             }
             else if ([[date dateByAddingDays:2] isToday])
             {
-                return NSLocalizedString(@"The day before yesterday", nil);
+                return WizStrThedaybeforeyesterday;
             }
             else if ([date isThisWeek])
             {
-                return NSLocalizedString(@"One week", nil);
+                return WizStrOneWeek;
             }
             else 
             {
-                return NSLocalizedString(@"One week ago", nil);
+                return WizStrOneWeekAgo;
             }
             
             

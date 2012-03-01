@@ -98,8 +98,8 @@
     syncByTag.tag = self.tag.guid;
     if( ![syncByTag startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sync error", nil)
-                                                        message:NSLocalizedString(@"Sync already in progress, please wait...", nil)
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
+                                                        message:WizStrSyncAlreadyInProcess
                                                        delegate:nil 
                                               cancelButtonTitle:WizStrOK 
                                               otherButtonTitles:nil];

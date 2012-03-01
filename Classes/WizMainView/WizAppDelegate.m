@@ -48,7 +48,7 @@
     {
         if (![index open])
         {
-            [WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
+            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
             //
             
             return;

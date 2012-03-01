@@ -151,7 +151,7 @@
     
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:WizStrRegister forState:UIControlStateNormal];
-    [self.checkExistedAccountButton setTitle:NSLocalizedString(@"Switch accounts", nil) forState:UIControlStateNormal];
+    [self.checkExistedAccountButton setTitle:WizStrSwitchAccounts forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
 
 }

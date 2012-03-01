@@ -111,7 +111,7 @@
 	}
 	if (![confirm isEqualToString:password])
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:NSLocalizedString(@"Passwords does not match!", nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPasswordsdoesnotmatch delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		return;
