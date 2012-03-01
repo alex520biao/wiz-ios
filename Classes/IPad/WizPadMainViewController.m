@@ -208,7 +208,7 @@
         if ([total isEqualToNumber:current]) {
             processText = [NSString stringWithFormat:@"%@ %@",
                                             displayName,
-                                            NSLocalizedString(@"Uploaded successfully", nil)];
+                                            NSLocalizedString(@"Upload successfully", nil)];
         }
     }
     
@@ -227,7 +227,7 @@
         if ([total isEqualToNumber:current]) {
             processText=[NSString stringWithFormat:@"%@ %@",
                                            displayName,
-                                           NSLocalizedString(@"downloaded successfully", nil)];        }
+                                           NSLocalizedString(@"download successfully", nil)];        }
     }
     if ([processText isEqualToString:@""]) {
         processText = @"...";

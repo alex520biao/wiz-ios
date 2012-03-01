@@ -279,7 +279,7 @@
           }
           else if ([date daysBeforeDate:[NSDate date]] >= 3 && [date daysBeforeDate:[NSDate date]] <7)
           {
-              return NSLocalizedString(@"One week", nil);
+              return NSLocalizedString(@"With in a week", nil);
           }
           else 
           {
@@ -669,7 +669,7 @@
         if ([total isEqualToNumber:current]) {
             self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %@",
                                             displayName,
-                                            NSLocalizedString(@"Uploaded successfully", nil)];
+                                            NSLocalizedString(@"Upload successfully", nil)];
         }
     }
    
@@ -688,7 +688,7 @@
         if ([total isEqualToNumber:current]) {
             self.refreshDetailLabel.text =[NSString stringWithFormat:@"%@ %@",
                                            displayName,
-                                           NSLocalizedString(@"downloaded successfully", nil)];        }
+                                           NSLocalizedString(@"download successfully", nil)];        }
     }
     return;
 }

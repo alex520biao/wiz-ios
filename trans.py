@@ -46,7 +46,8 @@ for line in needFile.readlines():
         en = en[0:en.index('"')]
 	zh=''
 	needTransDic[en]=zh
-print 'need trans dic len is' 
+needFile.close()
+print 'need trans dic len is'
 print  len(needTransDic)
 print 'dic len is'
 print len(transDic)
@@ -57,13 +58,15 @@ for key in needTransDic.keys():
 		continue
 for key in needTransDic.keys():
 	if (cmp(needTransDic[key],'')==0):
-		
 		transilation = raw_input('please input the translation of ***'+key+'*****:')
 		print transilation
 		needTransDic[key]=transilation
+transFile.close()
 outFile = codecs.open('result.txt','w','utf-8')
+outEnglishFile = codecs.open(outPutDir+'/Localizable.strings','w','utf-16')
 for key in needTransDic.keys():
 	try:
 		outFile.write('"'+key+'"="'+needTransDic[key]+'";\n')
+		outEnglishFile.write('"'+key+'"="'+key+'";\n')
 	except UnicodeDecodeError,e:
 		continue

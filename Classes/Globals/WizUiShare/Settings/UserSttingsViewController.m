@@ -242,9 +242,9 @@
                                       NSLocalizedString(@"All", nil), nil];
     
     NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes data automatic", nil),
-                                        NSLocalizedString(@"Download notes data in one day", nil),
-                                        NSLocalizedString(@"Download notes data in one week", nil),
-                                        NSLocalizedString(@"Download all notes data", nil),
+                                        NSLocalizedString(@"Download notes in one day", nil),
+                                        NSLocalizedString(@"Download notes in one week", nil),
+                                        NSLocalizedString(@"Download all notes", nil),
                                         nil];
     
     self.viewOptions = [NSArray arrayWithObjects:NSLocalizedString(@"Date modified" , nil)
@@ -469,7 +469,7 @@
     }
     else if (0 == indexPath.row && 1 == indexPath.section)
     {
-        cell.nameLabel.text = NSLocalizedString(@"Notes sort order", nil);
+        cell.nameLabel.text = NSLocalizedString(@"Notes sorted by", nil);
         cell.valueLabel.text  = [self.viewOptions objectAtIndex:(self.tablelistViewOption-1)];
         return cell;
     }
@@ -898,11 +898,11 @@
             [self alertWithTitle:nil msg:msg];  
             break;  
         case MFMailComposeResultSent:  
-            msg = NSLocalizedString(@"Mail sended succeddfully", nil);  
+            msg = NSLocalizedString(@"Mail sent successfully", nil);  
             [self alertWithTitle:nil msg:msg];  
             break;  
         case MFMailComposeResultFailed:  
-            msg = NSLocalizedString(@"Mail sended failed" , nil);
+            msg = NSLocalizedString(@"Fail to send" , nil);
             [self alertWithTitle:nil msg:msg];  
             break;  
         default:  

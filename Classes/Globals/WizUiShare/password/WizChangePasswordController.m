@@ -109,27 +109,27 @@
     NSString* pwNewStrConfirm = self.passwordConfirmNew.textInputField.text;
     
     if (oldPwStr == nil || [oldPwStr isEqualToString:@""]) {
-        [self alertMessage:NSLocalizedString(@"The old password is null", nil)];
+        [self alertMessage:NSLocalizedString(@"The old password is empty!", nil)];
         return;
     }
     
     if (pwNewStr == nil || [pwNewStr isEqualToString:@""]) {
-        [self alertMessage:NSLocalizedString(@"The new Password is null", nil)];
+        [self alertMessage:NSLocalizedString(@"The new password is empty!", nil)];
         return;
     }
     
     if (pwNewStrConfirm == nil || [pwNewStrConfirm isEqualToString:@""]) {
-        [self alertMessage:NSLocalizedString(@"The new password cofirmed is null", nil)];
+        [self alertMessage:NSLocalizedString(@"The confirmation password is empty!", nil)];
         return;
     }
     
     if (![pwNewStr isEqualToString:pwNewStrConfirm]) {
-        [self alertMessage:NSLocalizedString(@"The new password does not match the password confirmed", nil)];
+        [self alertMessage:NSLocalizedString(@"The password you supplied don't match!", nil)];
         return;
     }
     
     if ([oldPwStr isEqualToString:pwNewStr]) {
-        [self alertMessage:NSLocalizedString(@"The new password is equal to the old password", nil)];
+        [self alertMessage:NSLocalizedString(@"New password and old password are the same!", nil)];
         return;
     }
     WizChangePassword* changePw = [[WizGlobalData sharedData] dataOfChangePassword:self.accountUserId];
