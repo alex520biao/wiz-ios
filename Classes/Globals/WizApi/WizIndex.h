@@ -255,8 +255,6 @@
 - (BOOL) newNoteWithGuidAndData:(NSDictionary*)documentData;
 - (int64_t) wizDataBaseVersion;
 - (BOOL) setWizDataBaseVersion:(int64_t)ver;
-- (BOOL) setUserProtectPassword:(NSString*)password;
-- (NSString*) userProtectPassword;
 //2011-12-29
 - (WizAbstract*) abstractOfDocument:(NSString*)documentGUID;
 - (void) extractSummary:(NSString *)documentGUID;

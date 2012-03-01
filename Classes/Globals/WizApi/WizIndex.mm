@@ -1959,16 +1959,6 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     return [self userInfo:UserLevelName];
 }
 
-- (BOOL) setUserProtectPassword:(NSString*)password
-{
-    return [self setUserInfo:ProtectPssword    info:password];
-}
-
-- (NSString*) userProtectPassword
-{
-    return [self userInfo:ProtectPssword];
-}
-
 -(BOOL) setuserTrafficUsage:(int64_t)ver
 {
     NSString* info = [NSString stringWithFormat:@"%lld",ver];

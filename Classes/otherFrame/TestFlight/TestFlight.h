@@ -8,7 +8,8 @@
 #import <Foundation/Foundation.h>
 #define TESTFLIGHT_SDK_VERSION @"0.8.3"
 #undef TFLog
-
+//Wiz-dzpqzb add test
+#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #if __cplusplus
 extern "C" { 
 #endif

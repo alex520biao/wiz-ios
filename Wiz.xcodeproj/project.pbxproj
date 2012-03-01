@@ -368,6 +368,7 @@
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
 		731CDBB514FF07CA00F9F364 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		731CDBB614FF07CA00F9F364 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		731CDBB814FF0AB900F9F364 /* WizTestFlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizTestFlight.h; sourceTree = "<group>"; };
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
@@ -881,6 +882,7 @@
 			children = (
 				731CDBB514FF07CA00F9F364 /* libTestFlight.a */,
 				731CDBB614FF07CA00F9F364 /* TestFlight.h */,
+				731CDBB814FF0AB900F9F364 /* WizTestFlight.h */,
 			);
 			path = TestFlight;
 			sourceTree = "<group>";

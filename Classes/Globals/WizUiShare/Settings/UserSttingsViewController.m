@@ -267,7 +267,7 @@
 //        self.navigationItem.leftBarButtonItem = cancelButton;
 //        [cancelButton release];
 //    }  
-     [self buildDisplayInfo];
+    [self buildDisplayInfo];
     self.title = WizStrSettings;
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
     self.protectCellNameLabel.text = NSLocalizedString(@"App launch protection", nil);
@@ -325,10 +325,18 @@
 {
     [super viewWillDisappear:animated];
 }
-
+// wiz-dzpqzb test
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    NSLog(@"download duration %lld",[ index durationForDownloadDocument]);
+    NSLog(@"image size is %lld", [index imageQualityValue]);
+    NSLog(@"the document list order method is %d",[self.viewOptions objectAtIndex:[index userTablelistViewOption] -1]);
+    NSLog(@"download only over wifi %d",[index connectOnlyViaWifi]);
+    NSLog(@"mobile view is %d",[index isMoblieView]);
+    NSLog(@"protect password %@",[WizSettings accountProtectPassword]);
+    NSLog(@"the default user is %@",[WizSettings defaultAccountUserId]);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -543,16 +551,7 @@
         [alert release];
         return;
     }
-    else {
-//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed
-//                                                        message:NSLocalizedString(@"The protect password will be setted after saving setting", nil) 
-//                                                       delegate:self
-//                                              cancelButtonTitle:WizStrOK otherButtonTitles:nil , nil];
-//        [alert show];
-//        [alert release];
-    }
     self.accountProtectPassword = protectPassword;
-    
     if (!self.protectCellSwitch.on) {
         [WizSettings setAccountProtectPassword:@""];
     }
@@ -585,13 +584,12 @@
 }
 - (IBAction)setUserProtectPassword:(id)sender
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (self.protectCellSwitch.on) {
         [self setProtectPassword];
     }
     else
     {
-        [index setUserProtectPassword:@""];
+        [WizSettings setAccountProtectPassword:@""];
     }
 }
 
@@ -716,38 +714,56 @@
         [self removeAccount];
     }
     else  if (0 == indexPath.row && 1 == indexPath.section) {
+        if (self.pickView != nil) {
+            [self.pickView removeFromSuperview];
+            self.pickView = nil;
+        }
         UIPickerView* pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, self.tableView.contentOffset.y+self.view.frame.size.height-180, 320, 200)];
         pick.delegate = self;
         pick.dataSource = self;
         pick.showsSelectionIndicator = YES;
         pick.tag = TableListViewOptionTag;
         self.tableView.scrollEnabled = NO;
+        [pick selectRow:self.tablelistViewOption-1 inComponent:0 animated:YES];
+        self.pickView = pick;
         [self.view addSubview:pick];
     }
      else if ( 0 == indexPath.row && 2 == indexPath.section ) {
-         
+         if (self.pickView != nil) {
+             [self.pickView removeFromSuperview];
+             self.pickView = nil;
+         }
          UIPickerView* pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, self.tableView.contentOffset.y+self.view.frame.size.height-180, 320, 200)];
          pick.delegate = self;
          pick.dataSource = self;
          pick.showsSelectionIndicator = YES;
          pick.tag = DownloadDurationTag;
          self.tableView.scrollEnabled = NO;
+         self.pickView = pick;
+         [pick selectRow:[self indexOfDownloadDuration:self.downloadDuration] inComponent:0 animated:YES];
          [self.view addSubview:pick];
     }
     else if (0 == indexPath.row && 3 == indexPath.section) {
+        if (self.pickView != nil) {
+            [self.pickView removeFromSuperview];
+            self.pickView = nil;
+        }
         UIPickerView* pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0, self.tableView.contentOffset.y+self.view.frame.size.height-180, 320, 200)];
         pick.delegate = self;
         pick.dataSource = self;
         pick.showsSelectionIndicator = YES;
         pick.tag = ImageQualityTag;
         self.tableView.scrollEnabled = NO;
+        self.pickView = pick;
+        [pick selectRow:[self indexOfImageQuality:self.imageQulity] inComponent:0 animated:YES];
         [self.view addSubview:pick];
     }
-        else if (1 == indexPath.row && 3 == indexPath.section)
-        {
-                    [self clearCache];
+    else if (1 == indexPath.row && 3 == indexPath.section)
+    {
+        [self clearCache];
     }
-    else if (0 == indexPath.row && 4 == indexPath.section) {
+    else if (0 == indexPath.row && 4 == indexPath.section) 
+    {
         if (WizDeviceIsPad()) {
             [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
         }
@@ -787,6 +803,8 @@
 }
 
 //picker delegate
+
+
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
@@ -892,4 +910,7 @@
     }
     [self dismissModalViewControllerAnimated:YES];  
 }  
+
+
+
 @end

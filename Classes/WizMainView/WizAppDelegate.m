@@ -19,8 +19,10 @@
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
 #import "NSDate-Utilities.h"
-
-
+#import "WizTestFlight.h"
+#ifdef WIZTESTFLIGHTDEBUG
+#import "TestFlight.h"
+#endif
 #define WizAbs(x) x>0?x:-x
 
 @implementation WizAppDelegate
@@ -31,7 +33,6 @@
 @synthesize splitViewController;
 @synthesize rootViewController;
 @synthesize detailViewController;
-
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -49,6 +50,7 @@
         {
             [WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to open account data!", nil)];
             //
+            
             return;
         }
     }
@@ -59,6 +61,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+    [TestFlight takeOff:TestFlightToken];
+    NSLog(@"TestFlight take off");
     UINavigationController* root = [[UINavigationController alloc] init];
     self.navController = root;
     [window addSubview:self.navController.view];

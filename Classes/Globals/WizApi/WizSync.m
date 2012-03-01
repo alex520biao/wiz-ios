@@ -65,6 +65,7 @@
     if ([index connectOnlyViaWifi]) {
         Reachability* rech = [Reachability reachabilityForInternetConnection];
         NetworkStatus netStatus = [rech currentReachabilityStatus];
+        NSLog(@"current netStatus %@",netStatus);
         if (netStatus != ReachableViaWiFi) {
             willDownload = NO;
         }
@@ -79,7 +80,7 @@
         return;
     }
     WizDocument* each = [self.download lastObject];
-   
+    NSLog(@"download document count is %d", [self.download count]);
     WizDownloadDocument* downloader = [pool getDownloadProcess:each.guid type:[WizGlobals documentKeyString]];
     downloader.owner = self;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -103,6 +104,8 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if(self.attachmentsForUpdated == nil)
         self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
+    
+    
     if(self.attachmentsForUpdated == nil || [self.attachmentsForUpdated count] == 0)
     {
         if ([index downloadDocumentData]) {
