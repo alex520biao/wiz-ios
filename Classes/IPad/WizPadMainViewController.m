@@ -478,6 +478,7 @@
         [self refreshAccountBegin:self.refreshButton];
         [index setFirstLog:YES];
     }
+    self.mainSegment.selectedSegmentIndex = 0;
 }
 - (void) checkDocument:(NSNotification*)nc
 {
