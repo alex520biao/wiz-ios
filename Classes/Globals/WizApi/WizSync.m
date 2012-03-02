@@ -68,7 +68,7 @@
             willDownload = NO;
         }
     }
-    if([self.download count] == 0) 
+    if([self.download count] == 0 || [index durationForDownloadDocument] == 0) 
     {
         [self callClientLogout];
         return;

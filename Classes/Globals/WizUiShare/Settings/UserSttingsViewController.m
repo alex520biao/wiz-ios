@@ -241,7 +241,7 @@
                                       WizStrOneWeek,
                                       NSLocalizedString(@"All", nil), nil];
     
-    NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes data automatic", nil),
+    NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes automatic", nil),
                                         NSLocalizedString(@"Download notes within a day", nil),
                                         NSLocalizedString(@"Download notes within a week", nil),
                                         NSLocalizedString(@"Download all notes", nil),
@@ -298,7 +298,7 @@
     self.imageQulity = [index imageQualityValue];
     self.tablelistViewOption = [index userTablelistViewOption];
     self.connectViaWifiSwitch.on = [index connectOnlyViaWifi];
-    self.connectViaWifiLabel.text = NSLocalizedString(@"Download notes only over wifi", nil);
+    self.connectViaWifiLabel.text = NSLocalizedString(@"Download notes only over WIFI", nil);
     self.connectViaWifiLabel.adjustsFontSizeToFitWidth = YES;
     
 }
@@ -503,7 +503,7 @@
 
     else if (0 == indexPath.row && 4 == indexPath.section)
     {
-        cell.textLabel.text =NSLocalizedString( @"Switch accounts", nil);
+        cell.textLabel.text =WizStrSwitchAccounts;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }

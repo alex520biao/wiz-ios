@@ -259,7 +259,7 @@
 
 - (void) updateTheNavigationTitle
 {
-     NSString* title_ = [NSString stringWithFormat:NSLocalizedString(@"%d/%d",nil),[self indexOfDocument:self.selectedDocumentGUID],[self.sourceArray count]];
+     NSString* title_ = [NSString stringWithFormat:@"%d/%d",[self indexOfDocument:self.selectedDocumentGUID],[self.sourceArray count]];
     self.title = title_;
 }
 

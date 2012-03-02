@@ -123,7 +123,7 @@
     }
     
     if (![pwNewStr isEqualToString:pwNewStrConfirm]) {
-        [self alertMessage:NSLocalizedString(@"The password you supplied don't match!", nil)];
+        [self alertMessage:WizStrThePasswordDontMatch];
         return;
     }
     

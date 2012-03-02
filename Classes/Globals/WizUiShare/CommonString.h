@@ -52,7 +52,7 @@
 #define WizStrSyncAlreadyInProcess  NSLocalizedString(@"Sync already in progress, please wait...", nil)
 #define WizStrSyncError                 NSLocalizedString(@"Sync error", nil)
 #define WizStrDownloadSuccessfully      NSLocalizedString(@"download successfully", nil)
-#define WizStrDownloadingNotes          NSLocalizedString(@"Downloading notes data", nil)
+#define WizStrDownloadingNotes          NSLocalizedString(@"Downloading notes", nil)
 #define WizStrOneWeekAgo                NSLocalizedString(@"One week ago", nil)
 #define WizStrPleaseConfirm             NSLocalizedString(@"Please confirm", nil)
 #define WizStrSigningIn                 NSLocalizedString(@"Signing in", nil)
@@ -72,7 +72,6 @@
 #define WizStrThisversionofWizNotdoesnotsupportdecryption   NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
 #define WizStrAccounthasalreadyexists                       NSLocalizedString(@"Account %@ has already exists!", nil)
 #define WizStrFailedtoopenaccountdata                       NSLocalizedString(@"Failed to open account data!", nil)
-#define WizStrPasswordsdoesnotmatch                         NSLocalizedString(@"Passwords does not match!", nil)
 #define WizStrPleaseenterpassword                       NSLocalizedString(@"Please enter password!", nil)
 #define WizStrPleaseenterthepasswordagain               NSLocalizedString(@"Please enter the password again!", nil)
 #define WizStrPleaseenteuserid                          NSLocalizedString(@"Please enter user id!", nil)
@@ -81,4 +80,5 @@
 #define WizStrAreyousureyouwanttoquit                   NSLocalizedString(@"Are you sure you want to quit without saving?", nil)
 #define WizStrQuitwithoutsaving                         NSLocalizedString(@"Quit without saving", nil)
 #define WizStrRateWizNote                               NSLocalizedString(@"Rate WizNote", nil)
+#define WizStrThePasswordDontMatch                  NSLocalizedString(@"The password you supplied don't match!", nil)
 NSString* getTagDisplayName(NSString* tagName);

@@ -181,7 +181,7 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ]object:nil];
             [download downloadAttachment:attachment.attachmentGuid];
             UIAlertView* alert = nil;
-            [WizGlobals showAlertView:NSLocalizedString(@"Sync attachment", nil) 
+            [WizGlobals showAlertView:NSLocalizedString(@"Sync attachments", nil) 
                               message:NSLocalizedString(@"Please wait while downloading attachment...!", nil) 
                              delegate:self 
                               retView:&alert];
