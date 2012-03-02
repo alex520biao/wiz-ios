@@ -130,16 +130,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 - (BOOL) downloadObject
 {
-//	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    if ([index connectOnlyViaWifi]) {
-//        Reachability* rech = [Reachability reachabilityForInternetConnection];
-//        NetworkStatus netStatus = [rech currentReachabilityStatus];
-//        if (netStatus != ReachableViaWiFi) {
-//            NSError* error = [NSError errorWithDomain:NSOSStatusErrorDomain code:1 userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"You set downloading notes only over wifi! \nThe note will not be downloaded!", nil) forKey:NSLocalizedDescriptionKey]];
-//            [self onError:error]; 
-//            return NO;
-//        }
-//    }
     //删除以前可能会留下的临时文件
     NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.objGuid];
     [WizGlobals ensurePathExists:objectPath];

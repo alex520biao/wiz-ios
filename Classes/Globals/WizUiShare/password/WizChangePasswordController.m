@@ -92,7 +92,7 @@
             [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
             [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSucceed message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWizNote message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
             alert.tag = SucceedTag;
             [alert show];
             [alert release];
@@ -128,7 +128,7 @@
     }
     
     if ([oldPwStr isEqualToString:pwNewStr]) {
-        [self alertMessage:NSLocalizedString(@"New password and old password are the same!", nil)];
+        [self alertMessage:NSLocalizedString(@"New password should not be same as old password!", nil)];
         return;
     }
     WizChangePassword* changePw = [[WizGlobalData sharedData] dataOfChangePassword:self.accountUserId];

@@ -1367,7 +1367,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	// Write image to jpg
 	if (![UIImageJPEGRepresentation(image, 0.9) writeToFile:documentOrgFileName atomically:YES])
 	{
-		[WizGlobals reportErrorWithString:NSLocalizedString(@"Failed to save image", nil)];
+		[WizGlobals reportErrorWithString:NSLocalizedString(@"Cannot create account!\n%@", nil)];
 		return NO;
 	}
 	//

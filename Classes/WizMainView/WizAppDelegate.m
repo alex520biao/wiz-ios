@@ -8,7 +8,6 @@
 
 #import "WizAppDelegate.h"
 #import "WizGlobalData.h"
-#import "RootViewController.h"
 #import "WizGlobals.h"
 #import "WizSettings.h"
 #import "LoginViewController.h"
@@ -29,10 +28,6 @@
 
 @synthesize window;
 @synthesize navController;
-
-@synthesize splitViewController;
-@synthesize rootViewController;
-@synthesize detailViewController;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -86,14 +81,6 @@
 }
 
 
-- (void) didAccountSelect: (NSNotification*)nc
-{
-	NSDictionary* userInfo = [nc userInfo];
-	//
-	NSString* accountUserId = [userInfo valueForKey:@"accountUserId"];
-	//
-	[rootViewController setAccount:accountUserId];
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*

@@ -66,10 +66,6 @@
         return YES;
     }
     else {
-        int count = [[self.processPool allValues] count];
-        NSString* msg = [NSString stringWithFormat:NSLocalizedString(@"There are %d notes that is downloaded, please wait for a while....", nil),count ];
-        NSError* error = [NSError errorWithDomain:@"MyDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:msg forKey:NSLocalizedDescriptionKey]];
-        [WizGlobals reportWarning:error];
         return NO;
     }
 }

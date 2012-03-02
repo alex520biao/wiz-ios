@@ -544,7 +544,7 @@
     if ([protectPassword isEqualToString:@"-1"]) {
         self.protectCellSwitch.on = NO;
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError
-                                                 message:NSLocalizedString(@"The password you entered does not match", nil) 
+                                                 message:WizStrThePasswordDontMatch 
                                                 delegate:nil 
                                               cancelButtonTitle:WizStrCancel otherButtonTitles:nil , nil];
         [alert show];
@@ -563,7 +563,7 @@
 - (void) clearCache
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
-                                                       message:NSLocalizedString(@"You will remove all the cache files, are you sure?",nil)   
+                                                       message:NSLocalizedString(@"All the cache files will be deleted, are you sure?",nil)   
                                                        delegate:self   
                                                        cancelButtonTitle:WizStrCancel 
                                                        otherButtonTitles:WizStrDelete,nil];  
@@ -902,7 +902,7 @@
             [self alertWithTitle:nil msg:msg];  
             break;  
         case MFMailComposeResultFailed:  
-            msg = NSLocalizedString(@"Fail to send" , nil);
+            msg = NSLocalizedString(@"Cannot send email" , nil);
             [self alertWithTitle:nil msg:msg];  
             break;  
         default:  

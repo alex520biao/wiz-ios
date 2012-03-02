@@ -532,7 +532,7 @@
         NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
         if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
         {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
                                                             message:WizStrThisversionofWizNotdoesnotsupportdecryption
                                                            delegate:self 
                                                   cancelButtonTitle:WizStrOK 
@@ -580,7 +580,7 @@
 }
 - (void) displayEncryInfo
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Does not support", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
                                                     message:WizStrThisversionofWizNotdoesnotsupportdecryption
                                                    delegate:self 
                                           cancelButtonTitle:WizStrOK 

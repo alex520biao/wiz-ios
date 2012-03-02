@@ -576,29 +576,11 @@
     
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if( buttonIndex == 0 ) //Edit
-	{
-		return;
-	}else
-    {
-        WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-        [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-    }
-    self.assertAlerView = nil;
-}
 
 - (void) stopSyncing
 {
-    self.assertAlerView = [[[UIAlertView alloc] 
-                           initWithTitle:WizStrPleaseConfirm
-                           message:WizStrThesyncprocesswillstop
-                           delegate:self 
-                           cancelButtonTitle:WizStrCancel
-                           otherButtonTitles:WizStrOK, nil] autorelease];
-    [self.assertAlerView show];
-    
+    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
+    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
 }
 
 -(void) syncGoing:(NSNotification*) nc

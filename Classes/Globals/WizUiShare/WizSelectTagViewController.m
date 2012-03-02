@@ -372,7 +372,7 @@
     if (tableView == self.tableView) {
         if(0 == section)
         {
-            return NSLocalizedString(@"Tags selected",nil);
+            return NSLocalizedString(@"Selected tags",nil);
         }
         else if(1 == section)
         {

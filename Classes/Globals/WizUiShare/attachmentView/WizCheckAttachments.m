@@ -117,7 +117,7 @@
     }
     else
     {
-        cell.detailTextLabel.text = NSLocalizedString(@"Tap to check", nil);
+        cell.detailTextLabel.text = NSLocalizedString(@"Tap to view", nil);
     }
     if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
         cell.imageView.image = [UIImage imageNamed:@"icon_video_img"];

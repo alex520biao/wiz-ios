@@ -99,7 +99,7 @@
 	//
 	if (arr == nil || [arr count] == 0)
 	{
-		NSString* formatter = NSLocalizedString(@"Can not find %@", nil);
+		NSString* formatter = NSLocalizedString(@"Cannot find %@", nil);
 		NSString* msg = [NSString stringWithFormat:formatter, keywords];
 		//
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSearch message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
@@ -157,11 +157,11 @@
 			NSString* msg = nil;
 			if (error != nil)
 			{
-				msg = [NSString stringWithFormat:NSLocalizedString(@"Failed to login!\n%@", nil), [error localizedDescription]];
+				msg = [NSString stringWithFormat:NSLocalizedString(@"Cannot sign in!\n%@", nil), [error localizedDescription]];
 			}
 			else 
 			{
-				msg = NSLocalizedString(@"Failed to login!\nUnknown error!", nil);
+				msg = NSLocalizedString(@"Cannot sign in!\nUnknown error!", nil);
 			}
 			
 			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];

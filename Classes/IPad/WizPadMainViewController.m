@@ -237,14 +237,9 @@
 }
 - (void) stopSyncByUser
 {
-    UIAlertView* alert = [[[UIAlertView alloc] 
-                           initWithTitle:WizStrPleaseConfirm
-                           message:WizStrThesyncprocesswillstop
-                           delegate:self 
-                           cancelButtonTitle:WizStrCancel
-                           otherButtonTitles:WizStrOK, nil] autorelease];
-    alert.delegate = self;
-    [alert show];
+    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
+    self.syncWillStop = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
 }
 - (void) onSyncEnd
 {
@@ -271,9 +266,7 @@
     }
     else
     {
-        WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
-        self.syncWillStop = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+        
     }
 }
 - (void) refreshAccout

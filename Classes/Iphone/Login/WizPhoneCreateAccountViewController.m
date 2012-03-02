@@ -241,10 +241,10 @@
 			NSString* msg = nil;
 			if (error != nil)
 			{
-				msg = [NSString stringWithFormat:NSLocalizedString(@"Failed to create account!\n%@", nil), [error localizedDescription]];
+				msg = [NSString stringWithFormat:NSLocalizedString(@"Cannot create account!\n%@", nil), [error localizedDescription]];
 			}
 			else {
-				msg = NSLocalizedString(@"Failed to create account!\nUnknown error!", nil);
+				msg = NSLocalizedString(@"Cannot create account!\nUnknown error!", nil);
 			}
 			
 			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];

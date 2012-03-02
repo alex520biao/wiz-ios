@@ -174,7 +174,6 @@
 		73A785E014F8CC23001387F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7854214F8CC23001387F6 /* main.m */; };
 		73A785E114F8CC23001387F6 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7854314F8CC23001387F6 /* MainWindow-iPad.xib */; };
 		73A785E214F8CC23001387F6 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7854414F8CC23001387F6 /* MainWindow.xib */; };
-		73A785E314F8CC23001387F6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7854614F8CC23001387F6 /* RootViewController.m */; };
 		73A785E414F8CC23001387F6 /* WizAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7854814F8CC23001387F6 /* WizAppDelegate.m */; };
 		73A7867314F8CD5D001387F6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785E614F8CD5C001387F6 /* arrow.png */; };
 		73A7867414F8CD5D001387F6 /* attachBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785E714F8CD5C001387F6 /* attachBack.png */; };
@@ -623,8 +622,6 @@
 		73A7854214F8CC23001387F6 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		73A7854314F8CC23001387F6 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		73A7854414F8CC23001387F6 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		73A7854514F8CC23001387F6 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		73A7854614F8CC23001387F6 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		73A7854714F8CC23001387F6 /* WizAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAppDelegate.h; sourceTree = "<group>"; };
 		73A7854814F8CC23001387F6 /* WizAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAppDelegate.m; sourceTree = "<group>"; };
 		73A785E614F8CD5C001387F6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
@@ -1429,8 +1426,6 @@
 				73A7854214F8CC23001387F6 /* main.m */,
 				73A7854314F8CC23001387F6 /* MainWindow-iPad.xib */,
 				73A7854414F8CC23001387F6 /* MainWindow.xib */,
-				73A7854514F8CC23001387F6 /* RootViewController.h */,
-				73A7854614F8CC23001387F6 /* RootViewController.m */,
 				73A7854714F8CC23001387F6 /* WizAppDelegate.h */,
 				73A7854814F8CC23001387F6 /* WizAppDelegate.m */,
 			);
@@ -1961,7 +1956,6 @@
 				73A785DE14F8CC23001387F6 /* XMLRPCRequest.m in Sources */,
 				73A785DF14F8CC23001387F6 /* XMLRPCResponse.m in Sources */,
 				73A785E014F8CC23001387F6 /* main.m in Sources */,
-				73A785E314F8CC23001387F6 /* RootViewController.m in Sources */,
 				73A785E414F8CC23001387F6 /* WizAppDelegate.m in Sources */,
 				73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */,
 				73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */,
