@@ -128,6 +128,7 @@
         remind.backgroundColor = [UIColor clearColor];
         remind.textColor = [UIColor grayColor];
         [pushDownRemind addSubview:remind];
+        remind.textAlignment = UITextAlignmentCenter;
         [remind release];
         pushDownRemind.tag = 10001;
         self.tableView.tableFooterView = pushDownRemind;

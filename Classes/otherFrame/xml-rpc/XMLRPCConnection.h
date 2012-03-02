@@ -54,6 +54,7 @@
 #pragma mark -
 
 - (void)cancel;
+
 @end
 
 #pragma mark -

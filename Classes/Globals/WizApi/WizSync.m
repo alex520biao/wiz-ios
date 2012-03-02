@@ -43,9 +43,7 @@
 -(void) onClientLogout: (id)retObject
 {
 	[super onClientLogout:retObject];
-	
 	busy = NO;
-	//
 	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncEndNotificationPrefix] object: nil];
 }
 
@@ -314,7 +312,6 @@
 }
 -(void) stopSync
 {
-   
     self.isStopByUser = YES;
 }
 
@@ -330,5 +327,11 @@
     [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncBeginNotificationPrefix] object: nil];
 	return [self callClientLogin];
+}
+
+-(void) cancel
+{
+    [self stopSync];
+    self.busy = NO;
 }
 @end

@@ -152,7 +152,9 @@
 - (void)addAccountEntry
 {
     self.loginButton.hidden = NO;
-    self.checkOtherAccountButton.hidden = NO;
+    if ([[WizSettings accounts] count] > 0) {
+        self.checkOtherAccountButton.hidden = NO;
+    }
     self.createdAccountButton.hidden = YES;
     self.addAccountButton.hidden = NO;
     self.willAddUser = YES;

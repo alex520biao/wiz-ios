@@ -21,6 +21,7 @@
 }
 - (BOOL) writeLog:(NSString*)log
 {
+    return NO;
 
 }
 

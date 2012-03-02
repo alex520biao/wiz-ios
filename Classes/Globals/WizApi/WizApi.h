@@ -160,6 +160,9 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 -(int) listCount;
 - (void) postSyncUploadObject:(int) total current:(int)current objectGUID:(NSString*) objectGUID objectType:(NSString*) objectType;
 - (void) postSyncDoloadObject:(int) total current:(int)current objectGUID:(NSString*) objectGUID objectType:(NSString*) objectType;
+
+-(void) cancel;
+
 -(NSString*) notificationName: (NSString *)prefix;
 +(NSString*) notificationName: (NSString *)prefix accountUserId:(NSString*)accountUserId;
 +(NSString*) md5:(NSData *)input;

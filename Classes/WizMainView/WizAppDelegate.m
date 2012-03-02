@@ -17,10 +17,11 @@
 #import "WizIndex.h"
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
+#import "WizSync.h"
 #import "NSDate-Utilities.h"
-#import "WizTestFlight.h"
+//#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
-#import "TestFlight.h"
+//#import "TestFlight.h"
 #endif
 #define WizAbs(x) x>0?x:-x
 
@@ -56,7 +57,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    [TestFlight takeOff:TestFlightToken];
+//    [TestFlight takeOff:TestFlightToken];
     NSLog(@"TestFlight take off");
     UINavigationController* root = [[UINavigationController alloc] init];
     self.navController = root;
@@ -87,6 +88,7 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    
 }
 
 
@@ -140,6 +142,7 @@
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [WizSettings setLastActiveTime];
+    [[WizGlobalData sharedData] stopSyncing];
 }
 
 

@@ -43,6 +43,7 @@
 -(void) onCallGetUserInfo:(id)retObject;
 - (void) onPostTagList:(id)retObject;
 -(void) onDownloadDeletedList: (id)retObject;
+-(void) cancel;
 //
 //wiz-dzpqzb
 -(BOOL) startSync;

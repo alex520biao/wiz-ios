@@ -175,4 +175,9 @@
     [self prepareSyncArray];
 	return [self callClientLogin];
 }
+- (void) cancel
+{
+    [super cancel];
+    busy = NO;
+}
 @end

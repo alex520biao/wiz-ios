@@ -449,7 +449,7 @@
 
 +(NSNumber*) wizNoteAppleID
 {
-    return [NSNumber numberWithInt:441209099];
+    return [NSNumber numberWithInt:507384718];
 }
 
 +(UIImage*) scaleAndRotateImage:(UIImage*)photoimage bounds_width:(CGFloat)bounds_width bounds_height:(CGFloat)bounds_height

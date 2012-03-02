@@ -41,4 +41,5 @@
 -(void) onClientLogout:(id)retObject;
 -(BOOL) startSync;
 -(BOOL) uploadAllObject;
+- (void) cancel;
 @end

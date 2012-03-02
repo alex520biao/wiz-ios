@@ -97,6 +97,7 @@ extern NSString* DataMainOfWiz;
 
 + (NSString*) keyOfAccount:(NSString*) userId dataType: (NSString *) dataType;
 
-
+//2012-3-2
+- (void) stopSyncing;
 
 @end

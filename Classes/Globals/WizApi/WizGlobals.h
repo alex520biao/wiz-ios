@@ -11,6 +11,9 @@
 // wiz-dzpqzb test
 #define TestFlightToken @"5bfb46cb74291758452c20108e140b4e_NjY0MzAyMDEyLTAyLTI5IDA0OjIwOjI3LjkzNDUxOQ"
 #define WIZTESTFLIGHTDEBUG
+#define WIZERRORDOMAIN @"WizErrorDomain"
+#define WIZABORTNETERROR @"WIZABORTNETERROR"
+
 @interface WizGlobals : NSObject {
 
 }

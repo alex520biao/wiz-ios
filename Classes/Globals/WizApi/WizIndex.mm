@@ -1610,6 +1610,7 @@ NSInteger compareTag(id location1, id location2, void*);
         }
         if (-1 == [self durationForDownloadDocument]) {
             [self setDurationForDownloadDocument:0];
+            [self setDownloadDocumentData:NO];
         }
         if (0 == [self isMoblieView]) {
             [self setDocumentMoblleView:YES];
@@ -1620,13 +1621,14 @@ NSInteger compareTag(id location1, id location2, void*);
 
         if ([self durationForDownloadDocument]== -1) {
             [self setDurationForDownloadDocument:0];
+            [self setDownloadDocumentData:NO];
 
         }
         if ([self imageQualityValue] ==0) {
             [self setImageQualityValue:750];
         }
     }
-    [self setDownloadDocumentData:YES];
+    
 
     if (-1 == [self userTablelistViewOption]) {
         [self setUserTableListViewOption:kOrderReverseDate];

@@ -84,9 +84,21 @@
 
 #pragma mark -
 
+
+
 - (void)cancel
 {
-	[self.connection cancel];
+    if (self.connection)
+    {
+        [self.connection cancel];
+
+    }
+    if (self.delegate)
+    {
+        NSError* error= [NSError errorWithDomain:@"User canceled" code:10000 userInfo:nil];
+        [self.delegate xmlrpcDone: self isSucceeded: NO retObject:error forMethod: [self.request method]];
+        
+    }
 	self.connection = nil;
 }
 

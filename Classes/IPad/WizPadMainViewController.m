@@ -123,6 +123,7 @@
 
 - (void) newNote
 {
+    
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
     newNote.accountUserId = self.accountUserId;
     NSMutableDictionary* data = [NSMutableDictionary dictionary];
@@ -469,6 +470,7 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if ([index isFirstLog] ) {
         [self refreshAccountBegin:self.refreshButton];
+        [index setDownloadDocumentData:NO];
         [index setFirstLog:YES];
     }
     self.mainSegment.selectedSegmentIndex = 0;

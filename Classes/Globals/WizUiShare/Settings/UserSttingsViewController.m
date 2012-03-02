@@ -329,14 +329,6 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSLog(@"download duration %lld",[ index durationForDownloadDocument]);
-    NSLog(@"image size is %lld", [index imageQualityValue]);
-    NSLog(@"the document list order method is %d",[self.viewOptions objectAtIndex:[index userTablelistViewOption] -1]);
-    NSLog(@"download only over wifi %d",[index connectOnlyViaWifi]);
-    NSLog(@"mobile view is %d",[index isMoblieView]);
-    NSLog(@"protect password %@",[WizSettings accountProtectPassword]);
-    NSLog(@"the default user is %@",[WizSettings defaultAccountUserId]);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -615,7 +607,6 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
             }
         }
-
     }
     else if (alertView.tag == ProtectPasswordTag)
     {
@@ -818,6 +809,12 @@
         self.downloadDuration = [self downloadDurationFromIndex:row];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationRight];
         [index setDurationForDownloadDocument:self.downloadDuration];
+        if (self.downloadDuration == 0) {
+            [index setDownloadDocumentData:NO];
+        }
+        else {
+            [index setDownloadDocumentData:YES];
+        }
     }
     else if (pickerView.tag == TableListViewOptionTag)
     {

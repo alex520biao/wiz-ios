@@ -422,6 +422,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	//
 	////send xml-rpc done notification
 	//
+    
     self.connectionXmlrpc = nil;
 	NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:method, @"method", ret, @"ret", [NSNumber numberWithBool:succeeded], @"succeeded", nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcDoneNotificationPrefix] object: nil userInfo: userInfo];
@@ -1338,8 +1339,19 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && [error.localizedDescription isEqualToString:NSLocalizedString(@"Login time out or login in other places, please retry login!", nil)]) {
             return;
         }
+        if ([error.domain isEqualToString:WIZERRORDOMAIN] && [error.localizedDescription isEqualToString:WIZABORTNETERROR]) {
+            return;
+        }
 		[WizGlobals reportError:retObject];
 	}
+}
+
+-(void) cancel
+{
+    if (self.connectionXmlrpc)
+    {
+        [self.connectionXmlrpc cancel];
+    }
 }
 
 -(NSString*) notificationName: (NSString *)prefix

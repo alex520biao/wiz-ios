@@ -197,7 +197,30 @@ static WizGlobalData* g_data;
 	[self setDataOfAccount:userId dataType:DataTypeOfDownloadObject data:data];
 	 [data release];  return data;
 }
-
+- (void) stopSyncing
+{
+    for (int i = 0; i < [[WizSettings accounts] count]; i++) {
+        NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
+        WizSync* sync = [self dataOfAccount:userId dataType:DataTypeOfSync];
+        if (nil != sync) {
+            [sync cancel];
+        }
+        WizSyncByKey* syncKey = [self dataOfAccount:userId dataType:DataTypeOfSyncByKey];
+        if (nil != syncKey) {
+            [syncKey cancel];
+        }
+        
+        WizSyncByTag* syncTag = [self dataOfAccount:userId dataType:DataTypeOfSyncByTag];
+        if (nil != syncTag) {
+            [syncTag cancel];
+        }
+        WizSyncByLocation* syncLoc = [self dataOfAccount:userId dataType:DataTypeOfSyncByLocation];
+        if (nil != syncLoc) {
+            [syncLoc cancel];
+        }
+        
+    }
+}
 - (WizSyncByTag*) syncByTagData:(NSString*) userId
 {
     id data = [self dataOfAccount:userId dataType: DataTypeOfSyncByTag];
