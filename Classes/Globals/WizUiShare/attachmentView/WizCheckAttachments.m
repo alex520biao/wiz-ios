@@ -12,6 +12,7 @@
 #import "WizDownloadPool.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
+#import "WizCheckAttachment.h"
 @implementation WizCheckAttachments
 
 @synthesize documentGUID;
@@ -151,20 +152,15 @@
     if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
         NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
         NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
-        UIWebView* webview = [[UIWebView alloc] init];
-        webview.multipleTouchEnabled = YES;
-        webview.scalesPageToFit = YES;
-        webview.userInteractionEnabled = YES;
+        WizCheckAttachment* check = [[WizCheckAttachment alloc] init];
         NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-        [webview loadRequest:req];
+        check.req = req;
         [req release];
         [url release];
-        UIViewController* contr = [[UIViewController alloc] init];
-        contr.view = webview;
-        [self.navigationController pushViewController:contr animated:YES];
-        [contr release];
-        [webview release];
+        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
+        [self.navigationController presentModalViewController:nav animated:YES];
+        [nav release];
     }
     else
     {
