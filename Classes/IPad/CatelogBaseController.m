@@ -28,7 +28,10 @@
     self.portraitContentArray = nil;
     [super dealloc];
 }
-
+-(void) didSelectedCatelog:(NSString *)keywords
+{
+    
+}
 - (NSArray*) arrayToLoanscapeCellArray:(NSArray*)source
 {
     int documentCount = [source count];

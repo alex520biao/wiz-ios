@@ -16,7 +16,6 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navController;
-- (void) didAccountSelect: (NSNotification*)nc;
 - (void) accountProtect;
 
 

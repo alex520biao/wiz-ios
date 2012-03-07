@@ -251,7 +251,6 @@
 - (NSString*) durationForDownloadDocumentString;
 - (BOOL) setDurationForDownloadDocument:(int64_t)duration;
 - (NSArray*) documentForDownload;
-- (NSString*) abstractToDocumentGUID:(NSString*)documentGUID;
 - (BOOL) newNoteWithGuidAndData:(NSDictionary*)documentData;
 - (int64_t) wizDataBaseVersion;
 - (BOOL) setWizDataBaseVersion:(int64_t)ver;

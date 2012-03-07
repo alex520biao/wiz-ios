@@ -729,11 +729,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizIndex.mm"
-         timestampString = "352366830.802912"
+         timestampString = "352634945.704066"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2486"
-         endingLineNumber = "2486"
+         startingLineNumber = "2469"
+         endingLineNumber = "2469"
          landmarkName = "-createZipByGuid:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -820,7 +820,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizIndex.mm"
-         timestampString = "352366830.802912"
+         timestampString = "352634945.704066"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "2295"
@@ -855,7 +855,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/Login/LoginViewController.m"
@@ -1007,8 +1007,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "91"
          endingLineNumber = "91"
-         landmarkName = "@implementation WizAppDelegate"
-         landmarkType = "3">
+         landmarkName = "-applicationWillResignActive:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1060,6 +1060,32 @@
          startingLineNumber = "1353"
          endingLineNumber = "1353"
          landmarkName = "-cancel"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizUploadObjet.m"
+         timestampString = "352613257.643675"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "72"
+         endingLineNumber = "72"
+         landmarkName = "-uploadObjectData"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizUploadObjet.m"
+         timestampString = "352613990.359884"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "108"
+         endingLineNumber = "108"
+         landmarkName = "-onUploadObjectSucceedAndCleanTemp"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

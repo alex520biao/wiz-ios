@@ -42,6 +42,16 @@
 		7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311620A14F5091D007EC8AC /* Default-Landscape~ipad.png */; };
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
+		734CA13A1504597D002549CB /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1271504597D002549CB /* FoldersViewController.m */; };
+		734CA13B1504597D002549CB /* FoldersViewControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1291504597D002549CB /* FoldersViewControllerNew.m */; };
+		734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12B1504597D002549CB /* LocationTreeNode.m */; };
+		734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12D1504597D002549CB /* LocationTreeViewCell.m */; };
+		734CA13E1504597D002549CB /* TagsListTreeControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */; };
+		734CA13F1504597D002549CB /* TagsListTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1311504597D002549CB /* TagsListTreeView.m */; };
+		734CA1401504597D002549CB /* TreeBaseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1331504597D002549CB /* TreeBaseNode.m */; };
+		734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1351504597D002549CB /* TreeBaseNodeCell.m */; };
+		734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1371504597D002549CB /* TreeTableViewBase.m */; };
+		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
 		738DA46F14FC92850075BFC9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 738DA46E14FC92850075BFC9 /* Reachability.m */; };
@@ -117,16 +127,6 @@
 		73A785A714F8CC23001387F6 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784C414F8CC22001387F6 /* DocumentViewController.xib */; };
 		73A785A814F8CC23001387F6 /* DocumentViewCtrollerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */; };
 		73A785A914F8CC23001387F6 /* DocumentViewCtrollerBase.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784C714F8CC22001387F6 /* DocumentViewCtrollerBase.xib */; };
-		73A785AA14F8CC23001387F6 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784CA14F8CC22001387F6 /* FoldersViewController.m */; };
-		73A785AB14F8CC23001387F6 /* FoldersViewControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784CC14F8CC22001387F6 /* FoldersViewControllerNew.m */; };
-		73A785AC14F8CC23001387F6 /* LocationTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784CE14F8CC22001387F6 /* LocationTreeNode.m */; };
-		73A785AD14F8CC23001387F6 /* LocationTreeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784D014F8CC22001387F6 /* LocationTreeViewCell.m */; };
-		73A785AE14F8CC23001387F6 /* TagsListTreeControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784D214F8CC22001387F6 /* TagsListTreeControllerNew.m */; };
-		73A785AF14F8CC23001387F6 /* TagsListTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784D414F8CC22001387F6 /* TagsListTreeView.m */; };
-		73A785B014F8CC23001387F6 /* TreeBaseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784D614F8CC22001387F6 /* TreeBaseNode.m */; };
-		73A785B114F8CC23001387F6 /* TreeBaseNodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784D814F8CC22001387F6 /* TreeBaseNodeCell.m */; };
-		73A785B214F8CC23001387F6 /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784DA14F8CC22001387F6 /* TreeTableViewBase.m */; };
-		73A785B314F8CC23001387F6 /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784DC14F8CC22001387F6 /* TreeViewBaseController.m */; };
 		73A785B414F8CC23001387F6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784DF14F8CC22001387F6 /* LoginViewController.m */; };
 		73A785B514F8CC23001387F6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784E014F8CC22001387F6 /* LoginViewController.xib */; };
 		73A785B614F8CC23001387F6 /* WizPhoneCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E214F8CC22001387F6 /* WizPhoneCreateAccountViewController.m */; };
@@ -364,6 +364,26 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		734CA1261504597D002549CB /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
+		734CA1271504597D002549CB /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
+		734CA1281504597D002549CB /* FoldersViewControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewControllerNew.h; sourceTree = "<group>"; };
+		734CA1291504597D002549CB /* FoldersViewControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewControllerNew.m; sourceTree = "<group>"; };
+		734CA12A1504597D002549CB /* LocationTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTreeNode.h; sourceTree = "<group>"; };
+		734CA12B1504597D002549CB /* LocationTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTreeNode.m; sourceTree = "<group>"; };
+		734CA12C1504597D002549CB /* LocationTreeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTreeViewCell.h; sourceTree = "<group>"; };
+		734CA12D1504597D002549CB /* LocationTreeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTreeViewCell.m; sourceTree = "<group>"; };
+		734CA12E1504597D002549CB /* TagsListTreeControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsListTreeControllerNew.h; sourceTree = "<group>"; };
+		734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeControllerNew.m; sourceTree = "<group>"; };
+		734CA1301504597D002549CB /* TagsListTreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsListTreeView.h; sourceTree = "<group>"; };
+		734CA1311504597D002549CB /* TagsListTreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeView.m; sourceTree = "<group>"; };
+		734CA1321504597D002549CB /* TreeBaseNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeBaseNode.h; sourceTree = "<group>"; };
+		734CA1331504597D002549CB /* TreeBaseNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeBaseNode.m; sourceTree = "<group>"; };
+		734CA1341504597D002549CB /* TreeBaseNodeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeBaseNodeCell.h; sourceTree = "<group>"; };
+		734CA1351504597D002549CB /* TreeBaseNodeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeBaseNodeCell.m; sourceTree = "<group>"; };
+		734CA1361504597D002549CB /* TreeTableViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeTableViewBase.h; sourceTree = "<group>"; };
+		734CA1371504597D002549CB /* TreeTableViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableViewBase.m; sourceTree = "<group>"; };
+		734CA1381504597D002549CB /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
+		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
@@ -514,26 +534,6 @@
 		73A784C514F8CC22001387F6 /* DocumentViewCtrollerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewCtrollerBase.h; sourceTree = "<group>"; };
 		73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewCtrollerBase.m; sourceTree = "<group>"; };
 		73A784C714F8CC22001387F6 /* DocumentViewCtrollerBase.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentViewCtrollerBase.xib; sourceTree = "<group>"; };
-		73A784C914F8CC22001387F6 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
-		73A784CA14F8CC22001387F6 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
-		73A784CB14F8CC22001387F6 /* FoldersViewControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewControllerNew.h; sourceTree = "<group>"; };
-		73A784CC14F8CC22001387F6 /* FoldersViewControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewControllerNew.m; sourceTree = "<group>"; };
-		73A784CD14F8CC22001387F6 /* LocationTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTreeNode.h; sourceTree = "<group>"; };
-		73A784CE14F8CC22001387F6 /* LocationTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTreeNode.m; sourceTree = "<group>"; };
-		73A784CF14F8CC22001387F6 /* LocationTreeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTreeViewCell.h; sourceTree = "<group>"; };
-		73A784D014F8CC22001387F6 /* LocationTreeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTreeViewCell.m; sourceTree = "<group>"; };
-		73A784D114F8CC22001387F6 /* TagsListTreeControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsListTreeControllerNew.h; sourceTree = "<group>"; };
-		73A784D214F8CC22001387F6 /* TagsListTreeControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeControllerNew.m; sourceTree = "<group>"; };
-		73A784D314F8CC22001387F6 /* TagsListTreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsListTreeView.h; sourceTree = "<group>"; };
-		73A784D414F8CC22001387F6 /* TagsListTreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeView.m; sourceTree = "<group>"; };
-		73A784D514F8CC22001387F6 /* TreeBaseNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeBaseNode.h; sourceTree = "<group>"; };
-		73A784D614F8CC22001387F6 /* TreeBaseNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeBaseNode.m; sourceTree = "<group>"; };
-		73A784D714F8CC22001387F6 /* TreeBaseNodeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeBaseNodeCell.h; sourceTree = "<group>"; };
-		73A784D814F8CC22001387F6 /* TreeBaseNodeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeBaseNodeCell.m; sourceTree = "<group>"; };
-		73A784D914F8CC22001387F6 /* TreeTableViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeTableViewBase.h; sourceTree = "<group>"; };
-		73A784DA14F8CC22001387F6 /* TreeTableViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableViewBase.m; sourceTree = "<group>"; };
-		73A784DB14F8CC22001387F6 /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
-		73A784DC14F8CC22001387F6 /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
 		73A784DE14F8CC22001387F6 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		73A784DF14F8CC22001387F6 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		73A784E014F8CC22001387F6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -827,6 +827,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73A784F614F8CC22001387F6 /* JS */,
 				73A785E514F8CD5C001387F6 /* icons */,
 				73A7866214F8CD5D001387F6 /* ipad */,
 				73A7866E14F8CD5D001387F6 /* Share */,
@@ -878,6 +879,34 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		734CA1251504597D002549CB /* FolderTag */ = {
+			isa = PBXGroup;
+			children = (
+				734CA1261504597D002549CB /* FoldersViewController.h */,
+				734CA1271504597D002549CB /* FoldersViewController.m */,
+				734CA1281504597D002549CB /* FoldersViewControllerNew.h */,
+				734CA1291504597D002549CB /* FoldersViewControllerNew.m */,
+				734CA12A1504597D002549CB /* LocationTreeNode.h */,
+				734CA12B1504597D002549CB /* LocationTreeNode.m */,
+				734CA12C1504597D002549CB /* LocationTreeViewCell.h */,
+				734CA12D1504597D002549CB /* LocationTreeViewCell.m */,
+				734CA12E1504597D002549CB /* TagsListTreeControllerNew.h */,
+				734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */,
+				734CA1301504597D002549CB /* TagsListTreeView.h */,
+				734CA1311504597D002549CB /* TagsListTreeView.m */,
+				734CA1321504597D002549CB /* TreeBaseNode.h */,
+				734CA1331504597D002549CB /* TreeBaseNode.m */,
+				734CA1341504597D002549CB /* TreeBaseNodeCell.h */,
+				734CA1351504597D002549CB /* TreeBaseNodeCell.m */,
+				734CA1361504597D002549CB /* TreeTableViewBase.h */,
+				734CA1371504597D002549CB /* TreeTableViewBase.m */,
+				734CA1381504597D002549CB /* TreeViewBaseController.h */,
+				734CA1391504597D002549CB /* TreeViewBaseController.m */,
+			);
+			name = FolderTag;
+			path = DocumentView/FolderTag;
+			sourceTree = "<group>";
+		};
 		7379A5BA14F4FE1B006593CD /* LunchImages */ = {
 			isa = PBXGroup;
 			children = (
@@ -904,7 +933,6 @@
 				73A7841814F8CC22001387F6 /* Globals */,
 				73A7848414F8CC22001387F6 /* IPad */,
 				73A784B714F8CC22001387F6 /* Iphone */,
-				73A784F614F8CC22001387F6 /* JS */,
 				73A784F814F8CC22001387F6 /* otherFrame */,
 				73A7854114F8CC23001387F6 /* WizMainView */,
 			);
@@ -1126,9 +1154,9 @@
 		73A784B714F8CC22001387F6 /* Iphone */ = {
 			isa = PBXGroup;
 			children = (
+				734CA1251504597D002549CB /* FolderTag */,
 				73A784B814F8CC22001387F6 /* DocumentList */,
 				73A784C314F8CC22001387F6 /* DocumentView */,
-				73A784C814F8CC22001387F6 /* Folder&Tag */,
 				73A784DD14F8CC22001387F6 /* Login */,
 				73A784E314F8CC22001387F6 /* NewNote */,
 				73A784E814F8CC22001387F6 /* OldClasses */,
@@ -1164,33 +1192,6 @@
 				73A784C714F8CC22001387F6 /* DocumentViewCtrollerBase.xib */,
 			);
 			path = DocumentView;
-			sourceTree = "<group>";
-		};
-		73A784C814F8CC22001387F6 /* Folder&Tag */ = {
-			isa = PBXGroup;
-			children = (
-				73A784C914F8CC22001387F6 /* FoldersViewController.h */,
-				73A784CA14F8CC22001387F6 /* FoldersViewController.m */,
-				73A784CB14F8CC22001387F6 /* FoldersViewControllerNew.h */,
-				73A784CC14F8CC22001387F6 /* FoldersViewControllerNew.m */,
-				73A784CD14F8CC22001387F6 /* LocationTreeNode.h */,
-				73A784CE14F8CC22001387F6 /* LocationTreeNode.m */,
-				73A784CF14F8CC22001387F6 /* LocationTreeViewCell.h */,
-				73A784D014F8CC22001387F6 /* LocationTreeViewCell.m */,
-				73A784D114F8CC22001387F6 /* TagsListTreeControllerNew.h */,
-				73A784D214F8CC22001387F6 /* TagsListTreeControllerNew.m */,
-				73A784D314F8CC22001387F6 /* TagsListTreeView.h */,
-				73A784D414F8CC22001387F6 /* TagsListTreeView.m */,
-				73A784D514F8CC22001387F6 /* TreeBaseNode.h */,
-				73A784D614F8CC22001387F6 /* TreeBaseNode.m */,
-				73A784D714F8CC22001387F6 /* TreeBaseNodeCell.h */,
-				73A784D814F8CC22001387F6 /* TreeBaseNodeCell.m */,
-				73A784D914F8CC22001387F6 /* TreeTableViewBase.h */,
-				73A784DA14F8CC22001387F6 /* TreeTableViewBase.m */,
-				73A784DB14F8CC22001387F6 /* TreeViewBaseController.h */,
-				73A784DC14F8CC22001387F6 /* TreeViewBaseController.m */,
-			);
-			path = "Folder&Tag";
 			sourceTree = "<group>";
 		};
 		73A784DD14F8CC22001387F6 /* Login */ = {
@@ -1244,7 +1245,8 @@
 			children = (
 				73A784F714F8CC22001387F6 /* SearchWebView.js */,
 			);
-			path = JS;
+			name = JS;
+			path = Classes/JS;
 			sourceTree = "<group>";
 		};
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
@@ -1892,16 +1894,6 @@
 				73A785A514F8CC23001387F6 /* RecentDcoumentListView.m in Sources */,
 				73A785A614F8CC23001387F6 /* TagDocumentListView.m in Sources */,
 				73A785A814F8CC23001387F6 /* DocumentViewCtrollerBase.m in Sources */,
-				73A785AA14F8CC23001387F6 /* FoldersViewController.m in Sources */,
-				73A785AB14F8CC23001387F6 /* FoldersViewControllerNew.m in Sources */,
-				73A785AC14F8CC23001387F6 /* LocationTreeNode.m in Sources */,
-				73A785AD14F8CC23001387F6 /* LocationTreeViewCell.m in Sources */,
-				73A785AE14F8CC23001387F6 /* TagsListTreeControllerNew.m in Sources */,
-				73A785AF14F8CC23001387F6 /* TagsListTreeView.m in Sources */,
-				73A785B014F8CC23001387F6 /* TreeBaseNode.m in Sources */,
-				73A785B114F8CC23001387F6 /* TreeBaseNodeCell.m in Sources */,
-				73A785B214F8CC23001387F6 /* TreeTableViewBase.m in Sources */,
-				73A785B314F8CC23001387F6 /* TreeViewBaseController.m in Sources */,
 				73A785B414F8CC23001387F6 /* LoginViewController.m in Sources */,
 				73A785B614F8CC23001387F6 /* WizPhoneCreateAccountViewController.m in Sources */,
 				73A785B714F8CC23001387F6 /* NewNoteView.m in Sources */,
@@ -1944,6 +1936,16 @@
 				73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */,
 				73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */,
 				738DA46F14FC92850075BFC9 /* Reachability.m in Sources */,
+				734CA13A1504597D002549CB /* FoldersViewController.m in Sources */,
+				734CA13B1504597D002549CB /* FoldersViewControllerNew.m in Sources */,
+				734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */,
+				734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */,
+				734CA13E1504597D002549CB /* TagsListTreeControllerNew.m in Sources */,
+				734CA13F1504597D002549CB /* TagsListTreeView.m in Sources */,
+				734CA1401504597D002549CB /* TreeBaseNode.m in Sources */,
+				734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */,
+				734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */,
+				734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2029,14 +2031,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/lib\"",
-					"\"$(SRCROOT)/lib/lib\"",
-					"\"/Volumes/VMware Shared Folders/D/Ios开发/4f093dc0/lib\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2048,30 +2052,33 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/lib/iFlyISR.framework\"",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				"VALID_ARCHS[sdk=*]" = "armv6 armv7";
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ADDITIONAL_SDKS[arch=*]" = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Shijun";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/lib\"",
-					"\"$(SRCROOT)/lib/lib\"",
-					"\"/Volumes/VMware Shared Folders/D/Ios开发/4f093dc0/lib\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
@@ -2081,25 +2088,30 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/lib/iFlyISR.framework\"",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				"VALID_ARCHS[sdk=*]" = "armv6 armv7";
 			};
 			name = Release;
 		};
 		30B77E9213383E4C006435D4 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
-				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = ddd;
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
+				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2108,7 +2120,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Distribution;
@@ -2116,15 +2128,20 @@
 		30B77E9313383E4C006435D4 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ADDITIONAL_SDKS[arch=*]" = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
+				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/lib\"",
-					"\"$(SRCROOT)/lib/lib\"",
-					"\"/Volumes/VMware Shared Folders/D/Ios开发/4f093dc0/lib\"",
 					"\"$(SRCROOT)\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
@@ -2134,23 +2151,27 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/lib/iFlyISR.framework\"",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				"VALID_ARCHS[sdk=*]" = "armv6 armv7";
 			};
 			name = Distribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2158,7 +2179,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2166,10 +2187,13 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = ddd;
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2178,7 +2202,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.0;
 			};
 			name = Release;
 		};

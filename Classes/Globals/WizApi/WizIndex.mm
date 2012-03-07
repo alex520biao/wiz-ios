@@ -2116,7 +2116,7 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     }
     NSData* abstractImageData = nil;
     NSString* abstractText = nil;
-    NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath];
+    NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
     NSString* removeStyle = [sourceStr stringByReplacingOccurrencesOfRegex:@"<style[^>]*?>[\\s\\S]*?<\\/style>" withString:@""];
     NSString* removeScript = [removeStyle stringByReplacingOccurrencesOfRegex:@"<script[^>]*?>[\\s\\S]*?<\\/script>" withString:@""];
     NSString* removeHtmlSpace = [removeScript stringByReplacingOccurrencesOfRegex:@"&(.*?);" withString:@""];
@@ -2315,23 +2315,6 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
         filename = [path stringByAppendingPathComponent:@"index.html"];
     }
 	return filename;
-}
-- (NSString*) abstractToDocumentGUID:(NSString *)documentGUID
-{
-    NSString* abstractFilePath = [self documentAbstractStringFilePath:documentGUID];
-    NSString* abstractStr = [NSString stringWithContentsOfFile:abstractFilePath];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:abstractFilePath]) {
-        return @"";
-    }
-    NSRange range = NSMakeRange(0, 100);
-    if (abstractStr.length <= 100) {
-        range = NSMakeRange(0, abstractStr.length-1);
-    }
-    NSString* ret = [abstractStr substringWithRange:range];
-    if (nil == ret) {
-        return @"";
-    }
-    return ret;
 }
 + (NSString*) accountPath: (NSString*)userId
 {
