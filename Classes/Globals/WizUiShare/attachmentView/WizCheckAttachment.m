@@ -7,7 +7,7 @@
 //
 
 #import "WizCheckAttachment.h"
-
+#import "WizGlobals.h"
 @interface WizCheckAttachment ()
 
 @end
@@ -15,8 +15,10 @@
 @implementation WizCheckAttachment
 @synthesize webView;
 @synthesize req;
+@synthesize attachmentGUID;
 - (void) dealloc
 {
+    self.attachmentGUID = nil;
     self.req = nil;
     self.webView = nil;
     [super dealloc];
@@ -73,14 +75,21 @@
 {
     [super viewWillAppear:animated];
     [self.webView loadRequest:self.req];
-    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    if(WizDeviceIsPad())
     {
-        self.webView.frame = CGRectMake(0.0, 0.0, 1024, 768);
+        if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            self.webView.frame = CGRectMake(0.0, 0.0, 1024, 768);
+        }
+        else {
+            self.webView.frame = CGRectMake(0.0, 0.0, 768, 1024);
+        }
     }
     else {
-        self.webView.frame = CGRectMake(0.0, 0.0, 768, 1024);
+        self.webView.frame = self.view.frame;
     }
     [self.navigationController setToolbarHidden:YES animated:YES];
+    
 }
 
 @end

@@ -113,7 +113,8 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     WizDocumentAttach* attach = [self.attachments objectAtIndex:indexPath.row];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
@@ -150,25 +151,52 @@
     cell.textLabel.text = attach.attachmentName;
     return cell;
 }
--(void) checkAttachment:(WizDocumentAttach*) attachment
+- (void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application
+{
+    NSLog(@"ddd");
+}
+- (void) checkInWiz:(WizDocumentAttach*)attachment
+{
+    NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
+    NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
+    WizCheckAttachment* check = [[WizCheckAttachment alloc] initWithNibName:nil bundle:nil];;
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
+    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+    check.req = req;
+    [req release];
+    [url release];
+    if (WizDeviceIsPad()) {
+        [self.checkNav pushViewController:check animated:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckAttachment object:nil userInfo:nil];
+    }
+    else {
+        [self.navigationController pushViewController:check animated:YES];
+    }
+}
+- (void) checkInOtherApp:(WizDocumentAttach*)attachment
+{
+    NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
+    NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
+    UIDocumentInteractionController* preview = [UIDocumentInteractionController interactionControllerWithURL:url];
+    preview.delegate = self;
+    CGRect nav = self.navigationController.navigationBar.frame;
+    nav.size = CGSizeMake(1500.0f, 40.0f);
+    [preview presentOptionsMenuFromRect:nav inView:self.view animated:YES];
+    [preview retain];
+    [url release];
+}
+-(void) checkAttachment:(WizDocumentAttach*) attachment inWiz:(BOOL)inWiz
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
-        NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
-        NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
-        WizCheckAttachment* check = [[WizCheckAttachment alloc] init];;
-        NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
-        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-        check.req = req;
-        [req release];
-        [url release];
-        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
-        [self.checkNav pushViewController:check animated:YES];
-        self.checkNav.title = attachment.attachmentName;
-        [nav release];
-        if (WizDeviceIsPad()) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckAttachment object:nil userInfo:nil];
+        if (inWiz) {
+            [self checkInWiz:attachment];
         }
+        else {
+            [self checkInOtherApp:attachment];
+        }
+        
     }
     else
     {
@@ -206,7 +234,7 @@
     for (int i = 0; i<[self.attachments count]; i++) {
         WizDocumentAttach* attach = [self.attachments objectAtIndex:i];
         if ([attach.attachmentGuid isEqualToString:documentGUID_]) {
-            [self checkAttachment:attach];
+            [self checkAttachment:attach inWiz:YES];
         }
     }
     
@@ -214,9 +242,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
-    [self checkAttachment:attch];
+    [self checkAttachment:attch inWiz:YES];
 }
-
+- (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
+    [self checkAttachment:attch inWiz:NO];
+}
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];

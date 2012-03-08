@@ -12,7 +12,9 @@
 {
     UIWebView* webView;
     NSURLRequest* req;
+    NSString* attachmentGUID;
 }
 @property (nonatomic, retain) UIWebView* webView;
 @property (nonatomic, retain) NSURLRequest* req;
+@property (nonatomic, retain) NSString* attachmentGUID;
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WizCheckAttachments : UITableViewController <UIAlertViewDelegate>
+@interface WizCheckAttachments : UITableViewController <UIAlertViewDelegate,UIDocumentInteractionControllerDelegate>
 {
     NSString* accountUserId;
     NSMutableArray* attachments;
