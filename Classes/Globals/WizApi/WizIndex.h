@@ -279,6 +279,8 @@
 //2012-2-18
 - (BOOL) setConnectOnlyViaWifi:(BOOL)wifi;
 - (BOOL) connectOnlyViaWifi;
+//2012-3-8
+- (BOOL) newDocumentWithOneAttachment:(NSString*)fileSourePath;
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (NSString*) accountPath: (NSString*)userId;

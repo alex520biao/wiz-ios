@@ -183,6 +183,7 @@
     CGRect nav = self.navigationController.navigationBar.frame;
     nav.size = CGSizeMake(1500.0f, 40.0f);
     [preview presentOptionsMenuFromRect:nav inView:self.view animated:YES];
+    [[preview retain] autorelease];
     [preview retain];
     [url release];
 }

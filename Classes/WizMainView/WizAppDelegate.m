@@ -166,6 +166,13 @@
     [window release];
     [super dealloc];
 }
-
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSString* defaultAccount = [WizSettings defaultAccountUserId];
+    if (defaultAccount == nil || [defaultAccount isEqualToString:@""]) {
+        return NO;
+    }
+    return YES;
+}
 
 @end

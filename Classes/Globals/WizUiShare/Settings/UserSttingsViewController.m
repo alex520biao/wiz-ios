@@ -667,15 +667,6 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
         mailPocker.mailComposeDelegate = self;
-        NSString* deviceStr = nil;
-        if (WizDeviceIsPad()) {
-            deviceStr = @"ipad";
-        }
-        else
-        {
-            deviceStr = @"iphone";
-        }
-        
         [mailPocker setSubject:[NSString stringWithFormat:@"[%@] %@ by %@",[[UIDevice currentDevice] model],NSLocalizedString(@"Feedback", nil),self.accountUserId]];
         NSArray* toRecipients = [NSArray arrayWithObject: @"support@wiz.cn"];
         NSString* mailBody = [NSString stringWithFormat:@"%@:\n\n\n\n\n\n\n\n\n\n\n\n\n\n %@\n %@"

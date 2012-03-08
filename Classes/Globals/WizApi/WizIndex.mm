@@ -1013,6 +1013,114 @@ NSInteger compareTag(id location1, id location2, void*);
     [userInfo release];
 }
 
+- (NSString*) photoHtmlString:(NSString*)photoName
+{
+    return [NSString stringWithFormat:@"<img src=\"index_files/%@\" alt=\"%@\" >",photoName,photoName];
+}
+- (NSString*) audioHtmlString:(NSString*)audioName
+{
+    return [NSString stringWithFormat:@"<embed src=\"index_files/%@\" autostart=false>",audioName];
+}
+- (NSString*) titleHtmlString:(NSString*)title
+{
+    return [NSString stringWithFormat:@"<title>%@</title>",title];
+}
+- (NSString*) wizHtmlString:(NSString*)title body:(NSString*)body
+{
+    return [NSString stringWithFormat:@"<html>%@<body>%@</body></html>",title,body];
+}
+- (NSString*) tableHtmlString:(NSArray*)contentArray
+{
+    NSMutableString* ret = [NSMutableString string];
+    [ret appendString:@"<ul>"];
+    for (NSString* each in contentArray) {
+        [ret appendFormat:@"<li>%@</li>",each];
+    }
+    [ret appendString:@"</ul>"];
+    return ret;
+}
+- (NSArray*) tableContentArray:(NSDictionary*) fileDic
+{
+    NSMutableArray* arr = [NSMutableArray array];
+    NSEnumerator* enumerator = [fileDic keyEnumerator];
+    NSString* fileName;
+    while (fileName = [enumerator nextObject]) {
+        NSString* type = [fileDic objectForKey:fileName];
+        NSString* html;
+        if ([WizGlobals checkAttachmentTypeIsImage:type]) {
+            html = [self photoHtmlString:fileName];
+        }
+        else if ([WizGlobals checkAttachmentTypeIsAudio:fileName])
+        {
+            html = [self audioHtmlString:fileName];
+        }
+        else {
+            html = @"";
+        }
+        [arr addObject:html];
+    }
+    return  arr;
+}
+- (BOOL) newDocumentWithOneAttachment:(NSString*)fileSourePath
+{
+    NSString* documentGUID = [WizGlobals genGUID];
+    NSArray* filePathSpeArr = [fileSourePath componentsSeparatedByString:fileSourePath];
+    NSString* documentType = [filePathSpeArr lastObject];
+    if (documentType == nil || [documentType isEqualToString:@""]) {
+        documentType = @"noneType";
+    }
+    NSString* documentName = [filePathSpeArr objectAtIndex:[filePathSpeArr count]-2 ];
+    if (documentName == nil || [documentName isEqualToString:@""]) {
+        documentName = @"No title";
+    }
+    NSString* documentIndexFilesPath = [WizIndex documentIndexFilesPath:self.accountUserId documentGUID:documentGUID];
+    [WizGlobals ensurePathExists:documentIndexFilesPath];
+    NSError* err = nil;
+    NSString* filePath = [documentIndexFilesPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",documentName,documentType]];
+    if (![[NSFileManager defaultManager] copyItemAtPath:fileSourePath toPath:filePath error:&err]) {
+        [WizGlobals reportError:err];
+        [WizGlobals deleteFile:documentIndexFilesPath];
+        return NO;
+    }
+    NSString* contentHtml;
+    if ([WizGlobals checkAttachmentTypeIsImage:documentType]) {
+        contentHtml = [self photoHtmlString:documentName];
+    }
+    else if ([WizGlobals checkAttachmentTypeIsAudio:documentType]){
+        contentHtml = [self audioHtmlString:documentName];
+    }
+    else {
+        contentHtml = [NSString stringWithFormat:@"<p>%@ Added By %@</p>",documentName,[[UIDevice currentDevice] model]];
+    }
+    [self newAttachment:fileSourePath documentGUID:documentGUID];
+    NSString* html = [self wizHtmlString:documentName body:contentHtml];
+    NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
+    if (![html writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&err]) {
+        [WizGlobals reportError:err];
+        return NO;
+    }
+
+	NSString* documentLocation = @"/My Mobile/";
+    
+    NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
+    NSMutableDictionary* doc = [NSMutableDictionary dictionary];
+    NSDate* currentDate = [NSDate date];
+    NSNumber* nAttachmentCount = [NSNumber numberWithInt:1];
+    [doc setObject:documentGUID forKey:TypeOfUpdateDocumentGuid];
+    [doc setObject:documentName forKey:TypeOfUpdateDocumentTitle];
+    [doc setObject:documentLocation forKey:TypeOfUpdateDocumentLocation];
+    [doc setObject:documentMd5 forKey:TypeOfUpdateDocumentDataMd5];
+    [doc setObject:[NSString string] forKey:TypeOfUpdateDocumentUrl];
+    [doc setObject:currentDate forKey:TypeOfUpdateDocumentDateModified];
+    [doc setObject:TypeOfDocumentTypeOfNote forKey:TypeOfUpdateDocumentType];
+    [doc setObject:TypeOfDocumentFileTypeOfNote forKey:TypeOfUpdateDocumentFileType];
+    [doc setObject:nAttachmentCount forKey:TypeOfUpdateDocumentAttchmentCount];
+    [doc setObject:@"" forKey:TypeOfUpdateDocumentTagGuids];
+    [doc setObject:[NSNumber numberWithInt:1] forKey:TypeOfUpdateDocumentLocalchanged];
+    BOOL bRet = [self updateDocument:doc];
+    [self setDocumentServerChanged:documentGUID changed:NO];
+    return bRet;
+}
 - (BOOL) editDocumentWithGuidAndData:(NSDictionary*)documentData
 {
     NSString* documentTitle = [documentData valueForKey:TypeOfDocumentTitle];
@@ -2351,6 +2459,11 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
 	[subName release];
 	//
 	return path;
+}
++ (NSString*) documentIndexFilesPath:(NSString*)userId documentGUID:(NSString*)documentGUID
+{
+    NSString* documentFilePath = [WizIndex documentFilePath:userId documentGUID:documentGUID];
+    return [documentFilePath stringByAppendingPathComponent:@"index_files"];
 }
 + (NSString*) documentFileName:(NSString*)userId documentGUID:(NSString*)documentGUID
 {
