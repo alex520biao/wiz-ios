@@ -13,15 +13,19 @@
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
 #import "WizCheckAttachment.h"
+#import "WizPadNotificationMessage.h"
+#import "WizGlobals.h"
 @implementation WizCheckAttachments
 
 @synthesize documentGUID;
 @synthesize accountUserId;
 @synthesize attachments;
 @synthesize waitAlert;
+@synthesize checkNav;
 
 - (void) dealloc
 {
+    self.checkNav = nil;
     self.documentGUID = nil;
     self.accountUserId = nil;
     self.attachments = nil;
@@ -152,15 +156,19 @@
     if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
         NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
         NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
-        WizCheckAttachment* check = [[WizCheckAttachment alloc] init];
+        WizCheckAttachment* check = [[WizCheckAttachment alloc] init];;
         NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
         check.req = req;
         [req release];
         [url release];
         UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
-        [self.navigationController presentModalViewController:nav animated:YES];
+        [self.checkNav pushViewController:check animated:YES];
+        self.checkNav.title = attachment.attachmentName;
         [nav release];
+        if (WizDeviceIsPad()) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckAttachment object:nil userInfo:nil];
+        }
     }
     else
     {
@@ -207,6 +215,14 @@
 {
     WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
     [self checkAttachment:attch];
+}
+
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if (nil != self.checkNav) {
+        [self.checkNav willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
 }
 
 @end

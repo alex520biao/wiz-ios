@@ -25,7 +25,13 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        UIWebView* web = [[UIWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1024, 768)];
+        web.multipleTouchEnabled = YES;
+        web.userInteractionEnabled = YES;
+        web.scalesPageToFit = YES;
+        [self.view addSubview:web];
+        self.webView = web;
+        [web release];
     }
     return self;
 }
@@ -36,17 +42,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIWebView* webview_ = [[UIWebView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
-    webview_.multipleTouchEnabled = YES;
-    webview_.scalesPageToFit = YES;
-    webview_.userInteractionEnabled = YES;
-    [self.view addSubview:webview_];
-    self.webView = webview_;
-    [webview_ release];
-    
-    UIBarButtonItem* returnBar = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    self.navigationItem.leftBarButtonItem = returnBar;
-    [returnBar release];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -59,12 +54,33 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return YES;
+    return YES;
 }
+
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if(UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+    {
+        self.webView.frame = CGRectMake(0.0, 0.0, 1024, 768);
+    }
+    else {
+        self.webView.frame = CGRectMake(0.0, 0.0, 768, 1024);
+    }
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self.webView loadRequest:self.req];
+    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        self.webView.frame = CGRectMake(0.0, 0.0, 1024, 768);
+    }
+    else {
+        self.webView.frame = CGRectMake(0.0, 0.0, 768, 1024);
+    }
+    [self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 @end

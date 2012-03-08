@@ -48,5 +48,5 @@
 
 #define MessageOfNewFirstDocument            @"MessageOfNewFirstDocument"
 #define MessageOfChangeDocumentListOrderMethod @"MessageOfChangeDocumentListOrderMethod"
-
+#define MessageOfCheckAttachment                @"MessageOfCheckAttachment"
 #endif

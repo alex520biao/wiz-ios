@@ -239,6 +239,11 @@
     [self.headerView addSubview:namelabel_];
     self.documentNameLabel = namelabel_;
     [namelabel_ release];
+    UILabel* countLabel = [[UILabel  alloc] initWithFrame:CGRectMake(0.0, 5, 230, 20)];
+    countLabel.textAlignment = UITextAlignmentCenter;
+    countLabel.textColor = [UIColor grayColor];
+    self.documentList.tableHeaderView = countLabel;
+    [countLabel release];
     
 }
 - (NSUInteger) indexOfDocument:(NSString*)guid
@@ -267,13 +272,10 @@
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
-    UILabel* countLabel = [[UILabel  alloc] initWithFrame:CGRectMake(0.0, 5, 230, 20)];
-    NSString* title_ = [NSString stringWithFormat:NSLocalizedString(@"%d notes",nil),[self.sourceArray count]];
-    countLabel.text = title_;
-    countLabel.textAlignment = UITextAlignmentCenter;
-    countLabel.textColor = [UIColor grayColor];
-    self.documentList.tableHeaderView = countLabel;
-    [countLabel release];
+    [self setViewsFrame];
+    UILabel* count =(UILabel*)self.documentList.tableHeaderView;
+    count.text= [NSString stringWithFormat:NSLocalizedString(@"%d notes",nil),[self.sourceArray count]];
+
 }
 
 - (void) loadArraySource
@@ -368,14 +370,17 @@
 {
     NSLog(@"dd");
 }
-
-- (void) checkDocumentDtail
+- (void) dismissPoperview
 {
-    
     if (nil != self.currentPopoverController) {
         [currentPopoverController dismissPopoverAnimated:YES];
     }
     
+}
+- (void) checkDocumentDtail
+{
+    [self dismissPoperview];
+
     DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID];
@@ -452,12 +457,11 @@
 
 - (void) checkAttachment
 {
-    if (nil != self.currentPopoverController) {
-        [currentPopoverController dismissPopoverAnimated:YES];
-    }
+    [self dismissPoperview];
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
     checkAttach.documentGUID = [NSString stringWithString:selectedDocumentGUID];
     checkAttach.accountUserId = accountUserId;
+    checkAttach.checkNav = self.navigationController;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:checkAttach];
     [checkAttach release];
     nav.contentSizeForViewInPopover = CGSizeMake(320, 500);
@@ -644,6 +648,7 @@
         for (int i = 0; i < [self.documentsArray count]; i++) {
             for (int j = 0; j < [[self.documentsArray objectAtIndex:i] count]; j++) {
                 WizDocument* doc = [[self.documentsArray objectAtIndex:i] objectAtIndex:j];
+                NSLog(@"%@",doc.guid);
                 if ([doc.guid isEqualToString:selectedDocumentGUID]) {
                     [self didSelectedDocument:[[self.documentsArray objectAtIndex:i] objectAtIndex:j] ];
                     [self.documentList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i] atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -687,11 +692,12 @@
     }
     self.documentList.dataSource = self;
     self.documentList.delegate = self;
-    [self setViewsFrame];
+    
     [self loadArraySource];
     [self documentsOrderedByDate];
     self.view.backgroundColor = [UIColor blackColor];
     [self buildToolBar];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPoperview) name:MessageOfCheckAttachment object:nil];
 }
 - (void)viewDidUnload
 {

@@ -165,6 +165,7 @@
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
     checkAttach.documentGUID = self.doc.guid;
     checkAttach.accountUserId = accountUserID;
+    checkAttach.checkNav = self.navigationController;
     [self.navigationController pushViewController:checkAttach animated:YES];
     [checkAttach release];
 }

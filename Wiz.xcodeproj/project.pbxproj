@@ -2041,7 +2041,7 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = NO;
@@ -2061,7 +2061,7 @@
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
+				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2079,7 +2079,7 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Shijun";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
@@ -2097,7 +2097,7 @@
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
+				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2141,7 +2141,7 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
@@ -2160,7 +2160,7 @@
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
 				PRODUCT_NAME = Wiz;
-				PROVISIONING_PROFILE = "03A483CB-F45A-4B70-8A29-6EBC3C179331";
+				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

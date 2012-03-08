@@ -14,10 +14,12 @@
     NSMutableArray* attachments;
     NSString* documentGUID;
     UIAlertView* waitAlert;
+    UINavigationController* checkNav;
 }
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSMutableArray* attachments;
 @property (nonatomic, retain) NSString* documentGUID;
 @property (nonatomic, retain) UIAlertView* waitAlert;
+@property (nonatomic, retain) UINavigationController* checkNav;
 - (void) downloadDone:(NSNotification*)nc;
 @end
