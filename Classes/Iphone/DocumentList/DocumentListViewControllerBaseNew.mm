@@ -93,7 +93,8 @@
         [self.tableArray insertObject:array atIndex:0];
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
     }
-    
+    self.currentDoc = newDocument;
+    [self viewDocument];
 }
 - (NSInteger) indexForDocumentInSource:(NSString*)documentGuid
 {

@@ -247,6 +247,12 @@
         return NO;
     }
 }
++(NSString*) getAttachmentTempFilePath:(NSString*)userId
+{
+    NSString* objectPath = [WizIndex documentFilePath:userId documentGUID:ATTACHMENTTEMPFLITER];
+    [WizGlobals ensurePathExists:objectPath];
+    return objectPath;
+}
 +(NSString*)getAttachmentSourceFileName:(NSString*)userId
 {
     NSString* ret = [NSString string];

@@ -233,7 +233,7 @@ static WizGlobalData* g_data;
 }
 -(NSDictionary*) attributesForDocumentListName
 {
-    id data = [self dataOfAccount:DataOfGlobalShareDataWiz dataType:DataOfAttributesForDocumentListName];
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfAttributesForDocumentListName];
 	if (data != nil)
 		return data;
 	//
@@ -247,12 +247,12 @@ static WizGlobalData* g_data;
     CTParagraphStyleSetting settings[]={lineBreakMode};
     CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
     [dic setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
-    [self setDataOfAccount:DataOfGlobalShareDataWiz dataType:DataOfAttributesForDocumentListName data:dic];
+    [self setDataOfAccount:WizGlobalAccount dataType:DataOfAttributesForDocumentListName data:dic];
     return dic;
 }
 - (NSDictionary*) attributesForAbstractViewParagraphPad
 {
-    id data = [self dataOfAccount:DataOfGlobalShareDataWiz dataType:DataOfAttributesForPadAbstractViewParagraph];
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfAttributesForPadAbstractViewParagraph];
 	if (data != nil)
 		return data;
     NSMutableDictionary* attributeDic = [NSMutableDictionary dictionary];
@@ -274,7 +274,7 @@ static WizGlobalData* g_data;
     UIFont* stringFont = [UIFont systemFontOfSize:13];
     CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
     [attributeDic setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
-    [self setDataOfAccount:DataOfGlobalShareDataWiz dataType:DataOfAttributesForPadAbstractViewParagraph data:attributeDic];
+    [self setDataOfAccount:WizGlobalAccount dataType:DataOfAttributesForPadAbstractViewParagraph data:attributeDic];
     return attributeDic;
 }
 - (WizSyncByKey*) syncByKeyData:(NSString*) userId
@@ -451,7 +451,33 @@ static WizGlobalData* g_data;
     [self removeShareObjectData:DataTypeOfDownloadRecentDocuments userId:userId];
     [self removeShareObjectData:DataTypeOfGlobalDownloadPool userId:userId];
 }
-
+- (BOOL) registerActiveAccountUserId:(NSString *)userId
+{
+    if (userId == nil || [userId isEqualToString:@""]) {
+        userId = [WizSettings defaultAccountUserId];
+        if (userId == nil || [userId isEqualToString:@""]) {
+            if ([[WizSettings accounts] count] == 0) {
+                return NO;
+            }
+            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:[WizSettings accounts] index:0]];
+            userId = [WizSettings defaultAccountUserId];
+        }
+    }
+    [self setDataOfAccount:WizGlobalAccount dataType:DataOfActiveAccountUserId data:userId];
+    return YES;
+}
+- (NSString*) activeAccountUserId
+{
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfActiveAccountUserId];
+    if (data != nil && [data isKindOfClass:[NSString class]]) {
+        return data;
+    }
+    if (![self registerActiveAccountUserId:@""]) {
+        return @"";
+    }
+    data = [self dataOfAccount:WizGlobalAccount dataType:DataOfActiveAccountUserId];
+    return data;
+}
 + (NSString*) keyOfAccount:(NSString*) userId dataType: (NSString *) dataType
 {
 	NSString* key = [NSString stringWithFormat:@"%@_%@", userId, dataType];

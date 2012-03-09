@@ -455,6 +455,7 @@
     [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
     [self buildToolBar];
     [self buildNavigationItems];
+    self.mainSegment.selectedSegmentIndex = 0;
 }
 
 - (void)viewDidUnload
@@ -473,7 +474,7 @@
         [index setDownloadDocumentData:NO];
         [index setFirstLog:YES];
     }
-    self.mainSegment.selectedSegmentIndex = 0;
+    
 }
 - (void) checkDocument:(NSNotification*)nc
 {

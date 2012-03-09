@@ -60,6 +60,8 @@
 //2012-2-28
 +(void) reportWarningWithString:(NSString*)error;
 + (void) reportWarning:(NSError*)error;
+//2012-3-9
++(NSString*) getAttachmentTempFilePath:(NSString*)userId;
 @end
 
 

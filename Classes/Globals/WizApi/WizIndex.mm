@@ -21,7 +21,7 @@
 #import "WizGlobalDictionaryKey.h"
 #import "NSDate-Utilities.h"
 #import "WizSettings.h"
-
+#import "WizGlobalData.h"
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -308,9 +308,9 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (BOOL) open
 {
+    [[WizGlobalData sharedData] registerActiveAccountUserId:self.accountUserId];
 	if ([self isOpened])
 	{
-		
 		return NO;
 	}
     NSString* filename = [WizIndex accountFileName: self.accountUserId];
@@ -1061,26 +1061,28 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     return  arr;
 }
-- (BOOL) newDocumentWithOneAttachment:(NSString*)fileSourePath
+- (NSString*) newDocumentWithOneAttachment:(NSString*)fileSourePath
 {
     NSString* documentGUID = [WizGlobals genGUID];
-    NSArray* filePathSpeArr = [fileSourePath componentsSeparatedByString:fileSourePath];
-    NSString* documentType = [filePathSpeArr lastObject];
+    NSArray* filePathSpeArr = [fileSourePath componentsSeparatedByString:@"/"];
+    NSString* documentName = [filePathSpeArr lastObject];
+    documentName = [documentName stringByReplacingOccurrencesOfString:@":" withString:@""];
+    documentName = [documentName stringByReplacingOccurrencesOfString:@"%" withString:@""];
+    NSString* documentType = [[documentName componentsSeparatedByString:@"."] lastObject];
     if (documentType == nil || [documentType isEqualToString:@""]) {
         documentType = @"noneType";
     }
-    NSString* documentName = [filePathSpeArr objectAtIndex:[filePathSpeArr count]-2 ];
     if (documentName == nil || [documentName isEqualToString:@""]) {
         documentName = @"No title";
     }
     NSString* documentIndexFilesPath = [WizIndex documentIndexFilesPath:self.accountUserId documentGUID:documentGUID];
     [WizGlobals ensurePathExists:documentIndexFilesPath];
     NSError* err = nil;
-    NSString* filePath = [documentIndexFilesPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",documentName,documentType]];
+    NSString* filePath = [documentIndexFilesPath stringByAppendingPathComponent:documentName];
     if (![[NSFileManager defaultManager] copyItemAtPath:fileSourePath toPath:filePath error:&err]) {
         [WizGlobals reportError:err];
         [WizGlobals deleteFile:documentIndexFilesPath];
-        return NO;
+        return nil;
     }
     NSString* contentHtml;
     if ([WizGlobals checkAttachmentTypeIsImage:documentType]) {
@@ -1093,14 +1095,14 @@ NSInteger compareTag(id location1, id location2, void*);
         contentHtml = [NSString stringWithFormat:@"<p>%@ Added By %@</p>",documentName,[[UIDevice currentDevice] model]];
     }
     [self newAttachment:fileSourePath documentGUID:documentGUID];
-    NSString* html = [self wizHtmlString:documentName body:contentHtml];
+    NSString* html = [self wizHtmlString:[self titleHtmlString:documentName] body:contentHtml];
     NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
     if (![html writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&err]) {
         [WizGlobals reportError:err];
-        return NO;
+        return nil;
     }
 
-	NSString* documentLocation = @"/My Mobile/";
+	NSString* documentLocation = @"/My Mobiles/";
     
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
     NSMutableDictionary* doc = [NSMutableDictionary dictionary];
@@ -1117,9 +1119,9 @@ NSInteger compareTag(id location1, id location2, void*);
     [doc setObject:nAttachmentCount forKey:TypeOfUpdateDocumentAttchmentCount];
     [doc setObject:@"" forKey:TypeOfUpdateDocumentTagGuids];
     [doc setObject:[NSNumber numberWithInt:1] forKey:TypeOfUpdateDocumentLocalchanged];
-    BOOL bRet = [self updateDocument:doc];
+    [self updateDocument:doc];
     [self setDocumentServerChanged:documentGUID changed:NO];
-    return bRet;
+    return documentGUID;
 }
 - (BOOL) editDocumentWithGuidAndData:(NSDictionary*)documentData
 {
@@ -1203,7 +1205,7 @@ NSInteger compareTag(id location1, id location2, void*);
     
 	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
-		documentLocation = @"/My Mobile/";
+		documentLocation = @"/My Mobiles/";
 	}
     
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
@@ -1308,7 +1310,7 @@ NSInteger compareTag(id location1, id location2, void*);
 
 	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
-		documentLocation = @"/My Mobile/";
+		documentLocation = @"/My Mobiles/";
 	}
 
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];

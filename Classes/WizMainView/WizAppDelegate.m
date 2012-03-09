@@ -19,6 +19,7 @@
 #import "WizGlobalNotificationMessage.h"
 #import "WizSync.h"
 #import "NSDate-Utilities.h"
+#import "WizPhoneNotificationMessage.h"
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
 //#import "TestFlight.h"
@@ -168,9 +169,31 @@
 }
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSString* defaultAccount = [WizSettings defaultAccountUserId];
+    NSString* defaultAccount = [[WizGlobalData sharedData] activeAccountUserId];
     if (defaultAccount == nil || [defaultAccount isEqualToString:@""]) {
         return NO;
+    }
+    if (url != nil && [url isFileURL]) {
+        NSString* filePath = url.absoluteString;
+        NSArray* breakFilePath = [filePath componentsSeparatedByString:@"/"];
+        NSString* fileName = [breakFilePath lastObject];
+        WizIndex* index = [[WizGlobalData sharedData] indexData:defaultAccount];
+        NSString* tempFilePath =[WizGlobals getAttachmentTempFilePath:defaultAccount];
+        NSString* toFilePath = [tempFilePath stringByAppendingPathComponent:fileName];
+        NSURL* toUrl = [NSURL fileURLWithPath:toFilePath];
+        NSError* error = nil;
+        if (![[NSFileManager defaultManager] copyItemAtURL:url toURL:toUrl error:&error]) {
+            [WizGlobals reportError:error];
+            return NO;
+        }
+        NSString* documentGUID = [index newDocumentWithOneAttachment:toFilePath];
+        if (documentGUID == nil) {
+            return NO;
+        }
+        WizDocument* document = [index documentFromGUID:documentGUID];
+        if (!WizDeviceIsPad()) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:document forKey:TypeOfWizDocumentData]];
+        }
     }
     return YES;
 }

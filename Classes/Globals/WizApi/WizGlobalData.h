@@ -33,8 +33,9 @@ extern NSString* DataTypeOfLoginView ;
 
 extern NSString* DataMainOfWiz;
 #define DataOfAttributesForDocumentListName  @"attributesForDocumentListName"
-#define DataOfGlobalShareDataWiz             @"DataOfGlobalShareDataWiz"
+#define WizGlobalAccount             @"DataOfGlobalShareDataWiz"
 #define DataOfAttributesForPadAbstractViewParagraph @"DataOfAttributesForPadAbstractViewParagraph"
+#define DataOfActiveAccountUserId           @"DataOfActiveAccountUserId"
 @class WizSync;
 @class WizIndex;
 @class WizCreateAccount;
@@ -90,8 +91,11 @@ extern NSString* DataMainOfWiz;
 - (WizDownloadPool*) globalDownloadPool:(NSString *)userId;
 - (WizChangePassword*) dataOfChangePassword:(NSString*)userId;
 //2012-2-25
--(NSDictionary*) attributesForDocumentListName;
+- (NSDictionary*) attributesForDocumentListName;
 - (NSDictionary*) attributesForAbstractViewParagraphPad;
+//2012-3-9
+- (BOOL) registerActiveAccountUserId:(NSString*)userId;
+- (NSString*) activeAccountUserId;
 + (WizGlobalData*) sharedData;
 + (void) deleteShareData;
 
