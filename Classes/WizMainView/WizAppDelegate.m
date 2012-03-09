@@ -20,6 +20,7 @@
 #import "WizSync.h"
 #import "NSDate-Utilities.h"
 #import "WizPhoneNotificationMessage.h"
+#import "WizPadNotificationMessage.h"
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
 //#import "TestFlight.h"
@@ -193,6 +194,9 @@
         WizDocument* document = [index documentFromGUID:documentGUID];
         if (!WizDeviceIsPad()) {
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:document forKey:TypeOfWizDocumentData]];
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:document forKey:TypeOfDocumentKeyString]];
         }
     }
     return YES;
