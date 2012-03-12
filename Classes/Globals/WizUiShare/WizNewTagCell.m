@@ -48,7 +48,7 @@
     NSString* textFieldText = [NSString stringWithFormat:@"  %@%@%@"
                                ,@"\""
                                ,str
-                               ,"\""];
+                               ,@"\""];
     self.textField.text = textFieldText;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
