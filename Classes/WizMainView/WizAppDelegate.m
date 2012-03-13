@@ -80,7 +80,6 @@
         [self.navController pushViewController:login animated:YES];
 	}
     [self.window makeKeyAndVisible];
-    return YES;
 }
 
 
@@ -187,7 +186,7 @@
             [WizGlobals reportError:error];
             return NO;
         }
-        NSString* documentGUID = [index newDocumentWithOneAttachment:toFilePath];
+        NSString* documentGUID = [[index newDocumentWithOneAttachment:toFilePath] autorelease];
         if (documentGUID == nil) {
             return NO;
         }
@@ -198,8 +197,9 @@
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:document forKey:TypeOfDocumentKeyString]];
         }
+        return YES;
     }
-    return YES;
+return NO;
 }
 
 @end

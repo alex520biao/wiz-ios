@@ -390,7 +390,7 @@
                 [attachmentsGuid addObject:pathDir];
                 continue;
             }
-            NSString* newAttachmentGuid = [index newAttachment:each documentGUID:self.documentGUID];
+            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
             [attachmentsGuid addObject:newAttachmentGuid];
         }
     }

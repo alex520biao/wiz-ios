@@ -296,7 +296,7 @@
 {
     if (indexPath.row ==0 && isNewTag) {
         WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-        WizTag* tag = [index newTag:self.searchBar.text description:@"" parentTagGuid:nil];
+        WizTag* tag = [[index newTag:self.searchBar.text description:@"" parentTagGuid:nil] autorelease];
         [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
         [[self.tags objectAtIndex:0] addObject:tag];
         [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];

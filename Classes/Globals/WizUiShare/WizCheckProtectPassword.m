@@ -142,6 +142,7 @@
             [self.navigationController pushViewController:check animated:YES];
             self.isMakeSure = YES;
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makeSure:) name:MessageOfCheckPasswordMakesure object:nil];
+            [check release];
         }
         else
         {

@@ -7,15 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kOrderDate                  1
-#define kOrderReverseDate           2
-#define kOrderFirstLetter           3
-#define kOrderReverseFirstLetter    4
-#define kOrderCreatedDate           5
-#define kOrderReverseCreatedDate    6
+
 
 #define WizIosAppVersionKeyString  @"3.0.5"
 #define ConnectServerOnlyByWif      @"ConnectServerOnlyByWif"
+typedef NSUInteger WizTableOrder;
+enum
+{
+ kOrderDate=1,
+ kOrderReverseDate=2,
+kOrderFirstLetter=3,
+ kOrderReverseFirstLetter=4,
+kOrderCreatedDate=5,
+kOrderReverseCreatedDate=6
+};
+
 @class WizIndexData;
 @class ZipArchive;
 @class WizTempIndexData;

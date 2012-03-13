@@ -195,7 +195,6 @@
         processText = WizStrSyncingdeletednotes;
     }
     else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-        processText = WizStrUploadingnotes;
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {
@@ -212,9 +211,7 @@
                                             WizStrUploadsuccessfully];
         }
     }
-    
-    if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-        processText = WizStrDownloadingNotes;
+    else  if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
         NSRange range = NSMakeRange(0, 20);
         NSString* displayName = nil;
         if (objectName.length >= 20) {

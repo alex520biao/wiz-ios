@@ -291,5 +291,9 @@
     self.localSearchSwitch.on = YES;
     [super viewWillAppear:animated];
 }
-
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.searchBar becomeFirstResponder];
+}
 @end

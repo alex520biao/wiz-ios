@@ -255,7 +255,7 @@
 }
 +(NSString*)getAttachmentSourceFileName:(NSString*)userId
 {
-    NSString* ret = [NSString string];
+    NSString* ret = @"";
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
     NSString* dateString = [formatter stringFromDate:[NSDate date]];

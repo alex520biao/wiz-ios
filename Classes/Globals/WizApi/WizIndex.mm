@@ -17,7 +17,7 @@
 #import "WizSync.h"
 #import "TFHpple.h"
 #import "pinyin.h"
-#import "RegexKitLite.h"
+//#import "RegexKitLite.h"
 #import "WizGlobalDictionaryKey.h"
 #import "NSDate-Utilities.h"
 #import "WizSettings.h"
@@ -29,7 +29,18 @@
 
 NSInteger compareString(id location1, id location2, void*);
 NSInteger compareTag(id location1, id location2, void*);
+@interface NSString (WizStringRegular)
+- (NSString*) stringReplaceUseRegular:(NSString*)regex;
+@end
+@implementation NSString (WizStringRegular)
 
+- (NSString*) stringReplaceUseRegular:(NSString*)regex
+{
+    NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
+    return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:@""];
+}
+
+@end
 @implementation WizAbstract
 @synthesize image;
 @synthesize text;
@@ -1094,7 +1105,7 @@ NSInteger compareTag(id location1, id location2, void*);
     else {
         contentHtml = [NSString stringWithFormat:@"<p>%@ Added By %@</p>",documentName,[[UIDevice currentDevice] model]];
     }
-    [self newAttachment:fileSourePath documentGUID:documentGUID];
+    [[self newAttachment:fileSourePath documentGUID:documentGUID] autorelease];
     NSString* html = [self wizHtmlString:[self titleHtmlString:documentName] body:contentHtml];
     NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
     if (![html writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&err]) {
@@ -1121,7 +1132,7 @@ NSInteger compareTag(id location1, id location2, void*);
     [doc setObject:[NSNumber numberWithInt:1] forKey:TypeOfUpdateDocumentLocalchanged];
     [self updateDocument:doc];
     [self setDocumentServerChanged:documentGUID changed:NO];
-    return documentGUID;
+    return [documentGUID retain];
 }
 - (BOOL) editDocumentWithGuidAndData:(NSDictionary*)documentData
 {
@@ -2226,15 +2237,25 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     }
     NSData* abstractImageData = nil;
     NSString* abstractText = nil;
+//    NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
+//    NSString* removeStyle = [sourceStr stringByReplacingOccurrencesOfRegex:@"<style[^>]*?>[\\s\\S]*?<\\/style>" withString:@""];
+//    NSString* removeScript = [removeStyle stringByReplacingOccurrencesOfRegex:@"<script[^>]*?>[\\s\\S]*?<\\/script>" withString:@""];
+//    NSString* removeHtmlSpace = [removeScript stringByReplacingOccurrencesOfRegex:@"&(.*?);" withString:@""];
+//    NSString* removeOhterCharacter = [removeHtmlSpace stringByReplacingOccurrencesOfRegex:@"&#(.*?);" withString:@""];
+//    NSString* removeBlock = [removeOhterCharacter stringByReplacingOccurrencesOfRegex:@"\\s{2,}|\\ \\;" withString:@""];
+//    NSString* removeCOntrol = [removeBlock stringByReplacingOccurrencesOfRegex:@"/\n" withString:@"."];
+//    NSString* prepareStr = [removeCOntrol stringByReplacingOccurrencesOfRegex:@"<[^>]*>" withString:@""];
+//    NSString* destStr = [prepareStr stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    
     NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
-    NSString* removeStyle = [sourceStr stringByReplacingOccurrencesOfRegex:@"<style[^>]*?>[\\s\\S]*?<\\/style>" withString:@""];
-    NSString* removeScript = [removeStyle stringByReplacingOccurrencesOfRegex:@"<script[^>]*?>[\\s\\S]*?<\\/script>" withString:@""];
-    NSString* removeHtmlSpace = [removeScript stringByReplacingOccurrencesOfRegex:@"&(.*?);" withString:@""];
-    NSString* removeOhterCharacter = [removeHtmlSpace stringByReplacingOccurrencesOfRegex:@"&#(.*?);" withString:@""];
-    NSString* removeBlock = [removeOhterCharacter stringByReplacingOccurrencesOfRegex:@"\\s{2,}|\\ \\;" withString:@""];
-    NSString* removeCOntrol = [removeBlock stringByReplacingOccurrencesOfRegex:@"/\n" withString:@"."];
-    NSString* prepareStr = [removeCOntrol stringByReplacingOccurrencesOfRegex:@"<[^>]*>" withString:@""];
-    NSString* destStr = [prepareStr stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    NSString* removeStyle = [sourceStr stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];
+    NSString* removeScript = [removeStyle stringReplaceUseRegular:@"<script[^>]*?>[\\s\\S]*?<\\/script>"];
+    NSString* removeHtmlSpace = [removeScript stringReplaceUseRegular:@"&(.*?);"];
+    NSString* removeOhterCharacter = [removeHtmlSpace stringReplaceUseRegular:@"&#(.*?);" ];
+    NSString* removeBlock = [removeOhterCharacter stringReplaceUseRegular:@"\\s{2,}|\\ \\;"];
+    NSString* removeCOntrol = [removeBlock stringReplaceUseRegular:@"/\n" ];
+    NSString* prepareStr = [removeCOntrol stringReplaceUseRegular:@"<[^>]*>" ];
+    NSString* destStr = [prepareStr stringReplaceUseRegular:@"'"];
     if (destStr == nil || [destStr isEqualToString:@""]) {
         destStr = @"";
     }
@@ -2374,9 +2395,6 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
         tempIndex.PadAbstractFromGUID([documentGUID UTF8String], abstract);
     }
     NSString* text = [[NSString alloc] initWithUTF8String:abstract.text.c_str()];
-    if (nil == text || [text isEqualToString:@""]) {
-        text = @"";
-    }
     NSData* imageData = [[NSData alloc] initWithBytes:abstract.imageData length:abstract.imageDataLength];
     UIImage* image = [UIImage imageWithData:imageData];
     WizAbstract* ret = [[[WizAbstract alloc] init] autorelease];
@@ -2414,7 +2432,7 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     [self updateAttachement:atttachNew];
     [self setAttachmentServerChanged:guid changed:NO];
     [self setAttachmentLocalChanged:guid changed:YES];
-    return [guid copy];
+    return [guid retain];
 }
 - (NSString*) documentAbstractFileName:(NSString*)documentGUID
 {

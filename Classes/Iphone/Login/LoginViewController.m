@@ -250,8 +250,10 @@
     [self.createdAccountButton setTitle:NSLocalizedString(@"Add New Account", nil) forState:UIControlStateNormal];
     [self.createdAccountButton addTarget:self action:@selector(addAccountEntry) forControlEvents:UIControlEventTouchUpInside];
     self.createdAccountButton.frame = CGRectMake(0.0, self.view.frame.size.height/2 -30, 320, 30);
-    [self.addAccountButton setTitle:NSLocalizedString(@"Get WizNote Account For Free", nil) forState:UIControlStateNormal];
+    [self.addAccountButton setTitle:WizStrRegister forState:UIControlStateNormal];
+    [self.addAccountButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     self.addAccountButton.hidden = NO;
+    
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];
     [self.view insertSubview:backGroud atIndex:0];
     [backGroud release];

@@ -52,6 +52,8 @@
 		734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1351504597D002549CB /* TreeBaseNodeCell.m */; };
 		734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1371504597D002549CB /* TreeTableViewBase.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
+		737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AA150DB84B0029A967 /* WizTableViewController.m */; };
+		737999AF150DE6FE0029A967 /* WizTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AE150DE6FE0029A967 /* WizTableViewCell.m */; };
 		7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F16815076FAB00668DA8 /* WizCheckAttachment.m */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
@@ -90,7 +92,6 @@
 		73A7857C14F8CC23001387F6 /* SelectFloderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846C14F8CC22001387F6 /* SelectFloderView.m */; };
 		73A7857D14F8CC23001387F6 /* UserSttingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */; };
 		73A7857E14F8CC23001387F6 /* UserSttingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7847014F8CC22001387F6 /* UserSttingsViewController.xib */; };
-		73A7858014F8CC23001387F6 /* TagSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847414F8CC22001387F6 /* TagSelectView.m */; };
 		73A7858114F8CC23001387F6 /* WizActivityIndicatorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */; };
 		73A7858214F8CC23001387F6 /* WizCheckProtectPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847814F8CC22001387F6 /* WizCheckProtectPassword.m */; };
 		73A7858314F8CC23001387F6 /* WizEditNoteBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */; };
@@ -157,7 +158,6 @@
 		73A785CF14F8CC23001387F6 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7851914F8CC22001387F6 /* NSDate-Utilities.m */; };
 		73A785D014F8CC23001387F6 /* TimeFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7851B14F8CC22001387F6 /* TimeFormatters.m */; };
 		73A785D114F8CC23001387F6 /* pinyin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7851D14F8CC22001387F6 /* pinyin.cpp */; };
-		73A785D214F8CC23001387F6 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852114F8CC22001387F6 /* RegexKitLite.m */; };
 		73A785D314F8CC23001387F6 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852414F8CC22001387F6 /* TFHpple.m */; };
 		73A785D414F8CC23001387F6 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852614F8CC22001387F6 /* TFHppleElement.m */; };
 		73A785D514F8CC23001387F6 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852814F8CC22001387F6 /* XPathQuery.m */; };
@@ -385,6 +385,10 @@
 		734CA1371504597D002549CB /* TreeTableViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableViewBase.m; sourceTree = "<group>"; };
 		734CA1381504597D002549CB /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
+		737999A9150DB84B0029A967 /* WizTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewController.h; sourceTree = "<group>"; };
+		737999AA150DB84B0029A967 /* WizTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewController.m; sourceTree = "<group>"; };
+		737999AD150DE6FE0029A967 /* WizTableVIewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableVIewCell.h; sourceTree = "<group>"; };
+		737999AE150DE6FE0029A967 /* WizTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewCell.m; sourceTree = "<group>"; };
 		7380F16715076FAB00668DA8 /* WizCheckAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckAttachment.h; sourceTree = "<group>"; };
 		7380F16815076FAB00668DA8 /* WizCheckAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCheckAttachment.m; sourceTree = "<group>"; };
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
@@ -462,8 +466,6 @@
 		73A7846E14F8CC22001387F6 /* UserSttingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSttingsViewController.h; sourceTree = "<group>"; };
 		73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSttingsViewController.m; sourceTree = "<group>"; };
 		73A7847014F8CC22001387F6 /* UserSttingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserSttingsViewController.xib; sourceTree = "<group>"; };
-		73A7847314F8CC22001387F6 /* TagSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagSelectView.h; sourceTree = "<group>"; };
-		73A7847414F8CC22001387F6 /* TagSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagSelectView.m; sourceTree = "<group>"; };
 		73A7847514F8CC22001387F6 /* WizActivityIndicatorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizActivityIndicatorTableViewCell.h; sourceTree = "<group>"; };
 		73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizActivityIndicatorTableViewCell.m; sourceTree = "<group>"; };
 		73A7847714F8CC22001387F6 /* WizCheckProtectPassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckProtectPassword.h; sourceTree = "<group>"; };
@@ -491,8 +493,8 @@
 		73A7849114F8CC22001387F6 /* PadFoldersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadFoldersController.m; sourceTree = "<group>"; };
 		73A7849214F8CC22001387F6 /* PadTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadTagController.h; sourceTree = "<group>"; };
 		73A7849314F8CC22001387F6 /* PadTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadTagController.m; sourceTree = "<group>"; };
-		73A7849414F8CC22001387F6 /* PickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickViewController.h; sourceTree = "<group>"; };
-		73A7849514F8CC22001387F6 /* PickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickViewController.m; sourceTree = "<group>"; };
+		73A7849414F8CC22001387F6 /* PickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickViewController.h; path = ../IPad/PickViewController.h; sourceTree = "<group>"; };
+		73A7849514F8CC22001387F6 /* PickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickViewController.m; path = ../IPad/PickViewController.m; sourceTree = "<group>"; };
 		73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAddAcountViewController.h; sourceTree = "<group>"; };
 		73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAddAcountViewController.m; sourceTree = "<group>"; };
 		73A7849814F8CC22001387F6 /* WizCheckAccounsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckAccounsController.h; sourceTree = "<group>"; };
@@ -590,8 +592,6 @@
 		73A7851B14F8CC22001387F6 /* TimeFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeFormatters.m; sourceTree = "<group>"; };
 		73A7851D14F8CC22001387F6 /* pinyin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pinyin.cpp; sourceTree = "<group>"; };
 		73A7851E14F8CC22001387F6 /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
-		73A7852014F8CC22001387F6 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		73A7852114F8CC22001387F6 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		73A7852314F8CC22001387F6 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		73A7852414F8CC22001387F6 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		73A7852514F8CC22001387F6 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -822,6 +822,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				73A784F614F8CC22001387F6 /* JS */,
 				32CA4F630368D1EE00C91783 /* Wiz_Prefix.pch */,
 			);
 			name = "Other Sources";
@@ -830,7 +831,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				73A784F614F8CC22001387F6 /* JS */,
 				73A785E514F8CD5C001387F6 /* icons */,
 				73A7866214F8CD5D001387F6 /* ipad */,
 				73A7866E14F8CD5D001387F6 /* Share */,
@@ -908,6 +908,17 @@
 			);
 			name = FolderTag;
 			path = DocumentView/FolderTag;
+			sourceTree = "<group>";
+		};
+		737999A8150DB84B0029A967 /* Involution */ = {
+			isa = PBXGroup;
+			children = (
+				737999A9150DB84B0029A967 /* WizTableViewController.h */,
+				737999AA150DB84B0029A967 /* WizTableViewController.m */,
+				737999AD150DE6FE0029A967 /* WizTableVIewCell.h */,
+				737999AE150DE6FE0029A967 /* WizTableViewCell.m */,
+			);
+			path = Involution;
 			sourceTree = "<group>";
 		};
 		7379A5BA14F4FE1B006593CD /* LunchImages */ = {
@@ -1022,6 +1033,7 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				737999A8150DB84B0029A967 /* Involution */,
 				73A7845114F8CC22001387F6 /* abstract */,
 				73A7845614F8CC22001387F6 /* attachmentView */,
 				73A7845F14F8CC22001387F6 /* CommonString.h */,
@@ -1033,8 +1045,6 @@
 				73A7846B14F8CC22001387F6 /* SelectFloderView.h */,
 				73A7846C14F8CC22001387F6 /* SelectFloderView.m */,
 				73A7846D14F8CC22001387F6 /* Settings */,
-				73A7847314F8CC22001387F6 /* TagSelectView.h */,
-				73A7847414F8CC22001387F6 /* TagSelectView.m */,
 				73A7847514F8CC22001387F6 /* WizActivityIndicatorTableViewCell.h */,
 				73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */,
 				73A7847714F8CC22001387F6 /* WizCheckProtectPassword.h */,
@@ -1119,8 +1129,6 @@
 				73A7849114F8CC22001387F6 /* PadFoldersController.m */,
 				73A7849214F8CC22001387F6 /* PadTagController.h */,
 				73A7849314F8CC22001387F6 /* PadTagController.m */,
-				73A7849414F8CC22001387F6 /* PickViewController.h */,
-				73A7849514F8CC22001387F6 /* PickViewController.m */,
 				73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */,
 				73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */,
 				73A7849814F8CC22001387F6 /* WizCheckAccounsController.h */,
@@ -1159,6 +1167,8 @@
 		73A784B714F8CC22001387F6 /* Iphone */ = {
 			isa = PBXGroup;
 			children = (
+				73A7849414F8CC22001387F6 /* PickViewController.h */,
+				73A7849514F8CC22001387F6 /* PickViewController.m */,
 				734CA1251504597D002549CB /* FolderTag */,
 				73A784B814F8CC22001387F6 /* DocumentList */,
 				73A784C314F8CC22001387F6 /* DocumentView */,
@@ -1263,7 +1273,6 @@
 				73A7850B14F8CC22001387F6 /* minizip */,
 				73A7851714F8CC22001387F6 /* NSDateAddtion */,
 				73A7851C14F8CC22001387F6 /* Pinyin */,
-				73A7851F14F8CC22001387F6 /* RegexKitLite */,
 				73A7852214F8CC22001387F6 /* TFHpple */,
 				73A7852914F8CC22001387F6 /* TTTAttributeLabel */,
 				73A7852C14F8CC22001387F6 /* UIbadge */,
@@ -1339,15 +1348,6 @@
 				73A7851E14F8CC22001387F6 /* pinyin.h */,
 			);
 			path = Pinyin;
-			sourceTree = "<group>";
-		};
-		73A7851F14F8CC22001387F6 /* RegexKitLite */ = {
-			isa = PBXGroup;
-			children = (
-				73A7852014F8CC22001387F6 /* RegexKitLite.h */,
-				73A7852114F8CC22001387F6 /* RegexKitLite.m */,
-			);
-			path = RegexKitLite;
 			sourceTree = "<group>";
 		};
 		73A7852214F8CC22001387F6 /* TFHpple */ = {
@@ -1865,7 +1865,6 @@
 				73A7857B14F8CC23001387F6 /* ScrollTableViewCell.m in Sources */,
 				73A7857C14F8CC23001387F6 /* SelectFloderView.m in Sources */,
 				73A7857D14F8CC23001387F6 /* UserSttingsViewController.m in Sources */,
-				73A7858014F8CC23001387F6 /* TagSelectView.m in Sources */,
 				73A7858114F8CC23001387F6 /* WizActivityIndicatorTableViewCell.m in Sources */,
 				73A7858214F8CC23001387F6 /* WizCheckProtectPassword.m in Sources */,
 				73A7858314F8CC23001387F6 /* WizEditNoteBase.m in Sources */,
@@ -1922,7 +1921,6 @@
 				73A785CF14F8CC23001387F6 /* NSDate-Utilities.m in Sources */,
 				73A785D014F8CC23001387F6 /* TimeFormatters.m in Sources */,
 				73A785D114F8CC23001387F6 /* pinyin.cpp in Sources */,
-				73A785D214F8CC23001387F6 /* RegexKitLite.m in Sources */,
 				73A785D314F8CC23001387F6 /* TFHpple.m in Sources */,
 				73A785D414F8CC23001387F6 /* TFHppleElement.m in Sources */,
 				73A785D514F8CC23001387F6 /* XPathQuery.m in Sources */,
@@ -1952,6 +1950,8 @@
 				734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */,
 				734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */,
 				7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */,
+				737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */,
+				737999AF150DE6FE0029A967 /* WizTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2113,8 +2113,8 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2174,8 +2174,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2196,8 +2196,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

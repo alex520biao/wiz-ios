@@ -723,10 +723,13 @@ local int unzlocal_GetCurrentFileInfoInternal (file,
                 err=UNZ_ERRNO;
         
         lSeek+=file_info.size_file_comment - uSizeRead;
+        printf("%ld",lSeek);
     }
     else
+    {
         lSeek+=file_info.size_file_comment;
-
+        printf("%ld",lSeek);
+    }
     if ((err==UNZ_OK) && (pfile_info!=NULL))
         *pfile_info=file_info;
 
@@ -1113,7 +1116,10 @@ extern int ZEXPORT unzOpenCurrentFile3 (file, method, level, raw, password)
 
     if ((s->cur_file_info.compression_method!=0) &&
         (s->cur_file_info.compression_method!=Z_DEFLATED))
+    {
         err=UNZ_BADZIPFILE;
+        printf("%d",err);
+    }
     pfile_in_zip_read_info->crc32_wait=s->cur_file_info.crc;
     pfile_in_zip_read_info->crc32=0;
     pfile_in_zip_read_info->compression_method =

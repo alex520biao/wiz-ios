@@ -153,6 +153,7 @@
     UIImageView* logi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title"]];
     logi.frame = CGRectMake(0.0, 20, 320, 40);
     [self.view addSubview:logi];
+    [logi release];
     WizInputView* name = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 80, 320, 40) title:@"Email" placeHoder:@"email@example.com"];
     name.textInputField.delegate = self;
     name.textInputField.keyboardType = UIKeyboardTypeEmailAddress;

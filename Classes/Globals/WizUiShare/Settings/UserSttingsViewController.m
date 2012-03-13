@@ -880,6 +880,7 @@
     {  
         case MFMailComposeResultCancelled:  
             msg = NSLocalizedString(@"Mail has been canceled", nil);
+            [self alertWithTitle:nil msg:msg]; 
             break;  
         case MFMailComposeResultSaved:  
             msg =NSLocalizedString(@"Mail saved successfully", nil);

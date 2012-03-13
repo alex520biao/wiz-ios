@@ -343,6 +343,8 @@
         remindLabel.font= [UIFont systemFontOfSize:35];
         remindLabel.backgroundColor = [UIColor clearColor];;
         self.tableView.backgroundView = back;
+        [back release];
+        [remindLabel release];
     }
     else
     {

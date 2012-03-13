@@ -23,6 +23,9 @@
 //wiz-dzpqzb test
 #import "FoldersViewControllerNew.h"
 #import "TagsListTreeControllerNew.h"
+
+//wiz-dzpqzb test
+#import "WizTableViewController.h"
  #define NEWNOTEENTRY 101
  
 @implementation PickerViewController
@@ -114,10 +117,13 @@
     
     RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
     recent.accountUserID =self.accountUserId;
+//    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
     recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
     [recent release];
+    
+    
     
  
     FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];

@@ -22,9 +22,12 @@
 @synthesize attachments;
 @synthesize waitAlert;
 @synthesize checkNav;
-
+@synthesize lastIndexPath;
+@synthesize currentPreview;
 - (void) dealloc
 {
+    self.currentPreview = nil;
+    self.lastIndexPath = nil;
     self.checkNav = nil;
     self.documentGUID = nil;
     self.accountUserId = nil;
@@ -54,7 +57,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.lastIndexPath = nil;
     if (self.attachments == nil) {
         self.attachments = [NSMutableArray array];
     }
@@ -172,6 +175,7 @@
     else {
         [self.navigationController pushViewController:check animated:YES];
     }
+    [check release];
 }
 - (void) checkInOtherApp:(WizDocumentAttach*)attachment
 {
@@ -180,11 +184,9 @@
     NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
     UIDocumentInteractionController* preview = [UIDocumentInteractionController interactionControllerWithURL:url];
     preview.delegate = self;
-    CGRect nav = self.navigationController.navigationBar.frame;
-    nav.size = CGSizeMake(1500.0f, 40.0f);
-    [preview presentOptionsMenuFromRect:nav inView:self.view animated:YES];
-    [[preview retain] autorelease];
-    [preview retain];
+    CGRect nav = CGRectMake(0.0, 40*(lastIndexPath.row+1), 320, 40);
+    [preview presentOptionsMenuFromRect:nav inView:self.view  animated:YES];
+    self.currentPreview = preview;
     [url release];
 }
 -(void) checkAttachment:(WizDocumentAttach*) attachment inWiz:(BOOL)inWiz
@@ -243,11 +245,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
+    self.lastIndexPath = indexPath;
     [self checkAttachment:attch inWiz:YES];
 }
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
+    self.lastIndexPath = indexPath;
     [self checkAttachment:attch inWiz:NO];
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

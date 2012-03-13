@@ -62,6 +62,7 @@
 #define WizStrSyncingtags               NSLocalizedString(@"Syncing tags", nil)
 #define WizStrSyncinguserinformation    NSLocalizedString(@"Syncing user information", nil)
 #define WizStrThedaybeforeyesterday     NSLocalizedString(@"The day before yesterday", nil)
+#define WizStrWithInAWeek               NSLocalizedString(@"With in a week",nil)
 #define WizStrUploadsuccessfully                            NSLocalizedString(@"Upload successfully", nil)
 #define WizStrUploadingnotes                                NSLocalizedString(@"Uploading notes", nil)
 #define WizStrContinueediting                               NSLocalizedString(@"Continue editing", nil)

@@ -1052,9 +1052,10 @@ extern int ZEXPORT zipCloseFileInZipRaw (file, uncompressed_size, crc32)
         if (zi->ci.stream.avail_out == 0)
         {
             if (zipFlushWriteBuffer(zi) == ZIP_ERRNO)
-                
+            {
                 err = ZIP_ERRNO;
-            
+                printf("%d",err);
+            }
             zi->ci.stream.avail_out = (uInt)Z_BUFSIZE;
             zi->ci.stream.next_out = zi->ci.buffered_data;
         }

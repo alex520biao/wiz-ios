@@ -15,11 +15,15 @@
     NSString* documentGUID;
     UIAlertView* waitAlert;
     UINavigationController* checkNav;
+    NSIndexPath* lastIndexPath;
+    UIDocumentInteractionController* currentPreview;
 }
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSMutableArray* attachments;
 @property (nonatomic, retain) NSString* documentGUID;
 @property (nonatomic, retain) UIAlertView* waitAlert;
 @property (nonatomic, retain) UINavigationController* checkNav;
+@property (nonatomic, retain) NSIndexPath* lastIndexPath;
+@property (nonatomic, retain) UIDocumentInteractionController* currentPreview;
 - (void) downloadDone:(NSNotification*)nc;
 @end

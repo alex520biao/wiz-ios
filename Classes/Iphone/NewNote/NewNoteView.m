@@ -411,6 +411,7 @@
     [audioRecordStart release];
     audio.tag = 100;
     [self.addAttachmentView addSubview:audio];
+    [audio release];
 }
 
 - (void) addSelectedPhotoView
@@ -621,6 +622,7 @@
     [tagView addSubview:tag];
     [self.addDocumentInfoView addSubview:tagView];
     [tag release];
+    [tagView release];
     [self.view addSubview:self.addDocumentInfoView];
     
 }
@@ -793,7 +795,7 @@
                 [attachmentsGuid addObject:pathDir];
                 continue;
             }
-            NSString* newAttachmentGuid = [index newAttachment:each documentGUID:self.documentGUID];
+            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
             [attachmentsGuid addObject:newAttachmentGuid];
         }
     }
