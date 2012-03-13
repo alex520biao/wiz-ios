@@ -141,7 +141,13 @@
     }
     return self;
 }
-
+- (void) dismissPoperview
+{
+    if (nil != self.currentPopoverController) {
+        [currentPopoverController dismissPopoverAnimated:YES];
+    }
+    
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -169,7 +175,18 @@
     [newNote release];
     [controller release];
 }
-
+- (void) popTheDocumentList
+{
+    [self dismissPoperview];
+    UITableView* tableViw = [[UITableView alloc] init];
+    tableViw.dataSource = self;
+    tableViw.delegate = self;
+    UIViewController* con = [[UIViewController alloc] init];
+    con.view = tableViw;
+    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:con];
+    [pop presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    
+}
 - (void) setViewsFrame
 {
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
@@ -186,6 +203,15 @@
         self.documentList.frame = TablePortraitFrame;
         self.webView.frame = WebViewPortraitFrame;
         self.headerView.frame = HeadViewPortraitFrame;
+    }
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        [self dismissPoperview];
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else {
+        UIBarButtonItem* listItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(popTheDocumentList)];
+        self.navigationItem.rightBarButtonItem = listItem;
+        [listItem release];
     }
 }
 
@@ -370,13 +396,7 @@
 {
     NSLog(@"dd");
 }
-- (void) dismissPoperview
-{
-    if (nil != self.currentPopoverController) {
-        [currentPopoverController dismissPopoverAnimated:YES];
-    }
-    
-}
+
 - (void) checkDocumentDtail
 {
     [self dismissPoperview];
@@ -677,6 +697,8 @@
     UITableView* tableViw = [[UITableView alloc] init];
     self.documentList = tableViw;
     [self.view addSubview:self.documentList];
+    self.documentList.dataSource = self;
+    self.documentList.delegate = self;
     [tableViw release];
     [self buildHeaderView];
     UIWebView* webView_ = [[UIWebView alloc] init];
@@ -690,8 +712,7 @@
     if (documentsArray == nil) {
         self.documentsArray = [NSMutableArray array] ;
     }
-    self.documentList.dataSource = self;
-    self.documentList.delegate = self;
+
     
     [self loadArraySource];
     [self documentsOrderedByDate];
@@ -713,7 +734,8 @@
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 
-    [self setViewsFrame]; 
+    [self setViewsFrame];
+
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfViewWillOrientent object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:toInterfaceOrientation] forKey:TypeOfViewInterface]];
 }

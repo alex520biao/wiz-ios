@@ -162,7 +162,7 @@
         [timeStr appendAttributedString:detailStr];
         [nameStr appendAttributedString:timeStr];
         self.detailLabel.text = nameStr;
-    }
+    } 
 }
 - (void) drawRect:(CGRect)rect
 {
