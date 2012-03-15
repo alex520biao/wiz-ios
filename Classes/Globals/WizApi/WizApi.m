@@ -589,8 +589,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	[index updateLocations: arrCategory];
     [self postSyncGetAllCategoriesEnd];
 }
-
-
 -(BOOL) callAllTags
 {
 	if (self.token == nil || [self.token length] == 0) {

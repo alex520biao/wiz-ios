@@ -29,6 +29,9 @@
 
 NSInteger compareString(id location1, id location2, void*);
 NSInteger compareTag(id location1, id location2, void*);
+
+
+
 @interface NSString (WizStringRegular)
 - (NSString*) stringReplaceUseRegular:(NSString*)regex;
 @end
@@ -142,6 +145,9 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
 {
+    NSString* t1 = [WizIndex pinyinFirstLetter:self.title];
+    NSString* t2 = [WizIndex pinyinFirstLetter:doc.title];
+    NSLog(@" %@   %@",t1,t2);
     return [[WizIndex pinyinFirstLetter:self.title] compare:[WizIndex pinyinFirstLetter:doc.title]];
 }
 
@@ -2654,6 +2660,15 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     NSString* ret = [[formatter stringFromDate:date] substringWithRange:range];
     [formatter release];
     return ret;
+}
++(BOOL) isReverseOrder:(WizTableOrder)order
+{
+    if (order %2 == 0) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 @end
 

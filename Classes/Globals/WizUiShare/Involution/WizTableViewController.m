@@ -13,6 +13,20 @@
 #import "NSDate-Utilities.h"
 #import "CommonString.h"
 #import "WizTableVIewCell.h"
+#define WizNotFound -2
+
+NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
+{
+    if (result > 0) {
+        return -1;
+    }
+    else if (result < 0) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
 
 @interface WizDocument (WizTableViewControllerDocument)
 -(NSComparisonResult) compareDocument:(WizDocument*)doc mask:(WizTableOrder)mask;
@@ -20,25 +34,31 @@
 @end
 
 @implementation WizDocument (WizTableViewControllerDocument)
--(NSComparisonResult) compareDocument:(WizDocument *)doc mask:(WizTableOrder)mask
+-(NSComparisonResult) compareDocumentOrder:(WizDocument*)doc mask:(WizTableOrder)mask
 {
     switch (mask) {
         case kOrderDate:
-            return [self.dateModified compareDate:doc.dateModified];
         case kOrderReverseDate:
-            return [doc.dateModified compareDate:self.dateModified];
+            return  [self.dateModified compareDate:doc.dateModified];
         case kOrderCreatedDate:
-            return [self.dateCreated compareDate:doc.dateCreated];
         case kOrderReverseCreatedDate:
-            return [doc.dateCreated compareDate:self.dateCreated];
+            return [self.dateCreated compareDate:doc.dateCreated];
         case kOrderFirstLetter:
-            return [self.title compareFirstCharacter:doc.title];
         case kOrderReverseFirstLetter:
-            return [doc.title compareFirstCharacter:self.title];
+            return  [self.title compareFirstCharacter:doc.title];
         default:
             break;
     }
-    return 0;
+    return -NSUIntegerMax;
+}
+-(NSComparisonResult) compareDocument:(WizDocument *)doc mask:(WizTableOrder)mask
+{
+    if ([WizIndex isReverseOrder:mask]) {
+        return ReverseComparisonResult([self compareDocumentOrder:doc mask:mask]);
+    }
+    else {
+        return [self compareDocumentOrder:doc mask:mask];   
+    }
 }
 - (NSComparisonResult) reverseDateGroup:(NSString*)date1 :(NSString*)date2
 {
@@ -70,16 +90,23 @@
             return -1;
         }
     }
-    else if ([d1 isEqualToDateIgnoringTime:[NSDate dateWithDaysBeforeNow:7]]) {
-        if ([d2 isEqualToDateIgnoringTime:[NSDate dateWithDaysBeforeNow:7]]) {
+    else if ([d1 isLaterThanDate:[NSDate dateWithDaysBeforeNow:7]] && [d1 isEarlierThanDate:[NSDate dateWithDaysBeforeNow:2]]) {
+        if ([d2 isLaterThanDate:[NSDate dateWithDaysBeforeNow:7]] && [d2 isEarlierThanDate:[NSDate dateWithDaysBeforeNow:2]]) {
+            NSLog(@"YES");
+            return 0;
+        }
+        else {
+            NSLog(@"NO");
+            return -1;
+        }
+    }
+    else {
+        if ([d1 isEarlierThanDate:[NSDate dateWithDaysBeforeNow:7]] && [d2 isEarlierThanDate:[NSDate dateWithDaysBeforeNow:7]]) {
             return 0;
         }
         else {
             return -1;
         }
-    }
-    else {
-        return 0;
     }
 }
 - (NSComparisonResult) dateBreakForGoup:(NSString*)date1 :(NSString*)date2
@@ -93,15 +120,13 @@
         case kOrderDate:
             return [self dateBreakForGoup:self.dateModified :doc.dateModified];
         case kOrderReverseDate:
-                return [self reverseDateGroup:self.dateModified :doc.dateModified];
+            return [self reverseDateGroup:self.dateModified :doc.dateModified];
         case kOrderCreatedDate:
-            return [self dateBreakForGoup:self.dateCreated :doc.dateCreated];
         case kOrderReverseCreatedDate:
             return [self dateBreakForGoup:self.dateCreated :doc.dateCreated];
         case kOrderFirstLetter:
-            return [self.title compareFirstCharacter:doc.title];
         case kOrderReverseFirstLetter:
-            return [doc.title compareFirstCharacter:self.title];
+            return [self.title compareFirstCharacter:doc.title];
         default:
             break;
     }
@@ -112,7 +137,7 @@
 @implementation NSString (WizTableViewControllerNSString)
 - (NSComparisonResult) compareDate:(NSString*)str
 {
-    return [[WizGlobals sqlTimeStringToDate:self] isLaterThanDate:[WizGlobals sqlTimeStringToDate:str]];
+    return [[WizGlobals sqlTimeStringToDate:self] compare:[WizGlobals sqlTimeStringToDate:str]];
 }
 - (NSComparisonResult) compareFirstCharacter:(NSString *)str
 {
@@ -159,16 +184,17 @@
     NSMutableArray* sourceArray = [self reloadAllData];
     [sourceArray sortUsingComparator:(NSComparator)^(WizDocument* doc1, WizDocument* doc2)
     {
-        NSUInteger i = [doc1 compareDocument:doc2 mask:self.kOrderIndex];
-        return i;
+        return [doc1 compareDocument:doc2 mask:self.kOrderIndex];
     }];
-    
+    for (WizDocument* each in sourceArray) {
+        NSLog(@"%@",each.dateCreated);
+    }
     int count = 0;
+    [self.tableSourceArray removeAllObjects];
     for (int docIndx = 0; docIndx < [sourceArray count];) {
         @try {
             WizDocument* doc1 = [sourceArray objectAtIndex:docIndx];
             WizDocument* doc2 = [sourceArray objectAtIndex:docIndx+1];
-
             if ([doc1 compareToGroup:doc2 mask:self.kOrderIndex] != 0) {
                 NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
                 NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
@@ -191,8 +217,6 @@
                     [self.tableSourceArray addObject:arr];
                 }
             }
-            NSLog(@"%@",exception.description);
-            NSLog(@"%d",docIndx);
             docIndx++;
             count = docIndx;
             continue;
@@ -207,23 +231,12 @@
     switch (self.kOrderIndex) {
         case kOrderCreatedDate:
         case kOrderReverseCreatedDate:
-
-        {
-            NSRange rang = NSMakeRange(0, 7);
-            return [doc.dateCreated substringWithRange:rang];
-            break;
-        }
+            return [doc.dateCreated substringToIndex:7];
         case kOrderDate:
-        {
-            NSRange rang = NSMakeRange(0, 7);
-            return [doc.dateModified substringWithRange:rang];
-            break;
-        }
+            return [doc.dateModified substringToIndex:7];
         case kOrderFirstLetter:
         case kOrderReverseFirstLetter:
-        {
             return [WizIndex pinyinFirstLetter:doc.title];
-        }
         case kOrderReverseDate:
         {
             NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
@@ -238,7 +251,7 @@
             {
                 return WizStrThedaybeforeyesterday;
             }
-            else if ([date isEqualToDateIgnoringTime:[NSDate dateWithDaysBeforeNow:7]])
+            else if ([date isLaterThanDate:[NSDate dateWithDaysBeforeNow:7]])
             {
                 return WizStrWithInAWeek;
             }
@@ -252,10 +265,29 @@
     }
     return @"";
 }
+- (void) reloadSelf
+{
+    static int i = 0;
+    if (i == 0) {
+        i = self.kOrderIndex;
+    }
+    i++;
+    if (i%7 == 0) {
+        i = 1;
+    }
+    self.kOrderIndex = i;
+    NSLog(@"korderindex is %d",self.kOrderIndex);
+    [self sortAllData];
+    [self.tableView reloadData];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.kOrderIndex = kOrderReverseDate;
+    self.kOrderIndex = kOrderFirstLetter;
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(reloadSelf)];
+    self.navigationItem.rightBarButtonItem = item;
+    self.tableView.frame = CGRectMake(0.0, 0.0, 200, 480);
+    [item release];
     [self sortAllData];
 }
 
@@ -294,13 +326,96 @@
     [cell setNeedsDisplay];
     return cell;
 }
+- (NSUInteger) indexOfInsertDocumentToArray:(WizDocument*)document :(NSArray*)arr
+{
+    for (NSUInteger docIndex = 0 ; docIndex < [arr count]; docIndex++) {
+        WizDocument* doc = [arr objectAtIndex:docIndex];
+        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
+            if ([document compareDocument:doc mask:self.kOrderIndex] >= 0) {
+                return docIndex;
+            }
+        }
+        else {
+            if ([document compareDocument:doc mask:self.kOrderIndex] <=0) {
+                return docIndex;
+            }
+        }
+    }
+    return WizNotFound;
+}
+- (NSInteger) groudIndexOfDocument:(NSString*)documentGUID
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizDocument* insertDocument = [index documentFromGUID:documentGUID];
+    for (int arrIndex = 0; arrIndex < [self.tableSourceArray count]; arrIndex++) 
+    {
+        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
+        NSLog(@"%d",[insertDocument compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]);
+        if (![insertDocument compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
+        {
+            return arrIndex;
+        }
+    }
+    return WizNotFound;
+}
+- (NSIndexPath*) indexOfInsertDocument:(NSString*)documentGUID
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizDocument* insertDocument = [index documentFromGUID:documentGUID];
+    NSInteger indexOfInsertDoc = WizNotFound;
+    int arrIndex = 0;
+    for (; arrIndex < [self.tableSourceArray count]; arrIndex++) 
+    {
+        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
+        if (![insertDocument compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
+        {
+            break;
+        }
+    }
+    return [NSIndexPath indexPathForRow:indexOfInsertDoc inSection:arrIndex];
+}
 
+- (NSIndexPath*) indexOfDocumentInTableSourceArray:(NSString*)documentGUID
+{
+    NSInteger section = [self groudIndexOfDocument:documentGUID];
+    NSInteger row = WizNotFound;
+    if (WizNotFound != section) {
+        NSArray* arr = [tableSourceArray objectAtIndex:section];
+        for (NSInteger docIndex = 0; docIndex < [arr count]; docIndex++) {
+            if ([documentGUID isEqualToString:[[arr objectAtIndex:docIndex] guid]]) {
+                row = docIndex;
+                break;
+            }
+        }
+    }
+    return [NSIndexPath indexPathForRow:row inSection:section];
+}
+
+- (void) insertDocumentToTableArray:(NSString*)documentGUID
+{
+
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    NSIndexPath* a = [self indexOfDocumentInTableSourceArray:doc.guid];
+    NSLog(@"%d %d",a.section, a.row );
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 95;
+}
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSArray* arr = [tableSourceArray objectAtIndex:indexPath.section];
+        if ([arr count] == 1) {
+            [self.tableSourceArray removeObjectAtIndex:indexPath.section];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationTop];
+            return;
+        }
+        [[self.tableSourceArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    }
 }
 @end

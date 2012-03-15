@@ -62,6 +62,7 @@
         long characheterSpacing = 0.5f;
         CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &characheterSpacing);
         [attibuteString addAttribute:(NSString *)kCTKernAttributeName value:(id)num range:NSMakeRange(0, attibuteString.length)];
+        CFRelease(num);
         CGFloat lineSpace = 18;
         CTParagraphStyleSetting lineSpaceStyle;
         lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;

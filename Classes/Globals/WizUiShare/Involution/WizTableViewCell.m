@@ -14,55 +14,81 @@
 #import "CommonString.h"
 #define CellWithImageFrame CGRectMake(10,10,225,70) 
 #define CellWithoutImageFrame CGRectMake(10,10,300,70)
+@interface WizTableViewCell()
+{
+    CALayer* backLayer;
+}
+@property (nonatomic, retain) CALayer* backLayer;
++ (NSMutableDictionary*) getDetailAttributes;
++ (NSMutableDictionary*) getNameAttributes;
++ (NSMutableDictionary*) getTimeAttributes;
+@end
 @implementation WizTableViewCell
-@synthesize abstractImageView;
-@synthesize detailLabel;
 @synthesize accountUserId;
 @synthesize documemtGuid;
+@synthesize backLayer;
+static NSMutableDictionary* detailAttributes;
+static NSMutableDictionary* nameAttributes;
+static NSMutableDictionary* timeAttributes;
++ (NSMutableDictionary*) getDetailAttributes
+{
+    if (detailAttributes == nil) {
+        detailAttributes = [[NSMutableDictionary alloc] init];
+        UIFont* textFont = [UIFont systemFontOfSize:13];
+        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
+        [detailAttributes setObject:(id)[[UIColor grayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+        [detailAttributes setObject:(id)textCtfont forKey:(NSString*)kCTFontAttributeName];
+    }
+    return detailAttributes;
+}
++ (NSMutableDictionary*) getNameAttributes
+{
+    if (nameAttributes == nil) {
+        nameAttributes = [[NSMutableDictionary alloc] init];
+        UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
+        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
+        [nameAttributes setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
+        
+        CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
+        CTParagraphStyleSetting settings[]={lineBreakMode};
+        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
+        [nameAttributes setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
+    }
+    return nameAttributes;
+}
+
++ (NSMutableDictionary*) getTimeAttributes
+{
+    if (timeAttributes == nil) {
+        timeAttributes = [[NSMutableDictionary alloc] init];
+        [timeAttributes setObject:(id)[[UIColor blueColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+    }
+    return timeAttributes;
+}
 - (void) dealloc
 {
     documemtGuid = nil;
-    self.abstractImageView = nil;
-    self.detailLabel = nil;
     [super dealloc];
+}
+- (void) initBacklayer
+{
+    self.backLayer = [CALayer layer];
+    backLayer.shadowColor = [[UIColor lightGrayColor] CGColor];
+    backLayer.shadowRadius = 0.5f;
+    backLayer.shadowOffset = CGSizeMake(1, 1);
+    backLayer.shadowOpacity = 0.5f;
+    backLayer.borderColor = [[UIColor whiteColor] CGColor];
+    backLayer.borderWidth = 0.5f;
+    backLayer.backgroundColor = [[UIColor clearColor]CGColor];
+    backLayer.bounds = CGRectMake(0.0, 0.0, 80, 80);
+    backLayer.position = CGPointMake(160, 40);
 }
 - (id) initWithUserIdAndDocGUID:(UITableViewCellStyle)style userId:(NSString *)userID
 {
     self = [super initWithStyle:style reuseIdentifier:userID];
     if (self) {
         self.accountUserId = userID;
-        TTTAttributedLabel* label = [[TTTAttributedLabel alloc] init];
-        self.detailLabel = label;
-        label.numberOfLines  =0;
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = UITextAlignmentLeft;
-        label.verticalAlignment = TTTAttributedLabelVerticalAlignmentTop;
-        label.linkAttributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:(NSString *)kCTUnderlineStyleAttributeName];
-        [label release];
-        UIImageView* abstractImageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(240, 10, 70, 70)];
-        [self.contentView addSubview:abstractImageView_];
-        self.abstractImageView = abstractImageView_;
-        [abstractImageView_ release];
-        CALayer* layer = [abstractImageView layer];
-        layer.borderColor = [UIColor whiteColor].CGColor;
-        layer.borderWidth = 0.5f;
-        layer.shadowColor = [UIColor grayColor].CGColor;
-        layer.shadowOffset = CGSizeMake(1, 1);
-        layer.shadowOpacity = 0.5;
-        layer.shadowRadius = 0.5;
-        self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
-        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
-        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 320, 1)];
-        breakView.image = [UIImage imageNamed:@"separetorLine"];
-        [self addSubview:breakView];
-        [breakView release];
-        CALayer* selfLayer = [self.selectedBackgroundView layer];
-        selfLayer.borderColor = [UIColor grayColor].CGColor;
-        selfLayer.borderWidth = 0.5f;
-        
-        [self.contentView addSubview:self.detailLabel];
-        [self.contentView addSubview:self.abstractImageView];
-        
+        [self initBacklayer];
     }
     return self;
 }
@@ -91,30 +117,25 @@
 - (NSMutableAttributedString*) decorateTimeString:(NSString*)timeString
 {
     NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",timeString]];
-    [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
+    [dateStr addAttributes:[WizTableViewCell getTimeAttributes] range:NSMakeRange(0, dateStr.length)];
     return [dateStr autorelease];
 }
 - (NSMutableAttributedString*) decorateNameString:(NSString*)nameString
 {
     nameString = [self display:nameString :320 :[UIFont systemFontOfSize:15]]; 
     NSMutableAttributedString* nameStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",nameString]];
-    [nameStr addAttributes:[[WizGlobalData sharedData] attributesForDocumentListName] range:NSMakeRange(0, nameStr.length)];
+    [nameStr addAttributes:[WizTableViewCell getNameAttributes] range:NSMakeRange(0, nameStr.length)];
     return [nameStr autorelease];
 }
 
 - (NSMutableAttributedString*) decorateDetailString:(NSString*)detailString
 {
-    UIFont* textFont = [UIFont systemFontOfSize:13];
-    CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
     NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:detailString];
-    [text addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor grayColor] CGColor] range:NSMakeRange(0,text.length)];
-    [text addAttribute:(NSString*)kCTFontAttributeName value:(id)textCtfont range:NSMakeRange(0,text.length)];
+    [text addAttributes:[WizTableViewCell getDetailAttributes] range:NSMakeRange(0, text.length)];
     return [text autorelease];
-
 }
 - (void) setFrameWithoutAbs
 {
-    self.detailLabel.frame = CGRectMake(10.0, 10.0, 200, 80);
 }
 - (void) displayWithoutAbstract
 {
@@ -138,44 +159,51 @@
         detailText = folder;
     }
     NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
-    NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateModified];
+    NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateCreated];
     NSMutableAttributedString* detailStr = [self decorateDetailString:detailText];
     [timeStr appendAttributedString:detailStr];
     [nameStr appendAttributedString:timeStr];
-    self.abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
-    self.detailLabel.text = nameStr;
 }
 - (void) displayWithAbstract
 {
     [self setFrameWithoutAbs];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:documemtGuid];
-    WizAbstract* abstract = [index abstractOfDocument:documemtGuid];
-    if (!abstractImageView) {
-        NSLog(@"no");
-    }
-    else {
-        self.abstractImageView.image = abstract.image;
-        NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
-        NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateModified];
-        NSMutableAttributedString* detailStr = [self decorateDetailString:abstract.text];
-        [timeStr appendAttributedString:detailStr];
-        [nameStr appendAttributedString:timeStr];
-        self.detailLabel.text = nameStr;
-    } 
+
 }
 - (void) drawRect:(CGRect)rect
 {
-    if (self.detailLabel.text == nil || [self.detailLabel.text isEqualToString:@"Loading..."]) {
-        self.detailLabel.text = @"Loading...";
-    }
-    NSLog(@"%@",self.documemtGuid);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if ([index documentServerChanged:documemtGuid]) {
-        [self performSelectorInBackground:@selector(displayWithoutAbstract) withObject:nil];
+    WizDocument* doc = [index documentFromGUID:documemtGuid];
+    WizAbstract* abstract = [index abstractOfDocument:documemtGuid];
+    NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
+    NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateModified];
+    NSMutableAttributedString* detailStr = [self decorateDetailString:abstract.text];
+    [timeStr appendAttributedString:detailStr];
+    [nameStr appendAttributedString:timeStr];
+    CGContextRef cgc = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(cgc);
+    CGContextConcatCTM(cgc, CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.0f, -1.0f));
+    CTFramesetterRef famesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)nameStr);
+    CGRect drawingRect = CGRectMake(0.0, 0.0, 200, 80);
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, drawingRect);
+    CTFrameRef textFrame = CTFramesetterCreateFrame(famesetter, CFRangeMake(0, 0), path, NULL);
+    CGPathRelease(path);
+    CFRelease(famesetter);
+    CTFrameDraw(textFrame, cgc);
+    CGContextRestoreGState(cgc);
+    CALayer* lay =self.backLayer;
+    if (lay == nil) {
+        NSLog(@"ddd");
+    }
+    lay.bounds = CGRectMake(0.0, 0.0, 80, 80);
+    lay.position = CGPointMake([self.contentView bounds].size.width-50, [self.contentView bounds].size.height/2);
+    if (!abstract.image) {
+        UIImage* defaultImage = [UIImage imageNamed:@"documentWithoutData"];
+        [defaultImage drawInRect:lay.frame];
     }
     else {
-        [self performSelectorInBackground:@selector(displayWithAbstract) withObject:nil];
+        [abstract.image drawInRect:lay.frame];
     }
+    [[self.contentView layer] addSublayer:lay];
 }
 @end

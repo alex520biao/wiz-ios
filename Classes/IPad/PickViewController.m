@@ -115,9 +115,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedView:) name:MessageOfMainPickSelectedView object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popSelf) name:MessageOfWizMainPickerViewPopSelf object:nil];
     
-    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
-    recent.accountUserID =self.accountUserId;
-//    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
+//    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
+//    recent.accountUserID =self.accountUserId;
+    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
     recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];

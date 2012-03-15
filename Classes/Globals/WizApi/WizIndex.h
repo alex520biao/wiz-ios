@@ -12,14 +12,15 @@
 #define WizIosAppVersionKeyString  @"3.0.5"
 #define ConnectServerOnlyByWif      @"ConnectServerOnlyByWif"
 typedef NSUInteger WizTableOrder;
+//%2 is reverse
 enum
 {
- kOrderDate=1,
- kOrderReverseDate=2,
-kOrderFirstLetter=3,
- kOrderReverseFirstLetter=4,
-kOrderCreatedDate=5,
-kOrderReverseCreatedDate=6
+     kOrderDate=1,
+     kOrderReverseDate=2,
+     kOrderFirstLetter=3,
+     kOrderReverseFirstLetter=4,
+     kOrderCreatedDate=5,
+     kOrderReverseCreatedDate=6
 };
 
 @class WizIndexData;
@@ -306,4 +307,6 @@ kOrderReverseCreatedDate=6
 
 @end
 
-
+@interface WizIndex (WizOrder)
++(BOOL) isReverseOrder:(WizTableOrder) order;
+@end

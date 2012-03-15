@@ -5,7 +5,7 @@
 //  Created by dong yishuiliunian on 11-12-10.
 //  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "LoginViewController.h"
 #import "WizSettings.h"
 #import "CommonString.h"
@@ -18,7 +18,7 @@
 #import "PickViewController.h"
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizPhoneNotificationMessage.h"
-
+#define ColorValue(x) x/255.0
 #define PROTECTALERT 300
 @implementation LoginViewController
 @synthesize willChangedUser;
@@ -213,7 +213,24 @@
         }
     }
 }
+- (CAGradientLayer*) buttonBackgroud
+{
 
+    CAGradientLayer* gLayer = [CAGradientLayer layer];
+    NSArray* array = [NSArray arrayWithObjects:
+                      (id)[[[UIColor alloc] initWithRed:ColorValue(0x41) green:ColorValue(0x93) blue:ColorValue(0xc1) alpha:1.0] CGColor] ,
+                      (id)[[[UIColor alloc] initWithRed:ColorValue(0x40) green:ColorValue(0x70) blue:ColorValue(0xff) alpha:1.0] CGColor] ,
+                      nil];
+    gLayer.colors = array;
+    gLayer.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0],
+                        [NSNumber numberWithFloat:0.5],
+                        nil];
+    gLayer.startPoint = CGPointMake(0.5, 0.0);
+    gLayer.endPoint = CGPointMake(0.5, 1.0);
+    gLayer.bounds = self.addAccountButton.frame;
+    gLayer.position = CGPointMake([self.addAccountButton bounds].size.width/2, [self.addAccountButton bounds].size.height/2);
+    return gLayer;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -250,8 +267,9 @@
     [self.createdAccountButton setTitle:NSLocalizedString(@"Add New Account", nil) forState:UIControlStateNormal];
     [self.createdAccountButton addTarget:self action:@selector(addAccountEntry) forControlEvents:UIControlEventTouchUpInside];
     self.createdAccountButton.frame = CGRectMake(0.0, self.view.frame.size.height/2 -30, 320, 30);
-    [self.addAccountButton setTitle:WizStrRegister forState:UIControlStateNormal];
+    [self.addAccountButton setTitle:NSLocalizedString(@"Create an Account", nil) forState:UIControlStateNormal];
     [self.addAccountButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
+//    [[self.addAccountButton layer] insertSublayer:[self buttonBackgroud] atIndex:0];
     self.addAccountButton.hidden = NO;
     
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];

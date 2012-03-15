@@ -13,13 +13,9 @@
     @public
     NSString* accountUserId;
     NSString* documemtGuid;
-    @private
-    TTTAttributedLabel* detailLabel;
-    UIImageView* abstractImageView;
+    CALayer* layer;
 }
 @property (nonatomic, retain) NSString* accountUserId;
-@property (nonatomic, retain) TTTAttributedLabel* detailLabel;
-@property (nonatomic, retain) UIImageView* abstractImageView;
 @property (nonatomic, retain) NSString* documemtGuid;
 - (id) initWithUserIdAndDocGUID:(UITableViewCellStyle)style userId:(NSString *)userID;
 @end

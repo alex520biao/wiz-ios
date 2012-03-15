@@ -314,6 +314,8 @@
 		73A786FB14F8CD5D001387F6 /* about@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867014F8CD5D001387F6 /* about@x2.png */; };
 		73A786FC14F8CD5D001387F6 /* icon_512.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867114F8CD5D001387F6 /* icon_512.jpg */; };
 		73A786FD14F8CD5D001387F6 /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867214F8CD5D001387F6 /* icon_ipad.png */; };
+		73BB847A150EF9B00032F99B /* WizTableViewBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB8479150EF9B00032F99B /* WizTableViewBaseCell.m */; };
+		73BB84B2150F3DA40032F99B /* WizTableAbstractView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB84B1150F3DA40032F99B /* WizTableAbstractView.m */; };
 		73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CAAA1C14EA388500D5FF9B /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
@@ -762,6 +764,10 @@
 		73A7867014F8CD5D001387F6 /* about@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@x2.png"; sourceTree = "<group>"; };
 		73A7867114F8CD5D001387F6 /* icon_512.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = icon_512.jpg; sourceTree = "<group>"; };
 		73A7867214F8CD5D001387F6 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		73BB8478150EF9B00032F99B /* WizTableViewBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewBaseCell.h; sourceTree = "<group>"; };
+		73BB8479150EF9B00032F99B /* WizTableViewBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewBaseCell.m; sourceTree = "<group>"; };
+		73BB84B0150F3DA30032F99B /* WizTableAbstractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableAbstractView.h; sourceTree = "<group>"; };
+		73BB84B1150F3DA40032F99B /* WizTableAbstractView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableAbstractView.m; sourceTree = "<group>"; };
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -770,13 +776,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */,
 				73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */,
 				4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */,
 				4495D52114BAB5870045F1EA /* CFNetwork.framework in Frameworks */,
 				4495D51F14BAB5600045F1EA /* AudioToolbox.framework in Frameworks */,
 				4495D51114BAA5930045F1EA /* iFlyISR.framework in Frameworks */,
 				4495D51214BAA5930045F1EA /* iFlyTTS.framework in Frameworks */,
-				4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */,
 				4488C0E114AC5C17001C162D /* libicucore.dylib in Frameworks */,
 				4495588A148614130014072A /* QuartzCore.framework in Frameworks */,
 				442D1E8A1484D2AB00DC7221 /* libz.1.2.5.dylib in Frameworks */,
@@ -915,8 +921,12 @@
 			children = (
 				737999A9150DB84B0029A967 /* WizTableViewController.h */,
 				737999AA150DB84B0029A967 /* WizTableViewController.m */,
+				73BB8478150EF9B00032F99B /* WizTableViewBaseCell.h */,
+				73BB8479150EF9B00032F99B /* WizTableViewBaseCell.m */,
 				737999AD150DE6FE0029A967 /* WizTableVIewCell.h */,
 				737999AE150DE6FE0029A967 /* WizTableViewCell.m */,
+				73BB84B0150F3DA30032F99B /* WizTableAbstractView.h */,
+				73BB84B1150F3DA40032F99B /* WizTableAbstractView.m */,
 			);
 			path = Involution;
 			sourceTree = "<group>";
@@ -1952,6 +1962,8 @@
 				7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */,
 				737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */,
 				737999AF150DE6FE0029A967 /* WizTableViewCell.m in Sources */,
+				73BB847A150EF9B00032F99B /* WizTableViewBaseCell.m in Sources */,
+				73BB84B2150F3DA40032F99B /* WizTableAbstractView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

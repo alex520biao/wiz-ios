@@ -262,6 +262,7 @@ static WizGlobalData* g_data;
     char characheter = (char)characheterSpacing;
     CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt8Type, &characheter);
     [attributeDic setObject:(id)num forKey:(NSString *)kCTKernAttributeName];
+    CFRelease(num);
     CGFloat lineSpace = 19;
     CTParagraphStyleSetting lineSpaceStyle;
     lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
