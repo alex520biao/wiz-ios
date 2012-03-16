@@ -26,6 +26,8 @@
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
 
+#import "WizNotification.h"
+
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 #define HIDDENTTAG  300
@@ -817,7 +819,7 @@
     if (isNewDocument) {
         [index newNoteWithGuidAndData:dic];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
-    
+        [WizNotificationCenter postNewDocumentMessage:documentGUID];
     }
     else
     {

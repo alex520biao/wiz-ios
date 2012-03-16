@@ -62,6 +62,8 @@
 + (void) reportWarning:(NSError*)error;
 //2012-3-9
 +(NSString*) getAttachmentTempFilePath:(NSString*)userId;
+//2012-3-16
++ (NSString*) tagsDisplayStrFromGUIDS:(NSArray*)tags;
 @end
 
 

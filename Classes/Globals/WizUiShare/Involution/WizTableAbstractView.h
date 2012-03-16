@@ -13,15 +13,8 @@
     NSString* documentGuid;
     @private
     NSString* accountUserId;
-    NSString* docTitle;
-    NSString* docTime;
-    NSString* docDetail;
-    UIImage* absImage;
 }
 @property (nonatomic, readonly) NSString* accountUserId;
 @property (nonatomic, retain) NSString* documentGuid;
-@property (nonatomic, readonly) NSString* docTitle;
-@property (nonatomic, readonly) NSString* docTime;
-@property (nonatomic, readonly) NSString* docDetail;
-@property (nonatomic, readonly) UIImage* absImage;
+- (id)initWithFrame:(CGRect)frame userId:(NSString*)userId;
 @end

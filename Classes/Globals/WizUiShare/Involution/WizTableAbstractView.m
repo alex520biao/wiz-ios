@@ -6,19 +6,17 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "WizTableAbstractView.h"
 #import <CoreText/CoreText.h>
 #import "WizGlobalData.h"
+
 @implementation WizTableAbstractView
-@synthesize docTime, docTitle, docDetail, documentGuid, accountUserId, absImage;
+@synthesize documentGuid, accountUserId;
 - (void) dealloc
 {
     accountUserId = nil;
     self.documentGuid = nil;
-    docTime = nil;
-    docDetail = nil;
-    documentGuid = nil;
-    absImage = nil;
     [super dealloc];
 }
 - (id)initWithFrame:(CGRect)frame userId:(NSString*)userId

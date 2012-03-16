@@ -365,7 +365,17 @@ static WizGlobalData* g_data;
 	[data release];
     return data;
 }
-
+- (NSNotificationCenter*) wizNotificationCenter
+{
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfGlobalWizNotification];
+    if (data != nil) {
+        return data;
+    }
+    data = [[NSNotificationCenter alloc] init];
+    [self setDataOfAccount:WizGlobalAccount dataType:DataOfGlobalWizNotification data:data];
+    [data release];
+    return data;
+}
 
 - (WizDocumentsByTag *) documentsByTagData:(NSString*) userId
 {

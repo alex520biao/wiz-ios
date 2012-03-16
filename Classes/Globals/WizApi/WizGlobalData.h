@@ -32,10 +32,11 @@ extern NSString* DataTypeOfPickerView;
 extern NSString* DataTypeOfLoginView ;
 
 extern NSString* DataMainOfWiz;
-#define DataOfAttributesForDocumentListName  @"attributesForDocumentListName"
-#define WizGlobalAccount             @"DataOfGlobalShareDataWiz"
-#define DataOfAttributesForPadAbstractViewParagraph @"DataOfAttributesForPadAbstractViewParagraph"
-#define DataOfActiveAccountUserId           @"DataOfActiveAccountUserId"
+#define DataOfAttributesForDocumentListName                 @"attributesForDocumentListName"
+#define WizGlobalAccount                                    @"DataOfGlobalShareDataWiz"
+#define DataOfAttributesForPadAbstractViewParagraph         @"DataOfAttributesForPadAbstractViewParagraph"
+#define DataOfActiveAccountUserId                           @"DataOfActiveAccountUserId"
+#define DataOfGlobalWizNotification                         @"DataOfGlobalWizNotification"
 @class WizSync;
 @class WizIndex;
 @class WizCreateAccount;
@@ -96,6 +97,8 @@ extern NSString* DataMainOfWiz;
 //2012-3-9
 - (BOOL) registerActiveAccountUserId:(NSString*)userId;
 - (NSString*) activeAccountUserId;
+//2012-3-15
+- (NSNotificationCenter*) wizNotificationCenter;
 + (WizGlobalData*) sharedData;
 + (void) deleteShareData;
 

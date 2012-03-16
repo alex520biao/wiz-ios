@@ -13,6 +13,7 @@
 #import "NSDate-Utilities.h"
 #import "CommonString.h"
 #import "WizTableVIewCell.h"
+#import "WizNotification.h"
 #define WizNotFound -2
 
 NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
@@ -26,7 +27,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     else {
         return 0;
     }
+    
 }
+
 
 @interface WizDocument (WizTableViewControllerDocument)
 -(NSComparisonResult) compareDocument:(WizDocument*)doc mask:(WizTableOrder)mask;
@@ -92,11 +95,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
     else if ([d1 isLaterThanDate:[NSDate dateWithDaysBeforeNow:7]] && [d1 isEarlierThanDate:[NSDate dateWithDaysBeforeNow:2]]) {
         if ([d2 isLaterThanDate:[NSDate dateWithDaysBeforeNow:7]] && [d2 isEarlierThanDate:[NSDate dateWithDaysBeforeNow:2]]) {
-            NSLog(@"YES");
             return 0;
         }
         else {
-            NSLog(@"NO");
             return -1;
         }
     }
@@ -145,6 +146,22 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 @end
 
+
+@interface NSMutableArray (WizSortDocument)
+- (void) sortDocuments:(WizTableOrder)mask;
+@end
+@implementation NSMutableArray (WizSortDocument)
+
+- (void) sortDocuments:(WizTableOrder)mask
+{
+    [self sortUsingComparator:(NSComparator)^(WizDocument* doc1, WizDocument* doc2)
+     {
+         return [doc1 compareDocument:doc2 mask:mask];
+     }];
+}
+
+@end
+
 @implementation WizTableViewController
 @synthesize accountUserId;
 @synthesize kOrderIndex;
@@ -182,13 +199,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) sortAllData
 {
     NSMutableArray* sourceArray = [self reloadAllData];
-    [sourceArray sortUsingComparator:(NSComparator)^(WizDocument* doc1, WizDocument* doc2)
-    {
-        return [doc1 compareDocument:doc2 mask:self.kOrderIndex];
-    }];
-    for (WizDocument* each in sourceArray) {
-        NSLog(@"%@",each.dateCreated);
-    }
+    [sourceArray sortDocuments:self.kOrderIndex];
     int count = 0;
     [self.tableSourceArray removeAllObjects];
     for (int docIndx = 0; docIndx < [sourceArray count];) {
@@ -280,6 +291,33 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     [self sortAllData];
     [self.tableView reloadData];
 }
+- (void) insertDocument:(NSNotification*)nc
+{
+    NSLog(@"new document");
+    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizDocument* doc = [index documentFromGUID:documentGUID];
+    NSInteger updateSection = [self groupIndexOfDocument:documentGUID];
+    if (updateSection == WizNotFound) {
+        NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
+        [newArr addObject:doc];
+        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
+            updateSection = 0;
+        }
+        else {
+            updateSection = [tableSourceArray count];
+        }
+        [self.tableSourceArray insertObject:doc atIndex:updateSection];
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+    }
+    else {
+        NSMutableArray* arr = [tableSourceArray objectAtIndex:updateSection];
+        [arr addObject:doc];
+        [arr sortDocuments:self.kOrderIndex];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+    }
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -289,11 +327,13 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     self.tableView.frame = CGRectMake(0.0, 0.0, 200, 480);
     [item release];
     [self sortAllData];
+    [WizNotificationCenter addObserverWithKey:self selector:@selector(insertDocument:) name:MessageTypeOfNewDocument];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [WizNotificationCenter removeObserverWithKey:self name:MessageTypeOfNewDocument];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -343,41 +383,25 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
     return WizNotFound;
 }
-- (NSInteger) groudIndexOfDocument:(NSString*)documentGUID
+- (NSInteger) groupIndexOfDocument:(NSString*)documentGUID
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* insertDocument = [index documentFromGUID:documentGUID];
+    WizDocument* doc = [index documentFromGUID:documentGUID];
     for (int arrIndex = 0; arrIndex < [self.tableSourceArray count]; arrIndex++) 
     {
         NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
-        NSLog(@"%d",[insertDocument compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]);
-        if (![insertDocument compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
+        if (![doc compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
         {
             return arrIndex;
         }
     }
     return WizNotFound;
 }
-- (NSIndexPath*) indexOfInsertDocument:(NSString*)documentGUID
-{
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* insertDocument = [index documentFromGUID:documentGUID];
-    NSInteger indexOfInsertDoc = WizNotFound;
-    int arrIndex = 0;
-    for (; arrIndex < [self.tableSourceArray count]; arrIndex++) 
-    {
-        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
-        if (![insertDocument compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
-        {
-            break;
-        }
-    }
-    return [NSIndexPath indexPathForRow:indexOfInsertDoc inSection:arrIndex];
-}
+
 
 - (NSIndexPath*) indexOfDocumentInTableSourceArray:(NSString*)documentGUID
 {
-    NSInteger section = [self groudIndexOfDocument:documentGUID];
+    NSInteger section = [self groupIndexOfDocument:documentGUID];
     NSInteger row = WizNotFound;
     if (WizNotFound != section) {
         NSArray* arr = [tableSourceArray objectAtIndex:section];

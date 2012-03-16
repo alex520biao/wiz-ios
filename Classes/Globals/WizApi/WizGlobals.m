@@ -330,7 +330,18 @@
 	NSDate* dt = [WizGlobals sqlTimeStringToDate:str];
 	return [WizGlobals dateToLocalString:dt];
 }
-
++ (NSString*) tagsDisplayStrFromGUIDS:(NSArray*)tags
+{
+    NSString* tagstr = [NSString string];
+    for (WizTag* each in tags) {
+        NSString* tagName = getTagDisplayName(each.name);
+        tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+    }
+    if (tagstr) {
+        tagstr = [tagstr substringToIndex:tagstr.length -1];
+    }
+    return tagstr;
+}
 +(NSString*) documentsPath
 {
 	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

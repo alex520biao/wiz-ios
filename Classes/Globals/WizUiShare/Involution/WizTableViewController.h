@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WizNotification.h"
 @interface NSString (WizTableViewControllerNSString)
 - (NSComparisonResult) compareDate:(NSString*)str;
 - (NSComparisonResult) compareFirstCharacter:(NSString*) str;
