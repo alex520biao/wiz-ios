@@ -68,40 +68,7 @@
 - (void) optionsView
 {
 }
-- (void) addNewDocument:(NSNotification*)nc
-{
-    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    WizDocument* newDocument = [index documentFromGUID:documentGUID];
-    [self.sourceArray insertObject:newDocument atIndex:0];
-    if ([self.tableArray count]) {
-        NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
-        if ([date isToday]) {
-            [[self.tableArray objectAtIndex:0] insertObject:newDocument atIndex:0];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-        }
-        else
-        {
-            NSMutableArray* array = [NSMutableArray array];
-            [array addObject:newDocument];
-            [self.tableArray insertObject:array atIndex:0];
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
-        }
-    }
-    else
-    {
-        NSMutableArray* array = [NSMutableArray array];
-        [array addObject:newDocument];
-        [self.tableArray insertObject:array atIndex:0];
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
-    }
-    self.currentDoc = newDocument;
-    hasNewDocument = YES;
-    if (hasNewDocument) {
-        [self viewDocument];
-        hasNewDocument = NO;
-    }
-}
+
 - (NSInteger) indexForDocumentInSource:(NSString*)documentGuid
 {
     for (int i = 0;i <[self.sourceArray count]; i++) {
@@ -167,7 +134,7 @@
     [super viewDidLoad];
     hasNewDocument = NO;
     
-    [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+
     if (nil == self.tableArray) {
         self.tableArray = [NSMutableArray array];
     }
@@ -209,10 +176,6 @@
 {
 
     [super viewDidAppear:animated];
-    if (hasNewDocument) {
-        [self viewDocument];
-        hasNewDocument = NO;
-    }
 
 }
 

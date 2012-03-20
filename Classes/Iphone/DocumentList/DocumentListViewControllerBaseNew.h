@@ -42,4 +42,5 @@
 -(void)displayProcessInfo;
 -(void) syncGoing:(NSNotification*) nc;
 -(void) refresh;
+- (void) viewDocument;
 @end

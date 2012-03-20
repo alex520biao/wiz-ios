@@ -13,6 +13,7 @@
 #import "WizSettings.h"
 #import "UserSttingsViewController.h"
 #import "NSDate-Utilities.h"
+#import "WizNotification.h"
 @implementation RecentDcoumentListView
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -55,9 +56,40 @@
     [arr release];
 }
 
+- (void) addNewDocument:(NSNotification*)nc
+{
+    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizDocument* newDocument = [index documentFromGUID:documentGUID];
+    [self.sourceArray insertObject:newDocument atIndex:0];
+    if ([self.tableArray count]) {
+        NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
+        if ([date isToday]) {
+            [[self.tableArray objectAtIndex:0] insertObject:newDocument atIndex:0];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+        }
+        else
+        {
+            NSMutableArray* array = [NSMutableArray array];
+            [array addObject:newDocument];
+            [self.tableArray insertObject:array atIndex:0];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+        }
+    }
+    else
+    {
+        NSMutableArray* array = [NSMutableArray array];
+        [array addObject:newDocument];
+        [self.tableArray insertObject:array atIndex:0];
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+    self.currentDoc = newDocument;
+    [self viewDocument];
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [WizNotificationCenter removeObserver:self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -99,6 +131,7 @@
     self.navigationItem.leftBarButtonItem = item;
     [item release];
     [super viewDidLoad];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
 
 }
 - (void) viewDidAppear:(BOOL)animated
