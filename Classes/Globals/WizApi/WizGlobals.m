@@ -14,6 +14,13 @@
 
 #define MD5PART 10*1024
 @implementation WizGlobals
+static NSArray*  pptArray;
+static NSArray*  docArray;
+static NSArray*  audioArray;
+static NSArray* textArray;
+static NSArray* imageArray;
+static NSArray* excelArray;
+
 
 + (float) WizDeviceVersion
 {
@@ -159,93 +166,108 @@
 	//
 	return ret;
 }
-
-
-+ (BOOL) checkAttachmentTypeIsAudio:(NSString *)attachmentType
++ (BOOL) checkAttachmentType:(NSString*)type   isType:(NSString*)isType
 {
-    if ([attachmentType isEqualToString:@"aif"]) {
+    if (![type compare:isType options:NSCaseInsensitiveSearch]) {
         return YES;
     }
-    if ([attachmentType isEqualToString:@"amr"]) {
-        return YES;
-    }
-    else if ( [attachmentType isEqualToString:@"mp3"])
-    {
-        return YES;
-    }
-    else
-    {
+    else {
         return NO;
     }
 }
++ (BOOL) checkAttachmentTypeInTypeArray:(NSString*)type  typeArray:(NSArray*)typeArray
+{
+    for (NSString* eachType in typeArray) {
+        if ([WizGlobals checkAttachmentType:type isType:eachType]) {
+            return YES;
+        }
+    }
+    return NO;
+}
++ (NSArray*) textArray
+{
 
+        textArray = [NSArray arrayWithObjects:@"txt", nil];
+    
+    return textArray;
+}
++ (BOOL) checkAttachmentTypeIsTxt:(NSString*)attachmentType
+{
+    return [WizGlobals checkAttachmentTypeInTypeArray:attachmentType typeArray:[WizGlobals textArray]];
+}
++ (NSArray*) audioArray
+{
+ 
+        audioArray = [NSArray arrayWithObjects:
+                      @"aif",
+                      @"amr",
+                      @"mp3",
+                      nil];
+    
+    return audioArray;
+}
++ (BOOL) checkAttachmentTypeIsAudio:(NSString *)attachmentType
+{
+    return [WizGlobals checkAttachmentTypeInTypeArray:attachmentType typeArray:[WizGlobals audioArray]];
+}
++ (NSArray*) imageArray
+{
+
+        imageArray = [NSArray arrayWithObjects:
+                      @"png",
+                      @"jpg",
+                      @"jpeg",
+                      @"bmp",
+                      @"gif",
+                      @"tiff",
+                      @"eps",
+                      nil];
+    return imageArray;
+}
 + (BOOL) checkAttachmentTypeIsImage:(NSString *)attachmentType
 {
-    if ([attachmentType isEqualToString:@"png"] || [attachmentType isEqualToString:@"PNG"]) {
-        return YES;
-    }
-    else if ([attachmentType isEqualToString:@"jpg"] || [attachmentType isEqualToString:@"JPG"])
-    {
-        return YES;
-    }
-    else if ([attachmentType isEqualToString:@"jpeg"] || [attachmentType isEqualToString:@"JPEG"])
-    {
-        return YES;
-    }
-    else if ([attachmentType isEqualToString:@"bmp"] || [attachmentType isEqualToString:@"BMP"])
-    {
-        return YES;
-    }
-    else if ([attachmentType isEqualToString:@"gif"] || [attachmentType isEqualToString:@"GIF"])
-    {
-        return YES;
-    }
-    else 
-    {
-        return NO;
-    }
+
+    return [WizGlobals checkAttachmentTypeInTypeArray:attachmentType typeArray:[self imageArray]];
+}
++ (NSArray*) pptArray
+{
+        pptArray = [NSArray arrayWithObjects:
+                    @"ppt",
+                    @"pptx",
+                    nil];
+    return pptArray;
 }
 + (BOOL) checkAttachmentTypeIsPPT:(NSString*)type
 {
-    if ([[type lowercaseString] isEqualToString:@"ppt"]) {
-        return YES;
-    }
-    else if([[type lowercaseString] isEqualToString:@"pptx"])
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+    return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals pptArray]];
+}
++ (NSArray*) docArray
+{
+        docArray = [NSArray arrayWithObjects:
+                    @"doc",
+                    @"docx",
+                    nil];
+    
+    return docArray;
 }
 + (BOOL) checkAttachmentTypeIsWord:(NSString*)type
 {
-    if ([[type lowercaseString] isEqualToString:@"doc"]) {
-        return YES;
-    }
-    else if ([[type lowercaseString] isEqualToString:@"docx"])
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+    return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals docArray]];
 }
+
++ (NSArray*) excelArray
+{
+    excelArray = [NSArray arrayWithObjects:
+                      @"xls",
+                      @"xlsx",
+                      nil];
+    
+    return excelArray;
+}
+
 + (BOOL) checkAttachmentTypeIsExcel:(NSString*)type
 {
-    if ([[type lowercaseString] isEqualToString:@"xls"]) {
-        return YES;
-    }
-    else if([[type lowercaseString] isEqualToString:@"xlsx"])
-    {
-       
-        return YES;
-    }
-    {
-        return NO;
-    }
+    return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals excelArray]];
 }
 +(NSString*) getAttachmentTempFilePath:(NSString*)userId
 {
@@ -381,6 +403,27 @@
 	return b;
 }
 
++ (NSString*) wizNoteVersion
+{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];  
+//    // app名称  
+//    NSString *name = [infoDictionary objectForKey:@"CFBundleDisplayName"];  
+//    // app版本  
+//    NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];  
+//    // app build版本  
+    NSString *build = [infoDictionary objectForKey:@"CFBundleVersion"];
+    if (build) {
+        build = @"3.1";
+    }
+    return build;
+}
++ (NSString*) localLanguageKey
+{
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+    NSArray* languages = [defs objectForKey:@"AppleLanguages"];
+    NSString* preferredLang = [languages objectAtIndex:0];
+    return preferredLang;
+}
 +(BOOL) deleteFile:(NSString*)fileName
 {
 	NSFileManager *fileManager = [[NSFileManager alloc] init];

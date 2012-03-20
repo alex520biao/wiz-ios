@@ -16,6 +16,7 @@
 #import "DocumentListViewControllerBaseNew.h"
 #import "WizPadNotificationMessage.h"
 #import "WizSync.h"
+#import "WizNotification.h"
 #import "pinyin.h"
 @implementation WizPadListTableControllerBase
 @synthesize landscapeDocumentsArray;
@@ -396,7 +397,7 @@
     self.isLandscape = UIInterfaceOrientationIsLandscape((self.interfaceOrientation));
     [self reloadAllData];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAddNewDocument:) name:MessageOfPadNewDocument object:nil];
+    [WizNotificationCenter addObserverForNewDocument:self selector:@selector(onAddNewDocument:)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfChangeDocumentListOrderMethod object:nil];
 }
 
@@ -404,6 +405,7 @@
 {
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [WizNotificationCenter removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -466,12 +468,16 @@
 }
 - (void)onAddNewDocument:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    WizDocument* doc = [userInfo valueForKey:TypeOfDocumentKeyString];
+    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+    NSLog(@"documentguid %@",documentGUID);
+    NSLog(@"accountUserId %@",self.accountUserID);
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizDocument* doc = [index documentFromGUID:documentGUID];
+    if (doc == nil) {
+        NSLog(@"nil");
+    }
     [self.sourceArray insertObject:doc atIndex:0];
     [self reloadAllData];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfPadNewDocument object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAddNewDocument:) name:MessageOfPadNewDocument object:nil];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

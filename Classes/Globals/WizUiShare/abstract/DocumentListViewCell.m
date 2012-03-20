@@ -13,10 +13,17 @@
 #import "WizGlobals.h"
 #import "CommonString.h"
 
-#define CellWithImageFrame CGRectMake(10,10,225,70) 
-#define CellWithoutImageFrame CGRectMake(10,10,300,70)
+#define CellWithImageFrame CGRectMake(8,8,225,74) 
+#define CellWithoutImageFrame CGRectMake(8,8,300,74)
 int CELLHEIGHTWITHABSTRACT = 90;
 int CELLHEIGHTWITHOUTABSTRACT = 50;
+
+@interface DocumentListViewCell()
++ (NSMutableDictionary*) getDetailAttributes;
++ (NSMutableDictionary*) getNameAttributes;
++ (NSMutableDictionary*) getTimeAttributes;
++ (UIFont*) nameFont;
+@end
 @implementation DocumentListViewCell
 @synthesize abstractLabel;
 @synthesize interfaceOrientation;
@@ -24,6 +31,54 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 @synthesize doc;
 @synthesize accoutUserId;
 @synthesize hasAbstract;
+static NSMutableDictionary* detailAttributes;
+static NSMutableDictionary* nameAttributes;
+static NSMutableDictionary* timeAttributes;
+static UIFont* nameFont;
+
++ (UIFont*) nameFont
+{
+    if(nameFont == nil)
+    {
+        nameFont = [UIFont boldSystemFontOfSize:15];
+    }
+    return nameFont;
+}
+
++ (NSMutableDictionary*) getDetailAttributes
+{
+    if (detailAttributes == nil) {
+        detailAttributes = [[NSMutableDictionary alloc] init];
+        UIFont* textFont = [UIFont systemFontOfSize:13];
+        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
+        [detailAttributes setObject:(id)[[UIColor grayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+        [detailAttributes setObject:(id)textCtfont forKey:(NSString*)kCTFontAttributeName];
+    }
+    return detailAttributes;
+}
++ (NSMutableDictionary*) getNameAttributes
+{
+    if (nameAttributes == nil) {
+        nameAttributes = [[NSMutableDictionary alloc] init];
+        UIFont* stringFont = [self nameFont];
+        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
+        [nameAttributes setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
+        CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
+        CTParagraphStyleSetting settings[]={lineBreakMode};
+        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
+        [nameAttributes setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
+    }
+    return nameAttributes;
+}
+
++ (NSMutableDictionary*) getTimeAttributes
+{
+    if (timeAttributes == nil) {
+        timeAttributes = [[NSMutableDictionary alloc] init];
+        [timeAttributes setObject:(id)[[UIColor blueColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+    }
+    return timeAttributes;
+}
 
 
 - (void) dealloc
@@ -35,21 +90,23 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     self.hasAbstract = NO;
     [super dealloc];
 }
-- (NSString*) display:(NSString*)str  :(CGFloat)width :(UIFont*)font
+
+- (NSString*) nameToDisplay:(NSString*)str   width:(CGFloat)width
 {
+    UIFont* nameFont = [DocumentListViewCell nameFont];
     CGSize boundingSize = CGSizeMake(CGFLOAT_MAX, 20);
-    CGSize requiredSize = [str sizeWithFont:font constrainedToSize:boundingSize
-                                 lineBreakMode:UILineBreakModeCharacterWrap];
+    CGSize requiredSize = [str sizeWithFont:nameFont constrainedToSize:boundingSize
+                              lineBreakMode:UILineBreakModeCharacterWrap];
     CGFloat requireWidth = requiredSize.width;
     if (requireWidth > width) {
-        return [self display:[str substringToIndex:str.length -1] :width :font];
+        return [self nameToDisplay:[str substringToIndex:str.length-1 ] width:width];
     }
     else
     {
         return str;
     }
- 
 }
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -101,55 +158,19 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             [index performSelectorOnMainThread:@selector(extractSummary:) withObject:doc.guid waitUntilDone:YES];
         }
     }
-    if ( isAbstractExist && abstract!= nil) {
-        UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
-        NSString* title = [NSString stringWithString:self.doc.title];
-        if (nil == abstract.image) {
-            title = [self display:title :300 :stringFont];
-            abstractImageView.hidden = YES;
-            abstractLabel.frame = CellWithoutImageFrame;
-        }
-        else
-        {
-            title = [self display:title :230 :stringFont];
-            abstractLabel.frame = CellWithImageFrame;
-            abstractImageView.hidden = NO;
-        }
-        NSMutableAttributedString* nameStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",title]];
-        [nameStr addAttributes:[[WizGlobalData sharedData] attributesForDocumentListName] range:NSMakeRange(0, nameStr.length)];
-        NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
-        [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
-        self.hasAbstract = YES;
-        if (abstract.text == nil) {
-            abstract.text = @"";
-        }
-        UIFont* textFont = [UIFont systemFontOfSize:13];
-        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
-        NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:abstract.text];
-        [text addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor grayColor] CGColor] range:NSMakeRange(0,text.length)];
-        [text addAttribute:(NSString*)kCTFontAttributeName value:(id)textCtfont range:NSMakeRange(0,text.length)];
-        [dateStr appendAttributedString:text];
-        [text release];
-        self.abstractImageView.image = abstract.image;
-        [nameStr appendAttributedString:dateStr];
-        [self.abstractLabel setText:nameStr];
-        [nameStr release];
-        [dateStr release];
-
+    NSString* titleStr = self.doc.title;
+    NSString* detailStr=@"";
+    NSString* timeStr = @"";
+    UIImage* abstractImage = nil;
+    NSUInteger kOrderIndex = [index userTablelistViewOption];
+    if (kOrderIndex == kOrderCreatedDate || kOrderIndex == kOrderReverseCreatedDate) {
+        timeStr = doc.dateCreated;
     }
-    else
-    {
-        NSString* title = [NSString stringWithString:self.doc.title];
-        NSRange titleRange = NSMakeRange(0, 20<title.length?20:title.length);
-        abstractLabel.frame = CellWithImageFrame;
-        abstractImageView.hidden = NO;
-        abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
-        title = [title substringWithRange:titleRange];
-        NSMutableAttributedString* nameStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",title]];
-        [nameStr addAttributes:[[WizGlobalData sharedData] attributesForDocumentListName] range:NSMakeRange(0, nameStr.length)];
-        NSMutableAttributedString* dateStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
-        [dateStr addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor lightGrayColor] CGColor] range:NSMakeRange(0,19)];
-    
+    else {
+        timeStr = doc.dateModified;
+    }
+    timeStr = [timeStr stringByAppendingFormat:@"\n"];
+    if ([index documentServerChanged:self.doc.guid]) {
         NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
         NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
@@ -162,19 +183,31 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             tagstr = [tagstr substringToIndex:tagstr.length-1];
             folder = [folder stringByAppendingString:tagstr];
         }
-        UIFont* textFont = [UIFont systemFontOfSize:13];
-        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
-        NSMutableAttributedString* text = [[NSMutableAttributedString alloc] initWithString:folder];
-        [text addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)[[UIColor grayColor] CGColor] range:NSMakeRange(0,text.length)];
-        [text addAttribute:(NSString*)kCTFontAttributeName value:(id)textCtfont range:NSMakeRange(0,text.length)];
-        [dateStr appendAttributedString:text];
-        [nameStr appendAttributedString:dateStr];
-        [self.abstractLabel setText:nameStr];
-        [dateStr release];
-        [nameStr release];
-        [text release];
+        detailStr = folder;
+        abstractImage = [UIImage imageNamed:@"documentWithoutData"];
     }
-
+    else {
+        detailStr = abstract.text;
+        abstractImage = abstract.image;
+    }
+    if (abstractImage != nil) {
+        titleStr = [self nameToDisplay:titleStr width:230];
+        self.abstractLabel.frame = CellWithImageFrame;
+        self.abstractImageView.hidden = NO;
+    }
+    else {
+        titleStr = [self nameToDisplay:titleStr width:300];
+        self.abstractLabel.frame = CellWithoutImageFrame;
+        self.abstractImageView.hidden = YES;
+    }
+    titleStr = [titleStr stringByAppendingFormat:@"\n"];
+    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[DocumentListViewCell getNameAttributes]];
+    NSMutableAttributedString* timeAtrStr = [[NSMutableAttributedString alloc] initWithString:timeStr attributes:[DocumentListViewCell getTimeAttributes]];
+    NSMutableAttributedString* detailAtrStr = [[NSMutableAttributedString alloc] initWithString:detailStr attributes:[DocumentListViewCell getDetailAttributes]];
+    [timeAtrStr appendAttributedString:detailAtrStr];
+    [nameAtrStr appendAttributedString:timeAtrStr];
+    self.abstractLabel.text = nameAtrStr;
+    self.abstractImageView.image = abstractImage;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

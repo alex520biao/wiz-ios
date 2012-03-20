@@ -52,7 +52,6 @@
     {
         self.sourceArray = [NSMutableArray array];
     }
-    NSLog(@"%d",[self.sourceArray count]);
     [arr release];
 }
 

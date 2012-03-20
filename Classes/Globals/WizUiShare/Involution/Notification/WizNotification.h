@@ -13,4 +13,12 @@
 + (void) removeObserverWithKey:(id) observer name:(NSString*)name;
 + (void) postNewDocumentMessage:(NSString*)documentGUID;
 + (NSString*) getNewDocumentGUIDFromMessage:(NSNotification*)nc;
++ (void) postDidSelectedAccountMessage:(NSString*)accountUserId;
++ (NSString*) getDidSelectedAccountUserId:(NSNotification*)nc;
++ (void) postChangeAccountMessage;
++ (void) addObserverForChangeAccount:(id)observer selector:(SEL)selector;
++ (void) removeObserver:(id) observer;
++ (void) postPadSelectedAccountMessge:(NSString*)accountUserId;
++ (void) addObserverForPadSelectedAccount:(id)observer selector:(SEL)selector;
++ (void) addObserverForNewDocument:(id) observer selector:(SEL)selector;
 @end

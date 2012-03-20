@@ -20,6 +20,7 @@
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
 #import "CloudReview.h"
+#import "WizNotification.h"
 
 #define ClearCacheTag          1201
 #define ChangePasswordTag 888
@@ -85,10 +86,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -573,6 +571,7 @@
     nav.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.navigationController presentModalViewController:nav animated:YES];;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(makeSureProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];
+
 }
 - (IBAction)setUserProtectPassword:(id)sender
 {
@@ -604,7 +603,7 @@
             else
             {
                 [self.navigationController popViewControllerAnimated:NO];
-                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
+                [WizNotificationCenter postChangeAccountMessage];
             }
         }
     }
@@ -668,7 +667,7 @@
         MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
         mailPocker.mailComposeDelegate = self;
         [mailPocker setSubject:[NSString stringWithFormat:@"[%@] %@ by %@",[[UIDevice currentDevice] model],NSLocalizedString(@"Feedback", nil),self.accountUserId]];
-        NSArray* toRecipients = [NSArray arrayWithObject: @"support@wiz.cn"];
+        NSArray* toRecipients = [NSArray arrayWithObjects:@"support@wiz.cn",@"yishuiliunian@gmail.com",nil];
         NSString* mailBody = [NSString stringWithFormat:@"%@:\n\n\n\n\n\n\n\n\n\n\n\n\n\n %@\n %@"
                               ,NSLocalizedString(@"Your advice", nil)
                               ,[[UIDevice currentDevice] systemName]
@@ -752,18 +751,21 @@
         else
         {
             [self.navigationController popViewControllerAnimated:NO];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfWizMainPickerViewPopSelf object:nil userInfo:nil];
+            [WizNotificationCenter postChangeAccountMessage];
         }
     }
     else if ( (0 == indexPath.row ||1 == indexPath.row) && 5 == indexPath.section) { 
         NSURL* url = nil;
-        if (indexPath.row ==0) {
-            url = [[NSURL alloc] initWithString:@"http://api.wiz.cn/?p=wiz&v=3.0.0.0&c=iphonehelp&l="];
+        NSString* key = nil;
+        if (0 == indexPath.row) {
+            key = @"iosabout";
         }
-        else
-        {
-            url = [[NSURL alloc] initWithString:@"http://api.wiz.cn/?p=wiz&v=3.0.0.0&c=iphonehelp&l="];
+        else {
+            key = @"ioshelp";
         }
+        NSString* urlStr = [NSString stringWithFormat:@"http://api.wiz.cn/?p=wiz&v=%@&c=%@&l=%@",[WizGlobals wizNoteVersion],key,[WizGlobals localLanguageKey]];
+
+        url = [[NSURL alloc] initWithString:urlStr];
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
         UIWebView* web = [[UIWebView alloc] init];
         UIViewController* con = [[UIViewController alloc] init];

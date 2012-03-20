@@ -17,6 +17,8 @@
 #import "LoginViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizInputView.h"
+#import "WizNotification.h"
+
 @implementation WizPhoneCreateAccountViewController
 
 @synthesize idInputView;
@@ -231,14 +233,12 @@
 		if (succeeded)
 		{
 			[WizSettings addAccount:name password:password];
-            [self.navigationController popViewControllerAnimated:NO];
-            NSDictionary* userInfo = [NSDictionary dictionaryWithObject:name  forKey:TypeOfPhoneAccountUserId];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDidSelectedAccount object:nil userInfo:userInfo];
+            [self.navigationController dismissModalViewControllerAnimated:NO];
+            [WizNotificationCenter postDidSelectedAccountMessage:name];
             
 		}
 		else {
 			NSError* error = [userInfo valueForKey:@"ret"];
-			//
 			NSString* msg = nil;
 			if (error != nil)
 			{

@@ -26,6 +26,7 @@
 #import "TagsListTreeControllerNew.h"
 #import "DocumentListViewCell.h"
 #import "NSDate-Utilities.h"
+#import "WizNotification.h"
 
 @implementation DocumentListViewControllerBaseNew
 @synthesize accountUserID;
@@ -36,7 +37,7 @@
 @synthesize lastIndexPath;
 @synthesize assertAlerView;
 @synthesize sourceArray;
-@synthesize isWillReloadAllData;
+@synthesize hasNewDocument;
 - (void) dealloc
 {
     self.tableArray = nil;
@@ -69,8 +70,9 @@
 }
 - (void) addNewDocument:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    WizDocument* newDocument = [userInfo valueForKey:TypeOfWizDocumentData];
+    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizDocument* newDocument = [index documentFromGUID:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {
         NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
@@ -94,7 +96,11 @@
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
     }
     self.currentDoc = newDocument;
-    [self viewDocument];
+    hasNewDocument = YES;
+    if (hasNewDocument) {
+        [self viewDocument];
+        hasNewDocument = NO;
+    }
 }
 - (NSInteger) indexForDocumentInSource:(NSString*)documentGuid
 {
@@ -152,22 +158,28 @@
 }
 - (void) willReloadAllData
 {
-    isWillReloadAllData = YES;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    self.kOrder = [index userTablelistViewOption];
+    [self reloadAllData];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addNewDocument:) name:MessageOfNewDocument object:nil];
+    hasNewDocument = NO;
+    
+    [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
     if (nil == self.tableArray) {
         self.tableArray = [NSMutableArray array];
     }
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = self;
     }
-    isWillReloadAllData = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willReloadAllData) name:MessageOfDocumentlistWillReloadData object:nil];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    self.kOrder = [index userTablelistViewOption];
+    [self reloadAllData];
 }
 
 - (void)viewDidUnload
@@ -184,22 +196,24 @@
 {
     
     [super viewWillAppear:animated];
+    
     if (self.lastIndexPath != nil) {
 
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.lastIndexPath] withRowAnimation:UITableViewRowAnimationNone];
         self.lastIndexPath = nil;
     }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    self.kOrder = [index userTablelistViewOption];
-    if (self.isWillReloadAllData) {
-        [self reloadAllData];
-        isWillReloadAllData = NO;
-    }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+
     [super viewDidAppear:animated];
+    if (hasNewDocument) {
+        [self viewDocument];
+        hasNewDocument = NO;
+    }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -554,8 +568,9 @@
     [label setFont:[UIFont systemFontOfSize:13]];
     [sectionView addSubview:label];
     label.backgroundColor = [UIColor clearColor];
-    [label release];
     label.text = [self tableView:self.tableView titleForHeaderInSection:section];
+    [label release];
+    sectionView.alpha = 0.8f;
     return sectionView;
 }
 
@@ -710,6 +725,7 @@
 	docView.doc = self.currentDoc;
     docView.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:docView animated:YES];
+    self.currentDoc = nil;
 	[docView release];
 }
 

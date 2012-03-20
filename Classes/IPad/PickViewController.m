@@ -96,12 +96,12 @@
  
  #pragma mark   View lifecycle
  
-- (void) selectedView:(NSNotification*)nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSNumber* index = [userInfo valueForKey:TypeOfMainPickerViewIndex];
-    [self setSelectedIndex:[index intValue]];
-}
+//- (void) selectedView:(NSNotification*)nc
+//{
+//    NSDictionary* userInfo = [nc userInfo];
+//    NSNumber* index = [userInfo valueForKey:TypeOfMainPickerViewIndex];
+//    [self setSelectedIndex:[index intValue]];
+//}
 - (void) popSelf
 {
     [self.navigationController popViewControllerAnimated:NO];
@@ -111,21 +111,14 @@
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = self;
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedView:) name:MessageOfMainPickSelectedView object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popSelf) name:MessageOfWizMainPickerViewPopSelf object:nil];
-    
-//    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
-//    recent.accountUserID =self.accountUserId;
-    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
+    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
+    recent.accountUserID =self.accountUserId;
+//    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
     recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
     [recent release];
     
-    
-    
- 
     FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];
     folderView.accountUserId = self.accountUserId;
     UINavigationController* folderController = [[UINavigationController alloc] init] ;
@@ -203,6 +196,7 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self setSelectedIndex:0];
 }
 
 - (void) viewWillDisappear:(BOOL)animated

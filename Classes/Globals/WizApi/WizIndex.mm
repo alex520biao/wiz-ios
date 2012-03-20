@@ -145,9 +145,6 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
 {
-    NSString* t1 = [WizIndex pinyinFirstLetter:self.title];
-    NSString* t2 = [WizIndex pinyinFirstLetter:doc.title];
-    NSLog(@" %@   %@",t1,t2);
     return [[WizIndex pinyinFirstLetter:self.title] compare:[WizIndex pinyinFirstLetter:doc.title]];
 }
 
@@ -604,6 +601,10 @@ NSInteger compareTag(id location1, id location2, void*);
             continue;
         }
         WizTag* tag = [self tagFromGuid:eachGuid];
+        if (tag == nil) {
+            continue;
+        }
+        
         [ret addObject:tag];
     }    
     return  ret;
@@ -1102,11 +1103,19 @@ NSInteger compareTag(id location1, id location2, void*);
         return nil;
     }
     NSString* contentHtml;
+    
     if ([WizGlobals checkAttachmentTypeIsImage:documentType]) {
         contentHtml = [self photoHtmlString:documentName];
     }
     else if ([WizGlobals checkAttachmentTypeIsAudio:documentType]){
         contentHtml = [self audioHtmlString:documentName];
+    }
+    else if ([WizGlobals checkAttachmentTypeIsTxt:documentType])
+    {
+        contentHtml = [NSString stringWithContentsOfFile:filePath usedEncoding:nil error:nil];
+        if (contentHtml == nil || [contentHtml isEqualToString:@""]) {
+            contentHtml = @"";
+        }
     }
     else {
         contentHtml = [NSString stringWithFormat:@"<p>%@ Added By %@</p>",documentName,[[UIDevice currentDevice] model]];
@@ -1851,7 +1860,6 @@ static NSString* ImageQuality                   = @"IMAGEQUALITY";
 static NSString* ProtectPssword                 = @"PROTECTPASSWORD";
 static NSString* FirstLog                       = @"UserFirstLog";
 static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
-static NSString* WizIosAppVersion               = @"WizIosAppVersion";
 - (int64_t) syncVersion:(NSString*)type
 {
 	NSString* str = [self meta:KeyOfSyncVersion key:type];
@@ -1950,10 +1958,6 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     NSString* imageValue = [NSString stringWithFormat:@"%lld",value];
     return [self setUserInfo:ImageQuality info:imageValue];
 }
-- (BOOL) setWizIosAppVersion:(NSString*)ver
-{
-    return [self setUserInfo:WizIosAppVersion info:ver];
-}
 - (BOOL) setConnectOnlyViaWifi:(BOOL)wifi
 {
     NSString* wifiStr = [NSString stringWithFormat:@"%d",wifi?1:0];
@@ -1971,10 +1975,6 @@ static NSString* WizIosAppVersion               = @"WizIosAppVersion";
     return ret;
 }
 
-- (NSString*) wizIosAppVersion
-{
-    return [self userInfo:WizIosAppVersion];
-}
 - (int64_t) imageQualityValue
 {
     NSString* str = [self userInfo:ImageQuality];

@@ -18,7 +18,7 @@ NSString* KeyOfAccounts = @"accounts";
 NSString* KeyOfUserId = @"userId";
 NSString* KeyOfPassword = @"password";
 NSString* KeyOfDefaultUserId = @"defaultUserId";
-NSString* keyOfWizIosAppVersion = @"keyOfWizIosAppVersion";
+
 static NSString* KeyOfProtectPassword = @"protectPassword";
 @implementation WizSettings
 
@@ -137,21 +137,6 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
     }
     else {
         return [NSDate date];
-    }
-}
-+(void) setWizIosAppVersion:(NSString*)version
-{
-    [WizSettings writeSettings:keyOfWizIosAppVersion value:version];
-}
-+ (NSString*) wizIosAppVersion
-{
-    id version = [WizSettings readSettings:keyOfWizIosAppVersion];
-    if (version != nil && [version isKindOfClass:[NSString class]]) {
-        return (NSString*)version;
-    }
-    else
-    {
-        return @"";
     }
 }
 + (NSString*) defaultAccountUserId

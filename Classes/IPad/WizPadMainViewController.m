@@ -21,6 +21,7 @@
 #import "WizDictionaryMessage.h"
 #import "UserSttingsViewController.h"
 #import "SearchResultViewController.h"
+#import "WizNotification.h"
 
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
 @implementation WizPadMainViewController
@@ -426,10 +427,11 @@
 
 - (void) willChangeUser
 {
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [index close];
     [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
-    [self.currentPoperController dismissPopoverAnimated:YES];
-    [self.navigationController popViewControllerAnimated:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadLoginViewChangeUser object:nil userInfo:nil];
+    [self.currentPoperController dismissPopoverAnimated:NO];
+    [WizNotificationCenter postChangeAccountMessage];
 }
 
 - (void) viewWillChange:(NSNotification*)nc

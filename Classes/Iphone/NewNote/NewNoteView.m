@@ -818,7 +818,6 @@
     [dic setObject:tagGuids forKey:TypeOfDocumentTags];
     if (isNewDocument) {
         [index newNoteWithGuidAndData:dic];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfWizDocumentData]];
         [WizNotificationCenter postNewDocumentMessage:documentGUID];
     }
     else

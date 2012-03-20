@@ -21,74 +21,133 @@
 #import "NSDate-Utilities.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
+#import "PickViewController.h"
+#import "WizNotification.h"
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
 //#import "TestFlight.h"
 #endif
 #define WizAbs(x) x>0?x:-x
-
+@interface WizAppDelegate ()
++ (UIViewController*) iphoneBackController;
+@end
 @implementation WizAppDelegate
-
+@synthesize loginController;
 @synthesize window;
 @synthesize navController;
-
+static UIViewController* iphoneBackController;
++ (UIViewController*) iphoneBackController
+{
+    if (iphoneBackController == nil) {
+        UIImageView* back = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default"]];
+        iphoneBackController = [[UIViewController alloc] init];
+        back.frame = CGRectMake(0.0, 0.0, 320, 480);
+        [iphoneBackController.view addSubview:back];
+        [back release];
+    }
+    return iphoneBackController;
+}
+- (void) dealloc
+{
+    self.navController = nil;
+    self.window = nil;
+    self.loginController = nil;
+    [super dealloc];
+}
 #pragma mark -
 #pragma mark Application lifecycle
+- (void) changeAccount
+{
+    [self.navController popToRootViewControllerAnimated:NO];
+    if (WizDeviceIsPad())
+    {
+
+        WizPadLoginViewController* pad = [[WizPadLoginViewController alloc] init];
+        UINavigationController* con = [[UINavigationController alloc] initWithRootViewController:pad];
+        [self.navController presentModalViewController:con animated:NO];
+        [pad release];
+        [con release];
+    }
+    else
+    {
+        LoginViewController* login = [[LoginViewController alloc] init];
+        UINavigationController* con = [[UINavigationController alloc] initWithRootViewController:login];
+        [self.navController presentModalViewController:con animated:YES];
+        [login release];
+        [con release];
+    }
+}
+- (void) initRootNavigation
+{
+    [WizNotificationCenter removeObserver:self];
+    [WizNotificationCenter addObserverWithKey:self selector:@selector(selecteAccount:) name:MessageTypeOfDidSelectedAccount];
+    [WizNotificationCenter addObserverForChangeAccount:self selector:@selector(changeAccount)];
+    UINavigationController* root = [[UINavigationController alloc] init];
+    self.navController = root;
+    if (WizDeviceIsPad()) {
+        UIViewController* con = [[UIViewController alloc] init];
+        con.view.backgroundColor = [UIColor grayColor];
+        [self.navController pushViewController:con animated:NO];
+        [con release];
+    }
+    else {
+        [self.navController pushViewController:[WizAppDelegate iphoneBackController] animated:NO];
+    }
+    [window addSubview:self.navController.view];
+    [root release];
+    [self.window makeKeyAndVisible];
+}
 - (void) selecteAccount:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-	//
-	NSString* accountUserId = [userInfo valueForKey:@"accountUserId"];
-    
+	NSString* accountUserId = [WizNotificationCenter getDidSelectedAccountUserId:nc];
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    
     if (![index isOpened])
     {
         if (![index open])
         {
             [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-            //
-            
             return;
         }
     }
-    WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
-    pad.accountUserId = accountUserId;
-    [self.navController pushViewController:pad animated:YES];
-    [pad release];
+    if (WizDeviceIsPad()) {
+        WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
+        pad.accountUserId = accountUserId;
+        [self.navController pushViewController:pad animated:YES];
+        [pad release];
+    }
+    else {
+        PickerViewController* pick =[[PickerViewController alloc] initWithUserID:accountUserId];
+        [self.navController pushViewController:pick animated:YES];
+        [pick release];
+    }
+}
+
+- (void) selecteDefaultAccount
+{
+    NSArray* accounts = [WizSettings accounts];
+    if ([accounts count] > 0) {
+        NSString* defaultUserId = [WizSettings defaultAccountUserId];
+        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:accounts index:0]];
+            defaultUserId = [WizSettings defaultAccountUserId];
+        }
+        [WizNotificationCenter postDidSelectedAccountMessage:defaultUserId];
+    }
+    else {
+        [WizNotificationCenter postChangeAccountMessage];
+    }
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-//    [TestFlight takeOff:TestFlightToken];
-    NSLog(@"TestFlight take off");
-    UINavigationController* root = [[UINavigationController alloc] init];
-    self.navController = root;
-    [window addSubview:self.navController.view];
-    [root release];
-	if (WizDeviceIsPad())
-	{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selecteAccount:) name:@"didAccountSelect" object:nil];
-        
-        WizPadLoginViewController* pad = [[WizPadLoginViewController alloc] init];
-        [self.navController pushViewController:pad animated:YES];
-        pad.view.tag = 109;
-        [pad release];
-	}
-	else
-	{
-        LoginViewController* login = [[WizGlobalData sharedData] wizMainLoginView:DataMainOfWiz];
-        [self.navController pushViewController:login animated:YES];
-	}
-    [self.window makeKeyAndVisible];
+    [self initRootNavigation]; 
+    [self selecteDefaultAccount];
+    return YES;
 }
 
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    /*
-     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-     */
+
     
 }
 
@@ -130,12 +189,6 @@
             [[WizGlobalData sharedData] removeAccountData:userId];
         }
     }
-    NSString* appVersion = [WizSettings wizIosAppVersion];
-    if (appVersion == nil || [appVersion isEqualToString:@""] || ![appVersion isEqualToString:WizIosAppVersionKeyString]) {
-        [WizSettings setAccountProtectPassword:@""];
-        [WizSettings setWizIosAppVersion:WizIosAppVersionKeyString];
-        return;
-    }
     NSString* protectPw = [WizSettings accountProtectPassword];
     if (protectPw != nil && ![protectPw isEqualToString:@""]) {
         [self accountProtect];
@@ -145,8 +198,6 @@
     [WizSettings setLastActiveTime];
     [[WizGlobalData sharedData] stopSyncing];
 }
-
-
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	[WizGlobalData deleteShareData];
@@ -163,12 +214,9 @@
 }
 
 
-- (void)dealloc {
-    [window release];
-    [super dealloc];
-}
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+
     NSString* defaultAccount = [[WizGlobalData sharedData] activeAccountUserId];
     if (defaultAccount == nil || [defaultAccount isEqualToString:@""]) {
         return NO;
@@ -190,13 +238,7 @@
         if (documentGUID == nil) {
             return NO;
         }
-        WizDocument* document = [index documentFromGUID:documentGUID];
-        if (!WizDeviceIsPad()) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:document forKey:TypeOfWizDocumentData]];
-        }
-        else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:document forKey:TypeOfDocumentKeyString]];
-        }
+        [WizNotificationCenter postNewDocumentMessage:documentGUID];
         return YES;
     }
 return NO;

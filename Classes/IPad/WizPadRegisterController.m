@@ -14,6 +14,7 @@
 #import "WizSettings.h"
 #import "WizGlobals.h"
 #import "WizIndex.h"
+#import "WizNotification.h"
 @implementation WizPadRegisterController
 @synthesize accountEmail;
 @synthesize accountPassword;
@@ -67,23 +68,8 @@
 		if (succeeded)
 		{
 			[WizSettings addAccount:emailString password:passwordString];
-			//
-			WizIndex* index = [[WizGlobalData sharedData] indexData:emailString];
-			if (index)
-			{
-				if (![index isOpened])
-				{
-					if (![index open])
-					{
-						[WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-					}
-				}
-			}
-			//
-            [self.navigationController dismissModalViewControllerAnimated:YES];
-            NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:emailString, @"accountUserId", nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-            [userInfo release];
+            [self.navigationController dismissModalViewControllerAnimated:NO];
+            [WizNotificationCenter postPadSelectedAccountMessge:emailString];
 		}
 		else {
             // null

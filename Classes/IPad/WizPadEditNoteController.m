@@ -18,7 +18,7 @@
 #import "ELCImagePickerController.h"
 #import "ELCAlbumPickerController.h"
 #import "WizPadCheckAttachments.h"
-
+#import "WizNotification.h"
 
 #define titleInputTextFieldFrame CGRectMake(0.0,0.0,768,44)
 #define folderLabelFrame CGRectMake(0.0, 45, 768, 44)
@@ -410,8 +410,8 @@
     [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
     [documentData setObject:tagGuids forKey:TypeOfDocumentTags];
     if (isNewDocument) {
-         [index  newNoteWithGuidAndData:documentData];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadNewDocument object:nil userInfo:[NSDictionary dictionaryWithObject:[index documentFromGUID:self.documentGUID] forKey:TypeOfDocumentKeyString]];
+        [index  newNoteWithGuidAndData:documentData];
+        [WizNotificationCenter postNewDocumentMessage:self.documentGUID];
     }
     else
     {

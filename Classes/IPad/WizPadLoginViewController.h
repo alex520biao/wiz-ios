@@ -16,14 +16,12 @@
     UIButton* registerButton;
     UIButton* checkExistedAccountButton;
     UILabel* CripytLabel;
-    BOOL willFirstAppear;
 }
 @property (nonatomic, retain) IBOutlet UIButton* loginButton;
 @property (nonatomic, retain) IBOutlet UIImageView* backgroudView;
 @property (nonatomic, retain) IBOutlet  UIButton* registerButton;
 @property (nonatomic, retain) IBOutlet UIButton* checkExistedAccountButton;
 @property (nonatomic, retain) IBOutlet UILabel* CripytLabel;
-@property BOOL willFirstAppear;
 - (IBAction)loginViewAppear:(id)sender;
 - (IBAction)registerViewApper:(id)sender;
 - (IBAction)checkOtherAccounts:(id)sender;

@@ -15,6 +15,7 @@
 #import "CommonString.h"
 #import "WizVerifyAccount.h"
 #import "WizIndex.h"
+#import "WizNotification.h"
 @implementation WizAddAcountViewController
 @synthesize nameInput;
 @synthesize passwordInput;
@@ -69,21 +70,8 @@
 		if (succeeded)
 		{
 			[WizSettings addAccount:accountIDString password:accountPasswordString];
-            WizIndex* index = [[WizGlobalData sharedData] indexData:accountIDString];
-            
-            if (![index isOpened])
-            {
-                if (![index open])
-                {
-                    [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-                    //
-                    return;
-                }
-            }
-            [self.navigationController dismissModalViewControllerAnimated:YES];
-            NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:accountIDString, @"accountUserId", nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-            [userInfo release];
+            [self.navigationController dismissModalViewControllerAnimated:NO];
+            [WizNotificationCenter postPadSelectedAccountMessge:accountIDString];
 		}
 		else {
             //null

@@ -323,7 +323,7 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* Wiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* WizNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3072578D132496BB009DA753 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -362,7 +362,6 @@
 		7311202B14F9140200193E64 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
 		731161FD14F5028D007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		731161FF14F5029C007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		7311620314F503DF007EC8AC /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
 		7311620914F5091D007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		7311620B14F50922007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		7311621114F50ABB007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/Default@2x.png"; sourceTree = "<group>"; };
@@ -776,6 +775,7 @@
 		73BB852B1512ED740032F99B /* WizTableAbstractViewDecorate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableAbstractViewDecorate.h; sourceTree = "<group>"; };
 		73BB852C1512ED760032F99B /* WizTableAbstractViewDecorate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableAbstractViewDecorate.m; sourceTree = "<group>"; };
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -809,7 +809,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Wiz.app */,
+				1D6058910D05DD3D006BFB54 /* WizNote.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -850,7 +850,7 @@
 				44A094951495F56500B487FD /* Images */,
 				30F77A48133A1CE30096FF74 /* infoPlist.strings */,
 				30F7799E133A12BA0096FF74 /* Localizable.strings */,
-				7311620314F503DF007EC8AC /* Wiz-Info.plist */,
+				73FBA14115183C2A0096E54F /* Wiz-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -941,6 +941,22 @@
 				731161FE14F5028D007EC8AC /* Default-Portrait~ipad.png */,
 			);
 			name = LunchImages;
+			sourceTree = "<group>";
+		};
+		738637A815173643006A9E16 /* Accounts */ = {
+			isa = PBXGroup;
+			children = (
+				73A7849814F8CC22001387F6 /* WizCheckAccounsController.h */,
+				73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */,
+				73A784AC14F8CC22001387F6 /* WizPadLoginViewController.h */,
+				73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */,
+				73A784B314F8CC22001387F6 /* WizPadRegisterController.h */,
+				73A784B414F8CC22001387F6 /* WizPadRegisterController.m */,
+				73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */,
+				73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */,
+				73A784AE14F8CC22001387F6 /* WizPadLoginViewController.xib */,
+			);
+			name = Accounts;
 			sourceTree = "<group>";
 		};
 		738DA46C14FC92850075BFC9 /* NetworkDetect */ = {
@@ -1140,12 +1156,6 @@
 				73A7849114F8CC22001387F6 /* PadFoldersController.m */,
 				73A7849214F8CC22001387F6 /* PadTagController.h */,
 				73A7849314F8CC22001387F6 /* PadTagController.m */,
-				73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */,
-				73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */,
-				73A7849814F8CC22001387F6 /* WizCheckAccounsController.h */,
-				73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */,
-				73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */,
-				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
 				73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */,
 				73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */,
 				73A7849E14F8CC22001387F6 /* WizPadDocumentListController.h */,
@@ -1160,15 +1170,13 @@
 				73A784A914F8CC22001387F6 /* WizPadListCell.m */,
 				73A784AA14F8CC22001387F6 /* WizPadListTableControllerBase.h */,
 				73A784AB14F8CC22001387F6 /* WizPadListTableControllerBase.mm */,
-				73A784AC14F8CC22001387F6 /* WizPadLoginViewController.h */,
-				73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */,
-				73A784AE14F8CC22001387F6 /* WizPadLoginViewController.xib */,
+				73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */,
+				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
+				738637A815173643006A9E16 /* Accounts */,
 				73A784AF14F8CC22001387F6 /* WizPadMainViewController.h */,
 				73A784B014F8CC22001387F6 /* WizPadMainViewController.m */,
 				73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */,
 				73A784B214F8CC22001387F6 /* WizPadNotificationMessage.h */,
-				73A784B314F8CC22001387F6 /* WizPadRegisterController.h */,
-				73A784B414F8CC22001387F6 /* WizPadRegisterController.m */,
 				73A784B514F8CC22001387F6 /* WizSearchViewController.h */,
 				73A784B614F8CC22001387F6 /* WizSearchViewController.m */,
 			);
@@ -1649,7 +1657,7 @@
 			);
 			name = Wiz;
 			productName = Wiz;
-			productReference = 1D6058910D05DD3D006BFB54 /* Wiz.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* WizNote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2102,7 +2110,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
-				PRODUCT_NAME = Wiz;
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
 				SDKROOT = iphoneos5.0;
@@ -2138,7 +2147,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
-				PRODUCT_NAME = Wiz;
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2200,7 +2210,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 				);
-				PRODUCT_NAME = Wiz;
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #define MessageTypeOfNewDocument @"MessageTypeOfNewDocument"
-
-
+#define MessageTypeOfDidSelectedAccount @"didAccountSelect"
+#define MessageTypeOfChangeAccount @"wizChangeAccountMessage"
+#define MessageTypeOfPadSendSelectedAccountMessage @"MessageTypeOfPadSendSelectedAccountMessage"
 
 #define UserInfoTypeOfDocumentGUID @"MessageDataTypeOfDocumentGUID"
+#define MessageInfoOfDidSelectedAccountUserId @"accountUserId"

@@ -18,6 +18,7 @@
 #import "PickViewController.h"
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizPhoneNotificationMessage.h"
+#import "WizNotification.h"
 #define ColorValue(x) x/255.0
 #define PROTECTALERT 300
 @implementation LoginViewController
@@ -175,6 +176,12 @@
     [self.navigationController pushViewController:createAccountView animated:YES];
     [createAccountView release];
 }
+- (void) didSelectedAccountUser:(NSString *)userId
+{
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    [WizNotificationCenter postDidSelectedAccountMessage:userId];
+    
+}
 - (void) didSelectedAccount:(NSNotification*)nc
 {
     NSDictionary* userInfo = [nc userInfo];
@@ -192,26 +199,6 @@
     self.contentTableView.frame = CGRectMake(10, 260, 300, 80);
     self.loginButton.hidden = YES;
     [self.navigationController pushViewController:pick animated:YES];
-}
-- (void) selectDefaultAccount
-{
-    if (!self.willChangedUser) {
-        self.willChangedUser = YES;
-        NSString* defaultUserId = [WizSettings defaultAccountUserId];
-        if (defaultUserId != nil && ![defaultUserId isEqualToString:@""]) {
-            NSDictionary* userInfo = [NSDictionary dictionaryWithObject:defaultUserId  forKey:TypeOfPhoneAccountUserId];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDidSelectedAccount object:nil userInfo:userInfo];
-        }
-        else
-        {
-            if ([[WizSettings  accounts] count]) {
-                defaultUserId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:0];
-                [WizSettings setDefalutAccount:defaultUserId];
-                NSDictionary* userInfo = [NSDictionary dictionaryWithObject:defaultUserId  forKey:TypeOfPhoneAccountUserId];
-                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDidSelectedAccount object:nil userInfo:userInfo];
-            }
-        }
-    }
 }
 - (CAGradientLayer*) buttonBackgroud
 {
@@ -275,9 +262,6 @@
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];
     [self.view insertSubview:backGroud atIndex:0];
     [backGroud release];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectedAccount:) name:MessageOfPhoneDidSelectedAccount object:nil];
-    [self selectDefaultAccount];
 }
 - (void)viewDidUnload
 {
@@ -320,8 +304,7 @@
 		if (succeeded)
 		{
 			[WizSettings addAccount:userNameTextField.text password:userPasswordTextField.text];
-            NSDictionary* userInfo = [NSDictionary dictionaryWithObject:userNameTextField.text  forKey:TypeOfPhoneAccountUserId];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDidSelectedAccount object:nil userInfo:userInfo];
+            [self didSelectedAccountUser:userNameTextField.text];
 		}
 		else {
 
@@ -377,8 +360,7 @@
             return;
         }
         NSString* userID = [WizSettings accountUserIdAtIndex:self.accountsArray index:indexPath.row];
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:userID  forKey:TypeOfPhoneAccountUserId];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDidSelectedAccount object:nil userInfo:userInfo];
+        [self didSelectedAccountUser:userID];
     }
 }
 

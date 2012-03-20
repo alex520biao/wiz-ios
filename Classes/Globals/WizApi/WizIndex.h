@@ -7,9 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
-#define WizIosAppVersionKeyString  @"3.0.5"
 #define ConnectServerOnlyByWif      @"ConnectServerOnlyByWif"
 typedef NSUInteger WizTableOrder;
 //%2 is reverse
@@ -277,8 +274,6 @@ enum
 - (BOOL) setFirstLog:(BOOL)first;
 - (BOOL) isFirstLog;
 - (BOOL) setDocumentMoblleView:(BOOL)mobileView;
-- (BOOL) setWizIosAppVersion:(NSString*)ver;
-- (NSString*) wizIosAppVersion;
 //2012-2-22
 - (BOOL) clearCache;
 //2012-2-24

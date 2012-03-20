@@ -16,19 +16,19 @@
 #import "WizGlobalData.h"
 #import "WizIndex.h"
 #import "WizPadNotificationMessage.h"
-
+#import "WizNotification.h"
 
 @implementation WizPadLoginViewController
 @synthesize loginButton;
 @synthesize backgroudView;
 @synthesize registerButton;
 @synthesize checkExistedAccountButton;
-@synthesize willFirstAppear;
 @synthesize CripytLabel;
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [WizNotificationCenter removeObserver:self];
     self.CripytLabel = nil;
-    self.willFirstAppear = NO;
     self.loginButton = nil;
     self.backgroudView = nil;
     self.registerButton = nil;
@@ -55,26 +55,7 @@
         self.CripytLabel.frame = CGRectMake(318, 972, 132, 21);
     }
 }
-- (void) selectDefaultAccount
-{
-    NSString* defaultUserId = [WizSettings defaultAccountUserId];
-    
-    if (defaultUserId != nil && ![defaultUserId isEqualToString:@""]) {
-        NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:defaultUserId, @"accountUserId", nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-        [userInfo release];
-    }
-    else
-    {
-        if ([[WizSettings  accounts] count]) {
-            NSArray* accountsArray =[WizSettings accounts];
-            defaultUserId = [WizSettings accountUserIdAtIndex:accountsArray index:0];
-            NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:defaultUserId, @"accountUserId", nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-            [userInfo release];
-        }
-    }
-}
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -85,17 +66,16 @@
     }
     return self;
 }
-
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES]; 
+    [self.navigationController setNavigationBarHidden:NO animated:NO]; 
 }
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -108,18 +88,11 @@
     {
         self.checkExistedAccountButton.hidden = YES;
     }
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
-  
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //load the default account
-    if (willFirstAppear) {
-        [self selectDefaultAccount];
-        self.willFirstAppear = NO;
-    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -141,18 +114,23 @@
         [controller release];
     }
 }
-
+- (void) selectAccount:(NSNotification*)nc
+{
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    NSString* accountUserId = [WizNotificationCenter getDidSelectedAccountUserId:nc];
+    [WizNotificationCenter postDidSelectedAccountMessage:accountUserId];
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.willFirstAppear = YES;
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
-    
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:WizStrRegister forState:UIControlStateNormal];
     [self.checkExistedAccountButton setTitle:WizStrSwitchAccounts forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
+    [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
 
 }
 
@@ -160,8 +138,7 @@
 {
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [WizNotificationCenter removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

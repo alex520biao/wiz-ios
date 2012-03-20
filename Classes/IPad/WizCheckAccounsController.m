@@ -8,6 +8,7 @@
 
 #import "WizCheckAccounsController.h"
 #import "WizSettings.h"
+#import "WizNotification.h"
 @implementation WizCheckAccounsController
 @synthesize accounts;
 
@@ -124,10 +125,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
-    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[WizSettings accountUserIdAtIndex:self.accounts index:indexPath.row], @"accountUserId", nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didAccountSelect" object: nil userInfo: userInfo];
-    [userInfo release];
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    NSString* accountUserId = [WizSettings accountUserIdAtIndex:self.accounts index:indexPath.row];
+    [WizNotificationCenter postPadSelectedAccountMessge:accountUserId];
 }
 
 @end

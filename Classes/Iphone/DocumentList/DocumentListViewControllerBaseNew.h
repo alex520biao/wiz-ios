@@ -25,7 +25,7 @@
     BOOL        isReverseDateOrdered;
     NSIndexPath* lastIndexPath;
     UIAlertView* assertAlerView;
-    BOOL isWillReloadAllData;
+    BOOL hasNewDocument;
 }
 @property (nonatomic, retain) NSMutableArray* tableArray;
 @property (nonatomic, retain) NSString* accountUserID;
@@ -33,9 +33,9 @@
 @property (nonatomic, retain) NSIndexPath* lastIndexPath;
 @property (nonatomic, retain) UIAlertView* assertAlerView;
 @property (nonatomic, retain) NSMutableArray* sourceArray;
-@property (readonly) BOOL isWillReloadAllData;
 @property (assign)  BOOL        isReverseDateOrdered;
 @property int       kOrder;
+@property (readonly) BOOL hasNewDocument;
 - (void) reloadAllData;
 - (void) orderByDate;
 - (void) orderByFirstLetter;

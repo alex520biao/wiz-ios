@@ -185,6 +185,10 @@
     con.view = tableViw;
     UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:con];
     [pop presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.currentPopoverController = pop;
+    [tableViw release];
+    [pop release];
+    [con release];
     
 }
 - (void) setViewsFrame
@@ -209,7 +213,7 @@
         self.navigationItem.rightBarButtonItem = nil;
     }
     else {
-        UIBarButtonItem* listItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(popTheDocumentList)];
+        UIBarButtonItem* listItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"List", nil) style:UIBarButtonItemStyleDone target:self action:@selector(popTheDocumentList)];
         self.navigationItem.rightBarButtonItem = listItem;
         [listItem release];
     }
@@ -394,7 +398,7 @@
 }
 - (void) log
 {
-    NSLog(@"dd");
+    
 }
 
 - (void) checkDocumentDtail
@@ -415,9 +419,6 @@
 }
 - (void) onEditDone
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID];
-    NSLog(@"doc tag is %@",doc.tagGuids);
     [self.webView reload];
 }
 - (void) onEditCurrentDocument
@@ -668,7 +669,6 @@
         for (int i = 0; i < [self.documentsArray count]; i++) {
             for (int j = 0; j < [[self.documentsArray objectAtIndex:i] count]; j++) {
                 WizDocument* doc = [[self.documentsArray objectAtIndex:i] objectAtIndex:j];
-                NSLog(@"%@",doc.guid);
                 if ([doc.guid isEqualToString:selectedDocumentGUID]) {
                     [self didSelectedDocument:[[self.documentsArray objectAtIndex:i] objectAtIndex:j] ];
                     [self.documentList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i] atScrollPosition:UITableViewScrollPositionTop animated:YES];

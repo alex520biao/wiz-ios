@@ -121,10 +121,13 @@
     }
     WizDocumentAttach* attach = [self.attachments objectAtIndex:indexPath.row];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    if (attach.attachmentType == nil || [attach.attachmentType isEqualToString:@""]) {
+        attach.attachmentType = @"noneType";
+    }
     if ([index attachmentSeverChanged:attach.attachmentGuid]) {
         cell.detailTextLabel.text = NSLocalizedString(@"Tap to download", nil);
     }
-    else
+    else 
     {
         cell.detailTextLabel.text = NSLocalizedString(@"Tap to view", nil);
     }
@@ -156,7 +159,7 @@
 }
 - (void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application
 {
-    NSLog(@"ddd");
+    
 }
 - (void) checkInWiz:(WizDocumentAttach*)attachment
 {

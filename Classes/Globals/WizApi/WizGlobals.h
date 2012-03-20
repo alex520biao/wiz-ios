@@ -64,6 +64,10 @@
 +(NSString*) getAttachmentTempFilePath:(NSString*)userId;
 //2012-3-16
 + (NSString*) tagsDisplayStrFromGUIDS:(NSArray*)tags;
+//2012-3-19
++ (BOOL) checkAttachmentTypeIsTxt:(NSString*)attachmentType;
++ (NSString*) wizNoteVersion;
++ (NSString*) localLanguageKey;
 @end
 
 
