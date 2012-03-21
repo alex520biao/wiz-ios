@@ -1,0 +1,754 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		73A158F21518815A0038A19D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158F11518815A0038A19D /* Foundation.framework */; };
+		73A158F81518815A0038A19D /* WizLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A158F71518815A0038A19D /* WizLib.m */; };
+		73A159001518815B0038A19D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158FF1518815B0038A19D /* SenTestingKit.framework */; };
+		73A159031518815B0038A19D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158F11518815A0038A19D /* Foundation.framework */; };
+		73A159061518815B0038A19D /* libWizLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158EE1518815A0038A19D /* libWizLib.a */; };
+		73A1590C1518815B0038A19D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 73A1590A1518815B0038A19D /* InfoPlist.strings */; };
+		73A1590F1518815B0038A19D /* WizLibTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1590E1518815B0038A19D /* WizLibTests.m */; };
+		73A1595015188D690038A19D /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A1591A15188D690038A19D /* CppSQLite3.cpp */; };
+		73A1595115188D690038A19D /* CppSQLite3.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1591B15188D690038A19D /* CppSQLite3.h */; };
+		73A1595215188D690038A19D /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A1591C15188D690038A19D /* index.cpp */; };
+		73A1595315188D690038A19D /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1591D15188D690038A19D /* index.h */; };
+		73A1595415188D690038A19D /* tempIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A1591E15188D690038A19D /* tempIndex.cpp */; };
+		73A1595515188D690038A19D /* tempIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1591F15188D690038A19D /* tempIndex.h */; };
+		73A1595615188D690038A19D /* WizMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592015188D690038A19D /* WizMisc.cpp */; };
+		73A1595715188D690038A19D /* WizMisc.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592115188D690038A19D /* WizMisc.h */; };
+		73A1595815188D690038A19D /* WizApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592315188D690038A19D /* WizApi.h */; };
+		73A1595915188D690038A19D /* WizApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592415188D690038A19D /* WizApi.m */; };
+		73A1595A15188D690038A19D /* WizCreateAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592515188D690038A19D /* WizCreateAccount.h */; };
+		73A1595B15188D690038A19D /* WizCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592615188D690038A19D /* WizCreateAccount.m */; };
+		73A1595C15188D690038A19D /* WizDictionaryMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592715188D690038A19D /* WizDictionaryMessage.h */; };
+		73A1595D15188D690038A19D /* WizDocumentsByKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592815188D690038A19D /* WizDocumentsByKey.h */; };
+		73A1595E15188D690038A19D /* WizDocumentsByKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592915188D690038A19D /* WizDocumentsByKey.m */; };
+		73A1595F15188D690038A19D /* WizDocumentsByLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592A15188D690038A19D /* WizDocumentsByLocation.h */; };
+		73A1596015188D690038A19D /* WizDocumentsByLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592B15188D690038A19D /* WizDocumentsByLocation.m */; };
+		73A1596115188D690038A19D /* WizDocumentsByTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592C15188D690038A19D /* WizDocumentsByTag.h */; };
+		73A1596215188D690038A19D /* WizDocumentsByTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592D15188D690038A19D /* WizDocumentsByTag.m */; };
+		73A1596315188D690038A19D /* WizDowdloadDocumentAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1592E15188D690038A19D /* WizDowdloadDocumentAttachment.h */; };
+		73A1596415188D690038A19D /* WizDowdloadDocumentAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1592F15188D690038A19D /* WizDowdloadDocumentAttachment.m */; };
+		73A1596515188D690038A19D /* WizDownloadObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593015188D690038A19D /* WizDownloadObject.h */; };
+		73A1596615188D690038A19D /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593115188D690038A19D /* WizDownloadObject.m */; };
+		73A1596715188D690038A19D /* WizDownloadPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593215188D690038A19D /* WizDownloadPool.h */; };
+		73A1596815188D690038A19D /* WizDownloadPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593315188D690038A19D /* WizDownloadPool.m */; };
+		73A1596915188D690038A19D /* WizDownloadRecentDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593415188D690038A19D /* WizDownloadRecentDocuments.h */; };
+		73A1596A15188D690038A19D /* WizDownloadRecentDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593515188D690038A19D /* WizDownloadRecentDocuments.m */; };
+		73A1596B15188D690038A19D /* WizGlobalData.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593615188D690038A19D /* WizGlobalData.h */; };
+		73A1596C15188D690038A19D /* WizGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593715188D690038A19D /* WizGlobalData.m */; };
+		73A1596D15188D690038A19D /* WizGlobalDictionaryKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593815188D690038A19D /* WizGlobalDictionaryKey.h */; };
+		73A1596E15188D690038A19D /* WizGlobalNotificationMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593915188D690038A19D /* WizGlobalNotificationMessage.h */; };
+		73A1596F15188D690038A19D /* WizGlobals.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593A15188D690038A19D /* WizGlobals.h */; };
+		73A1597015188D690038A19D /* WizGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593B15188D690038A19D /* WizGlobals.m */; };
+		73A1597115188D690038A19D /* WizIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593C15188D690038A19D /* WizIndex.h */; };
+		73A1597215188D690038A19D /* WizIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593D15188D690038A19D /* WizIndex.mm */; };
+		73A1597315188D690038A19D /* WizLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1593E15188D690038A19D /* WizLog.h */; };
+		73A1597415188D690038A19D /* WizLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1593F15188D690038A19D /* WizLog.m */; };
+		73A1597515188D690038A19D /* WizSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594015188D690038A19D /* WizSettings.h */; };
+		73A1597615188D690038A19D /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594115188D690038A19D /* WizSettings.m */; };
+		73A1597715188D690038A19D /* WizSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594215188D690038A19D /* WizSync.h */; };
+		73A1597815188D690038A19D /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594315188D690038A19D /* WizSync.m */; };
+		73A1597915188D690038A19D /* WizSyncBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594415188D690038A19D /* WizSyncBase.h */; };
+		73A1597A15188D690038A19D /* WizSyncBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594515188D690038A19D /* WizSyncBase.m */; };
+		73A1597B15188D690038A19D /* WizSyncByKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594615188D690038A19D /* WizSyncByKey.h */; };
+		73A1597C15188D690038A19D /* WizSyncByKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594715188D690038A19D /* WizSyncByKey.m */; };
+		73A1597D15188D690038A19D /* WizSyncByLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594815188D690038A19D /* WizSyncByLocation.h */; };
+		73A1597E15188D690038A19D /* WizSyncByLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594915188D690038A19D /* WizSyncByLocation.m */; };
+		73A1597F15188D690038A19D /* WizSyncByTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594A15188D690038A19D /* WizSyncByTag.h */; };
+		73A1598015188D690038A19D /* WizSyncByTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594B15188D690038A19D /* WizSyncByTag.m */; };
+		73A1598115188D690038A19D /* WizUploadObjet.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594C15188D690038A19D /* WizUploadObjet.h */; };
+		73A1598215188D690038A19D /* WizUploadObjet.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594D15188D690038A19D /* WizUploadObjet.m */; };
+		73A1598315188D690038A19D /* WizVerifyAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1594E15188D690038A19D /* WizVerifyAccount.h */; };
+		73A1598415188D690038A19D /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1594F15188D690038A19D /* WizVerifyAccount.m */; };
+		73A1599415188ECC0038A19D /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1598615188ECC0038A19D /* GDataXMLNode.h */; };
+		73A1599515188ECC0038A19D /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1598715188ECC0038A19D /* GDataXMLNode.m */; };
+		73A1599615188ECC0038A19D /* NSString+XMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1598815188ECC0038A19D /* NSString+XMLExtensions.h */; };
+		73A1599715188ECC0038A19D /* NSString+XMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1598915188ECC0038A19D /* NSString+XMLExtensions.m */; };
+		73A1599815188ECC0038A19D /* XMLRPCConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1598A15188ECC0038A19D /* XMLRPCConnection.h */; };
+		73A1599915188ECC0038A19D /* XMLRPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1598B15188ECC0038A19D /* XMLRPCConnection.m */; };
+		73A1599A15188ECC0038A19D /* XMLRPCEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1598C15188ECC0038A19D /* XMLRPCEncoder.h */; };
+		73A1599B15188ECC0038A19D /* XMLRPCEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1598D15188ECC0038A19D /* XMLRPCEncoder.m */; };
+		73A1599C15188ECC0038A19D /* XMLRPCExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1598E15188ECC0038A19D /* XMLRPCExtensions.h */; };
+		73A1599D15188ECC0038A19D /* XMLRPCExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1598F15188ECC0038A19D /* XMLRPCExtensions.m */; };
+		73A1599E15188ECC0038A19D /* XMLRPCRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1599015188ECC0038A19D /* XMLRPCRequest.h */; };
+		73A1599F15188ECC0038A19D /* XMLRPCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1599115188ECC0038A19D /* XMLRPCRequest.m */; };
+		73A159A015188ECC0038A19D /* XMLRPCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A1599215188ECC0038A19D /* XMLRPCResponse.h */; };
+		73A159A115188ECC0038A19D /* XMLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A1599315188ECC0038A19D /* XMLRPCResponse.m */; };
+		73A159A315188F360038A19D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159A215188F350038A19D /* libsqlite3.dylib */; };
+		73A159A715188F690038A19D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159A615188F690038A19D /* UIKit.framework */; };
+		73A159AE1518903D0038A19D /* libcommonCrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159AC15188FF20038A19D /* libcommonCrypto.dylib */; };
+		73A159B0151890460038A19D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159AF151890450038A19D /* SystemConfiguration.framework */; };
+		73A159B21518905A0038A19D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159B11518905A0038A19D /* CoreGraphics.framework */; };
+		73A159B4151890670038A19D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159B3151890670038A19D /* libxml2.dylib */; };
+		73A159B61518907F0038A19D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159B51518907E0038A19D /* CFNetwork.framework */; };
+		73A159B8151890920038A19D /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159B7151890920038A19D /* libz.1.2.5.dylib */; };
+		73A159BC151892040038A19D /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A159BA151892040038A19D /* Reachability.h */; };
+		73A159BD151892040038A19D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A159BB151892040038A19D /* Reachability.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		73A159041518815B0038A19D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 73A158E51518815A0038A19D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73A158ED1518815A0038A19D;
+			remoteInfo = WizLib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		73A158EE1518815A0038A19D /* libWizLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWizLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		73A158F11518815A0038A19D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		73A158F51518815A0038A19D /* WizLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WizLib-Prefix.pch"; sourceTree = "<group>"; };
+		73A158F61518815A0038A19D /* WizLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizLib.h; sourceTree = "<group>"; };
+		73A158F71518815A0038A19D /* WizLib.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WizLib.m; sourceTree = "<group>"; };
+		73A158FE1518815B0038A19D /* WizLibTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WizLibTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		73A158FF1518815B0038A19D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		73A159091518815B0038A19D /* WizLibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WizLibTests-Info.plist"; sourceTree = "<group>"; };
+		73A1590B1518815B0038A19D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		73A1590D1518815B0038A19D /* WizLibTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizLibTests.h; sourceTree = "<group>"; };
+		73A1590E1518815B0038A19D /* WizLibTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WizLibTests.m; sourceTree = "<group>"; };
+		73A1591A15188D690038A19D /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
+		73A1591B15188D690038A19D /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
+		73A1591C15188D690038A19D /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		73A1591D15188D690038A19D /* index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		73A1591E15188D690038A19D /* tempIndex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tempIndex.cpp; sourceTree = "<group>"; };
+		73A1591F15188D690038A19D /* tempIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tempIndex.h; sourceTree = "<group>"; };
+		73A1592015188D690038A19D /* WizMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WizMisc.cpp; sourceTree = "<group>"; };
+		73A1592115188D690038A19D /* WizMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizMisc.h; sourceTree = "<group>"; };
+		73A1592315188D690038A19D /* WizApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApi.h; sourceTree = "<group>"; };
+		73A1592415188D690038A19D /* WizApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApi.m; sourceTree = "<group>"; };
+		73A1592515188D690038A19D /* WizCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCreateAccount.h; sourceTree = "<group>"; };
+		73A1592615188D690038A19D /* WizCreateAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCreateAccount.m; sourceTree = "<group>"; };
+		73A1592715188D690038A19D /* WizDictionaryMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDictionaryMessage.h; sourceTree = "<group>"; };
+		73A1592815188D690038A19D /* WizDocumentsByKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDocumentsByKey.h; sourceTree = "<group>"; };
+		73A1592915188D690038A19D /* WizDocumentsByKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDocumentsByKey.m; sourceTree = "<group>"; };
+		73A1592A15188D690038A19D /* WizDocumentsByLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDocumentsByLocation.h; sourceTree = "<group>"; };
+		73A1592B15188D690038A19D /* WizDocumentsByLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDocumentsByLocation.m; sourceTree = "<group>"; };
+		73A1592C15188D690038A19D /* WizDocumentsByTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDocumentsByTag.h; sourceTree = "<group>"; };
+		73A1592D15188D690038A19D /* WizDocumentsByTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDocumentsByTag.m; sourceTree = "<group>"; };
+		73A1592E15188D690038A19D /* WizDowdloadDocumentAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDowdloadDocumentAttachment.h; sourceTree = "<group>"; };
+		73A1592F15188D690038A19D /* WizDowdloadDocumentAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDowdloadDocumentAttachment.m; sourceTree = "<group>"; };
+		73A1593015188D690038A19D /* WizDownloadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadObject.h; sourceTree = "<group>"; };
+		73A1593115188D690038A19D /* WizDownloadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadObject.m; sourceTree = "<group>"; };
+		73A1593215188D690038A19D /* WizDownloadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadPool.h; sourceTree = "<group>"; };
+		73A1593315188D690038A19D /* WizDownloadPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadPool.m; sourceTree = "<group>"; };
+		73A1593415188D690038A19D /* WizDownloadRecentDocuments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadRecentDocuments.h; sourceTree = "<group>"; };
+		73A1593515188D690038A19D /* WizDownloadRecentDocuments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadRecentDocuments.m; sourceTree = "<group>"; };
+		73A1593615188D690038A19D /* WizGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalData.h; sourceTree = "<group>"; };
+		73A1593715188D690038A19D /* WizGlobalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobalData.m; sourceTree = "<group>"; };
+		73A1593815188D690038A19D /* WizGlobalDictionaryKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalDictionaryKey.h; sourceTree = "<group>"; };
+		73A1593915188D690038A19D /* WizGlobalNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalNotificationMessage.h; sourceTree = "<group>"; };
+		73A1593A15188D690038A19D /* WizGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobals.h; sourceTree = "<group>"; };
+		73A1593B15188D690038A19D /* WizGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobals.m; sourceTree = "<group>"; };
+		73A1593C15188D690038A19D /* WizIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizIndex.h; sourceTree = "<group>"; };
+		73A1593D15188D690038A19D /* WizIndex.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizIndex.mm; sourceTree = "<group>"; };
+		73A1593E15188D690038A19D /* WizLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizLog.h; sourceTree = "<group>"; };
+		73A1593F15188D690038A19D /* WizLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizLog.m; sourceTree = "<group>"; };
+		73A1594015188D690038A19D /* WizSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettings.h; sourceTree = "<group>"; };
+		73A1594115188D690038A19D /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
+		73A1594215188D690038A19D /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSync.h; sourceTree = "<group>"; };
+		73A1594315188D690038A19D /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSync.m; sourceTree = "<group>"; };
+		73A1594415188D690038A19D /* WizSyncBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncBase.h; sourceTree = "<group>"; };
+		73A1594515188D690038A19D /* WizSyncBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncBase.m; sourceTree = "<group>"; };
+		73A1594615188D690038A19D /* WizSyncByKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncByKey.h; sourceTree = "<group>"; };
+		73A1594715188D690038A19D /* WizSyncByKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncByKey.m; sourceTree = "<group>"; };
+		73A1594815188D690038A19D /* WizSyncByLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncByLocation.h; sourceTree = "<group>"; };
+		73A1594915188D690038A19D /* WizSyncByLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncByLocation.m; sourceTree = "<group>"; };
+		73A1594A15188D690038A19D /* WizSyncByTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncByTag.h; sourceTree = "<group>"; };
+		73A1594B15188D690038A19D /* WizSyncByTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncByTag.m; sourceTree = "<group>"; };
+		73A1594C15188D690038A19D /* WizUploadObjet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUploadObjet.h; sourceTree = "<group>"; };
+		73A1594D15188D690038A19D /* WizUploadObjet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizUploadObjet.m; sourceTree = "<group>"; };
+		73A1594E15188D690038A19D /* WizVerifyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizVerifyAccount.h; sourceTree = "<group>"; };
+		73A1594F15188D690038A19D /* WizVerifyAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizVerifyAccount.m; sourceTree = "<group>"; };
+		73A1598615188ECC0038A19D /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		73A1598715188ECC0038A19D /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
+		73A1598815188ECC0038A19D /* NSString+XMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMLExtensions.h"; sourceTree = "<group>"; };
+		73A1598915188ECC0038A19D /* NSString+XMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XMLExtensions.m"; sourceTree = "<group>"; };
+		73A1598A15188ECC0038A19D /* XMLRPCConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCConnection.h; sourceTree = "<group>"; };
+		73A1598B15188ECC0038A19D /* XMLRPCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCConnection.m; sourceTree = "<group>"; };
+		73A1598C15188ECC0038A19D /* XMLRPCEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCEncoder.h; sourceTree = "<group>"; };
+		73A1598D15188ECC0038A19D /* XMLRPCEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCEncoder.m; sourceTree = "<group>"; };
+		73A1598E15188ECC0038A19D /* XMLRPCExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCExtensions.h; sourceTree = "<group>"; };
+		73A1598F15188ECC0038A19D /* XMLRPCExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCExtensions.m; sourceTree = "<group>"; };
+		73A1599015188ECC0038A19D /* XMLRPCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCRequest.h; sourceTree = "<group>"; };
+		73A1599115188ECC0038A19D /* XMLRPCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCRequest.m; sourceTree = "<group>"; };
+		73A1599215188ECC0038A19D /* XMLRPCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCResponse.h; sourceTree = "<group>"; };
+		73A1599315188ECC0038A19D /* XMLRPCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCResponse.m; sourceTree = "<group>"; };
+		73A159A215188F350038A19D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		73A159A415188F480038A19D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		73A159A615188F690038A19D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		73A159AC15188FF20038A19D /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
+		73A159AF151890450038A19D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		73A159B11518905A0038A19D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		73A159B3151890670038A19D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		73A159B51518907E0038A19D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		73A159B7151890920038A19D /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		73A159BA151892040038A19D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		73A159BB151892040038A19D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		73A158EB1518815A0038A19D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A159B8151890920038A19D /* libz.1.2.5.dylib in Frameworks */,
+				73A159B61518907F0038A19D /* CFNetwork.framework in Frameworks */,
+				73A159B4151890670038A19D /* libxml2.dylib in Frameworks */,
+				73A159B21518905A0038A19D /* CoreGraphics.framework in Frameworks */,
+				73A159B0151890460038A19D /* SystemConfiguration.framework in Frameworks */,
+				73A159AE1518903D0038A19D /* libcommonCrypto.dylib in Frameworks */,
+				73A159A715188F690038A19D /* UIKit.framework in Frameworks */,
+				73A159A315188F360038A19D /* libsqlite3.dylib in Frameworks */,
+				73A158F21518815A0038A19D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73A158FA1518815B0038A19D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A159001518815B0038A19D /* SenTestingKit.framework in Frameworks */,
+				73A159031518815B0038A19D /* Foundation.framework in Frameworks */,
+				73A159061518815B0038A19D /* libWizLib.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		73A158E31518815A0038A19D = {
+			isa = PBXGroup;
+			children = (
+				73A159B7151890920038A19D /* libz.1.2.5.dylib */,
+				73A159B51518907E0038A19D /* CFNetwork.framework */,
+				73A159B3151890670038A19D /* libxml2.dylib */,
+				73A159B11518905A0038A19D /* CoreGraphics.framework */,
+				73A159AF151890450038A19D /* SystemConfiguration.framework */,
+				73A159A415188F480038A19D /* CoreFoundation.framework */,
+				73A158F31518815A0038A19D /* WizLib */,
+				73A159071518815B0038A19D /* WizLibTests */,
+				73A158F01518815A0038A19D /* Frameworks */,
+				73A158EF1518815A0038A19D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		73A158EF1518815A0038A19D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				73A158EE1518815A0038A19D /* libWizLib.a */,
+				73A158FE1518815B0038A19D /* WizLibTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		73A158F01518815A0038A19D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73A159AC15188FF20038A19D /* libcommonCrypto.dylib */,
+				73A159A215188F350038A19D /* libsqlite3.dylib */,
+				73A158F11518815A0038A19D /* Foundation.framework */,
+				73A158FF1518815B0038A19D /* SenTestingKit.framework */,
+				73A159A615188F690038A19D /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		73A158F31518815A0038A19D /* WizLib */ = {
+			isa = PBXGroup;
+			children = (
+				73A159B9151892040038A19D /* NetworkDetect */,
+				73A1598515188ECB0038A19D /* xml-rpc */,
+				73A1591915188D690038A19D /* C++ */,
+				73A1592215188D690038A19D /* WizApi */,
+				73A158F61518815A0038A19D /* WizLib.h */,
+				73A158F71518815A0038A19D /* WizLib.m */,
+				73A158F41518815A0038A19D /* Supporting Files */,
+			);
+			path = WizLib;
+			sourceTree = "<group>";
+		};
+		73A158F41518815A0038A19D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				73A158F51518815A0038A19D /* WizLib-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		73A159071518815B0038A19D /* WizLibTests */ = {
+			isa = PBXGroup;
+			children = (
+				73A1590D1518815B0038A19D /* WizLibTests.h */,
+				73A1590E1518815B0038A19D /* WizLibTests.m */,
+				73A159081518815B0038A19D /* Supporting Files */,
+			);
+			path = WizLibTests;
+			sourceTree = "<group>";
+		};
+		73A159081518815B0038A19D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				73A159091518815B0038A19D /* WizLibTests-Info.plist */,
+				73A1590A1518815B0038A19D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		73A1591915188D690038A19D /* C++ */ = {
+			isa = PBXGroup;
+			children = (
+				73A1591A15188D690038A19D /* CppSQLite3.cpp */,
+				73A1591B15188D690038A19D /* CppSQLite3.h */,
+				73A1591C15188D690038A19D /* index.cpp */,
+				73A1591D15188D690038A19D /* index.h */,
+				73A1591E15188D690038A19D /* tempIndex.cpp */,
+				73A1591F15188D690038A19D /* tempIndex.h */,
+				73A1592015188D690038A19D /* WizMisc.cpp */,
+				73A1592115188D690038A19D /* WizMisc.h */,
+			);
+			path = "C++";
+			sourceTree = "<group>";
+		};
+		73A1592215188D690038A19D /* WizApi */ = {
+			isa = PBXGroup;
+			children = (
+				73A1592315188D690038A19D /* WizApi.h */,
+				73A1592415188D690038A19D /* WizApi.m */,
+				73A1592515188D690038A19D /* WizCreateAccount.h */,
+				73A1592615188D690038A19D /* WizCreateAccount.m */,
+				73A1592715188D690038A19D /* WizDictionaryMessage.h */,
+				73A1592815188D690038A19D /* WizDocumentsByKey.h */,
+				73A1592915188D690038A19D /* WizDocumentsByKey.m */,
+				73A1592A15188D690038A19D /* WizDocumentsByLocation.h */,
+				73A1592B15188D690038A19D /* WizDocumentsByLocation.m */,
+				73A1592C15188D690038A19D /* WizDocumentsByTag.h */,
+				73A1592D15188D690038A19D /* WizDocumentsByTag.m */,
+				73A1592E15188D690038A19D /* WizDowdloadDocumentAttachment.h */,
+				73A1592F15188D690038A19D /* WizDowdloadDocumentAttachment.m */,
+				73A1593015188D690038A19D /* WizDownloadObject.h */,
+				73A1593115188D690038A19D /* WizDownloadObject.m */,
+				73A1593215188D690038A19D /* WizDownloadPool.h */,
+				73A1593315188D690038A19D /* WizDownloadPool.m */,
+				73A1593415188D690038A19D /* WizDownloadRecentDocuments.h */,
+				73A1593515188D690038A19D /* WizDownloadRecentDocuments.m */,
+				73A1593615188D690038A19D /* WizGlobalData.h */,
+				73A1593715188D690038A19D /* WizGlobalData.m */,
+				73A1593815188D690038A19D /* WizGlobalDictionaryKey.h */,
+				73A1593915188D690038A19D /* WizGlobalNotificationMessage.h */,
+				73A1593A15188D690038A19D /* WizGlobals.h */,
+				73A1593B15188D690038A19D /* WizGlobals.m */,
+				73A1593C15188D690038A19D /* WizIndex.h */,
+				73A1593D15188D690038A19D /* WizIndex.mm */,
+				73A1593E15188D690038A19D /* WizLog.h */,
+				73A1593F15188D690038A19D /* WizLog.m */,
+				73A1594015188D690038A19D /* WizSettings.h */,
+				73A1594115188D690038A19D /* WizSettings.m */,
+				73A1594215188D690038A19D /* WizSync.h */,
+				73A1594315188D690038A19D /* WizSync.m */,
+				73A1594415188D690038A19D /* WizSyncBase.h */,
+				73A1594515188D690038A19D /* WizSyncBase.m */,
+				73A1594615188D690038A19D /* WizSyncByKey.h */,
+				73A1594715188D690038A19D /* WizSyncByKey.m */,
+				73A1594815188D690038A19D /* WizSyncByLocation.h */,
+				73A1594915188D690038A19D /* WizSyncByLocation.m */,
+				73A1594A15188D690038A19D /* WizSyncByTag.h */,
+				73A1594B15188D690038A19D /* WizSyncByTag.m */,
+				73A1594C15188D690038A19D /* WizUploadObjet.h */,
+				73A1594D15188D690038A19D /* WizUploadObjet.m */,
+				73A1594E15188D690038A19D /* WizVerifyAccount.h */,
+				73A1594F15188D690038A19D /* WizVerifyAccount.m */,
+			);
+			path = WizApi;
+			sourceTree = "<group>";
+		};
+		73A1598515188ECB0038A19D /* xml-rpc */ = {
+			isa = PBXGroup;
+			children = (
+				73A1598615188ECC0038A19D /* GDataXMLNode.h */,
+				73A1598715188ECC0038A19D /* GDataXMLNode.m */,
+				73A1598815188ECC0038A19D /* NSString+XMLExtensions.h */,
+				73A1598915188ECC0038A19D /* NSString+XMLExtensions.m */,
+				73A1598A15188ECC0038A19D /* XMLRPCConnection.h */,
+				73A1598B15188ECC0038A19D /* XMLRPCConnection.m */,
+				73A1598C15188ECC0038A19D /* XMLRPCEncoder.h */,
+				73A1598D15188ECC0038A19D /* XMLRPCEncoder.m */,
+				73A1598E15188ECC0038A19D /* XMLRPCExtensions.h */,
+				73A1598F15188ECC0038A19D /* XMLRPCExtensions.m */,
+				73A1599015188ECC0038A19D /* XMLRPCRequest.h */,
+				73A1599115188ECC0038A19D /* XMLRPCRequest.m */,
+				73A1599215188ECC0038A19D /* XMLRPCResponse.h */,
+				73A1599315188ECC0038A19D /* XMLRPCResponse.m */,
+			);
+			path = "xml-rpc";
+			sourceTree = "<group>";
+		};
+		73A159B9151892040038A19D /* NetworkDetect */ = {
+			isa = PBXGroup;
+			children = (
+				73A159BA151892040038A19D /* Reachability.h */,
+				73A159BB151892040038A19D /* Reachability.m */,
+			);
+			path = NetworkDetect;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		73A158EC1518815A0038A19D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A1595115188D690038A19D /* CppSQLite3.h in Headers */,
+				73A1595315188D690038A19D /* index.h in Headers */,
+				73A1595515188D690038A19D /* tempIndex.h in Headers */,
+				73A1595715188D690038A19D /* WizMisc.h in Headers */,
+				73A1595815188D690038A19D /* WizApi.h in Headers */,
+				73A1595A15188D690038A19D /* WizCreateAccount.h in Headers */,
+				73A1595C15188D690038A19D /* WizDictionaryMessage.h in Headers */,
+				73A1595D15188D690038A19D /* WizDocumentsByKey.h in Headers */,
+				73A1595F15188D690038A19D /* WizDocumentsByLocation.h in Headers */,
+				73A1596115188D690038A19D /* WizDocumentsByTag.h in Headers */,
+				73A1596315188D690038A19D /* WizDowdloadDocumentAttachment.h in Headers */,
+				73A1596515188D690038A19D /* WizDownloadObject.h in Headers */,
+				73A1596715188D690038A19D /* WizDownloadPool.h in Headers */,
+				73A1596915188D690038A19D /* WizDownloadRecentDocuments.h in Headers */,
+				73A1596B15188D690038A19D /* WizGlobalData.h in Headers */,
+				73A1596D15188D690038A19D /* WizGlobalDictionaryKey.h in Headers */,
+				73A1596E15188D690038A19D /* WizGlobalNotificationMessage.h in Headers */,
+				73A1596F15188D690038A19D /* WizGlobals.h in Headers */,
+				73A1597115188D690038A19D /* WizIndex.h in Headers */,
+				73A1597315188D690038A19D /* WizLog.h in Headers */,
+				73A1597515188D690038A19D /* WizSettings.h in Headers */,
+				73A1597715188D690038A19D /* WizSync.h in Headers */,
+				73A1597915188D690038A19D /* WizSyncBase.h in Headers */,
+				73A1597B15188D690038A19D /* WizSyncByKey.h in Headers */,
+				73A1597D15188D690038A19D /* WizSyncByLocation.h in Headers */,
+				73A1597F15188D690038A19D /* WizSyncByTag.h in Headers */,
+				73A1598115188D690038A19D /* WizUploadObjet.h in Headers */,
+				73A1598315188D690038A19D /* WizVerifyAccount.h in Headers */,
+				73A1599415188ECC0038A19D /* GDataXMLNode.h in Headers */,
+				73A1599615188ECC0038A19D /* NSString+XMLExtensions.h in Headers */,
+				73A1599815188ECC0038A19D /* XMLRPCConnection.h in Headers */,
+				73A1599A15188ECC0038A19D /* XMLRPCEncoder.h in Headers */,
+				73A1599C15188ECC0038A19D /* XMLRPCExtensions.h in Headers */,
+				73A1599E15188ECC0038A19D /* XMLRPCRequest.h in Headers */,
+				73A159A015188ECC0038A19D /* XMLRPCResponse.h in Headers */,
+				73A159BC151892040038A19D /* Reachability.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		73A158ED1518815A0038A19D /* WizLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73A159121518815B0038A19D /* Build configuration list for PBXNativeTarget "WizLib" */;
+			buildPhases = (
+				73A158EA1518815A0038A19D /* Sources */,
+				73A158EB1518815A0038A19D /* Frameworks */,
+				73A158EC1518815A0038A19D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WizLib;
+			productName = WizLib;
+			productReference = 73A158EE1518815A0038A19D /* libWizLib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		73A158FD1518815B0038A19D /* WizLibTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73A159151518815B0038A19D /* Build configuration list for PBXNativeTarget "WizLibTests" */;
+			buildPhases = (
+				73A158F91518815B0038A19D /* Sources */,
+				73A158FA1518815B0038A19D /* Frameworks */,
+				73A158FB1518815B0038A19D /* Resources */,
+				73A158FC1518815B0038A19D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				73A159051518815B0038A19D /* PBXTargetDependency */,
+			);
+			name = WizLibTests;
+			productName = WizLibTests;
+			productReference = 73A158FE1518815B0038A19D /* WizLibTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		73A158E51518815A0038A19D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 73A158E81518815A0038A19D /* Build configuration list for PBXProject "WizLib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 73A158E31518815A0038A19D;
+			productRefGroup = 73A158EF1518815A0038A19D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				73A158ED1518815A0038A19D /* WizLib */,
+				73A158FD1518815B0038A19D /* WizLibTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		73A158FB1518815B0038A19D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A1590C1518815B0038A19D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		73A158FC1518815B0038A19D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		73A158EA1518815A0038A19D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A158F81518815A0038A19D /* WizLib.m in Sources */,
+				73A1595015188D690038A19D /* CppSQLite3.cpp in Sources */,
+				73A1595215188D690038A19D /* index.cpp in Sources */,
+				73A1595415188D690038A19D /* tempIndex.cpp in Sources */,
+				73A1595615188D690038A19D /* WizMisc.cpp in Sources */,
+				73A1595915188D690038A19D /* WizApi.m in Sources */,
+				73A1595B15188D690038A19D /* WizCreateAccount.m in Sources */,
+				73A1595E15188D690038A19D /* WizDocumentsByKey.m in Sources */,
+				73A1596015188D690038A19D /* WizDocumentsByLocation.m in Sources */,
+				73A1596215188D690038A19D /* WizDocumentsByTag.m in Sources */,
+				73A1596415188D690038A19D /* WizDowdloadDocumentAttachment.m in Sources */,
+				73A1596615188D690038A19D /* WizDownloadObject.m in Sources */,
+				73A1596815188D690038A19D /* WizDownloadPool.m in Sources */,
+				73A1596A15188D690038A19D /* WizDownloadRecentDocuments.m in Sources */,
+				73A1596C15188D690038A19D /* WizGlobalData.m in Sources */,
+				73A1597015188D690038A19D /* WizGlobals.m in Sources */,
+				73A1597215188D690038A19D /* WizIndex.mm in Sources */,
+				73A1597415188D690038A19D /* WizLog.m in Sources */,
+				73A1597615188D690038A19D /* WizSettings.m in Sources */,
+				73A1597815188D690038A19D /* WizSync.m in Sources */,
+				73A1597A15188D690038A19D /* WizSyncBase.m in Sources */,
+				73A1597C15188D690038A19D /* WizSyncByKey.m in Sources */,
+				73A1597E15188D690038A19D /* WizSyncByLocation.m in Sources */,
+				73A1598015188D690038A19D /* WizSyncByTag.m in Sources */,
+				73A1598215188D690038A19D /* WizUploadObjet.m in Sources */,
+				73A1598415188D690038A19D /* WizVerifyAccount.m in Sources */,
+				73A1599515188ECC0038A19D /* GDataXMLNode.m in Sources */,
+				73A1599715188ECC0038A19D /* NSString+XMLExtensions.m in Sources */,
+				73A1599915188ECC0038A19D /* XMLRPCConnection.m in Sources */,
+				73A1599B15188ECC0038A19D /* XMLRPCEncoder.m in Sources */,
+				73A1599D15188ECC0038A19D /* XMLRPCExtensions.m in Sources */,
+				73A1599F15188ECC0038A19D /* XMLRPCRequest.m in Sources */,
+				73A159A115188ECC0038A19D /* XMLRPCResponse.m in Sources */,
+				73A159BD151892040038A19D /* Reachability.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73A158F91518815B0038A19D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73A1590F1518815B0038A19D /* WizLibTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		73A159051518815B0038A19D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73A158ED1518815A0038A19D /* WizLib */;
+			targetProxy = 73A159041518815B0038A19D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		73A1590A1518815B0038A19D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				73A1590B1518815B0038A19D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		73A159101518815B0038A19D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		73A159111518815B0038A19D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		73A159131518815B0038A19D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/WizLib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WizLib/WizLib-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		73A159141518815B0038A19D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/WizLib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WizLib/WizLib-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		73A159161518815B0038A19D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WizLib/WizLib-Prefix.pch";
+				INFOPLIST_FILE = "WizLibTests/WizLibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		73A159171518815B0038A19D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WizLib/WizLib-Prefix.pch";
+				INFOPLIST_FILE = "WizLibTests/WizLibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		73A158E81518815A0038A19D /* Build configuration list for PBXProject "WizLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73A159101518815B0038A19D /* Debug */,
+				73A159111518815B0038A19D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73A159121518815B0038A19D /* Build configuration list for PBXNativeTarget "WizLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73A159131518815B0038A19D /* Debug */,
+				73A159141518815B0038A19D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		73A159151518815B0038A19D /* Build configuration list for PBXNativeTarget "WizLibTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73A159161518815B0038A19D /* Debug */,
+				73A159171518815B0038A19D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 73A158E51518815A0038A19D /* Project object */;
+}
