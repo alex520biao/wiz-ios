@@ -138,8 +138,8 @@ static UIViewController* iphoneBackController;
     }
 }
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    [self initRootNavigation]; 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self initRootNavigation];
     [self selecteDefaultAccount];
     return YES;
 }
@@ -148,7 +148,6 @@ static UIViewController* iphoneBackController;
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 
-    
 }
 
 

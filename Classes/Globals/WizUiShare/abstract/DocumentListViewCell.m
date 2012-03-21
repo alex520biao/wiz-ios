@@ -79,8 +79,6 @@ static UIFont* nameFont;
     }
     return timeAttributes;
 }
-
-
 - (void) dealloc
 {
     self.abstractLabel = nil;

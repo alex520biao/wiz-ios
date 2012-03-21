@@ -15,6 +15,13 @@
 #import "WizCheckAttachment.h"
 #import "WizPadNotificationMessage.h"
 #import "WizGlobals.h"
+
+@interface WizCheckAttachments ()
+{
+    BOOL willCheckInWiz;
+}
+@end
+
 @implementation WizCheckAttachments
 
 @synthesize documentGUID;
@@ -58,6 +65,8 @@
 {
     [super viewDidLoad];
     self.lastIndexPath = nil;
+    self.currentPreview = [[[UIDocumentInteractionController alloc] init] autorelease];
+    self.currentPreview.delegate = self;
     if (self.attachments == nil) {
         self.attachments = [NSMutableArray array];
     }
@@ -109,7 +118,23 @@
 {
     return [self.attachments count];
 }
-
+- (NSURL*) getAttachmentFileURL:(WizDocumentAttach*)attachment
+{
+    NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
+    NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
+    return url;
+}
+- (BOOL) checkCanOpenInOtherApp:(WizDocumentAttach*)attach
+{
+    NSURL* url = [self getAttachmentFileURL:attach];
+    [currentPreview setURL:url];
+    if ([[currentPreview icons] count]) {
+        NSLog(@"%d",[[currentPreview icons]count]);
+        return YES;
+    }
+    return NO;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -117,7 +142,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     WizDocumentAttach* attach = [self.attachments objectAtIndex:indexPath.row];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
@@ -155,18 +179,17 @@
         cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
     }
     cell.textLabel.text = attach.attachmentName;
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
 }
-- (void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application
+- (void) documentInteractionControllerWillPresentOptionsMenu:(UIDocumentInteractionController *)controller
 {
-    
+    NSLog(@"will");
 }
 - (void) checkInWiz:(WizDocumentAttach*)attachment
 {
-    NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
-    NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
     WizCheckAttachment* check = [[WizCheckAttachment alloc] initWithNibName:nil bundle:nil];;
-    NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
+    NSURL* url = [self getAttachmentFileURL:attachment];
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     check.req = req;
     [req release];
@@ -182,14 +205,12 @@
 }
 - (void) checkInOtherApp:(WizDocumentAttach*)attachment
 {
-    NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
-    NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
-    NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
-    UIDocumentInteractionController* preview = [UIDocumentInteractionController interactionControllerWithURL:url];
-    preview.delegate = self;
+    NSURL* url = [self getAttachmentFileURL:attachment];
+    [currentPreview setURL:url];
     CGRect nav = CGRectMake(0.0, 40*(lastIndexPath.row+1), 320, 40);
-    [preview presentOptionsMenuFromRect:nav inView:self.view  animated:YES];
-    self.currentPreview = preview;
+    if (![currentPreview presentOptionsMenuFromRect:nav inView:self.view  animated:YES]) {
+        [WizGlobals reportWarningWithString:NSLocalizedString(@"There is no application can open this file.", nil)];
+    }
     [url release];
 }
 -(void) checkAttachment:(WizDocumentAttach*) attachment inWiz:(BOOL)inWiz
@@ -206,6 +227,7 @@
     }
     else
     {
+        willCheckInWiz = inWiz;
         WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
         if ([downloader attachmentIsDownloading:attachment.attachmentGuid]) {
             return;
@@ -229,21 +251,30 @@
     }
     
 }
-- (void) downloadDone:(NSNotification*)nc
+- (BOOL) checkAttachmentIsThere:(NSString*)attachmentGUID
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
-    self.waitAlert = nil;
-    NSDictionary* userInfo = [nc userInfo];
-    NSDictionary* ret = [userInfo valueForKey:@"ret"];
-    NSString* documentGUID_ = [ret valueForKey:@"document_guid"];
     for (int i = 0; i<[self.attachments count]; i++) {
         WizDocumentAttach* attach = [self.attachments objectAtIndex:i];
-        if ([attach.attachmentGuid isEqualToString:documentGUID_]) {
-            [self checkAttachment:attach inWiz:YES];
+        if ([attach.attachmentGuid isEqualToString:attachmentGUID]) {
+            return YES;
         }
     }
-    
+    return NO;
+}
+- (void) downloadDone:(NSNotification*)nc
+{
+    NSDictionary* userInfo = [nc userInfo];
+    NSDictionary* ret = [userInfo valueForKey:@"ret"];
+    NSString* attachmentGUID = [ret valueForKey:@"document_guid"];
+    if ([self checkAttachmentIsThere:attachmentGUID]) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
+        self.waitAlert = nil;
+        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+        WizDocumentAttach* attach = [index attachmentFromGUID:attachmentGUID];
+        [self checkAttachment:attach inWiz:willCheckInWiz];
+
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -138,6 +138,7 @@
     self.downloadActivity.hidden = YES;
     self.searchItem.enabled = YES;
     self.editBarItem.enabled = YES;
+    self.attachmentBarItem.enabled = YES;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
 }
@@ -336,29 +337,7 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
-        if ([index documentServerChanged:self.doc.guid]) {
-            [self downloadDocument];
-        }
-        else {
-            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-                [self checkDocument];
-            }
-            else {
-                [self downloadDocument];
-            }
-        }
-    }
-    else {
-        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
-            [self downloadDocument];
-        }
-        else {
-            [self displayEncryInfo]; 
-        }
-    }
+
 
 }
 
@@ -403,14 +382,37 @@
         self.web.opaque = NO;
     }
     self.web.delegate = self;
-    
     self.searchDocumentBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)] autorelease];
     self.searchDocumentBar.delegate = self;
     [self.view addSubview:self.searchDocumentBar];
     self.searchDocumentBar.hidden = YES;
     self.editBarItem.enabled = NO;
     self.searchItem.enabled = NO;
+    self.attachmentBarItem.enabled = NO;
     [self.downloadActivity startAnimating];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
+        if ([index documentServerChanged:self.doc.guid]) {
+            [self downloadDocument];
+        }
+        else {
+            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+                [self checkDocument];
+            }
+            else {
+                [self downloadDocument];
+            }
+        }
+    }
+    else {
+        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
+            [self downloadDocument];
+        }
+        else {
+            [self displayEncryInfo]; 
+        }
+    }
  }
 
 @end

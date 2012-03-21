@@ -357,9 +357,9 @@
 		7311201B14F9026F00193E64 /* newNoteAttach_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newNoteAttach_gray@2x.png"; sourceTree = "<group>"; };
 		7311201C14F9026F00193E64 /* sync_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync_gray.png; sourceTree = "<group>"; };
 		7311201D14F9026F00193E64 /* sync_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sync_gray@2x.png"; sourceTree = "<group>"; };
-		7311202714F913BE00193E64 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		7311202914F913D300193E64 /* icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@x2.png"; sourceTree = "<group>"; };
-		7311202B14F9140200193E64 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		7311202714F913BE00193E64 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../icon.png; sourceTree = "<group>"; };
+		7311202914F913D300193E64 /* icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@x2.png"; path = "../../icon@x2.png"; sourceTree = "<group>"; };
+		7311202B14F9140200193E64 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_ipad.png; path = ../../icon_ipad.png; sourceTree = "<group>"; };
 		731161FD14F5028D007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		731161FF14F5029C007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		7311620914F5091D007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -368,6 +368,7 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		732E510B1519C05600EDF1BB /* WizTestUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTestUnit.h; path = TestFlightSDK0.8.3/WizTestUnit.h; sourceTree = "<group>"; };
 		734CA1261504597D002549CB /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
 		734CA1271504597D002549CB /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
 		734CA1281504597D002549CB /* FoldersViewControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewControllerNew.h; sourceTree = "<group>"; };
@@ -817,9 +818,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				7311202B14F9140200193E64 /* icon_ipad.png */,
-				7311202914F913D300193E64 /* icon@x2.png */,
-				7311202714F913BE00193E64 /* icon.png */,
 				73A7840714F8CC22001387F6 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1286,6 +1284,7 @@
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
 			isa = PBXGroup;
 			children = (
+				732E510B1519C05600EDF1BB /* WizTestUnit.h */,
 				738DA46C14FC92850075BFC9 /* NetworkDetect */,
 				73A784F914F8CC22001387F6 /* CloudReview */,
 				73A784FC14F8CC22001387F6 /* ElcMutilSeleted */,
@@ -1604,6 +1603,9 @@
 		73A7866E14F8CD5D001387F6 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				7311202B14F9140200193E64 /* icon_ipad.png */,
+				7311202914F913D300193E64 /* icon@x2.png */,
+				7311202714F913BE00193E64 /* icon.png */,
 				73A7866F14F8CD5D001387F6 /* about.png */,
 				73A7867014F8CD5D001387F6 /* about@x2.png */,
 				73A7867114F8CD5D001387F6 /* icon_512.jpg */,
@@ -2109,6 +2111,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
+					"\"$(SRCROOT)/Classes/otherFrame/TestFlightSDK0.8.3\"",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -2146,6 +2149,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
+					"\"$(SRCROOT)/Classes/otherFrame/TestFlightSDK0.8.3\"",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -2209,6 +2213,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
+					"\"$(SRCROOT)/Classes/otherFrame/TestFlightSDK0.8.3\"",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
