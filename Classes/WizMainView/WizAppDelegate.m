@@ -222,7 +222,7 @@ static UIViewController* iphoneBackController;
         return NO;
     }
     if (url != nil && [url isFileURL]) {
-        NSString* filePath = url.absoluteString;
+        NSString* filePath = [url path];
         NSArray* breakFilePath = [filePath componentsSeparatedByString:@"/"];
         NSString* fileName = [breakFilePath lastObject];
         WizIndex* index = [[WizGlobalData sharedData] indexData:defaultAccount];
@@ -234,7 +234,7 @@ static UIViewController* iphoneBackController;
             [WizGlobals reportError:error];
             return NO;
         }
-        NSString* documentGUID = [[index newDocumentWithOneAttachment:toFilePath] autorelease];
+        NSString* documentGUID = [[index newDocumentWithOneAttachment:toUrl] autorelease];
         if (documentGUID == nil) {
             return NO;
         }

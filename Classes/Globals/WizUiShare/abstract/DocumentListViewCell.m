@@ -75,7 +75,7 @@ static UIFont* nameFont;
 {
     if (timeAttributes == nil) {
         timeAttributes = [[NSMutableDictionary alloc] init];
-        [timeAttributes setObject:(id)[[UIColor blueColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
+        [timeAttributes setObject:(id)[[UIColor lightGrayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
     }
     return timeAttributes;
 }

@@ -1079,8 +1079,9 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     return  arr;
 }
-- (NSString*) newDocumentWithOneAttachment:(NSString*)fileSourePath
+- (NSString*) newDocumentWithOneAttachment:(NSURL*)fileUrl
 {
+    NSString* fileSourePath = [fileUrl path];
     NSString* documentGUID = [WizGlobals genGUID];
     NSArray* filePathSpeArr = [fileSourePath componentsSeparatedByString:@"/"];
     NSString* documentName = [filePathSpeArr lastObject];
@@ -2244,18 +2245,11 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
     }
     NSData* abstractImageData = nil;
     NSString* abstractText = nil;
-//    NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
-//    NSString* removeStyle = [sourceStr stringByReplacingOccurrencesOfRegex:@"<style[^>]*?>[\\s\\S]*?<\\/style>" withString:@""];
-//    NSString* removeScript = [removeStyle stringByReplacingOccurrencesOfRegex:@"<script[^>]*?>[\\s\\S]*?<\\/script>" withString:@""];
-//    NSString* removeHtmlSpace = [removeScript stringByReplacingOccurrencesOfRegex:@"&(.*?);" withString:@""];
-//    NSString* removeOhterCharacter = [removeHtmlSpace stringByReplacingOccurrencesOfRegex:@"&#(.*?);" withString:@""];
-//    NSString* removeBlock = [removeOhterCharacter stringByReplacingOccurrencesOfRegex:@"\\s{2,}|\\ \\;" withString:@""];
-//    NSString* removeCOntrol = [removeBlock stringByReplacingOccurrencesOfRegex:@"/\n" withString:@"."];
-//    NSString* prepareStr = [removeCOntrol stringByReplacingOccurrencesOfRegex:@"<[^>]*>" withString:@""];
-//    NSString* destStr = [prepareStr stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+
     
     NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
-    NSString* removeStyle = [sourceStr stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];
+    NSString* removeTitle = [sourceStr stringReplaceUseRegular:@"<title.*title>"];
+    NSString* removeStyle = [removeTitle stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];
     NSString* removeScript = [removeStyle stringReplaceUseRegular:@"<script[^>]*?>[\\s\\S]*?<\\/script>"];
     NSString* removeHtmlSpace = [removeScript stringReplaceUseRegular:@"&(.*?);"];
     NSString* removeOhterCharacter = [removeHtmlSpace stringReplaceUseRegular:@"&#(.*?);" ];

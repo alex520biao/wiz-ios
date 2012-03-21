@@ -282,7 +282,7 @@ enum
 - (BOOL) setConnectOnlyViaWifi:(BOOL)wifi;
 - (BOOL) connectOnlyViaWifi;
 //2012-3-8
-- (NSString*) newDocumentWithOneAttachment:(NSString*)fileSourePath;
+- (NSString*) newDocumentWithOneAttachment:(NSURL*)fileUrl;
 
 
 
