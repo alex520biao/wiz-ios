@@ -1245,7 +1245,6 @@ NSInteger compareTag(id location1, id location2, void*);
     [doc setObject:documentMd5 forKey:TypeOfUpdateDocumentDataMd5];
     [doc setObject:[NSString string] forKey:TypeOfUpdateDocumentUrl];
     [doc setObject:currentDate forKey:TypeOfUpdateDocumentDateModified];
-    [doc setObject:currentDate forKey:TypeOfUpdateDocumentDateCreated];
     [doc setObject:TypeOfDocumentTypeOfNote forKey:TypeOfUpdateDocumentType];
     [doc setObject:TypeOfDocumentFileTypeOfNote forKey:TypeOfUpdateDocumentFileType];
     [doc setObject:nAttachmentCount forKey:TypeOfUpdateDocumentAttchmentCount];
