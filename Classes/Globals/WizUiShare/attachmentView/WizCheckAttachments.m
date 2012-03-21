@@ -243,7 +243,6 @@
             [self checkAttachment:attach inWiz:YES];
         }
     }
-    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

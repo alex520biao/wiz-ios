@@ -198,7 +198,7 @@ static NSArray* excelArray;
 + (NSArray*) audioArray
 {
  
-        audioArray = [NSArray arrayWithObjects:
+    audioArray = [NSArray arrayWithObjects:
                       @"aif",
                       @"amr",
                       @"mp3",
