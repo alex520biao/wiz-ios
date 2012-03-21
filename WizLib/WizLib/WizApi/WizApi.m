@@ -16,50 +16,42 @@
 #import "WizGlobals.h"
 #import "WizMisc.h"
 #import "WizSync.h"
-NSString *WizSyncBeginNotificationPrefix = @"WizSyncBeginNotification";
-NSString *WizSyncEndNotificationPrefix = @"WizSyncEndNotification";
-
-NSString *WizSyncXmlRpcErrorNotificationPrefix = @"WizSyncXmlRpcErrorNotificationPrefix";
-NSString* WizSyncXmlRpcDoneNotificationPrefix = @"WizSyncXmlRpcDoneNotification";
-NSString* WizSyncXmlRpcDonlowadDoneNotificationPrefix = @"WizSyncXmlRpcDonlowadDoneNotificationPrefix";
-NSString* WizSyncXmlRpcUploadDoneNotificationPrefix = @"WizSyncXmlRpcUploadDoneNotificationPrefix";
-NSString* SyncMethod_ClientLogin = @"accounts.clientLogin";
-NSString* SyncMethod_ClientLogout = @"accounts.clientLogout";
-NSString* SyncMethod_CreateAccount = @"accounts.createAccount";
-NSString* SyncMethod_GetAllCategories = @"category.getAll";
-NSString* SyncMethod_GetAllTags = @"tag.getList";
-NSString* SyncMethod_DownloadDocumentList = @"document.getSimpleList";
-NSString* SyncMethod_DocumentsByCategory = @"document.getSimpleListByCategory";
-NSString* SyncMethod_DocumentsByTag = @"document.getSimpleListByTag";
-NSString* SyncMethod_DownloadMobileData = @"document.getMobileData";
-NSString* SyncMethod_UploadMobileData = @"document.postSimpleData";
-NSString* SyncMethod_DownloadDeletedList = @"deleted.getList";
-NSString* SyncMethod_UploadDeletedList = @"deleted.postList";
-NSString* SyncMethod_DocumentsByKey = @"document.getSimpleListByKey";
-
-NSString* SyncMethod_ChangeAccountPassword = @"accounts.changePassword";
-//wiz-dzpqzb
-NSString* SyncMethod_DownloadObject = @"data.download";
-NSString* SyncMethod_UploadObject = @"data.upload";
-NSString* SyncMethod_GetAttachmentList = @"attachment.getList";
-NSString* SyncMethod_PostTagList = @"tag.postList";
-NSString* SyncMethod_DocumentPostSimpleData = @"document.postSimpleData";
-NSString* SyncMethod_AttachmentPostSimpleData = @"attachment.postSimpleData";
-NSString* SyncMethod_GetUserInfo = @"wiz.getInfo";
 
 
-//wiz-sync notified
-NSString* WizGlobalSyncProcessInfo = @"wiz_global_sync_process_info";
-NSString* WizGlobalStopSync = @"wiz_stop_sync";
-
+#define WizSyncBeginNotificationPrefix @"WizSyncBeginNotification"  
+#define WizSyncEndNotificationPrefix @"WizSyncEndNotification"  
+#define WizSyncXmlRpcErrorNotificationPrefix @"WizSyncXmlRpcErrorNotificationPrefix"  
+#define WizSyncXmlRpcDoneNotificationPrefix @"WizSyncXmlRpcDoneNotification"  
+#define WizSyncXmlRpcDonlowadDoneNotificationPrefix @"WizSyncXmlRpcDonlowadDoneNotificationPrefix"  
+#define WizSyncXmlRpcUploadDoneNotificationPrefix @"WizSyncXmlRpcUploadDoneNotificationPrefix"  
+#define SyncMethod_ClientLogin @"accounts.clientLogin"  
+#define SyncMethod_ClientLogout @"accounts.clientLogout"  
+#define SyncMethod_CreateAccount @"accounts.createAccount"  
+#define SyncMethod_GetAllCategories @"category.getAll"  
+#define SyncMethod_GetAllTags @"tag.getList"  
+#define SyncMethod_DownloadDocumentList @"document.getSimpleList"  
+#define SyncMethod_DocumentsByCategory @"document.getSimpleListByCategory"  
+#define SyncMethod_DocumentsByTag @"document.getSimpleListByTag"  
+#define SyncMethod_DownloadMobileData @"document.getMobileData"  
+#define SyncMethod_UploadMobileData @"document.postSimpleData"  
+#define SyncMethod_DownloadDeletedList @"deleted.getList"  
+#define SyncMethod_UploadDeletedList @"deleted.postList"  
+#define SyncMethod_DocumentsByKey @"document.getSimpleListByKey"  
+#define SyncMethod_ChangeAccountPassword @"accounts.changePassword"  
+#define SyncMethod_DownloadObject @"data.download"  
+#define SyncMethod_UploadObject @"data.upload"  
+#define SyncMethod_GetAttachmentList @"attachment.getList"  
+#define SyncMethod_PostTagList @"tag.postList"  
+#define SyncMethod_DocumentPostSimpleData @"document.postSimpleData"  
+#define SyncMethod_AttachmentPostSimpleData @"attachment.postSimpleData"  
+#define SyncMethod_GetUserInfo @"wiz.getInfo"  
+#define WizGlobalSyncProcessInfo @"wiz_global_sync_process_info"  
+#define WizGlobalStopSync @"wiz_stop_sync"  
 #define PARTSIZE 10*1024
 #define MD5PART 10*1024
 #define CONSTDEFAULTCOUNT 200
 
-
-
 @implementation WizApi
-
 @synthesize token;
 @synthesize kbguid;
 @synthesize accountURL;

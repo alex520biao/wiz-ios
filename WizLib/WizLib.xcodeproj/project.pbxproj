@@ -7,6 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		734BFB171519CFF000121217 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB0C1519CFF000121217 /* crypt.h */; };
+		734BFB181519CFF000121217 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB0D1519CFF000121217 /* ioapi.c */; };
+		734BFB191519CFF000121217 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB0E1519CFF000121217 /* ioapi.h */; };
+		734BFB1A1519CFF000121217 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB0F1519CFF000121217 /* mztools.c */; };
+		734BFB1B1519CFF000121217 /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB101519CFF000121217 /* mztools.h */; };
+		734BFB1C1519CFF000121217 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB111519CFF000121217 /* unzip.c */; };
+		734BFB1D1519CFF000121217 /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB121519CFF000121217 /* unzip.h */; };
+		734BFB1E1519CFF000121217 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB131519CFF000121217 /* zip.c */; };
+		734BFB1F1519CFF000121217 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB141519CFF000121217 /* zip.h */; };
+		734BFB201519CFF000121217 /* ZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB151519CFF000121217 /* ZipArchive.h */; };
+		734BFB211519CFF000121217 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB161519CFF000121217 /* ZipArchive.mm */; };
+		734BFB251519D01D00121217 /* CommonString.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB231519D01D00121217 /* CommonString.h */; };
+		734BFB261519D01D00121217 /* CommonString.m in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB241519D01D00121217 /* CommonString.m */; };
+		734BFB2A1519D04700121217 /* pinyin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB281519D04700121217 /* pinyin.cpp */; };
+		734BFB2B1519D04700121217 /* pinyin.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB291519D04700121217 /* pinyin.h */; };
+		734BFB2E1519D0BE00121217 /* WizChangePassword.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB2C1519D0BD00121217 /* WizChangePassword.h */; };
+		734BFB2F1519D0BE00121217 /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB2D1519D0BE00121217 /* WizChangePassword.m */; };
+		734BFB351519D0F000121217 /* NSDate-Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB311519D0F000121217 /* NSDate-Utilities.h */; };
+		734BFB361519D0F000121217 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB321519D0F000121217 /* NSDate-Utilities.m */; };
+		734BFB371519D0F000121217 /* TimeFormatters.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB331519D0F000121217 /* TimeFormatters.h */; };
+		734BFB381519D0F000121217 /* TimeFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB341519D0F000121217 /* TimeFormatters.m */; };
+		734BFB421519D1E400121217 /* WizNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB3F1519D1E400121217 /* WizNotification.h */; };
+		734BFB431519D1E400121217 /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB401519D1E400121217 /* WizNotification.m */; };
+		734BFB441519D1E400121217 /* WizNotificationMessageType.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB411519D1E400121217 /* WizNotificationMessageType.h */; };
 		73A158F21518815A0038A19D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158F11518815A0038A19D /* Foundation.framework */; };
 		73A158F81518815A0038A19D /* WizLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A158F71518815A0038A19D /* WizLib.m */; };
 		73A159001518815B0038A19D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158FF1518815B0038A19D /* SenTestingKit.framework */; };
@@ -104,6 +128,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		734BFB0C1519CFF000121217 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		734BFB0D1519CFF000121217 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		734BFB0E1519CFF000121217 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		734BFB0F1519CFF000121217 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		734BFB101519CFF000121217 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		734BFB111519CFF000121217 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		734BFB121519CFF000121217 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		734BFB131519CFF000121217 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		734BFB141519CFF000121217 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		734BFB151519CFF000121217 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		734BFB161519CFF000121217 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		734BFB231519D01D00121217 /* CommonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonString.h; sourceTree = "<group>"; };
+		734BFB241519D01D00121217 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonString.m; sourceTree = "<group>"; };
+		734BFB281519D04700121217 /* pinyin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pinyin.cpp; sourceTree = "<group>"; };
+		734BFB291519D04700121217 /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
+		734BFB2C1519D0BD00121217 /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePassword.h; sourceTree = "<group>"; };
+		734BFB2D1519D0BE00121217 /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePassword.m; sourceTree = "<group>"; };
+		734BFB311519D0F000121217 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
+		734BFB321519D0F000121217 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
+		734BFB331519D0F000121217 /* TimeFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeFormatters.h; sourceTree = "<group>"; };
+		734BFB341519D0F000121217 /* TimeFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeFormatters.m; sourceTree = "<group>"; };
+		734BFB3F1519D1E400121217 /* WizNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizNotification.h; sourceTree = "<group>"; };
+		734BFB401519D1E400121217 /* WizNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizNotification.m; sourceTree = "<group>"; };
+		734BFB411519D1E400121217 /* WizNotificationMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNotificationMessageType.h; path = ../WizNotificationMessageType.h; sourceTree = "<group>"; };
 		73A158EE1518815A0038A19D /* libWizLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWizLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A158F11518815A0038A19D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		73A158F51518815A0038A19D /* WizLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WizLib-Prefix.pch"; sourceTree = "<group>"; };
@@ -225,6 +273,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		734BFB0B1519CFF000121217 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				734BFB0C1519CFF000121217 /* crypt.h */,
+				734BFB0D1519CFF000121217 /* ioapi.c */,
+				734BFB0E1519CFF000121217 /* ioapi.h */,
+				734BFB0F1519CFF000121217 /* mztools.c */,
+				734BFB101519CFF000121217 /* mztools.h */,
+				734BFB111519CFF000121217 /* unzip.c */,
+				734BFB121519CFF000121217 /* unzip.h */,
+				734BFB131519CFF000121217 /* zip.c */,
+				734BFB141519CFF000121217 /* zip.h */,
+				734BFB151519CFF000121217 /* ZipArchive.h */,
+				734BFB161519CFF000121217 /* ZipArchive.mm */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
+		734BFB271519D04700121217 /* Pinyin */ = {
+			isa = PBXGroup;
+			children = (
+				734BFB281519D04700121217 /* pinyin.cpp */,
+				734BFB291519D04700121217 /* pinyin.h */,
+			);
+			path = Pinyin;
+			sourceTree = "<group>";
+		};
+		734BFB301519D0F000121217 /* NSDateAddtion */ = {
+			isa = PBXGroup;
+			children = (
+				734BFB311519D0F000121217 /* NSDate-Utilities.h */,
+				734BFB321519D0F000121217 /* NSDate-Utilities.m */,
+				734BFB331519D0F000121217 /* TimeFormatters.h */,
+				734BFB341519D0F000121217 /* TimeFormatters.m */,
+			);
+			path = NSDateAddtion;
+			sourceTree = "<group>";
+		};
+		734BFB3D1519D19B00121217 /* CommonStrings */ = {
+			isa = PBXGroup;
+			children = (
+				734BFB231519D01D00121217 /* CommonString.h */,
+				734BFB241519D01D00121217 /* CommonString.m */,
+			);
+			name = CommonStrings;
+			sourceTree = "<group>";
+		};
+		734BFB3E1519D1E400121217 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				734BFB411519D1E400121217 /* WizNotificationMessageType.h */,
+				734BFB3F1519D1E400121217 /* WizNotification.h */,
+				734BFB401519D1E400121217 /* WizNotification.m */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		73A158E31518815A0038A19D = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +370,11 @@
 		73A158F31518815A0038A19D /* WizLib */ = {
 			isa = PBXGroup;
 			children = (
+				734BFB3E1519D1E400121217 /* Notification */,
+				734BFB3D1519D19B00121217 /* CommonStrings */,
+				734BFB301519D0F000121217 /* NSDateAddtion */,
+				734BFB271519D04700121217 /* Pinyin */,
+				734BFB0B1519CFF000121217 /* minizip */,
 				73A159B9151892040038A19D /* NetworkDetect */,
 				73A1598515188ECB0038A19D /* xml-rpc */,
 				73A1591915188D690038A19D /* C++ */,
@@ -321,6 +431,8 @@
 		73A1592215188D690038A19D /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
+				734BFB2C1519D0BD00121217 /* WizChangePassword.h */,
+				734BFB2D1519D0BE00121217 /* WizChangePassword.m */,
 				73A1592315188D690038A19D /* WizApi.h */,
 				73A1592415188D690038A19D /* WizApi.m */,
 				73A1592515188D690038A19D /* WizCreateAccount.h */,
@@ -443,6 +555,19 @@
 				73A1599E15188ECC0038A19D /* XMLRPCRequest.h in Headers */,
 				73A159A015188ECC0038A19D /* XMLRPCResponse.h in Headers */,
 				73A159BC151892040038A19D /* Reachability.h in Headers */,
+				734BFB171519CFF000121217 /* crypt.h in Headers */,
+				734BFB191519CFF000121217 /* ioapi.h in Headers */,
+				734BFB1B1519CFF000121217 /* mztools.h in Headers */,
+				734BFB1D1519CFF000121217 /* unzip.h in Headers */,
+				734BFB1F1519CFF000121217 /* zip.h in Headers */,
+				734BFB201519CFF000121217 /* ZipArchive.h in Headers */,
+				734BFB251519D01D00121217 /* CommonString.h in Headers */,
+				734BFB2B1519D04700121217 /* pinyin.h in Headers */,
+				734BFB2E1519D0BE00121217 /* WizChangePassword.h in Headers */,
+				734BFB351519D0F000121217 /* NSDate-Utilities.h in Headers */,
+				734BFB371519D0F000121217 /* TimeFormatters.h in Headers */,
+				734BFB421519D1E400121217 /* WizNotification.h in Headers */,
+				734BFB441519D1E400121217 /* WizNotificationMessageType.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +702,17 @@
 				73A1599F15188ECC0038A19D /* XMLRPCRequest.m in Sources */,
 				73A159A115188ECC0038A19D /* XMLRPCResponse.m in Sources */,
 				73A159BD151892040038A19D /* Reachability.m in Sources */,
+				734BFB181519CFF000121217 /* ioapi.c in Sources */,
+				734BFB1A1519CFF000121217 /* mztools.c in Sources */,
+				734BFB1C1519CFF000121217 /* unzip.c in Sources */,
+				734BFB1E1519CFF000121217 /* zip.c in Sources */,
+				734BFB211519CFF000121217 /* ZipArchive.mm in Sources */,
+				734BFB261519D01D00121217 /* CommonString.m in Sources */,
+				734BFB2A1519D04700121217 /* pinyin.cpp in Sources */,
+				734BFB2F1519D0BE00121217 /* WizChangePassword.m in Sources */,
+				734BFB361519D0F000121217 /* NSDate-Utilities.m in Sources */,
+				734BFB381519D0F000121217 /* TimeFormatters.m in Sources */,
+				734BFB431519D1E400121217 /* WizNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,6 +768,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
 			};
@@ -652,6 +789,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -739,6 +877,7 @@
 				73A159141518815B0038A19D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		73A159151518815B0038A19D /* Build configuration list for PBXNativeTarget "WizLibTests" */ = {
 			isa = XCConfigurationList;
@@ -747,6 +886,7 @@
 				73A159171518815B0038A19D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

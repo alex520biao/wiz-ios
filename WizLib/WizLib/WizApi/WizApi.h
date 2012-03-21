@@ -7,41 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-extern NSString *WizSyncBeginNotificationPrefix;
-extern NSString *WizSyncEndNotificationPrefix;
-extern NSString *WizSyncXmlRpcErrorNotificationPrefix;
-extern NSString* WizSyncXmlRpcDoneNotificationPrefix;
-extern NSString* WizSyncXmlRpcDonlowadDoneNotificationPrefix;
-extern NSString* WizSyncXmlRpcUploadDoneNotificationPrefix;
-extern NSString* SyncMethod_ClientLogin;
-extern NSString* SyncMethod_ClientLogout;
-extern NSString* SyncMethod_CreateAccount;
-extern NSString* SyncMethod_GetAllCategories;
-extern NSString* SyncMethod_GetAllTags;
-extern NSString* SyncMethod_DownloadDocumentList;
-extern NSString* SyncMethod_DocumentsByCategory;
-extern NSString* SyncMethod_DocumentsByTag;
-extern NSString* SyncMethod_DownloadMobileData;
-extern NSString* SyncMethod_UploadMobileData;
-extern NSString* SyncMethod_DownloadDeletedList;
-extern NSString* SyncMethod_UploadDeletedList;
-extern NSString* SyncMethod_DocumentsByKey;
-extern NSString* SyncMethod_DownloadObject;
-extern NSString* SyncMethod_UploadObject;
-extern NSString* SyncMethod_GetAttachmentList;
-extern NSString* SyncMethod_PostTagList;
-extern NSString* SyncMethod_DocumentPostSimpleData;
-extern NSString* SyncMethod_AttachmentPostSimpleData;
-extern NSString* WizGlobalSyncProcessInfo;
-extern NSString* SyncMethod_GetUserInfo;
-extern NSString* WizGlobalStopSync;
-extern NSString* SyncMethod_ChangeAccountPassword;
 @class XMLRPCConnection;
 @class WizDocument;
 @class WizDocumentAttach;
-
-
-
 @interface WizApi : NSObject {
 	NSString* token;
 	NSString* kbguid;

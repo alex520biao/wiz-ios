@@ -20,14 +20,11 @@
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
 #import "WizUploadObjet.h"
-#import "LoginViewController.h"
-#import "PickViewController.h"
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
 #import "WizChangePassword.h"
 #import "WizSettings.h"
-#import "TTTAttributedLabel.h"
 
 NSString* DataTypeOfSync = @"Sync";
 NSString* DataTypeOfCreateAccount = @"CreateAccount";
@@ -230,52 +227,6 @@ static WizGlobalData* g_data;
 	[self setDataOfAccount:userId dataType:DataTypeOfSyncByTag data:data];
     [data release];
     return data;
-}
--(NSDictionary*) attributesForDocumentListName
-{
-    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfAttributesForDocumentListName];
-	if (data != nil)
-		return data;
-	//
-    
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    UIFont* stringFont = [UIFont boldSystemFontOfSize:15];
-    CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-    [dic setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
-    
-    CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
-    CTParagraphStyleSetting settings[]={lineBreakMode};
-    CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
-    [dic setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
-    [self setDataOfAccount:WizGlobalAccount dataType:DataOfAttributesForDocumentListName data:dic];
-    return dic;
-}
-- (NSDictionary*) attributesForAbstractViewParagraphPad
-{
-    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfAttributesForPadAbstractViewParagraph];
-	if (data != nil)
-		return data;
-    NSMutableDictionary* attributeDic = [NSMutableDictionary dictionary];
-    [attributeDic setObject:(id)[UIColor lightGrayColor].CGColor forKey:(NSString*)kCTUnderlineColorAttributeName];
-    [attributeDic setObject:(id)[[UIColor grayColor] CGColor]  forKey:(NSString *)kCTForegroundColorAttributeName];
-    long characheterSpacing = 0.5f;
-    char characheter = (char)characheterSpacing;
-    CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt8Type, &characheter);
-    [attributeDic setObject:(id)num forKey:(NSString *)kCTKernAttributeName];
-    CFRelease(num);
-    CGFloat lineSpace = 19;
-    CTParagraphStyleSetting lineSpaceStyle;
-    lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
-    lineSpaceStyle.valueSize = sizeof(lineSpace);
-    lineSpaceStyle.value = &lineSpace;
-    CTParagraphStyleSetting settings[] = {lineSpaceStyle};
-    CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
-    [attributeDic setObject:(id)style forKey:(id)kCTParagraphStyleAttributeName];
-    UIFont* stringFont = [UIFont systemFontOfSize:13];
-    CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-    [attributeDic setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
-    [self setDataOfAccount:WizGlobalAccount dataType:DataOfAttributesForPadAbstractViewParagraph data:attributeDic];
-    return attributeDic;
 }
 - (WizSyncByKey*) syncByKeyData:(NSString*) userId
 {
