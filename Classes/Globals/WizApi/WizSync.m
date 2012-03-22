@@ -30,7 +30,6 @@
 {
 	self.documentsForUpdated = nil;
     self.attachmentsForUpdated = nil;
-    self.attachmentsForUpdated = nil;
     self.download =nil;
 	[super dealloc];
 }
@@ -98,10 +97,6 @@
         return NO;
     }
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if(self.attachmentsForUpdated == nil)
-        self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
-    
-    
     if(self.attachmentsForUpdated == nil || [self.attachmentsForUpdated count] == 0)
     {
         if ([index downloadDocumentData]) {
@@ -145,6 +140,7 @@
         NSArray* arr = [index documentForUpload];
         if(0 == [arr count])
         {
+            self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
             [self uploadAllAttachments];
             return YES;
         } else
