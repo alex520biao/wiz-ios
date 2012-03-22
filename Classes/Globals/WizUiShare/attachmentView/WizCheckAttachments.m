@@ -273,7 +273,6 @@
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         WizDocumentAttach* attach = [index attachmentFromGUID:attachmentGUID];
         [self checkAttachment:attach inWiz:willCheckInWiz];
-
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

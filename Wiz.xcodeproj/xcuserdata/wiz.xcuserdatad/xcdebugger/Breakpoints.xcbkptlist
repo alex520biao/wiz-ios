@@ -729,11 +729,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizIndex.mm"
-         timestampString = "353996430.131533"
+         timestampString = "354077322.115755"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2604"
-         endingLineNumber = "2604"
+         startingLineNumber = "2606"
+         endingLineNumber = "2606"
          landmarkName = "-createZipByGuid:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -807,11 +807,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizIndex.mm"
-         timestampString = "353996430.131533"
+         timestampString = "354077322.115755"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "2425"
-         endingLineNumber = "2425"
+         startingLineNumber = "2427"
+         endingLineNumber = "2427"
          landmarkName = "-newAttachment:documentGUID:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1375,29 +1375,16 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "No"
+         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m"
-         timestampString = "354006829.645232"
+         filePath = "Classes/Iphone/NewNote/NewNoteView.m"
+         timestampString = "354077069.939266"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "130"
-         endingLineNumber = "130"
-         landmarkName = "-checkCanOpenInOtherApp:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m"
-         timestampString = "354007123.462644"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "218"
-         endingLineNumber = "218"
-         landmarkName = "-checkAttachment:inWiz:"
+         startingLineNumber = "818"
+         endingLineNumber = "818"
+         landmarkName = "-newDocument"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
