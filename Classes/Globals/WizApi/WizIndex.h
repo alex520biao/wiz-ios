@@ -299,7 +299,7 @@ enum
 + (NSString*) locationLocaleName:(NSString*)location;
 + (NSString*) pinyinFirstLetter:(NSString*)string;
 -(BOOL) addToZipFile:(NSString*)directory directoryName:(NSString*)name zipFile:(ZipArchive*) zip;
-
++ (NSString*) documentIndexFilesPath:(NSString*)userId documentGUID:(NSString*)documentGUID;
 @end
 
 @interface WizIndex (WizOrder)

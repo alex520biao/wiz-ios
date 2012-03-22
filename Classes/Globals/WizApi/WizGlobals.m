@@ -61,6 +61,27 @@ static NSArray* excelArray;
 {
     return @"attachment";
 }
++ (NSString*) getWizObjectNameFromPath:(NSString*)filePath
+{
+    NSArray* filePathSpeArr = [filePath componentsSeparatedByString:@"/"];
+    NSString* documentName = [filePathSpeArr lastObject];
+    documentName = [documentName stringByReplacingOccurrencesOfString:@":" withString:@""];
+    return documentName;
+    
+}
++ (NSString*) getWizObjectTypeFromName:(NSString*)objectName
+{
+    return [[objectName componentsSeparatedByString:@"."] lastObject];
+}
++ (BOOL) copyFileToDocumentIndexfiles:(NSString *)filePath   toDocument:(NSString*)documentGUID   accountUserId:(NSString*)accountUserId
+{
+    NSString* documentIndexFilesPath = [WizIndex documentIndexFilesPath:accountUserId documentGUID:documentGUID];
+    [WizGlobals ensurePathExists:documentIndexFilesPath];
+    NSError* err = nil;
+    NSString* tofilePath = [documentIndexFilesPath stringByAppendingPathComponent:[WizGlobals getWizObjectNameFromPath:filePath]];
+    BOOL ret = [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:tofilePath error:&err];
+    return ret;
+}
 +(NSString*)fileMD5:(NSString*)path  
 {  
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:path];  

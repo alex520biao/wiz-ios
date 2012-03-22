@@ -1276,15 +1276,14 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     [postParams setObject:dateCreated forKey:@"dt_created"];
     
     [postParams setObject:[NSNumber numberWithInt:1] forKey:@"with_document_data"];
+    NSLog(@"document attachment count is %d",doc.attachmentCount);
     [postParams setObject:[NSNumber numberWithInt:doc.attachmentCount] forKey:@"attachment_count"];
-	//
     NSString* tags = [NSString stringWithString:doc.tagGuids];
     NSString* ss = [tags stringByReplacingOccurrencesOfString:@"*" withString:@";"];
     if(tags != nil)
         [postParams setObject:ss forKey:@"document_tag_guids"];
     else
         [postParams setObject:tags forKey:@"document_tag_guids"];
-	//
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentPostSimpleData args:args];

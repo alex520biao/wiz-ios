@@ -1081,39 +1081,33 @@ NSInteger compareTag(id location1, id location2, void*);
 }
 - (NSString*) newDocumentWithOneAttachment:(NSURL*)fileUrl
 {
+     NSString* documentGUID = [WizGlobals genGUID];
     NSString* fileSourePath = [fileUrl path];
-    NSString* documentGUID = [WizGlobals genGUID];
-    NSArray* filePathSpeArr = [fileSourePath componentsSeparatedByString:@"/"];
-    NSString* documentName = [filePathSpeArr lastObject];
-    documentName = [documentName stringByReplacingOccurrencesOfString:@":" withString:@""];
-    documentName = [documentName stringByReplacingOccurrencesOfString:@"%" withString:@""];
-    NSString* documentType = [[documentName componentsSeparatedByString:@"."] lastObject];
+    NSString* documentName = [WizGlobals getWizObjectNameFromPath:fileSourePath];
+    NSString* documentType = [WizGlobals getWizObjectTypeFromName:documentName];
     if (documentType == nil || [documentType isEqualToString:@""]) {
         documentType = @"noneType";
     }
     if (documentName == nil || [documentName isEqualToString:@""]) {
         documentName = @"No title";
     }
-    NSString* documentIndexFilesPath = [WizIndex documentIndexFilesPath:self.accountUserId documentGUID:documentGUID];
-    [WizGlobals ensurePathExists:documentIndexFilesPath];
-    NSError* err = nil;
-    NSString* filePath = [documentIndexFilesPath stringByAppendingPathComponent:documentName];
-    if (![[NSFileManager defaultManager] copyItemAtPath:fileSourePath toPath:filePath error:&err]) {
-        [WizGlobals reportError:err];
-        [WizGlobals deleteFile:documentIndexFilesPath];
-        return nil;
-    }
     NSString* contentHtml;
-    
     if ([WizGlobals checkAttachmentTypeIsImage:documentType]) {
         contentHtml = [self photoHtmlString:documentName];
+        if ([WizGlobals copyFileToDocumentIndexfiles:fileSourePath toDocument:documentGUID accountUserId:self.accountUserId]) {
+            [WizGlobals reportWarningWithString:@"copy error"];
+        }
+        
     }
     else if ([WizGlobals checkAttachmentTypeIsAudio:documentType]){
         contentHtml = [self audioHtmlString:documentName];
+        if ([WizGlobals copyFileToDocumentIndexfiles:fileSourePath toDocument:documentGUID accountUserId:self.accountUserId]) {
+            [WizGlobals reportWarningWithString:@"copy error"];
+        }
     }
     else if ([WizGlobals checkAttachmentTypeIsTxt:documentType])
     {
-        contentHtml = [NSString stringWithContentsOfFile:filePath usedEncoding:nil error:nil];
+        contentHtml = [NSString stringWithContentsOfFile:fileSourePath usedEncoding:nil error:nil];
         if (contentHtml == nil || [contentHtml isEqualToString:@""]) {
             contentHtml = @"";
         }
@@ -1124,13 +1118,13 @@ NSInteger compareTag(id location1, id location2, void*);
     [[self newAttachment:fileSourePath documentGUID:documentGUID] autorelease];
     NSString* html = [self wizHtmlString:[self titleHtmlString:documentName] body:contentHtml];
     NSString* documentFileName = [WizIndex documentFileName:self.accountUserId documentGUID:documentGUID];
+    NSError* err=nil;
     if (![html writeToFile:documentFileName atomically:NO encoding:NSUnicodeStringEncoding error:&err]) {
         [WizGlobals reportError:err];
         return nil;
     }
 
 	NSString* documentLocation = @"/My Mobiles/";
-    
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
     NSMutableDictionary* doc = [NSMutableDictionary dictionary];
     NSDate* currentDate = [NSDate date];
@@ -2491,6 +2485,7 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
 + (NSString*) documentFileName:(NSString*)userId documentGUID:(NSString*)documentGUID
 {
 	NSString* path = [WizIndex documentFilePath:userId documentGUID:documentGUID];
+    [WizGlobals ensurePathExists:path];
 	NSString* filename = [path stringByAppendingPathComponent:@"index.html"];
 	//
 	return filename;

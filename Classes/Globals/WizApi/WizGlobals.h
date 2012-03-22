@@ -68,6 +68,9 @@
 + (BOOL) checkAttachmentTypeIsTxt:(NSString*)attachmentType;
 + (NSString*) wizNoteVersion;
 + (NSString*) localLanguageKey;
++ (NSString*) getWizObjectNameFromPath:(NSString*)filePath;
++ (NSString*) getWizObjectTypeFromName:(NSString*)objectName;
++ (BOOL) copyFileToDocumentIndexfiles:(NSString *)filePath   toDocument:(NSString*)documentGUID   accountUserId:(NSString*)accountUserId;
 @end
 
 
