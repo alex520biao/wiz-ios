@@ -43,7 +43,7 @@
         self.loginButton.frame = CGRectMake(292, 660, 220, 40);
         self.registerButton.frame = CGRectMake(522, 660, 220, 40);
         self.checkExistedAccountButton.frame = CGRectMake(402, 530, 220, 40);
-        self.CripytLabel.frame = CGRectMake(445, 724, 135, 21);
+        self.CripytLabel.frame = CGRectMake(412, 724, 200, 21);
     }
     else
     {
@@ -52,7 +52,7 @@
         self.loginButton.frame = CGRectMake(160, 875, 220, 40);
         self.registerButton.frame = CGRectMake(390, 875, 220, 40);
         self.checkExistedAccountButton.frame = CGRectMake(274, 630, 220, 40);
-        self.CripytLabel.frame = CGRectMake(318, 972, 132, 21);
+        self.CripytLabel.frame = CGRectMake(284, 972, 200, 21);
     }
 }
 
@@ -127,7 +127,7 @@
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-    [self.registerButton setTitle:WizStrRegister forState:UIControlStateNormal];
+    [self.registerButton setTitle:WizStrCreateAccount forState:UIControlStateNormal];
     [self.checkExistedAccountButton setTitle:WizStrSwitchAccounts forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
     [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];

@@ -716,11 +716,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/IPad/WizPadDocumentViewController.m"
-         timestampString = "353920042.557544"
+         timestampString = "354092913.901121"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "634"
-         endingLineNumber = "634"
+         startingLineNumber = "638"
+         endingLineNumber = "638"
          landmarkName = "-didSelectedDocument:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1041,11 +1041,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/IPad/WizPadDocumentViewController.m"
-         timestampString = "353912488.6162"
+         timestampString = "354092913.901121"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "304"
-         endingLineNumber = "304"
+         startingLineNumber = "315"
+         endingLineNumber = "315"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1054,37 +1054,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/IPad/WizPadDocumentViewController.m"
-         timestampString = "353920042.557544"
+         timestampString = "354092913.901121"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "668"
-         endingLineNumber = "668"
-         landmarkName = "-viewDidAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/IPad/WizPadDocumentViewController.m"
-         timestampString = "353920042.557544"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "677"
-         endingLineNumber = "677"
-         landmarkName = "-viewDidAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/IPad/WizPadDocumentViewController.m"
-         timestampString = "353920042.557544"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "739"
-         endingLineNumber = "739"
+         startingLineNumber = "742"
+         endingLineNumber = "742"
          landmarkName = "-willAnimateRotationToInterfaceOrientation:duration:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1275,11 +1249,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentList/DocumentListViewControllerBaseNew.mm"
-         timestampString = "353921631.751076"
+         timestampString = "354089136.515349"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "166"
-         endingLineNumber = "166"
+         startingLineNumber = "163"
+         endingLineNumber = "163"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1288,11 +1262,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentList/DocumentListViewControllerBaseNew.mm"
-         timestampString = "353921631.751076"
+         timestampString = "354089136.515349"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "134"
-         endingLineNumber = "134"
+         startingLineNumber = "131"
+         endingLineNumber = "131"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1372,6 +1346,32 @@
          startingLineNumber = "405"
          endingLineNumber = "405"
          landmarkName = "-indexData:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/IPad/WizPadDocumentListController.m"
+         timestampString = "354089575.005071"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "98"
+         endingLineNumber = "98"
+         landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/IPad/WizPadDocumentViewController.m"
+         timestampString = "354092913.901121"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "765"
+         endingLineNumber = "765"
+         landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

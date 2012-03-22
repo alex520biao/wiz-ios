@@ -21,9 +21,6 @@
 #import "WizDownloadObject.h"
 #import "ZipArchive.h"
 #import "DocumentViewCtrollerBase.h"
-#import "PickViewController.h"
-#import "FoldersViewControllerNew.h"
-#import "TagsListTreeControllerNew.h"
 #import "DocumentListViewCell.h"
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
@@ -208,6 +205,7 @@
 }
 
 //return custom cell 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* CellIdentifier = @"DocumentCell";
@@ -222,7 +220,6 @@
     [cell performSelectorOnMainThread:@selector(prepareForAppear) withObject:nil waitUntilDone:YES];
     return cell;
 }
-
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (tableView == self.tableView) {

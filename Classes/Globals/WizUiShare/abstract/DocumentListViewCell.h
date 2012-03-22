@@ -21,11 +21,13 @@ extern int CELLHEIGHTWITHOUTABSTRACT;
     NSString* accoutUserId;
     BOOL hasAbstract;
     UIInterfaceOrientation interfaceOrientation;
+    UIActivityIndicatorView* downloadIndicator;
 }
 @property (nonatomic, retain) TTTAttributedLabel* abstractLabel;
 @property (nonatomic, retain) UIImageView* abstractImageView;
 @property (nonatomic, retain) WizDocument* doc;
 @property (nonatomic, retain) NSString* accoutUserId;
+@property (nonatomic, retain) UIActivityIndicatorView* downloadIndicator;
 @property (assign)  BOOL hasAbstract;
 @property UIInterfaceOrientation interfaceOrientation;
 - (void) prepareForAppear;

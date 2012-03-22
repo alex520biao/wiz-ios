@@ -31,6 +31,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 @synthesize doc;
 @synthesize accoutUserId;
 @synthesize hasAbstract;
+@synthesize downloadIndicator;
 static NSMutableDictionary* detailAttributes;
 static NSMutableDictionary* nameAttributes;
 static NSMutableDictionary* timeAttributes;
@@ -86,6 +87,7 @@ static UIFont* nameFont;
     self.doc = nil;
     self.accoutUserId = nil;
     self.hasAbstract = NO;
+    self.downloadIndicator = nil;
     [super dealloc];
 }
 
@@ -137,10 +139,15 @@ static UIFont* nameFont;
         breakView.image = [UIImage imageNamed:@"separetorLine"];
         [self addSubview:breakView];
         [breakView release];
-        
         CALayer* selfLayer = [self.selectedBackgroundView layer];
         selfLayer.borderColor = [UIColor grayColor].CGColor;
-        selfLayer.borderWidth = 0.5f;    
+        selfLayer.borderWidth = 0.5f;
+        UIActivityIndicatorView* downloadInc = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.downloadIndicator = downloadInc;
+        self.downloadIndicator.hidesWhenStopped = YES;
+        self.downloadIndicator.frame = CGRectMake(25, 25, 20, 20);
+        [downloadInc release];
+        [self.abstractImageView addSubview:self.downloadIndicator];
     }
     return self;
 }

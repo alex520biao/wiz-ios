@@ -7,7 +7,6 @@
 //
 
 #import "WizPadDocumentViewController.h"
-#import "WizPadDocumentListController.h"
 #import "DocumentListViewControllerBaseNew.h"
 #import "WizUiTypeIndex.h"
 #import "WizIndex.h"
@@ -29,7 +28,7 @@
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
-
+#define WizNotFound   -2
 #define TableLandscapeFrame CGRectMake(0.0, 0.0, 320, 660)
 #define ToolbarLandscapeFrame CGRectMake(0.0, 660, 1024, 44)
 #define WebViewLandscapeFrame CGRectMake(321, 45, 703, 616)
@@ -38,6 +37,7 @@
 #define HeadViewPortraitFrame     CGRectMake(0.0, 0.0, 768, 44)
 #define WebViewPortraitFrame     CGRectMake(0.0, 45, 768, 979)
 #define ToolbarPortraitFrame     CGRectMake(0.0, 916, 768, 44)
+
 
 #define HeadViewLandScapeZoomFrame CGRectMake(0.0, 0.0, 1024, 44)
 #define WebViewLandScapeZoomFrame CGRectMake(0.0, 45, 1024, 616)
@@ -92,7 +92,6 @@
 
 @implementation WizPadDocumentViewController
 @synthesize zoomOrShrinkButton;
-@synthesize refreshIndicatorView;
 @synthesize webView;
 @synthesize documentList;
 @synthesize headerView;
@@ -117,7 +116,6 @@
     self.infoBarItem = nil;
     self.editBarItem = nil;
     self.searchItem = nil;
-    self.refreshIndicatorView = nil;
     self.selectedDocumentGUID = nil;
     self.documentNameLabel = nil;
     self.documentsArray = nil;
@@ -276,6 +274,19 @@
     [countLabel release];
     
 }
+- (NSIndexPath*) indexPathOfDocument:(NSString*)docuemtGUID
+{
+    for (int i = 0; i < [self.documentsArray count]; i++) {
+        NSArray* arr = [documentsArray objectAtIndex:i];
+        for (int docIndex =0; docIndex < [arr count]; docIndex++) {
+            WizDocument* doc = [arr objectAtIndex:docIndex];
+            if ([doc.guid isEqualToString:docuemtGUID]) {
+                return [NSIndexPath indexPathForRow:docIndex inSection:i];
+            }
+        }
+    }
+    return [NSIndexPath indexPathForRow:WizNotFound inSection:WizNotFound];
+}
 - (NSUInteger) indexOfDocument:(NSString*)guid
 {
     NSInteger index = 0;
@@ -315,6 +326,9 @@
         case TypeOfKey:
         {
             self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByKey:self.documentListKey]];
+            if (![self.sourceArray count]) {
+                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString("Cannot find %@", nil),self.documentListKey]];
+            }
             break;
         }
         case TypeOfLocation:
@@ -520,15 +534,8 @@
     detail.width = 80;
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flex.width = 344;
-    UIBarButtonItem* newNote =[[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
-    UIActivityIndicatorView* activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityView.frame = CGRectMake(10, 10, 24, 24);
-    self.refreshIndicatorView = activityView;
-    UIBarButtonItem* activity = [[UIBarButtonItem alloc] initWithCustomView:activityView];
-    [activityView setHidesWhenStopped:YES];
-    [activityView release];
-    
-    NSArray* items = [NSArray arrayWithObjects:flex,flex,activity, edit, attachment, detail, flex,newNote, nil];
+    UIBarButtonItem* newNote =[[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];    
+    NSArray* items = [NSArray arrayWithObjects:flex,flex, edit, attachment, detail, flex,newNote, nil];
    
     [self setToolbarItems:items];
     self.editBarItem = edit;
@@ -539,9 +546,6 @@
     [detail release];
     [flex release];
     [newNote release];
-    [activity release];
-    
-
 }
 - (void) downloadDocumentDone:(NSNotification*)nc
 {
@@ -549,9 +553,15 @@
     NSDictionary* ret = [userInfo valueForKey:@"ret"];
     NSString* documentGUID = [ret valueForKey:@"document_guid"];
     WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
+    NSIndexPath* indexPath = [self indexPathOfDocument:documentGUID];
+    if (indexPath.section == WizNotFound) {
+        return;
+    }
+    else {
+        [self.documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
     [downloadPool removeDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
     if ([documentGUID isEqualToString:selectedDocumentGUID]) {
-        [self.refreshIndicatorView stopAnimating];
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         WizDocument* selectedDocument = [index documentFromGUID:selectedDocumentGUID];
         NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
@@ -591,7 +601,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
     [download downloadDocument:guid];
-    [self.refreshIndicatorView startAnimating];
 }
 - (void) checkDocument:(NSString*)guid
 {
@@ -629,8 +638,6 @@
     else {
         self.attachmentCountBadge.hidden = YES;
     }
-    
-    
     if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
         if ([index documentServerChanged:doc.guid]) {
             [self downloadDocument:doc.guid];
@@ -661,6 +668,9 @@
 {
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [self didSelectedDocument:doc];
+    [self.documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.documentList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    
 }
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -671,7 +681,7 @@
                 WizDocument* doc = [[self.documentsArray objectAtIndex:i] objectAtIndex:j];
                 if ([doc.guid isEqualToString:selectedDocumentGUID]) {
                     [self didSelectedDocument:[[self.documentsArray objectAtIndex:i] objectAtIndex:j] ];
-                    [self.documentList scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                    [self.documentList selectRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i] animated:YES scrollPosition:UITableViewScrollPositionTop];
                 }
             }
         }
@@ -687,10 +697,6 @@
         }
     }
 }
-//- (void) popSelf
-//{
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
 - (void) viewDidLoad
 {
     [super viewDidLoad];
@@ -756,7 +762,18 @@
     NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
     return [WizGlobals dateToLocalString:date];
 }
-
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
+    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
+    if ([pool documentIsDownloading:doc.guid]) {
+        [docCell.downloadIndicator startAnimating];
+    }
+    else {
+        [docCell.downloadIndicator stopAnimating];
+    }
+}
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* CellIdentifier = @"DocumentCell";

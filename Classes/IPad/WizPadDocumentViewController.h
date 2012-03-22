@@ -26,9 +26,6 @@
     UIBarButtonItem* searchItem;
     
     UIBadgeView* attachmentCountBadge;
-    
-    UIActivityIndicatorView* refreshIndicatorView;
-    
     UIPopoverController* currentPopoverController;
     UIButton* zoomOrShrinkButton;
 }
@@ -47,7 +44,6 @@
 @property (nonatomic, retain)   UIBarButtonItem* editBarItem;
 @property (nonatomic, retain)   UIBarButtonItem* searchItem;
 @property (nonatomic, retain)  UIPopoverController* currentPopoverController;
-@property (nonatomic, retain)  UIActivityIndicatorView* refreshIndicatorView;
 @property (nonatomic, retain) UIBadgeView* attachmentCountBadge;
 @property  NSUInteger listType;
 

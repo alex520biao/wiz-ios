@@ -9,6 +9,7 @@
 #import "WizPadDocumentListController.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
+#import "WizGlobals.h"
 @implementation WizRange
 @synthesize start;
 @synthesize end;
@@ -92,12 +93,19 @@
     }
     
 }
-
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([WizGlobals DeviceIsPad]) {
+        NSLog(@"ddd");
+    }
+    else {
+        NSLog(@"xxxxx");
+    }
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
 }
-
 
 @end

@@ -109,7 +109,6 @@
 		73A7859114F8CC23001387F6 /* WizAddAcountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */; };
 		73A7859214F8CC23001387F6 /* WizCheckAccounsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */; };
 		73A7859414F8CC23001387F6 /* WizPadDocumentAbstractView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */; };
-		73A7859514F8CC23001387F6 /* WizPadDocumentListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7849F14F8CC22001387F6 /* WizPadDocumentListController.m */; };
 		73A7859714F8CC23001387F6 /* WizPadDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */; };
 		73A7859814F8CC23001387F6 /* WizPadEditNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */; };
 		73A7859914F8CC23001387F6 /* WizPadEditTagTextFiled.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */; };
@@ -506,8 +505,6 @@
 		73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
 		73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentAbstractView.h; sourceTree = "<group>"; };
 		73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentAbstractView.m; sourceTree = "<group>"; };
-		73A7849E14F8CC22001387F6 /* WizPadDocumentListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentListController.h; sourceTree = "<group>"; };
-		73A7849F14F8CC22001387F6 /* WizPadDocumentListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentListController.m; sourceTree = "<group>"; };
 		73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewController.h; sourceTree = "<group>"; };
 		73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentViewController.m; sourceTree = "<group>"; };
 		73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditNoteController.h; sourceTree = "<group>"; };
@@ -1156,8 +1153,6 @@
 				73A7849314F8CC22001387F6 /* PadTagController.m */,
 				73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */,
 				73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */,
-				73A7849E14F8CC22001387F6 /* WizPadDocumentListController.h */,
-				73A7849F14F8CC22001387F6 /* WizPadDocumentListController.m */,
 				73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */,
 				73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */,
 				73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */,
@@ -1930,7 +1925,6 @@
 				73A7859114F8CC23001387F6 /* WizAddAcountViewController.m in Sources */,
 				73A7859214F8CC23001387F6 /* WizCheckAccounsController.m in Sources */,
 				73A7859414F8CC23001387F6 /* WizPadDocumentAbstractView.m in Sources */,
-				73A7859514F8CC23001387F6 /* WizPadDocumentListController.m in Sources */,
 				73A7859714F8CC23001387F6 /* WizPadDocumentViewController.m in Sources */,
 				73A7859814F8CC23001387F6 /* WizPadEditNoteController.m in Sources */,
 				73A7859914F8CC23001387F6 /* WizPadEditTagTextFiled.m in Sources */,
