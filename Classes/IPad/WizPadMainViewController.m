@@ -179,6 +179,7 @@
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
         processText = WizStrSyncingfolders;
+        [self.recentList reloadAllData];
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
