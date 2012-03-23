@@ -649,7 +649,7 @@ static const xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) 
 //      const char *msg = xpathCtx->lastError.str1;
       NSDictionary *userInfo = nil;
 //      if (msg) {
-        userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:@"dddd"] 
+        userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:"dddd"] 
                                                forKey:@"error"];
 //      }
       *error = [NSError errorWithDomain:@"com.google.GDataXML"

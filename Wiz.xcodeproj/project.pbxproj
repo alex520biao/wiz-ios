@@ -13,7 +13,6 @@
 		3072578E132496BB009DA753 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072578D132496BB009DA753 /* libxml2.dylib */; };
 		30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072578F132496C1009DA753 /* libsqlite3.dylib */; };
 		30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F7799E133A12BA0096FF74 /* Localizable.strings */; };
-		30F77A49133A1CE30096FF74 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F77A48133A1CE30096FF74 /* infoPlist.strings */; };
 		442D1E8A1484D2AB00DC7221 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 442D1E891484D2AB00DC7221 /* libz.1.2.5.dylib */; };
 		4488C0E114AC5C17001C162D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4488C0E014AC5C17001C162D /* libicucore.dylib */; };
 		448E16531475037500E1D10A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448E16521475037500E1D10A /* AVFoundation.framework */; };
@@ -317,6 +316,7 @@
 		73BB84B2150F3DA40032F99B /* WizTableAbstractView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB84B1150F3DA40032F99B /* WizTableAbstractView.m */; };
 		73BB85241511F9D80032F99B /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB85231511F9D80032F99B /* WizNotification.m */; };
 		73BB852D1512ED790032F99B /* WizTableAbstractViewDecorate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB852C1512ED760032F99B /* WizTableAbstractViewDecorate.m */; };
+		73C59EE0151C25B500715995 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 73C59EE2151C25B500715995 /* InfoPlist.strings */; };
 		73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CAAA1C14EA388500D5FF9B /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
@@ -330,8 +330,6 @@
 		3087BE0B132F23E6002D2402 /* libbz2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.dylib; path = usr/lib/libbz2.1.0.dylib; sourceTree = SDKROOT; };
 		30F7799C133A12B10096FF74 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30F779A0133A12C20096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
-		30F77A46133A1CAD0096FF74 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/infoPlist.strings; sourceTree = "<group>"; };
-		30F77A4A133A1CE70096FF74 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Wiz_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wiz_Prefix.pch; sourceTree = "<group>"; };
 		442D1E891484D2AB00DC7221 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		4488C0E014AC5C17001C162D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -772,6 +770,8 @@
 		73BB85281511FC3C0032F99B /* WizNotificationMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizNotificationMessageType.h; sourceTree = "<group>"; };
 		73BB852B1512ED740032F99B /* WizTableAbstractViewDecorate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableAbstractViewDecorate.h; sourceTree = "<group>"; };
 		73BB852C1512ED760032F99B /* WizTableAbstractViewDecorate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableAbstractViewDecorate.m; sourceTree = "<group>"; };
+		73C59EE1151C25B500715995 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		73C59EE3151C25E500715995 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -839,11 +839,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73C59EE2151C25B500715995 /* InfoPlist.strings */,
 				73A785E514F8CD5C001387F6 /* icons */,
 				73A7866214F8CD5D001387F6 /* ipad */,
 				73A7866E14F8CD5D001387F6 /* Share */,
 				44A094951495F56500B487FD /* Images */,
-				30F77A48133A1CE30096FF74 /* infoPlist.strings */,
 				30F7799E133A12BA0096FF74 /* Localizable.strings */,
 				73FBA14115183C2A0096E54F /* Wiz-Info.plist */,
 			);
@@ -1695,7 +1695,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */,
-				30F77A49133A1CE30096FF74 /* infoPlist.strings in Resources */,
 				731161FC14F5028D007EC8AC /* Default-Portrait~ipad.png in Resources */,
 				7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */,
 				7311621314F50AC0007EC8AC /* Default.png in Resources */,
@@ -1865,6 +1864,7 @@
 				7311202814F913BE00193E64 /* icon.png in Resources */,
 				7311202A14F913D300193E64 /* icon@x2.png in Resources */,
 				7311202C14F9140200193E64 /* icon_ipad.png in Resources */,
+				73C59EE0151C25B500715995 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2013,15 +2013,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		30F77A48133A1CE30096FF74 /* infoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30F77A46133A1CAD0096FF74 /* English */,
-				30F77A4A133A1CE70096FF74 /* zh_CN */,
-			);
-			name = infoPlist.strings;
-			sourceTree = "<group>";
-		};
 		730B2F1A14F78B8700707A07 /* loginBackgroud.png */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2074,6 +2065,15 @@
 				7311621714F50AC9007EC8AC /* zh-Hans */,
 			);
 			name = Default.png;
+			sourceTree = "<group>";
+		};
+		73C59EE2151C25B500715995 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				73C59EE1151C25B500715995 /* English */,
+				73C59EE3151C25E500715995 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

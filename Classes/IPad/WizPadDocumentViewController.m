@@ -327,7 +327,7 @@
         {
             self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByKey:self.documentListKey]];
             if (![self.sourceArray count]) {
-                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString("Cannot find %@", nil),self.documentListKey]];
+                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@", nil),self.documentListKey]];
             }
             break;
         }
