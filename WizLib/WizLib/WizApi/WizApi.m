@@ -16,14 +16,9 @@
 #import "WizGlobals.h"
 #import "WizMisc.h"
 #import "WizSync.h"
+#import "WizNotification.h"
 
 
-#define WizSyncBeginNotificationPrefix @"WizSyncBeginNotification"  
-#define WizSyncEndNotificationPrefix @"WizSyncEndNotification"  
-#define WizSyncXmlRpcErrorNotificationPrefix @"WizSyncXmlRpcErrorNotificationPrefix"  
-#define WizSyncXmlRpcDoneNotificationPrefix @"WizSyncXmlRpcDoneNotification"  
-#define WizSyncXmlRpcDonlowadDoneNotificationPrefix @"WizSyncXmlRpcDonlowadDoneNotificationPrefix"  
-#define WizSyncXmlRpcUploadDoneNotificationPrefix @"WizSyncXmlRpcUploadDoneNotificationPrefix"  
 #define SyncMethod_ClientLogin @"accounts.clientLogin"  
 #define SyncMethod_ClientLogout @"accounts.clientLogout"  
 #define SyncMethod_CreateAccount @"accounts.createAccount"  
@@ -44,8 +39,8 @@
 #define SyncMethod_PostTagList @"tag.postList"  
 #define SyncMethod_DocumentPostSimpleData @"document.postSimpleData"  
 #define SyncMethod_AttachmentPostSimpleData @"attachment.postSimpleData"  
-#define SyncMethod_GetUserInfo @"wiz.getInfo"  
-#define WizGlobalSyncProcessInfo @"wiz_global_sync_process_info"  
+#define SyncMethod_GetUserInfo @"wiz.getInfo"
+ 
 #define WizGlobalStopSync @"wiz_stop_sync"  
 #define PARTSIZE 10*1024
 #define MD5PART 10*1024
@@ -98,212 +93,6 @@
 	[super dealloc];
 }
 
--(void) postSyncProcessInfoToDefaultCenter:(NSString *)methodName total:(NSNumber *)total current:(NSNumber *)current
-{
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
-    [userInfo setObject:methodName forKey:@"sync_method_name"];
-    [userInfo setObject:total forKey:@"sync_method_total"];
-    [userInfo setObject:current forKey:@"sync_method_current"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName:WizGlobalSyncProcessInfo] object: nil userInfo:userInfo];
-}
-
--(void) postSyncProcessInfoToDefaultCenterWithObjectName:(NSString *)methodName total:(NSNumber *)total current:(NSNumber *)current objectName:(NSString*) objectName
-{
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
-    [userInfo setObject:methodName forKey:@"sync_method_name"];
-    [userInfo setObject:total forKey:@"sync_method_total"];
-    [userInfo setObject:current forKey:@"sync_method_current"];
-    [userInfo setObject:objectName forKey:@"object_name"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizGlobalSyncProcessInfo] object: nil userInfo: userInfo];
-}
-//login-logout
--(void) postSyncLoginBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_ClientLogin total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncLoginEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_ClientLogin total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-
--(void) postSyncLogoutBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_ClientLogout total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncLogoutEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_ClientLogout total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-// tag
--(void) postSyncGetTagsListBegin:(int)beginVersion requsetCount:(int) requestCount
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAllTags total:[NSNumber numberWithInt:beginVersion+requestCount] current:[NSNumber numberWithInt:requestCount]];
-}
-
-- (void) postSyncGetTagsListEnd:(int) lastVersion
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAllTags total:[NSNumber numberWithInt:lastVersion] current:[NSNumber numberWithInt:lastVersion]];
-}
-
-- (void) postSyncUploadTagListBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_PostTagList total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncUploadTagListEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_PostTagList total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-//get gategory
--(void) postSyncGetAllCategoriesBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAllCategories total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncGetAllCategoriesEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAllCategories total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-//attachments list
--(void) postSyncGetAttachmentListBegin:(int)beginVersion requsetCount:(int) requestCount
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAttachmentList total:[NSNumber numberWithInt:beginVersion+requestCount] current:[NSNumber numberWithInt:requestCount]];
-}
-
-- (void) postSyncGetAttachmentListEnd:(int) lastVersion
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_GetAttachmentList total:[NSNumber numberWithInt:lastVersion] current:[NSNumber numberWithInt:lastVersion]];
-}
-- (void) postSyncUploadAttachmentInfoBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_AttachmentPostSimpleData total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncUploadAttachmentInfoEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_AttachmentPostSimpleData total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-
-//document list
--(void) postSyncGetDocumentListBegin:(int)beginVersion requsetCount:(int) requestCount
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DownloadDocumentList total:[NSNumber numberWithInt:beginVersion+requestCount] current:[NSNumber numberWithInt:requestCount]];
-}
-
-- (void) postSyncGetDocumentListEnd:(int) lastVersion
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DownloadDocumentList total:[NSNumber numberWithInt:lastVersion] current:[NSNumber numberWithInt:lastVersion]];
-}
-- (void) postSyncUploadDocumentInfoBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentPostSimpleData total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncUploadDocumentInfoEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentPostSimpleData total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-//delete list
-- (void) postSyncDeletedListBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DownloadDeletedList total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
-- (void) postSyncDeletedListEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DownloadDeletedList total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-- (void) postSyncUploadDeletedListBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_UploadDeletedList total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncUploadDeletedListEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_UploadDeletedList total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-
-//list by .....
-- (void) postSyncGetDocumentByCategoryBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByCategory total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncGetDocumentByCategoryEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByCategory total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-
-- (void) postSyncGetDocumentByTagBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByTag total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncGetDocumentByTagEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByTag total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-
-- (void) postSyncGetDocumentByKeyBegin
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByKey total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:0]];
-}
-
--(void) postSyncGetDocumentByKeyEnd
-{
-    [self postSyncProcessInfoToDefaultCenter:SyncMethod_DocumentsByKey total:[NSNumber numberWithInt:1] current:[NSNumber numberWithInt:1]];
-}
-
-
-
-
-
-
-- (void) postSyncUploadObject:(int) total current:(int)current objectGUID:(NSString *)objectGUID objectType:(NSString *)objectType
-{
-    if([objectType isEqualToString:@"document"])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizDocument* doc = [index documentFromGUID:objectGUID];
-        NSString* objectName = doc.title;
-        [self postSyncProcessInfoToDefaultCenterWithObjectName:SyncMethod_UploadObject total:[NSNumber numberWithInt:total] current:[NSNumber numberWithInt:current] objectName:objectName];
-    }
-    else if([objectType isEqualToString:@"attachment"])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizDocumentAttach* attach = [index attachmentFromGUID:objectGUID];
-        NSString* objectName = attach.attachmentName;
-        [self postSyncProcessInfoToDefaultCenterWithObjectName:SyncMethod_UploadObject total:[NSNumber numberWithInt:total] current:[NSNumber numberWithInt:current] objectName:objectName];
-    }
-    else
-    {
-       
-    }    
-}
-
-- (void) postSyncDoloadObject:(int) total current:(int)current objectGUID:(NSString *)objectGUID objectType:(NSString *)objectType
-{
-    if([objectType isEqualToString:@"document"])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizDocument* doc = [index documentFromGUID:objectGUID];
-        NSString* objectName = doc.title;
-        [self postSyncProcessInfoToDefaultCenterWithObjectName:SyncMethod_DownloadObject total:[NSNumber numberWithInt:total] current:[NSNumber numberWithInt:current] objectName:objectName];
-    }
-    else if([objectType isEqualToString:@"attachment"])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizDocumentAttach* attach = [index attachmentFromGUID:objectGUID];
-        NSString* objectName = attach.attachmentGuid;
-        [self postSyncProcessInfoToDefaultCenterWithObjectName:SyncMethod_DownloadObject total:[NSNumber numberWithInt:total] current:[NSNumber numberWithInt:current] objectName:objectName];
-    }
-    else
-    {
-       
-    }  
-}
 
 
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
@@ -350,12 +139,6 @@
 		{
 			[self onDownloadMobileData:ret];
 		}
-        //wiz-dzpqzb 
-        //新api
-//		else if ([method isEqualToString:SyncMethod_UploadMobileData])
-//		{
-//			[self onUploadMobileData:ret];
-//		}
 		else if ([method isEqualToString:SyncMethod_DownloadDeletedList])
 		{
 			[self onDownloadDeletedList:ret];
@@ -409,16 +192,9 @@
 		
         [self onError: ret];
 	}
-	//
-	/////////////////////////////
-	//
-	////send xml-rpc done notification
-	//
-    
     self.connectionXmlrpc = nil;
 	NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:method, @"method", ret, @"ret", [NSNumber numberWithBool:succeeded], @"succeeded", nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcDoneNotificationPrefix] object: nil userInfo: userInfo];
-	//
 	[userInfo release];
 }
 
@@ -429,9 +205,7 @@
     {
 		return NO;
     }
-	//
 	[request setMethod:method withObjects:args];
-	//
 	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
 	//
 	[request release];
@@ -1343,54 +1117,5 @@
         [self.connectionXmlrpc cancel];
     }
 }
-
--(NSString*) notificationName: (NSString *)prefix
-{
-	return [WizApi notificationName:prefix accountUserId:self.accountUserId];
-}
-+(NSString*) notificationName: (NSString *)prefix accountUserId:(NSString*)accountUserId
-{
-	return [NSString stringWithFormat:@"%@_%@", prefix, accountUserId];	
-}
-
-+(NSString*) md5:(NSData *)input {
-    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(input.bytes, input.length, md5Buffer);
-    NSMutableString* output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH *2];
-    for(int i =0; i <CC_MD5_DIGEST_LENGTH; i++) {
-        [output appendFormat:@"%02x",md5Buffer[i]];
-    }
-    return  output;
-}
-
-+(NSString*)fileMD5:(NSString*)path  
-{  
-    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:path];  
-    if( handle== nil ) return @"ERROR GETTING FILE MD5"; // file didnt exist  
-    
-    CC_MD5_CTX md5;  
-    
-    CC_MD5_Init(&md5);  
-    
-    BOOL done = NO;  
-    while(!done)  
-    {  
-        NSData* fileData = [handle readDataOfLength: MD5PART ];  
-        CC_MD5_Update(&md5, [fileData bytes], [fileData length]);  
-        if( [fileData length] == 0 ) done = YES;  
-    }  
-    unsigned char digest[CC_MD5_DIGEST_LENGTH];  
-    CC_MD5_Final(digest, &md5);  
-    NSString* s = [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",  
-                   digest[0], digest[1],   
-                   digest[2], digest[3],  
-                   digest[4], digest[5],  
-                   digest[6], digest[7],  
-                   digest[8], digest[9],  
-                   digest[10], digest[11],  
-                   digest[12], digest[13],  
-                   digest[14], digest[15]];  
-    return s;  
-} 
 
 @end

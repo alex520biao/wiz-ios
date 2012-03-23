@@ -10,15 +10,15 @@
 #import "WizDownloadObject.h"
 #import "WizGlobals.h"
 #import "WizApi.h"
-
+#import "WizNotification.h"
 @implementation WizDownloadPool
 @synthesize processPool;
 @synthesize accountUserId;
 - (void) dealloc
 {
-   self.processPool = nil;
+    self.processPool = nil;
     self.accountUserId = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 
@@ -77,14 +77,14 @@
         if ([WizGlobals checkObjectIsDocument:objectType]) {
             download = [[WizDownloadDocument alloc] initWithAccount:accountUserId password:@""];
             [self.processPool setObject:download forKey:proceessKey];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeDownloadData:) name:[download notificationName: WizSyncXmlRpcDonlowadDoneNotificationPrefix] object:nil];
             [download release];
+            [WizNotificationCenter addObserverForDownloadDocument:self selector:@selector(removeDownloadData:) documentGUID:objectGUID];
+            
         }
         if ([WizGlobals checkObjectIsAttachment:objectType]) {
             download = [[WizDownloadAttachment alloc] initWithAccount:accountUserId password:@""];
             [self.processPool setObject:download forKey:proceessKey];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeDownloadData:) name:[download notificationName: WizSyncXmlRpcDonlowadDoneNotificationPrefix] object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeDownloadData:) name:[download notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+            [WizNotificationCenter addObserverForDownloadAttachment:self selector:@selector(removeDownloadData:) attachmentGUID:objectGUID];
             [download release];
         }
     }

@@ -10,6 +10,7 @@
 #import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizDownloadObject.h"
+#import "WizNotification.h"
 @implementation WizDocumentsByLocation
 
 @synthesize busy;
