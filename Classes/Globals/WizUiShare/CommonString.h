@@ -42,7 +42,7 @@
 #define WizStrToday             NSLocalizedString(@"Today",nil)
 #define WizStrYesterday         NSLocalizedString(@"Yesterday",nil)
 #define WizStrEditNote          NSLocalizedString(@"Edit note",nil)
-#define WizStrCreateAccount         NSLocalizedString(@"Create account", nil)
+#define WizStrCreateAccount         NSLocalizedString(@"Create an account", nil)
 #define WizStrRecentNotes           NSLocalizedString(@"Recent notes", nil)
 #define WizStrChangePassword        NSLocalizedString(@"Change password", nil)
 #define WizStrSwitchAccounts        NSLocalizedString(@"Switch accounts", nil)
