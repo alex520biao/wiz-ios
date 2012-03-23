@@ -771,6 +771,7 @@
 		73BB852B1512ED740032F99B /* WizTableAbstractViewDecorate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableAbstractViewDecorate.h; sourceTree = "<group>"; };
 		73BB852C1512ED760032F99B /* WizTableAbstractViewDecorate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableAbstractViewDecorate.m; sourceTree = "<group>"; };
 		73C59EE1151C25B500715995 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		73C59EE4151C290500715995 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2070,6 +2071,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				73C59EE1151C25B500715995 /* English */,
+				73C59EE4151C290500715995 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
