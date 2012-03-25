@@ -16,6 +16,7 @@
     UIButton* registerButton;
     UIButton* checkExistedAccountButton;
     UILabel* CripytLabel;
+    BOOL firstLoad;
 }
 @property (nonatomic, retain) IBOutlet UIButton* loginButton;
 @property (nonatomic, retain) IBOutlet UIImageView* backgroudView;

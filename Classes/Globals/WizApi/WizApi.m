@@ -798,10 +798,9 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     [self postSyncGetAttachmentListEnd:1];
 }
 
-
 -(int) listCount
 {
-	return 200;
+	return 30;
 }
 
 -(BOOL) callDownloadDeletedList

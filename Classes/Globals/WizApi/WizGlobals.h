@@ -13,7 +13,8 @@
 #define WIZTESTFLIGHTDEBUG
 #define WIZERRORDOMAIN @"WizErrorDomain"
 #define WIZABORTNETERROR @"WIZABORTNETERROR"
-
+#define WizLog(s,...) logTofile(__FILE__,(char *)__FUNCTION__ ,__LINE__,s,##__VA_ARGS__)
+void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...);
 @interface WizGlobals : NSObject {
 
 }
@@ -71,6 +72,8 @@
 + (NSString*) getWizObjectNameFromPath:(NSString*)filePath;
 + (NSString*) getWizObjectTypeFromName:(NSString*)objectName;
 + (BOOL) copyFileToDocumentIndexfiles:(NSString *)filePath   toDocument:(NSString*)documentGUID   accountUserId:(NSString*)accountUserId;
++ (void) toLog:(NSString*)log;
+
 @end
 
 

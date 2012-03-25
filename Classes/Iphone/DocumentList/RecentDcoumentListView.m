@@ -14,6 +14,7 @@
 #import "UserSttingsViewController.h"
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
+#import "WizNotification.h"
 @implementation RecentDcoumentListView
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -110,17 +111,7 @@
 
 -(void) setupAccount
 {
-    NSArray* accounts = [WizSettings accounts];
-    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithNibName:@"UserSttingsViewController" bundle:nil ];
-    for (int i = 0; i < [accounts count]; i++) {
-        if ([self.accountUserID isEqualToString:[WizSettings accountUserIdAtIndex:accounts index:i]]) {
-            editAccountView.accountUserId = [WizSettings accountUserIdAtIndex:accounts index:i];
-        }
-    }
-   
-    editAccountView.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:editAccountView animated:YES];
-    [editAccountView release];
+    [WizNotificationCenter postIphoneSetupAccount];
 }
 
 - (void) viewDidLoad
@@ -131,7 +122,7 @@
     self.navigationItem.leftBarButtonItem = item;
     [item release];
     [super viewDidLoad];
-        [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+    [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
 
 }
 - (void) viewDidAppear:(BOOL)animated

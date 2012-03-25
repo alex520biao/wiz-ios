@@ -10,7 +10,7 @@
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "WizSettings.h"
-#import "LoginViewController.h"
+#import "WizIphoneLoginViewController.h"
 #import "WizPadLoginViewController.h"
 #import "WizPadMainViewController.h"
 #import "UIView-TagExtensions.h"
@@ -21,7 +21,6 @@
 #import "NSDate-Utilities.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
-#import "PickViewController.h"
 #import "WizNotification.h"
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
@@ -32,115 +31,45 @@
 + (UIViewController*) iphoneBackController;
 @end
 @implementation WizAppDelegate
-@synthesize loginController;
 @synthesize window;
 @synthesize navController;
-static UIViewController* iphoneBackController;
-+ (UIViewController*) iphoneBackController
-{
-    if (iphoneBackController == nil) {
-        UIImageView* back = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default"]];
-        iphoneBackController = [[UIViewController alloc] init];
-        back.frame = CGRectMake(0.0, 0.0, 320, 480);
-        [iphoneBackController.view addSubview:back];
-        [back release];
-    }
-    return iphoneBackController;
-}
 - (void) dealloc
 {
     self.navController = nil;
     self.window = nil;
-    self.loginController = nil;
     [super dealloc];
 }
 #pragma mark -
 #pragma mark Application lifecycle
-- (void) changeAccount
+
+- (void) initRootNavigation
 {
-    [self.navController popToRootViewControllerAnimated:NO];
+    NSLog(@"dddd");
+    [WizGlobals toLog:@"dd"];
+    [WizNotificationCenter removeObserver:self];
+    UINavigationController* root = [[UINavigationController alloc] init];
+    self.navController = root;
     if (WizDeviceIsPad())
     {
-
         WizPadLoginViewController* pad = [[WizPadLoginViewController alloc] init];
-        UINavigationController* con = [[UINavigationController alloc] initWithRootViewController:pad];
-        [self.navController presentModalViewController:con animated:NO];
+        [self.navController pushViewController:pad animated:NO];
         [pad release];
-        [con release];
     }
     else
     {
-        LoginViewController* login = [[LoginViewController alloc] init];
-        UINavigationController* con = [[UINavigationController alloc] initWithRootViewController:login];
-        [self.navController presentModalViewController:con animated:YES];
+        WizIphoneLoginViewController* login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewController" bundle:nil];
+        [self.navController pushViewController:login animated:NO];
         [login release];
-        [con release];
     }
-}
-- (void) initRootNavigation
-{
-    [WizNotificationCenter removeObserver:self];
-    [WizNotificationCenter addObserverWithKey:self selector:@selector(selecteAccount:) name:MessageTypeOfDidSelectedAccount];
-    [WizNotificationCenter addObserverForChangeAccount:self selector:@selector(changeAccount)];
-    UINavigationController* root = [[UINavigationController alloc] init];
-    self.navController = root;
-    if (WizDeviceIsPad()) {
-        UIViewController* con = [[UIViewController alloc] init];
-        con.view.backgroundColor = [UIColor grayColor];
-        [self.navController pushViewController:con animated:NO];
-        [con release];
-    }
-    else {
-        [self.navController pushViewController:[WizAppDelegate iphoneBackController] animated:NO];
-    }
+
     [window addSubview:self.navController.view];
     [root release];
     [self.window makeKeyAndVisible];
 }
-- (void) selecteAccount:(NSNotification*)nc
-{
-	NSString* accountUserId = [WizNotificationCenter getDidSelectedAccountUserId:nc];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    if (![index isOpened])
-    {
-        if (![index open])
-        {
-            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-            return;
-        }
-    }
-    if (WizDeviceIsPad()) {
-        WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
-        pad.accountUserId = accountUserId;
-        [self.navController pushViewController:pad animated:YES];
-        [pad release];
-    }
-    else {
-        PickerViewController* pick =[[PickerViewController alloc] initWithUserID:accountUserId];
-        [self.navController pushViewController:pick animated:YES];
-        [pick release];
-    }
-}
 
-- (void) selecteDefaultAccount
-{
-    NSArray* accounts = [WizSettings accounts];
-    if ([accounts count] > 0) {
-        NSString* defaultUserId = [WizSettings defaultAccountUserId];
-        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:accounts index:0]];
-            defaultUserId = [WizSettings defaultAccountUserId];
-        }
-        [WizNotificationCenter postDidSelectedAccountMessage:defaultUserId];
-    }
-    else {
-        [WizNotificationCenter postChangeAccountMessage];
-    }
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initRootNavigation];
-    [self selecteDefaultAccount];
     return YES;
 }
 

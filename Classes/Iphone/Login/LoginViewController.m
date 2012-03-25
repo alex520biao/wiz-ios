@@ -18,11 +18,12 @@
 #import "PickViewController.h"
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizPhoneNotificationMessage.h"
+
 #import "WizNotification.h"
 #define ColorValue(x) x/255.0
 #define PROTECTALERT 300
 @implementation LoginViewController
-@synthesize willChangedUser;
+@synthesize firstLoad;
 @synthesize contentTableView;
 @synthesize userNameCell;
 @synthesize userNameLabel;
@@ -63,9 +64,37 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
+        self.firstLoad = YES;
     }
     return self;
+}
+- (void) didSelectedAccount:(NSString*)accountUserId
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    if (![index isOpened])
+    {
+        if (![index open])
+        {
+            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
+            return;
+        }
+    }
+    PickerViewController* pick =[[PickerViewController alloc] initWithUserID:accountUserId];
+    [self.navigationController pushViewController:pick animated:YES];
+    [pick release];
+}
+
+- (void) selecteDefaultAccount
+{
+    NSArray* accounts = [WizSettings accounts];
+    if ([accounts count] > 0) {
+        NSString* defaultUserId = [WizSettings defaultAccountUserId];
+        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:accounts index:0]];
+            defaultUserId = [WizSettings defaultAccountUserId];
+        }
+        [self didSelectedAccount:defaultUserId];
+    }
 }
 
 - (void) loginViewMoveUp
@@ -176,30 +205,7 @@
     [self.navigationController pushViewController:createAccountView animated:YES];
     [createAccountView release];
 }
-- (void) didSelectedAccountUser:(NSString *)userId
-{
-    [self.navigationController dismissModalViewControllerAnimated:NO];
-    [WizNotificationCenter postDidSelectedAccountMessage:userId];
-    
-}
-- (void) didSelectedAccount:(NSNotification*)nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* userID = [userInfo valueForKey:TypeOfPhoneAccountUserId];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:userID];
-    if (![index isOpened])
-    {
-        if (![index open])
-        {
-            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-            return;
-        }
-    }
-    PickerViewController* pick = [[WizGlobalData sharedData] wizPickerViewOfUser:userID];
-    self.contentTableView.frame = CGRectMake(10, 260, 300, 80);
-    self.loginButton.hidden = YES;
-    [self.navigationController pushViewController:pick animated:YES];
-}
+
 - (CAGradientLayer*) buttonBackgroud
 {
 
@@ -218,10 +224,8 @@
     gLayer.position = CGPointMake([self.addAccountButton bounds].size.width/2, [self.addAccountButton bounds].size.height/2);
     return gLayer;
 }
-- (void)viewDidLoad
+- (void) initButtons
 {
-    [super viewDidLoad];
-    
     UITableView* table = [[UITableView alloc] initWithFrame:CGRectMake(10, 260, 300, 80) style:UITableViewStyleGrouped];
     self.contentTableView = table;
     [table release];
@@ -229,16 +233,8 @@
     self.contentTableView.dataSource = self;
     self.contentTableView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
     [self.view addSubview:self.contentTableView];
-    if ([[WizSettings accounts] count]) {
-        willAddUser = NO;
-    }
-    else
-    {
-        willAddUser = YES;
-    }
     self.userNameTextField.delegate = self;
     self.userPasswordTextField.delegate = self;
-    
     self.userPasswordCell.selectionStyle = UITableViewCellSelectionStyleNone;
     self.userNameCell.selectionStyle = UITableViewCellSelectionStyleNone;
     self.userPasswordTextField.secureTextEntry = YES;
@@ -250,18 +246,27 @@
     self.addAccountCell.selectionStyle=UITableViewCellSelectionStyleNone;
     self.userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.checkOtherAccountButton setTitle:WizStrSwitchAccounts forState:UIControlStateNormal];
-    self.willChangedUser = NO;
     [self.createdAccountButton setTitle:NSLocalizedString(@"Add New Account", nil) forState:UIControlStateNormal];
     [self.createdAccountButton addTarget:self action:@selector(addAccountEntry) forControlEvents:UIControlEventTouchUpInside];
     self.createdAccountButton.frame = CGRectMake(0.0, self.view.frame.size.height/2 -30, 320, 30);
     [self.addAccountButton setTitle:NSLocalizedString(@"Create an Account", nil) forState:UIControlStateNormal];
     [self.addAccountButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
-//    [[self.addAccountButton layer] insertSublayer:[self buttonBackgroud] atIndex:0];
     self.addAccountButton.hidden = NO;
-    
     UIImageView* backGroud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginBackgroud"]];
     [self.view insertSubview:backGroud atIndex:0];
     [backGroud release];
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self initButtons];
+    if ([[WizSettings accounts] count]) {
+        willAddUser = NO;
+    }
+    else
+    {
+        willAddUser = YES;
+    }
 }
 - (void)viewDidUnload
 {
@@ -304,7 +309,7 @@
 		if (succeeded)
 		{
 			[WizSettings addAccount:userNameTextField.text password:userPasswordTextField.text];
-            [self didSelectedAccountUser:userNameTextField.text];
+            [self didSelectedAccount:userNameTextField.text];
 		}
 		else {
 
@@ -360,7 +365,7 @@
             return;
         }
         NSString* userID = [WizSettings accountUserIdAtIndex:self.accountsArray index:indexPath.row];
-        [self didSelectedAccountUser:userID];
+        [self didSelectedAccount:userID];
     }
 }
 
@@ -424,13 +429,17 @@
 {
     [super viewDidAppear:animated];
 }
+
 - (void) viewWillAppear:(BOOL)animated
 {
+    WizLog(@"viewWillAppear");
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.accountsArray = [WizSettings accounts];
     self.checkOtherAccountButton.hidden = YES;
     if (0 == [accountsArray count] ) {
+        WizLog(@"account == 0");
+
         self.loginButton.hidden = NO;
         self.contentTableView.scrollEnabled = NO;
         self.addAccountButton.hidden = NO;
@@ -439,12 +448,21 @@
     } 
     else
     {
+        WizLog(@"account != 0");
         self.loginButton.hidden = YES;
         self.contentTableView.scrollEnabled = YES;
         self.addAccountButton.hidden = YES;
         self.createdAccountButton.hidden = NO;
         [self checkOtherAccounts:nil];
+        if (self.firstLoad) {
+            WizLog(@"first load");
+            [self selecteDefaultAccount];
+            self.firstLoad = NO;
+        }
     }
+    WizLog(@"init frame");
     self.contentTableView.frame = [self getContentViewFrame];
+
+    
 }
 @end

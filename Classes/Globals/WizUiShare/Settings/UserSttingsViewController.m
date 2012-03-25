@@ -100,7 +100,7 @@
 
     
    
-    
+
     if (!WizDeviceIsPad()) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -594,16 +594,13 @@
     {
         if( buttonIndex == 0 ) //NO
         {
-            [[[WizGlobalData sharedData] indexData:accountUserId] close];
-            [WizSettings removeAccount:accountUserId];
-            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
+            [WizSettings removeAccount:self.accountUserId];
             if (WizDeviceIsPad()) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
             }
             else
             {
-                [self.navigationController popViewControllerAnimated:NO];
-                [WizNotificationCenter postChangeAccountMessage];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }
     }
@@ -628,7 +625,6 @@
     {
         if (buttonIndex == 1) {
             WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             [index clearCache];
         }
     }
@@ -747,11 +743,11 @@
     {
         if (WizDeviceIsPad()) {
             [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+            return;
         }
         else
         {
-            [self.navigationController popViewControllerAnimated:NO];
-            [WizNotificationCenter postChangeAccountMessage];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
     }
     else if ( (0 == indexPath.row ||1 == indexPath.row) && 5 == indexPath.section) { 

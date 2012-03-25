@@ -173,13 +173,14 @@
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
+        [self.recentList reloadAllData];
         processText = WizStrSyncingattachmentlist;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
         processText = WizStrSyncingfolders;
-        [self.recentList reloadAllData];
+        
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
@@ -428,11 +429,8 @@
 
 - (void) willChangeUser
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index close];
-    [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
-    [self.currentPoperController dismissPopoverAnimated:NO];
-    [WizNotificationCenter postChangeAccountMessage];
+    [self.navigationController popViewControllerAnimated:NO];
+//    [WizNotificationCenter postChangeAccountMessage];
 }
 
 - (void) viewWillChange:(NSNotification*)nc
@@ -463,8 +461,6 @@
     [super viewDidUnload];
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -474,7 +470,6 @@
         [index setDownloadDocumentData:NO];
         [index setFirstLog:YES];
     }
-    
 }
 - (void) checkDocument:(NSNotification*)nc
 {
@@ -511,11 +506,15 @@
     [self.navigationController setToolbarHidden:NO animated:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillAppear:animated];
-}
+}    
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    NSLog(@"retain count %d",[self retainCount]);
     [self.navigationController setToolbarHidden:YES animated:YES];
+    if (self.currentPoperController != nil) {
+        [self.currentPoperController dismissPopoverAnimated:NO];
+    }
 }
 @end

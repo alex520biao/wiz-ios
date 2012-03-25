@@ -20,10 +20,11 @@
 #import "SearchViewControllerIphone.h"
 #import "TagsListTreeView.h"
 #import "WizPhoneNotificationMessage.h"
+#import "UserSttingsViewController.h"
 //wiz-dzpqzb test
 #import "FoldersViewControllerNew.h"
 #import "TagsListTreeControllerNew.h"
-
+#import "WizNotification.h"
 //wiz-dzpqzb test
 #import "WizTableViewController.h"
  #define NEWNOTEENTRY 101
@@ -32,6 +33,7 @@
 @synthesize accountUserId;
 -(void) dealloc
 {
+    [WizNotificationCenter removeObserver:self];
     self.accountUserId = nil;
     [super dealloc];
 }
@@ -106,11 +108,22 @@
 {
     [self.navigationController popViewControllerAnimated:NO];
 }
+- (void) setupAccount
+{
+    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithNibName:@"UserSttingsViewController" bundle:nil ];
+    editAccountView.accountUserId = self.accountUserId;
+    editAccountView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:editAccountView animated:YES];
+    [editAccountView release];
+}
+
 - (void)viewDidLoad
 {
+     [super viewDidLoad];
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = self;
     }
+    [WizNotificationCenter addObserverForIphoneSetupAccount:self selector:@selector(setupAccount)];
     RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
     recent.accountUserID =self.accountUserId;
 //    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
@@ -157,12 +170,13 @@
     [tagController release];
     [searchController release];
      [[self.tabBarController.view viewWithTag:101]setHidden:NO];
-     [super viewDidLoad];
+    
 }
 -   (void)viewDidUnload
 {
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfMainPickSelectedView object:nil];
+    [WizNotificationCenter removeObserver:self];
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = nil;
     }

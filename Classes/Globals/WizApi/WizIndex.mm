@@ -1094,14 +1094,14 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* contentHtml;
     if ([WizGlobals checkAttachmentTypeIsImage:documentType]) {
         contentHtml = [self photoHtmlString:documentName];
-        if ([WizGlobals copyFileToDocumentIndexfiles:fileSourePath toDocument:documentGUID accountUserId:self.accountUserId]) {
+        if (![WizGlobals copyFileToDocumentIndexfiles:fileSourePath toDocument:documentGUID accountUserId:self.accountUserId]) {
             [WizGlobals reportWarningWithString:@"copy error"];
         }
         
     }
     else if ([WizGlobals checkAttachmentTypeIsAudio:documentType]){
         contentHtml = [self audioHtmlString:documentName];
-        if ([WizGlobals copyFileToDocumentIndexfiles:fileSourePath toDocument:documentGUID accountUserId:self.accountUserId]) {
+        if (![WizGlobals copyFileToDocumentIndexfiles:fileSourePath toDocument:documentGUID accountUserId:self.accountUserId]) {
             [WizGlobals reportWarningWithString:@"copy error"];
         }
     }
@@ -1743,8 +1743,14 @@ NSInteger compareTag(id location1, id location2, void*);
             [self setWebFontSize:270];
         }
         if (-1 == [self durationForDownloadDocument]) {
-            [self setDurationForDownloadDocument:0];
-            [self setDownloadDocumentData:NO];
+            if ([WizGlobals WizDeviceIsPad]) {
+                [self setDurationForDownloadDocument:3];
+                [self setDownloadDocumentData:YES];
+            }
+            else {
+                [self setDurationForDownloadDocument:0];
+                [self setDownloadDocumentData:NO];
+            }
         }
         if (0 == [self isMoblieView]) {
             [self setDocumentMoblleView:YES];

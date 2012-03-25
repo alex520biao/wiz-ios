@@ -8,7 +8,6 @@
 
 #import "WizPadLoginViewController.h"
 #import "WizAddAcountViewController.h"
-#import "LoginViewController.h"
 #import "WizPadRegisterController.h"
 #import "WizCheckAccounsController.h"
 #import "WizSettings.h"
@@ -17,6 +16,7 @@
 #import "WizIndex.h"
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
+#import "WizPadMainViewController.h"
 
 @implementation WizPadLoginViewController
 @synthesize loginButton;
@@ -62,7 +62,16 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        firstLoad = YES;
+    }
+    return self;
+}
+
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        firstLoad = YES;
     }
     return self;
 }
@@ -77,6 +86,35 @@
     [super viewDidDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:NO]; 
 }
+- (void) didSelectedAccount:(NSString*)accountUserId
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    if (![index isOpened])
+    {
+        if (![index open])
+        {
+            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
+            return;
+        }
+    }
+    WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
+    pad.accountUserId = accountUserId;
+    [self.navigationController pushViewController:pad animated:YES];
+    [pad release];
+}
+
+- (void) selecteDefaultAccount
+{
+    NSArray* accounts = [WizSettings accounts];
+    if ([accounts count] > 0) {
+        NSString* defaultUserId = [WizSettings defaultAccountUserId];
+        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:accounts index:0]];
+            defaultUserId = [WizSettings defaultAccountUserId];
+        }
+        [self didSelectedAccount:defaultUserId];
+    }
+}
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -89,6 +127,16 @@
         self.checkExistedAccountButton.hidden = YES;
     }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    if ([[WizSettings accounts] count]) {
+        if (firstLoad) {
+            [self selecteDefaultAccount];
+            firstLoad = NO;
+        }
+        else {
+            [self checkOtherAccounts:nil];
+        }
+    }
+    [self.navigationController setToolbarHidden:YES];
 }
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -116,14 +164,14 @@
 }
 - (void) selectAccount:(NSNotification*)nc
 {
-    [self.navigationController dismissModalViewControllerAnimated:NO];
     NSString* accountUserId = [WizNotificationCenter getDidSelectedAccountUserId:nc];
-    [WizNotificationCenter postDidSelectedAccountMessage:accountUserId];
+    [self didSelectedAccount:accountUserId];
     
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];

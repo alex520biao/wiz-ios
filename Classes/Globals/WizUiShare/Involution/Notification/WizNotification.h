@@ -21,4 +21,6 @@
 + (void) postPadSelectedAccountMessge:(NSString*)accountUserId;
 + (void) addObserverForPadSelectedAccount:(id)observer selector:(SEL)selector;
 + (void) addObserverForNewDocument:(id) observer selector:(SEL)selector;
++ (void) addObserverForIphoneSetupAccount:(id)observer  selector:(SEL)selector;
++ (void) postIphoneSetupAccount;
 @end

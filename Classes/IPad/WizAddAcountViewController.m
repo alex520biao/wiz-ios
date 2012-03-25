@@ -151,12 +151,7 @@
     passwordInput.nameLable.text = WizStrPassword;
     passwordInput.textInputField.placeholder = @"password";
     passwordInput.textInputField.secureTextEntry = YES;
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
-                                                                     style:UIBarButtonItemStyleDone
-                                                                    target:self 
-                                                                    action:@selector(cancel)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
+
     
     UIButton* loginButton_ = [[UIButton alloc] initWithFrame:CGRectMake(110, 200, 300, 40)];
     
@@ -164,8 +159,22 @@
     [loginButton_ setTitle:WizStrSignIn forState:UIControlStateNormal];
     [loginButton_ addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton_];
+    
+    
+    if (WizDeviceIsPad()) {
+        UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
+                                                                         style:UIBarButtonItemStyleDone
+                                                                        target:self 
+                                                                        action:@selector(cancel)];
+        self.navigationItem.leftBarButtonItem = cancelButton;
+        [cancelButton release];
+    }
+    else {
+        self.nameInput.frame = CGRectMake(0, 20, 310, 40);
+        self.passwordInput.frame= CGRectMake(0, 80, 310, 40);
+        loginButton_.frame = CGRectMake(10, 140, 300, 40);
+    }
     [loginButton_ release];
-
 }
 - (void)viewDidUnload
 {

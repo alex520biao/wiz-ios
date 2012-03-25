@@ -28,6 +28,8 @@
 #import "WizChangePassword.h"
 #import "WizSettings.h"
 #import "TTTAttributedLabel.h"
+#import "WizNotification.h"
+
 
 NSString* DataTypeOfSync = @"Sync";
 NSString* DataTypeOfCreateAccount = @"CreateAccount";
@@ -412,30 +414,14 @@ static WizGlobalData* g_data;
 	return data;	
 }
 
-- (LoginViewController*) wizMainLoginView:(NSString*) userId
+- (void) removeObserverFromDefaultNoticeCenter
 {
-    id data = [self dataOfAccount:userId dataType:DataTypeOfLoginView];
-    if (data != nil) {
-        return data;
+    NSArray* arr = [dict allValues];
+    for (id each in arr) {
+        [[NSNotificationCenter defaultCenter] removeObserver:each];
+        [WizNotificationCenter removeObserver:each];
     }
-    data = [[LoginViewController alloc] init];
-    [self setDataOfAccount:userId dataType:DataTypeOfLoginView data:data];
-    [data release];
-    return data;
 }
-
-- (PickerViewController*) wizPickerViewOfUser:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType:DataTypeOfPickerView];
-    if (data != nil) {
-        return data;
-    }
-    data = [[PickerViewController alloc] initWithUserID:userId];
-    [self setDataOfAccount:userId dataType:DataTypeOfPickerView data:data];
-    [data release];
-    return data;
-}
-
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId
 {
     NSString* key = [WizGlobalData keyOfAccount:userId dataType: dataType];
@@ -460,6 +446,8 @@ static WizGlobalData* g_data;
     [self removeShareObjectData:DataTypeOfDownloadDocument userId:userId];
     [self removeShareObjectData:DataTypeOfDownloadRecentDocuments userId:userId];
     [self removeShareObjectData:DataTypeOfGlobalDownloadPool userId:userId];
+    [self removeObserverFromDefaultNoticeCenter];
+    
 }
 - (BOOL) registerActiveAccountUserId:(NSString *)userId
 {

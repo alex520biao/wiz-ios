@@ -83,4 +83,14 @@
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfPadSendSelectedAccountMessage];
 }
++ (void) addObserverForIphoneSetupAccount:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfIphoneSetupAccount];
+}
+
++ (void) postIphoneSetupAccount
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfIphoneSetupAccount userInfoObject:nil userInfoKey:nil];
+}
+
 @end

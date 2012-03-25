@@ -9,10 +9,27 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizIndex.h"
-
+#include "stdio.h"
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
-
 #define MD5PART 10*1024
+
+void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...)
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	va_list ap;
+	NSString *print, *file, *function;
+	va_start(ap,format);
+	file = [[NSString alloc] initWithBytes: sourceFile length: strlen(sourceFile) encoding: NSUTF8StringEncoding];
+	function = [NSString stringWithCString:functionName encoding:NSUTF8StringEncoding];
+	print = [[NSString alloc] initWithFormat: format arguments: ap];
+	va_end(ap);
+    NSString* string = [NSString stringWithFormat:@"%@:%d %@; %@", [file lastPathComponent], lineNumber, function, print];
+    [WizGlobals toLog:string];
+	[print release];
+	[file release];
+	[pool release];
+}
+
 @implementation WizGlobals
 static NSArray*  pptArray;
 static NSArray*  docArray;
@@ -20,6 +37,7 @@ static NSArray*  audioArray;
 static NSArray* textArray;
 static NSArray* imageArray;
 static NSArray* excelArray;
+
 
 
 + (float) WizDeviceVersion
@@ -171,6 +189,35 @@ static NSArray* excelArray;
 	}
 	//
 	return hours;
+}
++(long long) getFileSize: (NSString*)filePath
+{
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        NSDictionary* attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+        return [attributes fileSize];
+    }
+    //
+    return 0;
+}
++ (void) toLog:(NSString*)log
+{
+    NSString* logFilePath = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"wiznote.log"];
+    NSString* logMessage = [NSString stringWithFormat:@"%@   %@\n",[WizGlobals dateToLocalString:[NSDate date]],log];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:logFilePath])
+    {
+        if ([WizGlobals getFileSize:logFilePath] > 1024 * 500)
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:logFilePath error:nil];
+        }
+    }
+    //
+    FILE* fp = fopen([logFilePath UTF8String], "a");
+    if (!fp)
+        return;
+    fputs([logMessage UTF8String], fp);
+    fclose(fp);
 }
 
 +(NSString*) iso8601TimeToStringSqlTimeString:(NSString*) str

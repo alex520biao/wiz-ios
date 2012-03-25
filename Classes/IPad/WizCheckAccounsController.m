@@ -9,6 +9,7 @@
 #import "WizCheckAccounsController.h"
 #import "WizSettings.h"
 #import "WizNotification.h"
+#import "WizGlobals.h"
 @implementation WizCheckAccounsController
 @synthesize accounts;
 
@@ -45,13 +46,15 @@
 {
     [super viewDidLoad];
     self.accounts = [WizSettings accounts];
-    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
-                                                                     style:UIBarButtonItemStyleDone
-                                                                    target:self 
-                                                                    action:@selector(cancel)];
-
-	self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
+    if (WizDeviceIsPad()) {
+        UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
+                                                                         style:UIBarButtonItemStyleDone
+                                                                        target:self 
+                                                                        action:@selector(cancel)];
+        
+        self.navigationItem.leftBarButtonItem = cancelButton;
+        [cancelButton release];
+    }
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  

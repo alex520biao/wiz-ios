@@ -25,7 +25,7 @@
     UIButton* checkOtherAccountButton;
     NSArray* accountsArray;
     NSString* selecteAccountId;
-    BOOL willChangedUser;
+    BOOL firstLoad;
     BOOL willAddUser;
 }
 @property (nonatomic, retain) IBOutlet UITableViewCell* userNameCell;
@@ -43,13 +43,12 @@
 @property (nonatomic, retain) UITableView* contentTableView;
 @property (nonatomic, retain) NSArray* accountsArray;
 @property (nonatomic, retain)   NSString* selecteAccountId;
-@property (assign)  BOOL willChangedUser;
+@property (assign)  BOOL firstLoad;
 @property (assign)  BOOL willAddUser;
 - (void) xmlrpcDone: (NSNotification*)nc;
 - (IBAction)userLogin:(id)sender;
 - (void)addAccountEntry;
 - (IBAction) getNewAccount:(id)sender;
 - (IBAction) checkOtherAccounts:(id)sender;
-- (void) didSelectedAccount:(NSNotification*)nc;
 
 @end

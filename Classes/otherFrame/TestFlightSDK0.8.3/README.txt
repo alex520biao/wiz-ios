@@ -194,7 +194,7 @@ That will do a switch from NSLog to TFLog, if you want more information, such as
 
 Which will produce output that looks like
 
-    -[HTFCheckpointsController showYesNoQuestion:] [Line 45] Pressed YES/NO
+    -[HTFCheckpointsController showYesNoQuestion:] [Line 45] Pressed YES/NO/Users/wiz/Workplace/wiz-ios/Wiz.xcodeproj
 
 We have implemented three different loggers.
 

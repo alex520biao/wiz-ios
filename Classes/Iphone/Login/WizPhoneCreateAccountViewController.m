@@ -14,7 +14,6 @@
 #import "WizGlobalData.h"
 #import "WizIndex.h"
 #import "PickViewController.h"
-#import "LoginViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizInputView.h"
 #import "WizNotification.h"
@@ -234,7 +233,7 @@
 		{
 			[WizSettings addAccount:name password:password];
             [self.navigationController dismissModalViewControllerAnimated:NO];
-            [WizNotificationCenter postDidSelectedAccountMessage:name];
+            [WizNotificationCenter postPadSelectedAccountMessge:name];
             
 		}
 		else {

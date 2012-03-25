@@ -15,3 +15,5 @@
 
 #define UserInfoTypeOfDocumentGUID @"MessageDataTypeOfDocumentGUID"
 #define MessageInfoOfDidSelectedAccountUserId @"accountUserId"
+
+#define MessageTypeOfIphoneSetupAccount     @"MessageTypeOfIphoneSetupAccount"
