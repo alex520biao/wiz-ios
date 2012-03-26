@@ -13,8 +13,6 @@
     @private
     UIButton* checkExistAccountsButton;
 }
-@property (nonatomic, retain) IBOutlet UIButton* checkExistAccountsButton;
-- (IBAction)cheackExistAccount:(id)sender;
 - (IBAction)signInAccount:(id)sender;
 - (IBAction)registerAccount:(id)sender;
 @end

@@ -947,11 +947,11 @@
 				73A7849914F8CC22001387F6 /* WizCheckAccounsController.m */,
 				73A784AC14F8CC22001387F6 /* WizPadLoginViewController.h */,
 				73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */,
+				737B5319151EFF0900CE3656 /* WizPadLoginViewController.xib */,
 				73A784B314F8CC22001387F6 /* WizPadRegisterController.h */,
 				73A784B414F8CC22001387F6 /* WizPadRegisterController.m */,
 				73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */,
 				73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */,
-				737B5319151EFF0900CE3656 /* WizPadLoginViewController.xib */,
 			);
 			name = Accounts;
 			sourceTree = "<group>";

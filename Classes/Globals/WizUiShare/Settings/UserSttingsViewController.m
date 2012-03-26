@@ -97,10 +97,6 @@
 
 - (void) saveSettings
 {
-
-    
-   
-
     if (!WizDeviceIsPad()) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -256,16 +252,31 @@
     self.downloadDurationData = downloadDurationItems;
     self.downloadDurationRemind = downloadDurationRemind_;
 }
+- (void) logOutCurrentAccount
+{
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [WizSettings logoutAccount:self.accountUserId];
+    WizLog(@"will log out");
+    if (WizDeviceIsPad()) {
+        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+        return;
+    }
+    else
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+- (void) buildNavItems
+{
+    UIBarButtonItem* logoutItem = [[UIBarButtonItem alloc] initWithTitle:WizStrLogOut style:UIBarButtonItemStyleDone target:self action:@selector(logOutCurrentAccount)];
+    self.navigationItem.rightBarButtonItem = logoutItem;
+    [logoutItem release];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    if (!WizDeviceIsPad()) {
-//        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-//                                                                                      target:self action:@selector(cancelSettings)];
-//        self.navigationItem.leftBarButtonItem = cancelButton;
-//        [cancelButton release];
-//    }  
     [self buildDisplayInfo];
+    [self buildNavItems];
     self.title = WizStrSettings;
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
     self.protectCellNameLabel.text = NSLocalizedString(@"App launch protection", nil);
@@ -339,7 +350,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -359,8 +370,6 @@
         case 3:
             return 3;
         case 4:
-            return 1;
-        case 5:
             return 4;
         default:
             return 0;
@@ -378,8 +387,6 @@
     else if (3 == section)
 		return [NSString stringWithString: WizStrSettings];
 	else if (4 == section)
-		return [NSString stringWithString: WizStrSwitchAccounts];
-	else if (5 == section)
 		return [NSString stringWithString: NSLocalizedString(@"Help", nil)];
 	else
 		return nil;
@@ -490,32 +497,25 @@
     {
         return self.protectCell;
     }
-
     else if (0 == indexPath.row && 4 == indexPath.section)
-    {
-        cell.textLabel.text =WizStrSwitchAccounts;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        return cell;
-    }
-    else if (0 == indexPath.row && 5 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"About WizNote", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (1 == indexPath.row && 5 == indexPath.section)
+    else if (1 == indexPath.row && 4 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"User Manual", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (2 == indexPath.row && 5 == indexPath.section)
+    else if (2 == indexPath.row && 4 == indexPath.section)
     {
         cell.textLabel.text =NSLocalizedString( @"Feedback", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
-    else if (3 == indexPath.row && 5 == indexPath.section)
+    else if (3 == indexPath.row && 4 == indexPath.section)
     {
         cell.textLabel.text =WizStrRateWizNote;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -681,8 +681,6 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    
     if ( 4 == indexPath.row && 0 == indexPath.section)
     {
         [self changeUserPassword];
@@ -739,18 +737,7 @@
     {
         [self clearCache];
     }
-    else if (0 == indexPath.row && 4 == indexPath.section) 
-    {
-        if (WizDeviceIsPad()) {
-            [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-            return;
-        }
-        else
-        {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }
-    }
-    else if ( (0 == indexPath.row ||1 == indexPath.row) && 5 == indexPath.section) { 
+    else if ( (0 == indexPath.row ||1 == indexPath.row) && 4 == indexPath.section) { 
         NSURL* url = nil;
         NSString* key = nil;
         if (0 == indexPath.row) {
@@ -773,10 +760,10 @@
         [web release];
         [con release];
     }
-    else if (2 == indexPath.row && 5 == indexPath.section) {
+    else if (2 == indexPath.row && 4 == indexPath.section) {
         [self sendFeedback];
     }
-    else if (3 == indexPath.row && 5 == indexPath.section)
+    else if (3 == indexPath.row && 4 == indexPath.section)
     {
         [self rateWizNote];
     }

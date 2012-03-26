@@ -1732,8 +1732,24 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     return index.DeleteAttachment([attachGuid UTF8String]) ? YES : NO;
 }
+- (void) versionUpdateSettings
+{
+    NSString* wizNoteVersion = [WizGlobals wizNoteVersion];
+    NSString* wizUpgradeVersion = [self wizUpgradeAppVersion];
+    if (![wizNoteVersion isEqualToString:wizUpgradeVersion]) {
+        NSArray* accounts = [WizSettings accounts];
+        for (int i=0 ; i<[accounts count]; i++) {
+            NSString* accountId = [WizSettings accountUserIdAtIndex:accounts index:i];
+            if (![accountId isEqualToString:self.accountUserId]) {
+                [WizSettings logoutAccount:accountId];
+            }
+        }
+        [self setWizUpgradeAppVersion:WizNoteAppVerSion];
+    }
+}
 - (void) initAccountSetting
 {
+    [self versionUpdateSettings];
     if (![WizGlobals WizDeviceIsPad] ) {
         if ([self imageQualityValue] == 0) {
             [self setDownloadAllList:YES];
@@ -1864,6 +1880,7 @@ static NSString* ImageQuality                   = @"IMAGEQUALITY";
 static NSString* ProtectPssword                 = @"PROTECTPASSWORD";
 static NSString* FirstLog                       = @"UserFirstLog";
 static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
+static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
 - (int64_t) syncVersion:(NSString*)type
 {
 	NSString* str = [self meta:KeyOfSyncVersion key:type];
@@ -2128,8 +2145,20 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
 {
     return [self userInfo:UserPoints];
 }
-
-
+- (NSString*) wizUpgradeAppVersion
+{
+    NSString* ver = [self userInfo:WizNoteAppVerSion];
+    if (!ver) {
+        return @"";
+    }
+    else {
+        return ver;
+    }
+}
+- (BOOL) setWizUpgradeAppVersion:(NSString*)ver
+{
+    return [self setUserInfo:ver info:WizNoteAppVerSion];
+}
 
 - (int64_t) durationForDownloadDocument
 {

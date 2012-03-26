@@ -78,5 +78,6 @@
 #define WizStrAreyousureyouwanttoquit                   NSLocalizedString(@"Are you sure you want to discard the changes?", nil)
 #define WizStrQuitwithoutsaving                         NSLocalizedString(@"Close without saving", nil)
 #define WizStrRateWizNote                               NSLocalizedString(@"Rate WizNote", nil)
-#define WizStrThePasswordDontMatch                  NSLocalizedString(@"The password you supplied don't match!", nil)
+#define WizStrThePasswordDontMatch                      NSLocalizedString(@"The password you supplied don't match!", nil)
+#define WizStrLogOut                                    NSLocalizedString(@"Logout", nil)
 NSString* getTagDisplayName(NSString* tagName);

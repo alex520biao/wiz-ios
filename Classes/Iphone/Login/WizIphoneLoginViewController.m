@@ -23,7 +23,6 @@
 @end
 
 @implementation WizIphoneLoginViewController
-@synthesize checkExistAccountsButton;
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
@@ -110,12 +109,6 @@
         firstLoad = NO;
     }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    if ([[WizSettings accounts] count]) {
-        self.checkExistAccountsButton.hidden = NO;
-    }
-    else {
-        self.checkExistAccountsButton.hidden = YES;
-    }
 }
 
 - (void) viewDidAppear:(BOOL)animated

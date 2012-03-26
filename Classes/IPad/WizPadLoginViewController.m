@@ -22,7 +22,6 @@
 @synthesize loginButton;
 @synthesize backgroudView;
 @synthesize registerButton;
-@synthesize checkExistedAccountButton;
 @synthesize CripytLabel;
 - (void) dealloc
 {
@@ -32,7 +31,6 @@
     self.loginButton = nil;
     self.backgroudView = nil;
     self.registerButton = nil;
-    self.checkExistedAccountButton = nil;
     [super dealloc];
 }
 - (void) setFrames:(UIInterfaceOrientation)interface
@@ -42,7 +40,6 @@
         self.backgroudView.image = [UIImage imageNamed:@"Default-Landscape~ipad"];
         self.loginButton.frame = CGRectMake(292, 660, 220, 40);
         self.registerButton.frame = CGRectMake(522, 660, 220, 40);
-        self.checkExistedAccountButton.frame = CGRectMake(402, 530, 220, 40);
         self.CripytLabel.frame = CGRectMake(412, 724, 200, 21);
     }
     else
@@ -51,7 +48,6 @@
         self.backgroudView.image = [UIImage imageNamed:@"Default-Portrait~ipad"];
         self.loginButton.frame = CGRectMake(160, 875, 220, 40);
         self.registerButton.frame = CGRectMake(390, 875, 220, 40);
-        self.checkExistedAccountButton.frame = CGRectMake(274, 630, 220, 40);
         self.CripytLabel.frame = CGRectMake(284, 972, 200, 21);
     }
 }
@@ -119,13 +115,6 @@
 {
     [super viewWillAppear:animated];
     [self setFrames:self.interfaceOrientation];
-    if ([[WizSettings accounts] count]) {
-        self.checkExistedAccountButton.hidden = NO;
-    }
-    else
-    {
-        self.checkExistedAccountButton.hidden = YES;
-    }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     if ([[WizSettings accounts] count]) {
         if (firstLoad) {
@@ -176,7 +165,6 @@
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:WizStrCreateAccount forState:UIControlStateNormal];
-    [self.checkExistedAccountButton setTitle:WizStrSwitchAccounts forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
     [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
 

@@ -480,7 +480,7 @@ static NSArray* excelArray;
 //    NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];  
 //    // app build版本  
     NSString *build = [infoDictionary objectForKey:@"CFBundleVersion"];
-    if (build) {
+    if (!build) {
         build = @"3.1";
     }
     return build;

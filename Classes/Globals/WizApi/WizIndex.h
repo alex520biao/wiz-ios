@@ -283,7 +283,8 @@ enum
 - (BOOL) connectOnlyViaWifi;
 //2012-3-8
 - (NSString*) newDocumentWithOneAttachment:(NSURL*)fileUrl;
-
+- (NSString*) wizUpgradeAppVersion;
+- (BOOL) setWizUpgradeAppVersion:(NSString*)ver;
 
 
 + (NSString*) accountTempFileName:(NSString*)userId;
