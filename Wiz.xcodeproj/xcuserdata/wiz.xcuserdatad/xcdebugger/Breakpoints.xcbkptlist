@@ -820,12 +820,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "295"
-         endingLineNumber = "295"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "297"
+         endingLineNumber = "297"
+         landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -875,45 +875,6 @@
          timestampString = "352374161.916195"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "126"
-         endingLineNumber = "126"
-         landmarkName = "-connection:didReceiveData:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/otherFrame/xml-rpc/XMLRPCConnection.m"
-         timestampString = "352374161.916195"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "132"
-         endingLineNumber = "132"
-         landmarkName = "-connection:didFailWithError:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/otherFrame/xml-rpc/XMLRPCConnection.m"
-         timestampString = "352374161.916195"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
-         landmarkName = "-connectionDidFinishLoading:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/otherFrame/xml-rpc/XMLRPCConnection.m"
-         timestampString = "352374161.916195"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
          startingLineNumber = "93"
          endingLineNumber = "93"
          landmarkName = "-cancel"
@@ -950,11 +911,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizGlobals.m"
-         timestampString = "354346240.750622"
+         timestampString = "354429017.921104"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "502"
-         endingLineNumber = "502"
+         startingLineNumber = "503"
+         endingLineNumber = "503"
          landmarkName = "+deleteFile:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -976,11 +937,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizApi.m"
-         timestampString = "354081839.152693"
+         timestampString = "354441702.397607"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1348"
-         endingLineNumber = "1348"
+         startingLineNumber = "1385"
+         endingLineNumber = "1385"
          landmarkName = "-cancel"
          landmarkType = "5">
       </FileBreakpoint>
@@ -989,11 +950,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizApi.m"
-         timestampString = "354081839.152693"
+         timestampString = "354441702.397607"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1350"
-         endingLineNumber = "1350"
+         startingLineNumber = "1387"
+         endingLineNumber = "1387"
          landmarkName = "-cancel"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1067,12 +1028,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "547"
-         endingLineNumber = "547"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "549"
+         endingLineNumber = "549"
+         landmarkName = "-makeSureProtectPassword:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1327,12 +1288,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "278"
-         endingLineNumber = "278"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "280"
+         endingLineNumber = "280"
+         landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1340,12 +1301,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "381"
-         endingLineNumber = "381"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "383"
+         endingLineNumber = "383"
+         landmarkName = "-tableView:titleForHeaderInSection:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1353,12 +1314,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "397"
-         endingLineNumber = "397"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "399"
+         endingLineNumber = "399"
+         landmarkName = "-setStringDisplayWidth::"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1366,12 +1327,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "408"
-         endingLineNumber = "408"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "410"
+         endingLineNumber = "410"
+         landmarkName = "-formatteStringToDisplay::"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1379,12 +1340,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/Settings/UserSttingsViewController.m"
-         timestampString = "354424271.444025"
+         timestampString = "354428924.740334"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "414"
-         endingLineNumber = "414"
-         landmarkName = "-logOutCurrentAccount"
+         startingLineNumber = "416"
+         endingLineNumber = "416"
+         landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1700,16 +1661,42 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/otherFrame/xml-rpc/XMLRPCResponse.m"
+         timestampString = "354441702.397607"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "249"
+         endingLineNumber = "249"
+         landmarkName = "-decodeXML:fault:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizGlobals.m"
-         timestampString = "354425889.131842"
+         timestampString = "354429017.921104"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "520"
-         endingLineNumber = "520"
+         startingLineNumber = "521"
+         endingLineNumber = "521"
          landmarkName = "+reportError:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizApi.m"
+         timestampString = "354429734.890318"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1352"
+         endingLineNumber = "1352"
+         landmarkName = "-onError:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

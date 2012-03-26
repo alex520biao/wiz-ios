@@ -159,7 +159,6 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 		[WizSettings changeAccountPassword:userId password:password];
 		return;
 	}
-	//
 	NSArray* exitsAccounts = [WizSettings accounts];
 	//
 	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password, KeyOfPassword, nil];

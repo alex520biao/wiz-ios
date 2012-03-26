@@ -257,6 +257,8 @@
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [WizSettings logoutAccount:self.accountUserId];
     WizLog(@"will log out");
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [index close];
     if (WizDeviceIsPad()) {
         [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
         return;

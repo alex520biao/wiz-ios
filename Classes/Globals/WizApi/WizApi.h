@@ -42,7 +42,7 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 
 
 
-@interface WizApi : NSObject {
+@interface WizApi : NSObject <UIAlertViewDelegate>{
 	NSString* token;
 	NSString* kbguid;
 	NSURL* accountURL;

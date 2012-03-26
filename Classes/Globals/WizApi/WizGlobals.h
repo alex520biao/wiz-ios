@@ -73,7 +73,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (NSString*) getWizObjectTypeFromName:(NSString*)objectName;
 + (BOOL) copyFileToDocumentIndexfiles:(NSString *)filePath   toDocument:(NSString*)documentGUID   accountUserId:(NSString*)accountUserId;
 + (void) toLog:(NSString*)log;
-
++ (void) changeAccountLocalPassword;
 @end
 
 

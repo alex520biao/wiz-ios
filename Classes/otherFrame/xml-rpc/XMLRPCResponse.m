@@ -49,10 +49,10 @@
 }
 
 
--(id) reportCallError: (NSString*)msg
+-(id) reportCallError: (NSString*)msg faultCode:(int)faultCode
 {
 	NSDictionary *usrInfo = [NSDictionary dictionaryWithObjectsAndKeys:msg, NSLocalizedDescriptionKey, nil];
-	return [NSError errorWithDomain:@"come.effigent.iphone.parseerror" code:-1 userInfo:usrInfo];
+	return [NSError errorWithDomain:@"error.wiz.cn" code:faultCode userInfo:usrInfo];
 }
 
 
@@ -243,9 +243,10 @@
 		//
 		NSDictionary* error = [self decodeValueNode: nodeValue];
 		//
+        NSNumber* faultCode = [error valueForKey:@"faultCode"];
 		NSString* msg = [error valueForKey:@"faultString"];
 		//
-		return [self reportCallError:msg];
+		return [self reportCallError:msg faultCode:[faultCode intValue]];
 	}
 	else if ([childName isEqualToString:@"params"])
 	{

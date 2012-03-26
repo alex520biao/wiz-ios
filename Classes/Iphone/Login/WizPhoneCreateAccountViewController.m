@@ -151,7 +151,7 @@
 {
     [super viewDidLoad];
     
-    UIImageView* logi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title"]];
+    UIImageView* logi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title1"]];
     logi.frame = CGRectMake(0.0, 20, 320, 40);
     [self.view addSubview:logi];
     [logi release];

@@ -439,7 +439,10 @@ static NSArray* excelArray;
 	//
 	return documentDirectory;
 }
++ (void) changeAccountLocalPassword
+{
 
+}
 +(void) showAlertView:(NSString*)title message:(NSString*)message delegate: (id)callback retView:(UIAlertView**) pAlertView
 {
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:callback cancelButtonTitle:nil otherButtonTitles:nil];
@@ -447,9 +450,7 @@ static NSArray* excelArray;
 	//
 	[alert addSubview:progress];
     [progress release];
-	//
 	[alert show];
-	//
 	CGRect rc = alert.frame;
 	//
 	CGPoint pt = CGPointMake(rc.size.width / 2 - 14 , rc.size.height / 2 + 10);
