@@ -34,62 +34,9 @@ enum
 
 
 
-@interface WizTag : NSObject
-{
-	NSString* name;
-	NSString* guid;
-	NSString* parentGUID;
-	NSString* description;
-	NSString* namePath;
-    int       localChanged;
-    NSString*   dtInfoModified;
-}
 
-@property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSString* guid;
-@property (nonatomic, retain) NSString* parentGUID;
-@property (nonatomic, retain) NSString* description;
-@property (nonatomic, retain) NSString* namePath;
-@property (nonatomic, retain) NSString*   dtInfoModified;
-@property int localChanged;
 
-@end
 
-@interface WizDocument : NSObject 
-{
-	NSString* guid;
-	NSString* title;
-	NSString* location;
-	NSString* url;
-	NSString* dateCreated;
-	NSString* dateModified;
-	NSString* type;
-	NSString* fileType;
-    NSString* tagGuids;
-    BOOL serverChanged;
-    BOOL localChanged;
-	int attachmentCount;
-}
-
-@property (nonatomic, retain) NSString* guid;
-@property (nonatomic, retain) NSString* title;
-@property (nonatomic, retain) NSString* location;
-@property (nonatomic, retain) NSString* url;
-@property (nonatomic, retain) NSString* dateCreated;
-@property (nonatomic, retain) NSString* dateModified;
-@property (nonatomic, retain) NSString* type;
-@property (nonatomic, retain) NSString* fileType;
-@property (nonatomic, retain) NSString* tagGuids;
-@property (assign) BOOL serverChanged;
-@property (assign) BOOL localChanged;
-@property int attachmentCount;
-- (NSComparisonResult) compareDate:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseDate:(WizDocument*) doc;
-- (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
-- (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
-@end
 
 @interface WizDeletedGUID : NSObject
 {
@@ -105,27 +52,7 @@ enum
 
 @end
 
-@interface WizDocumentAttach : NSObject {
-    NSString* attachmentGuid;
-    NSString* attachmentType;
-    NSString* attachmentName;
-    NSString* attachmentDataMd5;
-    NSString* attachmentDescription;
-    NSString* attachmentModifiedDate;
-    NSString* attachmentDocumentGuid;
-    BOOL      serverChanged;
-    BOOL      localChanged;
-}
-@property (nonatomic, retain) NSString* attachmentGuid;
-@property (nonatomic, retain) NSString* attachmentType;
-@property (nonatomic, retain) NSString* attachmentName;
-@property (nonatomic, retain) NSString* attachmentDataMd5;
-@property (nonatomic, retain) NSString* attachmentDescription;
-@property (nonatomic, retain) NSString* attachmentModifiedDate;
-@property (nonatomic, retain) NSString* attachmentDocumentGuid;
-@property (assign) BOOL      serverChanged;
-@property (assign) BOOL      localChanged;
-@end
+
 
 
 @interface WizIndex : NSObject {
@@ -284,7 +211,7 @@ enum
 //2012-3-8
 - (NSString*) newDocumentWithOneAttachment:(NSString*)fileSourePath;
 
-
++ (NSString*) downloadObjectTempFilePath:(NSString*)objGUID;
 
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
@@ -299,7 +226,7 @@ enum
 + (NSString*) locationLocaleName:(NSString*)location;
 + (NSString*) pinyinFirstLetter:(NSString*)string;
 -(BOOL) addToZipFile:(NSString*)directory directoryName:(NSString*)name zipFile:(ZipArchive*) zip;
-
++ (NSString*) objectDirectoryPath:(NSString*)guid;
 @end
 
 @interface WizIndex (WizOrder)

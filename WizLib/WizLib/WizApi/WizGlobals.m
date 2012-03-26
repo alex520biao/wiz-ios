@@ -9,7 +9,8 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizIndex.h"
-
+#import "pinyin.h"
+#import "ZipArchive.h"
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 
 #define MD5PART 10*1024
@@ -21,7 +22,28 @@ static NSArray* textArray;
 static NSArray* imageArray;
 static NSArray* excelArray;
 
-
++ (BOOL) unzipToPath:(NSString*)sourcePath  targetPath:(NSString*)targetPath
+{
+    ZipArchive* zip = [[ZipArchive alloc] init];
+    [zip UnzipOpenFile:sourcePath];
+    BOOL zipResult = [zip UnzipFileTo:targetPath overWrite:YES];
+    [zip UnzipCloseFile];
+    [zip release];
+    if (!zipResult) {
+        if ([WizGlobals checkFileIsEncry:sourcePath]) {
+            return YES;
+        }
+        else {
+            [WizGlobals deleteFile:sourcePath];
+            return NO;
+        }
+    }
+    else {
+        [WizGlobals deleteFile:sourcePath];
+        return YES;
+    }
+    return YES;
+}
 + (float) WizDeviceVersion
 {
     return [[[UIDevice currentDevice] systemVersion] floatValue];
@@ -60,6 +82,15 @@ static NSArray* excelArray;
 + (NSString*) attachmentKeyString
 {
     return @"attachment";
+}
++(NSString*) md5:(NSData *)input {
+    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(input.bytes, input.length, md5Buffer);
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH *2];
+    for(int i =0; i <CC_MD5_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x",md5Buffer[i]];
+    }
+    return  output;
 }
 +(NSString*)fileMD5:(NSString*)path  
 {  
@@ -209,6 +240,10 @@ static NSArray* excelArray;
 + (BOOL) checkAttachmentTypeIsAudio:(NSString *)attachmentType
 {
     return [WizGlobals checkAttachmentTypeInTypeArray:attachmentType typeArray:[WizGlobals audioArray]];
+}
++ (NSString*) pinyinFirstLetter:(NSString *)string
+{
+    return  [[NSString stringWithFormat:@"%c",pinyinFirstLetter([string characterAtIndex:0])] uppercaseString];
 }
 + (NSArray*) imageArray
 {

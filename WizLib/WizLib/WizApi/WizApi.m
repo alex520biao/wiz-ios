@@ -53,13 +53,6 @@
 @synthesize apiURL;
 @synthesize accountUserId;
 @synthesize accountPassword;
-@synthesize currentUploadDocumentGUID;
-@synthesize currentDownloadDocumentGUID;
-@synthesize currentObjType;
-@synthesize currentStarPos;
-@synthesize currentDownloadObjectGUID;
-@synthesize cureentUploadObjectGUID;
-@synthesize currentUploadTempFilePath;
 @synthesize connectionXmlrpc;
 -(id) initWithAccount: (NSString*)userId password: (NSString*)password
 {
@@ -85,11 +78,6 @@
 	self.accountUserId = nil;
 	self.accountPassword = nil;
 	//
-	self.currentUploadDocumentGUID = nil;
-	//
-    self.currentDownloadObjectGUID = nil;
-    self.currentObjType = nil;
-    self.currentStarPos = nil;
 	[super dealloc];
 }
 
@@ -255,8 +243,7 @@
 	[self addCommonParams:postParams];
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
-    [self postSyncLoginBegin];
+    [WizNotificationCenter postSyncLoginBegin];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_ClientLogin args:args];
 }
 -(void) onClientLogin: (id)retObject
@@ -270,20 +257,17 @@
 	self.apiURL = urlAPI;
 	[urlAPI release];
 	self.kbguid = [userInfo valueForKey:@"kb_guid"];
-    
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSNumber* userPoints = [userInfo objectForKey:@"user_points"];
     NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
     NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
     NSString* userType = [userInfo objectForKey:@"user_type"];
-    
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [index setUserLevel:[userLevel intValue]];
     [index setUserLevelName:userLevelName];
     [index setUserType:userType];
     [index setUserPoints:[userPoints longLongValue]];
     
-
-    [self postSyncLoginEnd];
+    [WizNotificationCenter postSyncLoginEnd];
 }
 -(BOOL) callClientLogout
 {
@@ -295,12 +279,12 @@
 	[self addCommonParams:postParams];
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	[self postSyncLogoutBegin];
+	[WizNotificationCenter postSyncLogoutBegin];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_ClientLogout args:args];
 }
 -(void) onClientLogout: (id)retObject
 {
-    [self postSyncLogoutEnd];
+    [WizNotificationCenter postSyncLogoutEnd];
 }
 
 -(BOOL) callGetUserInfo
@@ -311,7 +295,6 @@
 	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
-	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_GetUserInfo args:args];
 }
@@ -337,7 +320,7 @@
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetAllCategoriesBegin];
+    [WizNotificationCenter postSyncGetAllCategoriesBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAllCategories args:args];
 }
 
@@ -353,7 +336,7 @@
 	//
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	[index updateLocations: arrCategory];
-    [self postSyncGetAllCategoriesEnd];
+    [WizNotificationCenter postSyncGetAllCategoriesEnd];
 }
 -(BOOL) callAllTags
 {
@@ -379,7 +362,7 @@
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetTagsListBegin:version requsetCount:[self listCount]];
+    [WizNotificationCenter postSyncGetTagsListBegin:version requsetCount:[self listCount]];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAllTags args:args];
 }
 
@@ -394,16 +377,14 @@
     {
         NSString* verString = [dict valueForKey:@"version"];
         int64_t ver = [verString longLongValue];
-        
         if (ver > newVer)
         {
             newVer = ver;
         }
     }
-    //
     if(0 != newVer)
         [index setTageVersion:newVer + 1];
-    [self postSyncGetTagsListEnd:1];
+    [WizNotificationCenter postSyncGetTagsListEnd:newVer+1];
 	[index updateTags:obj];
 }
 
@@ -437,14 +418,14 @@
     [tagTemp release];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncUploadTagListBegin];
+    [WizNotificationCenter postSyncUploadTagListBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_PostTagList args:args];
     
 }
 
 -(void) onPostTagList:(id)retObject
 {
-    [self postSyncUploadTagListEnd];
+    [WizNotificationCenter postSyncUploadTagListEnd];
 }
 
 -(BOOL) callDownloadDocumentList
@@ -471,7 +452,7 @@
 	//
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetDocumentListBegin:version requsetCount:[self listCount]];
+    [WizNotificationCenter postSyncGetDocumentListBegin:version requsetCount:[self listCount]];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDocumentList args:args];
 }
 -(void) onDownloadDocumentList: (id)retObject
@@ -501,7 +482,7 @@
             [index setDocumentVersion:newVer + 1];
             
         }
-        [self postSyncGetDocumentListEnd:newVer+1];
+        [WizNotificationCenter postSyncGetDocumentListEnd:newVer];
 	}
 }
 
@@ -532,7 +513,7 @@
     
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetAttachmentListBegin:version requsetCount:[self listCount]];
+    [WizNotificationCenter postSyncGetAttachmentListBegin:version requsetCount:[self listCount]];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAttachmentList args:args];
 }
 
@@ -561,7 +542,7 @@
     if(0 != newVer)
         [index setAttachmentVersion:newVer + 1];
     [dicMutableArray release];
-    [self postSyncGetAttachmentListEnd:1];
+    [WizNotificationCenter postSyncGetAttachmentListEnd:newVer+1];
 }
 
 
@@ -587,7 +568,7 @@
 	//
     BOOL ret = [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDeletedList args:args];
     
-    [self postSyncDeletedListBegin];
+    [WizNotificationCenter postSyncDownloadDeletedListBegin];
 	return  ret;
 }
 -(void) onDownloadDeletedList: (id)retObject
@@ -622,7 +603,7 @@
 	}
 	
 	//
-    [self postSyncDeletedListEnd];
+    [WizNotificationCenter postSyncDownloadDeletedListEnd];
 	[index setDeletedGUIDVersion:newVer + 1];
 }
 
@@ -639,7 +620,7 @@
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetDocumentByCategoryBegin];
+    [WizNotificationCenter postSyncGetDocumentByCategoryBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByCategory args:args];
 	
 }
@@ -650,7 +631,7 @@
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
 	[index updateDocuments:obj];
-    [self postSyncGetDocumentByCategoryEnd];
+    [WizNotificationCenter postSyncGetDocumentByCategoryEnd];
 }
 -(BOOL) callDocumentsByTag:(NSString*)tagGUID
 {
@@ -665,7 +646,7 @@
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetDocumentByTagBegin];
+    [WizNotificationCenter postSyncGetDocumentByTagBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByTag args:args];
 }
 -(void) onDocumentsByTag: (id)retObject
@@ -674,7 +655,7 @@
 	//
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
-    [self postSyncGetDocumentByTagEnd];
+    [WizNotificationCenter postSyncGetDocumentByTagEnd];
 	[index updateDocuments:obj];
 }
 
@@ -693,7 +674,7 @@
 	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncGetDocumentByKeyBegin];
+    [WizNotificationCenter postSyncGetDocumentByKeyBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByKey args:args];
 }
 -(void) onDocumentsByKey: (id)retObject
@@ -702,7 +683,7 @@
 	//
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
-    [self postSyncGetDocumentByKeyEnd];
+    [WizNotificationCenter postSyncGetDocumentByKeyEnd];
 	[index updateDocuments:obj];
 }
 
@@ -712,9 +693,6 @@
     if (self.token == nil || [self.token length] == 0) {
 		return NO;
 	}
-    self.currentDownloadObjectGUID = objectGUID;
-    self.currentStarPos = [NSNumber numberWithInt:startPos];
-    self.currentObjType = objType;
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
     [postParams setObject:objectGUID forKey:@"obj_guid"];
@@ -725,49 +703,8 @@
     return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadObject args:args];
 }
 
--(NSMutableDictionary*) onDownloadObject:(id)retObject {
-    NSDictionary* obj = retObject;
-    NSData* data = [obj valueForKey:@"data"];
-    NSNumber* objSize = [obj valueForKey:@"obj_size"];
-    NSNumber* eofPre = [obj valueForKey:@"eof"];
-    BOOL eof = [eofPre intValue]? YES:NO;
-    NSString* serverMd5 = [obj valueForKey:@"part_md5"];
-    NSString* localMd5 = [WizApi md5:data];
-    NSNumber* succeed = [NSNumber numberWithInt:[serverMd5 isEqualToString:localMd5]?1:0];
+-(void) onDownloadObject:(id)retObject {
     
-    if([succeed intValue])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        
-        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.currentDownloadObjectGUID];
-        //
-        [WizGlobals ensurePathExists:objectPath];
-        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"temp.zip"];
-        NSNumber* currentObjectSize = [index appendObjectDataByPath:fileNamePath data:data]; //返回当前文件大小
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:TypeOfDownloadDocumentDicMsgIsSucceed];
-        [result setObject:objSize forKey:TypeOfDownloadDocumentDicMsgObjSize];
-        if(eof) {
-            if ([index  updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID]) {
-                [result setObject:[NSNumber numberWithInt:1] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
-            }
-            else {
-                [result setObject:[NSNumber numberWithInt:0] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
-            }
-        }
-        [result setObject:currentObjectSize forKey:TypeOfDownloadDocumentDicMsgCurrentSize];
-        return [result autorelease];
-
-    }
-    else
-    {
-
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:@"is_succeed"];
-        [result setObject:objSize forKey:@"obj_size"];
-        [result setObject:[NSNumber numberWithInt:0] forKey:@"current_size"];
-        return [result autorelease];
-    }
     
 }
 
@@ -784,9 +721,7 @@
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
 	[postParams setObject:documentGUID forKey:@"document_guid"];
-	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadMobileData args:args];
 }
 -(void) onDownloadMobileData: (id)retObject
@@ -951,7 +886,7 @@
 	//
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
-    [self postSyncUploadDeletedListBegin];
+    [WizNotificationCenter postSyncUploadDeletedListBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadDeletedList args:args];
 	
 }
@@ -959,7 +894,7 @@
 {
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
-    [self postSyncUploadDeletedListEnd];
+    [WizNotificationCenter postSyncUploadDeletedListEnd];
 	[index clearDeletedGUIDs];
 }
 
@@ -978,7 +913,6 @@
     [postParams setObject:password forKey:TypeOfChangePasswordNewPassword];
     [self addCommonParams:postParams];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_ChangeAccountPassword args:args];
 }
 
@@ -1084,13 +1018,13 @@
     [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_info"];
     [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_data"];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-    [self postSyncUploadAttachmentInfoBegin];
+    [WizNotificationCenter postSyncUploadAttachmentInfoBegin];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_AttachmentPostSimpleData args:args];
 }
 
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    [self postSyncUploadAttachmentInfoEnd];
+    [WizNotificationCenter postSyncUploadAttachmentInfoEnd];
 }
 
 

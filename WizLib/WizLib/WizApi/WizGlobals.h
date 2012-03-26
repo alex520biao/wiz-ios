@@ -68,6 +68,9 @@
 + (BOOL) checkAttachmentTypeIsTxt:(NSString*)attachmentType;
 + (NSString*) wizNoteVersion;
 + (NSString*) localLanguageKey;
++(NSString*) md5:(NSData *)input;
++ (NSString*) pinyinFirstLetter:(NSString *)string;
++ (BOOL) unzipToPath:(NSString*)sourcePath  targetPath:(NSString*)targetPath;
 @end
 
 

@@ -6,4 +6,6 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
     #import "CommonString.h"
+    #import "WizNotification.h"
+    #import "WizActiveUserManager.h"
 #endif

@@ -54,131 +54,9 @@ NSInteger compareTag(id location1, id location2, void*);
 @end
 
 
-@implementation WizTag
-
-@synthesize name;
-@synthesize guid;
-@synthesize parentGUID;
-@synthesize description;
-@synthesize namePath;
-@synthesize dtInfoModified;
-@synthesize localChanged;
-
-- (void) dealloc
-{
-	self.name = nil;
-	self.guid = nil;
-	self.parentGUID = nil;
-	self.description = nil;
-	self.namePath = nil;
-	[super dealloc];
-}
 
 
-- (id) initFromWizTagData: (const WIZTAGDATA&) data
-{
-	if (self = [super init])
-	{
-		self.guid = [[[NSString alloc] initWithUTF8String: data.strGUID.c_str()] autorelease];
-		self.parentGUID = [[[NSString alloc] initWithUTF8String: data.strParentGUID.c_str()] autorelease];
-		self.name = [[[NSString alloc] initWithUTF8String: data.strName.c_str()] autorelease];
-		self.description = [[[NSString alloc] initWithUTF8String: data.strDescription.c_str()] autorelease];
-		self.namePath = [[[NSString alloc] initWithUTF8String: data.strNamePath.c_str()] autorelease];
-        self.localChanged = data.localchanged;
-        self.dtInfoModified = [[[NSString alloc] initWithUTF8String:data.strDtInfoModified.c_str()] autorelease];
-        
-	}
-	return self;
-}
 
-
-@end
-
-
-@implementation WizDocument
-
-@synthesize guid;
-@synthesize title;
-@synthesize location;
-@synthesize url;
-@synthesize dateCreated;
-@synthesize dateModified;
-@synthesize type;
-@synthesize fileType;
-@synthesize attachmentCount;
-@synthesize tagGuids;
-@synthesize serverChanged;
-@synthesize localChanged;
--(void) dealloc
-{
-	self.guid = nil;
-	self.title = nil;
-	self.location = nil;
-	self.url = nil;
-	self.type = nil;
-	self.fileType = nil;
-	self.dateCreated = nil;
-	self.dateModified = nil;
-    self.tagGuids = nil;
-	//
-	[super dealloc];
-}
-
-- (NSComparisonResult) compareCreateDate:(WizDocument*)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
-}
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
-}
-- (NSComparisonResult) compareDate:(WizDocument *)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
-}
-- (NSComparisonResult) compareReverseDate:(WizDocument *)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
-}
-
-- (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
-{
-    return [[WizIndex pinyinFirstLetter:self.title] compare:[WizIndex pinyinFirstLetter:doc.title]];
-}
-
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument *)doc
-{
-    NSComparisonResult ret = [[WizIndex pinyinFirstLetter:self.title] compare:[WizIndex pinyinFirstLetter:doc.title]];
-    if (ret == -1) {
-        return 1;
-    }
-    else if (ret == 1)
-    {
-        return -1;
-    }
-    return ret;
-}
-- (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data
-{
-	if (self = [super init])
-	{
-		self.guid            = [[[NSString alloc] initWithUTF8String: data.strGUID.c_str()] autorelease];
-		self.title           = [[[NSString alloc] initWithUTF8String: data.strTitle.c_str()] autorelease];
-		self.location        = [[[NSString alloc] initWithUTF8String: data.strLocation.c_str()] autorelease];
-		self.url             = [[[NSString alloc] initWithUTF8String: data.strURL.c_str()] autorelease];
-		self.type            = [[[NSString alloc] initWithUTF8String: data.strType.c_str()] autorelease]; 
-		self.fileType        = [[[NSString alloc] initWithUTF8String: data.strFileType.c_str()] autorelease]; 
-		self.dateCreated     = [[[NSString alloc] initWithUTF8String: data.strDateCreated.c_str()] autorelease];
-		self.dateModified    = [[[NSString alloc] initWithUTF8String: data.strDateModified.c_str()] autorelease];
-        self.tagGuids           = [[[NSString alloc] initWithUTF8String: data.strTagGUIDs.c_str()] autorelease];
-		self.attachmentCount = data.nAttachmentCount;
-        self.serverChanged = data.nServerChanged?YES:NO;
-        self.localChanged = data.nLocalChanged?YES:NO;
-	}
-	return self;
-}
-
-@end
 
 
 @implementation WizDeletedGUID
@@ -245,47 +123,7 @@ NSInteger compareTag(id location1, id location2, void*);
 
 @end
 
-@implementation WizDocumentAttach
-@synthesize attachmentGuid;
-@synthesize attachmentName;
-@synthesize attachmentType;
-@synthesize attachmentDataMd5;
-@synthesize attachmentDescription;
-@synthesize attachmentModifiedDate;
-@synthesize serverChanged;
-@synthesize localChanged;
-@synthesize attachmentDocumentGuid;
--(void) dealloc
-{
-    self.attachmentGuid = nil;
-    self.attachmentName = nil;
-    self.attachmentType = nil;
-    self.attachmentDataMd5 = nil;
-    self.attachmentDescription = nil;
-    self.attachmentModifiedDate = nil;
-    self.serverChanged = nil;
-    self.localChanged = nil;
-    self.attachmentDocumentGuid = nil;
-    [super dealloc];
-}
 
--(id) initFromAttachmentGuidData:(const WIZDOCUMENTATTACH&)data
-{
-    self = [super init];
-    
-    self.attachmentDocumentGuid = [NSString stringWithUTF8String:data.strDocumentGuid.c_str()];
-    self.attachmentGuid = [NSString stringWithUTF8String:data.strAttachmentGuid.c_str()] ;
-    self.attachmentName = [NSString stringWithUTF8String:data.strAttachmentName.c_str()];
-    self.attachmentModifiedDate = [NSString stringWithUTF8String:data.strDataModified.c_str()] ;
-    self.attachmentDescription = [NSString stringWithUTF8String:data.strDescription.c_str()] ;
-    self.attachmentDataMd5 = [NSString stringWithUTF8String:data.strDataMd5.c_str()] ;
-    self.localChanged = data.loaclChanged;
-    self.serverChanged = data.serverChanged;
-    NSArray* typeArry = [self.attachmentName componentsSeparatedByString:@"."];
-    self.attachmentType = [typeArry lastObject];
-    return  self;
-}
-@end
 
 @implementation WizIndex
 
@@ -953,6 +791,14 @@ NSInteger compareTag(id location1, id location2, void*);
     NSString* fileNamePath = [documentPath stringByAppendingPathComponent:@"temp.zip"];
     return fileNamePath;
 }
++ (NSString*) downloadObjectTempFilePath:(NSString*)objGUID
+{
+    NSString* userId = [WizActiveUserManager activeAccountUserId];
+    NSString* path = [WizIndex documentFileName:userId documentGUID:userId];
+    [WizGlobals ensurePathExists:path];
+    return [path stringByAppendingPathComponent:@"temp.zip"];
+}
+
 -(BOOL) updateObjectDataByPath:(NSString*) objectZipFilePath objectGuid:(NSString*)objectGuid{
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objectGuid];
     ZipArchive* zip = [[ZipArchive alloc] init];
@@ -2472,7 +2318,12 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
     NSString* accountPath = [WizIndex accountPath:userId];
     return [accountPath stringByAppendingPathComponent:@"temp.db"];
 }
-
++ (NSString*) objectDirectoryPath:(NSString*)guid
+{
+    NSString* userId = [WizActiveUserManager activeAccountUserId];
+    NSString* path = [[WizIndex accountPath:userId] stringByAppendingPathComponent:guid];
+    return path;
+}
 + (NSString*) documentFilePath:(NSString*)userId documentGUID:(NSString*)documentGUID
 {
 	NSString* accountPath = [WizIndex accountPath:userId]; 
@@ -2643,10 +2494,7 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
     return [attachList count];
 }
 
-+ (NSString*) pinyinFirstLetter:(NSString *)string
-{
-    return  [[NSString stringWithFormat:@"%c",pinyinFirstLetter([string characterAtIndex:0])] uppercaseString];
-}
+
 
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime
 {

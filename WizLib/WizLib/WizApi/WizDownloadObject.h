@@ -15,21 +15,15 @@ extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 @interface WizDownloadObject : WizApi {
     NSString* objType;
     NSString* objGuid;
-    int currentPos;
+    NSFileHandle* fileHandle;
     BOOL busy;
-    BOOL isLogin;
-    id owner;
 }
+@property (nonatomic, retain) NSFileHandle* fileHandle;
 @property (nonatomic, retain) NSString* objType;
 @property (nonatomic, retain) NSString* objGuid;
-@property (nonatomic, retain) id owner;
 @property (assign) BOOL busy;
-@property (assign) BOOL isLogin;
 @property int currentPos;
 -(void) onError: (id)retObject;
--(void) onClientLogin: (id)retObject;
--(void) onClientLogout:(id)retObject;
--(NSMutableDictionary*) onDownloadObject:(id)retObject;
 -(BOOL) downloadObject;
 - (void) downloadOver:(BOOL)unzipIsSucceed;
 @end

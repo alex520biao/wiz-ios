@@ -25,7 +25,7 @@ extern NSString* DataTypeOfUploadAttachment ;
 
 extern NSString* DataTypeOfDownloadDocument ;
 extern NSString* DataTypeOfDownloadAttachment ;
-extern NSString* DataTypeOfIndex;
+extern NSString* DataTypeOfIndex;- (WizIndex *) indexData
 
 extern NSString* DataTypeOfPickerView;
 extern NSString* DataTypeOfLoginView ;
@@ -75,7 +75,7 @@ extern NSString* DataMainOfWiz;
 - (WizDownloadRecentDocuments*) downloadRecentDocumentsData: (NSString*) userId;
 - (WizDownloadObject *) downloadObjectData:(NSString*) userId;
 - (WizUploadObjet*) uploadObjectData:(NSString*) userId;
-- (WizIndex *) indexData:(NSString*) userId;
+- (WizIndex *) indexData;
 - (WizUploadAttachment*) uploadAttachmentData:(NSString*) userId attachmentGUID:(NSString*) attachmentGUID owner:(id)owner;
 - (WizUploadDocument*) uploadDocumentData:(NSString*) userId documentGUID:(NSString*) documentGUID owner:(WizApi*) owner;
 - (PickerViewController*) wizPickerViewOfUser:(NSString*) userId;

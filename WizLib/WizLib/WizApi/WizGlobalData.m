@@ -351,16 +351,16 @@ static WizGlobalData* g_data;
 	return data;
 }
 
-- (WizIndex *) indexData:(NSString*) userId
+- (WizIndex *) indexData
 {
+    NSString* userId = [WizActiveUserManager activeAccountUserId];
 	id data = [self dataOfAccount:userId dataType: DataTypeOfIndex];
 	if (data != nil)
 		return data;
-	//
 	data = [[WizIndex alloc] initWithAccount:userId];
 	[self setDataOfAccount:userId dataType:DataTypeOfIndex data:data];
     [data release];
-	return data;	
+	return data;
 }
 
 - (LoginViewController*) wizMainLoginView:(NSString*) userId

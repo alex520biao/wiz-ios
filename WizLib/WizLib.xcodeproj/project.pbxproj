@@ -31,6 +31,18 @@
 		734BFB421519D1E400121217 /* WizNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB3F1519D1E400121217 /* WizNotification.h */; };
 		734BFB431519D1E400121217 /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 734BFB401519D1E400121217 /* WizNotification.m */; };
 		734BFB441519D1E400121217 /* WizNotificationMessageType.h in Headers */ = {isa = PBXBuildFile; fileRef = 734BFB411519D1E400121217 /* WizNotificationMessageType.h */; };
+		737B532D151F0ECD00CE3656 /* WizActiveUserManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 737B532B151F0ECD00CE3656 /* WizActiveUserManager.h */; };
+		737B532E151F0ECD00CE3656 /* WizActiveUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B532C151F0ECD00CE3656 /* WizActiveUserManager.m */; };
+		737B5331151F11F400CE3656 /* WizLogIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 737B532F151F11F200CE3656 /* WizLogIn.h */; };
+		737B5332151F11F400CE3656 /* WizLogIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B5330151F11F300CE3656 /* WizLogIn.m */; };
+		737B5335151F131700CE3656 /* WizDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 737B5333151F131500CE3656 /* WizDocument.h */; };
+		737B5336151F131700CE3656 /* WizDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B5334151F131600CE3656 /* WizDocument.m */; };
+		737B5339151F142300CE3656 /* WizTag.h in Headers */ = {isa = PBXBuildFile; fileRef = 737B5337151F142100CE3656 /* WizTag.h */; };
+		737B533A151F142300CE3656 /* WizTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B5338151F142200CE3656 /* WizTag.m */; };
+		737B533E151F149100CE3656 /* WizAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 737B533C151F149000CE3656 /* WizAttachment.h */; };
+		737B533F151F149100CE3656 /* WizAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B533D151F149000CE3656 /* WizAttachment.m */; };
+		737B5342151F15A200CE3656 /* WizObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 737B5340151F15A200CE3656 /* WizObject.h */; };
+		737B5343151F15A200CE3656 /* WizObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B5341151F15A200CE3656 /* WizObject.m */; };
 		73A158F21518815A0038A19D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158F11518815A0038A19D /* Foundation.framework */; };
 		73A158F81518815A0038A19D /* WizLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A158F71518815A0038A19D /* WizLib.m */; };
 		73A159001518815B0038A19D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A158FF1518815B0038A19D /* SenTestingKit.framework */; };
@@ -152,6 +164,18 @@
 		734BFB3F1519D1E400121217 /* WizNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizNotification.h; sourceTree = "<group>"; };
 		734BFB401519D1E400121217 /* WizNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizNotification.m; sourceTree = "<group>"; };
 		734BFB411519D1E400121217 /* WizNotificationMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNotificationMessageType.h; path = ../WizNotificationMessageType.h; sourceTree = "<group>"; };
+		737B532B151F0ECD00CE3656 /* WizActiveUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizActiveUserManager.h; sourceTree = "<group>"; };
+		737B532C151F0ECD00CE3656 /* WizActiveUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizActiveUserManager.m; sourceTree = "<group>"; };
+		737B532F151F11F200CE3656 /* WizLogIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizLogIn.h; sourceTree = "<group>"; };
+		737B5330151F11F300CE3656 /* WizLogIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizLogIn.m; sourceTree = "<group>"; };
+		737B5333151F131500CE3656 /* WizDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDocument.h; sourceTree = "<group>"; };
+		737B5334151F131600CE3656 /* WizDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDocument.m; sourceTree = "<group>"; };
+		737B5337151F142100CE3656 /* WizTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTag.h; sourceTree = "<group>"; };
+		737B5338151F142200CE3656 /* WizTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTag.m; sourceTree = "<group>"; };
+		737B533C151F149000CE3656 /* WizAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAttachment.h; sourceTree = "<group>"; };
+		737B533D151F149000CE3656 /* WizAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAttachment.m; sourceTree = "<group>"; };
+		737B5340151F15A200CE3656 /* WizObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizObject.h; sourceTree = "<group>"; };
+		737B5341151F15A200CE3656 /* WizObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizObject.m; sourceTree = "<group>"; };
 		73A158EE1518815A0038A19D /* libWizLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWizLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A158F11518815A0038A19D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		73A158F51518815A0038A19D /* WizLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WizLib-Prefix.pch"; sourceTree = "<group>"; };
@@ -330,6 +354,30 @@
 			path = Notification;
 			sourceTree = "<group>";
 		};
+		737B5329151F0E7D00CE3656 /* WizActiveUserManager */ = {
+			isa = PBXGroup;
+			children = (
+				737B532B151F0ECD00CE3656 /* WizActiveUserManager.h */,
+				737B532C151F0ECD00CE3656 /* WizActiveUserManager.m */,
+			);
+			name = WizActiveUserManager;
+			sourceTree = "<group>";
+		};
+		737B533B151F146600CE3656 /* WizStruct */ = {
+			isa = PBXGroup;
+			children = (
+				737B533C151F149000CE3656 /* WizAttachment.h */,
+				737B533D151F149000CE3656 /* WizAttachment.m */,
+				737B5337151F142100CE3656 /* WizTag.h */,
+				737B5338151F142200CE3656 /* WizTag.m */,
+				737B5333151F131500CE3656 /* WizDocument.h */,
+				737B5334151F131600CE3656 /* WizDocument.m */,
+				737B5340151F15A200CE3656 /* WizObject.h */,
+				737B5341151F15A200CE3656 /* WizObject.m */,
+			);
+			name = WizStruct;
+			sourceTree = "<group>";
+		};
 		73A158E31518815A0038A19D = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +418,7 @@
 		73A158F31518815A0038A19D /* WizLib */ = {
 			isa = PBXGroup;
 			children = (
+				737B5329151F0E7D00CE3656 /* WizActiveUserManager */,
 				734BFB3E1519D1E400121217 /* Notification */,
 				734BFB3D1519D19B00121217 /* CommonStrings */,
 				734BFB301519D0F000121217 /* NSDateAddtion */,
@@ -460,6 +509,7 @@
 				73A1593B15188D690038A19D /* WizGlobals.m */,
 				73A1593C15188D690038A19D /* WizIndex.h */,
 				73A1593D15188D690038A19D /* WizIndex.mm */,
+				737B533B151F146600CE3656 /* WizStruct */,
 				73A1593E15188D690038A19D /* WizLog.h */,
 				73A1593F15188D690038A19D /* WizLog.m */,
 				73A1594015188D690038A19D /* WizSettings.h */,
@@ -478,6 +528,8 @@
 				73A1594D15188D690038A19D /* WizUploadObjet.m */,
 				73A1594E15188D690038A19D /* WizVerifyAccount.h */,
 				73A1594F15188D690038A19D /* WizVerifyAccount.m */,
+				737B532F151F11F200CE3656 /* WizLogIn.h */,
+				737B5330151F11F300CE3656 /* WizLogIn.m */,
 			);
 			path = WizApi;
 			sourceTree = "<group>";
@@ -568,6 +620,12 @@
 				734BFB371519D0F000121217 /* TimeFormatters.h in Headers */,
 				734BFB421519D1E400121217 /* WizNotification.h in Headers */,
 				734BFB441519D1E400121217 /* WizNotificationMessageType.h in Headers */,
+				737B532D151F0ECD00CE3656 /* WizActiveUserManager.h in Headers */,
+				737B5331151F11F400CE3656 /* WizLogIn.h in Headers */,
+				737B5335151F131700CE3656 /* WizDocument.h in Headers */,
+				737B5339151F142300CE3656 /* WizTag.h in Headers */,
+				737B533E151F149100CE3656 /* WizAttachment.h in Headers */,
+				737B5342151F15A200CE3656 /* WizObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +771,12 @@
 				734BFB361519D0F000121217 /* NSDate-Utilities.m in Sources */,
 				734BFB381519D0F000121217 /* TimeFormatters.m in Sources */,
 				734BFB431519D1E400121217 /* WizNotification.m in Sources */,
+				737B532E151F0ECD00CE3656 /* WizActiveUserManager.m in Sources */,
+				737B5332151F11F400CE3656 /* WizLogIn.m in Sources */,
+				737B5336151F131700CE3656 /* WizDocument.m in Sources */,
+				737B533A151F142300CE3656 /* WizTag.m in Sources */,
+				737B533F151F149100CE3656 /* WizAttachment.m in Sources */,
+				737B5343151F15A200CE3656 /* WizObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
