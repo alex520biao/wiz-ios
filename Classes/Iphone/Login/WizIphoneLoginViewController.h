@@ -10,8 +10,6 @@
 
 @interface WizIphoneLoginViewController : UIViewController
 {
-    @private
-    UIButton* checkExistAccountsButton;
 }
 - (IBAction)signInAccount:(id)sender;
 - (IBAction)registerAccount:(id)sender;

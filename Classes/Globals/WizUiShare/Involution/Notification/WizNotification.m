@@ -66,6 +66,7 @@
     else {
         return nil;
     }
+    
 }
 + (void) postChangeAccountMessage
 {

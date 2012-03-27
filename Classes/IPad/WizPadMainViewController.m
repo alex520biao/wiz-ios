@@ -451,7 +451,7 @@
     [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
     [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
     [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
-    [self buildToolBar];
+    
     [self buildNavigationItems];
     self.mainSegment.selectedSegmentIndex = 0;
 }
@@ -470,6 +470,7 @@
         [index setDownloadDocumentData:NO];
         [index setFirstLog:YES];
     }
+    [self buildToolBar];
 }
 - (void) checkDocument:(NSNotification*)nc
 {

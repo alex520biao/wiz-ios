@@ -55,7 +55,7 @@
 	//
 	NSMutableString* ret = [NSMutableString stringWithString: [self stringByEvaluatingJavaScriptFromString:script]];
 	if (!ret)
-		return [NSString stringWithString: @""];
+		return @"";
 	//
 	/*
      while ([ret rangeOfString:@"\n\n"].location != NSNotFound)

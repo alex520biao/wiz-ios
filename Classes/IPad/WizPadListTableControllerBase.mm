@@ -28,6 +28,8 @@
 @synthesize tableArray;
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [WizNotificationCenter removeObserver:self];
     self.accountUserID = nil;
     self.sourceArray = nil;
     self.landscapeDocumentsArray = nil;
@@ -404,8 +406,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [WizNotificationCenter removeObserver:self];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

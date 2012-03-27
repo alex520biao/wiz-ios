@@ -125,7 +125,7 @@
             [self checkOtherAccounts:nil];
         }
     }
-    [self.navigationController setToolbarHidden:YES];
+    
 }
 - (void) viewDidAppear:(BOOL)animated
 {

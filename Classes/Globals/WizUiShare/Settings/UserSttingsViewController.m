@@ -413,7 +413,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell",indexPath.row ];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell"];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     WizUserSettingCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {

@@ -1194,7 +1194,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (documentTitle == nil || [documentTitle length] == 0)
 	{
-		documentTitle = [NSString stringWithString:@"No title"];
+		documentTitle = @"No title";
 	}
     
     NSString* htmlTitle = [NSString stringWithFormat:@"<title>%@</title>",documentTitle];
@@ -1299,7 +1299,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (documentTitle == nil || [documentTitle length] == 0)
 	{
-		documentTitle = [NSString stringWithString:@"No title"];
+		documentTitle = @"No title";
 	}
     
     NSString* htmlTitle = [NSString stringWithFormat:@"<title>%@</title>",documentTitle];
@@ -1385,7 +1385,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (title == nil || [title length] == 0)
 	{
-		title = [NSString stringWithString:@"No title"];
+		title = @"No title";
 	}
 	NSString* html = [[NSString alloc] initWithFormat:@"<html><title>%@</title></head><body>%@</body></html>", title, [text toHtml]];
 	//
@@ -1439,7 +1439,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (title == nil || [title length] == 0)
 	{
-		title = [NSString stringWithString:@"No title"];
+		title = @"No title";
 	}
 	NSString* html = [[NSString alloc] initWithFormat:@"<html><title>%@</title></head><body>%@</body></html>", title, [text toHtml]];
 	//
@@ -1682,6 +1682,10 @@ NSInteger compareTag(id location1, id location2, void*);
 - (BOOL) deleteDocument:(NSString*)documentGUID
 {
     NSArray* attachments = [self attachmentsByDocumentGUID:documentGUID];
+    NSString* documentDirectory = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
+    if (![[NSFileManager defaultManager] removeItemAtPath:documentDirectory error:nil]) {
+        NSLog(@"delete document error!");
+    }
     for(WizDocumentAttach* each in attachments)
     {
         [self deleteAttachment:each.attachmentGuid];

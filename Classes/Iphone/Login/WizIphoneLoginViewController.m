@@ -104,11 +104,11 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     if (firstLoad) {
         [self selecteDefaultAccount];
         firstLoad = NO;
     }
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void) viewDidAppear:(BOOL)animated

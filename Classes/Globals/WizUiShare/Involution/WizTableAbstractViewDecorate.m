@@ -122,11 +122,11 @@ static NSMutableDictionary* timeAttributes;
 }
 - (void) drawRect:(CGRect)rect
 {
-    CGFloat imageWidthRate = 0.25;
-    CGFloat imageHeightRate = 0.25;
-    CGFloat imageWidth = rect.size.width * imageWidthRate;
-    CGFloat imageHeight = rect.size.height * imageHeightRate;
-    CGRect imageRect = CGRectMake(rect.size.width-imageWidth, rect.size.height-imageHeight, imageWidth, imageHeight);
-    CGRect textRect = CGRectMake(0.0, 0.0, rect.size.width, rect.size.height);
+//    CGFloat imageWidthRate = 0.25;
+//    CGFloat imageHeightRate = 0.25;
+//    CGFloat imageWidth = rect.size.width * imageWidthRate;
+//    CGFloat imageHeight = rect.size.height * imageHeightRate;
+//    CGRect imageRect = CGRectMake(rect.size.width-imageWidth, rect.size.height-imageHeight, imageWidth, imageHeight);
+//    CGRect textRect = CGRectMake(0.0, 0.0, rect.size.width, rect.size.height);
 }
 @end

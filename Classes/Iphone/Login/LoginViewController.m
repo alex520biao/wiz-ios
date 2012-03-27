@@ -211,8 +211,8 @@
 
     CAGradientLayer* gLayer = [CAGradientLayer layer];
     NSArray* array = [NSArray arrayWithObjects:
-                      (id)[[[UIColor alloc] initWithRed:ColorValue(0x41) green:ColorValue(0x93) blue:ColorValue(0xc1) alpha:1.0] CGColor] ,
-                      (id)[[[UIColor alloc] initWithRed:ColorValue(0x40) green:ColorValue(0x70) blue:ColorValue(0xff) alpha:1.0] CGColor] ,
+                      (id)[[[[UIColor alloc] initWithRed:ColorValue(0x41) green:ColorValue(0x93) blue:ColorValue(0xc1) alpha:1.0] autorelease] CGColor] ,
+                      (id)[[[[UIColor alloc] initWithRed:ColorValue(0x40) green:ColorValue(0x70) blue:ColorValue(0xff) alpha:1.0]  autorelease] CGColor] ,
                       nil];
     gLayer.colors = array;
     gLayer.locations = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0],

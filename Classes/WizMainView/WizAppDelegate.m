@@ -27,9 +27,6 @@
 //#import "TestFlight.h"
 #endif
 #define WizAbs(x) x>0?x:-x
-@interface WizAppDelegate ()
-+ (UIViewController*) iphoneBackController;
-@end
 @implementation WizAppDelegate
 @synthesize window;
 @synthesize navController;

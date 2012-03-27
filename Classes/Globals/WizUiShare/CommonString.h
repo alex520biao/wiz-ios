@@ -80,4 +80,7 @@
 #define WizStrRateWizNote                               NSLocalizedString(@"Rate WizNote", nil)
 #define WizStrThePasswordDontMatch                      NSLocalizedString(@"The password you supplied don't match!", nil)
 #define WizStrLogOut                                    NSLocalizedString(@"Logout", nil)
+#define WizStrNoTitle                                    NSLocalizedString(@"No Title", nil)
+
+
 NSString* getTagDisplayName(NSString* tagName);

@@ -207,12 +207,16 @@ static UIFont* nameFont;
     }
     titleStr = [titleStr stringByAppendingFormat:@"\n"];
     NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[DocumentListViewCell getNameAttributes]];
-    NSMutableAttributedString* timeAtrStr = [[NSMutableAttributedString alloc] initWithString:timeStr attributes:[DocumentListViewCell getTimeAttributes]];
-    NSMutableAttributedString* detailAtrStr = [[NSMutableAttributedString alloc] initWithString:detailStr attributes:[DocumentListViewCell getDetailAttributes]];
-    [timeAtrStr appendAttributedString:detailAtrStr];
+    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[DocumentListViewCell getTimeAttributes]];
+    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[DocumentListViewCell getDetailAttributes]];
     [nameAtrStr appendAttributedString:timeAtrStr];
+    [nameAtrStr appendAttributedString:detailAtrStr];
+
     self.abstractLabel.text = nameAtrStr;
     self.abstractImageView.image = abstractImage;
+    [timeAtrStr release];
+    [detailAtrStr release];
+    [nameAtrStr release];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
