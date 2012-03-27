@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@protocol WizObjectDelegate
+- (BOOL) update;
+- (BOOL) download;
+- (BOOL) upload;
+- (BOOL) remove;
+@end
 @interface WizObject : NSObject
 {
     NSString* guid;
 }
 @property (nonatomic, retain) NSString* guid;
-- (NSString*) directoryPath;
-- (NSString*) downloadTempFilePath;
 @end

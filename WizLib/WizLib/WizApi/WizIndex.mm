@@ -123,8 +123,6 @@ NSInteger compareTag(id location1, id location2, void*);
 
 @end
 
-
-
 @implementation WizIndex
 
 @synthesize accountUserId;
@@ -2322,6 +2320,7 @@ static NSString* UserTablelistViewOption        = @"UserTablelistViewOption";
 {
     NSString* userId = [WizActiveUserManager activeAccountUserId];
     NSString* path = [[WizIndex accountPath:userId] stringByAppendingPathComponent:guid];
+    [WizGlobals ensurePathExists:path];
     return path;
 }
 + (NSString*) documentFilePath:(NSString*)userId documentGUID:(NSString*)documentGUID

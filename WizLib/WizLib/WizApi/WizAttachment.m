@@ -45,7 +45,6 @@
         NSArray* typeArry = [self.attachmentName componentsSeparatedByString:@"."];
         self.type = [typeArry lastObject];
     }
-
     return  self;
 }
 @end

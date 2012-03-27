@@ -10,13 +10,14 @@
 #import "WizGlobals.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
+
 @implementation WizObject
 @synthesize guid;
 - (id) init
 {
     self = [super init];
     if (self) {
-        
+        self.guid = [WizGlobals genGUID];
     }
     return self;
 }
@@ -24,16 +25,5 @@
 {
     self.guid = nil;
     [super dealloc];
-}
-- (NSString*) directoryPath
-{
-    NSString* directoryPath = [WizIndex documentFilePath:[WizActiveUserManager activeAccountUserId] documentGUID:guid];
-    return directoryPath;
-}
-- (NSString*) downloadTempFilePath
-{
-    NSString* directoryPath = [self directoryPath];
-    NSString* filePath = [directoryPath stringByAppendingPathComponent:@"temp.zip"];
-    return filePath;
 }
 @end

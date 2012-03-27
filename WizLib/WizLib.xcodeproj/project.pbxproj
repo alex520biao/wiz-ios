@@ -376,6 +376,7 @@
 				737B5341151F15A200CE3656 /* WizObject.m */,
 			);
 			name = WizStruct;
+			path = WizApi;
 			sourceTree = "<group>";
 		};
 		73A158E31518815A0038A19D = {
@@ -418,6 +419,7 @@
 		73A158F31518815A0038A19D /* WizLib */ = {
 			isa = PBXGroup;
 			children = (
+				737B533B151F146600CE3656 /* WizStruct */,
 				737B5329151F0E7D00CE3656 /* WizActiveUserManager */,
 				734BFB3E1519D1E400121217 /* Notification */,
 				734BFB3D1519D19B00121217 /* CommonStrings */,
@@ -509,7 +511,6 @@
 				73A1593B15188D690038A19D /* WizGlobals.m */,
 				73A1593C15188D690038A19D /* WizIndex.h */,
 				73A1593D15188D690038A19D /* WizIndex.mm */,
-				737B533B151F146600CE3656 /* WizStruct */,
 				73A1593E15188D690038A19D /* WizLog.h */,
 				73A1593F15188D690038A19D /* WizLog.m */,
 				73A1594015188D690038A19D /* WizSettings.h */,

@@ -57,8 +57,6 @@
 + (void) postSyncDownloadAttachment:(NSString*)guid current:(int)current  total:(int)total;
 + (void) postSyncUploadDocument:(NSString*)guid current:(int)current  total:(int)total;
 + (void) postSyncUploadAttachment:(NSString*)guid current:(int)current  total:(int)total;
-
-
 + (WizSyncMessage*) getSyncMessage:(NSNotification*)nc;
 + (void) addObserverForDownloadDocument:(id)observer  selector:(SEL)selector  documentGUID:(NSString*)guid;
 + (void) addObserverForDownloadAttachment:(id)observer  selector:(SEL)selector  attachmentGUID:(NSString*)guid;

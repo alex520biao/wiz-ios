@@ -35,40 +35,6 @@
     self.tagGuids = nil;
 	[super dealloc];
 }
-- (NSComparisonResult) compareCreateDate:(WizDocument*)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
-}
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
-}
-- (NSComparisonResult) compareDate:(WizDocument *)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
-}
-- (NSComparisonResult) compareReverseDate:(WizDocument *)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
-}
-
-- (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
-{
-    return [[WizGlobals pinyinFirstLetter:self.title] compare:[WizGlobals pinyinFirstLetter:doc.title]];
-}
-
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument *)doc
-{
-    NSComparisonResult ret = [[WizGlobals pinyinFirstLetter:self.title] compare:[WizGlobals pinyinFirstLetter:doc.title]];
-    if (ret == -1) {
-        return 1;
-    }
-    else if (ret == 1)
-    {
-        return -1;
-    }
-    return ret;
-}
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data
 {
     self = [super init];

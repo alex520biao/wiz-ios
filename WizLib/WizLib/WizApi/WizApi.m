@@ -181,9 +181,6 @@
         [self onError: ret];
 	}
     self.connectionXmlrpc = nil;
-	NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:method, @"method", ret, @"ret", [NSNumber numberWithBool:succeeded], @"succeeded", nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcDoneNotificationPrefix] object: nil userInfo: userInfo];
-	[userInfo release];
 }
 
 -(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args
@@ -261,7 +258,7 @@
     NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
     NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
     NSString* userType = [userInfo objectForKey:@"user_type"];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [[WizGlobalData sharedData] indexData];
     [index setUserLevel:[userLevel intValue]];
     [index setUserLevelName:userLevelName];
     [index setUserType:userType];
