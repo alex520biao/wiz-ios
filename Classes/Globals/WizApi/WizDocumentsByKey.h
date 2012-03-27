@@ -14,7 +14,6 @@
 	BOOL busy;
 	//
 	NSString* keywords;
-   
 }
 
 @property (readonly) BOOL busy;
