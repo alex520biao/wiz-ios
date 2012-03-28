@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WizObject.h"
-@interface WizDocument : WizObject <WizObjectDelegate>
+@class WizObject
+@interface WizDocument : WizObject <WizObjectProtocol>
 {
 	NSString* title;
 	NSString* location;

@@ -23,6 +23,7 @@
 }
 - (void) dealloc
 {
+    [self.guid release];
     self.guid = nil;
     [super dealloc];
 }

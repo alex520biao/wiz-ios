@@ -1275,17 +1275,24 @@ NSInteger compareTag(id location1, id location2, void*);
         attachmentFilePath = [attachmentFilePath stringByReplacingOccurrencesOfString:@":" withString:@"-"];
         if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
         {
+            NSError* error = [[NSError alloc]init];
+            NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+            {
+                NSLog(@"move error");
+            }
             [pictureNames addObject:attach.attachmentName];
         }
-        if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+        else  if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+            NSError* error = [[NSError alloc]init];
+            NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+            {
+                NSLog(@"move error");
+            }
             [audioNames addObject:attach.attachmentName];
         }
-        NSError* error = [[NSError alloc]init];
-        NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
-        if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
-        {
-            NSLog(@"move error");
-        }
+
     }
 	NSError* errOrg = nil;
 	if (errOrg != nil)
@@ -1302,7 +1309,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (documentTitle == nil || [documentTitle length] == 0)
 	{
-		documentTitle = [NSString stringWithString:@"No title"];
+		documentTitle = wizstrno;
 	}
     
     NSString* htmlTitle = [NSString stringWithFormat:@"<title>%@</title>",documentTitle];

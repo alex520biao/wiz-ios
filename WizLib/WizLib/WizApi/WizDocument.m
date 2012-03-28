@@ -10,6 +10,7 @@
 #import "WizGlobals.h"
 #import "NSDate-Utilities.h"
 #import "index.h"
+#import "WizObject.h"
 @implementation WizDocument
 
 @synthesize title;
@@ -55,5 +56,8 @@
 	}
 	return self;
 }
-
+- (BOOL) update
+{
+    
+}
 @end

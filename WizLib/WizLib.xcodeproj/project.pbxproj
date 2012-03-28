@@ -127,6 +127,8 @@
 		73A159B8151890920038A19D /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A159B7151890920038A19D /* libz.1.2.5.dylib */; };
 		73A159BC151892040038A19D /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A159BA151892040038A19D /* Reachability.h */; };
 		73A159BD151892040038A19D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A159BB151892040038A19D /* Reachability.m */; };
+		73BEFD411521957D00F8899C /* WizDbManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 73BEFD3F1521957D00F8899C /* WizDbManager.h */; };
+		73BEFD421521957D00F8899C /* WizDbManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73BEFD401521957D00F8899C /* WizDbManager.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -265,6 +267,8 @@
 		73A159B7151890920038A19D /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		73A159BA151892040038A19D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		73A159BB151892040038A19D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		73BEFD3F1521957D00F8899C /* WizDbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDbManager.h; sourceTree = "<group>"; };
+		73BEFD401521957D00F8899C /* WizDbManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizDbManager.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +370,7 @@
 		737B533B151F146600CE3656 /* WizStruct */ = {
 			isa = PBXGroup;
 			children = (
+				73BEFD3D1521956A00F8899C /* Db */,
 				737B533C151F149000CE3656 /* WizAttachment.h */,
 				737B533D151F149000CE3656 /* WizAttachment.m */,
 				737B5337151F142100CE3656 /* WizTag.h */,
@@ -419,7 +424,7 @@
 		73A158F31518815A0038A19D /* WizLib */ = {
 			isa = PBXGroup;
 			children = (
-				737B533B151F146600CE3656 /* WizStruct */,
+				73BEFD381521931D00F8899C /* NewStruct */,
 				737B5329151F0E7D00CE3656 /* WizActiveUserManager */,
 				734BFB3E1519D1E400121217 /* Notification */,
 				734BFB3D1519D19B00121217 /* CommonStrings */,
@@ -565,6 +570,23 @@
 			path = NetworkDetect;
 			sourceTree = "<group>";
 		};
+		73BEFD381521931D00F8899C /* NewStruct */ = {
+			isa = PBXGroup;
+			children = (
+				737B533B151F146600CE3656 /* WizStruct */,
+			);
+			name = NewStruct;
+			sourceTree = "<group>";
+		};
+		73BEFD3D1521956A00F8899C /* Db */ = {
+			isa = PBXGroup;
+			children = (
+				73BEFD3F1521957D00F8899C /* WizDbManager.h */,
+				73BEFD401521957D00F8899C /* WizDbManager.mm */,
+			);
+			name = Db;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -627,6 +649,7 @@
 				737B5339151F142300CE3656 /* WizTag.h in Headers */,
 				737B533E151F149100CE3656 /* WizAttachment.h in Headers */,
 				737B5342151F15A200CE3656 /* WizObject.h in Headers */,
+				73BEFD411521957D00F8899C /* WizDbManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +801,7 @@
 				737B533A151F142300CE3656 /* WizTag.m in Sources */,
 				737B533F151F149100CE3656 /* WizAttachment.m in Sources */,
 				737B5343151F15A200CE3656 /* WizObject.m in Sources */,
+				73BEFD421521957D00F8899C /* WizDbManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

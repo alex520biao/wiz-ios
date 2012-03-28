@@ -10,5 +10,5 @@
 @interface WizActiveUserManager : NSObject
 + (void) registerActive:(NSString*)userId;
 + (NSString*) activeAccountUserId;
-+ (void) setActiveApiInfo:(NSString*)kbguid  token:(NSString*)token apiUrl:(NSUrl*)apiUrl;
++ (void) setActiveApiInfo:(NSString*)kbguid  token:(NSString*)token apiUrl:(NSURL*)apiUrl;
 @end

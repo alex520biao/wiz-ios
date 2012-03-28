@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-@protocol WizObjectDelegate
+@protocol WizObjectProtocol
 - (BOOL) update;
 - (BOOL) download;
 - (BOOL) upload;
 - (BOOL) remove;
 @end
-@interface WizObject : NSObject
+@interface WizObject : NSObject 
 {
     NSString* guid;
 }
 @property (nonatomic, retain) NSString* guid;
+
 @end

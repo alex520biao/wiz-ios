@@ -110,7 +110,6 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 	int index = [WizSettings findAccount:userID];
 	if (-1 == index)
 		return nil;
-	//
 	NSArray* accounts = [WizSettings accounts];
 	//
 	return [WizSettings accountPasswordAtIndex:accounts index:index];
