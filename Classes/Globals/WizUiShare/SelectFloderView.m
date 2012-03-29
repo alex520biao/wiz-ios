@@ -61,10 +61,7 @@
 
 - (void) addFloder
 {
-    NSString* floder = [self.selectedFloder lastObject];
-    NSRange stringRange = NSMakeRange(0, [self.selectedFloderString length]);
-    [self.selectedFloderString deleteCharactersInRange:stringRange];
-    [self.selectedFloderString appendFormat:@"%@",floder];
+   [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfSelectedFolder object:nil userInfo:[NSDictionary dictionaryWithObject:[self.selectedFloder lastObject]  forKey:TypeOfFolderKey]];
     [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - View lifecycle
@@ -73,6 +70,23 @@
 {
     [super viewDidLoad];
     [self buildSeachView];
+    if (![WizGlobals WizDeviceIsPad]) {
+        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrOK style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
+        self.navigationItem.rightBarButtonItem = editButton;
+        [editButton release];
+    }
+
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+
+    [super viewWillAppear:animated];
     if(self.selectedFloder == nil)
         self.selectedFloder = [[[NSMutableArray alloc] init] autorelease];
     if(self.allFloders == nil)
@@ -87,27 +101,16 @@
                 [self.selectedFloder addObject:each];
             }
         }
+    if ([self.selectedFloder count] ==0) {
+        [self.selectedFloder addObject:self.selectedFloderString];
+        [self.allFloders insertObject:self.selectedFloderString atIndex:0];
+    }
     }
     else
     {
         [self.selectedFloder addObject:[self.allFloders objectAtIndex:0]];
     }
-    if (![WizGlobals WizDeviceIsPad]) {
-        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrOK style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
-        self.navigationItem.rightBarButtonItem = editButton;
-        [editButton release];
-    }
-}
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-
-    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -94,8 +94,6 @@
 {
 	return YES;
 }
-
-
 - (void) didSelectedCatelog:(NSString *)keywords
 {
     NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:TypeOfLocation], TypeOfCheckDocumentListType, keywords, TypeOfCheckDocumentListKey, nil];

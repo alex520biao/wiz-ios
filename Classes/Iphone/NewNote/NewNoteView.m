@@ -265,12 +265,19 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
 
 }
-
+- (void) selectedFloder:(NSNotification*)nc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TypeOfSelectedFolder object:nil];
+    NSDictionary* userInfo = [nc userInfo];
+    NSString* foler = [userInfo valueForKey:TypeOfFolderKey];
+    self.documentFloder = [NSMutableString stringWithString:foler];
+}
 -(void) floderViewSelected
 {
     SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
     floderView.accountUserID = self.accountUserId;
     floderView.selectedFloderString = self.documentFloder;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedFloder:) name:TypeOfSelectedFolder object:nil];
     [self.navigationController pushViewController:floderView animated:YES];
     [floderView release];
 }
@@ -780,8 +787,7 @@
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
     
     if([self.documentFloder isEqualToString:@""])
-        self.documentFloder = WizStrMyNotes;
-    
+        self.documentFloder = [NSMutableString stringWithString:WizStrMyNotes];
     if (self.titleTextFiled.text == nil) {
         self.titleTextFiled.text = @"";
     }
