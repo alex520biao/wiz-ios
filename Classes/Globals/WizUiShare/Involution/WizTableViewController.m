@@ -419,8 +419,8 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    NSIndexPath* a = [self indexOfDocumentInTableSourceArray:doc.guid];
+//    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+//    NSIndexPath* a = [self indexOfDocumentInTableSourceArray:doc.guid];
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

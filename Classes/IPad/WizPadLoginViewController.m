@@ -74,13 +74,11 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void) viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO]; 
 }
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
@@ -115,13 +113,14 @@
     [super viewWillAppear:animated];
     [self setFrames:self.interfaceOrientation];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setToolbarHidden:YES];
     if ([[WizSettings accounts] count]) {
         if (firstLoad) {
             [self selecteDefaultAccount];
             firstLoad = NO;
         }
         else {
-            [self checkOtherAccounts:nil];
+            [self loginViewAppear:nil];
         }
     }
     
@@ -139,17 +138,6 @@
 }
 
 #pragma mark - View lifecycle
-- (IBAction)checkOtherAccounts:(id)sender
-{
-    if ([[WizSettings accounts] count]) {
-        WizCheckAccounsController* checkAccounts = [[WizCheckAccounsController alloc] init];
-        UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:checkAccounts];
-        controller.modalPresentationStyle = UIModalPresentationFormSheet;
-        [self.navigationController presentModalViewController:controller animated:YES];
-        [checkAccounts release];
-        [controller release];
-    }
-}
 - (void) selectAccount:(NSNotification*)nc
 {
     NSString* accountUserId = [WizNotificationCenter getDidSelectedAccountUserId:nc];
@@ -164,7 +152,6 @@
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:WizStrCreateAccount forState:UIControlStateNormal];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkOtherAccounts:) name:MessageOfPadLoginViewChangeUser object:nil];
     [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
 
 }

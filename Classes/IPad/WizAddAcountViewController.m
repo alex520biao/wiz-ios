@@ -154,7 +154,7 @@
 {
     CGFloat height = 35*[self.fitAccounts count];
     if (WizDeviceIsPad()) {
-        self.existAccountsTable.frame= CGRectMake(170, 80, 200, height+20);
+        self.existAccountsTable.frame= CGRectMake(175, 70, 245, height+20);
     }
     else {
         self.existAccountsTable.frame = CGRectMake(75, 50, 245, height+20);
@@ -188,10 +188,9 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    UIView* backView = [[UIView alloc] initWithFrame:self.view.frame];
+    UIView* backView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1024, 768)];
     backView.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
-    self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
-    [self.view insertSubview:backView atIndex:0];
+    [self.view addSubview:backView];
     WizInputView* nameInput_ = [[WizInputView alloc] initWithFrame:CGRectMake(100, 40, 320, 40)];
     [self.view addSubview:nameInput_];
     [nameInput_ release];
@@ -205,9 +204,13 @@
     
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeTable)];
     ges.numberOfTapsRequired = 1;
-    [backView addGestureRecognizer:ges];
+    
     UIView* titleView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 250, 44)];
+    if (WizDeviceIsPad()) {
+        titleView.frame = CGRectMake(0.0, 0.0, 400, 44);
+    }
     [titleView addGestureRecognizer:ges];
+    [backView addGestureRecognizer:ges];
     self.navigationItem.titleView = titleView;
     [titleView release];
     [ges release];
@@ -215,7 +218,7 @@
     
     if ([[WizSettings accounts] count]) {
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setImage:[UIImage imageNamed:@"userIcon"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"userIcons"] forState:UIControlStateNormal];
         nameInput.textInputField.rightView = button;
         button.frame = CGRectMake(0.0, 0.0, 35, 35);
         nameInput.textInputField.rightViewMode = UITextFieldViewModeAlways;
@@ -265,7 +268,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-	return NO;
+    if (WizDeviceIsPad()) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

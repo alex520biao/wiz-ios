@@ -257,7 +257,8 @@ bool CIndex::GetAllLocations(CWizStdStringArray& arrayLocation)
 	if (!m_db.IsOpened())
 		return false;
 	//
-	std::string sql = "select DOCUMENT_LOCATION from WIZ_LOCATION";
+	//std::string sql = "select DOCUMENT_LOCATION from WIZ_LOCATION";
+    std::string sql = "select distinct DOCUMENT_LOCATION from WIZ_DOCUMENT";
 	//
 	if (!SQLToStringArray(sql.c_str(), arrayLocation))
 		return false;
@@ -1046,7 +1047,7 @@ bool CIndex::NewDocument(const char* lpszGUID, const char* lpszTitle, const char
 {
 	if (!lpszLocation || !(*lpszLocation))
 	{
-		lpszLocation = "/My Mobiles/";
+		lpszLocation = "/My Notes/";
 	}
 	//
 	WIZDOCUMENTDATA data;

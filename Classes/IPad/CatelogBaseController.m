@@ -21,7 +21,6 @@
 @implementation CatelogBaseController
 @synthesize accountUserId;
 @synthesize willToOrientation;
-static NSDictionary* nameAttributeDic;
 static NSDictionary* paragrahAttributeDic;
 + (NSDictionary*) paragrahAttributeDic
 {
@@ -135,7 +134,8 @@ static NSDictionary* paragrahAttributeDic;
     {
         count = 3;
     }
-    if ([self.dataArray  count]%4>0) {
+    
+    if ([self.dataArray  count]%count>0) {
         return  [self.dataArray count]/count+1;
     }
     else {
@@ -165,13 +165,14 @@ static NSDictionary* paragrahAttributeDic;
     NSUInteger needLength = documentsCount*(indexPath.row+1);
     NSArray* cellArray=nil;
     NSRange docRange;
-    if ([dataArray count] < needLength) {
-        docRange =  NSMakeRange(documentsCount*indexPath.row, [dataArray count]-documentsCount*indexPath.row);
+    if ([self.dataArray count] < needLength) {
+        docRange =  NSMakeRange(documentsCount*indexPath.row, [self.dataArray count]-documentsCount*indexPath.row);
     }
     else {
         docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
     }
-    cellArray = [dataArray subarrayWithRange:docRange];
+    
+    cellArray = [self.dataArray subarrayWithRange:docRange];
     [self configureCellWithArray:cell array:cellArray];
     return cell;
 }

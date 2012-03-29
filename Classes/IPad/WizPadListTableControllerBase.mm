@@ -397,7 +397,7 @@
     {
         count = 3;
     }
-    if ([[self.tableArray objectAtIndex:section] count]%4>0) {
+    if ([[self.tableArray objectAtIndex:section] count]%count>0) {
         return  [[self.tableArray objectAtIndex:section] count]/count+1;
     }
     else {
@@ -414,6 +414,7 @@
 }
 - (void)onAddNewDocument:(NSNotification*)nc
 {
+    self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     WizDocument* doc = [index documentFromGUID:documentGUID];
@@ -587,6 +588,7 @@ else {
         [WizNotificationCenter addObserverForNewDocument:self selector:@selector(onAddNewDocument:)];
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:MessageOfChangeDocumentListOrderMethod object:nil];
+        self.tableArray = [NSMutableArray array];
     }
     return self;
 }

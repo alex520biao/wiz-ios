@@ -173,7 +173,8 @@
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-        [self.recentList reloadAllData];
+        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
         processText = WizStrSyncingattachmentlist;
     }
     

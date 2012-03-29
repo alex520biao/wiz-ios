@@ -418,6 +418,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfEditDocumentDone object:nil userInfo:nil];
         [index editDocumentWithGuidAndData:documentData];
     }
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 

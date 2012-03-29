@@ -62,7 +62,6 @@ extern NSString* SyncMethod_ChangeAccountPassword;
     NSString* currentUploadTempFilePath;
     NSString* cureentUploadObjectGUID;
     XMLRPCConnection* connectionXmlrpc;
-    
 }
 
 @property (nonatomic, retain) NSString* currentUploadTempFilePath;

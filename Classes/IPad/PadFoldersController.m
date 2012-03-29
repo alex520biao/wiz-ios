@@ -13,19 +13,9 @@
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "TTTAttributedLabel.h"
+#import "CatelogTagCell.h"
 @implementation PadFoldersController
-+ (NSDictionary*) decorate
-{
-    
-}
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -46,7 +36,7 @@
         }
         WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
         data.name = [WizGlobals folderStringToLocal:each];
-        data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
+        data.count = [NSString stringWithFormat:@"%d %@",[index fileCountOfLocation:each],WizStrNotes];
         data.keyWords = each;
         NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
         int max = ([documents count] > 8? 8:[documents count]);
@@ -60,46 +50,48 @@
         }
         [attibuteString addAttributes:[CatelogBaseController paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
         data.abstract = attibuteString;
-        [data release];
+
         [attibuteString release];
+        [decorateArray addObject:data];
+                [data release];
     }
+    CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
+    [cateCell setContent:decorateArray];
 }
 
 - (void) reloadAllData
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSArray* locationKeys = [index allLocationsForTree];
-    NSMutableArray* foldersWithoutBlank = [NSMutableArray array];
-    for (NSString* each in locationKeys) {
-
+    NSMutableArray* arr = [NSMutableArray arrayWithArray:locationKeys];
+    [self.dataArray removeAllObjects];
+    if (self.dataArray == nil) {
+        self.dataArray = [NSMutableArray array];
+    }
+    for (NSString* each in arr) {
+        if ([index fileCountOfLocation:each] != 0) {
+            [self.dataArray addObject:each];
+        }
     }
     
-    if (nil == self.landscapeContentArray) {
-        self.landscapeContentArray = [NSMutableArray array];
-    }
-    
-    if (nil == self.portraitContentArray) 
-    {
-        self.portraitContentArray = [NSMutableArray array];
-    }
-    self.portraitContentArray =  [NSMutableArray arrayWithArray:[self arrayToPotraitCellArraty:foldersWithoutBlank]];
-    self.landscapeContentArray =  [NSMutableArray arrayWithArray:[self arrayToLoanscapeCellArray:foldersWithoutBlank] ];
+}
+- (void) reloadTableData
+{
+    [self reloadAllData];
     [self.tableView reloadData];
 }
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfPadFolderWillReload object:nil];
+    
 }
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
 	return YES;
 }
 
@@ -109,5 +101,25 @@
     NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:TypeOfLocation], TypeOfCheckDocumentListType, keywords, TypeOfCheckDocumentListKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfCheckDocument object:nil userInfo:userInfo];
 }
-
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfPadFolderWillReload object:nil];
+    }
+    return self;
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableData) name:MessageOfPadFolderWillReload object:nil];
+    }
+    return self;
+}
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
 @end

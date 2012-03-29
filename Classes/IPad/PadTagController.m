@@ -15,14 +15,6 @@
 #import "TTTAttributedLabel.h"
 @implementation PadTagController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -31,18 +23,48 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+- (void) configureCellWithArray:(UITableViewCell *)cell array:(NSArray *)array
+{
+    NSMutableArray* decorateArray = [NSMutableArray array];
+    for (WizTag* eachTag in array) {
+        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+        NSArray* documents = [index documentsByTag:eachTag.guid];
+        WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
+        data.name = eachTag.name;
+        data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
+        data.keyWords = eachTag.guid;
+        NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
+        int max = ([documents count] > 8? 8:[documents count]);
+        for (int i = 0; i <max; i++) {
+            WizDocument* doc = [documents objectAtIndex:i];
+            NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i, doc.title]];
+            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
+            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
+            [attibuteString appendAttributedString:str];
+            [str release];
+        }
+        [attibuteString addAttributes:[CatelogBaseController paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
+        data.abstract = attibuteString;
+        [attibuteString release];
+        [decorateArray addObject:data];
+        [data release];
+    }
+    CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
+    [cateCell setContent:decorateArray];
+}
+- (void) reloadTableView
+{
+    [self reloadAllData];
+    [self.tableView performSelectorInBackground:@selector(reloadData) withObject:nil];
+}
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfPadTagWillReload object:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -53,62 +75,18 @@
 
 - (void) reloadAllData
 {
-    NSMutableDictionary* attributeDic = [NSMutableDictionary dictionary];
-    [attributeDic setObject:(id)[[UIColor grayColor] CGColor]  forKey:(NSString *)kCTForegroundColorAttributeName];
-
-
-    
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSArray* tags = [index allTagsForTree];
-    NSMutableArray* tagsWithoutBlank = [NSMutableArray array];
-    for (WizTag* eachTag in tags) {
-        NSArray* documents = [index documentsByTag:eachTag.guid];
-        if ([documents count]) {
-            WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
-            data.name = eachTag.name;
-            data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
-            NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
-            int max = ([documents count] > 8? 8:[documents count]);
-            for (int i = 0; i <max; i++) {
-                WizDocument* doc = [documents objectAtIndex:i];
-                NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i, doc.title]];
-                [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
-                [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
-                [attibuteString appendAttributedString:str];
-                [str release];
-            }
-            long characheterSpacing = 0.5f;
-            CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &characheterSpacing);
-           [attibuteString addAttribute:(NSString *)kCTKernAttributeName value:(id)num range:NSMakeRange(0, attibuteString.length)];
-            CFRelease(num);
-            CGFloat lineSpace = 18;
-            CTParagraphStyleSetting lineSpaceStyle;
-            lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
-            lineSpaceStyle.valueSize = sizeof(lineSpace);
-            lineSpaceStyle.value = &lineSpace;
-            CTParagraphStyleSetting settings[] = {lineSpaceStyle};
-            CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
-            [attibuteString addAttribute:(id)kCTParagraphStyleAttributeName value:(id)style range:NSMakeRange(0, attibuteString.length)];
-            UIFont* stringFont = [UIFont systemFontOfSize:13];
-            CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-            [attibuteString addAttribute:(NSString*)kCTFontAttributeName value:(id)font range:NSMakeRange(0, attibuteString.length)];
-            data.abstract = attibuteString;
-            data.keyWords = eachTag.guid;
-            [tagsWithoutBlank addObject:data];
-            [data release];
-            [attibuteString release];
+    NSMutableArray* arr = [NSMutableArray arrayWithArray:tags];
+    [self.dataArray removeAllObjects];
+    if (self.dataArray == nil) {
+        self.dataArray = [NSMutableArray array];
+    }
+    for (WizTag* eachTag in arr) {
+        if ([index fileCountOfTag:eachTag.guid] != 0) {
+            [self.dataArray addObject:eachTag];
         }
     }
-    if (nil == self.landscapeContentArray) {
-        self.landscapeContentArray = [NSMutableArray array];
-    }
-    if (nil == self.portraitContentArray) 
-    {
-        self.portraitContentArray = [NSMutableArray array];
-    }
-    self.portraitContentArray =  [NSMutableArray arrayWithArray:[self arrayToPotraitCellArraty:tagsWithoutBlank]];
-    self.landscapeContentArray =  [NSMutableArray arrayWithArray:[self arrayToLoanscapeCellArray:tagsWithoutBlank] ];
-    [self.tableView reloadData];
 }
 
 - (void) didSelectedCatelog:(NSString *)keywords
@@ -127,13 +105,52 @@
         cell.owner = self;
         
     }
+    NSInteger documentsCount =0;
     if (UIInterfaceOrientationIsLandscape(self.willToOrientation)) {
-        [cell setContent:[self.landscapeContentArray objectAtIndex:indexPath.row]];
+        documentsCount = 4;
     }
     else
     {
-        [cell setContent:[self.portraitContentArray objectAtIndex:indexPath.row]];
+        documentsCount = 3;
     }
+    NSUInteger needLength = documentsCount*(indexPath.row+1);
+    NSLog(@"needLength is %d",needLength);
+    NSLog(@"dataArray count is %d",[self.dataArray count]);
+    NSArray* cellArray=nil;
+    NSRange docRange;
+    if ([self.dataArray count] < needLength) {
+        docRange =  NSMakeRange(documentsCount*indexPath.row, [self.dataArray count]-documentsCount*indexPath.row);
+    }
+    else {
+        docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
+    }
+    
+    NSLog(@"range is %d %d",docRange.location, docRange.length);
+    cellArray = [self.dataArray subarrayWithRange:docRange];
+    NSLog(@"cell array %d",[cellArray count]);
+    [self configureCellWithArray:cell array:cellArray];
     return cell;
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:MessageOfPadTagWillReload object:nil];
+    }
+    return self;
+}
+
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:MessageOfPadTagWillReload object:nil];
+    }
+    return self;
+}
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
 }
 @end

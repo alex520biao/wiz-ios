@@ -633,40 +633,29 @@ NSInteger compareTag(id location1, id location2, void*);
 - (NSArray*) allLocationsForTree
 {
 	CIndex& index = [_indexData index];
-	//
 	CWizStdStringArray arrayLocation;
 	index.GetAllLocations(arrayLocation);
-	//
 	NSArray* allLocations = nil;
-	//
 	[WizIndex stdStringArrayToNSArray: arrayLocation retArray:&allLocations];
-	//
 	NSMutableDictionary* dict = [[NSMutableDictionary alloc ] init];
-	//
 	for (NSString* location in allLocations)
 	{
 		NSString* subLocation = location;
 		while ([subLocation length] > 2)
 		{
 			[dict setObject:subLocation forKey:[subLocation lowercaseString]];
-			//
 			subLocation = [subLocation stringByDeletingLastPathComponent];
-			//
 			if ([subLocation isEqualToString:@"/"])
 			{
 				break;
 			}
-			//
 			subLocation = [subLocation stringByAppendingString:@"/"];
 		}
 	}
 	//
 	[allLocations release];
-	//
 	NSMutableArray* locations = [NSMutableArray arrayWithArray:[dict allValues]];
-	//
 	[locations sortUsingFunction:compareString context:NULL];
-	//
     [dict release];
 	return locations;
 }
@@ -1124,7 +1113,7 @@ NSInteger compareTag(id location1, id location2, void*);
         return nil;
     }
 
-	NSString* documentLocation = @"/My Mobiles/";
+	NSString* documentLocation = WizStrMyNotes;
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
     NSMutableDictionary* doc = [NSMutableDictionary dictionary];
     NSDate* currentDate = [NSDate date];
@@ -1233,7 +1222,7 @@ NSInteger compareTag(id location1, id location2, void*);
     
 	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
-		documentLocation = @"/My Mobiles/";
+		documentLocation =WizStrMyNotes;
 	}
     
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
@@ -1347,7 +1336,7 @@ NSInteger compareTag(id location1, id location2, void*);
 
 	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
-		documentLocation = @"/My Mobiles/";
+		documentLocation = WizStrMyNotes;
 	}
 
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];

@@ -1332,13 +1332,11 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
             if ([each isKindOfClass:[UITextField class]]) {
                 UITextField* text = (UITextField*)each;
                 password = text.text;
-                [WizSettings logoutAccount:self.accountUserId];
                 [WizSettings addAccount:self.accountUserId password:password];
                 [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
             }
         }
     }
-    
 }
 -(void) onError: (id)retObject
 {
@@ -1349,33 +1347,46 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && [error.localizedDescription isEqualToString:NSLocalizedString(@"Login time out or login in other places, please retry login!", nil)]) {
             return;
         }
-        else if (error.code == 301)
+        else if (error.code == 301 && [error.domain isEqualToString:@"error.wiz.cn"])
         {
+            static UIAlertView* prompt = nil;
             WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
             if ([index isOpened]) {
-                UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password error, please correct it.", nil) 
-                                                                 message:@"\n\n" 
-                                                                delegate:nil 
-                                                       cancelButtonTitle:WizStrCancel 
-                                                       otherButtonTitles:WizStrOK, nil];
-                prompt.tag = 10001;
-                prompt.delegate = self;
-                UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
-                textField.secureTextEntry = YES;
-                [textField setBackgroundColor:[UIColor whiteColor]];
-                [textField setPlaceholder:WizStrPassword];
-                [prompt addSubview:textField];
-                [textField release];
-                [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];  //可以调整弹出框在屏幕上的位
+                if (prompt == nil) {
+                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password error, please correct it.", nil)
+                                                                     message:@"\n\n" 
+                                                                    delegate:nil 
+                                                           cancelButtonTitle:WizStrCancel 
+                                                           otherButtonTitles:WizStrOK, nil];
+                    prompt.tag = 10001;
+                    prompt.delegate = self;
+                    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
+                    textField.secureTextEntry = YES;
+                    [textField setBackgroundColor:[UIColor whiteColor]];
+                    [textField setPlaceholder:WizStrPassword];
+                    [prompt addSubview:textField];
+                    [textField release];
+                    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
+                    
+                }
                 [prompt show];
-                [prompt release]; 
                 return;
+            }
+            else {
+                [WizGlobals reportError:error];
             }
         }
         else if ([error.domain isEqualToString:WIZERRORDOMAIN] && [error.localizedDescription isEqualToString:WIZABORTNETERROR]) {
             return;
         }
-		[WizGlobals reportError:retObject];
+        else if (error.code == -101)
+        {
+            return;
+        }
+        else {
+            [WizGlobals reportError:retObject];
+        }
+		 
 	}
 }
 

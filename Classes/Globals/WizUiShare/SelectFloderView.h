@@ -9,16 +9,21 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SelectFloderView : UITableViewController {
+@interface SelectFloderView : UITableViewController <UISearchBarDelegate,UISearchDisplayDelegate>{
     NSMutableArray* allFloders;
     NSMutableArray*       selectedFloder;
     NSString*       accountUserID;
-    NSIndexPath*    lastIndexPath;
     NSMutableString*       selectedFloderString;
+    
+    UISearchBar* searchBar;
+    UISearchDisplayController* searchDisplayController;
+    NSArray* searchedFolder;
 }
 @property (nonatomic, retain) NSMutableArray* allFloders;
 @property (nonatomic, retain) NSMutableArray* selectedFloder;
 @property (nonatomic, retain) NSString*       accountUserID;
-@property (nonatomic, retain) NSIndexPath*    lastIndexPath;
 @property (nonatomic, retain) NSMutableString*       selectedFloderString;
+@property (nonatomic, retain) UISearchBar* searchBar;
+@property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
+@property (nonatomic, retain) NSArray* searchedFolder;
 @end

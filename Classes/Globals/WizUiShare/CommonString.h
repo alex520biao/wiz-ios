@@ -27,7 +27,7 @@
 #define	WizStrMyNotes           NSLocalizedString(@"My Notes", nil)
 #define	WizStrMyJournals		NSLocalizedString(@"My Journals", nil)
 #define	WizStrMyEvents          NSLocalizedString(@"My Events", nil)
-#define	WizStrMyMobiles         NSLocalizedString(@"My Mobiles", nil)
+#define  	WizStrMyMobiles         NSLocalizedString(@"My Mobiles", nil)
 #define	WizStrFolders           NSLocalizedString(@"Folders", nil)
 #define	WizStrSearch            NSLocalizedString(@"Search", nil)
 #define	WizStrName              NSLocalizedString(@"Name", nil)
