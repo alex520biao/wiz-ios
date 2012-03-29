@@ -498,7 +498,7 @@
 }
 - (void) log
 {
-    NSLog(@"ddddd");
+  
 }
 - (void) stopRecorder:(id)sender
 {

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WizCheckAccounsController : UITableViewController
+@interface WizCheckAccounsController : UITableViewController 
 {
     NSArray* accounts;
 }

@@ -192,9 +192,6 @@ static NSMutableDictionary* timeAttributes;
     CTFrameDraw(textFrame, cgc);
     CGContextRestoreGState(cgc);
     CALayer* lay =self.backLayer;
-    if (lay == nil) {
-        NSLog(@"ddd");
-    }
     lay.bounds = CGRectMake(0.0, 0.0, 80, 80);
     lay.position = CGPointMake([self.contentView bounds].size.width-50, [self.contentView bounds].size.height/2);
     if (!abstract.image) {

@@ -14,7 +14,10 @@
 #import "WizGlobals.h"
 #import "TTTAttributedLabel.h"
 @implementation PadFoldersController
-
++ (NSDictionary*) decorate
+{
+    
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,15 +35,11 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-
-
-- (void) reloadAllData
+- (void) configureCellWithArray:(UITableViewCell *)cell array:(NSArray *)array
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSArray* locationKeys = [index allLocationsForTree];
-    
-    NSMutableArray* foldersWithoutBlank = [NSMutableArray array];
-    for (NSString* each in locationKeys) {
+    NSMutableArray* decorateArray = [NSMutableArray array];
+    for (NSString* each in array) {
+        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         NSArray* documents = [index documentsByLocation:each];
         if ([documents count] == 0 && ![each isEqualToString:@"/My Mobiles/"]) {
             continue;
@@ -59,25 +58,20 @@
             [attibuteString appendAttributedString:str];
             [str release];
         }
-        long characheterSpacing = 0.5f;
-        CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &characheterSpacing);
-        [attibuteString addAttribute:(NSString *)kCTKernAttributeName value:(id)num range:NSMakeRange(0, attibuteString.length)];
-        CFRelease(num);
-        CGFloat lineSpace = 18;
-        CTParagraphStyleSetting lineSpaceStyle;
-        lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
-        lineSpaceStyle.valueSize = sizeof(lineSpace);
-        lineSpaceStyle.value = &lineSpace;
-        CTParagraphStyleSetting settings[] = {lineSpaceStyle};
-        CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
-        [attibuteString addAttribute:(id)kCTParagraphStyleAttributeName value:(id)style range:NSMakeRange(0, attibuteString.length)];
-        UIFont* stringFont = [UIFont systemFontOfSize:13];
-        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-        [attibuteString addAttribute:(NSString*)kCTFontAttributeName value:(id)font range:NSMakeRange(0, attibuteString.length)];
+        [attibuteString addAttributes:[CatelogBaseController paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
         data.abstract = attibuteString;
-        [foldersWithoutBlank addObject:data];
         [data release];
         [attibuteString release];
+    }
+}
+
+- (void) reloadAllData
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    NSArray* locationKeys = [index allLocationsForTree];
+    NSMutableArray* foldersWithoutBlank = [NSMutableArray array];
+    for (NSString* each in locationKeys) {
+
     }
     
     if (nil == self.landscapeContentArray) {

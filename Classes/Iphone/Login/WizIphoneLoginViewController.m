@@ -45,8 +45,7 @@
     if ([accounts count] > 0) {
         NSString* defaultUserId = [WizSettings defaultAccountUserId];
         if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:accounts index:0]];
-            defaultUserId = [WizSettings defaultAccountUserId];
+            return;
         }
         [self didSelectedAccount:defaultUserId];
     }

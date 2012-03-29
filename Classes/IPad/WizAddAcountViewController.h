@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 @class WizInputView;
-@interface WizAddAcountViewController : UIViewController
+@interface WizAddAcountViewController : UIViewController <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     WizInputView* nameInput;
     WizInputView* passwordInput;
+    UITableView* existAccountsTable;
     UIAlertView* waitAlertView;
+    NSMutableArray* fitAccounts;
+
 }
 @property (nonatomic,retain) WizInputView* nameInput;
 @property (nonatomic,retain) WizInputView* passwordInput;
 @property (nonatomic,retain) UIAlertView* waitAlertView;
+@property (nonatomic,retain) UITableView* existAccountsTable;
+@property (nonatomic,retain) NSMutableArray* fitAccounts;
 @end

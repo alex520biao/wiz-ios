@@ -1167,16 +1167,22 @@ NSInteger compareTag(id location1, id location2, void*);
         attachmentFilePath = [attachmentFilePath stringByReplacingOccurrencesOfString:@":" withString:@"-"];
         if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
         {
+            NSError* error = [[NSError alloc]init];
+            NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+            {
+                NSLog(@"move error");
+            }
             [pictureNames addObject:attach.attachmentName];
         }
         if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+            NSError* error = [[NSError alloc]init];
+            NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+            {
+                NSLog(@"move error");
+            }
             [audioNames addObject:attach.attachmentName];
-        }
-        NSError* error = [[NSError alloc]init];
-        NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
-        if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
-        {
-            NSLog(@"move error");
         }
     }
 	NSError* errOrg = nil;
@@ -1272,17 +1278,24 @@ NSInteger compareTag(id location1, id location2, void*);
         attachmentFilePath = [attachmentFilePath stringByReplacingOccurrencesOfString:@":" withString:@"-"];
         if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
         {
+            NSError* error = [[NSError alloc]init];
+            NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+            {
+                NSLog(@"move error");
+            }
             [pictureNames addObject:attach.attachmentName];
         }
         if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+            NSError* error = [[NSError alloc]init];
+            NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
+            {
+                NSLog(@"move error");
+            }
             [audioNames addObject:attach.attachmentName];
         }
-        NSError* error = [[NSError alloc]init];
-        NSString* targetFilePath = [attachmentsDirectory stringByAppendingPathComponent:attach.attachmentName];
-        if(![[NSFileManager defaultManager] copyItemAtPath:attachmentFilePath toPath:targetFilePath error:&error])
-        {
-            NSLog(@"move error");
-        }
+
     }
 	NSError* errOrg = nil;
 	if (errOrg != nil)
@@ -1795,6 +1808,7 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     [self connectOnlyViaWifi];
     [self setDownloadAllList:YES];
+    [WizSettings setDefalutAccount:self.accountUserId];
 }
 - (NSString*) meta: (NSString*)name key:(NSString*)key
 {

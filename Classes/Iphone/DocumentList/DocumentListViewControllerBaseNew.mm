@@ -700,8 +700,6 @@
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         WizDocument* doc = [[self.tableArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         NSDictionary* userInfo = [NSDictionary dictionaryWithObject:doc.guid forKey:TypeOfPhoneDocumentGuid];

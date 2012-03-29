@@ -75,7 +75,6 @@
         return;
     }
     WizDocument* each = [self.download lastObject];
-    NSLog(@"download document count is %d", [self.download count]);
     WizDownloadDocument* downloader = [pool getDownloadProcess:each.guid type:[WizGlobals documentKeyString]];
     downloader.owner = self;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];

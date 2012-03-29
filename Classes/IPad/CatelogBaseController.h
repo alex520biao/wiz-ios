@@ -21,17 +21,15 @@
 @end
 @interface CatelogBaseController : UITableViewController
 {
-    NSMutableArray* landscapeContentArray;
-    NSMutableArray* portraitContentArray;
+    NSMutableArray* dataArray;
     NSString* accountUserId;
     UIInterfaceOrientation willToOrientation;
 }
-@property (nonatomic, retain) NSMutableArray* landscapeContentArray;
-@property (nonatomic, retain) NSMutableArray* portraitContentArray;
+@property (nonatomic, retain) NSMutableArray* dataArray;
 @property (nonatomic ,retain)    NSString* accountUserId;
 @property UIInterfaceOrientation willToOrientation;
 - (void) reloadAllData;
-- (NSArray*) arrayToLoanscapeCellArray:(NSArray*)source;
-- (NSArray*) arrayToPotraitCellArraty:(NSArray*)source;
 - (void) didSelectedCatelog:(NSString*)keywords;
+- (void) configureCellWithArray:(UITableViewCell*)cell  array:(NSArray*)array;
++ (NSDictionary*) paragrahAttributeDic;
 @end

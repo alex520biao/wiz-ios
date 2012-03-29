@@ -10,10 +10,6 @@
 #import "DocumentListViewControllerBaseNew.h"
 @interface WizPadListTableControllerBase : UITableViewController
 {
-
-    NSMutableArray* landscapeDocumentsArray;
-    NSMutableArray* portraitDocumentsArray;
-    NSMutableArray* sourceArray;
     NSMutableArray* tableArray;
     NSString* accountUserID;
     BOOL isLandscape;
@@ -21,13 +17,10 @@
 }
 @property (nonatomic, retain) NSMutableArray* tableArray;
 @property (nonatomic, retain) NSString* accountUserID;
-@property (nonatomic, retain) NSMutableArray* sourceArray;
-@property (nonatomic, retain) NSMutableArray* landscapeDocumentsArray;
-@property (nonatomic, retain) NSMutableArray* portraitDocumentsArray;
 @property int kOrderIndex;
 @property (assign) BOOL isLandscape;
 - (void) didSelectedDocument:(WizDocument*)doc;
 - (void) reloadAllData;
-- (void) reloadDocuments;
+- (NSArray*) reloadDocuments;
 - (void)onAddNewDocument:(NSNotification*)nc;
 @end

@@ -25,6 +25,7 @@
 #import "WizPadNotificationMessage.h"
 #import "UIBadgeView.h"
 #import "WizCheckAttachments.h"
+#import "WizNotification.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -803,5 +804,23 @@
     [label release];
     label.text = [self tableView:self.documentList titleForHeaderInSection:section];
     return sectionView;
+}
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+        [index deleteDocument:doc.guid];
+        [index addDeletedGUIDRecord:doc.guid type:[WizGlobals documentKeyString]];
+        [WizNotificationCenter postDeleteDocumentMassage:doc.guid];
+        if ([[documentsArray objectAtIndex:indexPath.section] count] == 1) {
+            [documentsArray removeObjectAtIndex:indexPath.section];
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationTop];
+        }
+        else {
+            [[documentsArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+        }
+    }
 }
 @end

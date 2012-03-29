@@ -151,7 +151,18 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
     }
     
 }
-
++  (NSArray*) accountsUserIdArray
+{
+    NSArray* accounts= [WizSettings accounts];
+    NSMutableArray* arr = [NSMutableArray array];
+    for (NSDictionary* each in accounts) {
+        NSString* userId = [each valueForKey:KeyOfUserId];
+        if (userId != nil) {
+            [arr addObject:userId];
+        }
+    }
+    return arr;
+}
 +(void) addAccount: (NSString*)userId password:(NSString*)password
 {
 	if (-1 != [WizSettings findAccount:userId])
@@ -203,6 +214,11 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 }
 + (void) logoutAccount:(NSString*)userId
 {
+    [WizSettings setDefalutAccount:@""];
+}
+
++(void) removeAccount: (NSString*)userId
+{
     int index = [WizSettings findAccount:userId];
 	if (-1 == index)
 		return;
@@ -214,11 +230,6 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 	NSMutableArray* newAccounts = [NSMutableArray arrayWithArray:exitsAccounts];
 	[newAccounts removeObjectAtIndex:index];
     [WizSettings setAccounts:newAccounts];
-}
-
-+(void) removeAccount: (NSString*)userId
-{
-    [WizSettings logoutAccount:userId];
     [[NSFileManager defaultManager] removeItemAtPath:[WizIndex accountPath:userId]  error:nil];
 }
 +(int) findAccount: (NSString*)userId

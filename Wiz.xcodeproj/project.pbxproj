@@ -1140,30 +1140,13 @@
 		73A7848414F8CC22001387F6 /* IPad */ = {
 			isa = PBXGroup;
 			children = (
-				73A7848514F8CC22001387F6 /* CatelogBaseAbstractView.h */,
-				73A7848614F8CC22001387F6 /* CatelogBaseAbstractView.m */,
-				73A7848714F8CC22001387F6 /* CatelogBaseCell.h */,
-				73A7848814F8CC22001387F6 /* CatelogBaseCell.m */,
-				73A7848914F8CC22001387F6 /* CatelogBaseController.h */,
-				73A7848A14F8CC22001387F6 /* CatelogBaseController.m */,
-				73A7848B14F8CC22001387F6 /* CatelogTagCell.h */,
-				73A7848C14F8CC22001387F6 /* CatelogTagCell.m */,
-				73A7849014F8CC22001387F6 /* PadFoldersController.h */,
-				73A7849114F8CC22001387F6 /* PadFoldersController.m */,
-				73A7849214F8CC22001387F6 /* PadTagController.h */,
-				73A7849314F8CC22001387F6 /* PadTagController.m */,
-				73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */,
-				73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */,
-				73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */,
-				73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */,
+				73C1488115240304000675BA /* DocumentAbs */,
+				73C14880152402E0000675BA /* Category */,
+				73C1487E152402D3000675BA /* DocumentView */,
 				73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */,
 				73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */,
 				73A784A614F8CC22001387F6 /* WizPadEditTagTextFiled.h */,
 				73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */,
-				73A784A814F8CC22001387F6 /* WizPadListCell.h */,
-				73A784A914F8CC22001387F6 /* WizPadListCell.m */,
-				73A784AA14F8CC22001387F6 /* WizPadListTableControllerBase.h */,
-				73A784AB14F8CC22001387F6 /* WizPadListTableControllerBase.mm */,
 				73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */,
 				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
 				738637A815173643006A9E16 /* Accounts */,
@@ -1637,6 +1620,47 @@
 				73BB85281511FC3C0032F99B /* WizNotificationMessageType.h */,
 			);
 			name = Notifacation;
+			sourceTree = "<group>";
+		};
+		73C1487E152402D3000675BA /* DocumentView */ = {
+			isa = PBXGroup;
+			children = (
+				73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */,
+				73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */,
+			);
+			name = DocumentView;
+			sourceTree = "<group>";
+		};
+		73C14880152402E0000675BA /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				73A7848514F8CC22001387F6 /* CatelogBaseAbstractView.h */,
+				73A7848614F8CC22001387F6 /* CatelogBaseAbstractView.m */,
+				73A7848714F8CC22001387F6 /* CatelogBaseCell.h */,
+				73A7848814F8CC22001387F6 /* CatelogBaseCell.m */,
+				73A7848914F8CC22001387F6 /* CatelogBaseController.h */,
+				73A7848A14F8CC22001387F6 /* CatelogBaseController.m */,
+				73A7848B14F8CC22001387F6 /* CatelogTagCell.h */,
+				73A7848C14F8CC22001387F6 /* CatelogTagCell.m */,
+				73A7849014F8CC22001387F6 /* PadFoldersController.h */,
+				73A7849114F8CC22001387F6 /* PadFoldersController.m */,
+				73A7849214F8CC22001387F6 /* PadTagController.h */,
+				73A7849314F8CC22001387F6 /* PadTagController.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		73C1488115240304000675BA /* DocumentAbs */ = {
+			isa = PBXGroup;
+			children = (
+				73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */,
+				73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */,
+				73A784A814F8CC22001387F6 /* WizPadListCell.h */,
+				73A784A914F8CC22001387F6 /* WizPadListCell.m */,
+				73A784AA14F8CC22001387F6 /* WizPadListTableControllerBase.h */,
+				73A784AB14F8CC22001387F6 /* WizPadListTableControllerBase.mm */,
+			);
+			name = DocumentAbs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

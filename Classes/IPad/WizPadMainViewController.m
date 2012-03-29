@@ -512,7 +512,6 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    NSLog(@"retain count %d",[self retainCount]);
     [self.navigationController setToolbarHidden:YES animated:YES];
     if (self.currentPoperController != nil) {
         [self.currentPoperController dismissPopoverAnimated:NO];

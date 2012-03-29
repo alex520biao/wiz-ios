@@ -130,7 +130,6 @@
     NSURL* url = [self getAttachmentFileURL:attach];
     [currentPreview setURL:url];
     if ([[currentPreview icons] count]) {
-        NSLog(@"%d",[[currentPreview icons]count]);
         return YES;
     }
     return NO;
@@ -181,10 +180,6 @@
     cell.textLabel.text = attach.attachmentName;
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
-}
-- (void) documentInteractionControllerWillPresentOptionsMenu:(UIDocumentInteractionController *)controller
-{
-    NSLog(@"will");
 }
 - (void) checkInWiz:(WizDocumentAttach*)attachment
 {

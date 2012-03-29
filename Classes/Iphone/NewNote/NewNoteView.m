@@ -833,6 +833,10 @@
 }
 -(void) saveDocument
 {
+    if (self.recorder!= nil && [self.recorder isRecording])
+    {
+        [self stopRecording];
+    }
     [self newDocument];
     [self postSelectedMessageToPicker];
     [self.navigationController dismissModalViewControllerAnimated:YES];

@@ -18,33 +18,14 @@
 #import "WizSync.h"
 #import "WizNotification.h"
 #import "pinyin.h"
+#import <ifaddrs.h>
+
+#define WizNotFoundIndex    -2
 @implementation WizPadListTableControllerBase
-@synthesize landscapeDocumentsArray;
-@synthesize portraitDocumentsArray;
 @synthesize isLandscape;
-@synthesize sourceArray;
 @synthesize accountUserID;
 @synthesize kOrderIndex;
 @synthesize tableArray;
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [WizNotificationCenter removeObserver:self];
-    self.accountUserID = nil;
-    self.sourceArray = nil;
-    self.landscapeDocumentsArray = nil;
-    self.portraitDocumentsArray = nil;
-    [super dealloc];
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -53,66 +34,27 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
-
-#pragma mark - View lifecycle
-- (NSArray*) arrayToLoanscapeCellArray:(NSArray*)source
+- (NSIndexPath*) indexPathForDocument:(NSString*)documentGUID
 {
-    int documentCount = [source count];
-    NSMutableArray* retArray = [NSMutableArray array];
-    for (int docIndex = 0; docIndex < documentCount; ) {
-        NSMutableArray* cellArray = [NSMutableArray array];
-        for (int i =docIndex; i < documentCount; i++) {
-            if ([cellArray count] == 4) {
-                [retArray addObject:cellArray];
-                docIndex = i;
-                break;
-            } else if (i == documentCount -1)
-            {
-                [cellArray addObject:[source objectAtIndex:i]];
-                [retArray addObject:cellArray];
-                docIndex = i+1;
-                break;
+    for (int arrIndex = 0; arrIndex < [self.tableArray count]; arrIndex++) {
+        NSArray* arr = [self.tableArray objectAtIndex:arrIndex];
+        for (int docIndex = 0;docIndex < [arr count]; docIndex++) {
+            WizDocument* doc = [arr objectAtIndex:docIndex];
+            if ([doc.guid isEqualToString:documentGUID]) {
+                return [NSIndexPath indexPathForRow:docIndex inSection:arrIndex];
             }
-            [cellArray addObject:[source objectAtIndex:i]];
         }
     }
-    return retArray;
+    return [NSIndexPath indexPathForRow:WizNotFoundIndex inSection:WizNotFoundIndex];
 }
-
-- (NSArray*) arrayToPotraitCellArraty:(NSArray*)source
-{
-    int documentCount = [source count];
-    NSMutableArray* retArray = [NSMutableArray array];
-    for (int docIndex = 0; docIndex < documentCount; ) {
-        NSMutableArray* cellArray = [NSMutableArray array];
-        for (int i =docIndex; i < documentCount; i++) {
-            if ([cellArray count] == 3) {
-                [retArray addObject:cellArray];
-                docIndex = i;
-                break;
-            } else if (i == documentCount -1)
-            {
-                [cellArray addObject:[source objectAtIndex:i]];
-                [retArray addObject:cellArray];
-                docIndex = i+1;
-                break;
-            }
-            [cellArray addObject:[source objectAtIndex:i]];
-        }
-    }
-    return retArray;
-}
-//data source delegate
-- (void) reloadDocuments
+- (NSArray*) reloadDocuments
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    NSMutableArray* arr = [[index recentDocuments] mutableCopy];
-    self.sourceArray = arr;
-    [arr release];
+    return [index recentDocuments];
 }
 - (void) orderByReverseDate
 {
-    NSMutableArray* array = [self.sourceArray mutableCopy];
+    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
     [self.tableArray removeAllObjects];
     NSMutableArray* today = [NSMutableArray array];
     NSMutableArray* yestorday = [NSMutableArray array];
@@ -160,12 +102,11 @@
     if ([mounth count]) {
         [self.tableArray addObject:mounth];
     }
-    [array release];
     
 }
 - (void) orderByDate
 {
-    NSMutableArray* array = [[self.sourceArray mutableCopy] autorelease];
+    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
     [self.tableArray removeAllObjects];
     NSRange range = NSMakeRange(0, 7);
     if ([array count] == 1) {
@@ -177,7 +118,7 @@
     if ([array count] == 0) {
         return;
     }
-    int docIndex = [self.sourceArray count]-1;
+    int docIndex = [array count]-1;
     for (int i =0; i<12; i++) {
         NSMutableArray* sectionArray = [NSMutableArray array];
         for(int k = docIndex; k >= 0; k--)
@@ -216,7 +157,7 @@
 
 - (void) orderByFirstLetter
 {
-    NSMutableArray* array = [[self.sourceArray mutableCopy] autorelease];
+    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
     if (kOrderFirstLetter == self.kOrderIndex) {
         [array sortUsingSelector:@selector(compareWithFirstLetter:)];
     }
@@ -270,7 +211,7 @@
 
 - (void) orderByCreateDate
 {
-    NSMutableArray* array = [NSMutableArray arrayWithArray:self.sourceArray];
+    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
     [self.tableArray removeAllObjects];
     NSRange range = NSMakeRange(0, 7);
     if (self.kOrderIndex == kOrderCreatedDate) {
@@ -288,7 +229,7 @@
     if ([array count] == 0) {
         return;
     }
-    int docIndex = [self.sourceArray count]-1;
+    int docIndex = [array count]-1;
     for (int i =0; i<12; i++) {
         NSMutableArray* sectionArray = [NSMutableArray array];
         for(int k = docIndex; k >= 0; k--)
@@ -326,8 +267,7 @@
 }
 - (void) reloadAllData
 {
-    [self reloadDocuments];
-    if (![self.sourceArray count]) {
+    if (![[self reloadDocuments] count]) {
         UIView* back = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1024, 768)];
        UILabel* remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(414, 284, 200, 200)];;
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
@@ -374,33 +314,23 @@
         default:
             break;
     }
-    [self.landscapeDocumentsArray removeAllObjects];
-    [self.portraitDocumentsArray removeAllObjects];
-    for (NSMutableArray* each in self.tableArray) {
-        [self.landscapeDocumentsArray addObject:[self arrayToLoanscapeCellArray:each]];
-        [self.portraitDocumentsArray addObject:[self arrayToPotraitCellArraty:each]];
-    }
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+}
+- (void) reloadTableView
+{
+    [self reloadAllData];
+    [self.tableView reloadData];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.tableView.backgroundColor= [UIColor grayColor];
-    if (nil == self.landscapeDocumentsArray) {
-        self.landscapeDocumentsArray = [NSMutableArray array];
-    }
-    if (nil == self.portraitDocumentsArray) {
-        self.portraitDocumentsArray = [NSMutableArray array];
-    }
-    
     if (nil == self.tableArray) {
         self.tableArray = [NSMutableArray array];
     }
     self.isLandscape = UIInterfaceOrientationIsLandscape((self.interfaceOrientation));
     [self reloadAllData];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [WizNotificationCenter addObserverForNewDocument:self selector:@selector(onAddNewDocument:)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfChangeDocumentListOrderMethod object:nil];
+
 }
 
 - (void)viewDidUnload
@@ -438,27 +368,42 @@
     [super didAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation];
 }
 #pragma mark - Table view data source
-
+//- (NSInteger) countOfLandscape
+//{
+//
+//}
+//- (NSInteger) countOfPortrait
+//{
+//    
+//}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.isLandscape) {
-        return [self.landscapeDocumentsArray count];
+        return [self.tableArray count];
     }
     else
     {
-        return [self.portraitDocumentsArray count];
+        return [self.tableArray count];
     }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSInteger count = 0;
     if (self.isLandscape) {
-        return [[self.landscapeDocumentsArray objectAtIndex:section] count]  ;
-    }
+        count = 4;
+   }
     else
     {
-        return [[self.portraitDocumentsArray objectAtIndex:section] count];
+        count = 3;
     }
+    if ([[self.tableArray objectAtIndex:section] count]%4>0) {
+        return  [[self.tableArray objectAtIndex:section] count]/count+1;
+    }
+    else {
+        return [[self.tableArray objectAtIndex:section] count]/count  ;
+    }
+
 }
 - (void) didSelectedDocument:(WizDocument*)doc
 {
@@ -470,33 +415,51 @@
 - (void)onAddNewDocument:(NSNotification*)nc
 {
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    NSLog(@"documentguid %@",documentGUID);
-    NSLog(@"accountUserId %@",self.accountUserID);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     WizDocument* doc = [index documentFromGUID:documentGUID];
     if (doc == nil) {
         NSLog(@"nil");
     }
-    [self.sourceArray insertObject:doc atIndex:0];
-    [self reloadAllData];
+    if([self.tableArray count] >0)
+    {
+        [[self.tableArray objectAtIndex:0] insertObject:doc atIndex:0];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else {
+        NSMutableArray* array = [NSMutableArray arrayWithObject:doc];
+        [self.tableArray addObject:array];
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
     WizPadListCell *cell = (WizPadListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[WizPadListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.accountUserId = self.accountUserID;
         cell.owner = self;
     }
+    NSUInteger documentsCount=0;
     if (self.isLandscape) {
-        [cell setDocuments:[[self.landscapeDocumentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
+        documentsCount = 4;
     }
     else
     {
-        [cell setDocuments:[[self.portraitDocumentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
+        documentsCount = 3;
     }
+    NSUInteger needLength = documentsCount*(indexPath.row+1);
+    NSArray* sectionArray = [self.tableArray objectAtIndex:indexPath.section];
+    NSArray* cellArray=nil;
+    NSRange docRange;
+    if ([sectionArray count] < needLength) {
+        docRange =  NSMakeRange(documentsCount*indexPath.row, [sectionArray count]-documentsCount*indexPath.row);
+    }
+    else {
+        docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
+    }
+    cellArray = [sectionArray subarrayWithRange:docRange];
+    [cell setDocuments:cellArray];
     return cell;
 }
 
@@ -576,5 +539,55 @@
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES ];
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
+- (void) onDeleteDocument:(NSNotification*)nc
+{
+    NSString* documentGUID = [WizNotificationCenter getDeleteDocumentGUIDFromNc:nc];
+    NSLog(@"documentGUID is %@",documentGUID);
+    if (documentGUID == nil || [documentGUID isEqualToString:@""]) {
+        NSLog(@"nil");
+        return;
+    }
+    NSIndexPath* docIndex = [self indexPathForDocument:documentGUID];
+    if (docIndex.section == WizNotFoundIndex)
+    {
+        return;
+    }
+    [[self.tableArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
+    if ([[self.tableArray objectAtIndex:docIndex.section] count] > 0)
+{
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+}
+else {
+    [self.tableArray removeObjectAtIndex:docIndex.section];
+    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+}
+}
 
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
+    [WizNotificationCenter removeObserver:self];
+    [WizNotificationCenter removeObserverForDeleteDocument:self];
+    self.accountUserID = nil;
+    [super dealloc];
+}
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [WizNotificationCenter addObserverForNewDocument:self selector:@selector(onAddNewDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:MessageOfChangeDocumentListOrderMethod object:nil];
+    }
+    return self;
+}
 @end

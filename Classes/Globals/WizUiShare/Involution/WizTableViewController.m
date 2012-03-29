@@ -287,13 +287,11 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         i = 1;
     }
     self.kOrderIndex = i;
-    NSLog(@"korderindex is %d",self.kOrderIndex);
     [self sortAllData];
     [self.tableView reloadData];
 }
 - (void) insertDocument:(NSNotification*)nc
 {
-    NSLog(@"new document");
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     WizDocument* doc = [index documentFromGUID:documentGUID];
@@ -423,7 +421,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     NSIndexPath* a = [self indexOfDocumentInTableSourceArray:doc.guid];
-    NSLog(@"%d %d",a.section, a.row );
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

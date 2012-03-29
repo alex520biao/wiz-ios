@@ -41,7 +41,6 @@
 
 - (void) initRootNavigation
 {
-    NSLog(@"dddd");
     [WizGlobals toLog:@"dd"];
     [WizNotificationCenter removeObserver:self];
     UINavigationController* root = [[UINavigationController alloc] init];

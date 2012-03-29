@@ -23,7 +23,7 @@ extern NSString* KeyOfPassword;
 
 -(id) init;
 -(void)dealloc;
-
++  (NSArray*) accountsUserIdArray;
 + (void) logoutAccount:(NSString*)userId;
 +(NSString*) settingsFileName;
 +(WizSettings *) sharedSettings;

@@ -271,6 +271,7 @@
     self.localsearchView.hidden = YES;
     self.searchBar.delegate = self;
     self.localSearchSwitchString.text = NSLocalizedString(@"Search local notes only" , nil);
+    self.localSearchSwitchString.adjustsFontSizeToFitWidth = YES;
     [super viewDidLoad];
 }
 

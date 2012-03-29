@@ -93,5 +93,20 @@
 {
     [WizNotificationCenter postMessageWithName:MessageTypeOfIphoneSetupAccount userInfoObject:nil userInfoKey:nil];
 }
-
++ (void) addObserverForDeleteDocument:(id) observer selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfDeleteDocument];
+}
++ (void) removeObserverForDeleteDocument:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfDeleteDocument];
+}
++ (void) postDeleteDocumentMassage:(NSString*)documentGUID
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfDeleteDocument userInfoObject:documentGUID userInfoKey:UserInfoTypeOfDocumentGUID];
+}
++ (NSString*) getDeleteDocumentGUIDFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];
+}
 @end

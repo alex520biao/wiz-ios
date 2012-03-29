@@ -10,6 +10,7 @@
 #import "WizGlobalData.h"
 #import "WizIndex.h"
 #import "CatelogBaseCell.h"
+#import "TTTAttributedLabel.h"
 @implementation WizPadCatelogData
 @synthesize name;
 @synthesize count;
@@ -18,66 +19,38 @@
 @end
 
 @implementation CatelogBaseController
-@synthesize landscapeContentArray;
-@synthesize portraitContentArray;
 @synthesize accountUserId;
 @synthesize willToOrientation;
+static NSDictionary* nameAttributeDic;
+static NSDictionary* paragrahAttributeDic;
++ (NSDictionary*) paragrahAttributeDic
+{
+    if (paragrahAttributeDic == nil) {
+        paragrahAttributeDic = [NSMutableArray array];
+        long characheterSpacing = 0.5f;
+        CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &characheterSpacing);
+        CGFloat lineSpace = 18;
+        CTParagraphStyleSetting lineSpaceStyle;
+        lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
+        lineSpaceStyle.valueSize = sizeof(lineSpace);
+        lineSpaceStyle.value = &lineSpace;
+        CTParagraphStyleSetting settings[] = {lineSpaceStyle};
+        CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
+        UIFont* stringFont = [UIFont systemFontOfSize:13];
+        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
+        paragrahAttributeDic = [[NSDictionary alloc] initWithObjectsAndKeys:(id)num,(NSString *)kCTKernAttributeName,(id)style,(id)kCTParagraphStyleAttributeName, (id)font,(NSString*)kCTFontAttributeName,nil];
+        CFRelease(num);
+    }
+    return paragrahAttributeDic;
+}
+
 - (void) dealloc{
     self.accountUserId = nil;
-    self.landscapeContentArray = nil;
-    self.portraitContentArray = nil;
     [super dealloc];
 }
 -(void) didSelectedCatelog:(NSString *)keywords
 {
     
-}
-- (NSArray*) arrayToLoanscapeCellArray:(NSArray*)source
-{
-    int documentCount = [source count];
-    NSMutableArray* retArray = [NSMutableArray array];
-    for (int docIndex = 0; docIndex < documentCount; ) {
-        NSMutableArray* cellArray = [NSMutableArray array];
-        for (int i =docIndex; i < documentCount; i++) {
-            if ([cellArray count] == 4) {
-                [retArray addObject:cellArray];
-                docIndex = i;
-                break;
-            } else if (i == documentCount -1)
-            {
-                [cellArray addObject:[source objectAtIndex:i]];
-                [retArray addObject:cellArray];
-                docIndex = i+1;
-                break;
-            }
-            [cellArray addObject:[source objectAtIndex:i]];
-        }
-    }
-    return retArray;
-}
-
-- (NSArray*) arrayToPotraitCellArraty:(NSArray*)source
-{
-    int documentCount = [source count];
-    NSMutableArray* retArray = [NSMutableArray array];
-    for (int docIndex = 0; docIndex < documentCount; ) {
-        NSMutableArray* cellArray = [NSMutableArray array];
-        for (int i =docIndex; i < documentCount; i++) {
-            if ([cellArray count] == 3) {
-                [retArray addObject:cellArray];
-                docIndex = i;
-                break;
-            } else if (i == documentCount -1)
-            {
-                [cellArray addObject:[source objectAtIndex:i]];
-                [retArray addObject:cellArray];
-                docIndex = i+1;
-                break;
-            }
-            [cellArray addObject:[source objectAtIndex:i]];
-        }
-    }
-    return retArray;
 }
 
 
@@ -85,28 +58,20 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        self.dataArray = [NSMutableArray array];
     }
     return self;
 }
-
-- (void)didReceiveMemoryWarning
+- (id) init
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+    self = [super init];
+    if (self) {
+        self.dataArray = [NSMutableArray array];
+    }
+    return self;
 }
-
 - (void) reloadAllData
 {
-    if (nil == self.landscapeContentArray) {
-        self.landscapeContentArray = [NSMutableArray array];
-    }
-    if (nil == self.portraitContentArray) 
-    {
-        self.portraitContentArray = [NSMutableArray array];
-    }
 }
 
 - (void)viewDidLoad
@@ -162,12 +127,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSInteger count = 0;
     if (UIInterfaceOrientationIsLandscape(self.willToOrientation)) {
-        return [self.landscapeContentArray count];
+        count = 4;
     }
     else
     {
-        return [self.portraitContentArray count];
+        count = 3;
+    }
+    if ([self.dataArray  count]%4>0) {
+        return  [self.dataArray count]/count+1;
+    }
+    else {
+        return [self.dataArray count]/count  ;
     }
 }
 
@@ -182,14 +154,25 @@
         cell.owner = self;
 
     }
-    
+    NSInteger documentsCount =0;
     if (UIInterfaceOrientationIsLandscape(self.willToOrientation)) {
-        [cell setContent:[self.landscapeContentArray objectAtIndex:indexPath.row]];
+        documentsCount = 4;
     }
     else
     {
-        [cell setContent:[self.portraitContentArray objectAtIndex:indexPath.row]];
+        documentsCount = 3;
     }
+    NSUInteger needLength = documentsCount*(indexPath.row+1);
+    NSArray* cellArray=nil;
+    NSRange docRange;
+    if ([dataArray count] < needLength) {
+        docRange =  NSMakeRange(documentsCount*indexPath.row, [dataArray count]-documentsCount*indexPath.row);
+    }
+    else {
+        docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
+    }
+    cellArray = [dataArray subarrayWithRange:docRange];
+    [self configureCellWithArray:cell array:cellArray];
     return cell;
 }
 
