@@ -414,7 +414,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	}
 	else 
 	{
-		
         [self onError: ret];
 	}
 	//
@@ -1334,10 +1333,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
             }
         }
     }
+    [self release];
 }
 -(void) onError: (id)retObject
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
 	if ([retObject isKindOfClass:[NSError class]])
 	{  
         NSError* error = (NSError*)retObject;
@@ -1356,7 +1355,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
                                                            cancelButtonTitle:WizStrCancel 
                                                            otherButtonTitles:WizStrOK, nil];
                     prompt.tag = 10001;
-                    prompt.delegate = self;
                     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
                     textField.secureTextEntry = YES;
                     [textField setBackgroundColor:[UIColor whiteColor]];
@@ -1366,6 +1364,8 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
                     [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
                     
                 }
+                prompt.delegate = self;
+                [self retain];
                 [prompt show];
                 return;
             }
@@ -1385,6 +1385,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         }
 		 
 	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
 }
 
 -(void) cancel

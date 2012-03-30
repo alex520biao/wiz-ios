@@ -536,7 +536,7 @@
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flex.width = 344;
     UIBarButtonItem* newNote =[[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];    
-    NSArray* items = [NSArray arrayWithObjects:flex,flex, edit, attachment, detail, flex,newNote, nil];
+    NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit, attachment, detail, flex,nil];
    
     [self setToolbarItems:items];
     self.editBarItem = edit;
