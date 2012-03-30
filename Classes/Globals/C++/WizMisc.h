@@ -33,7 +33,5 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-
-
 #endif //_WIZMISC_H_
 

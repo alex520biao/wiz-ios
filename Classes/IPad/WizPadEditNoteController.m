@@ -420,6 +420,7 @@
     }
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 

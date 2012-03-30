@@ -63,8 +63,23 @@
     [self.window makeKeyAndVisible];
 }
 
-
+- (void) encryptPasswordV320
+{
+    NSArray* arr = [[NSArray alloc] initWithArray:[WizSettings accounts]];
+    for (int i = 0; i < [arr count]; i++) {
+        NSString* account = [WizSettings accountUserIdAtIndex:arr index:i];
+        NSString* password = [WizSettings accountPasswordAtIndex:arr index:i];
+        NSLog(@"account %@ password %@",account, password);
+        if (![WizGlobals checkPasswordIsEncrypt:password])
+        {
+            NSLog(@"change");
+            [WizSettings changeAccountPassword:account password:password];
+        }
+    }
+    [arr release];
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self encryptPasswordV320];
     [self initRootNavigation];
     return YES;
 }

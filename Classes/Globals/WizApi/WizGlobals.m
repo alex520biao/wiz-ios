@@ -62,6 +62,15 @@ static NSArray* excelArray;
 	BOOL b =[self DeviceIsPad];
 	return b;
 }
++(NSString*) md5:(NSData *)input {
+    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(input.bytes, input.length, md5Buffer);
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH *2];
+    for(int i =0; i <CC_MD5_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x",md5Buffer[i]];
+    }
+    return  output;
+}
 
 + (BOOL) checkObjectIsDocument:(NSString*)type
 {
@@ -564,9 +573,23 @@ static NSArray* excelArray;
 	return [str lowercaseString];
 }
 
-
-
-+ (UIImage *)resizeImage:(UIImage *)image 
++ (NSString*) encryptPassword:(NSString*)password
+{
+    NSString* md5P = [WizGlobals md5:[password dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString* md = [NSString stringWithFormat:@"md5.%@",md5P];
+    return md;
+}
++ (BOOL) checkPasswordIsEncrypt:(NSString*)password
+{
+    NSLog(@"password is %@",password);
+    if (password.length > 4 &&[[password substringToIndex:4] isEqualToString:@"md5."]) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
++ (UIImage *)resizeImage:(UIImage *)image
 			   scaledToSize:(CGSize)newSize 
 {
     UIGraphicsBeginImageContext(newSize);    
@@ -974,6 +997,7 @@ BOOL WizDeviceIsPad(void)
 {
     [self stringByEvaluatingJavaScriptFromString:@"MyApp_RemoveAllHighlights()"];
 }
+
 
 @end
 

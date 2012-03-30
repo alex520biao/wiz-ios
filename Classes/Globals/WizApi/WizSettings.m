@@ -29,6 +29,7 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 		NSString* filename = [WizSettings settingsFileName];
 		//
 		_dict = [NSMutableDictionary dictionaryWithContentsOfFile:filename];
+        NSLog(@"%@",_dict);
 		if (_dict == nil)
 		{
 			_dict = [[NSMutableDictionary alloc] init];
@@ -172,6 +173,10 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 	}
 	NSArray* exitsAccounts = [WizSettings accounts];
 	//
+    if (![WizGlobals checkPasswordIsEncrypt:password]) {
+        password = [WizGlobals encryptPassword:password];
+    }
+    //
 	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password, KeyOfPassword, nil];
 	//
 	NSMutableArray* newAccounts = [NSMutableArray arrayWithArray:exitsAccounts];
@@ -203,8 +208,11 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 		return;
 	//
 	NSArray* exitsAccounts = [WizSettings accounts];
-	//
-	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password, KeyOfPassword, nil];
+    //
+    if (![WizGlobals checkPasswordIsEncrypt:password]) {
+        password = [WizGlobals encryptPassword:password];
+    }
+	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password , KeyOfPassword, nil];
 	//
 	NSMutableArray* newAccounts = [NSMutableArray arrayWithArray:exitsAccounts];
 	[newAccounts removeObjectAtIndex:index];

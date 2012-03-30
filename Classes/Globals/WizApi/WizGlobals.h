@@ -74,6 +74,11 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (BOOL) copyFileToDocumentIndexfiles:(NSString *)filePath   toDocument:(NSString*)documentGUID   accountUserId:(NSString*)accountUserId;
 + (void) toLog:(NSString*)log;
 + (void) changeAccountLocalPassword;
+//
++ (NSString*) md5:(NSData *)input;
++ (NSString*) encryptPassword:(NSString*)password;
++ (BOOL) checkPasswordIsEncrypt:(NSString*)password;
+//
 @end
 
 

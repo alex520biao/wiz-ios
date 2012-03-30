@@ -510,13 +510,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
     NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
     NSString* userType = [userInfo objectForKey:@"user_type"];
-    
     [index setUserLevel:[userLevel intValue]];
     [index setUserLevelName:userLevelName];
     [index setUserType:userType];
     [index setUserPoints:[userPoints longLongValue]];
-    
-
     [self postSyncLoginEnd];
 }
 -(BOOL) callClientLogout
