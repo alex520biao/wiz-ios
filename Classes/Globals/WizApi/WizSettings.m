@@ -238,7 +238,10 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 	NSMutableArray* newAccounts = [NSMutableArray arrayWithArray:exitsAccounts];
 	[newAccounts removeObjectAtIndex:index];
     [WizSettings setAccounts:newAccounts];
-    [[NSFileManager defaultManager] removeItemAtPath:[WizIndex accountPath:userId]  error:nil];
+    NSError* error = nil;
+    if (![[NSFileManager defaultManager] removeItemAtPath:[WizIndex accountPath:userId] error:&error]) {
+        [WizGlobals reportError:error];
+    }
 }
 +(int) findAccount: (NSString*)userId
 {

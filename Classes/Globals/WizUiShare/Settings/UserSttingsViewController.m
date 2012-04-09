@@ -594,7 +594,7 @@
     }
     else  if (alertView.tag == RemoveAccountTag)
     {
-        if( buttonIndex == 0 ) //NO
+        if( buttonIndex == 1 ) //NO
         {
             [WizSettings removeAccount:self.accountUserId];
             if (WizDeviceIsPad()) {
@@ -644,7 +644,7 @@
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:NSLocalizedString(@"The account information and local drafts will be deleted permanently from your device.", nil) 
 												   delegate:self 
 										  cancelButtonTitle:nil 
-										  otherButtonTitles:WizStrRemove, WizStrCancel, nil];
+										  otherButtonTitles:WizStrCancel,WizStrRemove , nil];
     alert.delegate = self;
 	alert.tag = RemoveAccountTag;
 	[alert show];
@@ -666,10 +666,11 @@
         mailPocker.mailComposeDelegate = self;
         [mailPocker setSubject:[NSString stringWithFormat:@"[%@] %@ by %@",[[UIDevice currentDevice] model],NSLocalizedString(@"Feedback", nil),self.accountUserId]];
         NSArray* toRecipients = [NSArray arrayWithObjects:@"support@wiz.cn",@"yishuiliunian@gmail.com",nil];
-        NSString* mailBody = [NSString stringWithFormat:@"%@:\n\n\n\n\n\n\n\n\n\n\n\n\n\n %@\n %@"
+        NSString* mailBody = [NSString stringWithFormat:@"%@:\n\n\n\n\n\n\n\n\n\n\n\n\n\n %@\n %@ \n%@"
                               ,NSLocalizedString(@"Your advice", nil)
                               ,[[UIDevice currentDevice] systemName]
-                              ,[[UIDevice currentDevice] systemVersion]];
+                              ,[[UIDevice currentDevice] systemVersion]
+                              ,[WizGlobals wizNoteVersion]];
         [mailPocker setToRecipients:toRecipients];
         [mailPocker setMessageBody:mailBody isHTML:NO];
         mailPocker.modalPresentationStyle = UIModalPresentationFormSheet;

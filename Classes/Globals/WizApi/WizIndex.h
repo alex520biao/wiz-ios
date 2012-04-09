@@ -285,7 +285,9 @@ enum
 - (NSString*) newDocumentWithOneAttachment:(NSURL*)fileUrl;
 - (NSString*) wizUpgradeAppVersion;
 - (BOOL) setWizUpgradeAppVersion:(NSString*)ver;
-
+//2012-4-6
+- (BOOL) documentMobileViewExist:(NSString*)documentGUID;
+- (BOOL) checkWebnoteIsNew:(NSString*)filePath;
 
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;

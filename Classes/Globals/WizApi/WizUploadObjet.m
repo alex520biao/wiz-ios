@@ -44,7 +44,11 @@
         
         self.uploadFileSize = [self.uploadFildHandel seekToEndOfFile];
        
-        self.sumUploadPartCount = self.uploadFileSize  /(READPARTSIZE) +1;
+    self.sumUploadPartCount = self.uploadFileSize  /(READPARTSIZE);
+    if (self.uploadFileSize%(READPARTSIZE) > 0)
+    {
+        self.sumUploadPartCount++;
+    }
         [self.uploadFildHandel seekToFileOffset:0];
         self.currentUploadTempFilePath = zip;
 }

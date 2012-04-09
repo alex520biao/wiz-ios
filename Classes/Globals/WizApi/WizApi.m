@@ -52,7 +52,7 @@ NSString* SyncMethod_GetUserInfo = @"wiz.getInfo";
 NSString* WizGlobalSyncProcessInfo = @"wiz_global_sync_process_info";
 NSString* WizGlobalStopSync = @"wiz_stop_sync";
 
-#define PARTSIZE 10*1024
+#define PARTSIZE 256*1024
 #define MD5PART 10*1024
 #define CONSTDEFAULTCOUNT 200
 

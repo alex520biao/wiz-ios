@@ -419,7 +419,7 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     WizDocument* doc = [index documentFromGUID:documentGUID];
     if (doc == nil) {
-        NSLog(@"nil");
+        return;
     }
     if([self.tableArray count] >0)
     {

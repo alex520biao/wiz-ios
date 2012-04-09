@@ -217,13 +217,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (WizDeviceIsPad()) {
-        return 5;
-    }
-    else
-    {
-        return 6;
-    }
+    return 5;
 }
 
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

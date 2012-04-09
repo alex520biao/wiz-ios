@@ -140,7 +140,7 @@
 		73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F014F8CC22001387F6 /* SearchHistoryView.m */; };
 		73A785BD14F8CC23001387F6 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F214F8CC22001387F6 /* SearchResultViewController.m */; };
 		73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F414F8CC22001387F6 /* SearchViewControllerIphone.m */; };
-		73A785BF14F8CC23001387F6 /* SearchWebView.js in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F714F8CC22001387F6 /* SearchWebView.js */; };
+		73A785BF14F8CC23001387F6 /* SearchWebView.js in Resources */ = {isa = PBXBuildFile; fileRef = 73A784F714F8CC22001387F6 /* SearchWebView.js */; };
 		73A785C014F8CC23001387F6 /* CloudReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784FB14F8CC22001387F6 /* CloudReview.m */; };
 		73A785C114F8CC23001387F6 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784FE14F8CC22001387F6 /* ELCAlbumPickerController.m */; };
 		73A785C214F8CC23001387F6 /* ELCAlbumPickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784FF14F8CC22001387F6 /* ELCAlbumPickerController.xib */; };
@@ -1733,6 +1733,7 @@
 				7311621014F50ABB007EC8AC /* Default@2x.png in Resources */,
 				730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */,
 				730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */,
+				73A785BF14F8CC23001387F6 /* SearchWebView.js in Resources */,
 				73A7857E14F8CC23001387F6 /* UserSttingsViewController.xib in Resources */,
 				737B5318151EFF0900CE3656 /* WizPadLoginViewController.xib in Resources */,
 				73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */,
@@ -1980,7 +1981,6 @@
 				73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */,
 				73A785BD14F8CC23001387F6 /* SearchResultViewController.m in Sources */,
 				73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */,
-				73A785BF14F8CC23001387F6 /* SearchWebView.js in Sources */,
 				73A785C014F8CC23001387F6 /* CloudReview.m in Sources */,
 				73A785C114F8CC23001387F6 /* ELCAlbumPickerController.m in Sources */,
 				73A785C314F8CC23001387F6 /* ELCAsset.m in Sources */,

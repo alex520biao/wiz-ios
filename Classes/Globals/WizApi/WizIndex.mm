@@ -682,7 +682,29 @@ NSInteger compareTag(id location1, id location2, void*);
 	//
 	return tags;
 }
+- (BOOL) documentMobileViewExist:(NSString*)documentGUID
+{
+    NSString* path = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
+    NSString* filename = nil;
+    filename = [path stringByAppendingPathComponent:@"wiz_mobile.html"];
+    if([[NSFileManager defaultManager] fileExistsAtPath:filename])
+    {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
 
+- (BOOL) checkWebnoteIsNew:(NSString*)filePath
+{
+    NSString* content = [NSString stringWithContentsOfFile:filePath usedEncoding:nil error:nil];
+    NSRange range = [content rangeOfString:@"<title>Web Note</title>"];
+    if (range.location == NSNotFound) {
+        return NO;
+    }
+    return YES;
+}
 - (BOOL) addLocation: (NSString*) location
 {
 	CIndex& index = [_indexData index];

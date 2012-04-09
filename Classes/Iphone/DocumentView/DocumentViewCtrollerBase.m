@@ -71,13 +71,18 @@
 
 @end
 
-
+@interface DocumentViewCtrollerBase()
+{
+    NSString* fontWidth;
+}
+@property (nonatomic, retain) NSString* fontWidth;
+@end
 
 @implementation DocumentViewCtrollerBase
 @synthesize  web;
 @synthesize  accountUserID;
 @synthesize doc;
-
+@synthesize fontWidth;
 
 @synthesize downloadActivity;
 @synthesize attachmentBarItem;
@@ -114,26 +119,18 @@
 }
 
 
-- (NSString*) addMetaJs
+- (void) changeWebViewWidth
 {
-    NSString* ret = @"var meta= document.createElement(\"meta\"); \n\
-        meta.setAttribute('name','viewport'); \n\
-        meta.setAttribute('content','width=device-width')    \n\
-        meta.setAttribute('initial-scale','1.0') \n\
-        meta document.getElementsByTagName(\"head\")[0].appendChild(meta);";
-    return ret;
+    NSString* ret = [NSString stringWithFormat:@"var meta= document.createElement(\"meta\"); \n\
+                     meta.setAttribute('name','viewport'); \n\
+                     meta.setAttribute('content','width=%@,initial-scale=1.0'); \n\
+                     document.getElementsByTagName(\"head\")[0].appendChild(meta);",self.fontWidth];
+    [self.web stringByEvaluatingJavaScriptFromString:ret];
 }
+
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    
-    if ([index isMoblieView]) {
-        NSString* jsString = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='%d%%'",[index webFontSize]];
-        [self.web stringByEvaluatingJavaScriptFromString:jsString];
-        [jsString release];
-        [self.web stringByEvaluatingJavaScriptFromString:[self addMetaJs]];
-    }
     [self.downloadActivity stopAnimating];
     self.downloadActivity.hidden = YES;
     self.searchItem.enabled = YES;
@@ -141,15 +138,17 @@
     self.attachmentBarItem.enabled = YES;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
+    [self changeWebViewWidth];
 }
-
--(void) fontSizeChanged:(float)size
+- (void) setDeviceWidth
 {
-    NSString* jsString = [[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust='%d%%'",(int)size];
-    [self.web stringByEvaluatingJavaScriptFromString:jsString];
-    [jsString release];
+    self.fontWidth = @"device-width";
 }
 
+- (void) setZoomWidth
+{
+    self.fontWidth = @"768";
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -229,11 +228,11 @@
 {
     NSDictionary* userInfo = [nc userInfo];
     NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
-
+    
     if (![methodName isEqualToString:SyncMethod_DownloadObject]) {
         return;
     }
-//    [self.downloadProcessView setProgress:0.9*([current floatValue]/[total floatValue]) animated:YES];
+    //    [self.downloadProcessView setProgress:0.9*([current floatValue]/[total floatValue]) animated:YES];
     return;
 }
 
@@ -277,9 +276,44 @@
 }
 - (void) checkDocument
 {
+    self.web.scalesPageToFit = YES;
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     NSString* documentFileName = [index documentViewFilename:self.doc.guid];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+    if ([index isMoblieView]) {
+        [self setDeviceWidth];
+        if (![index documentMobileViewExist:self.doc.guid]) {
+            NSString* documentType = self.doc.type;
+            if (documentType!=nil) {
+                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
+                    [self setZoomWidth];
+                }
+            }
+            else
+            {
+                NSString* url = self.doc.url;
+                if (url != nil && url.length > 4) {
+                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
+                        [self setZoomWidth];
+                    }
+                }
+            }
+            
+        }
+    }
+    else {
+        [self setZoomWidth];
+        NSString* url = self.doc.url;
+        NSString* type = self.doc.type;
+        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+            [self setDeviceWidth];
+        }
+        if ([type isEqualToString:@"webnote"]) {
+            if ([index checkWebnoteIsNew:documentFileName]) {
+                [self setDeviceWidth];
+            }
+        }
+    }
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     [self.web loadRequest:req];
     [req release];
@@ -337,12 +371,13 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-
+    
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.doc = [index documentFromGUID:self.doc.guid];
     NSUInteger attachmentsCount = [index attachmentCountOfDocument:self.doc.guid];
@@ -352,15 +387,13 @@
         [self.view addSubview:count];
         [count release];
     }
-    int size = [index webFontSize];
-    [self fontSizeChanged:size];
     self.title = self.doc.title;
     if (self.isEdit) {
         [self.web reload];
         self.title = self.doc.title;
         self.isEdit = NO;
     }
-    [super viewWillAppear:animated];
+    
     
 }
 
@@ -413,7 +446,7 @@
             [self displayEncryInfo]; 
         }
     }
- }
+}
 
 @end
 
