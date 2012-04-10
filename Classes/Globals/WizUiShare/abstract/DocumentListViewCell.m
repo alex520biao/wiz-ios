@@ -99,6 +99,9 @@ static UIFont* nameFont;
                               lineBreakMode:UILineBreakModeCharacterWrap];
     CGFloat requireWidth = requiredSize.width;
     if (requireWidth > width) {
+        if (nil == str || str.length <1) {
+            return @"";
+        }
         return [self nameToDisplay:[str substringToIndex:str.length-1 ] width:width];
     }
     else
@@ -185,8 +188,11 @@ static UIFont* nameFont;
             tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
         }
         if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-            tagstr = [tagstr substringToIndex:tagstr.length-1];
-            folder = [folder stringByAppendingString:tagstr];
+            if (nil != tagstr || tagstr.length > 0) {
+                tagstr = [tagstr substringToIndex:tagstr.length-1];
+                folder = [folder stringByAppendingString:tagstr];
+            }
+            
         }
         detailStr = folder;
         abstractImage = [UIImage imageNamed:@"documentWithoutData"];

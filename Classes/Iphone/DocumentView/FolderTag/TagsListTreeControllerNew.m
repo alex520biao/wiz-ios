@@ -27,7 +27,11 @@
     }
     return self;
 }
-
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfTagViewVillReloadData object:nil];
+    [super dealloc];
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -61,6 +65,7 @@
 - (void) reloadAllData
 {
     NSArray* tagArray = [[[WizGlobalData sharedData] indexData:accountUserId] allTagsForTree];
+    NSLog(@"tagArray count is %d",[tagArray count]);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     tree = [[LocationTreeNode alloc]init] ;
     tree.deep = 0;
@@ -151,7 +156,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfTagViewVillReloadData object:nil];
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }

@@ -242,9 +242,24 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     switch (self.kOrderIndex) {
         case kOrderCreatedDate:
         case kOrderReverseCreatedDate:
-            return [doc.dateCreated substringToIndex:7];
+        {
+            if (doc.dateCreated != nil && doc.dateCreated.length>7) {
+                return [doc.dateCreated substringToIndex:7];
+            }
+            else {
+                return @"";
+            }
+        }
+            
         case kOrderDate:
-            return [doc.dateModified substringToIndex:7];
+        {
+            if (doc.dateModified != nil && doc.dateModified.length>7) {
+                return [doc.dateModified substringToIndex:7];
+            }
+            else {
+                return @"";
+            }
+        }
         case kOrderFirstLetter:
         case kOrderReverseFirstLetter:
             return [WizIndex pinyinFirstLetter:doc.title];

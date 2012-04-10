@@ -364,6 +364,10 @@
 
 - (void) cancelSave
 {
+    if (self.recorder!= nil && [self.recorder isRecording])
+    {
+        [self audioStopRecord];
+    }
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];

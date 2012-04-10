@@ -14,13 +14,17 @@
 #import "CommonString.h"
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
+#import "WizPhoneNotificationMessage.h"
 @interface DocumentInfoCell : UITableViewCell {
     UILabel* nameLabel;
     UILabel* valueLabel;
+
 }
 @property (nonatomic, retain)     UILabel* nameLabel;
 @property (nonatomic, retain)    UILabel* valueLabel;
 @end
+
+
 
 @implementation DocumentInfoCell
 @synthesize nameLabel;
@@ -101,6 +105,7 @@
 #pragma mark - View lifecycle
 -(void) tagViewSelect
 {
+    willReloadTagAndFoler = YES;
     WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
     tagView.accountUserId = self.accountUserId;
     tagView.initSelectedTags = self.documentTags;
@@ -119,6 +124,7 @@
 }
 -(void) floderViewSelected
 {
+    willReloadTagAndFoler = YES;
     SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
     floderView.accountUserID = self.accountUserId;
     floderView.selectedFloderString = self.documentFloder;
@@ -130,6 +136,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    willReloadTagAndFoler = NO;
     [self.tableView reloadData];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     self.documentTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:self.doc.guid]];
@@ -170,6 +177,13 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (willReloadTagAndFoler) {
+        if (!WizDeviceIsPad()) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
+        }
+        willReloadTagAndFoler = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -189,6 +203,9 @@
         tagChenged = YES;
     }
     if (tagChenged == YES) {
+        if (nil == tagGuids || tagGuids.length <1) {
+            return;
+        }
         NSString* tags = [tagGuids substringToIndex:tagGuids.length-1];
 
         [index setDocumentTags:self.doc.guid tags:tags];

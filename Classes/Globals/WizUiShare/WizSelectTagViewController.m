@@ -307,7 +307,6 @@
         }
         else
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
         }
     }
     else

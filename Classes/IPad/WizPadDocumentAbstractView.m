@@ -153,8 +153,12 @@ static NSMutableDictionary* detailDecorator;
             tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
         }
         if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-            tagstr = [tagstr substringToIndex:tagstr.length-1];
-            folder = [folder stringByAppendingString:tagstr];
+            if (tagstr != nil && tagstr.length > 1) {
+                tagstr = [tagstr substringToIndex:tagstr.length-1];
+                folder = [folder stringByAppendingString:tagstr];
+            }
+            
+            
         }
         NSMutableAttributedString* detail = [[NSMutableAttributedString alloc] initWithString:folder attributes:[WizPadDocumentAbstractView detailDecorator]];
         [abstractString appendAttributedString:detail];

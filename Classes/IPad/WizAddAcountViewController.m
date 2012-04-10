@@ -314,14 +314,17 @@
     } else if ([fitAccounts count] == 1)
     {
         NSString* string = [fitAccounts lastObject];
-        if ([string isEqualToString:[match substringToIndex:match.length-1]]) {
-            [self removeTable];
+        if (string.length >1) {
+            if ([string isEqualToString:[match substringToIndex:match.length-1]]) {
+                [self removeTable];
+            }
+            else {
+                [self setExistAccountsTableViewFrame];
+                [self.view addSubview:self.existAccountsTable];
+                [self showExistAccounts:fitAccounts];
+            }
         }
-        else {
-            [self setExistAccountsTableViewFrame];
-            [self.view addSubview:self.existAccountsTable];
-            [self showExistAccounts:fitAccounts];
-        }
+
     }
     else {
         [self removeTable];
