@@ -1799,9 +1799,6 @@ NSInteger compareTag(id location1, id location2, void*);
                 [self setDownloadDocumentData:NO];
             }
         }
-        if (0 == [self isMoblieView]) {
-            [self setDocumentMoblleView:YES];
-        }
     }
     else
     {
@@ -2214,6 +2211,10 @@ static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
 - (BOOL) isMoblieView
 {
     NSString* ret = [self userInfo:MoblieView];
+    if (nil == ret || [ret isEqualToString:@""]) {
+        [self setDocumentMoblleView:YES];
+        return YES;
+    }
     return  [ret isEqualToString:@"1"];
 }
 
