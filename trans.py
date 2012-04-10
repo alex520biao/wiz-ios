@@ -4,8 +4,8 @@ import traceback
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
-outPutDir = '/Users/wiz/WizDzIos/wiz-ios/English.lproj/'
-sourceDir = '/Users/wiz/WizDzIos/wiz-ios/Classes'
+outPutDir = '~/Workplace/wiz-ios/English.lproj/'
+sourceDir = '~Workplace//wiz-ios/Classes'
 dicFile = 'zh.txt'
 def genstrings(level, path):
 	for i in os.listdir(path):
