@@ -45,5 +45,4 @@
 - (void) checkDocument:(NSNotification*)nc;
 -(void) syncGoing:(NSNotification*) nc;
 - (void) refreshAccountBegin:(id) sender;
--(void) refreshAccount;
 @end

@@ -15,6 +15,7 @@
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
 #import "WizNotification.h"
+#import "WizSync.h"
 @implementation RecentDcoumentListView
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -91,7 +92,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [WizNotificationCenter removeObserver:self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -136,6 +136,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserID];
+    if (!sync.busy) {
+        [self stopLoading];
+    }
     int count = 0;
     for(NSArray* each in self.tableArray)
     {

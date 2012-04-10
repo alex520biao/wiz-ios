@@ -15,7 +15,7 @@
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
-#define READPARTSIZE  100*1024
+#define READPARTSIZE  128*1024
 
 @implementation WizUploadObjet
 
