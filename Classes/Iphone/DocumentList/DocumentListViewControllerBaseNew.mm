@@ -5,7 +5,7 @@
 //  Created by dong yishuiliunian on 11-12-5.
 //  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "DocumentListViewControllerBaseNew.h"
 #import "WizIndex.h"
 #import "pinyin.h"
@@ -412,6 +412,11 @@
             break;
     }
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    if ([self.tableArray count] == 0) {
+    }
+    else {
+        self.tableView.backgroundView = nil;
+    }
 }
 
 
@@ -542,14 +547,8 @@
     [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
     [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
     [self stopLoading];
-    [nc postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
-    [nc postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
-    [nc addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
     UIView* remindView = [self.view viewWithTag:10001];
     [remindView removeFromSuperview];
-    [nc postNotificationName:MessageOfDocumentlistWillReloadData object:nil];
-    [self reloadAllData];
-    
 }
 
 
@@ -566,7 +565,7 @@
     NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
     NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
     NSString* objectName = [userInfo objectForKey:@"object_name"];
-    
+    NSNotificationCenter* ncCenter = [NSNotificationCenter defaultCenter];
     if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
         self.refreshLabel.text = WizStrSigningIn;
     }
@@ -586,15 +585,20 @@
     }
     
     else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
+        [ncCenter postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
         self.refreshLabel.text = WizStrSyncingnoteslist;
     }
     
     else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
+         [ncCenter postNotificationName:MessageOfDocumentlistWillReloadData object:nil];
         self.refreshLabel.text = WizStrSyncingattachmentlist;
     }
     
     else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
     {
+        if ([current isEqualToNumber:total]) {
+            [ncCenter postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
+        }
         self.refreshLabel.text = WizStrSyncingfolders;
     }
     

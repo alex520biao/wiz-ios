@@ -6,6 +6,7 @@
 //  Copyright 2011 WizBrother. All rights reserved.
 //
 #import <CommonCrypto/CommonDigest.h>
+#import <QuartzCore/QuartzCore.h>
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizIndex.h"
@@ -71,7 +72,43 @@ static NSArray* excelArray;
     }
     return  output;
 }
-
++ (UIView*) noNotesRemindFor:(NSString*)string
+{
+    UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 480)];
+    UIImageView* pushDownRemind = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"documentWithoutData"]];
+    pushDownRemind.frame = CGRectMake(120, 100, 80, 80);
+    [view addSubview:pushDownRemind];
+    CALayer* layer = [pushDownRemind layer];
+    layer.borderColor = [UIColor whiteColor].CGColor;
+    layer.borderWidth = 0.5f;
+    layer.shadowColor = [UIColor grayColor].CGColor;
+    layer.shadowOffset = CGSizeMake(1, 1);
+    layer.shadowOpacity = 0.5;
+    layer.shadowRadius = 0.5;
+    [pushDownRemind release];
+    UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(80, 200, 160, 480)];
+    remind.text = string;
+    remind.backgroundColor = [UIColor clearColor];
+    remind.textColor = [UIColor grayColor];
+    [view addSubview:remind];
+    remind.textAlignment = UITextAlignmentCenter;
+    [remind release];
+    
+    return [view autorelease];
+}
++ (UIView*) noNotesRemind
+{
+    UIImageView* pushDownRemind = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pushDownRemind"]];
+    UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(80, 250, 160, 480)];
+    remind.text = NSLocalizedString(@"You can pull down to sync notes or tap the plus (+) icon to create a new a note", nil);
+    remind.backgroundColor = [UIColor clearColor];
+    remind.textColor = [UIColor grayColor];
+    [pushDownRemind addSubview:remind];
+    remind.textAlignment = UITextAlignmentCenter;
+    [remind release];
+    pushDownRemind.tag = 10001;
+    return [pushDownRemind autorelease];
+}
 + (BOOL) checkObjectIsDocument:(NSString*)type
 {
     return [type isEqualToString:@"document"];

@@ -1337,6 +1337,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 }
 -(void) onError: (id)retObject
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
 	if ([retObject isKindOfClass:[NSError class]])
 	{  
         NSError* error = (NSError*)retObject;
@@ -1385,7 +1386,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         }
 		 
 	}
-    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
+    
 }
 
 -(void) cancel

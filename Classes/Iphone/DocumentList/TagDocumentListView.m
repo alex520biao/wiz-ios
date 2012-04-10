@@ -49,6 +49,10 @@
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByTag:tag.guid]];
+    if([self.sourceArray count] == 0)
+    {
+        self.tableView.backgroundView = [WizGlobals noNotesRemindFor:NSLocalizedString(@"There is no note in this tag",nil)];
+    }
 }
 
 - (void)viewDidUnload

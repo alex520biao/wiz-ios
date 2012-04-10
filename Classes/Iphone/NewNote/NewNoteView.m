@@ -787,7 +787,7 @@
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
     
     if([self.documentFloder isEqualToString:@""])
-        self.documentFloder = [NSMutableString stringWithString:WizStrMyNotes];
+        self.documentFloder = [NSMutableString stringWithString:@"/My Notes/"];
     if (self.titleTextFiled.text == nil) {
         self.titleTextFiled.text = @"";
     }

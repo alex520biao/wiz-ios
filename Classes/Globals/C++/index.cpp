@@ -1340,7 +1340,30 @@ bool CIndex::fileCountInLocation(const char *lpszLocation, int &count)
 
     
 }
-
+bool CIndex::fileCountWithChildInlocation(const char *lpszLocation, int &count)
+{
+        std::string lpszSQL = std::string("select count(*) from WIZ_DOCUMENT where DOCUMENT_LOCATION like '") + lpszLocation +("%'");
+        
+        try {
+                CppSQLite3Query query = m_db.execQuery(lpszSQL.c_str());
+                while (!query.eof())
+                    {
+                            count = query.getIntField(0);
+                            query.nextRow();
+                        }
+                return true;
+            }
+        catch (const CppSQLite3Exception& e)
+        {
+                TOLOG(e.errorMessage());
+                TOLOG(lpszSQL.c_str());
+                return false;
+            }
+        catch (...) {
+                TOLOG("Unknown exception while query deleted guid");
+                return false;
+            }    
+}
 bool CIndex::ClearDeletedGUIDs()
 {
 	std::string sql = "delete from WIZ_DELETED_GUID";

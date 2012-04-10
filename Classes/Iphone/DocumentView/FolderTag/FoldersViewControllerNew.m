@@ -15,6 +15,7 @@
 #import "FolderListView.h"
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
+#import "WizTableViewController.h"
 @implementation FoldersViewControllerNew
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -112,6 +113,10 @@
     [wizDocumentLocations release];
     [self removeBlockLocationNode:tree];
     self.displayNodes = [[[NSMutableArray alloc] initWithCapacity:40] autorelease];
+    [tree.children sortUsingComparator:^(LocationTreeNode* l1, LocationTreeNode* l2)
+    {
+        return [l1.title compareFirstCharacter:l2.title];
+    }];
     [LocationTreeNode getLocationNodes:tree :self.displayNodes];
     [self setNodeRow];
 	[[self tableView] reloadData];
@@ -143,7 +148,14 @@
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[index fileCountOfLocation:cell.treeNode.locationKey]];
+    NSString* current = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:cell.treeNode.locationKey]];
+    NSString* total = [NSString stringWithFormat:@"%d",[index filecountWithChildOfLocation:cell.treeNode.locationKey]];
+    if (![current isEqualToString:total]) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@/%@",current,total];
+    }
+    else {
+        cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[index fileCountOfLocation:cell.treeNode.locationKey]];
+    }
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeFolder"];
     }

@@ -371,6 +371,10 @@
 
 - (void) saveDocument
 {
+    if (self.recorder!= nil && [self.recorder isRecording])
+    {
+        [self audioStopRecord];
+    }
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 
     NSString* tagGuids = [NSMutableString string];
@@ -744,7 +748,9 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
+    [WizNotificationCenter removeObserver:self];
+    [WizNotificationCenter removeObserverForDeleteDocument:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

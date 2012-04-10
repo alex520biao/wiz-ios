@@ -54,10 +54,9 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDuration:0.3];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.localsearchView cache:YES];
-    self.localsearchView.hidden = NO;
-    [self.view bringSubviewToFront:self.localsearchView];
+    self.historyView.tableView.tableHeaderView = self.localsearchView;
     [UIView commitAnimations];
  
 }
@@ -88,8 +87,8 @@
 - (void) showSearchResult
 {
     
-    self.localsearchView.hidden = YES;
-    self.searchBar.showsCancelButton = NO;
+    self.historyView.tableView.tableHeaderView = nil;
+    [self.searchBar setShowsCancelButton:NO animated:YES];
     NSString* keywords = self.currentKeyWords;
 	if (keywords == nil || [keywords length] == 0)
 		return;
@@ -226,8 +225,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:0.5];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.localsearchView cache:YES];
-    self.localsearchView.hidden = YES;
-    [self.view bringSubviewToFront:self.historyView.view];
+    self.historyView.tableView.tableHeaderView = nil;
     [UIView commitAnimations];
     [self.searchBar resignFirstResponder];
 }
@@ -245,7 +243,6 @@
         self.localsearchView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 50, 320, 40)] autorelease];
         self.localsearchView.image = [UIImage imageNamed:@"searchBackgroud"];
         self.localsearchView.userInteractionEnabled = YES;
-        [self.view addSubview:self.localsearchView];
     }
     if (nil == self.localSearchSwitch) {
         self.localSearchSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(220, 5, 60, 40)] autorelease];
@@ -268,7 +265,6 @@
         [view release];
     }
     self.title = WizStrSearch;
-    self.localsearchView.hidden = YES;
     self.searchBar.delegate = self;
     self.localSearchSwitchString.text = NSLocalizedString(@"Search local notes only" , nil);
     self.localSearchSwitchString.adjustsFontSizeToFitWidth = YES;

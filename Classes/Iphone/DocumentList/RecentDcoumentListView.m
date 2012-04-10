@@ -59,6 +59,7 @@
 
 - (void) addNewDocument:(NSNotification*)nc
 {
+    self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     WizDocument* newDocument = [index documentFromGUID:documentGUID];
@@ -142,19 +143,6 @@
     }
     
     if (0 == count) {
-        
-        UIImageView* pushDownRemind = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pushDownRemind"]];
-        self.tableView.tableFooterView = pushDownRemind;
-        [pushDownRemind release];
-        UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(80, 300, 160, 480)];
-        remind.text = NSLocalizedString(@"You can pull down to sync notes or tap the plus (+) icon to create a new a note", nil);
-        remind.backgroundColor = [UIColor clearColor];
-        remind.textColor = [UIColor grayColor];
-        [pushDownRemind addSubview:remind];
-        remind.textAlignment = UITextAlignmentCenter;
-        [remind release];
-        pushDownRemind.tag = 10001;
-        self.tableView.tableFooterView = pushDownRemind;
     } else
     {
         UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:count])];

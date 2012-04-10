@@ -88,6 +88,10 @@
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.sourceArray = [[[index documentsByLocation:self.location] mutableCopy] autorelease];
+    if([self.sourceArray count] == 0)
+    {
+        self.tableView.backgroundView = [WizGlobals noNotesRemindFor:NSLocalizedString(@"There is no note in this folder",nil)];
+    }
 }
 
 - (void)viewDidUnload

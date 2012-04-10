@@ -85,6 +85,8 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (NSString*) encryptPassword:(NSString*)password;
 + (BOOL) checkPasswordIsEncrypt:(NSString*)password;
 //
++ (UIView*) noNotesRemind;
++ (UIView*) noNotesRemindFor:(NSString*)string;
 @end
 
 
