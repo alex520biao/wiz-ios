@@ -37,6 +37,7 @@
 @synthesize hasNewDocument;
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.tableArray = nil;
     self.sourceArray = nil;
     self.accountUserID = nil;
@@ -149,7 +150,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         self.navigationController.delegate = nil;
     }
@@ -158,7 +158,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
     [super viewWillAppear:animated];
     if (self.lastIndexPath != nil) {
 
@@ -664,15 +663,6 @@
     WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
     if( ![sync startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
-                                                        message:WizStrSyncAlreadyInProcess
-                                                       delegate:nil 
-                                              cancelButtonTitle:WizStrOK
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self stopLoading];
         return;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];

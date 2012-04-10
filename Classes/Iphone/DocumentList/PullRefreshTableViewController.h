@@ -65,5 +65,5 @@
 - (void)startLoading;
 - (void)stopLoading;
 - (void)refresh;
-
+- (void) startLoadingAnimation;
 @end

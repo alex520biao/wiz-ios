@@ -102,15 +102,6 @@
     syncByTag.tag = self.tag.guid;
     if( ![syncByTag startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
-                                                        message:WizStrSyncAlreadyInProcess
-                                                       delegate:nil 
-                                              cancelButtonTitle:WizStrOK 
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self stopLoading];
         return;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByTag notificationName:WizSyncEndNotificationPrefix] object:nil];

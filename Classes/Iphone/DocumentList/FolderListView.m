@@ -69,15 +69,6 @@
     syncByLocation.location = self.location;
     if( ![syncByLocation startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
-                                                        message:WizStrSyncAlreadyInProcess
-                                                       delegate:nil 
-                                              cancelButtonTitle:WizStrOK 
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self stopLoading];
         return;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByLocation notificationName:WizSyncEndNotificationPrefix] object:nil];
