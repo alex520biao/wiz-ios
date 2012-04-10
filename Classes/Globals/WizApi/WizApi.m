@@ -1350,7 +1350,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
             WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
             if ([index isOpened]) {
                 if (prompt == nil) {
-                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password error, please correct it.", nil)
+                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)
                                                                      message:@"\n\n" 
                                                                     delegate:nil 
                                                            cancelButtonTitle:WizStrCancel 

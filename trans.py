@@ -4,8 +4,9 @@ import traceback
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
-outPutDir = '~/Workplace/wiz-ios/English.lproj/'
-sourceDir = '~Workplace//wiz-ios/Classes'
+projectHome = os.getcwd()
+outPutDir = projectHome + '/English.lproj/'
+sourceDir = projectHome + '/Classes'
 dicFile = 'zh.txt'
 def genstrings(level, path):
 	for i in os.listdir(path):
@@ -68,10 +69,11 @@ for key in needTransDic.keys():
 		transilation = raw_input('please input the translation of ***'+key+'*****:')
 		print transilation
 		needTransDic[key]=transilation
-outFile = codecs.open('result.txt','w','utf-8')
+outFile = codecs.open(projectHome+'/zh_CN.lproj/Localizable.strings','w','utf-16')
 outEnglishFile = codecs.open(outPutDir+'/Localizable.strings','w','utf-16')
-print needTransDic
-for key in needTransDic:
+keys = needTransDic.keys()
+keys.sort()
+for key in keys:
 	try:
 		outFile.write('"'+key+'"="'+needTransDic[key]+'";\n')
 		outEnglishFile.write('"'+key+'"="'+key+'";\n')
@@ -79,3 +81,6 @@ for key in needTransDic:
 		continue
 	except TypeError:
 		continue
+outEnglishFile.close()
+outFile.close()
+
