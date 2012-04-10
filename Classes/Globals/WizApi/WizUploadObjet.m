@@ -59,7 +59,7 @@
     self.objectGUID = nil;
     self.objectType = nil;
     self.uploadObjMd5 = nil;
-    self.owner = nil;
+    [self.owner release];
     [super dealloc];
 }
 

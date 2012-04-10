@@ -22,7 +22,7 @@
     self.nameLabel = nil;
     self.documentsCountLabel = nil;
     self.abstractLabel = nil;
-    self.owner = nil;
+    [self.owner release];
     [super dealloc];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view

@@ -160,7 +160,6 @@
 {
     
     [super viewWillAppear:animated];
-    
     if (self.lastIndexPath != nil) {
 
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.lastIndexPath] withRowAnimation:UITableViewRowAnimationNone];

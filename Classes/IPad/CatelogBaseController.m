@@ -21,6 +21,7 @@
 @implementation CatelogBaseController
 @synthesize accountUserId;
 @synthesize willToOrientation;
+@synthesize dataArray;
 static NSDictionary* paragrahAttributeDic;
 + (NSDictionary*) paragrahAttributeDic
 {
@@ -42,9 +43,13 @@ static NSDictionary* paragrahAttributeDic;
     }
     return paragrahAttributeDic;
 }
-
+- (void) configureCellWithArray:(UITableViewCell*)cell  array:(NSArray*)array
+{
+    
+}
 - (void) dealloc{
     self.accountUserId = nil;
+    self.dataArray = nil;
     [super dealloc];
 }
 -(void) didSelectedCatelog:(NSString *)keywords

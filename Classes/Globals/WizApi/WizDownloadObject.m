@@ -32,7 +32,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     self.objType = nil;
     self.objGuid = nil;
     self.isLogin = NO;
-    self.owner = nil;
+    [self.owner release];
     [super dealloc];
 }
 
