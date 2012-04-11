@@ -473,7 +473,7 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 	else
 	{
 		bool bLocalChanged = data.nLocalChanged ? true : false;
-		bool bServerChanged = true;
+		bool bServerChanged = data.nServerChanged? true : false;
 		std::string strLocalChanged = bLocalChanged ? "1" : "0";
 		std::string strServerChanged = bServerChanged ? "1" : "0";
 		std::string strProtected = data.nProtected?"1":"0";

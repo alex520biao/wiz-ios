@@ -37,6 +37,7 @@
 @implementation WizSyncManager
 @synthesize downloader;
 @synthesize uploader;
+@synthesize timer;
 static WizSyncManager* shareManager = nil;
 
 + (id) shareManager
@@ -106,8 +107,8 @@ static WizSyncManager* shareManager = nil;
         {
             [self startUpload];
         }
-        [errorQueue removeObject:each];
     }
+    [errorQueue removeAllObjects];
 }
 - (void) addErrorApiToQueque:(WizApi*)api
 {

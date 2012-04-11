@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol WizApiDelegate
+@optional
 - (void) onClientLogin:(id)ret;
 //
 - (void) onDownloadDocumentList: (id)retObject;

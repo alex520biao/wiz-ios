@@ -207,6 +207,7 @@ static WizDbManager* shareDbManager = nil;
     NSNumber* nAttachmentCount = [doc valueForKey:DataTypeUpdateDocumentAttachmentCount];
     NSNumber* localChanged = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
     NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
+    NSNumber* serverChanged = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
 	WIZDOCUMENTDATA data;
 	data.strGUID =[guid UTF8String];
 	data.strTitle =[title UTF8String];
@@ -232,6 +233,12 @@ static WizDbManager* shareDbManager = nil;
     else
     {
         data.nLocalChanged = [localChanged intValue];
+    }
+    if (nil == serverChanged) {
+        data.nServerChanged = 1;
+    }
+    else {
+        data.nServerChanged = [serverChanged intValue];
     }
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
 	return ret;

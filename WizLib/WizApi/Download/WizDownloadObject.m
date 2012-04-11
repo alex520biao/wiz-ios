@@ -21,6 +21,9 @@
 @property (nonatomic, retain) NSString* type;
 @end
 @implementation WizDownloadObject
+@synthesize guid;
+@synthesize type;
+@synthesize tempFile;
 - (void) dealloc
 {
     [self.tempFile closeFile];

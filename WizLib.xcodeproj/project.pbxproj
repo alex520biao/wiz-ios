@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4AC4AB2E1535739E0037041C /* WizNote.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AC4AB2C1535739E0037041C /* WizNote.h */; };
+		4AC4AB2F1535739E0037041C /* WizNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC4AB2D1535739E0037041C /* WizNote.m */; };
 		7300E1381521BC0B002DF60F /* WizApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 7300E1361521BC0B002DF60F /* WizApi.h */; };
 		7300E1391521BC0B002DF60F /* WizApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 7300E1371521BC0B002DF60F /* WizApi.m */; };
 		7300E1491521BCC5002DF60F /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7300E13B1521BCC5002DF60F /* GDataXMLNode.h */; };
@@ -152,6 +154,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4AC4AB2C1535739E0037041C /* WizNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNote.h; path = OuterStruct/WizNote.h; sourceTree = "<group>"; };
+		4AC4AB2D1535739E0037041C /* WizNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizNote.m; path = OuterStruct/WizNote.m; sourceTree = "<group>"; };
 		7300E1361521BC0B002DF60F /* WizApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizApi.h; path = WizApi/WizApi.h; sourceTree = "<group>"; };
 		7300E1371521BC0B002DF60F /* WizApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizApi.m; path = WizApi/WizApi.m; sourceTree = "<group>"; };
 		7300E13B1521BCC5002DF60F /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
@@ -354,6 +358,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4AC4AB2B153573630037041C /* OuterStruct */ = {
+			isa = PBXGroup;
+			children = (
+				73BEFD5615219B2600F8899C /* WizLib.h */,
+				73BEFD5715219B2600F8899C /* WizLib.m */,
+				4AC4AB2C1535739E0037041C /* WizNote.h */,
+				4AC4AB2D1535739E0037041C /* WizNote.m */,
+			);
+			name = OuterStruct;
+			sourceTree = "<group>";
+		};
 		7300E1351521BBF1002DF60F /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
@@ -626,8 +641,7 @@
 				73AB8E9C1521A0A200BD58B7 /* WizIndex */,
 				73AB8E9B1521A09600BD58B7 /* FileManager */,
 				73BEFD7815219B7600F8899C /* DbManager */,
-				73BEFD5615219B2600F8899C /* WizLib.h */,
-				73BEFD5715219B2600F8899C /* WizLib.m */,
+				4AC4AB2B153573630037041C /* OuterStruct */,
 				73BEFD5415219B2600F8899C /* Supporting Files */,
 			);
 			path = WizLib;
@@ -748,6 +762,7 @@
 				7356FC28152C075E00239CB5 /* TimeFormatters.h in Headers */,
 				7356FC2F152C07FE00239CB5 /* pinyin.h in Headers */,
 				7381DEC3152D388B009E675A /* WizUploadObject.h in Headers */,
+				4AC4AB2E1535739E0037041C /* WizNote.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,7 +883,7 @@
 		73BEFD4515219B2600F8899C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 73BEFD4815219B2600F8899C /* Build configuration list for PBXProject "WizLib" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1048,6 +1063,7 @@
 				7356FC29152C075E00239CB5 /* TimeFormatters.m in Sources */,
 				7356FC2E152C07FE00239CB5 /* pinyin.cpp in Sources */,
 				7381DEC4152D388B009E675A /* WizUploadObject.m in Sources */,
+				4AC4AB2F1535739E0037041C /* WizNote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

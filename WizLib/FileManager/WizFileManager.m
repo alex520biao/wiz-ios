@@ -13,14 +13,20 @@
 -(NSString*) createZipByGuid:(NSString*)objectGUID;
 - (NSInteger) fileLengthAtPath:(NSString*)path;
 - (BOOL) unzipFileToPath:(NSString*)sourceFilePath   to:(NSString*)targetPath;
+- (NSString*) documentFilePath:(NSString*)documentGUID    name:(NSString*)name;
 @end
 
 @interface WizFileManager()
 + (NSString*) wizAppPath;
 +(BOOL) ensurePathExists:(NSString*)path;
-- (NSInteger) fileLengthAtPath:(NSString*)path;
 @end
 @implementation NSFileManager(wizFileManager)
+- (NSString*) documentFilePath:(NSString*)documentGUID    name:(NSString*)name
+{
+    NSString* documentDir = [WizFileManager objectDirectoryPath:documentGUID];
+    [WizFileManager ensurePathExists:documentDir];
+    return [documentDir stringByAppendingPathComponent:name];
+}
 -(BOOL) addToZipFile:(NSString*) directory directoryName:(NSString*)name zipFile:(ZipArchive*) zip
 {
     NSArray* selectedFile = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
@@ -182,6 +188,7 @@
 	//
 	return b;
 }
+
 + (BOOL) deleteDownloadTempFile:(NSString*)guid
 {
     return [WizFileManager deleteFile:[WizFileManager downloadTempFilePath:guid]];
@@ -189,5 +196,21 @@
 + (NSString*) zipFileForUploadObject:(NSString*)guid
 {
     return [[WizFileManager defaultManager] createZipByGuid:guid];
+}
++ (NSString*) documentFile:(NSString*)documentGUID
+{
+    return [[NSFileManager defaultManager] documentFilePath:documentGUID name:@"index.html"];
+}
++ (NSString*) documentMobileViewFile:(NSString*)documentGUID
+{
+    return [[NSFileManager defaultManager] documentFilePath:documentGUID name:@"wiz_mobile.html"];
+}
++ (NSString*) documentAbstractFile:(NSString*)documentGUID
+{
+    return [[NSFileManager defaultManager] documentFilePath:documentGUID name:@"wiz_abstract.html"];
+}
++ (NSString*) documentFullFile:(NSString*)documentGUID
+{
+    return [[NSFileManager defaultManager] documentFilePath:documentGUID name:@"wiz_full.html"];
 }
 @end

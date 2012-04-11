@@ -23,6 +23,11 @@
     [self.window makeKeyAndVisible];
     [WizLib addAccount:@"admin" password:@"wizadmin"];
     [WizLib registeAccount:@"admin"];
+    WizDocument* doc = [[WizDocument alloc] initFromGuid:@"aaaaa"];
+    doc.title = @"xxxxxx";
+    doc.guid = @"aaaaa";
+    [doc saveBody:@"dsfdfsdfsdf"];
+    [doc upload];
     return YES;
 }
 

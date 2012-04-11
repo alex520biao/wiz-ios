@@ -26,4 +26,11 @@ BOOL WizDeviceIsPad(void);
 + (NSError*) tokenUnActiveError;
 + (NSString*) md5:(NSData *)input;
 + (NSString*)fileMD5:(NSString*)path;
+//
++(NSString*) genGUID;
+@end
+//WizString
+@interface NSString(WizString)
+- (BOOL) isBlock;
+- (BOOL) isFileExist;
 @end

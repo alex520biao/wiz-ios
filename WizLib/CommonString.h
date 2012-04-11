@@ -20,6 +20,7 @@
 #define WizStrSettings  NSLocalizedString(@"Settings",nil)
 #define WizStrTags		NSLocalizedString(@"Tags", nil)
 #define WizStrNotes     NSLocalizedString(@"notes", nil)
+#define WizStrNoTitle     NSLocalizedString(@"No Title", nil)
 #define WizStrConfirm           NSLocalizedString(@"Confirm", nil)
 #define WizStrDateCreated		NSLocalizedString(@"Date created", nil)
 #define WizStrDateModified		NSLocalizedString(@"Date modified", nil)

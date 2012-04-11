@@ -48,9 +48,8 @@
     else {
         NSArray* recentDocument = [[WizDbManager shareDbManager] recentDocuments];
         for (WizDocument* each in recentDocument) {
-            [[WizSyncManager shareManager] downloadDocument:each.guid];
+            [[WizSyncManager shareManager] downloadDocument:@"sdfsdfsdf"];
         }
-        
     }
 }
 @end

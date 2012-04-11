@@ -132,6 +132,29 @@ BOOL WizDeviceIsPad(void)
                    digest[14], digest[15]];  
     return s;  
 } 
-
++(NSString*) genGUID
+{
+	CFUUIDRef theUUID = CFUUIDCreate(NULL);
+	CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+	CFRelease(theUUID);
+	//
+	NSString* str = [NSString stringWithString:(NSString*)string];
+	//
+	CFRelease(string);
+	//
+	return [str lowercaseString];
+}
 @end
 
+//wizstring
+@implementation NSString (WizString)
+
+- (BOOL) isBlock
+{
+    return nil == self ||[self isEqualToString:@""];
+}
+- (BOOL) isFileExist
+{
+    return [[NSFileManager defaultManager] fileExistsAtPath:self];
+}
+@end

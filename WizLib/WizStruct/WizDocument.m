@@ -36,5 +36,14 @@
     self.dataMd5 = nil;
 	[super dealloc];
 }
-
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        self.guid = [WizGlobals genGUID];
+        self.type = @"note";
+        self.location = @"/My Notes/";
+    }
+    return self;
+}
 @end
