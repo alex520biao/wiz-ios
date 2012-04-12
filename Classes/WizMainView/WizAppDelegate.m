@@ -5,7 +5,7 @@
 //  Created by Wei Shijun on 3/7/11.
 //  Copyright 2011 WizBrother. All rights reserved.
 //
-
+#import "WizAbstractCache.h"
 #import "WizAppDelegate.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
@@ -119,8 +119,10 @@
 {
     
 }
-
-
+- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    [[WizAbstractCache shareCache] didReceivedMenoryWarning];
+}
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if (WizAbs([[WizSettings lastActiveTime] timeIntervalSinceNow]) > 1800 ) {
         for (int i = 0; i < [[WizSettings accounts] count]; i++) {
@@ -146,11 +148,6 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-    /*
-     Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
-     */
-}
 
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

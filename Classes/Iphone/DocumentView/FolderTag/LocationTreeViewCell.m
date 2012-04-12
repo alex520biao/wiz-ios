@@ -17,7 +17,7 @@
 - (void) dealloc
 {
     self.onExpand =nil;
-    [self.owner release];
+    [owner release];
     self.closedImage = nil;
     self.expandImage = nil;
     [super dealloc];

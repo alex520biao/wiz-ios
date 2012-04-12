@@ -19,3 +19,7 @@
 #define MessageTypeOfIphoneSetupAccount     @"MessageTypeOfIphoneSetupAccount"
 //delete document
 #define MessageTypeOfDeleteDocument @"MessageTypeOfDeleteDocument"
+#define MessageTypeOfUpdateDocument @"MessageTypeOfUpdateDocument"
+#define MessageTypeOfUpdateFolder   @"MessageTypeOfUpdateFolder"
+//
+#define UserInfoTypeOfFolder        @"UserInfoTypeOfFolder"

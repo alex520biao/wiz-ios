@@ -16,7 +16,7 @@
 - (void) dealloc
 {
     self.abstractArray = nil;
-    [self.owner release];
+    [owner release];
     self.accountUserId = nil;
     [super dealloc];
 }

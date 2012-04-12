@@ -56,7 +56,7 @@ static NSMutableDictionary* detailDecorator;
 }
 - (void) dealloc
 {
-    [self.owner release];
+    [owner release];
     self.doc = nil;
     self.nameLabel = nil;
     self.abstractLabel = nil;

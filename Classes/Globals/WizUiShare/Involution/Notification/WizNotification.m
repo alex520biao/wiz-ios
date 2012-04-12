@@ -109,4 +109,36 @@
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];
 }
++ (void) addObserverForUpdateDocument:(id) observer selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateDocument];
+}
++ (void) postUpdateDocument:(NSString*)documentGUID
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfUpdateDocument userInfoObject:documentGUID userInfoKey:UserInfoTypeOfDocumentGUID];
+}
++ (void) removeObserverForUpdateDocument:(id) observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfUpdateDocument];
+}
++ (NSString*) getDocumentGUIDFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];
+}
++ (void) postUpdateFolder:(NSString*)folderKey
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfUpdateFolder userInfoObject:folderKey userInfoKey:UserInfoTypeOfFolder];
+}
++ (void) addObserverForUpdateFolder:(id)observer    selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateFolder];
+}
++ (void) removeObserverForUpdateFolder:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfUpdateFolder];
+}
++ (NSString*) getFolderKeyFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfFolder notification:nc];
+}
 @end

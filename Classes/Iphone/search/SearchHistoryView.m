@@ -21,7 +21,7 @@
 {
     self.accountUserId = nil;
     self.history = nil;
-    [self.owner release];
+    [owner release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

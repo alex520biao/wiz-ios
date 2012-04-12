@@ -22,6 +22,8 @@
 #import "NSDate-Utilities.h"
 #import "WizSettings.h"
 #import "WizGlobalData.h"
+#import "WizNotification.h"
+
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -888,6 +890,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	CIndex& index = [_indexData index];
 	//
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
+    [WizNotificationCenter postUpdateDocument:guid];
 	return ret;
 }
 
@@ -1033,6 +1036,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	//
 	BOOL bRet = index.ChangeDocumentType([documentGUID UTF8String], [title UTF8String], "note", ".txt") ? YES : NO;
 	//
+    [WizNotificationCenter postUpdateDocument:documentGUID];
 	return bRet;
 	
 }

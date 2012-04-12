@@ -17,7 +17,8 @@
 @synthesize owner;
 - (void) dealloc
 {
-    [self.owner release];
+    [owner release];
+    [accountUserId release];
     self.accountUserId = nil;
     [super dealloc];
 }
