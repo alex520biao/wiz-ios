@@ -138,7 +138,7 @@
         text = self.tagTextField.text;
     }
 //    [self addDisplayTagName:[tag name]];
-    self.tagTextField.text = [text stringByAppendingFormat:@"%@",[self displayTagName:[tag name]]];;
+    self.tagTextField.text = [text stringByAppendingFormat:@"%@",[self displayTagName:getTagDisplayName([tag name])]];;
 }
 - (void) addTag:(NSNotification*)nc
 {
