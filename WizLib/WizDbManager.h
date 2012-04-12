@@ -24,7 +24,19 @@
 #define DataTypeUpdateDocumentServerChanged     @"document_serverchanged"
 #define DataTypeUpdateDocumentProtected         @"document_protect"
 
+//attachment
+#define DataTypeUpdateAttachmentDescription     @"attachment_description"
+#define DataTypeUpdateAttachmentDocumentGuid    @"attachment_document_guid"
+#define DataTypeUpdateAttachmentGuid            @"attachment_guid"
+#define DataTypeUpdateAttachmentTitle           @"attachment_name"
+#define DataTypeUpdateAttachmentDataMd5         @"data_md5"
+#define DataTypeUpdateAttachmentDateModified    @"dt_data_modified"
+#define DataTypeUpdateAttachmentServerChanged   @"sever_changed"
+#define DataTypeUpdateAttachmentLocalChanged    @"local_changed"
+
+
 @class WizDocument;
+@class WizAttachment;
 @interface WizDbManager : NSObject
 - (BOOL) isOpen;
 - (BOOL) openDb;
@@ -35,5 +47,16 @@
 - (BOOL) updateDocuments: (NSArray*) documents;
 - (WizDocument*) documentFromGUID:(NSString*)guid;
 - (NSArray*) recentDocuments;
+//
+- (BOOL) updateAttachment:(NSDictionary*)attachment;
+- (BOOL) updateAttachments:(NSArray*)attachments;
+- (WizAttachment*) attachmentFromGUID:(NSString*)guid;
+//
+- (int64_t) attachmentVersion;
+- (BOOL) setAttachmentVersion:(int64_t)ver;
+- (int64_t) tagVersion;
+- (BOOL) setTagVersion:(int64_t)ver;
+- (BOOL) setDeleteVersion:(int64_t)ver;
+- (int64_t) deleteVersion;
 + (id) shareDbManager;
 @end

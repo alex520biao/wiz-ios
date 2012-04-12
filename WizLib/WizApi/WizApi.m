@@ -12,6 +12,7 @@
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 #import "WizDocument.h"
+#import "WizAttachment.h"
 #define DownloadPartSize 512*1024
 //url
 #define WizAccountUrl   [NSURL URLWithString:@"http://192.168.1.155:8800/wiz1/xmlrpc"]
@@ -21,6 +22,8 @@
 #define SyncMethod_DownloadObject                   @"data.download"
 #define SyncMethod_UploadObject                     @"data.upload"
 #define SyncMethod_DocumentPostSimpleData           @"document.postSimpleData"
+#define SyncMethod_DownloadAttachmentList           @"attachment.getList"
+#define SyncMethod_AttachmentPostSimpleData         @"attachment.postSimpleData"
 @implementation WizApi
 @synthesize connectionXmlrpc;
 @synthesize busy;
@@ -167,7 +170,6 @@
 	//
 	NSDate* dateCreated = [WizGlobals sqlTimeStringToDate:doc.dateCreated];
 	NSDate* dateModified = [WizGlobals sqlTimeStringToDate:doc.dateModified];
-	//
 	[postParams setObject:doc.guid forKey:@"document_guid"];
 	[postParams setObject:doc.title forKey:@"document_title"];
 	[postParams setObject:doc.type forKey:@"document_type"];
@@ -189,7 +191,47 @@
 	//
 	return [self executeXmlRpc:[[WizSyncManager shareManager] apiUrl] method:SyncMethod_DocumentPostSimpleData args:args];
 }
-
+-(BOOL) callAttachmentPostSimpleData:(NSString *)attachmentGUID  withZiwMd5:(NSString*)ziwmd5
+{
+    NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+	[self addCommonParams:postParams];
+    if (![self addSyncKeys:postParams]) {
+        return NO;
+    }
+    WizAttachment* attach = [[WizDbManager shareDbManager] attachmentFromGUID:attachmentGUID];
+    [postParams setObject:attach.guid             forKey:@"attachment_guid"];
+    [postParams setObject:attach.documentGuid           forKey:@"attachment_document_guid"];
+    [postParams setObject:attach.title          forKey:@"attachment_name"];
+    [postParams setObject:attach.dateModified                  forKey:@"dt_modified"];
+    [postParams setObject:attach.dataMd5                       forKey:@"data_md5"];
+    [postParams setObject:ziwmd5                        forKey:@"attachment_zip_md5"];
+    [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_info"];
+    [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_data"];
+    NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+	return [self executeXmlRpc:[[WizSyncManager shareManager] apiUrl] method:SyncMethod_AttachmentPostSimpleData args:args];
+}
+//
+-(BOOL) callDownloadAttachmentList
+{
+	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+	[self addCommonParams:postParams];
+    if (![self addSyncKeys:postParams]) {
+        return NO;
+    }
+    [postParams setObject:[NSNumber numberWithInt:[self listCount]] forKey:@"count"];
+    [postParams setObject:[NSNumber numberWithInt:0] forKey:@"first"];
+    int64_t version = [[WizDbManager shareDbManager] attachmentVersion];
+    if (version) {
+        [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
+    }
+    else
+    {
+        [postParams setObject:[NSNumber numberWithInt:0] forKey:@"version"];
+    }
+    NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+	//
+	return [self executeXmlRpc:[[WizSyncManager shareManager] apiUrl] method:SyncMethod_DownloadAttachmentList args:args];
+}
 
 
 
@@ -206,7 +248,7 @@
         }
         else if ([method isEqualToString:SyncMethod_DownloadObject])
         {
-            [self onDowloadObject:ret];
+            [self onDownloadObject:ret];
         }
         else if ([method isEqualToString:SyncMethod_UploadObject])
         {
@@ -215,6 +257,14 @@
         else if ([method isEqualToString:SyncMethod_DocumentPostSimpleData])
         {
             [self onPostDocumentSimpleData:ret];
+        }
+        else if ([method isEqualToString:SyncMethod_AttachmentPostSimpleData])
+        {
+            [self onPostAttachmentSimpleData:ret];
+        }
+        else if ([method isEqualToString:SyncMethod_DownloadAttachmentList])
+        {
+            [self onDownloadAttachmentList:ret];
         }
     }
     else {

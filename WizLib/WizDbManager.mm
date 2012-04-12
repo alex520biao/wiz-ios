@@ -11,15 +11,36 @@
 #import "tempIndex.h"
 #import "WizFileManager.h"
 #import "WizDocument.h"
-
+#import "WizAttachment.h"
 #define KeyOfSyncVersion   @"SYNC_VERSION"
 #define DocumentNameOfSyncVersion       @"DOCUMENT"
 #define DeletedGUIDNameOfSyncVersion    @"DELETED_GUID"
 #define TagVersion                      @"TAGVERSION"
+#define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 
+//WizAttachment
+@interface WizAttachment(initFromDb)
+- (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH&) data;
+@end
+@implementation WizAttachment(initFromDb)
 
+- (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH &)data
+{
+    self = [super init];
+    if (self) {
+        self.guid = [NSString stringWithCString:data.strAttachmentGuid.c_str() encoding:NSUTF8StringEncoding];
+        self.title = [NSString stringWithCString:data.strAttachmentName.c_str() encoding:NSUTF8StringEncoding];
+        self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
+        self.documentGuid = [NSString stringWithCString:data.strDocumentGuid.c_str() encoding:NSUTF8StringEncoding];
+        self.dataMd5 = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
+        self.dateModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDataModified.c_str() encoding:NSUTF8StringEncoding]];
+        self.localChanged = data.loaclChanged?YES:NO;
+        self.serverChanged = data.serverChanged?YES:NO;
+    }
+    return self;
+}
 
-
+@end
 
 //wizdocument
 @interface WizDocument(InitFromDb)
@@ -192,6 +213,30 @@ static WizDbManager* shareDbManager = nil;
 {
 	return [self setSyncVersion:DocumentNameOfSyncVersion version:ver];
 }
+- (int64_t) attachmentVersion
+{
+    return [self syncVersion:AttachmentNameOfSyncVersion];
+}
+- (BOOL) setAttachmentVersion:(int64_t)ver
+{
+    return [self setSyncVersion:AttachmentNameOfSyncVersion version:ver];
+}
+- (int64_t) tagVersion
+{
+    return [self syncVersion:TagVersion];
+}
+- (BOOL) setTagVersion:(int64_t)ver
+{
+    return [self setSyncVersion:TagVersion version:ver];
+}
+- (BOOL) setDeleteVersion:(int64_t)ver
+{
+    return [self setSyncVersion:DeletedGUIDNameOfSyncVersion version:ver];
+}
+- (int64_t) deleteVersion
+{
+    return [self syncVersion:DeletedGUIDNameOfSyncVersion];
+}
 - (BOOL) updateDocument: (NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
@@ -276,4 +321,80 @@ static WizDbManager* shareDbManager = nil;
     WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
     return [doc autorelease];
 }
+//attachment
+- (WizAttachment*) attachmentFromGUID:(NSString *)guid
+{
+    WIZDOCUMENTATTACH data;
+    if (!index.AttachFromGUID([guid UTF8String], data)) {
+        return nil;
+    }
+    WizAttachment* attachment = [[WizAttachment alloc] initFromWizAttachmentData:data];
+    return [attachment autorelease];
+}
+- (BOOL) updateAttachment:(NSDictionary *)attachment
+{
+    NSString* guid = [attachment valueForKey:DataTypeUpdateAttachmentGuid];
+    NSString* title = [attachment valueForKey:DataTypeUpdateAttachmentTitle];
+    NSString* description = [attachment valueForKey:DataTypeUpdateAttachmentDescription];
+    NSString* dataMd5 = [attachment valueForKey:DataTypeUpdateAttachmentDataMd5];
+    NSString* documentGuid = [attachment valueForKey:DataTypeUpdateAttachmentDocumentGuid];
+    NSNumber* localChanged = [attachment valueForKey:DataTypeUpdateAttachmentLocalChanged];
+    NSNumber* serVerChanged = [attachment valueForKey:DataTypeUpdateAttachmentServerChanged];
+    NSDate*   dateModified = [attachment valueForKey:DataTypeUpdateAttachmentDateModified];
+    if (nil == title  || [title isBlock]) {
+        title = WizStrNoTitle;
+    }
+    if (nil == description || [description isBlock]) {
+        description = @"none";
+    }
+    if (nil == dataMd5 || [dataMd5 isBlock]) {
+        dataMd5 = @"";
+    }
+    if (nil == documentGuid || [documentGuid isBlock]) {
+        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"documentguid is nil" userInfo:nil];
+        @throw ex;
+    }
+    if (nil == guid || [guid isBlock]) {
+        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"guid is nil" userInfo:nil];
+        @throw ex;
+    }
+    if (nil == dateModified) {
+        dateModified = [NSDate date];
+    }
+    if (nil == localChanged) {
+        localChanged = [NSNumber numberWithInt:0];
+    }
+    if (nil == serVerChanged) {
+        serVerChanged = [NSNumber numberWithInt:1];
+    }
+    WIZDOCUMENTATTACH data;
+    data.strAttachmentGuid = [guid UTF8String];
+    data.strAttachmentName = [title UTF8String];
+    data.strDataMd5 = [dataMd5 UTF8String];
+    data.strDataModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
+    data.strDescription = [description UTF8String];
+    data.strDocumentGuid = [documentGuid UTF8String];
+    data.loaclChanged = [localChanged boolValue];
+    data.serverChanged = [serVerChanged boolValue];
+    return index.updateAttachment(data);
+}
+
+- (BOOL) updateAttachments:(NSArray *)attachments
+{
+    for (NSDictionary* doc in attachments)
+	{
+		@try {
+            [self updateAttachment:doc];
+        }
+        @catch (NSException *exception) {
+            return NO;
+        }
+        @finally {
+            
+        }
+	}
+	//
+	return YES;
+}
+
 @end

@@ -26,7 +26,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "197"
          endingLineNumber = "197"
-         landmarkName = "-updateDocument:"
+         landmarkName = "-syncVersion:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -39,7 +39,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "198"
          endingLineNumber = "198"
-         landmarkName = "-updateDocument:"
+         landmarkName = "-syncVersion:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -134,19 +134,6 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "WizLib/WizApi/Download/WizDownloadObject.m"
-         timestampString = "355833187.704207"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "70"
-         endingLineNumber = "70"
-         landmarkName = "-onDowloadObject:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
@@ -157,6 +144,19 @@
          startingLineNumber = "111"
          endingLineNumber = "111"
          landmarkName = "-uploadDataDone"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "WizLib/WizSyncBase.m"
+         timestampString = "355892950.648111"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "73"
+         endingLineNumber = "73"
+         landmarkName = "-onDownloadAttachmentList:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

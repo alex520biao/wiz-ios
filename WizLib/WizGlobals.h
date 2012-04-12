@@ -14,6 +14,8 @@
 #define WizAttachmentKeyString      @"attachment"
 //
 #define WizErrorDomin               @"error.wiz.cn"
+//
+#define WizUpdateError              @"UpdateError"
 BOOL WizDeviceIsPad(void);
 @interface WizGlobals : NSObject
 + (void) reportErrorWithString:(NSString*)error;

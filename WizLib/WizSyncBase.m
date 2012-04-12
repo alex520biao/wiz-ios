@@ -28,11 +28,10 @@
     
 	[[WizDbManager shareDbManager] updateDocuments:obj];
     int64_t newVer = [[WizDbManager shareDbManager] documentVersion];
-    int64_t oldVer = [[WizDbManager shareDbManager] documentVersion];
+    int64_t oldVer = newVer;
     for (NSDictionary* dict in obj)
     {
         NSString* verString = [dict valueForKey:@"version"];
-        
         int64_t ver = [verString longLongValue];
         if (ver > newVer)
         {
@@ -46,10 +45,39 @@
         [self callDownloadDocumentList];
     }
     else {
-        NSArray* recentDocument = [[WizDbManager shareDbManager] recentDocuments];
-        for (WizDocument* each in recentDocument) {
-            [[WizSyncManager shareManager] downloadDocument:@"sdfsdfsdf"];
+        [self callDownloadAttachmentList];
+    }
+}
+- (void) onDownloadAttachmentList:(id)retObject
+{
+    NSArray* obj = nil;
+    if ([retObject isKindOfClass:[NSArray class]]) {
+        obj = retObject;
+    }
+    else {
+        [self onError:retObject];
+    }
+    [[WizDbManager shareDbManager] updateAttachments:retObject];
+    int64_t oldVer = [[WizDbManager shareDbManager] attachmentVersion];
+    int64_t newVer = oldVer;
+    for (NSDictionary* dict in obj)
+    {
+        NSString* verString = [dict valueForKey:@"version"];
+        int64_t ver = [verString longLongValue];
+        if (ver > newVer)
+        {
+            newVer = ver;
         }
     }
+    //
+    if(oldVer != newVer)
+    {
+        [[WizDbManager shareDbManager] setAttachmentVersion:newVer + 1];
+        [self callDownloadDocumentList];
+    }
+    else {
+        
+    }
+
 }
 @end

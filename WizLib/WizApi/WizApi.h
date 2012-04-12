@@ -14,11 +14,15 @@
 //
 - (void) onDownloadDocumentList: (id)retObject;
 //
-- (void) onDowloadObject:(id)retObject;
+- (void) onDownloadObject:(id)retObject;
 //
 - (void) onUploadObject:(id)retObject;
 //
 - (void) onPostDocumentSimpleData:(id) retObject;
+//
+- (void) onPostAttachmentSimpleData:(id) retObject;
+//
+- (void) onDownloadAttachmentList:(id) retObject;
 @end
 
 @class XMLRPCConnection;
@@ -43,4 +47,9 @@
 -(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCount;
 -(BOOL) callDocumentPostSimpleData:(NSString *)documentGUID withZipMD5:(NSString *)zipMD5;
 //
+-(BOOL) callAttachmentPostSimpleData:(NSString *)attachmentGUID  withZiwMd5:(NSString*)ziwmd5;
+//
+-(BOOL) callDownloadAttachmentList;
+
+
 @end

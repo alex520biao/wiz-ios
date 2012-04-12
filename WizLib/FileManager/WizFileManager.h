@@ -22,7 +22,8 @@
 + (NSString*) zipFileForUploadObject:(NSString*)guid;
 +(BOOL) deleteFile:(NSString*)fileName;
 + (BOOL) deleteDownloadTempFile:(NSString*)guid;
-
+//
++ (BOOL) deleteUploadTempFile:(NSString*)guid;
 //document
 + (NSString*) documentFile:(NSString*)documentGUID;
 + (NSString*) documentMobileViewFile:(NSString*)documentGUID;

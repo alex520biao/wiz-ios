@@ -42,6 +42,10 @@
     self.type = nil;
     [super dealloc];
 }
+- (void) onError:(id)retObject
+{
+    [super onError:retObject];
+}
 - (BOOL) uploadNextPart
 {
     NSInteger currentOffSet = [self.fileHandle offsetInFile];
@@ -108,6 +112,7 @@
 }
 - (void) uploadDataDone
 {
+    [WizFileManager deleteUploadTempFile:self.guid];
     if ([self.type isEqualToString:WizDocumentKeyString]) {
         [self documentUploadDataDone];
     }

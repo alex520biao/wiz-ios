@@ -54,7 +54,7 @@
     int64_t currentPos = [self.tempFile offsetInFile];
     [self callDownloadObject:self.guid startPos:currentPos objType:self.type];
 }
-- (void) onDowloadObject:(id)retObject
+- (void) onDownloadObject:(id)retObject
 {
     NSDictionary* obj = retObject;
     NSData* data = [obj valueForKey:@"data"];

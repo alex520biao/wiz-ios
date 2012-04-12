@@ -48,11 +48,17 @@
     }
     return YES;
 }
+- (NSString*) uploadTempFilePath:(NSString*)objectGUID
+{
+    NSString* objectPath = [WizFileManager objectDirectoryPath:objectGUID];
+    NSString* zipPath = [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
+    return zipPath;
+}
 -(NSString*) createZipByGuid:(NSString*)objectGUID
 {
     NSString* objectPath = [WizFileManager objectDirectoryPath:objectGUID];
     NSArray* selectedFile = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
-    NSString* zipPath = [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
+    NSString* zipPath = [self uploadTempFilePath:objectGUID];
     if ([[NSFileManager defaultManager] fileExistsAtPath:zipPath]) {
         [[NSFileManager defaultManager] removeItemAtPath:zipPath error:nil];
     }
@@ -188,7 +194,18 @@
 	//
 	return b;
 }
-
+//
++ (BOOL) deleteUploadTempFile:(NSString*)guid
+{
+    NSString* filePath = [[WizFileManager defaultManager] uploadTempFilePath:guid];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        [WizFileManager deleteFile:filePath];
+    }
+    else {
+        return NO;
+    }
+    return YES;
+}
 + (BOOL) deleteDownloadTempFile:(NSString*)guid
 {
     return [WizFileManager deleteFile:[WizFileManager downloadTempFilePath:guid]];
