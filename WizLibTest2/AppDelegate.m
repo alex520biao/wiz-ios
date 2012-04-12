@@ -19,15 +19,16 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor grayColor];
+    UINavigationController* a = [[UINavigationController alloc] init];
+    [self.window addSubview:a.view];
     [self.window makeKeyAndVisible];
     [WizLib addAccount:@"admin" password:@"wizadmin"];
     [WizLib registeAccount:@"admin"];
     WizDocument* doc = [[WizDocument alloc] initFromGuid:@"aaaaa"];
     doc.title = @"xxxxxx";
     doc.guid = @"aaaaa";
-    [doc saveBody:@"dsfdfsdfsdf"];
-    [doc upload];
+    [doc saveBody:@"sdfsdfsdfsdfsdfsdfsdfs 我爱你"];
     return YES;
 }
 
