@@ -18,7 +18,6 @@
 @interface DocumentInfoCell : UITableViewCell {
     UILabel* nameLabel;
     UILabel* valueLabel;
-
 }
 @property (nonatomic, retain)     UILabel* nameLabel;
 @property (nonatomic, retain)    UILabel* valueLabel;
@@ -67,7 +66,6 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -189,20 +187,19 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    BOOL tagChenged = NO;
+    BOOL tagChanged = NO;
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSMutableString* tagGuids = [NSMutableString string];
     for (WizTag* each in documentTags) {
-
         [tagGuids appendFormat:@"%@*",each.guid];
         if ([doc.tagGuids rangeOfString:each.guid].length == 0) {
-            tagChenged = YES;
+            tagChanged = YES;
         }
     }
     if ([documentTags count] != [[index tagsByDocumentGuid:self.doc.guid] count]) {
-        tagChenged = YES;
+        tagChanged = YES;
     }
-    if (tagChenged == YES) {
+    if (tagChanged == YES) {
         if (nil == tagGuids || tagGuids.length <1) {
             return;
         }

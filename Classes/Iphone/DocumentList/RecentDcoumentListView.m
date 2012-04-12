@@ -18,14 +18,6 @@
 #import "WizSync.h"
 @implementation RecentDcoumentListView
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -119,11 +111,10 @@
 {
     self.title = [self titleForView];
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
-
     self.navigationItem.leftBarButtonItem = item;
     [item release];
     [super viewDidLoad];
-    [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+    
 
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -170,5 +161,25 @@
         [self startLoading];
         [index setFirstLog:YES];
     }
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+    }
+    return self;
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+    }
+    return self;
+}
+- (void) dealloc
+{
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
 }
 @end

@@ -35,26 +35,6 @@
 @synthesize assertAlerView;
 @synthesize sourceArray;
 @synthesize hasNewDocument;
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    self.tableArray = nil;
-    self.sourceArray = nil;
-    self.accountUserID = nil;
-    self.currentDoc = nil;
-    self.isReverseDateOrdered = NO;
-    self.lastIndexPath = nil;
-    self.assertAlerView = nil;
-    [super dealloc];
-}
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -140,8 +120,7 @@
         self.navigationController.delegate = self;
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willReloadAllData) name:MessageOfDocumentlistWillReloadData object:nil];
+    
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.kOrder = [index userTablelistViewOption];
     [self reloadAllData];
@@ -710,5 +689,35 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return  CELLHEIGHTWITHABSTRACT;
+}
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [WizNotificationCenter removeObserver:self];
+    self.tableArray = nil;
+    self.sourceArray = nil;
+    self.accountUserID = nil;
+    self.currentDoc = nil;
+    self.isReverseDateOrdered = NO;
+    self.lastIndexPath = nil;
+    self.assertAlerView = nil;
+    [super dealloc];
+}
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        
+    }
+    return self;
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willReloadAllData) name:MessageOfDocumentlistWillReloadData object:nil];
+    }
+    return self;
 }
 @end
