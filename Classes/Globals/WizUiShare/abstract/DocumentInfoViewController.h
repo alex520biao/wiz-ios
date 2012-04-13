@@ -16,6 +16,7 @@
     NSMutableString* documentFloder;
     NSMutableArray* documentTags;
     NSIndexPath* lastIndexPath;
+    BOOL willReloadTagAndFoler;
 }
 @property (nonatomic, retain) WizDocument* doc;
 @property (nonatomic, retain)    NSString* accountUserId;

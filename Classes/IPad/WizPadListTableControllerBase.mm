@@ -588,7 +588,9 @@ else {
         [WizNotificationCenter addObserverForNewDocument:self selector:@selector(onAddNewDocument:)];
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:MessageOfChangeDocumentListOrderMethod object:nil];
+        NSMutableArray* arr = [NSMutableArray arrayWithCapacity:0];
         self.tableArray = [NSMutableArray array];
+        [self.tableArray addObject:arr];
     }
     return self;
 }

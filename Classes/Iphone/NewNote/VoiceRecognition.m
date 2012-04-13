@@ -21,7 +21,7 @@
     self.iFlyRecongize = nil;
     self.resuletString = nil;
     self.parentView = nil;
-    self.owner = nil;
+    [owner release];;
     [super dealloc];
 }
 

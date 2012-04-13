@@ -22,6 +22,8 @@
 #import "NSDate-Utilities.h"
 #import "WizSettings.h"
 #import "WizGlobalData.h"
+#import "WizNotification.h"
+
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -111,6 +113,7 @@ NSInteger compareTag(id location1, id location2, void*);
 @synthesize tagGuids;
 @synthesize serverChanged;
 @synthesize localChanged;
+@synthesize dataMd5;
 -(void) dealloc
 {
 	self.guid = nil;
@@ -122,6 +125,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	self.dateCreated = nil;
 	self.dateModified = nil;
     self.tagGuids = nil;
+    self.dataMd5 = nil;
 	//
 	[super dealloc];
 }
@@ -173,6 +177,7 @@ NSInteger compareTag(id location1, id location2, void*);
 		self.dateCreated     = [[[NSString alloc] initWithUTF8String: data.strDateCreated.c_str()] autorelease];
 		self.dateModified    = [[[NSString alloc] initWithUTF8String: data.strDateModified.c_str()] autorelease];
         self.tagGuids           = [[[NSString alloc] initWithUTF8String: data.strTagGUIDs.c_str()] autorelease];
+        self.dataMd5 = [[[NSString alloc] initWithUTF8String:data.strDataMd5.c_str()] autorelease];
 		self.attachmentCount = data.nAttachmentCount;
         self.serverChanged = data.nServerChanged?YES:NO;
         self.localChanged = data.nLocalChanged?YES:NO;
@@ -885,6 +890,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	CIndex& index = [_indexData index];
 	//
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
+    [WizNotificationCenter postUpdateDocument:guid];
 	return ret;
 }
 
@@ -1030,6 +1036,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	//
 	BOOL bRet = index.ChangeDocumentType([documentGUID UTF8String], [title UTF8String], "note", ".txt") ? YES : NO;
 	//
+    [WizNotificationCenter postUpdateDocument:documentGUID];
 	return bRet;
 	
 }
@@ -1100,7 +1107,7 @@ NSInteger compareTag(id location1, id location2, void*);
         documentType = @"noneType";
     }
     if (documentName == nil || [documentName isEqualToString:@""]) {
-        documentName = @"No title";
+        documentName = WizStrNoTitle;
     }
     NSString* contentHtml;
     if ([WizGlobals checkAttachmentTypeIsImage:documentType]) {
@@ -1135,7 +1142,7 @@ NSInteger compareTag(id location1, id location2, void*);
         return nil;
     }
 
-	NSString* documentLocation = WizStrMyNotes;
+	NSString* documentLocation = @"/My Notes/";
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
     NSMutableDictionary* doc = [NSMutableDictionary dictionary];
     NSDate* currentDate = [NSDate date];
@@ -1211,7 +1218,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (documentTitle == nil || [documentTitle length] == 0)
 	{
-		documentTitle = @"No title";
+		documentTitle = WizStrNoTitle;
 	}
     
     NSString* htmlTitle = [NSString stringWithFormat:@"<title>%@</title>",documentTitle];
@@ -1244,7 +1251,7 @@ NSInteger compareTag(id location1, id location2, void*);
     
 	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
-		documentLocation =WizStrMyNotes;
+		documentLocation =@"/My Notes/";
 	}
     
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
@@ -1323,7 +1330,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	}
 	if (documentTitle == nil || [documentTitle length] == 0)
 	{
-		documentTitle = @"No title";
+		documentTitle = WizStrNoTitle;
 	}
     
     NSString* htmlTitle = [NSString stringWithFormat:@"<title>%@</title>",documentTitle];
@@ -1358,7 +1365,7 @@ NSInteger compareTag(id location1, id location2, void*);
 
 	if (documentLocation == nil || [documentLocation isEqualToString:@""])
 	{
-		documentLocation = WizStrMyNotes;
+		documentLocation = @"/My Notes/";
 	}
 
     NSString* documentMd5 = [WizGlobals documentMD5:documentGUID  :self.accountUserId];
@@ -1796,9 +1803,6 @@ NSInteger compareTag(id location1, id location2, void*);
                 [self setDownloadDocumentData:NO];
             }
         }
-        if (0 == [self isMoblieView]) {
-            [self setDocumentMoblleView:YES];
-        }
     }
     else
     {
@@ -2211,6 +2215,10 @@ static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
 - (BOOL) isMoblieView
 {
     NSString* ret = [self userInfo:MoblieView];
+    if (nil == ret || [ret isEqualToString:@""]) {
+        [self setDocumentMoblleView:YES];
+        return YES;
+    }
     return  [ret isEqualToString:@"1"];
 }
 
@@ -2607,6 +2615,14 @@ static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
 		return WizStrMyNotes;
 	//
 	return name;
+}
+
+- (int) filecountWithChildOfLocation:(NSString*) location
+{
+    int count;
+    CIndex& index = [_indexData index];
+    index.fileCountWithChildInlocation([location UTF8String], count);
+    return count;
 }
 
 -(NSDictionary*) attachmentFileMd5:(NSString *)attachmentGUID

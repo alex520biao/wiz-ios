@@ -31,6 +31,7 @@
 @property (assign) BOOL isStopByUser;
 @property (nonatomic, retain) NSMutableArray* download;
 - (void) stopSync;
+- (BOOL) isSyncingg;
 -(void) onError: (id)retObject;
 -(void) onClientLogin: (id)retObject;
 -(void) onClientLogout: (id)retObject;

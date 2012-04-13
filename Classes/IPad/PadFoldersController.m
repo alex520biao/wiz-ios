@@ -14,6 +14,7 @@
 #import "WizGlobals.h"
 #import "TTTAttributedLabel.h"
 #import "CatelogTagCell.h"
+#import "WizAbstractCache.h"
 @implementation PadFoldersController
 
 
@@ -38,22 +39,9 @@
         data.name = [WizGlobals folderStringToLocal:each];
         data.count = [NSString stringWithFormat:@"%d %@",[index fileCountOfLocation:each],WizStrNotes];
         data.keyWords = each;
-        NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
-        int max = ([documents count] > 8? 8:[documents count]);
-        for (int i = 0; i <max; i++) {
-            WizDocument* doc = [documents objectAtIndex:i];
-            NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i+1, doc.title]];
-            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
-            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
-            [attibuteString appendAttributedString:str];
-            [str release];
-        }
-        [attibuteString addAttributes:[CatelogBaseController paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
-        data.abstract = attibuteString;
-
-        [attibuteString release];
+        data.abstract = [[WizAbstractCache shareCache] folderAbstractForIpad:each userID:self.accountUserId].text;
         [decorateArray addObject:data];
-                [data release];
+        [data release];
     }
     CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
     [cateCell setContent:decorateArray];

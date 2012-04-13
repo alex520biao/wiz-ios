@@ -115,7 +115,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     if (self.isWillReloadAllData) {
-        [self reloadAllData];
         self.isWillReloadAllData = !self.isWillReloadAllData;
     }
     [super viewWillAppear:animated];

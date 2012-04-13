@@ -15,16 +15,9 @@
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
 #import "WizNotification.h"
+#import "WizSync.h"
 @implementation RecentDcoumentListView
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -59,6 +52,7 @@
 
 - (void) addNewDocument:(NSNotification*)nc
 {
+    self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     WizDocument* newDocument = [index documentFromGUID:documentGUID];
@@ -90,7 +84,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [WizNotificationCenter removeObserver:self];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -118,11 +111,10 @@
 {
     self.title = [self titleForView];
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
-
     self.navigationItem.leftBarButtonItem = item;
     [item release];
     [super viewDidLoad];
-    [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+    
 
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -135,6 +127,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserID];
+    if (!sync.busy) {
+        [self stopLoading];
+    }
     int count = 0;
     for(NSArray* each in self.tableArray)
     {
@@ -142,19 +138,6 @@
     }
     
     if (0 == count) {
-        
-        UIImageView* pushDownRemind = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pushDownRemind"]];
-        self.tableView.tableFooterView = pushDownRemind;
-        [pushDownRemind release];
-        UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(80, 300, 160, 480)];
-        remind.text = NSLocalizedString(@"You can pull down to sync notes or tap the plus (+) icon to create a new a note", nil);
-        remind.backgroundColor = [UIColor clearColor];
-        remind.textColor = [UIColor grayColor];
-        [pushDownRemind addSubview:remind];
-        remind.textAlignment = UITextAlignmentCenter;
-        [remind release];
-        pushDownRemind.tag = 10001;
-        self.tableView.tableFooterView = pushDownRemind;
     } else
     {
         UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:count])];
@@ -178,5 +161,25 @@
         [self startLoading];
         [index setFirstLog:YES];
     }
+}
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+    }
+    return self;
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+    }
+    return self;
+}
+- (void) dealloc
+{
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
 }
 @end

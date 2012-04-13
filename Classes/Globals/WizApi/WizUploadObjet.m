@@ -15,7 +15,7 @@
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
-#define READPARTSIZE  100*1024
+#define READPARTSIZE  128*1024
 
 @implementation WizUploadObjet
 
@@ -59,7 +59,7 @@
     self.objectGUID = nil;
     self.objectType = nil;
     self.uploadObjMd5 = nil;
-    self.owner = nil;
+    [owner release];
     [super dealloc];
 }
 

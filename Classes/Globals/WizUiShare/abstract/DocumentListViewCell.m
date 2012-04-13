@@ -12,6 +12,7 @@
 #import "TTTAttributedLabel.h"
 #import "WizGlobals.h"
 #import "CommonString.h"
+#import "WizAbstractCache.h"
 
 #define CellWithImageFrame CGRectMake(8,8,225,74) 
 #define CellWithoutImageFrame CGRectMake(8,8,300,74)
@@ -99,6 +100,9 @@ static UIFont* nameFont;
                               lineBreakMode:UILineBreakModeCharacterWrap];
     CGFloat requireWidth = requiredSize.width;
     if (requireWidth > width) {
+        if (nil == str || str.length <1) {
+            return @"";
+        }
         return [self nameToDisplay:[str substringToIndex:str.length-1 ] width:width];
     }
     else
@@ -154,69 +158,18 @@ static UIFont* nameFont;
 
 - (void) prepareForAppear
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
-    BOOL isAbstractExist = [index abstractExist:self.doc.guid];
-    WizAbstract*   abstract = [index  abstractOfDocument:self.doc.guid];
-    if (!isAbstractExist && ![index documentServerChanged:self.doc.guid]) {
-        NSString* documentFilePath = [WizIndex documentFileName:self.accoutUserId documentGUID:self.doc.guid];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFilePath]) {
-            [index performSelectorOnMainThread:@selector(extractSummary:) withObject:doc.guid waitUntilDone:YES];
-        }
-    }
-    NSString* titleStr = self.doc.title;
-    NSString* detailStr=@"";
-    NSString* timeStr = @"";
-    UIImage* abstractImage = nil;
-    NSUInteger kOrderIndex = [index userTablelistViewOption];
-    if (kOrderIndex == kOrderCreatedDate || kOrderIndex == kOrderReverseCreatedDate) {
-        timeStr = doc.dateCreated;
-    }
-    else {
-        timeStr = doc.dateModified;
-    }
-    timeStr = [timeStr stringByAppendingFormat:@"\n"];
-    if ([index documentServerChanged:self.doc.guid]) {
-        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
-        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accoutUserId];
-        NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
-        for (WizTag* each in tags) {
-            NSString* tagName = getTagDisplayName(each.name);
-            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
-        }
-        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-            tagstr = [tagstr substringToIndex:tagstr.length-1];
-            folder = [folder stringByAppendingString:tagstr];
-        }
-        detailStr = folder;
-        abstractImage = [UIImage imageNamed:@"documentWithoutData"];
-    }
-    else {
-        detailStr = abstract.text;
-        abstractImage = abstract.image;
-    }
-    if (abstractImage != nil) {
-        titleStr = [self nameToDisplay:titleStr width:230];
+    WizAbstractData* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc.guid userID:self.accoutUserId];
+   if (abstract.image != nil) {
         self.abstractLabel.frame = CellWithImageFrame;
         self.abstractImageView.hidden = NO;
     }
     else {
-        titleStr = [self nameToDisplay:titleStr width:300];
         self.abstractLabel.frame = CellWithoutImageFrame;
         self.abstractImageView.hidden = YES;
     }
-    titleStr = [titleStr stringByAppendingFormat:@"\n"];
-    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[DocumentListViewCell getNameAttributes]];
-    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[DocumentListViewCell getTimeAttributes]];
-    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[DocumentListViewCell getDetailAttributes]];
-    [nameAtrStr appendAttributedString:timeAtrStr];
-    [nameAtrStr appendAttributedString:detailAtrStr];
-
-    self.abstractLabel.text = nameAtrStr;
-    self.abstractImageView.image = abstractImage;
-    [timeAtrStr release];
-    [detailAtrStr release];
-    [nameAtrStr release];
+    self.abstractLabel.text = abstract.text;
+    self.abstractImageView.image = abstract.image;
+   
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

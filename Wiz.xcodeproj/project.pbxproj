@@ -24,6 +24,7 @@
 		4495D52114BAB5870045F1EA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52014BAB5870045F1EA /* CFNetwork.framework */; };
 		4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */; };
 		4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4497AA7114B1971D002A2E4A /* CoreText.framework */; };
+		4ADA02901536B9AD005F0ED8 /* WizAbstractCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */; };
 		730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1A14F78B8700707A07 /* loginBackgroud.png */; };
 		730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1C14F78B8700707A07 /* loginBackgroud@2x.png */; };
 		7311201E14F9026F00193E64 /* detail_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311201614F9026F00193E64 /* detail_gray.png */; };
@@ -343,6 +344,8 @@
 		4495D52014BAB5870045F1EA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4497AA7114B1971D002A2E4A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		4ADA028E1536B9AD005F0ED8 /* WizAbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractCache.h; sourceTree = "<group>"; };
+		4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAbstractCache.m; sourceTree = "<group>"; };
 		730B2F1B14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/loginBackgroud.png; sourceTree = "<group>"; };
 		730B2F1D14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/loginBackgroud@2x.png"; sourceTree = "<group>"; };
 		730B2F3214F7920400707A07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/loginBackgroud.png"; sourceTree = "<group>"; };
@@ -888,6 +891,15 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		4ADA028D1536B8B3005F0ED8 /* AbstractCache */ = {
+			isa = PBXGroup;
+			children = (
+				4ADA028E1536B9AD005F0ED8 /* WizAbstractCache.h */,
+				4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */,
+			);
+			name = AbstractCache;
+			sourceTree = "<group>";
+		};
 		733B1D4214F4D18E007F3402 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1060,6 +1072,7 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				4ADA028D1536B8B3005F0ED8 /* AbstractCache */,
 				737999A8150DB84B0029A967 /* Involution */,
 				73A7845114F8CC22001387F6 /* abstract */,
 				73A7845614F8CC22001387F6 /* attachmentView */,
@@ -2031,6 +2044,7 @@
 				73BB85241511F9D80032F99B /* WizNotification.m in Sources */,
 				73BB852D1512ED790032F99B /* WizTableAbstractViewDecorate.m in Sources */,
 				737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */,
+				4ADA02901536B9AD005F0ED8 /* WizAbstractCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2147,8 +2161,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2170,8 +2184,8 @@
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
-				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "129F2F61-7710-43CB-9331-B22C9B8FE127";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2189,8 +2203,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = WizNote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Shijun";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2210,7 +2224,8 @@
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
-				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2254,8 +2269,8 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				COPY_PHASE_STRIP = YES;
@@ -2276,7 +2291,8 @@
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
-				PROVISIONING_PROFILE = "2077C15A-DE7E-442C-8B79-EDC268EAF960";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

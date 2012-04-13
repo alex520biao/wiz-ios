@@ -7,9 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
-
 extern NSString* SettingsFileName;
 extern NSString* KeyOfAccounts;
 extern NSString* KeyOfUserId;

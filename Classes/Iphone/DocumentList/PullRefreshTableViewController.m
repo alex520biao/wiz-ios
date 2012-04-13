@@ -125,10 +125,10 @@
         [self startLoading];
     }
 }
-
-- (void)startLoading {
+- (void) startLoadingAnimation
+{
     isLoading = YES;
-
+    
     // Show the header
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.3];
@@ -138,7 +138,6 @@
     [refreshSpinner startAnimating];
     [UIView commitAnimations];
     // Refresh action!
-    [self performSelector:@selector(displayProcessInfo) withObject:nil];
     UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
     [activity startAnimating];
     UIBarButtonItem* refreshing = [[UIBarButtonItem alloc] initWithCustomView:activity];
@@ -147,9 +146,16 @@
     self.navigationItem.rightBarButtonItem = refreshing;
     [refreshing release];
     
+}
+- (void)startLoading {
+    [self performSelector:@selector(displayProcessInfo) withObject:nil];
+    [self startLoadingAnimation];
     [self refresh];
 }
-
+- (void) loadingAnimation
+{
+    
+}
 - (void)stopLoading {
     isLoading = NO;
     // Hide the header
@@ -162,7 +168,6 @@
     [UIView commitAnimations];
     self.refreshDetailLabel.text = @"";
     self.refreshLabel.text = @"";
-
     UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStyleBordered target:self action:@selector(startLoading)];
     self.navigationItem.rightBarButtonItem = refresh;
     [refresh release];
@@ -176,7 +181,6 @@
 }
 
 - (void)refresh {
-
     [self performSelector:@selector(stopLoading) withObject:nil afterDelay:2.0];
 }
 

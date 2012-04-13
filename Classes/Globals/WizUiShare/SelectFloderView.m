@@ -38,6 +38,19 @@
     self.searchBar = nil;
     [super dealloc];
 }
+- (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* folder = [self.searchedFolder objectAtIndex:indexPath.row];
+    if ([folder isEqualToString:[self.selectedFloder lastObject]]) {
+            return;
+    }
+    else {
+        [self didSelectedFolder:folder];
+        [tableView reloadData];
+        [self.tableView reloadData];
+    }
+    [self.searchDisplayController setActive:NO animated:YES];
+}
 - (void) buildSeachView
 {
     self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)] autorelease];
@@ -266,6 +279,9 @@
             }
         }
         
+    }
+    else {
+        [self searchTableView:tableView didSelectRowAtIndexPath:indexPath];
     }
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar

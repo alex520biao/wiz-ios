@@ -11,12 +11,12 @@
 {
     NSString* count;
     NSString* name;
-    NSMutableAttributedString* abstract;
+    NSAttributedString* abstract;
     NSString* keyWords;
 }
 @property (nonatomic, retain) NSString* count;
 @property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSMutableAttributedString* abstract;
+@property (nonatomic, retain) NSAttributedString* abstract;
 @property (nonatomic, retain)    NSString* keyWords;
 @end
 @interface CatelogBaseController : UITableViewController

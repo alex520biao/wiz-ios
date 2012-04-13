@@ -33,7 +33,10 @@
     self.download =nil;
 	[super dealloc];
 }
-
+- (BOOL) isSyncingg
+{
+    return self.busy;
+}
 -(void) onError: (id)retObject
 {
     self.busy = NO;

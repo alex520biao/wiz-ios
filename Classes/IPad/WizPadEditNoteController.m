@@ -138,7 +138,7 @@
         text = self.tagTextField.text;
     }
 //    [self addDisplayTagName:[tag name]];
-    self.tagTextField.text = [text stringByAppendingFormat:@"%@",[self displayTagName:[tag name]]];;
+    self.tagTextField.text = [text stringByAppendingFormat:@"%@",[self displayTagName:getTagDisplayName([tag name])]];;
 }
 - (void) addTag:(NSNotification*)nc
 {
@@ -364,6 +364,10 @@
 
 - (void) cancelSave
 {
+    if (self.recorder!= nil && [self.recorder isRecording])
+    {
+        [self audioStopRecord];
+    }
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
@@ -371,6 +375,10 @@
 
 - (void) saveDocument
 {
+    if (self.recorder!= nil && [self.recorder isRecording])
+    {
+        [self audioStopRecord];
+    }
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 
     NSString* tagGuids = [NSMutableString string];
@@ -744,7 +752,9 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
+    [WizNotificationCenter removeObserver:self];
+    [WizNotificationCenter removeObserverForDeleteDocument:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

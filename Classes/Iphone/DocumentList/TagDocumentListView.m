@@ -49,6 +49,10 @@
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByTag:tag.guid]];
+    if([self.sourceArray count] == 0)
+    {
+        self.tableView.backgroundView = [WizGlobals noNotesRemindFor:NSLocalizedString(@"There is no note in this tag",nil)];
+    }
 }
 
 - (void)viewDidUnload
@@ -98,15 +102,6 @@
     syncByTag.tag = self.tag.guid;
     if( ![syncByTag startSync])
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
-                                                        message:WizStrSyncAlreadyInProcess
-                                                       delegate:nil 
-                                              cancelButtonTitle:WizStrOK 
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self stopLoading];
         return;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByTag notificationName:WizSyncEndNotificationPrefix] object:nil];

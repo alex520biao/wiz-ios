@@ -123,7 +123,7 @@
     NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
     NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
-    return url;
+    return [url autorelease];
 }
 - (BOOL) checkCanOpenInOtherApp:(WizDocumentAttach*)attach
 {
@@ -188,7 +188,6 @@
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     check.req = req;
     [req release];
-    [url release];
     if (WizDeviceIsPad()) {
         [self.checkNav pushViewController:check animated:YES];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckAttachment object:nil userInfo:nil];
@@ -206,7 +205,6 @@
     if (![currentPreview presentOptionsMenuFromRect:nav inView:self.view  animated:YES]) {
         [WizGlobals reportWarningWithString:NSLocalizedString(@"There is no application can open this file.", nil)];
     }
-    [url release];
 }
 -(void) checkAttachment:(WizDocumentAttach*) attachment inWiz:(BOOL)inWiz
 {

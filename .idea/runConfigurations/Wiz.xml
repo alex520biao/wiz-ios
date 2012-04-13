@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Wiz" type="AppleRunConfiguration" factoryName="Application" SCHEME_NAME="Wiz" PROJECT_NAME="Wiz" TARGET_NAME="Wiz" CONFIG_NAME="Release" DESTINATION_ID="iphonesimulator_5.1_1" RUN_TARGET_PROJECT_NAME="Wiz" RUN_TARGET_NAME="Wiz" DEBUGGER="LLDB" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+    <envs>
+      <env name="NSZombieEnabled" value="YES" />
+    </envs>
+    <RunnerSettings RunnerId="AppRunner" />
+    <ConfigurationWrapper RunnerId="AppRunner" />
+    <method />
+  </configuration>
+</component>

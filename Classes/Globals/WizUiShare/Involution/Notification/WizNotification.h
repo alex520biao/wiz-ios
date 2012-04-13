@@ -27,4 +27,15 @@
 + (void) removeObserverForDeleteDocument:(id)observer;
 + (void) postDeleteDocumentMassage:(NSString*)documentGUID;
 + (NSString*) getDeleteDocumentGUIDFromNc:(NSNotification*)nc;
+//
++ (void) addObserverForUpdateDocument:(id) observer selector:(SEL)selector;
++ (void) postUpdateDocument:(NSString*)documentGUID;
++ (void) removeObserverForUpdateDocument:(id) observer;
++ (NSString*) getDocumentGUIDFromNc:(NSNotification*)nc;
+
+//
++ (void) postUpdateFolder:(NSString*)folderKey;
++ (void) addObserverForUpdateFolder:(id)observer    selector:(SEL)selector;
++ (void) removeObserverForUpdateFolder:(id)observer;
++ (NSString*) getFolderKeyFromNc:(NSNotification*)nc;
 @end

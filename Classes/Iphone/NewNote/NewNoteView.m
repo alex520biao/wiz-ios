@@ -787,7 +787,7 @@
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
     
     if([self.documentFloder isEqualToString:@""])
-        self.documentFloder = [NSMutableString stringWithString:WizStrMyNotes];
+        self.documentFloder = [NSMutableString stringWithString:@"/My Notes/"];
     if (self.titleTextFiled.text == nil) {
         self.titleTextFiled.text = @"";
     }
@@ -845,6 +845,8 @@
     }
     [self newDocument];
     [self postSelectedMessageToPicker];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
@@ -862,6 +864,10 @@
 
 - (void) cancelSave
 {
+    if (self.recorder!= nil && [self.recorder isRecording])
+    {
+        [self stopRecording];
+    }
     if (self.titleTextFiled.text == nil || [self.titleTextFiled.text isEqualToString:@""]  ) {
         if ( self.bodyTextField.text == nil || [self.bodyTextField.text isEqualToString:@""]) {
             if ([self.attachmentsSourcePaths count] == 0) {

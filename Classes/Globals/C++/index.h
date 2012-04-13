@@ -176,7 +176,7 @@ public:
 	std::string GetNextDocumentForDownload();
     
     bool fileCountInLocation(const char* lpszLocation, int& count);
-    
+    bool fileCountWithChildInlocation(const char* lpszLocation, int& count);
     bool documentsWillDowload(int duration, CWizDocumentDataArray& array);
 };	
 

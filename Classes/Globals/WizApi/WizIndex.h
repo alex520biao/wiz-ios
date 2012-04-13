@@ -66,6 +66,7 @@ enum
 	NSString* type;
 	NSString* fileType;
     NSString* tagGuids;
+    NSString* dataMd5;
     BOOL serverChanged;
     BOOL localChanged;
 	int attachmentCount;
@@ -80,6 +81,7 @@ enum
 @property (nonatomic, retain) NSString* type;
 @property (nonatomic, retain) NSString* fileType;
 @property (nonatomic, retain) NSString* tagGuids;
+@property (nonatomic, retain) NSString* dataMd5;
 @property (assign) BOOL serverChanged;
 @property (assign) BOOL localChanged;
 @property int attachmentCount;
@@ -288,7 +290,7 @@ enum
 //2012-4-6
 - (BOOL) documentMobileViewExist:(NSString*)documentGUID;
 - (BOOL) checkWebnoteIsNew:(NSString*)filePath;
-
+- (int) filecountWithChildOfLocation:(NSString*) location;
 + (NSString*) accountTempFileName:(NSString*)userId;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (NSString*) accountPath: (NSString*)userId;

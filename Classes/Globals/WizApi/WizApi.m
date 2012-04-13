@@ -1337,6 +1337,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 }
 -(void) onError: (id)retObject
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
 	if ([retObject isKindOfClass:[NSError class]])
 	{  
         NSError* error = (NSError*)retObject;
@@ -1349,7 +1350,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
             WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
             if ([index isOpened]) {
                 if (prompt == nil) {
-                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Password error, please correct it.", nil)
+                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)
                                                                      message:@"\n\n" 
                                                                     delegate:nil 
                                                            cancelButtonTitle:WizStrCancel 
@@ -1385,7 +1386,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
         }
 		 
 	}
-    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcErrorNotificationPrefix] object: nil];
+    
 }
 
 -(void) cancel
