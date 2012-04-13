@@ -16,7 +16,7 @@
     NSString* guid;
     NSString* type;
 }
-@property (retain) NSFileHandle* tempFile;
+@property (nonatomic,retain) NSFileHandle* tempFile;
 @property (nonatomic, retain) NSString* guid;
 @property (nonatomic, retain) NSString* type;
 @end
@@ -26,13 +26,14 @@
 @synthesize tempFile;
 - (void) dealloc
 {
-    [self.tempFile closeFile];
-    [self.tempFile release];
-    self.tempFile = nil;
-    [self.guid release];
-    self.guid = nil;
-    [self.type release];
-    self.type = nil;
+
+    if (self.tempFile != nil) {
+        [tempFile closeFile];
+        [guid release];
+    }
+    [tempFile closeFile];
+    [guid release];
+    [type release];
     [super dealloc];
 }
 - (void) downloadObject

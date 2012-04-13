@@ -24,32 +24,7 @@
 }
 @end
 @implementation WizDocument (WizNote)
-- (id) initFromGuid:(NSString *)Guid
-{
-    self = [super init];
-    if (self) {
-        WizDocument* doc = [[WizDbManager shareDbManager] documentFromGUID:Guid];
-        self.guid = doc.guid;
-        self.title = doc.title;
-        self.dateCreated = doc.dateCreated;
-        self.dateModified = doc.dateModified;
-        self.location = doc.location;
-        self.localChanged = doc.localChanged;
-        self.serverChanged = doc.serverChanged;
-        self.dataMd5 = doc.dataMd5;
-        self.tagGuids = doc.tagGuids;
-        self.attachmentCount = doc.attachmentCount;
-        self.protectedB = doc.protectedB;
-        self.type = doc.type;
-        self.fileType = doc.fileType;
-        self.url = doc.url;
-    }
-    return self;
-}
-- (NSString*) documentFilePath
-{
-    return [WizFileManager documentFile:self.guid];
-}
+
 - (BOOL) saveBody:(NSString*)body
 {
     if ([body isBlock]) {
@@ -95,14 +70,14 @@
         self.fileType = @"";
     }
     [doc setObject:self.fileType forKey:DataTypeUpdateDocumentFileType];
-    if (nil == self.dateCreated || [self.dateCreated isBlock]) {
-        self.dateCreated = [WizGlobals dateToSqlString:[NSDate date]];
+    if (nil == self.dateCreated ) {
+        self.dateCreated = [NSDate date];
     }
-    [doc setObject:[WizGlobals sqlTimeStringToDate:self.dateCreated] forKey:DataTypeUpdateDocumentDateCreated];
-    if (nil == self.dateModified || [self.dateModified isBlock]) {
-        self.dateModified = [WizGlobals dateToSqlString:[NSDate date]];
+    [doc setObject:self.dateCreated forKey:DataTypeUpdateDocumentDateCreated];
+    if (nil == self.dateModified) {
+        self.dateModified = [NSDate date];
     }
-    [doc setObject:[WizGlobals sqlTimeStringToDate:self.dateModified] forKey:DataTypeUpdateDocumentDateModified];
+    [doc setObject:self.dateModified forKey:DataTypeUpdateDocumentDateModified];
     if (nil == self.dataMd5 || [self.dataMd5 isBlock]) {
         //md5
         self.dataMd5 = @"";

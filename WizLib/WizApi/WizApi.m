@@ -166,19 +166,15 @@
 	WizDocument* doc = [[WizDbManager shareDbManager] documentFromGUID:documentGUID];
 	if (!doc)
 		return NO;
-	//
-	//
-	NSDate* dateCreated = [WizGlobals sqlTimeStringToDate:doc.dateCreated];
-	NSDate* dateModified = [WizGlobals sqlTimeStringToDate:doc.dateModified];
 	[postParams setObject:doc.guid forKey:@"document_guid"];
 	[postParams setObject:doc.title forKey:@"document_title"];
 	[postParams setObject:doc.type forKey:@"document_type"];
 	[postParams setObject:doc.fileType forKey:@"document_filetype"];
-	[postParams setObject:dateModified forKey:@"dt_modified"];
+	[postParams setObject:doc.dateModified forKey:@"dt_modified"];
 	[postParams setObject:doc.location forKey:@"document_category"];
     [postParams setObject:[NSNumber numberWithInt:1] forKey:@"document_info"];
     [postParams setObject:zipMD5 forKey:@"document_zip_md5"];
-    [postParams setObject:dateCreated forKey:@"dt_created"];
+    [postParams setObject:doc.dateCreated forKey:@"dt_created"];
     [postParams setObject:[NSNumber numberWithInt:1] forKey:@"with_document_data"];
     [postParams setObject:[NSNumber numberWithInt:doc.attachmentCount] forKey:@"document_attachment_count"];
     NSString* tags = [NSString stringWithString:doc.tagGuids];

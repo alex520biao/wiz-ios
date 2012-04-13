@@ -59,8 +59,8 @@
 		self.url                 = [NSString stringWithCString:data.strURL.c_str() encoding:NSUTF8StringEncoding];
 		self.type                = [NSString stringWithCString:data.strType.c_str() encoding:NSUTF8StringEncoding];
 		self.fileType            = [NSString stringWithCString:data.strFileType.c_str() encoding:NSUTF8StringEncoding];
-		self.dateCreated         = [NSString stringWithCString:data.strDateCreated.c_str() encoding:NSUTF8StringEncoding];
-		self.dateModified        = [NSString stringWithCString:data.strDateModified.c_str() encoding:NSUTF8StringEncoding];
+		self.dateCreated         = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDateCreated.c_str() encoding:NSUTF8StringEncoding]];
+		self.dateModified        = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDateModified.c_str() encoding:NSUTF8StringEncoding]];
         self.tagGuids           = [NSString stringWithCString:data.strTagGUIDs.c_str() encoding:NSUTF8StringEncoding];
         self.dataMd5             = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
 		self.attachmentCount     = data.nAttachmentCount;

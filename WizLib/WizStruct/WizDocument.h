@@ -13,8 +13,8 @@
 	NSString* title;
 	NSString* location;
 	NSString* url;
-	NSString* dateCreated;
-	NSString* dateModified;
+	NSDate* dateCreated;
+	NSDate* dateModified;
 	NSString* type;
 	NSString* fileType;
     NSString* tagGuids;
@@ -29,8 +29,8 @@
 @property (nonatomic, retain) NSString* title;
 @property (nonatomic, retain) NSString* location;
 @property (nonatomic, retain) NSString* url;
-@property (nonatomic, retain) NSString* dateCreated;
-@property (nonatomic, retain) NSString* dateModified;
+@property (nonatomic, retain) NSDate* dateCreated;
+@property (nonatomic, retain) NSDate* dateModified;
 @property (nonatomic, retain) NSString* type;
 @property (nonatomic, retain) NSString* fileType;
 @property (nonatomic, retain) NSString* tagGuids;
@@ -39,4 +39,10 @@
 @property (assign) BOOL localChanged;
 @property (assign) BOOL protectedB;
 @property int attachmentCount;
+//
+- (id) initFromGuid:(NSString*)guid;
+- (NSString*) documentFilePath;
+- (NSString*) documentMobileFilePath;
+- (NSString*) documentFullFilePath;
+- (NSString*) documentAbstractFilePath;
 @end

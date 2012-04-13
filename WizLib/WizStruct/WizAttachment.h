@@ -27,4 +27,5 @@
 @property (nonatomic, retain) NSString* description;
 @property BOOL serverChanged;
 @property BOOL localChanged;
+- (id) initFromGUID:(NSString*)guid;
 @end

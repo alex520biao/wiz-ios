@@ -19,7 +19,5 @@
 - (void) download;
 @end
 @interface WizDocument(WizNote) <WizObjectDelegate> 
-- (id) initFromGuid:(NSString*)guid;
-- (NSString*) documentFilePath;
 - (BOOL) saveBody:(NSString*)body;
 @end

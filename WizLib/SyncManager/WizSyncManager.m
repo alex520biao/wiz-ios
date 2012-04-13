@@ -24,10 +24,12 @@
     WizGetLogKeys* logApi;
     WizDownloadObject* downloader;
     WizUploadObject* uploader;
+    WizSyncBase* globalSyncer;
     NSTimer*        timer;
 }
 @property (atomic, retain) WizDownloadObject* downloader;
 @property (atomic, retain) WizUploadObject* uploader;
+@property (atomic, retain) WizSyncBase* globalSyncer;
 @property (readonly) NSTimer* timer;
 - (void) downloadNext;
 - (void) startDonwloader;
@@ -38,6 +40,7 @@
 @synthesize downloader;
 @synthesize uploader;
 @synthesize timer;
+@synthesize globalSyncer;
 static WizSyncManager* shareManager = nil;
 
 + (id) shareManager
@@ -155,8 +158,7 @@ static WizSyncManager* shareManager = nil;
 }
 - (BOOL) startSyncAccountInfo
 {
-    WizSyncBase* sync = [[WizSyncBase alloc] init];
-    return [sync startSync];
+    return [globalSyncer startSync];
 }
 //
 - (void) willSolveWithServerError:(NSNotification*)nc
@@ -265,8 +267,11 @@ static WizSyncManager* shareManager = nil;
         WizUploadObject* up = [[WizUploadObject alloc] init];
         self.uploader = up;
         [up release];
-        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext)];
         
+        WizSyncBase* sync = [[WizSyncBase alloc] init];
+        self.globalSyncer = sync;
+        [sync release];
+        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext)];
         [WizNotificationCenter addObserverForServerError:self selector:@selector(willSolveWithServerError:)];
     }
     return self;

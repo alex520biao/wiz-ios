@@ -33,13 +33,12 @@
 @synthesize fileSize;
 - (void) dealloc
 {
-    [self.fileHandle closeFile];
-    [self.fileHandle release];
-    self.fileHandle = nil;
-    [self.guid release];
-    self.guid = nil;
-    [self.type release];
-    self.type = nil;
+    if (nil != self.fileHandle) {
+        [fileHandle closeFile];
+        [fileHandle release];
+    }
+    [guid release];
+    [type release];
     [super dealloc];
 }
 - (void) onError:(id)retObject
@@ -108,7 +107,7 @@
 }
 - (BOOL) attachmentUploadDataDone
 {
-    return YES;
+    return [self callAttachmentPostSimpleData:self.guid withZiwMd5:self.sumMd5];
 }
 - (void) uploadDataDone
 {

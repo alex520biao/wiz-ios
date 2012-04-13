@@ -646,15 +646,15 @@ static const xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) 
       // provide an error  
       //
       // TODO(grobbins) obtain better xpath and libxml errors
-//      const char *msg = xpathCtx->lastError.str1;
-      NSDictionary *userInfo = nil;
-//      if (msg) {
-        userInfo = [NSDictionary dictionaryWithObject:@"error"
-                                               forKey:@"error"];
-//      }
-      *error = [NSError errorWithDomain:@"com.google.GDataXML"
-                                   code:-1
-                               userInfo:userInfo];
+////      const char *msg = xpathCtx->lastError.str1;
+//      NSDictionary *userInfo = nil;
+////      if (msg) {
+//        userInfo = [NSDictionary dictionaryWithObject:@"error"
+//                                               forKey:@"error"];
+////      }
+//      *error = [NSError errorWithDomain:@"com.google.GDataXML"
+//                                   code:-1
+//                               userInfo:userInfo];
     }
   }
   
