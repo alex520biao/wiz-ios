@@ -318,13 +318,11 @@ static WizGlobalData* g_data;
 	if (data != nil)
     {
         [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid attachmentGUID:attachmentGUID];
-        data.owner = owner;
 		return data;
     }
 	//
 	data = [[WizUploadAttachment alloc] initWithAccount:userId password:@""];
     [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid attachmentGUID:attachmentGUID];
-    data.owner = owner;
 	[self setDataOfAccount:userId dataType:DataTypeOfUploadAttachment data:data];
 	 [data release];  return data;
 }
@@ -334,11 +332,9 @@ static WizGlobalData* g_data;
 	if (data != nil)
     {
         [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid documentGUID:documentGUID];
-        data.owner = owner;
 		return data;
 	}
 	data = [[WizUploadDocument alloc] initWithAccount:userId password:@""];
-    data.owner = owner;
     [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid documentGUID:documentGUID];
 	[self setDataOfAccount:userId dataType:DataTypeOfUploadDocument data:data];
 	 [data release];  return data;

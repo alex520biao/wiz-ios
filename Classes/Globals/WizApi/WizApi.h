@@ -129,7 +129,7 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 
 //wiz-dzpqzb
 -(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5 sumPartCount:(int)sumPartCount;
--(BOOL) onUploadObjectData:(id) retObject;
+-(void) onUploadObjectData:(id) retObject;
 -(BOOL) callDownloadDeletedList;
 -(void) onDownloadDeletedList: (id)retObject;
 

@@ -87,6 +87,8 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 //
 + (UIView*) noNotesRemind;
 + (UIView*) noNotesRemindFor:(NSString*)string;
+//
++ (NSInteger)fileLength:(NSString*)path;
 @end
 
 

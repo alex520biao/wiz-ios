@@ -105,7 +105,6 @@
         return NO;
     }
     [self.uploaderAttachment initWithObjectGUID:self.apiURL token:self.token kbguid:self.kbguid attachmentGUID:attach.attachmentGuid];
-    self.uploaderAttachment.owner = self;
     [self addStopNotifacation];
     NSString* notificationName = [self.downloaderDoc notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
     [nc addObserver:self selector:@selector(uploadAllAttachments) name:notificationName object:nil];
@@ -134,7 +133,6 @@
         return NO;
     }
     [self.uploaderDocument initWithObjectGUID:self.apiURL token:self.token kbguid:self.kbguid documentGUID:doc.guid];
-    self.uploaderDocument.owner = self;
     [self addStopNotifacation];
     NSString* notificationName = [self.uploaderDocument notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
     [nc addObserver:self selector:@selector(uploadAllObject) name:notificationName object:nil];

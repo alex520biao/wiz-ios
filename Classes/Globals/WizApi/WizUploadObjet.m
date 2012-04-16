@@ -15,42 +15,64 @@
 #import "WizSyncByTag.h"
 #import "WizSyncByLocation.h"
 #import "WizSyncByKey.h"
-#define READPARTSIZE  128*1024
+#define UploadPartSize  (256*1024)
 
-@implementation WizUploadObjet
+@protocol WizUploadObjectDelegate
+@optional
+- (void) onUploadObjectDataDone;
+@end
+
+@interface WizUploadObjet ()<WizUploadObjectDelegate>
+{
+    int         currentUploadIndex;
+    int         sumUploadPartCount;
+    NSString*   uploadObjMd5;
+    BOOL        busy;
+    NSString*   objectGUID;
+    NSString*   objectType;
+    NSFileHandle* uploadFildHandel;
+}
+@property                           int         currentUploadIndex;
+@property                           int         sumUploadPartCount;
+@property                           long        currentUploadPos;
+@property                           long        uploadFileSize;
+@property       (nonatomic, retain) NSString*   uploadObjMd5;
+@property       (nonatomic, retain) NSString*   objectGUID;
+@property       (nonatomic, retain) NSString*   objectType;
+@property       (readonly)           BOOL        busy;
+@property       (nonatomic, retain) NSFileHandle* uploadFildHandel;
+- (void) onUploadObjectSucceedAndCleanTemp;
+
+@end
+
+@implementation WizUploadObjet 
 
 @synthesize currentUploadIndex;
 @synthesize sumUploadPartCount;
-@synthesize currentUploadPos;
-@synthesize uploadPartSize;
-@synthesize uploadFileSize;
 @synthesize uploadObjMd5;
 @synthesize busy;
 @synthesize objectGUID;
 @synthesize objectType;
 @synthesize uploadFildHandel;
-@synthesize owner;
 
 
 -(void) initWithObjectGUID:(NSString*)objectIGUID
 {
-        self.objectGUID = objectIGUID;
-        WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-        NSString* zip = [index createZipByGuid:self.objectGUID];
-        NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
-        NSString* md5 = [WizApi fileMD5:zip];
-        self.uploadObjMd5 = md5;
-        self.uploadFildHandel = handle;
-        
-        self.uploadFileSize = [self.uploadFildHandel seekToEndOfFile];
-       
-    self.sumUploadPartCount = self.uploadFileSize  /(READPARTSIZE);
-    if (self.uploadFileSize%(READPARTSIZE) > 0)
+    self.objectGUID = objectIGUID;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    NSString* zip = [index createZipByGuid:self.objectGUID];
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
+    NSString* md5 = [WizApi fileMD5:zip];
+    self.uploadObjMd5 = md5;
+    self.uploadFildHandel = handle;
+    self.uploadFileSize = [WizGlobals fileLength:zip];
+    self.sumUploadPartCount = self.uploadFileSize  /(UploadPartSize);
+    if (self.uploadFileSize%(UploadPartSize) > 0)
     {
         self.sumUploadPartCount++;
     }
-        [self.uploadFildHandel seekToFileOffset:0];
-        self.currentUploadTempFilePath = zip;
+    [self.uploadFildHandel seekToFileOffset:0];
+    self.currentUploadTempFilePath = zip;
 }
 
 
@@ -59,64 +81,79 @@
     self.objectGUID = nil;
     self.objectType = nil;
     self.uploadObjMd5 = nil;
-    [owner release];
     [super dealloc];
 }
-
--(BOOL) uploadObjectData
+- (BOOL) uploadNextPart
 {
-    if (self.busy)
-		return NO;
-	//
-	busy = YES;
-    NSData* data = [self.uploadFildHandel readDataOfLength:READPARTSIZE];
-    self.currentUploadIndex = 0;
-    self.currentUploadPos = 0;
-    self.uploadPartSize = [data length];
-    return [self callUploadObjectData:self.objectGUID objectType:self.objectType data:data objectSize:self.uploadFileSize count:0 sumMD5:self.uploadObjMd5 sumPartCount:self.sumUploadPartCount];
+    NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
+    NSInteger sumCount = self.uploadFileSize/UploadPartSize;
+    if (self.uploadFileSize%UploadPartSize >0) {
+        sumCount++;
+    }
+    NSInteger currentPartCount =currentOffSet/UploadPartSize;
+    NSData* data = [self.uploadFildHandel readDataOfLength:UploadPartSize];
+    return [self callUploadObjectData:self.objectGUID objectType:self.objectType data:data objectSize:self.uploadFileSize count:currentPartCount sumMD5:self.uploadObjMd5 sumPartCount:sumCount];
 }
 
--(BOOL) onUploadObjectData:(id)retObject
+- (void) setOffSetToPreviousPart
 {
-    BOOL succeed = [super onUploadObjectData:retObject];
-    if(!succeed)
-    {
-        [self.uploadFildHandel seekToFileOffset:self.currentUploadPos];
-        NSData* data = [self.uploadFildHandel readDataOfLength:READPARTSIZE];
-        
-        [self postSyncUploadObject:self.uploadFileSize current:READPARTSIZE*self.currentUploadIndex objectGUID:self.objectGUID objectType:self.objectType];
-        return [self callUploadObjectData:self.objectGUID objectType:self.objectType data:data objectSize:self.uploadFileSize count:self.currentUploadIndex sumMD5:self.uploadObjMd5 sumPartCount:self.sumUploadPartCount];
+    NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
+    NSInteger sumCount = self.uploadFileSize/UploadPartSize;
+    if (self.uploadFileSize%UploadPartSize >0) {
+        sumCount++;
     }
-    else
-    {
-        if(self.currentUploadIndex < self.sumUploadPartCount -1 )
-        {
-            self.currentUploadPos = self.currentUploadPos + self.uploadPartSize;
-            NSData* data = [self.uploadFildHandel readDataOfLength:READPARTSIZE];
-            self.currentUploadIndex = self.currentUploadIndex + 1;
-            self.uploadPartSize = [data length];
-            [self postSyncUploadObject:self.uploadFileSize current:READPARTSIZE*self.currentUploadIndex objectGUID:self.objectGUID objectType:self.objectType];
-            return [self callUploadObjectData:self.objectGUID  objectType:self.objectType data:data objectSize:self.uploadFileSize count:self.currentUploadIndex sumMD5:self.uploadObjMd5 sumPartCount:self.sumUploadPartCount];
+    NSInteger currentPartCount =currentOffSet/UploadPartSize;
+    if (self.uploadFileSize/UploadPartSize >0) {
+        if (sumCount >1 || currentPartCount >0) {
+            [self.uploadFildHandel seekToFileOffset:(currentPartCount-1)*UploadPartSize];
         }
-        else
-        {
-            [self postSyncUploadObject:self.uploadFileSize current:self.uploadFileSize objectGUID:self.objectGUID objectType:self.objectType];
-            [self onUploadObjectSucceedAndCleanTemp];
-            return YES;
+        else {
+            [self.uploadFildHandel seekToFileOffset:0];
         }
+    }
+    else {
+        [self.uploadFildHandel seekToFileOffset:currentPartCount*UploadPartSize];
+    }
+    
+}
+- (void) reUploadCurrentPart
+{
+    [self setOffSetToPreviousPart];
+    [self uploadNextPart];
+}
+-(BOOL) uploadObjectData
+{
+    return [self uploadNextPart];
+}
+
+-(void) onUploadObjectData:(id)retObject
+{
+    NSMutableDictionary* obj = (NSMutableDictionary*)retObject;
+    BOOL succeed = ([[obj valueForKey:@"return_code"] isEqualToString:@"200"])? YES:NO;
+    if (!succeed) {
+        [self reUploadCurrentPart];
+    }
+    else {
+        NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
+        if (currentOffSet == self.uploadFileSize) {
+            [self onUploadObjectDataDone];
+        }
+        else {
+            [self uploadNextPart];
+        }
+        
     }
 }
 
 -(void) onUploadObjectSucceedAndCleanTemp
 {
     [WizGlobals deleteFile:self.currentUploadTempFilePath];
-	self.busy = NO;
+	busy = NO;
     self.objectType =nil;
     self.objectGUID = nil;
     self.sumUploadPartCount = -1;
     self.currentUploadIndex = -1;
     self.currentUploadPos = -1;
-    self.uploadPartSize = -1;
     self.sumUploadPartCount = -1;
     self.currentUploadTempFilePath = nil;
     self.uploadFileSize = -1;
@@ -126,32 +163,8 @@
 
 -(void) onError: (id)retObject
 {
-	
-	if (self.owner != nil && [self.owner isKindOfClass:[WizSync class]]) {
-        WizSync* sync = (WizSync*)self.owner;
-        [sync onError:retObject];
-    }
-    else if (self.owner != nil && [self.owner isKindOfClass:[WizSyncByTag class]])
-    {
-        WizSyncByTag* sync = (WizSyncByTag*)self.owner;
-        [sync onError:retObject];
-    }
-    else if (self.owner != nil && [self.owner isKindOfClass:[WizSyncByLocation class]])
-    {
-        WizSyncByLocation* sync = (WizSyncByLocation*)self.owner;
-        [sync onError:retObject];
-    }
-    else if (self.owner != nil && [self.owner isKindOfClass:[WizSyncByKey class]])
-    {
-        WizSyncByKey* sync = (WizSyncByKey*)self.owner;
-        [sync onError:retObject];
-    }
-    else
-    {
-        [super onError:retObject];
-    }
-    self.owner = nil;
     busy = NO;
+    [super onError:retObject];
 }
 @end
 
@@ -165,12 +178,15 @@
     self.kbguid = kbGuid;
     self.objectType = @"document";
 }
--(void) onUploadObjectSucceedAndCleanTemp
+- (void) onDocumentPostSimpleData:(id)retObject
 {
-    [self callDocumentPostSimpleData:self.objectGUID withZipMD5:self.uploadObjMd5];
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
     [index setDocumentLocalChanged:self.objectGUID changed:NO];
-    [super onUploadObjectSucceedAndCleanTemp];
+    [self onUploadObjectSucceedAndCleanTemp];
+}
+-(void) onUploadObjectDataDone
+{
+    [self callDocumentPostSimpleData:self.objectGUID withZipMD5:self.uploadObjMd5];
 }
 @end
 
@@ -183,17 +199,27 @@
     self.kbguid = kbGuid;
     self.objectType = @"attachment";
 }
+- (void) onUploadObjectDataDone
+{
+    [self callAttachmentPostSimpleData:self.objectGUID];
+}
+- (void) onAttachmentPostSimpleData:(id)retObject
+{
+    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    [index setAttachmentLocalChanged:self.objectGUID changed:NO];
+    [self onUploadObjectSucceedAndCleanTemp];
+}
 -(void) onUploadObjectSucceedAndCleanTemp
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    if (![self callAttachmentPostSimpleData:self.objectGUID]) {
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[[WizIndex documentFilePath:self.accountUserId documentGUID:self.objectGUID] stringByAppendingPathComponent:[[index attachmentFromGUID:self.objectGUID] attachmentName]]]) {
-            [index deleteAttachment:self.objectGUID];
-            [index addDeletedGUIDRecord:self.objectGUID type:[WizGlobals attachmentKeyString]];
-            [super onUploadObjectSucceedAndCleanTemp];
-            return;
-        }
-    }
+//    if (!) {
+//        if (![[NSFileManager defaultManager] fileExistsAtPath:[[WizIndex documentFilePath:self.accountUserId documentGUID:self.objectGUID] stringByAppendingPathComponent:[[index attachmentFromGUID:self.objectGUID] attachmentName]]]) {
+//            [index deleteAttachment:self.objectGUID];
+//            [index addDeletedGUIDRecord:self.objectGUID type:[WizGlobals attachmentKeyString]];
+//            [super onUploadObjectSucceedAndCleanTemp];
+//            return;
+//        }
+//    }
     [index setAttachmentLocalChanged:self.objectGUID changed:NO];
     [super onUploadObjectSucceedAndCleanTemp];
 

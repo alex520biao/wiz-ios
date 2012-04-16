@@ -635,7 +635,16 @@ static NSArray* excelArray;
 	UIGraphicsEndImageContext();
     return newImage;
 }
-
++ (NSInteger)fileLength:(NSString*)path
+{
+    NSError* error = nil;
+    NSDictionary* dic = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error];
+    if (nil == error) {
+        return [dic fileSize];
+    }
+    [WizGlobals reportError:error];
+    return NSNotFound;
+}
 +(NSNumber*) wizNoteAppleID
 {
     return [NSNumber numberWithInt:507384718];
