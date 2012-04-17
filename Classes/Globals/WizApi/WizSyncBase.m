@@ -14,8 +14,8 @@
 #import "WizUploadObjet.h"
 @implementation WizSyncBase
 @synthesize downloaderDoc;
-@synthesize uploaderDocument;
-@synthesize uploaderAttachment;
+//@synthesize uploaderDocument;
+//@synthesize uploaderAttachment;
 @synthesize busy;
 @synthesize isStopByUser;
 @synthesize downloadArray;
@@ -26,8 +26,8 @@
     [downloadArray release];
     [uploadArray release];
     [downloaderDoc release];
-    [uploaderDocument release];
-    [uploaderAttachment release];
+//    [uploaderDocument release];
+//    [uploaderAttachment release];
     [super dealloc];
 }
 
@@ -100,16 +100,16 @@
         }
         return YES;
     }
-    WizDocumentAttach* attach = [self.uploadAttachArray objectAtIndex:0];
-    if (nil == attach) {
-        return NO;
-    }
-    [self.uploaderAttachment initWithObjectGUID:self.apiURL token:self.token kbguid:self.kbguid attachmentGUID:attach.attachmentGuid];
-    [self addStopNotifacation];
-    NSString* notificationName = [self.downloaderDoc notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
-    [nc addObserver:self selector:@selector(uploadAllAttachments) name:notificationName object:nil];
-    [self.uploaderAttachment uploadObjectData];
-    [self.uploadAttachArray removeObjectAtIndex:0];
+//    WizDocumentAttach* attach = [self.uploadAttachArray objectAtIndex:0];
+//    if (nil == attach) {
+//        return NO;
+//    }
+//    [self.uploaderAttachment initWithObjectGUID:self.apiURL token:self.token kbguid:self.kbguid attachmentGUID:attach.attachmentGuid];
+//    [self addStopNotifacation];
+//    NSString* notificationName = [self.downloaderDoc notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
+//    [nc addObserver:self selector:@selector(uploadAllAttachments) name:notificationName object:nil];
+//    [self.uploaderAttachment uploadObjectData];
+//    [self.uploadAttachArray removeObjectAtIndex:0];
     return YES;
 }
 
@@ -128,17 +128,17 @@
         [self uploadAllAttachments];
         return YES;
     }
-    WizDocument* doc = [self.uploadArray lastObject];
-    if (nil == doc) {
-        return NO;
-    }
-    [self.uploaderDocument initWithObjectGUID:self.apiURL token:self.token kbguid:self.kbguid documentGUID:doc.guid];
-    [self addStopNotifacation];
-    NSString* notificationName = [self.uploaderDocument notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
-    [nc addObserver:self selector:@selector(uploadAllObject) name:notificationName object:nil];
-    [self.uploaderDocument uploadObjectData];
-    [self.uploadArray removeLastObject];
-    return YES;
+//    WizDocument* doc = [self.uploadArray lastObject];
+//    if (nil == doc) {
+//        return NO;
+//    }
+//    [self.uploaderDocument initWithObjectGUID:self.apiURL token:self.token kbguid:self.kbguid documentGUID:doc.guid];
+//    [self addStopNotifacation];
+//    NSString* notificationName = [self.uploaderDocument notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
+//    [nc addObserver:self selector:@selector(uploadAllObject) name:notificationName object:nil];
+//    [self.uploaderDocument uploadObjectData];
+//    [self.uploadArray removeLastObject];
+//    return YES;
 }
 
 -(void) onClientLogin: (id)retObject
@@ -159,18 +159,18 @@
         [downloader release];
         self.downloaderDoc.owner = self;
     }
-    if (nil == self.uploaderAttachment) {
-        WizUploadAttachment* uploadAttachment = [[WizUploadAttachment alloc] initWithAccount:self.accountUserId password:@""];
-        self.uploaderAttachment = uploadAttachment;
-        [uploadAttachment release];
-    }
-    if (nil == self.uploaderDocument) {
-        WizUploadDocument* uploadDocument = [[WizUploadDocument alloc] initWithAccount:self.accountUserId password:@""];
-        self.uploaderDocument = uploadDocument;
-        [uploadDocument release];
-    }
-    [self addStopNotifacation];
-    [self prepareSyncArray];
+//    if (nil == self.uploaderAttachment) {
+//        WizUploadAttachment* uploadAttachment = [[WizUploadAttachment alloc] initWithAccount:self.accountUserId password:@""];
+//        self.uploaderAttachment = uploadAttachment;
+//        [uploadAttachment release];
+//    }
+//    if (nil == self.uploaderDocument) {
+//        WizUploadDocument* uploadDocument = [[WizUploadDocument alloc] initWithAccount:self.accountUserId password:@""];
+//        self.uploaderDocument = uploadDocument;
+//        [uploadDocument release];
+//    }
+//    [self addStopNotifacation];
+//    [self prepareSyncArray];
 	return [self callClientLogin];
 }
 - (void) cancel

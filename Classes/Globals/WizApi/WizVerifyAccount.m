@@ -30,7 +30,6 @@
 -(void) onClientLogout: (id)retObject
 {
 	[super onClientLogout:retObject];
-	
 	busy = NO;
 }
 

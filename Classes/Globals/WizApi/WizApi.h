@@ -94,7 +94,7 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 
 -(BOOL) callGetUserInfo;
 -(void) onCallGetUserInfo:(id)retObject;
-
+   
 -(BOOL) callClientLogout;
 -(void) onClientLogout: (id)retObject;
 

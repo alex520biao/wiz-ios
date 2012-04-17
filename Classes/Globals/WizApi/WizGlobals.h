@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #define _DEBUG
 #ifdef _DEBUG
+#else
 #define NSLog(s,...) ;
 #endif
 
@@ -19,6 +20,11 @@
 #define WIZTESTFLIGHTDEBUG
 #define WIZERRORDOMAIN @"WizErrorDomain"
 #define WIZABORTNETERROR @"WIZABORTNETERROR"
+
+//
+#define WizDocumentKeyString @"document"
+#define WizAttachmentKeyString  @"attachment"
+
 #define WizLog(s,...) logTofile(__FILE__,(char *)__FUNCTION__ ,__LINE__,s,##__VA_ARGS__)
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...);
 @interface WizGlobals : NSObject {
@@ -122,13 +128,10 @@ extern BOOL WizDeviceIsPad(void);
 - (NSData *)compressedData:(CGFloat)compressionQuality;  
 
 @end  
-
 @interface UIImageView (AddAction) 
 - (void) addAction:(SEL)action  target:(id) target;
 @end
 @interface UIWebView (SearchWebView)
-
 - (NSInteger)highlightAllOccurencesOfString:(NSString*)str;
 - (void)removeAllHighlights;
-
 @end

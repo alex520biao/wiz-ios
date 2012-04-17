@@ -890,7 +890,6 @@ NSInteger compareTag(id location1, id location2, void*);
 	CIndex& index = [_indexData index];
 	//
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
-    [WizNotificationCenter postUpdateDocument:guid];
 	return ret;
 }
 
@@ -1644,6 +1643,7 @@ NSInteger compareTag(id location1, id location2, void*);
         [self deleteAbstractByGUID:documentGUID];
         [self extractSummary:documentGUID];
     }
+    [WizNotificationCenter postUpdateDocument:documentGUID];
 	return index.SetDocumentLocalChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
 }
 - (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed
@@ -1658,6 +1658,7 @@ NSInteger compareTag(id location1, id location2, void*);
         [self deleteAbstractByGUID:documentGUID];
         [self extractSummary:documentGUID];
     }
+    [WizNotificationCenter postUpdateDocument:documentGUID];
     BOOL ret = index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
 
 	return ret;

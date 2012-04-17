@@ -312,33 +312,6 @@ static WizGlobalData* g_data;
 	 [data release];  return data;
 }
 
--(WizUploadAttachment*) uploadAttachmentData:(NSString*) userId attachmentGUID:(NSString*) attachmentGUID owner:(WizApi*)owner
-{
-    WizUploadAttachment* data = [self dataOfAccount:userId dataType: DataTypeOfUploadAttachment];
-	if (data != nil)
-    {
-        [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid attachmentGUID:attachmentGUID];
-		return data;
-    }
-	//
-	data = [[WizUploadAttachment alloc] initWithAccount:userId password:@""];
-    [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid attachmentGUID:attachmentGUID];
-	[self setDataOfAccount:userId dataType:DataTypeOfUploadAttachment data:data];
-	 [data release];  return data;
-}
--(WizUploadDocument*) uploadDocumentData:(NSString*) userId documentGUID:(NSString*) documentGUID owner:(WizSync*) owner
-{
-    WizUploadDocument* data = (WizUploadDocument*)[self dataOfAccount:userId dataType: DataTypeOfUploadDocument];
-	if (data != nil)
-    {
-        [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid documentGUID:documentGUID];
-		return data;
-	}
-	data = [[WizUploadDocument alloc] initWithAccount:userId password:@""];
-    [data initWithObjectGUID:owner.apiURL token:owner.token kbguid:owner.kbguid documentGUID:documentGUID];
-	[self setDataOfAccount:userId dataType:DataTypeOfUploadDocument data:data];
-	 [data release];  return data;
-}
 
 - (WizDocumentsByLocation *) documentsByLocationData:(NSString*) userId
 {

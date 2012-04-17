@@ -14,6 +14,7 @@
 #import "WizUploadObjet.h"
 #import "WizDownloadPool.h"
 #import "Reachability.h"
+#import "WizSyncManager.h"
 #define READPARTSIZE 100*1024
 
 
@@ -92,35 +93,35 @@
 
 -(BOOL) uploadAllAttachments
 {
-    if (isStopByUser) {
-        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-        [nc removeObserver:self];
-        [self callClientLogout];
-        return NO;
-    }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if(self.attachmentsForUpdated == nil || [self.attachmentsForUpdated count] == 0)
-    {
-        if ([index downloadDocumentData]) {
-            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-            self.download  = [NSMutableArray arrayWithArray:[index documentForDownload]];
-            [self downAllDocument];
-            return YES;
-        }
-        else {
-            [self callClientLogout];
-            return YES;
-        }
-    }
-    WizDocumentAttach* attach = [self.attachmentsForUpdated lastObject];
-    WizUploadAttachment* upload = [[WizGlobalData sharedData] uploadAttachmentData:self.accountUserId attachmentGUID:attach.attachmentGuid owner:self];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
-    NSString* notificationName = [self notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
-    [nc addObserver:self selector:@selector(uploadAllAttachments) name:notificationName object:nil];
-    [upload uploadObjectData];
-    [self.attachmentsForUpdated removeLastObject];
+//    if (isStopByUser) {
+//        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//        [nc removeObserver:self];
+//        [self callClientLogout];
+//        return NO;
+//    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if(self.attachmentsForUpdated == nil || [self.attachmentsForUpdated count] == 0)
+//    {
+//        if ([index downloadDocumentData]) {
+//            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//            self.download  = [NSMutableArray arrayWithArray:[index documentForDownload]];
+//            [self downAllDocument];
+//            return YES;
+//        }
+//        else {
+//            [self callClientLogout];
+//            return YES;
+//        }
+//    }
+//    WizDocumentAttach* attach = [self.attachmentsForUpdated lastObject];
+//    WizUploadAttachment* upload = [[WizGlobalData sharedData] uploadAttachmentData:self.accountUserId attachmentGUID:attach.attachmentGuid owner:self];
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [nc removeObserver:self];
+//    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
+//    NSString* notificationName = [self notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
+//    [nc addObserver:self selector:@selector(uploadAllAttachments) name:notificationName object:nil];
+//    [upload uploadObjectData];
+//    [self.attachmentsForUpdated removeLastObject];
     return YES;
 }
 
@@ -133,37 +134,46 @@
         [self callClientLogout];
         return NO;
     }
+    
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
-    if(nil == self.documentsForUpdated )
-        self.documentsForUpdated = [[[index documentForUpload] mutableCopy] autorelease];
-    if([self.documentsForUpdated count] == 0)
-    {
-        NSArray* arr = [index documentForUpload];
-        if(0 == [arr count])
-        {
-            self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
-            [self uploadAllAttachments];
-            return YES;
-        } else
-        {
-            self.documentsForUpdated = nil;
-            self.documentsForUpdated = [[arr mutableCopy] autorelease];
-        }
+//    if(nil == self.documentsForUpdated )
+    
+    self.documentsForUpdated = [[[index documentForUpload] mutableCopy] autorelease];
+    for (WizDocument* each in self.documentsForUpdated) {
+        [[WizSyncManager shareManager] uploadDocument:each.guid];
     }
-    WizDocument* doc = [self.documentsForUpdated lastObject];
-    
-
-    if (!doc)   return NO;
-    
-    WizUploadDocument* upload = [[WizGlobalData sharedData] uploadDocumentData:self.accountUserId documentGUID:doc.guid owner:self];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
-    NSString* notificationName = [self notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
-    [nc addObserver:self selector:@selector(uploadAllObject) name:notificationName object:nil];
-    [upload uploadObjectData];
-    [self.documentsForUpdated removeLastObject];
+    NSArray* attachments = [index attachmentsForUpload];
+    for (WizDocumentAttach* each in attachments) {
+        [[WizSyncManager shareManager] uploadAttachment:each.attachmentGuid];
+    }
+//    if([self.documentsForUpdated count] == 0)
+//    {
+//        NSArray* arr = [index documentForUpload];
+//        if(0 == [arr count])
+//        {
+//            self.attachmentsForUpdated = [NSMutableArray arrayWithArray:[index attachmentsForUpload]];
+//            [self uploadAllAttachments];
+//            return YES;
+//        } else
+//        {
+//            self.documentsForUpdated = nil;
+//            self.documentsForUpdated = [[arr mutableCopy] autorelease];
+//        }
+//    }
+//    WizDocument* doc = [self.documentsForUpdated lastObject];
+//    
+//
+//    if (!doc)   return NO;
+//    
+//    WizUploadDocument* upload = [[WizGlobalData sharedData] uploadDocumentData:self.accountUserId documentGUID:doc.guid owner:self];
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [nc removeObserver:self];
+//    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
+//    NSString* notificationName = [self notificationName:WizSyncXmlRpcUploadDoneNotificationPrefix];
+//    [nc addObserver:self selector:@selector(uploadAllObject) name:notificationName object:nil];
+//    [upload uploadObjectData];
+//    [self.documentsForUpdated removeLastObject];
     return YES;
 }
 

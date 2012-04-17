@@ -81,7 +81,12 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		self.accountUserId = userId;
 		self.accountPassword = password;
 		//
-		NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+#ifdef _DEBUG
+        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.1.111:8800/wiz/xmlrpc"];
+		
+#else
+        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+#endif
 		self.accountURL = urlAccount;
 		[urlAccount release];
 	}
@@ -500,7 +505,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	self.apiURL = urlAPI;
 	[urlAPI release];
 	self.kbguid = [userInfo valueForKey:@"kb_guid"];
-    
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSNumber* userPoints = [userInfo objectForKey:@"user_points"];
     NSNumber* userLevel = [userInfo objectForKey:@"user_level"];

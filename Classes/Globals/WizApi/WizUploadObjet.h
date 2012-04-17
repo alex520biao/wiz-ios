@@ -10,14 +10,10 @@
 #import "WizApi.h"
 
 @interface WizUploadObjet : WizApi
--(BOOL) uploadObjectData;
-@end
-@interface WizUploadDocument : WizUploadObjet {
+{
+        BOOL        busy;
 }
--(void) initWithObjectGUID:(NSURL*)apiUrl token:(NSString*)token_ kbguid:(NSString*)kbGuid  documentGUID:(NSString *)documentIGUID;
-@end
-
-@interface WizUploadAttachment : WizUploadObjet {
-}
--(void) initWithObjectGUID:(NSURL*)apiUrl token:(NSString*)token_ kbguid:(NSString*)kbGuid attachmentGUID:(NSString *)attachmentIGUID;
+@property       (readonly)           BOOL        busy;
+- (BOOL) uploadDocument:(NSString*)documentGUID;
+- (BOOL) uploadAttachment:(NSString*)attachmentGUID;
 @end

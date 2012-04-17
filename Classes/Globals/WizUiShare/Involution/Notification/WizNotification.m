@@ -141,4 +141,38 @@
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfFolder notification:nc];
 }
+//
++ (void) addObserverForUploadDone:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUploadDone];
+}
++ (void) removeObserverForUploadDone:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfUploadDone];
+}
++ (void) postMessageUploadDone:(NSString*)guid
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfUploadDone userInfoObject:guid userInfoKey:UserInfoTypeOfGuid];
+}
++ (NSString*) uploadGuidFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfGuid notification:nc];
+}
+//
++ (void) addObserverForRefreshToken:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfRefreshToken];
+}
++ (void) removeObserverForRefreshToken:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfRefreshToken];
+}
++ (void) postMessageRefreshToken:(NSDictionary*)dic
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfRefreshToken userInfoObject:dic userInfoKey:UserInfoTypeOfRefreshToken];
+}
++ (NSDictionary*) getRefreshTokenDicFromNc:(NSNotification*)nc
+{
+    return  [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfRefreshToken notification:nc];
+}
 @end

@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface WizSyncManager : NSObject
-
+{
+    NSString* accountUserId;
+}
+@property (nonatomic, retain) NSString* accountUserId;
+- (BOOL) uploadNext:(NSNotification*)nc;
+- (BOOL) uploadDocument:(NSString*)documentGUID;
++ (id) shareManager;
 @end

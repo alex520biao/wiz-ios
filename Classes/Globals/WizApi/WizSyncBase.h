@@ -7,8 +7,6 @@
 //
 
 #import "WizApi.h"
-@class WizUploadDocument;
-@class WizUploadAttachment;
 @class WizDownloadDocument;
 @protocol WizSyncBaseMethod <NSObject>
 @optional
@@ -23,8 +21,6 @@
     NSMutableArray* uploadArray;
     NSMutableArray* uploadAttachArray;
     WizDownloadDocument* downloaderDoc;
-    WizUploadAttachment* uploaderAttachment;
-    WizUploadDocument* uploaderDocument;
     BOOL isStopByUser;
 }
 
@@ -33,8 +29,6 @@
 @property (nonatomic, retain) NSMutableArray* uploadArray;
 @property (nonatomic, retain) NSMutableArray* uploadAttachArray;
 @property (nonatomic, retain) WizDownloadDocument* downloaderDoc;
-@property (nonatomic, retain) WizUploadAttachment* uploaderAttachment;
-@property (nonatomic, retain) WizUploadDocument* uploaderDocument;
 @property (assign)     BOOL isStopByUser;
 -(void) onError: (id)retObject;
 -(void) onClientLogin: (id)retObject;

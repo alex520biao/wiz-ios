@@ -38,4 +38,16 @@
 + (void) addObserverForUpdateFolder:(id)observer    selector:(SEL)selector;
 + (void) removeObserverForUpdateFolder:(id)observer;
 + (NSString*) getFolderKeyFromNc:(NSNotification*)nc;
+
+//
++ (void) addObserverForUploadDone:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForUploadDone:(id)observer;
++ (void) postMessageUploadDone:(NSString*)guid;
++ (NSString*) uploadGuidFromNc:(NSNotification*)nc;
+
+//
++ (void) addObserverForRefreshToken:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForRefreshToken:(id)observer;
++ (void) postMessageRefreshToken:(NSDictionary*)dic;
++ (NSDictionary*) getRefreshTokenDicFromNc:(NSNotification*)nc;
 @end

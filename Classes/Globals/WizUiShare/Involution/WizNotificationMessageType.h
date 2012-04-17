@@ -23,3 +23,9 @@
 #define MessageTypeOfUpdateFolder   @"MessageTypeOfUpdateFolder"
 //
 #define UserInfoTypeOfFolder        @"UserInfoTypeOfFolder"
+//
+#define MessageTypeOfUploadDone     @"MessageTypeOfUploadDone"
+#define UserInfoTypeOfGuid          @"UserInfoTypeOfGuid"
+//
+#define MessageTypeOfRefreshToken   @"MessageTypeOfRefreshToken"
+#define UserInfoTypeOfRefreshToken  @"UserInfoTypeOfRefreshToken"
