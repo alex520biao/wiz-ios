@@ -10,6 +10,10 @@
 #import "WizNotification.h"
 
 @implementation WizRefreshToken
+- (void) onError:(id)retObject
+{
+    [super onError:retObject];
+}
 - (BOOL) refresh
 {
     return [self callClientLogin];

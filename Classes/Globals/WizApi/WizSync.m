@@ -141,6 +141,8 @@
     
     self.documentsForUpdated = [[[index documentForUpload] mutableCopy] autorelease];
     for (WizDocument* each in self.documentsForUpdated) {
+        WizSyncManager* share = [WizSyncManager shareManager];
+        share.accountUserId = self.accountUserId;
         [[WizSyncManager shareManager] uploadDocument:each.guid];
     }
     NSArray* attachments = [index attachmentsForUpload];

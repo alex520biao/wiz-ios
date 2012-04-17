@@ -25,14 +25,21 @@
     NSMutableArray* uploadQueque;
     NSMutableArray* errorQueque;
     NSMutableDictionary* syncData;
+    BOOL isRefreshToken;
 }
 @end
-
 @implementation WizSyncManager
 @synthesize accountUserId;
+static WizSyncManager* shareManager;
 + (id) shareManager
 {
-    return [[WizGlobalData sharedData] syncManger];
+    @synchronized(shareManager)
+    {
+        if (nil == shareManager) {
+            shareManager = [[super allocWithZone:nil] init];
+        }
+    }
+    return shareManager;
 }
 
 - (id) init
@@ -40,6 +47,9 @@
     self = [super init];
     if (self) {
         syncData = [[NSMutableDictionary alloc] init];
+        uploadQueque = [[NSMutableArray alloc] init];
+        downloadQueque = [[NSMutableArray alloc] init];
+        errorQueque = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -79,7 +89,7 @@
 - (void) restartSync
 {
     for (id each in errorQueque) {
-        if ([each isKindOfClass:[WizUploadObjet Class]]) {
+        if ([each isKindOfClass:[WizUploadObjet class]]) {
             [self startUpload];
         }
     }
@@ -87,6 +97,7 @@
 - (void) didRefreshToken:(NSNotification*)nc
 {
     [WizNotificationCenter removeObserverForRefreshToken:self];
+    isRefreshToken = NO;
     NSDictionary* keys = [WizNotificationCenter getRefreshTokenDicFromNc:nc];
     NSString* token = [keys valueForKey:@"token"];
     NSString* kbGuid = [keys valueForKey:@"kb_guid"];
@@ -97,6 +108,10 @@
 - (void) refreshToken
 {
     WizRefreshToken* re = [self shareRefreshTokener];
+    if (isRefreshToken) {
+        return;
+    }
+    isRefreshToken = YES;
     [WizNotificationCenter addObserverForRefreshToken:self selector:@selector(didRefreshToken:)];
     [re refresh];
 }

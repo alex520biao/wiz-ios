@@ -82,7 +82,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		self.accountPassword = password;
 		//
 #ifdef _DEBUG
-        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.1.111:8800/wiz/xmlrpc"];
+        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.1.101:8800/wiz/xmlrpc"];
 		
 #else
         NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
