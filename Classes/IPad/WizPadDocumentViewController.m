@@ -111,23 +111,23 @@
 @synthesize attachmentCountBadge;
 - (void) dealloc
 {
-    self.attachmentCountBadge = nil;
-    self.attachmentBarItem = nil;
-    self.zoomOrShrinkButton = nil;
-    self.infoBarItem = nil;
-    self.editBarItem = nil;
-    self.searchItem = nil;
-    self.selectedDocumentGUID = nil;
-    self.documentNameLabel = nil;
-    self.documentsArray = nil;
+    [attachmentCountBadge release];
+    [attachmentBarItem release];
+    [zoomOrShrinkButton release];
+    [infoBarItem release];
+    [editBarItem release];
+    [searchItem release];
+    [selectedDocumentGUID release];
+    [documentNameLabel release];
+    [documentsArray release];
     self.listType = -1;
-    self.documentListKey = nil;
-    self.sourceArray = nil;
-    self.accountUserId = nil;
-    self.documentList = nil;
-    self.headerView = nil;
-    self.webView = nil;
-    self.currentPopoverController = nil;
+    [documentListKey release];
+    [sourceArray release];
+    [accountUserId release];
+    [documentList release];
+    [headerView release];
+    [webView release];
+    [currentPopoverController release];
     [super dealloc];
 
 }

@@ -1050,6 +1050,8 @@
 				73A7842F14F8CC22001387F6 /* WizDowdloadDocumentAttachment.m */,
 				73A7843014F8CC22001387F6 /* WizDownloadObject.h */,
 				73A7843114F8CC22001387F6 /* WizDownloadObject.m */,
+				73A7844C14F8CC22001387F6 /* WizUploadObjet.h */,
+				73A7844D14F8CC22001387F6 /* WizUploadObjet.m */,
 				73A7843214F8CC22001387F6 /* WizDownloadPool.h */,
 				73A7843314F8CC22001387F6 /* WizDownloadPool.m */,
 				73A7843414F8CC22001387F6 /* WizDownloadRecentDocuments.h */,
@@ -1074,8 +1076,6 @@
 				73A7844914F8CC22001387F6 /* WizSyncByLocation.m */,
 				73A7844A14F8CC22001387F6 /* WizSyncByTag.h */,
 				73A7844B14F8CC22001387F6 /* WizSyncByTag.m */,
-				73A7844C14F8CC22001387F6 /* WizUploadObjet.h */,
-				73A7844D14F8CC22001387F6 /* WizUploadObjet.m */,
 				73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */,
 				73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */,
 			);

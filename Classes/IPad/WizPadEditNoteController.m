@@ -45,16 +45,16 @@
 @synthesize isNewDocument;
 - (void) dealloc
 {
-    self.timerView = nil;
-    self.documentGUID = nil;
-    self.selectedTags = nil;
-    self.documentFloder = nil;
-    self.currentPopoverController = nil;
-    self.bodyInputTextView = nil;
-    self.titleInputTextField = nil;
-    self.tagTextField = nil;
-    self.folderTextField = nil;
-    self.backgroudScrollView = nil;
+    [timerView release];
+    [documentGUID release];
+    [selectedTags release];
+    [documentFloder release];
+    [currentPopoverController release];
+    [bodyInputTextView release];
+    [titleInputTextField release];
+    [tagTextField release];
+    [folderTextField release];
+    [backgroudScrollView release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

@@ -16,7 +16,7 @@
 - (void) dealloc
 {
     accountUserId = nil;
-    self.documentGuid = nil;
+    [documentGuid release];
     [super dealloc];
 }
 - (id)initWithFrame:(CGRect)frame userId:(NSString*)userId

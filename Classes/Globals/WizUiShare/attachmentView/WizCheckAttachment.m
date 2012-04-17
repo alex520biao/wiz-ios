@@ -18,9 +18,9 @@
 @synthesize attachmentGUID;
 - (void) dealloc
 {
-    self.attachmentGUID = nil;
-    self.req = nil;
-    self.webView = nil;
+    [attachmentGUID release];
+    [req release];
+    [webView release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

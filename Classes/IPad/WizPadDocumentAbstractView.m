@@ -57,11 +57,11 @@ static NSMutableDictionary* detailDecorator;
 - (void) dealloc
 {
     [owner release];
-    self.doc = nil;
-    self.nameLabel = nil;
-    self.abstractLabel = nil;
-    self.abstractImageView = nil;
-    self.accountUserId = nil;
+    [doc release];
+    [nameLabel release];
+    [abstractLabel release];
+    [abstractImageView release];
+    [accountUserId release];
     [super dealloc];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view

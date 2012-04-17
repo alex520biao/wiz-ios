@@ -34,7 +34,7 @@
 -(void) dealloc
 {
     [WizNotificationCenter removeObserver:self];
-    self.accountUserId = nil;
+    [accountUserId release];
     [super dealloc];
 }
 

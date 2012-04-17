@@ -82,10 +82,10 @@
 - (void) dealloc
 {
 
-    self.accountUserId = nil;
-    self.locations = nil;
-    self.tree = nil;
-    self.displayNodes = nil;
+    [accountUserId release];
+    [locations release];
+    [tree release];
+    [displayNodes release];
 	[super dealloc];
 }
 -(void) setNodeRow {

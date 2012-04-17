@@ -13,7 +13,7 @@
 
 - (void) dealloc
 {
-    self.location = nil;
+    [location release];
     [super dealloc];
 }
 - (void) prepareSyncArray

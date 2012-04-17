@@ -15,9 +15,9 @@
 @synthesize abstractArray;
 - (void) dealloc
 {
-    self.abstractArray = nil;
+    [abstractArray release];
     [owner release];
-    self.accountUserId = nil;
+    [accountUserId release];
     [super dealloc];
 }
 - (void) setDocuments:(NSArray*) arr

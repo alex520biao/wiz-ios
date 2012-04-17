@@ -16,7 +16,6 @@
 -(void) onError: (id)retObject
 {
 	[super onError:retObject];
-	
 	busy = NO;
 }
 

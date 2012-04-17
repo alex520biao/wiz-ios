@@ -57,22 +57,22 @@
 @synthesize connectViaWifiSwitch;
 - (void) dealloc
 {
-    self.viewOptions = nil;
-    self.downloadDurationRemind = nil;
-    self.accountProtectPassword = nil;
-    self.pickView = nil;
-    self.imageQualityData = nil;
-    self.downloadDurationData = nil;
-    self.accountUserId = nil;
-    self.defaultUserCell = nil;
-    self.defaultUserLabel = nil;
-    self.defaultUserSwitch = nil;
-    self.mobileViewCell = nil;
-    self.mobileViewSwitch = nil;
-    self.mbileViewCellLabel = nil;
-    self.connectViaWifiSwitch = nil;
-    self.connectViaWifiLabel = nil;
-    self.connectViaWifiCell = nil;
+    [viewOptions release];
+    [downloadDurationRemind release];
+    [accountProtectPassword release];
+    [pickView release];
+    [imageQualityData release];
+    [downloadDurationData release];
+    [accountUserId release];
+    [defaultUserCell release];
+    [defaultUserLabel release];
+    [defaultUserSwitch release];
+    [mobileViewCell release];
+    [mobileViewSwitch release];
+    [mbileViewCellLabel release];
+    [connectViaWifiSwitch release];
+    [connectViaWifiLabel release];
+    [connectViaWifiCell release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -568,7 +568,7 @@
     WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
     check.title = WizStrPassword;
     check.willMakeSure = YES;
-    UINavigationController* nav = [[UINavigationController alloc ] initWithRootViewController:check];
+    UINavigationController* nav = [[UINavigationController alloc ] initWithRootViewController:check] ;
     [check release];
     nav.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.navigationController presentModalViewController:nav animated:YES];;

@@ -23,11 +23,11 @@
 @synthesize uploadAttachArray;
 - (void) dealloc
 {
-    self.downloadArray = nil;
-    self.uploadArray = nil;
-    self.downloaderDoc = nil;
-    self.uploaderDocument = nil;
-    self.uploaderAttachment = nil;
+    [downloadArray release];
+    [uploadArray release];
+    [downloaderDoc release];
+    [uploaderDocument release];
+    [uploaderAttachment release];
     [super dealloc];
 }
 

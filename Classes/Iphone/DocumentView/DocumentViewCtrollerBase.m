@@ -104,17 +104,17 @@
 
 -(void) dealloc
 {
-    self.searchItem = nil;
-    self.web = nil;
-    self.download = nil;
-    self.accountUserID =nil;
-    self.doc = nil;
-    self.attachmentBarItem = nil;
-    self.infoBarItem = nil;
-    self.editBarItem = nil;
-    self.searchDocumentBar = nil;
-    self.conNotDownloadAlert = nil;
-    self.downloadActivity = nil;
+    [searchItem release];
+    [web release];
+    [download release];
+    [accountUserID release];
+    [doc release];
+    [attachmentBarItem release];
+    [infoBarItem release];
+    [editBarItem release];
+    [searchDocumentBar release];
+    [conNotDownloadAlert release];
+    [downloadActivity release];
     [super dealloc];
 }
 

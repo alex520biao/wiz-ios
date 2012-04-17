@@ -14,7 +14,7 @@
 
 - (void) dealloc
 {
-    self.key = nil;
+    [key release];
     [super dealloc];
 }
 - (void) prepareSyncArray

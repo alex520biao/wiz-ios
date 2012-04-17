@@ -25,12 +25,12 @@
 @synthesize isNewTag;
 - (void) dealloc
 {
-    self.searchedTags = nil;
-    self.initSelectedTags = nil;
-    self.accountUserId = nil;
-    self.searchDisplayController = nil;
-    self.searchBar = nil;
-    self.tags = nil;
+    [searchedTags release];
+    [initSelectedTags release];
+    [accountUserId release];
+    [searchDisplayController release];
+    [searchBar release];
+    [tags release];
     [super dealloc];
 }
 

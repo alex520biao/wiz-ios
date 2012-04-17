@@ -42,21 +42,21 @@
 @synthesize willAddUser;
 - (void) dealloc
 {
-    self.selecteAccountId = nil;
-    self.contentTableView = nil;
-    self.userPasswordTextField = nil;
-    self.userPasswordLabel = nil;
-    self.userPasswordCell = nil;
-    self.userNameTextField = nil;
-    self.userNameLabel = nil;
-    self.userNameCell = nil;
-    self.loginButton = nil;
-    self.waitAlertView = nil;
-    self.accountsArray = nil;
-    self.addAccountButton = nil;
-    self.addAccountCell = nil;
-    self.createdAccountButton = nil;
-    self.checkOtherAccountButton = nil;
+    [selecteAccountId release];
+    [contentTableView release];
+    [userPasswordTextField release];
+    [userPasswordLabel release];
+    [userPasswordCell release];
+    [userNameTextField release];
+    [userNameLabel release];
+    [userNameCell release];
+    [loginButton release];
+    [waitAlertView release];
+    [accountsArray release];
+    [addAccountButton release];
+    [addAccountCell release];
+    [createdAccountButton release];
+    [checkOtherAccountButton release];
     [super dealloc];
 }
 

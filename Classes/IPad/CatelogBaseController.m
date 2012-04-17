@@ -48,8 +48,8 @@ static NSDictionary* paragrahAttributeDic;
     
 }
 - (void) dealloc{
-    self.accountUserId = nil;
-    self.dataArray = nil;
+    [accountUserId release];
+    [dataArray release];
     [super dealloc];
 }
 -(void) didSelectedCatelog:(NSString *)keywords

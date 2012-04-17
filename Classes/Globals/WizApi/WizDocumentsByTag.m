@@ -16,7 +16,7 @@
 
 -(void) dealloc
 {
-	self.tag_guid = nil;
+	[tag_guid release];
 	[super dealloc];
 }
 

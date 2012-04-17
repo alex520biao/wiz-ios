@@ -16,11 +16,11 @@
 @synthesize finalPassword;
 - (void) dealloc
 {
-    self.finalPassword = nil;
-    self.number4 = nil;
-    self.number3 = nil;
-    self.number2 = nil;
-    self.number1 = nil;
+    [finalPassword release];
+    [number4 release];
+    [number3 release];
+    [number2 release];
+    [number1 release];
     [super dealloc];
 }
 - (UITextView*) textView

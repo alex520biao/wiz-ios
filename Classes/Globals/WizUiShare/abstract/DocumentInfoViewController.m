@@ -57,8 +57,8 @@
 @synthesize lastIndexPath;
 -(void) dealloc
 {
-    self.doc = nil;
-    self.accountUserId = nil;
+    [doc release];
+    [accountUserId release];
     [super dealloc];
     
 }

@@ -190,8 +190,8 @@
     [refreshArrow release];
     [refreshSpinner release];
     [refreshDetailLabel release];
-    self.refreshingItem = nil;
-    self.startRefrshItem = nil;
+    [refreshingItem release];
+    [startRefrshItem release];
     [super dealloc];
 }
 

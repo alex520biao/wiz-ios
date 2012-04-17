@@ -78,9 +78,9 @@
 
 -(void) dealloc
 {
-    self.objectGUID = nil;
-    self.objectType = nil;
-    self.uploadObjMd5 = nil;
+    [objectGUID release];
+    [objectType release];
+    [uploadObjMd5 release];
     [super dealloc];
 }
 - (BOOL) uploadNextPart
@@ -141,7 +141,6 @@
         else {
             [self uploadNextPart];
         }
-        
     }
 }
 
@@ -149,13 +148,13 @@
 {
     [WizGlobals deleteFile:self.currentUploadTempFilePath];
 	busy = NO;
-    self.objectType =nil;
-    self.objectGUID = nil;
+    [objectType release];
+    [objectGUID release];
     self.sumUploadPartCount = -1;
     self.currentUploadIndex = -1;
     self.currentUploadPos = -1;
     self.sumUploadPartCount = -1;
-    self.currentUploadTempFilePath = nil;
+    [currentUploadTempFilePath release];
     self.uploadFileSize = -1;
     [self.uploadFildHandel closeFile];
 	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcUploadDoneNotificationPrefix] object: nil userInfo: nil];
@@ -208,20 +207,5 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
     [index setAttachmentLocalChanged:self.objectGUID changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
-}
--(void) onUploadObjectSucceedAndCleanTemp
-{
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-//    if (!) {
-//        if (![[NSFileManager defaultManager] fileExistsAtPath:[[WizIndex documentFilePath:self.accountUserId documentGUID:self.objectGUID] stringByAppendingPathComponent:[[index attachmentFromGUID:self.objectGUID] attachmentName]]]) {
-//            [index deleteAttachment:self.objectGUID];
-//            [index addDeletedGUIDRecord:self.objectGUID type:[WizGlobals attachmentKeyString]];
-//            [super onUploadObjectSucceedAndCleanTemp];
-//            return;
-//        }
-//    }
-    [index setAttachmentLocalChanged:self.objectGUID changed:NO];
-    [super onUploadObjectSucceedAndCleanTemp];
-
 }
 @end

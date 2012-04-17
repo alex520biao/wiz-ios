@@ -24,11 +24,11 @@
 @synthesize waitAlert;
 - (void) dealloc
 {
-    self.waitAlert = nil;
-    self.accountUserId = nil;
-    self.oldPassword = nil;
-    self.passwordNew = nil;
-    self.passwordConfirmNew = nil;
+    [waitAlert release];
+    [accountUserId release];
+    [oldPassword release];
+    [passwordNew release];
+    [passwordConfirmNew release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

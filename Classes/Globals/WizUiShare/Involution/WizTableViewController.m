@@ -168,8 +168,8 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 @synthesize tableSourceArray;
 - (void) dealloc
 {
-    self.accountUserId = nil;
-    self.tableSourceArray = nil;
+    [accountUserId release];
+    [tableSourceArray release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

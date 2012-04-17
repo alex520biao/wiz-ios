@@ -13,7 +13,7 @@
 
 - (void) dealloc
 {
-    self.source = nil;
+    [source release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

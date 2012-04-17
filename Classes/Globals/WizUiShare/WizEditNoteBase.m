@@ -26,12 +26,12 @@
 @synthesize attachmentSourcePath;
 - (void) dealloc
 {
-    self.attachmentSourcePath = nil;
-    self.currentRecodingFilePath = nil;
-    self.session = nil;
-    self.editDocumentGuid = nil;
-    self.recorder = nil;
-    self.accountUserId = nil;
+    [attachmentSourcePath release];
+    [currentRecodingFilePath release];
+    [session release];
+    [editDocumentGuid release];
+    [recorder release];
+    [accountUserId release];
     [super dealloc];
 }
 

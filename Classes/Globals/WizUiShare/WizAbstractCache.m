@@ -280,9 +280,9 @@
     [attibuteString addAttributes:[self paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
     WizAbstractData* abs =[[WizAbstractData alloc] init];
     abs.text = attibuteString;
-    abs.image = nil;
     [data setObject:abs forKey:folderKey];
     [abs release];
+    [attibuteString release];
     return abs;
 }
 - (WizAbstractData*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId

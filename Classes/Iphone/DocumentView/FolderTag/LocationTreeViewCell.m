@@ -16,10 +16,10 @@
 @synthesize expandImage;
 - (void) dealloc
 {
-    self.onExpand =nil;
+    [onExpand release];
     [owner release];
-    self.closedImage = nil;
-    self.expandImage = nil;
+    [closedImage release];
+    [expandImage release];
     [super dealloc];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view

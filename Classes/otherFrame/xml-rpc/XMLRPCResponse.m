@@ -316,7 +316,7 @@
 
 - (void)dealloc
 {
-	self.object = nil;
+	[object release];
 	
 	[super dealloc];
 }

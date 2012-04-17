@@ -13,7 +13,7 @@
 @synthesize tag;
 - (void) dealloc
 {
-    self.tag = nil;
+    [tag release];
     [super dealloc];
 }
 //- (NSString*)notificationName:(NSString *)prefix

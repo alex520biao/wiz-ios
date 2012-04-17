@@ -22,10 +22,10 @@
 @synthesize waitAlertView;
 - (void) dealloc
 {
-    self.accountPassword = nil;
-    self.accountPasswordConfirm = nil;
-    self.accountEmail = nil;
-    self.waitAlertView = nil;
+    [accountPassword release];
+    [accountPasswordConfirm release];
+    [accountEmail release];
+    [waitAlertView release];
     [super dealloc];
 }
 

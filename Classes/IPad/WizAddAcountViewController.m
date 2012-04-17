@@ -34,10 +34,10 @@
 @synthesize accountButton;
 - (void) dealloc
 {
-    self.nameInput = nil;
-    self.waitAlertView = nil;
-    self.passwordInput = nil;
-    self.accountButton = nil;
+    [nameInput release];
+    [waitAlertView release];
+    [passwordInput release];
+    [accountButton release];
     [super dealloc];
 }
 

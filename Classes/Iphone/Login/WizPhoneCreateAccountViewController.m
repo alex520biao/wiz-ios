@@ -27,11 +27,11 @@
 @synthesize registerButton;
 - (void) dealloc
 {
-    self.registerButton = nil;
-    self.idInputView = nil;
-    self.passwordInputView = nil;
-    self.confirmInputView = nil;
-    self.waitAlertView = nil;
+    [registerButton release];
+    [idInputView release];
+    [passwordInputView release];
+    [confirmInputView release];
+    [waitAlertView release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

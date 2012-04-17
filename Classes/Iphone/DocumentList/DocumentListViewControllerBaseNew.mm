@@ -694,13 +694,13 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [WizNotificationCenter removeObserver:self];
-    self.tableArray = nil;
-    self.sourceArray = nil;
-    self.accountUserID = nil;
-    self.currentDoc = nil;
+    [tableArray release];
+    [sourceArray release];
+    [accountUserID release];
+    [currentDoc release];
     self.isReverseDateOrdered = NO;
-    self.lastIndexPath = nil;
-    self.assertAlerView = nil;
+    [lastIndexPath release];
+    [assertAlerView release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

@@ -12,7 +12,7 @@
 @synthesize textField;
 - (void) dealloc
 {
-    self.textField = nil;
+    [textField release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

@@ -569,7 +569,7 @@ else {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
     [WizNotificationCenter removeObserver:self];
     [WizNotificationCenter removeObserverForDeleteDocument:self];
-    self.accountUserID = nil;
+    [accountUserID release];
     [super dealloc];
 }
 

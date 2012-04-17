@@ -26,15 +26,15 @@
 @synthesize historyView;
 -(void) dealloc
 {
-    self.searchBar = nil;
-    self.localSearchSwitch = nil;
-    self.localSearchSwitchString = nil;
-    self.localsearchView = nil;
-    self.accountUserId = nil;
-    self.accountUserPassword = nil;
-    self.waitAlertView = nil;
-    self.currentKeyWords = nil;
-    self.historyView = nil;
+    [searchBar release];
+    [localSearchSwitch release];
+    [localSearchSwitchString release];
+    [localsearchView release];
+    [accountUserId release];
+    [accountUserPassword release];
+    [waitAlertView release];
+    [currentKeyWords release];
+    [historyView release];
     [super dealloc];
     
 }

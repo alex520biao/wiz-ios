@@ -17,11 +17,11 @@
 @synthesize backGroud;
 - (void) dealloc
 {
-    self.keywords = nil;
-    self.backGroud = nil;
-    self.nameLabel = nil;
-    self.documentsCountLabel = nil;
-    self.abstractLabel = nil;
+    [keywords release];
+    [backGroud release];
+    [nameLabel release];
+    [documentsCountLabel release];
+    [abstractLabel release];
     [owner release];
     [super dealloc];
 }

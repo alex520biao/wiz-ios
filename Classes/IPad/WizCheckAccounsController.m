@@ -15,7 +15,7 @@
 
 - (void) dealloc
 {
-    self.accounts = nil;
+    [accounts release];
     [super dealloc];
 }
 

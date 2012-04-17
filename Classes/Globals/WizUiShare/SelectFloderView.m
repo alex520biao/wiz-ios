@@ -31,11 +31,11 @@
 }
 - (void)dealloc
 {
-    self.searchedFolder = nil;
-    self.allFloders = nil;
-    self.accountUserID = nil;
-    self.searchDisplayController = nil;
-    self.searchBar = nil;
+    [searchedFolder release];
+    [allFloders release];
+    [accountUserID release];
+    [searchDisplayController release];
+    [searchBar release];
     [super dealloc];
 }
 - (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

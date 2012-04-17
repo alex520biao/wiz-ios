@@ -27,10 +27,10 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [WizNotificationCenter removeObserver:self];
-    self.CripytLabel = nil;
-    self.loginButton = nil;
-    self.backgroudView = nil;
-    self.registerButton = nil;
+    [CripytLabel release];
+    [loginButton release];
+    [backgroudView release];
+    [registerButton release];
     [super dealloc];
 }
 - (void) setFrames:(UIInterfaceOrientation)interface

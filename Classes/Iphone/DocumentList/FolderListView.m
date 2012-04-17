@@ -17,7 +17,7 @@
 
 -(void) dealloc
 {
-    self.location = nil;
+    [location release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style {

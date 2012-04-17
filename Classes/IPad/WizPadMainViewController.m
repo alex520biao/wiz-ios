@@ -40,16 +40,16 @@
 @synthesize refreshButton;
 - (void) dealloc
 {
-    self.refreshButton = nil;
-    self.tagList = nil;
-    self.folderList = nil;
-    self.recentList = nil;
-    self.refreshItem = nil;
-    self.stopRefreshItem = nil;
-    self.currentPoperController = nil;
-    self.controllersArray = nil;
-    self.accountUserId = nil;
-    self.mainSegment = nil;
+    [refreshButton release];
+    [tagList release];
+    [folderList release];
+    [recentList release];
+    [refreshItem release];
+    [stopRefreshItem release];
+    [currentPoperController release];
+    [controllersArray release];
+    [accountUserId release];
+    [mainSegment release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

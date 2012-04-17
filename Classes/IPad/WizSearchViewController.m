@@ -13,8 +13,8 @@
 @synthesize searchDisplayController;
 - (void) dealloc
 {
-    self.searchBar = nil;
-    self.searchDisplayController = nil;
+    [searchBar release];
+    [searchDisplayController release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

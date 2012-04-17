@@ -23,11 +23,11 @@
 @synthesize expandImage;
 - (void) dealloc
 {
-    self.tree =nil;
-    self.displayNodes = nil;
-	self.locations = nil;
-    self.closedImage = nil;
-    self.expandImage = nil;
+    [tree release];
+    [displayNodes release];
+	[locations release];
+    [closedImage release];
+    [expandImage release];
     [super dealloc];
 }
 -(void) setNodeRow {

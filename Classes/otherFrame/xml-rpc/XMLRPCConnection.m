@@ -106,10 +106,10 @@
 
 - (void)dealloc
 {
-	self.connection = nil;
-	self.delegate = nil;
-	self.request = nil;
-	self.retData = nil;
+	[connection release];
+	[delegate release];
+	[request release];
+	[retData release];
 	//
 	[super dealloc];
 }

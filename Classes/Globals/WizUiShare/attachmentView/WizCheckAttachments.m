@@ -33,13 +33,13 @@
 @synthesize currentPreview;
 - (void) dealloc
 {
-    self.currentPreview = nil;
-    self.lastIndexPath = nil;
-    self.checkNav = nil;
-    self.documentGUID = nil;
-    self.accountUserId = nil;
-    self.attachments = nil;
-    self.waitAlert = nil;
+    [currentPreview release];
+    [lastIndexPath release];
+    [checkNav release];
+    [documentGUID release];
+    [accountUserId release];
+    [attachments release];
+    [waitAlert release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

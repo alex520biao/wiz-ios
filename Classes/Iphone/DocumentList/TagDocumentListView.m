@@ -16,7 +16,7 @@
 
 -(void) dealloc
 {
-    self.tag = nil;
+    [tag release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style {

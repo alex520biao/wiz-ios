@@ -17,10 +17,10 @@
 @synthesize owner;
 - (void) dealloc
 {
-    self.image = nil;
-    self.iFlyRecongize = nil;
-    self.resuletString = nil;
-    self.parentView = nil;
+    [image release];
+    [iFlyRecongize release];
+    [resuletString release];
+    [parentView release];
     [owner release];;
     [super dealloc];
 }

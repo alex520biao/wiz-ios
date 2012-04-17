@@ -63,23 +63,23 @@
 @synthesize firtResponser;
 -(void) dealloc
 {
-    self.selectedTags = nil;
-    self.firtResponser = nil;
-    self.session = nil;
-    self.recorder = nil;
-    self.accountUserId = nil;
-    self.titleTextFiled = nil;
-    self.bodyTextField = nil;
-    self.attachmentsCountLabel = nil;
-    self.currentRecodingFilePath = nil;
-    self.recoderLabel = nil;
-    self.attachmentsSourcePaths =nil;
-    self.voiceInput = nil;
-    self.keyControl=nil;
-    self.addDocumentInfoView = nil;
-    self.addAttachmentView = nil;
-    self.inputContentView = nil;
-    self.attachmentsTableviewEntryButton = nil;
+    [selectedTags release];
+    [firtResponser release];
+    [session release];
+    [recorder release];
+    [accountUserId release];
+    [titleTextFiled release];
+    [bodyTextField release];
+    [attachmentsCountLabel release];
+    [currentRecodingFilePath release];
+    [recoderLabel release];
+    [attachmentsSourcePaths release];
+    [voiceInput release];
+    [keyControl release];
+    [addDocumentInfoView release];
+    [addAttachmentView release];
+    [inputContentView release];
+    [attachmentsTableviewEntryButton release];
     self.currentTime = 0.0;
     [super dealloc];
 }

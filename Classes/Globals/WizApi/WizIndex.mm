@@ -51,8 +51,8 @@ NSInteger compareTag(id location1, id location2, void*);
 @synthesize text;
 - (void) dealloc
 {
-    self.image = nil;
-    self.text = nil;
+    [image release];
+    [text release];
     [super dealloc];
 }
 @end
@@ -70,11 +70,11 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (void) dealloc
 {
-	self.name = nil;
-	self.guid = nil;
-	self.parentGUID = nil;
-	self.description = nil;
-	self.namePath = nil;
+	[name release];
+	[guid release];
+	[parentGUID release];
+	[description release];
+	[namePath release];
 	[super dealloc];
 }
 
@@ -116,16 +116,16 @@ NSInteger compareTag(id location1, id location2, void*);
 @synthesize dataMd5;
 -(void) dealloc
 {
-	self.guid = nil;
-	self.title = nil;
-	self.location = nil;
-	self.url = nil;
-	self.type = nil;
-	self.fileType = nil;
-	self.dateCreated = nil;
-	self.dateModified = nil;
-    self.tagGuids = nil;
-    self.dataMd5 = nil;
+	[guid release];
+	[title release];
+	[location release];
+	[url release];
+	[type release];
+	[fileType release];
+	[dateCreated release];
+	[dateModified release];
+    [tagGuids release];
+    [dataMd5 release];
 	//
 	[super dealloc];
 }
@@ -196,9 +196,9 @@ NSInteger compareTag(id location1, id location2, void*);
 
 -(void) dealloc
 {
-	self.guid = nil;
-	self.type = nil;
-	self.dateDeleted = nil;
+	[guid release];
+	[type release];
+	[dateDeleted release];
 	//
 	[super dealloc];
 }
@@ -264,15 +264,15 @@ NSInteger compareTag(id location1, id location2, void*);
 @synthesize attachmentDocumentGuid;
 -(void) dealloc
 {
-    self.attachmentGuid = nil;
-    self.attachmentName = nil;
-    self.attachmentType = nil;
-    self.attachmentDataMd5 = nil;
-    self.attachmentDescription = nil;
-    self.attachmentModifiedDate = nil;
+    [attachmentGuid release];
+    [attachmentName release];
+    [attachmentType release];
+    [attachmentDataMd5 release];
+    [attachmentDescription release];
+    [attachmentModifiedDate release];
     self.serverChanged = nil;
     self.localChanged = nil;
-    self.attachmentDocumentGuid = nil;
+    [attachmentDocumentGuid release];
     [super dealloc];
 }
 

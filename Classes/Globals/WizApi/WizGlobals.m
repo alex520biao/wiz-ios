@@ -950,7 +950,9 @@ BOOL WizDeviceIsPad(void)
 {
     UIImage* compassImage = [self compressedImageWidth:width];
     CGRect compassRect = CGRectMake( WizAbs((compassImage.size.width -width)/2), WizAbs((compassImage.size.height -height)/2), compassImage.size.width>width?width:compassImage.size.width, compassImage.size.height>height?height:compassImage.size.height);
-    compassImage = [UIImage imageWithCGImage:CGImageCreateWithImageInRect(compassImage.CGImage, compassRect)];
+    CGImageRef image = CGImageCreateWithImageInRect(compassImage.CGImage, compassRect);
+    compassImage = [UIImage imageWithCGImage:image];
+    CGImageRelease(image);
     return compassImage ;
 }
 

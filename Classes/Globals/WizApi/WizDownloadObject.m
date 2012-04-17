@@ -29,8 +29,8 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 @synthesize isLogin;
 @synthesize owner;
 -(void) dealloc {
-    self.objType = nil;
-    self.objGuid = nil;
+    [objType release];
+    [objGuid release];
     self.isLogin = NO;
     [owner release];
     [super dealloc];

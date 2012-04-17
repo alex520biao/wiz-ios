@@ -16,8 +16,8 @@
 @synthesize accountUserId;
 - (void) dealloc
 {
-   self.processPool = nil;
-    self.accountUserId = nil;
+   [processPool release];
+    [accountUserId release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }

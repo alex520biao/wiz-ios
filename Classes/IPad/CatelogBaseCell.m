@@ -19,7 +19,6 @@
 {
     [owner release];
     [accountUserId release];
-    self.accountUserId = nil;
     [super dealloc];
 }
 

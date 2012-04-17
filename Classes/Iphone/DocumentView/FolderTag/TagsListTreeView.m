@@ -20,9 +20,9 @@
 
 - (void) dealloc
 {
-    self.accountUserId = nil;
-    self.displayTree = nil;
-    self.tree = nil;
+    [accountUserId release];
+    [displayTree release];
+    [tree release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style

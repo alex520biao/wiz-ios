@@ -28,9 +28,9 @@
 @synthesize download;
 - (void) dealloc
 {
-	self.documentsForUpdated = nil;
-    self.attachmentsForUpdated = nil;
-    self.download =nil;
+	[documentsForUpdated release];
+    [attachmentsForUpdated release];
+    [download release];
 	[super dealloc];
 }
 - (BOOL) isSyncingg

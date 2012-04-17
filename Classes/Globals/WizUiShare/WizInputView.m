@@ -15,9 +15,9 @@
 
 - (void) dealloc
 {
-    self.backgroundView = nil;
-    self.nameLable = nil;
-    self.textInputField = nil;
+    [backgroundView release];
+    [nameLable release];
+    [textInputField release];
     [super dealloc];
 }
 

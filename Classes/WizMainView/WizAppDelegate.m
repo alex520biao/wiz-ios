@@ -32,8 +32,8 @@
 @synthesize navController;
 - (void) dealloc
 {
-    self.navController = nil;
-    self.window = nil;
+    [navController release];
+    [window release];
     [super dealloc];
 }
 #pragma mark -

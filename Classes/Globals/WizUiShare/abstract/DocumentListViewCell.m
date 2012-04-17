@@ -83,12 +83,12 @@ static UIFont* nameFont;
 }
 - (void) dealloc
 {
-    self.abstractLabel = nil;
-    self.abstractImageView = nil;
-    self.doc = nil;
-    self.accoutUserId = nil;
+    [abstractLabel release];
+    [abstractImageView release];
+    [doc release];
+    [accoutUserId release];
     self.hasAbstract = NO;
-    self.downloadIndicator = nil;
+    [downloadIndicator release];
     [super dealloc];
 }
 

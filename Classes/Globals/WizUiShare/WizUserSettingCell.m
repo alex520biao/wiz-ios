@@ -14,8 +14,8 @@
 
 - (void) dealloc
 {
-    self.nameLabel = nil;
-    self.valueLabel = nil;
+    [nameLabel release];
+    [valueLabel release];
     [super dealloc];
 }
 

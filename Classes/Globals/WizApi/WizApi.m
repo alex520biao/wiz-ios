@@ -91,28 +91,15 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 -(void) dealloc
 {
     [token release];
-	self.token = nil;
     [kbguid release];
-	self.kbguid = nil;
     [accountURL release];
-	self.accountURL = nil;
     [apiURL release];
-	self.apiURL = nil;
-	//
     [accountUserId release];
-	self.accountUserId = nil;
     [accountPassword release];
-	self.accountPassword = nil;
-	//
     [currentUploadDocumentGUID release];
-	self.currentUploadDocumentGUID = nil;
-	//
     [currentUploadDocumentGUID release];
-    self.currentDownloadObjectGUID = nil;
     [currentObjType release];
-    self.currentObjType = nil;
     [currentStarPos release];
-    self.currentStarPos = nil;
 	[super dealloc];
 }
 

@@ -425,6 +425,7 @@ static WizGlobalData* g_data;
     if (nil == data) {
         WizSyncManager* defaultManager = [[WizSyncManager alloc] init];
         [self setDataOfAccount:WizGlobalStopSync dataType:DataTypeOfSyncManager data:data];
+        [defaultManager release];
         return defaultManager;
     }
     return data;
