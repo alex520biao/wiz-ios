@@ -1743,11 +1743,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/NewNote/NewNoteView.m"
-         timestampString = "354710614.535135"
+         timestampString = "356321413.421231"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "271"
-         endingLineNumber = "271"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
          landmarkName = "-selectedFloder:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1756,11 +1756,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/NewNote/NewNoteView.m"
-         timestampString = "354710656.163848"
+         timestampString = "356321413.421231"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "277"
-         endingLineNumber = "277"
+         startingLineNumber = "282"
+         endingLineNumber = "282"
          landmarkName = "-floderViewSelected"
          landmarkType = "5">
       </FileBreakpoint>

@@ -54,6 +54,7 @@
 		734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1351504597D002549CB /* TreeBaseNodeCell.m */; };
 		734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1371504597D002549CB /* TreeTableViewBase.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
+		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
 		737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AA150DB84B0029A967 /* WizTableViewController.m */; };
 		737999AF150DE6FE0029A967 /* WizTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AE150DE6FE0029A967 /* WizTableViewCell.m */; };
 		737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B530C151EEA1200CE3656 /* WizIphoneLoginViewController.m */; };
@@ -393,6 +394,8 @@
 		734CA1371504597D002549CB /* TreeTableViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableViewBase.m; sourceTree = "<group>"; };
 		734CA1381504597D002549CB /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
+		735C1B95153C218100A80353 /* WizSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncManager.h; sourceTree = "<group>"; };
+		735C1B96153C218100A80353 /* WizSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncManager.m; sourceTree = "<group>"; };
 		737999A9150DB84B0029A967 /* WizTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewController.h; sourceTree = "<group>"; };
 		737999AA150DB84B0029A967 /* WizTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewController.m; sourceTree = "<group>"; };
 		737999AD150DE6FE0029A967 /* WizTableVIewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableVIewCell.h; sourceTree = "<group>"; };
@@ -937,6 +940,15 @@
 			path = DocumentView/FolderTag;
 			sourceTree = "<group>";
 		};
+		735C1B93153C214C00A80353 /* SyncCenter */ = {
+			isa = PBXGroup;
+			children = (
+				735C1B95153C218100A80353 /* WizSyncManager.h */,
+				735C1B96153C218100A80353 /* WizSyncManager.m */,
+			);
+			name = SyncCenter;
+			sourceTree = "<group>";
+		};
 		737999A8150DB84B0029A967 /* Involution */ = {
 			isa = PBXGroup;
 			children = (
@@ -1022,6 +1034,7 @@
 		73A7842214F8CC22001387F6 /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
+				735C1B93153C214C00A80353 /* SyncCenter */,
 				73A7842314F8CC22001387F6 /* WizApi.h */,
 				73A7842414F8CC22001387F6 /* WizApi.m */,
 				73A7842514F8CC22001387F6 /* WizCreateAccount.h */,
@@ -2045,6 +2058,7 @@
 				73BB852D1512ED790032F99B /* WizTableAbstractViewDecorate.m in Sources */,
 				737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */,
 				4ADA02901536B9AD005F0ED8 /* WizAbstractCache.m in Sources */,
+				735C1B97153C218100A80353 /* WizSyncManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

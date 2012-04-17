@@ -34,7 +34,6 @@
     UIView* inputContentView;
     UIImageView* keyControl;
     NSMutableArray* attachmentsSourcePaths;
-    
     NSMutableArray* selectedTags;
     VoiceRecognition* voiceInput;
     id firtResponser;

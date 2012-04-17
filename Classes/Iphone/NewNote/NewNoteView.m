@@ -104,6 +104,7 @@
 {
     [self.recorder stop];
     [self.timer invalidate];
+    
     self.currentTime = 0.0f;
     [self updateAttachment:self.currentRecodingFilePath];
 }
@@ -172,10 +173,11 @@
     [error release];
     return YES;
 }
-
-
 - (void) audioStartRecode
 {
+    if (![self startAudioSession]) {
+        [WizGlobals reportErrorWithString:NSLocalizedString(@"Can not start an audio session!", nil)];
+    }
     UIView* first = (UIView*)[self.view viewWithTag:100];
     UIView* second = (UIView*) [self.view viewWithTag:101];
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -206,6 +208,7 @@
                    withSubviewAtIndex:[[self.view subviews] indexOfObject:second] ];
     [UIView commitAnimations];
     [self stopRecording];
+    [self.session setActive:NO error:nil];
 }
 
 -(UIImage*) imageReduceRect:(NSString*) imageName
@@ -960,10 +963,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if(![self startAudioSession])
-    {
-        NSLog(@"can not recorder");
-    }
+
     self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   

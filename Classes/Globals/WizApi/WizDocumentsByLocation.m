@@ -18,7 +18,9 @@
 @synthesize isStopByUser;
 -(void) dealloc
 {
+    [downloadArray release];
     self.downloadArray = nil;
+    [location release];
 	self.location = nil;
 	[super dealloc];
 }

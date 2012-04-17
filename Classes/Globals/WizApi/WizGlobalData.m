@@ -29,7 +29,9 @@
 #import "WizSettings.h"
 #import "TTTAttributedLabel.h"
 #import "WizNotification.h"
-
+#import "WizSyncManager.h"
+//
+#define DataTypeOfSyncManager   @"DataTypeOfSyncManager"
 
 NSString* DataTypeOfSync = @"Sync";
 NSString* DataTypeOfCreateAccount = @"CreateAccount";
@@ -70,8 +72,6 @@ static WizGlobalData* g_data;
 	{
 		NSString* logFileName = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"info.log"];
 		SetLogFileName([logFileName UTF8String]);
-		//
-		//
 		NSMutableDictionary* d = [[NSMutableDictionary alloc] init] ;
 		self.dict = d;
 		[d release];
@@ -418,6 +418,18 @@ static WizGlobalData* g_data;
         [WizNotificationCenter removeObserver:each];
     }
 }
+
+- (WizSyncManager*) syncManger
+{
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataTypeOfSyncManager];
+    if (nil == data) {
+        WizSyncManager* defaultManager = [[WizSyncManager alloc] init];
+        [self setDataOfAccount:WizGlobalStopSync dataType:DataTypeOfSyncManager data:data];
+        return defaultManager;
+    }
+    return data;
+}
+
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId
 {
     NSString* key = [WizGlobalData keyOfAccount:userId dataType: dataType];
@@ -477,13 +489,40 @@ static WizGlobalData* g_data;
 	NSString* key = [NSString stringWithFormat:@"%@_%@", userId, dataType];
 	return key;
 }
+//singleton
 + (WizGlobalData*) sharedData
 {
-	if (g_data == nil)
-	{
-		g_data = [[WizGlobalData alloc] init];
-	}
-	return g_data;
+    @synchronized(g_data)
+    {
+        if (g_data == nil) {
+            g_data = [[super allocWithZone:NULL] init];
+        }
+        return g_data;
+    }
+}
++ (id) allocWithZone:(NSZone *)zone
+{
+    return [[self sharedData] retain];
+}
+- (id) retain
+{
+    return self;
+}
+- (NSUInteger) retainCount
+{
+    return NSUIntegerMax;
+}
+- (id) copyWithZone:(NSZone*)zone
+{
+    return self;
+}
+- (id) autorelease
+{
+    return self;
+}
+- (oneway void) release
+{
+    return;
 }
 + (void) deleteShareData
 {

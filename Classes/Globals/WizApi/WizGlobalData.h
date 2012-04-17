@@ -58,6 +58,7 @@ extern NSString* DataMainOfWiz;
 @class WizSyncByLocation;
 @class WizDownloadPool;
 @class WizChangePassword;
+@class WizSyncManager;
 @interface WizGlobalData : NSObject {
 	NSMutableDictionary* dict;
 }
@@ -97,7 +98,8 @@ extern NSString* DataMainOfWiz;
 - (NSNotificationCenter*) wizNotificationCenter;
 + (WizGlobalData*) sharedData;
 + (void) deleteShareData;
-
+//2012-4-16
+- (WizSyncManager*) syncManger;
 + (NSString*) keyOfAccount:(NSString*) userId dataType: (NSString *) dataType;
 
 //2012-3-2

@@ -16,7 +16,8 @@
 
 -(void) dealloc
 {
-	self.keywords = nil;
+    [self.keywords release];
+    self.keywords = nil;
 	[super dealloc];
 }
 
