@@ -194,52 +194,7 @@
     [self postSyncGetDocumentByKeyEnd];
 	[index updateDocuments:obj];
 }
-//
--(NSMutableDictionary*) onDownloadObject:(id)retObject {
-    NSDictionary* obj = retObject;
-    NSData* data = [obj valueForKey:@"data"];
-    NSNumber* objSize = [obj valueForKey:@"obj_size"];
-    NSNumber* eofPre = [obj valueForKey:@"eof"];
-    BOOL eof = [eofPre intValue]? YES:NO;
-    NSString* serverMd5 = [obj valueForKey:@"part_md5"];
-    NSString* localMd5 = [WizGlobals md5:data];
-    NSNumber* succeed = [NSNumber numberWithInt:[serverMd5 isEqualToString:localMd5]?1:0];
-    
-    if([succeed intValue])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        
-        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.currentDownloadObjectGUID];
-        //
-        [WizGlobals ensurePathExists:objectPath];
-        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"temp.zip"];
-        NSNumber* currentObjectSize = [index appendObjectDataByPath:fileNamePath data:data]; //返回当前文件大小
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:TypeOfDownloadDocumentDicMsgIsSucceed];
-        [result setObject:objSize forKey:TypeOfDownloadDocumentDicMsgObjSize];
-        if(eof) {
-            if ([index  updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID]) {
-                [result setObject:[NSNumber numberWithInt:1] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
-            }
-            else {
-                [result setObject:[NSNumber numberWithInt:0] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
-            }
-        }
-        [result setObject:currentObjectSize forKey:TypeOfDownloadDocumentDicMsgCurrentSize];
-        return [result autorelease];
-        
-    }
-    else
-    {
-        
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:@"is_succeed"];
-        [result setObject:objSize forKey:@"obj_size"];
-        [result setObject:[NSNumber numberWithInt:0] forKey:@"current_size"];
-        return [result autorelease];
-    }
-    
-}
+
 //wiz-dzpqzb
 -(void) onUploadObjectData:(id) retObject {
     

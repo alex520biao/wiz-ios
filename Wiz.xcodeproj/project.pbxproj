@@ -76,7 +76,6 @@
 		73A7855F14F8CC23001387F6 /* WizDocumentsByTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842D14F8CC22001387F6 /* WizDocumentsByTag.m */; };
 		73A7856014F8CC23001387F6 /* WizDowdloadDocumentAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842F14F8CC22001387F6 /* WizDowdloadDocumentAttachment.m */; };
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
-		73A7856214F8CC23001387F6 /* WizDownloadPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843314F8CC22001387F6 /* WizDownloadPool.m */; };
 		73A7856314F8CC23001387F6 /* WizDownloadRecentDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843514F8CC22001387F6 /* WizDownloadRecentDocuments.m */; };
 		73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843714F8CC22001387F6 /* WizGlobalData.m */; };
 		73A7856514F8CC23001387F6 /* WizGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843B14F8CC22001387F6 /* WizGlobals.m */; };
@@ -440,8 +439,6 @@
 		73A7842F14F8CC22001387F6 /* WizDowdloadDocumentAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDowdloadDocumentAttachment.m; sourceTree = "<group>"; };
 		73A7843014F8CC22001387F6 /* WizDownloadObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadObject.h; sourceTree = "<group>"; };
 		73A7843114F8CC22001387F6 /* WizDownloadObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadObject.m; sourceTree = "<group>"; };
-		73A7843214F8CC22001387F6 /* WizDownloadPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadPool.h; sourceTree = "<group>"; };
-		73A7843314F8CC22001387F6 /* WizDownloadPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadPool.m; sourceTree = "<group>"; };
 		73A7843414F8CC22001387F6 /* WizDownloadRecentDocuments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDownloadRecentDocuments.h; sourceTree = "<group>"; };
 		73A7843514F8CC22001387F6 /* WizDownloadRecentDocuments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDownloadRecentDocuments.m; sourceTree = "<group>"; };
 		73A7843614F8CC22001387F6 /* WizGlobalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalData.h; sourceTree = "<group>"; };
@@ -955,11 +952,10 @@
 		735C1B93153C214C00A80353 /* SyncCenter */ = {
 			isa = PBXGroup;
 			children = (
+				73B46D18153E7AA90049556F /* DataSync */,
 				73E76477153D6FBA0089D5FF /* RefreshToken */,
 				735C1B95153C218100A80353 /* WizSyncManager.h */,
 				735C1B96153C218100A80353 /* WizSyncManager.m */,
-				73A7844C14F8CC22001387F6 /* WizUploadObjet.h */,
-				73A7844D14F8CC22001387F6 /* WizUploadObjet.m */,
 				73A7844214F8CC22001387F6 /* WizSync.h */,
 				73A7844314F8CC22001387F6 /* WizSync.m */,
 				73A7842314F8CC22001387F6 /* WizApi.h */,
@@ -1081,10 +1077,6 @@
 				73A7842D14F8CC22001387F6 /* WizDocumentsByTag.m */,
 				73A7842E14F8CC22001387F6 /* WizDowdloadDocumentAttachment.h */,
 				73A7842F14F8CC22001387F6 /* WizDowdloadDocumentAttachment.m */,
-				73A7843014F8CC22001387F6 /* WizDownloadObject.h */,
-				73A7843114F8CC22001387F6 /* WizDownloadObject.m */,
-				73A7843214F8CC22001387F6 /* WizDownloadPool.h */,
-				73A7843314F8CC22001387F6 /* WizDownloadPool.m */,
 				73A7843414F8CC22001387F6 /* WizDownloadRecentDocuments.h */,
 				73A7843514F8CC22001387F6 /* WizDownloadRecentDocuments.m */,
 				73A7843614F8CC22001387F6 /* WizGlobalData.h */,
@@ -1654,6 +1646,17 @@
 			path = Resources/Share;
 			sourceTree = "<group>";
 		};
+		73B46D18153E7AA90049556F /* DataSync */ = {
+			isa = PBXGroup;
+			children = (
+				73A7844C14F8CC22001387F6 /* WizUploadObjet.h */,
+				73A7844D14F8CC22001387F6 /* WizUploadObjet.m */,
+				73A7843014F8CC22001387F6 /* WizDownloadObject.h */,
+				73A7843114F8CC22001387F6 /* WizDownloadObject.m */,
+			);
+			name = DataSync;
+			sourceTree = "<group>";
+		};
 		73BB85201511F7D80032F99B /* TableList */ = {
 			isa = PBXGroup;
 			children = (
@@ -1982,7 +1985,6 @@
 				73A7855F14F8CC23001387F6 /* WizDocumentsByTag.m in Sources */,
 				73A7856014F8CC23001387F6 /* WizDowdloadDocumentAttachment.m in Sources */,
 				73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */,
-				73A7856214F8CC23001387F6 /* WizDownloadPool.m in Sources */,
 				73A7856314F8CC23001387F6 /* WizDownloadRecentDocuments.m in Sources */,
 				73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */,
 				73A7856514F8CC23001387F6 /* WizGlobals.m in Sources */,

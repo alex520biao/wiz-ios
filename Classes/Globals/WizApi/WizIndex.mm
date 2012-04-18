@@ -965,6 +965,12 @@ NSInteger compareTag(id location1, id location2, void*);
     //[file release];
     return  fileSize;
 }
+- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid
+{
+     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objGuid];
+    [WizGlobals ensurePathExists:documentPath];
+    return [documentPath stringByAppendingPathComponent:@"temp.zip"];
+}
 - (NSString*) updateObjectDateTempFilePath:(NSString*)objGUID
 {
     NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:objGUID];

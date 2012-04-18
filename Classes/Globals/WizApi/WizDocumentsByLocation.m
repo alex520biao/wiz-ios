@@ -57,13 +57,11 @@
     }
     WizDocument* each = [self.downloadArray lastObject];
     WizDownloadDocument* downloader = [[WizGlobalData sharedData] downloadDocumentData:self.accountUserId];
-    downloader.owner = self;
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
     [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
     NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
     [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
-    [downloader downloadWithoutLogin:self.apiURL kbguid:self.kbguid token:self.token documentGUID:each.guid];
     [self.downloadArray removeLastObject];
 }
 

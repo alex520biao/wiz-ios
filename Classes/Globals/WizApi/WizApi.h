@@ -44,14 +44,8 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 	NSString* kbguid;
 	NSURL* accountURL;
 	NSURL* apiURL;
-	//
 	NSString* accountUserId;
 	NSString* accountPassword;
-	//
-	NSString* currentDownloadDocumentGUID;
-    
-    //wiz-dzpqzb
-    NSString* currentDownloadObjectGUID;
     
     XMLRPCConnection* connectionXmlrpc;
 }
@@ -62,8 +56,6 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 @property (nonatomic, retain) NSURL* apiURL;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSString* accountPassword;
-@property (nonatomic, retain) NSString* currentDownloadDocumentGUID;
-@property (nonatomic, retain) NSString* currentDownloadObjectGUID;
 @property (retain) XMLRPCConnection* connectionXmlrpc;
 
 -(id) initWithAccount: (NSString*)userId password: (NSString*)password;
@@ -107,8 +99,8 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 -(void) onDownloadMobileData: (id)retObject;
 
 //wiz-qzpqzb
--(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType;
--(NSMutableDictionary*) onDownloadObject:(id) retObject;
+-(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize;
+-(void) onDownloadObject:(id) retObject;
 
 -(BOOL) callUploadMobileData:(NSString*)documentGUID;
 

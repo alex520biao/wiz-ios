@@ -67,8 +67,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 @synthesize apiURL;
 @synthesize accountUserId;
 @synthesize accountPassword;
-@synthesize currentDownloadDocumentGUID;
-@synthesize currentDownloadObjectGUID;
 @synthesize connectionXmlrpc;
 -(id) initWithAccount: (NSString*)userId password: (NSString*)password
 {
@@ -930,11 +928,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 
 
 //wiz-dqzpqzb  new api to download data
--(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType{
+-(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize{
     if (self.token == nil || [self.token length] == 0) {
 		return NO;
 	}
-    self.currentDownloadObjectGUID = objectGUID;
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
     [postParams setObject:objectGUID forKey:@"obj_guid"];
@@ -945,53 +942,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadObject args:args];
 }
 
--(NSMutableDictionary*) onDownloadObject:(id)retObject {
-    NSDictionary* obj = retObject;
-    NSData* data = [obj valueForKey:@"data"];
-    NSNumber* objSize = [obj valueForKey:@"obj_size"];
-    NSNumber* eofPre = [obj valueForKey:@"eof"];
-    BOOL eof = [eofPre intValue]? YES:NO;
-    NSString* serverMd5 = [obj valueForKey:@"part_md5"];
-    NSString* localMd5 = [WizGlobals md5:data];
-    NSNumber* succeed = [NSNumber numberWithInt:[serverMd5 isEqualToString:localMd5]?1:0];
-    
-    if([succeed intValue])
-    {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        
-        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.currentDownloadObjectGUID];
-        //
-        [WizGlobals ensurePathExists:objectPath];
-        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"temp.zip"];
-        NSNumber* currentObjectSize = [index appendObjectDataByPath:fileNamePath data:data]; //返回当前文件大小
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:TypeOfDownloadDocumentDicMsgIsSucceed];
-        [result setObject:objSize forKey:TypeOfDownloadDocumentDicMsgObjSize];
-        if(eof) {
-            if ([index  updateObjectDataByPath:fileNamePath objectGuid:self.currentDownloadObjectGUID]) {
-                [result setObject:[NSNumber numberWithInt:1] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
-            }
-            else {
-                [result setObject:[NSNumber numberWithInt:0] forKey:TypeOfDownloadDocumentDicMsgUnzipIsSucceed];
-            }
-        }
-        [result setObject:currentObjectSize forKey:TypeOfDownloadDocumentDicMsgCurrentSize];
-        return [result autorelease];
-
-    }
-    else
-    {
-
-        NSMutableDictionary* result = [[NSMutableDictionary alloc] init];
-        [result setObject:succeed forKey:@"is_succeed"];
-        [result setObject:objSize forKey:@"obj_size"];
-        [result setObject:[NSNumber numberWithInt:0] forKey:@"current_size"];
-        return [result autorelease];
-    }
-    
-}
-
-
 
 -(BOOL) callDownloadMobileData:(NSString*)documentGUID
 {
@@ -999,7 +949,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		return NO;
 	}
 	//
-	self.currentDownloadDocumentGUID = documentGUID;
 	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
