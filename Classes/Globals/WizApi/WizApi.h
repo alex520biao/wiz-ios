@@ -113,9 +113,7 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 -(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType;
 -(NSMutableDictionary*) onDownloadObject:(id) retObject;
 
-
 -(BOOL) callUploadMobileData:(NSString*)documentGUID;
--(void) onUploadMobileData: (id)retObject;
 
 //wiz-dzpqzb
 -(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5 sumPartCount:(int)sumPartCount;
@@ -154,6 +152,4 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 
 -(NSString*) notificationName: (NSString *)prefix;
 +(NSString*) notificationName: (NSString *)prefix accountUserId:(NSString*)accountUserId;
-+(NSString*) md5:(NSData *)input;
-+(NSString*)fileMD5:(NSString*)path ;
 @end

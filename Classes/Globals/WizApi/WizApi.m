@@ -952,7 +952,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     NSNumber* eofPre = [obj valueForKey:@"eof"];
     BOOL eof = [eofPre intValue]? YES:NO;
     NSString* serverMd5 = [obj valueForKey:@"part_md5"];
-    NSString* localMd5 = [WizApi md5:data];
+    NSString* localMd5 = [WizGlobals md5:data];
     NSNumber* succeed = [NSNumber numberWithInt:[serverMd5 isEqualToString:localMd5]?1:0];
     
     if([succeed intValue])
@@ -1038,7 +1038,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     [postParams setObject:[NSNumber numberWithInt:sumPartCount] forKey:@"part_count"];
     [postParams setObject:data forKey:@"data"];
     [postParams setObject:[NSNumber numberWithInt:count] forKey:@"part_sn"];
-    NSString* localMd5 = [WizApi md5:data];
+    NSString* localMd5 = [WizGlobals md5:data];
     [postParams setObject:localMd5 forKey:@"part_md5"];
     NSUInteger partSize=[data length];
     [postParams setObject:[NSNumber numberWithUnsignedInteger:partSize]   forKey:@"part_size"];
@@ -1395,45 +1395,4 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 {
 	return [NSString stringWithFormat:@"%@_%@", prefix, accountUserId];	
 }
-
-+(NSString*) md5:(NSData *)input {
-    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(input.bytes, input.length, md5Buffer);
-    NSMutableString* output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH *2];
-    for(int i =0; i <CC_MD5_DIGEST_LENGTH; i++) {
-        [output appendFormat:@"%02x",md5Buffer[i]];
-    }
-    return  output;
-}
-
-+(NSString*)fileMD5:(NSString*)path  
-{  
-    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:path];  
-    if( handle== nil ) return @"ERROR GETTING FILE MD5"; // file didnt exist  
-    
-    CC_MD5_CTX md5;  
-    
-    CC_MD5_Init(&md5);  
-    
-    BOOL done = NO;  
-    while(!done)  
-    {  
-        NSData* fileData = [handle readDataOfLength: MD5PART ];  
-        CC_MD5_Update(&md5, [fileData bytes], [fileData length]);  
-        if( [fileData length] == 0 ) done = YES;  
-    }  
-    unsigned char digest[CC_MD5_DIGEST_LENGTH];  
-    CC_MD5_Final(digest, &md5);  
-    NSString* s = [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",  
-                   digest[0], digest[1],   
-                   digest[2], digest[3],  
-                   digest[4], digest[5],  
-                   digest[6], digest[7],  
-                   digest[8], digest[9],  
-                   digest[10], digest[11],  
-                   digest[12], digest[13],  
-                   digest[14], digest[15]];  
-    return s;  
-} 
-
 @end

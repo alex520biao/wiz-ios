@@ -110,7 +110,7 @@
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
     NSString* zip = [index createZipByGuid:self.objectGUID];
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
-    NSString* md5 = [WizApi fileMD5:zip];
+    NSString* md5 = [WizGlobals fileMD5:zip];
     self.uploadObjMd5 = md5;
     self.uploadFildHandel = handle;
     self.uploadFileSize = [WizGlobals fileLength:zip];

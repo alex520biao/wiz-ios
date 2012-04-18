@@ -2638,15 +2638,15 @@ static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
     for(NSString* each in selectedFile) {
         NSString* path = [objectPath stringByAppendingPathComponent:each];
         if(![each isEqualToString:@"temppp.ziw"])
-            [md5s setObject:[WizApi fileMD5:path]  forKey:@"data_file_md5"];
+            [md5s setObject:[WizGlobals fileMD5:path]  forKey:@"data_file_md5"];
     }
     if(![[NSFileManager defaultManager] fileExistsAtPath:zipPath])
     {
         [self createZipByGuid:attachmentGUID];
-        [md5s setObject:[WizApi fileMD5:zipPath] forKey:@"ziw_file_md5"];
+        [md5s setObject:[WizGlobals fileMD5:zipPath] forKey:@"ziw_file_md5"];
         [WizGlobals deleteFile:objectPath];
     } else {
-        [md5s setObject:[WizApi fileMD5:zipPath] forKey:@"ziw_file_md5"];
+        [md5s setObject:[WizGlobals fileMD5:zipPath] forKey:@"ziw_file_md5"];
     }
     return md5s;
 }

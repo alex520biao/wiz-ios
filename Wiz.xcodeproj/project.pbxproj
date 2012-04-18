@@ -314,6 +314,7 @@
 		73A786FB14F8CD5D001387F6 /* about@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867014F8CD5D001387F6 /* about@x2.png */; };
 		73A786FC14F8CD5D001387F6 /* icon_512.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867114F8CD5D001387F6 /* icon_512.jpg */; };
 		73A786FD14F8CD5D001387F6 /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867214F8CD5D001387F6 /* icon_ipad.png */; };
+		73B46D16153E77240049556F /* WizSyncInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B46D15153E77230049556F /* WizSyncInfo.m */; };
 		73BB847A150EF9B00032F99B /* WizTableViewBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB8479150EF9B00032F99B /* WizTableViewBaseCell.m */; };
 		73BB84B2150F3DA40032F99B /* WizTableAbstractView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB84B1150F3DA40032F99B /* WizTableAbstractView.m */; };
 		73BB85241511F9D80032F99B /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB85231511F9D80032F99B /* WizNotification.m */; };
@@ -773,6 +774,8 @@
 		73A7867014F8CD5D001387F6 /* about@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@x2.png"; sourceTree = "<group>"; };
 		73A7867114F8CD5D001387F6 /* icon_512.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = icon_512.jpg; sourceTree = "<group>"; };
 		73A7867214F8CD5D001387F6 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		73B46D14153E77230049556F /* WizSyncInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncInfo.h; sourceTree = "<group>"; };
+		73B46D15153E77230049556F /* WizSyncInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncInfo.m; sourceTree = "<group>"; };
 		73BB8478150EF9B00032F99B /* WizTableViewBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewBaseCell.h; sourceTree = "<group>"; };
 		73BB8479150EF9B00032F99B /* WizTableViewBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewBaseCell.m; sourceTree = "<group>"; };
 		73BB84B0150F3DA30032F99B /* WizTableAbstractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableAbstractView.h; sourceTree = "<group>"; };
@@ -959,6 +962,10 @@
 				73A7844D14F8CC22001387F6 /* WizUploadObjet.m */,
 				73A7844214F8CC22001387F6 /* WizSync.h */,
 				73A7844314F8CC22001387F6 /* WizSync.m */,
+				73A7842314F8CC22001387F6 /* WizApi.h */,
+				73A7842414F8CC22001387F6 /* WizApi.m */,
+				73B46D14153E77230049556F /* WizSyncInfo.h */,
+				73B46D15153E77230049556F /* WizSyncInfo.m */,
 			);
 			name = SyncCenter;
 			sourceTree = "<group>";
@@ -1063,8 +1070,6 @@
 			children = (
 				739BE7AF153E521400057601 /* WizTools */,
 				735C1B93153C214C00A80353 /* SyncCenter */,
-				73A7842314F8CC22001387F6 /* WizApi.h */,
-				73A7842414F8CC22001387F6 /* WizApi.m */,
 				73A7842514F8CC22001387F6 /* WizCreateAccount.h */,
 				73A7842614F8CC22001387F6 /* WizCreateAccount.m */,
 				73A7842714F8CC22001387F6 /* WizDictionaryMessage.h */,
@@ -2093,6 +2098,7 @@
 				73E7647B153D6FE30089D5FF /* WizRefreshToken.m in Sources */,
 				739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */,
 				73EEF496153E650300481029 /* WizGlobalError.m in Sources */,
+				73B46D16153E77240049556F /* WizSyncInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
