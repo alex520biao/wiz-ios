@@ -19,7 +19,6 @@
 #import "WizGlobalData.h"
 #import "WizIndex.h"
 #import "CommonString.h"
-#import "WizDownloadPool.h"
 #import "WizPadEditNoteController.h"
 #import "WizDictionaryMessage.h"
 #import "WizPadNotificationMessage.h"
@@ -591,17 +590,17 @@
 }
 - (void) downloadDocument:(NSString*)guid
 {
-    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-    if ([downloadPool documentIsDownloading:guid]) {
-        return;
-    }
-    if (![downloadPool checkCanProduceAProcess]) {
-        return;
-    }
-    WizDownloadDocument* download = [downloadPool getDownloadProcess:guid type:[WizGlobals documentKeyString]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
-    [download downloadDocument:guid];
+//    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
+//    if ([downloadPool documentIsDownloading:guid]) {
+//        return;
+//    }
+//    if (![downloadPool checkCanProduceAProcess]) {
+//        return;
+//    }
+//    WizDownloadDocument* download = [downloadPool getDownloadProcess:guid type:[WizGlobals documentKeyString]];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
+//    [download downloadDocument:guid];
 }
 - (void) checkDocument:(NSString*)guid
 {

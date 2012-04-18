@@ -76,7 +76,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		self.accountPassword = password;
 		//
 #ifdef _DEBUG
-        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.137.1:8800/wiz/xmlrpc"];
+        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.0.119:8800/wiz/xmlrpc"];
 		
 #else
         NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
@@ -1276,10 +1276,10 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	{  
         NSError* error = (NSError*)retObject;
         NSLog(@"error is %@",error);
-        if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && [error.localizedDescription isEqualToString:NSLocalizedString(@"Login time out or login in other places, please retry login!", nil)]) {
-            return;
-        }
-        else if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
+//        if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && [error.localizedDescription isEqualToString:NSLocalizedString(@"Login time out or login in other places, please retry login!", nil)]) {
+//            return;
+//        }
+        if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
         {
             [WizNotificationCenter postMessageTokenUnactiveError];
         }

@@ -7,6 +7,8 @@
 //
 
 #import "WizSyncInfo.h"
+#import "WizIndex.h"
+#import "WizGlobalData.h"
 
 @implementation WizSyncInfo
 -(void) onCallGetUserInfo:(id)retObject

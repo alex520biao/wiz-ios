@@ -11,16 +11,19 @@
 #import "WizUploadObjet.h"
 #import "WizNotification.h"
 #import "WizRefreshToken.h"
+#import "WizDownloadObject.h"
+//
 #define SyncDataOfUploader      @"SyncDataOfUploader"
+#define SyncDataOfDownloader    @"SyncDataOfDownloader"
 #define SyncDataOfRefreshToken  @"SyncDataOfRefreshToken"
 //
-#define UploadObjectGUID        @"UploadObjectGUID"
-#define UploadObjectType        @"UploadObjectType"
+#define SyncDataOfObjectGUID        @"SyncDataOfObjectGUID"
+#define SyncDataOfObjectType        @"SyncDataOfObjectType"
 //
 #define SyncDataOfToken         @"SyncDataOfToken"
 #define SyncDataOfKbGuid        @"SyncDataOfKbGuid"
 #define SyncDataOfWizApi        @"SyncDataOfWizApi"
-
+//
 @interface WizSyncManager ()
 {
     NSMutableArray* downloadQueque;
@@ -30,6 +33,9 @@
     BOOL isRefreshToken;
 }
 - (void) refreshToken;
+- (void) downloadNext:(NSNotification*)nc;
+- (BOOL) uploadNext:(NSNotification*)nc;
+- (void) startDownload;
 @end
 @implementation WizSyncManager
 @synthesize accountUserId;
@@ -54,6 +60,8 @@ static WizSyncManager* shareManager;
         downloadQueque = [[NSMutableArray alloc] init];
         errorQueque = [[NSMutableArray alloc] init];
         [WizNotificationCenter addObserverForTokenUnactiveError:self selector:@selector(refreshToken)];
+        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext:)];
+        [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadNext:)];
         isRefreshToken = NO;
     }
     return self;
@@ -70,6 +78,18 @@ static WizSyncManager* shareManager;
     }
     return data;
 }
+- (WizDownloadObject*) shareDownloader
+{
+    id data = [syncData valueForKey:SyncDataOfDownloader];
+    NSLog(@"download calss is %@",[data class]);
+    if (nil == data || ![data isKindOfClass:[WizDownloadObject class]]) {
+        data = [[WizDownloadObject alloc] initWithAccount:self.accountUserId password:nil];
+        [syncData setObject:data forKey:SyncDataOfDownloader];
+        NSLog(@"downloader is %@",data);
+        [data release];
+    }
+    return data;
+}
 - (WizRefreshToken*) shareRefreshTokener
 {
     id data = [syncData valueForKey:SyncDataOfRefreshToken];
@@ -80,18 +100,23 @@ static WizSyncManager* shareManager;
     }
     return data;
 }
-- (void) removeUploadObject:(NSString*)_guid
+- (void) removeSyncDataFromArray:(NSString*)_guid   array:(NSMutableArray*)array
 {
     NSDictionary* dic = nil;
-    for (NSDictionary* each in uploadQueque) {
-        NSString* guid = [each valueForKey:UploadObjectGUID];
+    for (NSDictionary* each in array) {
+        NSString* guid = [each valueForKey:SyncDataOfObjectGUID];
         if (nil != guid && [guid isEqualToString:_guid]) {
             dic = each;
+            break;
         }
     }
     if (nil != dic) {
         [uploadQueque removeObject:dic];
     }
+}
+- (void) removeUploadObject:(NSString*)_guid
+{
+    [self removeSyncDataFromArray:_guid array:uploadQueque];
 }
 - (void) restartSync
 {
@@ -99,7 +124,12 @@ static WizSyncManager* shareManager;
         if ([each isKindOfClass:[WizUploadObjet class]]) {
             [self startUpload];
         }
+        else if ([each isKindOfClass:[WizDownloadObject class]])
+        {
+            [self startDownload];
+        }
     }
+    [errorQueque removeAllObjects];
 }
 - (void) didRefreshToken:(NSNotification*)nc
 {
@@ -112,14 +142,19 @@ static WizSyncManager* shareManager;
     [syncData setObject:token forKey:SyncDataOfToken];
     [syncData setObject:kbGuid forKey:SyncDataOfKbGuid];
     [syncData setObject:urlAPI forKey:SyncDataOfWizApi];
+    NSLog(@"did refresh token");
     [self restartSync];
 }
 - (void) pauseAllSync
 {
     NSArray* syncs = [syncData allValues];
     for (id each in syncs) {
+        if ([each isKindOfClass:[WizRefreshToken class]]) {
+            continue;
+        }
         if ([each isKindOfClass:[WizApi class]]) {
             [errorQueque addObjectUnique:each];
+            NSLog(@"error api is %@",each);
         }
     }
 }
@@ -132,8 +167,9 @@ static WizSyncManager* shareManager;
     isRefreshToken = YES;
     NSLog(@"will refresh token");
     [WizNotificationCenter addObserverForRefreshToken:self selector:@selector(didRefreshToken:)];
-    [re refresh];
     [self pauseAllSync];
+    [re refresh];
+    
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
@@ -162,8 +198,8 @@ static WizSyncManager* shareManager;
         return YES;
     }
     NSDictionary* obj = [uploadQueque objectAtIndex:0];
-    NSString* type = [obj valueForKey:UploadObjectType];
-    NSString* guid = [obj valueForKey:UploadObjectGUID];
+    NSString* type = [obj valueForKey:SyncDataOfObjectType];
+    NSString* guid = [obj valueForKey:SyncDataOfObjectGUID];
 
     BOOL ret;
     if ([type isEqualToString:WizDocumentKeyString]) {
@@ -176,29 +212,91 @@ static WizSyncManager* shareManager;
     else {
         ret = NO;
     }
-    if (ret) {
-        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext:)];
-    }
     return ret;
 } 
 - (BOOL) uploadNext:(NSNotification*)nc
 {
     NSString* guid = [WizNotificationCenter uploadGuidFromNc:nc];
     [self removeUploadObject:guid];
-    [WizNotificationCenter removeObserverForUploadDone:self];
     return [self startUpload];
 }
-
+- (void) addSyncDataToArray:(NSDictionary*)obj    array:(NSMutableArray*)array
+{
+    NSString* objGuid = [obj valueForKey:SyncDataOfObjectGUID];
+    for (NSDictionary* dic in array) {
+        NSString* guid = [dic valueForKey:SyncDataOfObjectGUID];
+        if ([guid isEqualToString:objGuid]) {
+            return;
+        }
+    }
+    [array insertObject:obj atIndex:0];
+}
+- (NSDictionary*) documentSyncData:(NSString*)documentGUID
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:documentGUID,SyncDataOfObjectGUID,WizDocumentKeyString, SyncDataOfObjectType, nil];
+}
+- (NSDictionary*) attachmentSyncData:(NSString*)attachmentGUID
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:attachmentGUID,SyncDataOfObjectGUID,WizAttachmentKeyString, SyncDataOfObjectType, nil];
+}
 - (BOOL) uploadDocument:(NSString*)documentGUID
 {
-    NSDictionary* doc = [NSDictionary dictionaryWithObjectsAndKeys:documentGUID,UploadObjectGUID,WizDocumentKeyString, UploadObjectType, nil];
-    [uploadQueque addObject:doc];
+    NSDictionary* doc = [self documentSyncData:documentGUID];
+    [self addSyncDataToArray:doc array:uploadQueque];
     return [self startUpload];
 }
 - (BOOL) uploadAttachment:(NSString*)attachmentGUID
 {
-    NSDictionary* doc = [NSDictionary dictionaryWithObjectsAndKeys:attachmentGUID,UploadObjectGUID,WizAttachmentKeyString, UploadObjectType, nil];
-    [uploadQueque addObject:doc];
+    NSDictionary* attach = [self attachmentSyncData:attachmentGUID];
+    [self addSyncDataToArray:attach array:uploadQueque];
     return [self startUpload];
+}
+//
+
+- (void) startDownload
+{
+    WizDownloadObject* downloader = [self shareDownloader];
+    if (![self addSyncToken:downloader]) {
+        return ;
+    }
+    NSLog(@"download busy is %d",downloader.busy);
+    if (downloader.busy) {
+        return ;
+    }
+    if ([downloadQueque count] == 0) {
+        return ;
+    }
+    NSDictionary* obj = [downloadQueque objectAtIndex:0];
+    NSString* type = [obj valueForKey:SyncDataOfObjectType];
+    NSString* guid = [obj valueForKey:SyncDataOfObjectGUID];
+    if ([type isEqualToString:WizDocumentKeyString]) {
+        [downloader downloadDocument:guid];
+    }
+    else if ([type isEqualToString:WizAttachmentKeyString])
+    {
+        [downloader downloadAttachment:guid];
+    }
+}
+- (void) removeDownloadObject:(NSString*)guid
+{
+    [self removeSyncDataFromArray:guid array:downloadQueque];
+}
+- (void) downloadNext:(NSNotification*)nc
+{
+    NSString* guid = [WizNotificationCenter downloadGuidFromNc:nc];
+    [self removeDownloadObject:guid];
+    [self startDownload];
+}
+- (void) downloadAttachment:(NSString*)attachmentGUID
+{
+    NSDictionary* attach = [self attachmentSyncData:attachmentGUID];
+    [self addSyncDataToArray:attach array:downloadQueque];
+    [self startDownload];
+}
+- (void) downloadDocument:(NSString*)documentGUID
+{
+    NSDictionary* doc = [self documentSyncData:documentGUID];
+    [self addSyncDataToArray:doc array:downloadQueque];
+    [self startDownload];
 }
 @end

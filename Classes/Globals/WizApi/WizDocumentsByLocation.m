@@ -55,14 +55,14 @@
         [self callClientLogout];
         return;
     }
-    WizDocument* each = [self.downloadArray lastObject];
-    WizDownloadDocument* downloader = [[WizGlobalData sharedData] downloadDocumentData:self.accountUserId];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
-    NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
-    [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
-    [self.downloadArray removeLastObject];
+//    WizDocument* each = [self.downloadArray lastObject];
+//    WizDownloadDocument* downloader = [[WizGlobalData sharedData] downloadDocumentData:self.accountUserId];
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [nc removeObserver:self];
+//    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
+//    NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
+//    [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
+//    [self.downloadArray removeLastObject];
 }
 
 -(void) onDocumentsByCategory:(id)retObject

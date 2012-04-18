@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class WizDocument;
-@class WizDownloadDocument;
-
 
 @interface DocumentViewCtrollerBase : UIViewController <UIWebViewDelegate, UISearchBarDelegate>
 {
@@ -28,7 +26,6 @@
     
     UIActivityIndicatorView* downloadActivity;
     
-    WizDownloadDocument* download;
     
     BOOL isEdit;
     
@@ -42,7 +39,6 @@
 @property (nonatomic, retain)  IBOutlet UIBarItem* searchItem;
 @property (nonatomic, retain)  UISearchBar* searchDocumentBar;
 @property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
-@property (retain) WizDownloadDocument* download;
 @property (nonatomic, retain)  UIActivityIndicatorView* downloadActivity;
 @property (assign) BOOL isEdit;
 - (void) downloadDocumentDone;

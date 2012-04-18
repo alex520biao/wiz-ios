@@ -12,7 +12,6 @@
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
 #import "WizUploadObjet.h"
-#import "WizDownloadPool.h"
 #import "Reachability.h"
 #import "WizSyncManager.h"
 #define READPARTSIZE 100*1024
@@ -59,36 +58,36 @@
         [self callClientLogout];
         return;
     }
-    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
-    BOOL willDownload = YES;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if ([index connectOnlyViaWifi]) {
-        Reachability* rech = [Reachability reachabilityForInternetConnection];
-        NetworkStatus netStatus = [rech currentReachabilityStatus];
-        if (netStatus != ReachableViaWiFi) {
-            willDownload = NO;
-        }
-    }
-    if([self.download count] == 0 || [index durationForDownloadDocument] == 0) 
-    {
-        [self callClientLogout];
-        return;
-    }
-    if (!willDownload) {
-        [self callClientLogout];
-        return;
-    }
-    WizDocument* each = [self.download lastObject];
-    WizDownloadDocument* downloader = [pool getDownloadProcess:each.guid type:[WizGlobals documentKeyString]];
-    downloader.owner = self;
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    //
-    [nc removeObserver:self];
-    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
-    NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
-    [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
-    [downloader downloadWithoutLogin:self.apiURL kbguid:self.kbguid token:self.token documentGUID:each.guid];
-    [self.download removeLastObject];
+//    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
+//    BOOL willDownload = YES;
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if ([index connectOnlyViaWifi]) {
+//        Reachability* rech = [Reachability reachabilityForInternetConnection];
+//        NetworkStatus netStatus = [rech currentReachabilityStatus];
+//        if (netStatus != ReachableViaWiFi) {
+//            willDownload = NO;
+//        }
+//    }
+//    if([self.download count] == 0 || [index durationForDownloadDocument] == 0) 
+//    {
+//        [self callClientLogout];
+//        return;
+//    }
+//    if (!willDownload) {
+//        [self callClientLogout];
+//        return;
+//    }
+//    WizDocument* each = [self.download lastObject];
+//    WizDownloadDocument* downloader = [pool getDownloadProcess:each.guid type:[WizGlobals documentKeyString]];
+//    downloader.owner = self;
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    //
+//    [nc removeObserver:self];
+//    [nc addObserver:self selector:@selector(stopSync) name:[self notificationName:WizGlobalStopSync] object:nil];
+//    NSString* notificationName = [downloader notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix];
+//    [nc addObserver:self selector:@selector(downAllDocument) name:notificationName object:nil];
+//    [downloader downloadWithoutLogin:self.apiURL kbguid:self.kbguid token:self.token documentGUID:each.guid];
+//    [self.download removeLastObject];
 }
 
 -(BOOL) uploadAllAttachments

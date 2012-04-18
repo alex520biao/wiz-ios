@@ -9,7 +9,6 @@
 #import "WizCheckAttachments.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
-#import "WizDownloadPool.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
 #import "WizCheckAttachment.h"
@@ -220,27 +219,27 @@
     }
     else
     {
-        willCheckInWiz = inWiz;
-        WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
-        if ([downloader attachmentIsDownloading:attachment.attachmentGuid]) {
-            return;
-        }
-        else
-        {
-            if (![downloader checkCanProduceAProcess]) {
-                return;
-            }
-            WizDownloadAttachment* download = [downloader getDownloadProcess:attachment.attachmentGuid type:[WizGlobals attachmentKeyString]];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ]object:nil];
-            [download downloadAttachment:attachment.attachmentGuid];
-            UIAlertView* alert = nil;
-            [WizGlobals showAlertView:NSLocalizedString(@"Sync attachments", nil) 
-                              message:NSLocalizedString(@"Please wait while downloading attachment...!", nil) 
-                             delegate:self 
-                              retView:&alert];
-            self.waitAlert = alert;
-            [alert show];
-        }
+//        willCheckInWiz = inWiz;
+//        WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
+//        if ([downloader attachmentIsDownloading:attachment.attachmentGuid]) {
+//            return;
+//        }
+//        else
+//        {
+//            if (![downloader checkCanProduceAProcess]) {
+//                return;
+//            }
+//            WizDownloadAttachment* download = [downloader getDownloadProcess:attachment.attachmentGuid type:[WizGlobals attachmentKeyString]];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ]object:nil];
+//            [download downloadAttachment:attachment.attachmentGuid];
+//            UIAlertView* alert = nil;
+//            [WizGlobals showAlertView:NSLocalizedString(@"Sync attachments", nil) 
+//                              message:NSLocalizedString(@"Please wait while downloading attachment...!", nil) 
+//                             delegate:self 
+//                              retView:&alert];
+//            self.waitAlert = alert;
+//            [alert show];
+//        }
     }
     
 }

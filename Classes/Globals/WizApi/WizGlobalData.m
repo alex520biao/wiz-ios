@@ -10,7 +10,6 @@
 #import "WizSync.h"
 #import "WizCreateAccount.h"
 #import "WizVerifyAccount.h"
-#import "WizDownloadPool.h"
 #import "WizDocumentsByLocation.h"
 #import "WizDocumentsByTag.h"
 #import "WizDocumentsByKey.h"
@@ -19,7 +18,6 @@
 #import "WizMisc.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
-#import "WizUploadObjet.h"
 #import "LoginViewController.h"
 #import "PickViewController.h"
 #import "WizSyncByTag.h"
@@ -144,39 +142,8 @@ static WizGlobalData* g_data;
     [data release]; 
     return data;
 }
-- (WizDownloadDocument*) downloadDocumentData:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfDownloadDocument];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDownloadDocument alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDownloadDocument data:data];
-	 [data release];  return data;
-}
-- (WizDownloadPool*) globalDownloadPool:(NSString *)userId
-{
-    WizDownloadPool* data = [self dataOfAccount:userId dataType:DataTypeOfGlobalDownloadPool];
-    if (nil != data) {
-        return data;
-    }
-    data= [[WizDownloadPool alloc] init];
-    data.accountUserId = userId;
-    [self setDataOfAccount:userId dataType:DataTypeOfGlobalDownloadPool data:data];
-    [data release];
-    return data;
-}
 
-- (WizDownloadAttachment*) downloadAttachmentData:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfDownloadAttachment];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDownloadAttachment alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDownloadAttachment data:data];
-	 [data release];  return data;
-}
+
 
 - (UIImage*) documentIconWithoutData
 {
@@ -301,16 +268,7 @@ static WizGlobalData* g_data;
 }
 
 
--(WizUploadObjet*) uploadObjectData:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfUploadObject];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizUploadObjet alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfUploadObject data:data];
-	 [data release];  return data;
-}
+
 
 
 - (WizDocumentsByLocation *) documentsByLocationData:(NSString*) userId

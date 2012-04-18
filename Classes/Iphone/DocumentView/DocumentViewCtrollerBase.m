@@ -19,6 +19,8 @@
 #import "UIBadgeView.h"
 #import "WizDictionaryMessage.h"
 #import "WizCheckAttachments.h"
+#import "WizNotification.h"
+#import "WizSyncManager.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -91,7 +93,6 @@
 @synthesize searchItem;
 @synthesize searchDocumentBar;
 @synthesize conNotDownloadAlert;
-@synthesize download;
 @synthesize isEdit;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -106,7 +107,6 @@
 {
     [searchItem release];
     [web release];
-    [download release];
     [accountUserID release];
     [doc release];
     [attachmentBarItem release];
@@ -268,10 +268,10 @@
 }
 - (void) downloadDocument
 {
-    self.download = [[[WizDownloadDocument alloc] initWithAccount:self.accountUserID password:@""] autorelease];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone) name:[self.download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[self.download notificationName:WizGlobalSyncProcessInfo] object:nil];
-    [self.download downloadDocument:self.doc.guid];
+    [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone)];
+    WizSyncManager* share =[WizSyncManager shareManager];
+    share.accountUserId = self.accountUserID;
+    [[WizSyncManager shareManager] downloadDocument:self.doc.guid];
     return;
 }
 - (void) checkDocument

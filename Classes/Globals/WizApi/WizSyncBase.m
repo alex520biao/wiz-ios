@@ -152,13 +152,13 @@
         return NO;
     }
     busy = YES;
-    self.isStopByUser = NO;
-    if (self.downloaderDoc == nil) {
-        WizDownloadDocument* downloader = [[WizDownloadDocument alloc] initWithAccount:self.accountUserId password:@""];
-        self.downloaderDoc = downloader;
-        [downloader release];
-        self.downloaderDoc.owner = self;
-    }
+//    self.isStopByUser = NO;
+//    if (self.downloaderDoc == nil) {
+//        WizDownloadDocument* downloader = [[WizDownloadDocument alloc] initWithAccount:self.accountUserId password:@""];
+//        self.downloaderDoc = downloader;
+//        [downloader release];
+//        self.downloaderDoc.owner = self;
+//    }
 //    if (nil == self.uploaderAttachment) {
 //        WizUploadAttachment* uploadAttachment = [[WizUploadAttachment alloc] initWithAccount:self.accountUserId password:@""];
 //        self.uploaderAttachment = uploadAttachment;

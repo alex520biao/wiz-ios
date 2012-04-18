@@ -27,6 +27,8 @@
 #define MessageTypeOfUploadDone     @"MessageTypeOfUploadDone"
 #define UserInfoTypeOfGuid          @"UserInfoTypeOfGuid"
 //
+#define MessageTypeOfDownloadDone     @"MessageTypeOfDwonloadDone"
+//
 #define MessageTypeOfRefreshToken   @"MessageTypeOfRefreshToken"
 #define UserInfoTypeOfRefreshToken  @"UserInfoTypeOfRefreshToken"
 //

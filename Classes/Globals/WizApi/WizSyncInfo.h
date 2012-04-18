@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface WizSyncInfo : NSObject
+#import "WizApi.h"
+@interface WizSyncInfo : WizApi
 
 @end

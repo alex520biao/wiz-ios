@@ -188,4 +188,21 @@
 {
     [WizNotificationCenter postMessageWithName:MessageTypeOfTokenUnactive userInfoObject:nil userInfoKey:nil];
 }
+//
++ (void) addObserverForDownloadDone:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfDownloadDone];
+}
++ (void) removeObserverForDownloadDone:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfDownloadDone];
+}
++ (void) postMessageDownloadDone:(NSString*)guid
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfDownloadDone userInfoObject:guid userInfoKey:UserInfoTypeOfGuid];
+}
++ (NSString*) downloadGuidFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfGuid notification:nc];
+}
 @end

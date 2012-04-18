@@ -16,5 +16,7 @@
 - (BOOL) uploadNext:(NSNotification*)nc;
 - (BOOL) uploadDocument:(NSString*)documentGUID;
 - (BOOL) uploadAttachment:(NSString*)attachmentGUID;
+- (void) downloadAttachment:(NSString*)attachmentGUID;
+- (void) downloadDocument:(NSString*)documentGUID;
 + (id) shareManager;
 @end

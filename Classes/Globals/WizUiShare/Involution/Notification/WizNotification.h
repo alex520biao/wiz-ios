@@ -54,4 +54,9 @@
 + (void) addObserverForTokenUnactiveError:(id)observer  selector:(SEL)selector;
 + (void) removeObserverForTokenUnactiveError:(id)observer;
 + (void) postMessageTokenUnactiveError;
+//
++ (void) addObserverForDownloadDone:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForDownloadDone:(id)observer;
++ (void) postMessageDownloadDone:(NSString*)guid;
++ (NSString*) downloadGuidFromNc:(NSNotification*)nc;
 @end
