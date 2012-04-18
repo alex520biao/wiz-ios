@@ -348,11 +348,11 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		{
 			[self onDocumentsByTag:ret];
 		}
-		else if ([method isEqualToString:SyncMethod_DownloadMobileData])
-		{
-			[self onDownloadMobileData:ret];
-		}
-        //wiz-dzpqzb 
+//		else if ([method isEqualToString:SyncMethod_DownloadMobileData])
+//		{
+//			[self onDownloadMobileData:ret];
+//		}
+        //wiz-dzpqzb
         //新api
 //		else if ([method isEqualToString:SyncMethod_UploadMobileData])
 //		{

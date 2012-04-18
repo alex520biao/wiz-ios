@@ -39,9 +39,6 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 @class XMLRPCConnection;
 @class WizDocument;
 @class WizDocumentAttach;
-
-
-
 @interface WizApi : NSObject <UIAlertViewDelegate>{
 	NSString* token;
 	NSString* kbguid;
