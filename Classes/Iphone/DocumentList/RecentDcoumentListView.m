@@ -16,6 +16,7 @@
 #import "WizNotification.h"
 #import "WizNotification.h"
 #import "WizSync.h"
+#import "WizSyncManager.h"
 @implementation RecentDcoumentListView
 
 
@@ -56,6 +57,9 @@
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
     WizDocument* newDocument = [index documentFromGUID:documentGUID];
+//    WizSyncManager* sync = [WizSyncManager shareManager];
+//    sync.accountUserId = self.accountUserID;
+//    [sync uploadDocument:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {
         NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];

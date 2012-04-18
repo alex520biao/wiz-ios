@@ -149,6 +149,8 @@
     for (WizDocumentAttach* each in attachments) {
         [[WizSyncManager shareManager] uploadAttachment:each.attachmentGuid];
     }
+    self.busy = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncEndNotificationPrefix] object: nil];
 //    if([self.documentsForUpdated count] == 0)
 //    {
 //        NSArray* arr = [index documentForUpload];

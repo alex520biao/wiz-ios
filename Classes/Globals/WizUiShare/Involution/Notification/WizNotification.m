@@ -175,4 +175,17 @@
 {
     return  [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfRefreshToken notification:nc];
 }
+//
++ (void) addObserverForTokenUnactiveError:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfTokenUnactive];
+}
++ (void) removeObserverForTokenUnactiveError:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfTokenUnactive];
+}
++ (void) postMessageTokenUnactiveError
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfTokenUnactive userInfoObject:nil userInfoKey:nil];
+}
 @end

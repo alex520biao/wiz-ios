@@ -28,7 +28,7 @@
     int         currentUploadIndex;
     int         sumUploadPartCount;
     NSString*   uploadObjMd5;
-
+    NSString* currentUploadTempFilePath;
     NSString*   objectGUID;
     NSString*   objectType;
     NSFileHandle* uploadFildHandel;
@@ -41,12 +41,13 @@
 @property       (nonatomic, retain) NSString*   objectGUID;
 @property       (nonatomic, retain) NSString*   objectType;
 @property       (nonatomic, retain) NSFileHandle* uploadFildHandel;
+@property       (nonatomic, retain) NSString* currentUploadTempFilePath;
 - (void) onUploadObjectSucceedAndCleanTemp;
 
 @end
 
 @implementation WizUploadObjet 
-
+@synthesize currentUploadTempFilePath;
 @synthesize currentUploadIndex;
 @synthesize sumUploadPartCount;
 @synthesize uploadObjMd5;
@@ -65,6 +66,7 @@
     [uploadObjMd5 release];
     [super dealloc];
 }
+
 - (BOOL) uploadNextPart
 {
     NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
@@ -162,7 +164,6 @@
     self.uploadFileSize = -1;
     [self.uploadFildHandel closeFile];
     [WizNotificationCenter postMessageUploadDone:self.objectGUID];
-	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName: WizSyncXmlRpcUploadDoneNotificationPrefix] object: nil userInfo: nil];
 }
 
 - (BOOL) uploadDocument:(NSString*)documentGUID

@@ -29,3 +29,5 @@
 //
 #define MessageTypeOfRefreshToken   @"MessageTypeOfRefreshToken"
 #define UserInfoTypeOfRefreshToken  @"UserInfoTypeOfRefreshToken"
+//
+#define MessageTypeOfTokenUnactive  @"MessageTypeOfTokenUnactive"

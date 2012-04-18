@@ -51,31 +51,21 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 	NSString* accountUserId;
 	NSString* accountPassword;
 	//
-	NSString* currentUploadDocumentGUID;
 	NSString* currentDownloadDocumentGUID;
     
     //wiz-dzpqzb
     NSString* currentDownloadObjectGUID;
     
-    NSNumber* currentStarPos;
-    NSString* currentObjType;
-    NSString* currentUploadTempFilePath;
-    NSString* cureentUploadObjectGUID;
     XMLRPCConnection* connectionXmlrpc;
 }
 
-@property (nonatomic, retain) NSString* currentUploadTempFilePath;
-@property (nonatomic, retain) NSString* cureentUploadObjectGUID;
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* kbguid;
 @property (nonatomic, retain) NSURL* accountURL;
 @property (nonatomic, retain) NSURL* apiURL;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSString* accountPassword;
-@property (nonatomic, retain) NSString* currentUploadDocumentGUID;
 @property (nonatomic, retain) NSString* currentDownloadDocumentGUID;
-@property (nonatomic, retain) NSString* currentObjType;
-@property (nonatomic, retain) NSNumber* currentStarPos;
 @property (nonatomic, retain) NSString* currentDownloadObjectGUID;
 @property (retain) XMLRPCConnection* connectionXmlrpc;
 

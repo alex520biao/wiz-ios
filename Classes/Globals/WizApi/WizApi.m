@@ -16,6 +16,7 @@
 #import "WizGlobals.h"
 #import "WizMisc.h"
 #import "WizSync.h"
+#import "WizNotification.h"
 NSString *WizSyncBeginNotificationPrefix = @"WizSyncBeginNotification";
 NSString *WizSyncEndNotificationPrefix = @"WizSyncEndNotification";
 
@@ -66,13 +67,8 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 @synthesize apiURL;
 @synthesize accountUserId;
 @synthesize accountPassword;
-@synthesize currentUploadDocumentGUID;
 @synthesize currentDownloadDocumentGUID;
-@synthesize currentObjType;
-@synthesize currentStarPos;
 @synthesize currentDownloadObjectGUID;
-@synthesize cureentUploadObjectGUID;
-@synthesize currentUploadTempFilePath;
 @synthesize connectionXmlrpc;
 -(id) initWithAccount: (NSString*)userId password: (NSString*)password
 {
@@ -82,7 +78,7 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		self.accountPassword = password;
 		//
 #ifdef _DEBUG
-        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.1.101:8800/wiz/xmlrpc"];
+        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.137.1:8800/wiz/xmlrpc"];
 		
 #else
         NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
@@ -101,10 +97,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
     [apiURL release];
     [accountUserId release];
     [accountPassword release];
-    [currentUploadDocumentGUID release];
-    [currentUploadDocumentGUID release];
-    [currentObjType release];
-    [currentStarPos release];
 	[super dealloc];
 }
 
@@ -943,8 +935,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		return NO;
 	}
     self.currentDownloadObjectGUID = objectGUID;
-    self.currentStarPos = [NSNumber numberWithInt:startPos];
-    self.currentObjType = objType;
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
     [postParams setObject:objectGUID forKey:@"obj_guid"];
@@ -1109,9 +1099,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 		//
 		data = [[NSData alloc] initWithContentsOfFile:documentOrgFileName];
 	}
-    
-	//
-	self.currentUploadDocumentGUID = documentGUID;
 	//
 	NSDate* dateCreated = [WizGlobals sqlTimeStringToDate:doc.dateCreated];
 	NSDate* dateModified = [WizGlobals sqlTimeStringToDate:doc.dateModified];
@@ -1158,15 +1145,15 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadMobileData args:args];
 }
--(void) onUploadMobileData: (id)retObject
-{
-	if (self.currentUploadDocumentGUID != nil)
-	{
-		WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-		//
-		[index setDocumentLocalChanged:self.currentUploadDocumentGUID changed:NO];
-	}
-}
+//-(void) onUploadMobileData: (id)retObject
+//{
+//	if (self.currentUploadDocumentGUID != nil)
+//	{
+//		WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//		//
+//		[index setDocumentLocalChanged:self.currentUploadDocumentGUID changed:NO];
+//	}
+//}
 -(BOOL) callUploadDeletedGUIDs
 {
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
@@ -1251,7 +1238,6 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	if (!doc)
 		return NO;
 	//
-	self.currentUploadDocumentGUID = documentGUID;
 	//
 	NSDate* dateCreated = [WizGlobals sqlTimeStringToDate:doc.dateCreated];
 	NSDate* dateModified = [WizGlobals sqlTimeStringToDate:doc.dateModified];
@@ -1340,39 +1326,44 @@ NSString* WizGlobalStopSync = @"wiz_stop_sync";
 	if ([retObject isKindOfClass:[NSError class]])
 	{  
         NSError* error = (NSError*)retObject;
+        NSLog(@"error is %@",error);
         if ([error.domain isEqualToString:@"come.effigent.iphone.parseerror"] && [error.localizedDescription isEqualToString:NSLocalizedString(@"Login time out or login in other places, please retry login!", nil)]) {
             return;
         }
-        else if (error.code == 301 && [error.domain isEqualToString:@"error.wiz.cn"])
+        else if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
         {
-            static UIAlertView* prompt = nil;
-            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-            if ([index isOpened]) {
-                if (prompt == nil) {
-                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)
-                                                                     message:@"\n\n" 
-                                                                    delegate:nil 
-                                                           cancelButtonTitle:WizStrCancel 
-                                                           otherButtonTitles:WizStrOK, nil];
-                    prompt.tag = 10001;
-                    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
-                    textField.secureTextEntry = YES;
-                    [textField setBackgroundColor:[UIColor whiteColor]];
-                    [textField setPlaceholder:WizStrPassword];
-                    [prompt addSubview:textField];
-                    [textField release];
-                    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
-                    
-                }
-                prompt.delegate = self;
-                [self retain];
-                [prompt show];
-                return;
-            }
-            else {
-                [WizGlobals reportError:error];
-            }
+            [WizNotificationCenter postMessageTokenUnactiveError];
         }
+//        else if (error.code == 301 && [error.domain isEqualToString:@"error.wiz.cn"])
+//        {
+//            static UIAlertView* prompt = nil;
+//            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//            if ([index isOpened]) {
+//                if (prompt == nil) {
+//                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)
+//                                                                     message:@"\n\n" 
+//                                                                    delegate:nil 
+//                                                           cancelButtonTitle:WizStrCancel 
+//                                                           otherButtonTitles:WizStrOK, nil];
+//                    prompt.tag = 10001;
+//                    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
+//                    textField.secureTextEntry = YES;
+//                    [textField setBackgroundColor:[UIColor whiteColor]];
+//                    [textField setPlaceholder:WizStrPassword];
+//                    [prompt addSubview:textField];
+//                    [textField release];
+//                    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
+//                    
+//                }
+//                prompt.delegate = self;
+//                [self retain];
+//                [prompt show];
+//                return;
+//            }
+//            else {
+//                [WizGlobals reportError:error];
+//            }
+//        }
         else if ([error.domain isEqualToString:WIZERRORDOMAIN] && [error.localizedDescription isEqualToString:WIZABORTNETERROR]) {
             return;
         }

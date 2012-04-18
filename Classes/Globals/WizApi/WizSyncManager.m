@@ -19,6 +19,8 @@
 //
 #define SyncDataOfToken         @"SyncDataOfToken"
 #define SyncDataOfKbGuid        @"SyncDataOfKbGuid"
+#define SyncDataOfWizApi        @"SyncDataOfWizApi"
+
 @interface WizSyncManager ()
 {
     NSMutableArray* downloadQueque;
@@ -27,6 +29,7 @@
     NSMutableDictionary* syncData;
     BOOL isRefreshToken;
 }
+- (void) refreshToken;
 @end
 @implementation WizSyncManager
 @synthesize accountUserId;
@@ -50,15 +53,19 @@ static WizSyncManager* shareManager;
         uploadQueque = [[NSMutableArray alloc] init];
         downloadQueque = [[NSMutableArray alloc] init];
         errorQueque = [[NSMutableArray alloc] init];
+        [WizNotificationCenter addObserverForTokenUnactiveError:self selector:@selector(refreshToken)];
+        isRefreshToken = NO;
     }
     return self;
 }
 - (WizUploadObjet*) shareUploader
 {
     id data = [syncData valueForKey:SyncDataOfUploader];
-    if (nil == nil || [data isKindOfClass:[WizUploadObjet class]]) {
+    NSLog(@"upload calss is %@",[data class]);
+    if (nil == data || ![data isKindOfClass:[WizUploadObjet class]]) {
         data = [[WizUploadObjet alloc] initWithAccount:self.accountUserId password:nil];
         [syncData setObject:data forKey:SyncDataOfUploader];
+        NSLog(@"upload is %@",data);
         [data release];
     }
     return data;
@@ -68,7 +75,7 @@ static WizSyncManager* shareManager;
     id data = [syncData valueForKey:SyncDataOfRefreshToken];
     if (nil == nil || [data isKindOfClass:[WizRefreshToken class]]) {
         data = [[WizRefreshToken alloc] initWithAccount:self.accountUserId password:nil];
-        [syncData setObject:data forKey:SyncDataOfUploader];
+        [syncData setObject:data forKey:SyncDataOfRefreshToken];
         [data release];
     }
     return data;
@@ -101,9 +108,20 @@ static WizSyncManager* shareManager;
     NSDictionary* keys = [WizNotificationCenter getRefreshTokenDicFromNc:nc];
     NSString* token = [keys valueForKey:@"token"];
     NSString* kbGuid = [keys valueForKey:@"kb_guid"];
+    NSURL* urlAPI = [[NSURL alloc] initWithString:[keys valueForKey:@"kapi_url"]];
     [syncData setObject:token forKey:SyncDataOfToken];
     [syncData setObject:kbGuid forKey:SyncDataOfKbGuid];
+    [syncData setObject:urlAPI forKey:SyncDataOfWizApi];
     [self restartSync];
+}
+- (void) pauseAllSync
+{
+    NSArray* syncs = [syncData allValues];
+    for (id each in syncs) {
+        if ([each isKindOfClass:[WizApi class]]) {
+            [errorQueque addObjectUnique:each];
+        }
+    }
 }
 - (void) refreshToken
 {
@@ -112,20 +130,23 @@ static WizSyncManager* shareManager;
         return;
     }
     isRefreshToken = YES;
+    NSLog(@"will refresh token");
     [WizNotificationCenter addObserverForRefreshToken:self selector:@selector(didRefreshToken:)];
     [re refresh];
+    [self pauseAllSync];
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
     NSString* token = [syncData valueForKey:SyncDataOfToken];
     if (nil == token || [token isEqualToString:@""]) {
-        [errorQueque addObject:api];
+        [errorQueque addObjectUnique:api];
         [self refreshToken];
         return NO;
     }
     NSString* kbGuid = [syncData valueForKey:SyncDataOfKbGuid];
     api.token = token;
     api.kbguid = kbGuid;
+    api.apiURL = [syncData valueForKey:SyncDataOfWizApi];
     return YES;
 }
 - (BOOL) startUpload
@@ -159,7 +180,7 @@ static WizSyncManager* shareManager;
         [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext:)];
     }
     return ret;
-}
+} 
 - (BOOL) uploadNext:(NSNotification*)nc
 {
     NSString* guid = [WizNotificationCenter uploadGuidFromNc:nc];
@@ -171,6 +192,12 @@ static WizSyncManager* shareManager;
 - (BOOL) uploadDocument:(NSString*)documentGUID
 {
     NSDictionary* doc = [NSDictionary dictionaryWithObjectsAndKeys:documentGUID,UploadObjectGUID,WizDocumentKeyString, UploadObjectType, nil];
+    [uploadQueque addObject:doc];
+    return [self startUpload];
+}
+- (BOOL) uploadAttachment:(NSString*)attachmentGUID
+{
+    NSDictionary* doc = [NSDictionary dictionaryWithObjectsAndKeys:attachmentGUID,UploadObjectGUID,WizAttachmentKeyString, UploadObjectType, nil];
     [uploadQueque addObject:doc];
     return [self startUpload];
 }

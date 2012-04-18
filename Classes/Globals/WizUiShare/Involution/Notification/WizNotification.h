@@ -50,4 +50,8 @@
 + (void) removeObserverForRefreshToken:(id)observer;
 + (void) postMessageRefreshToken:(NSDictionary*)dic;
 + (NSDictionary*) getRefreshTokenDicFromNc:(NSNotification*)nc;
+//
++ (void) addObserverForTokenUnactiveError:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForTokenUnactiveError:(id)observer;
++ (void) postMessageTokenUnactiveError;
 @end

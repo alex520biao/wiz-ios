@@ -15,5 +15,6 @@
 @property (nonatomic, retain) NSString* accountUserId;
 - (BOOL) uploadNext:(NSNotification*)nc;
 - (BOOL) uploadDocument:(NSString*)documentGUID;
+- (BOOL) uploadAttachment:(NSString*)attachmentGUID;
 + (id) shareManager;
 @end
