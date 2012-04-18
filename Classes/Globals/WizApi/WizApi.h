@@ -7,39 +7,33 @@
 //
 
 #import <Foundation/Foundation.h>
-extern NSString *WizSyncBeginNotificationPrefix;
-extern NSString *WizSyncEndNotificationPrefix;
-extern NSString *WizSyncXmlRpcErrorNotificationPrefix;
-extern NSString* WizSyncXmlRpcDoneNotificationPrefix;
-extern NSString* WizSyncXmlRpcDonlowadDoneNotificationPrefix;
-extern NSString* WizSyncXmlRpcUploadDoneNotificationPrefix;
-extern NSString* SyncMethod_ClientLogin;
-extern NSString* SyncMethod_ClientLogout;
-extern NSString* SyncMethod_CreateAccount;
-extern NSString* SyncMethod_GetAllCategories;
-extern NSString* SyncMethod_GetAllTags;
-extern NSString* SyncMethod_DownloadDocumentList;
-extern NSString* SyncMethod_DocumentsByCategory;
-extern NSString* SyncMethod_DocumentsByTag;
-extern NSString* SyncMethod_DownloadMobileData;
-extern NSString* SyncMethod_UploadMobileData;
-extern NSString* SyncMethod_DownloadDeletedList;
-extern NSString* SyncMethod_UploadDeletedList;
-extern NSString* SyncMethod_DocumentsByKey;
-extern NSString* SyncMethod_DownloadObject;
-extern NSString* SyncMethod_UploadObject;
-extern NSString* SyncMethod_GetAttachmentList;
-extern NSString* SyncMethod_PostTagList;
-extern NSString* SyncMethod_DocumentPostSimpleData;
-extern NSString* SyncMethod_AttachmentPostSimpleData;
-extern NSString* WizGlobalSyncProcessInfo;
-extern NSString* SyncMethod_GetUserInfo;
-extern NSString* WizGlobalStopSync;
-extern NSString* SyncMethod_ChangeAccountPassword;
+
+@protocol WizApiDelegate <NSObject>
+@optional
+-(void) onCallGetUserInfo:(id)retObject;
+-(void) onAllCategories: (id)retObject;
+-(void) onDownloadDocumentList: (id)retObject;
+-(void) onAllTags: (id)retObject;
+-(void) onDownloadAttachmentList:(id)retObject;
+-(void) onDownloadDeletedList: (id)retObject;
+-(void) onDocumentsByCategory: (id)retObject;
+-(void) onDocumentsByTag: (id)retObject;
+-(void) onDocumentsByKey: (id)retObject;
+-(void) onUploadDeletedGUIDs: (id)retObjec;
+//
+- (void) onClientLogout:(id)retObject;
+- (void) onCreateAccount:(id)retObject;
+- (void) onChangePassword:(id)retObject;
+//
+- (void) onUploadObjectData:(id)retObject;
+- (void) onPostTagList:(id)retObject;
+- (void) onDocumentPostSimpleData:(id)retObject;
+- (void) onAttachmentPostSimpleData:(id)retObject;
+- (void) onDownloadObject:(id)retObject;
+@end
+
 @class XMLRPCConnection;
-@class WizDocument;
-@class WizDocumentAttach;
-@interface WizApi : NSObject <UIAlertViewDelegate>{
+@interface WizApi : NSObject <UIAlertViewDelegate, WizApiDelegate>{
 	NSString* token;
 	NSString* kbguid;
 	NSURL* accountURL;
@@ -60,85 +54,49 @@ extern NSString* SyncMethod_ChangeAccountPassword;
 
 -(id) initWithAccount: (NSString*)userId password: (NSString*)password;
 
-
--(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args ;
--(void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method;
-
--(void) addCommonParams: (NSMutableDictionary*)postParams;
-//
 -(void) onError: (id)retObject;
 //
 -(BOOL) callClientLogin;
--(void) onClientLogin: (id)retObject;
 
 -(BOOL) callGetUserInfo;
--(void) onCallGetUserInfo:(id)retObject;
    
 -(BOOL) callClientLogout;
--(void) onClientLogout: (id)retObject;
 
 -(BOOL) callAllCategories;
--(void) onAllCategories: (id)retObject;
 
 -(BOOL) callAllTags;
--(void) onAllTags: (id)retObject;
 
 -(BOOL) callDownloadDocumentList;
--(void) onDownloadDocumentList: (id)retObject;
 
 -(BOOL) callCreateAccount;
--(void) onCreateAccount: (id)retObject;
 //
 -(BOOL) callDocumentsByCategory:(NSString*)location;
--(void) onDocumentsByCategory: (id)retObject;
 
 -(BOOL) callDocumentsByTag:(NSString*)tagGUID;
--(void) onDocumentsByTag: (id)retObject;
 //
 -(BOOL) callDownloadMobileData:(NSString*)documentGUID;
--(void) onDownloadMobileData: (id)retObject;
 
 //wiz-qzpqzb
 -(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize;
--(void) onDownloadObject:(id) retObject;
-
--(BOOL) callUploadMobileData:(NSString*)documentGUID;
-
 //wiz-dzpqzb
 -(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5 sumPartCount:(int)sumPartCount;
--(void) onUploadObjectData:(id) retObject;
 -(BOOL) callDownloadDeletedList;
--(void) onDownloadDeletedList: (id)retObject;
 
 -(BOOL) callUploadDeletedGUIDs;
--(void) onUploadDeletedGUIDs: (id)retObject;
 //
 -(BOOL) callDocumentsByKey:(NSString*)keywords attributes:(NSString*)attributes;
--(void) onDocumentsByKey: (id)retObject;
 //
 -(BOOL) callDownloadAttachmentList;
--(void) onDownloadAttachmentList:(id)retObject;
 
 
 // 
 -(BOOL) callPostTagList;
--(void) onPostTagList:(id) retObject;
 //
 - (BOOL) callChangePassword:(NSString*)password;
-- (void) onChangePassword:(id)retObject;
 //
 -(BOOL) callDocumentPostSimpleData:(NSString*) documentGUID withZipMD5:(NSString*) zipMD5;
--(void) onDocumentPostSimpleData:(id) retObject;
 -(BOOL) callAttachmentPostSimpleData:(NSString*) attachmentGUID;
--(void) onAttachmentPostSimpleData:(id) retObject;
-
--(void) postSyncProcessInfoToDefaultCenter:(NSString*) methodName total:(NSNumber*) total current:(NSNumber*)current;
--(int) listCount;
-- (void) postSyncUploadObject:(int) total current:(int)current objectGUID:(NSString*) objectGUID objectType:(NSString*) objectType;
-- (void) postSyncDoloadObject:(int) total current:(int)current objectGUID:(NSString*) objectGUID objectType:(NSString*) objectType;
 
 -(void) cancel;
 
--(NSString*) notificationName: (NSString *)prefix;
-+(NSString*) notificationName: (NSString *)prefix accountUserId:(NSString*)accountUserId;
 @end

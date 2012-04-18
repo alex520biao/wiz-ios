@@ -188,7 +188,11 @@ static NSArray* excelArray;
 + (BOOL) checkFileIsEncry:(NSString*)filePath
 {
     NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:filePath];
+
     NSData* data  = [file readDataOfLength:4];
+    if (data.length < 4) {
+        return YES;
+    }
     unsigned char* sd =(unsigned char*)[data bytes];
     if (sd[0] == 90 && sd[1] == 73 && sd[2] == 87 && sd[3] == 82) {
         return YES;

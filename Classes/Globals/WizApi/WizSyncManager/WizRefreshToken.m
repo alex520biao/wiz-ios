@@ -8,7 +8,8 @@
 
 #import "WizRefreshToken.h"
 #import "WizNotification.h"
-
+#import "WizGlobalData.h"
+#import "WizIndex.h"
 @implementation WizRefreshToken
 - (void) onError:(id)retObject
 {
@@ -21,6 +22,16 @@
 -(void) onClientLogin: (id)retObject
 {
 	if ([retObject isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* userInfo = retObject;
+        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+        NSNumber* userPoints = [userInfo objectForKey:@"user_points"];
+        NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
+        NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
+        NSString* userType = [userInfo objectForKey:@"user_type"];
+        [index setUserLevel:[userLevel intValue]];
+        [index setUserLevelName:userLevelName];
+        [index setUserType:userType];
+        [index setUserPoints:[userPoints longLongValue]];
         [WizNotificationCenter postMessageRefreshToken:retObject];
     }
 }

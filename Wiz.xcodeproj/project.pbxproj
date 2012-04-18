@@ -82,10 +82,6 @@
 		73A7856614F8CC23001387F6 /* WizIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843D14F8CC22001387F6 /* WizIndex.mm */; };
 		73A7856814F8CC23001387F6 /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844114F8CC22001387F6 /* WizSettings.m */; };
 		73A7856914F8CC23001387F6 /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844314F8CC22001387F6 /* WizSync.m */; };
-		73A7856A14F8CC23001387F6 /* WizSyncBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844514F8CC22001387F6 /* WizSyncBase.m */; };
-		73A7856B14F8CC23001387F6 /* WizSyncByKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844714F8CC22001387F6 /* WizSyncByKey.m */; };
-		73A7856C14F8CC23001387F6 /* WizSyncByLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844914F8CC22001387F6 /* WizSyncByLocation.m */; };
-		73A7856D14F8CC23001387F6 /* WizSyncByTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844B14F8CC22001387F6 /* WizSyncByTag.m */; };
 		73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844D14F8CC22001387F6 /* WizUploadObjet.m */; };
 		73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */; };
 		73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */; };
@@ -453,14 +449,6 @@
 		73A7844114F8CC22001387F6 /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
 		73A7844214F8CC22001387F6 /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSync.h; sourceTree = "<group>"; };
 		73A7844314F8CC22001387F6 /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSync.m; sourceTree = "<group>"; };
-		73A7844414F8CC22001387F6 /* WizSyncBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncBase.h; sourceTree = "<group>"; };
-		73A7844514F8CC22001387F6 /* WizSyncBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncBase.m; sourceTree = "<group>"; };
-		73A7844614F8CC22001387F6 /* WizSyncByKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncByKey.h; sourceTree = "<group>"; };
-		73A7844714F8CC22001387F6 /* WizSyncByKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncByKey.m; sourceTree = "<group>"; };
-		73A7844814F8CC22001387F6 /* WizSyncByLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncByLocation.h; sourceTree = "<group>"; };
-		73A7844914F8CC22001387F6 /* WizSyncByLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncByLocation.m; sourceTree = "<group>"; };
-		73A7844A14F8CC22001387F6 /* WizSyncByTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncByTag.h; sourceTree = "<group>"; };
-		73A7844B14F8CC22001387F6 /* WizSyncByTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncByTag.m; sourceTree = "<group>"; };
 		73A7844C14F8CC22001387F6 /* WizUploadObjet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUploadObjet.h; sourceTree = "<group>"; };
 		73A7844D14F8CC22001387F6 /* WizUploadObjet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizUploadObjet.m; sourceTree = "<group>"; };
 		73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizVerifyAccount.h; sourceTree = "<group>"; };
@@ -1087,14 +1075,6 @@
 				73A7843D14F8CC22001387F6 /* WizIndex.mm */,
 				73A7844014F8CC22001387F6 /* WizSettings.h */,
 				73A7844114F8CC22001387F6 /* WizSettings.m */,
-				73A7844414F8CC22001387F6 /* WizSyncBase.h */,
-				73A7844514F8CC22001387F6 /* WizSyncBase.m */,
-				73A7844614F8CC22001387F6 /* WizSyncByKey.h */,
-				73A7844714F8CC22001387F6 /* WizSyncByKey.m */,
-				73A7844814F8CC22001387F6 /* WizSyncByLocation.h */,
-				73A7844914F8CC22001387F6 /* WizSyncByLocation.m */,
-				73A7844A14F8CC22001387F6 /* WizSyncByTag.h */,
-				73A7844B14F8CC22001387F6 /* WizSyncByTag.m */,
 				73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */,
 				73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */,
 			);
@@ -1991,10 +1971,6 @@
 				73A7856614F8CC23001387F6 /* WizIndex.mm in Sources */,
 				73A7856814F8CC23001387F6 /* WizSettings.m in Sources */,
 				73A7856914F8CC23001387F6 /* WizSync.m in Sources */,
-				73A7856A14F8CC23001387F6 /* WizSyncBase.m in Sources */,
-				73A7856B14F8CC23001387F6 /* WizSyncByKey.m in Sources */,
-				73A7856C14F8CC23001387F6 /* WizSyncByLocation.m in Sources */,
-				73A7856D14F8CC23001387F6 /* WizSyncByTag.m in Sources */,
 				73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */,
 				73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */,
 				73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */,

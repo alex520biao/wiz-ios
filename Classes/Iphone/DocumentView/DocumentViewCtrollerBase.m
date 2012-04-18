@@ -360,10 +360,9 @@
     // Return YES for supported orientations
     return YES;
 }
-
 -(void) viewWillDisappear:(BOOL)animated
 {
-    
+    [WizNotificationCenter removeObserverForDownloadDone:self];
     [super viewWillDisappear:animated];
     
 }

@@ -30,6 +30,7 @@
     NSMutableArray* uploadQueque;
     NSMutableArray* errorQueque;
     NSMutableDictionary* syncData;
+    NSTimer* restartTimer;
     BOOL isRefreshToken;
 }
 - (void) refreshToken;
@@ -50,7 +51,15 @@ static WizSyncManager* shareManager;
     }
     return shareManager;
 }
-
+- (void) dealloc
+{
+    [downloadQueque release];
+    [uploadQueque release];
+    [errorQueque release];
+    [syncData release];
+    [restartTimer release];
+    [super dealloc];
+}
 - (id) init
 {
     self = [super init];
@@ -59,6 +68,8 @@ static WizSyncManager* shareManager;
         uploadQueque = [[NSMutableArray alloc] init];
         downloadQueque = [[NSMutableArray alloc] init];
         errorQueque = [[NSMutableArray alloc] init];
+        restartTimer = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(restartSync) userInfo:nil repeats:YES];
+        [restartTimer retain];
         [WizNotificationCenter addObserverForTokenUnactiveError:self selector:@selector(refreshToken)];
         [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext:)];
         [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadNext:)];
@@ -111,7 +122,7 @@ static WizSyncManager* shareManager;
         }
     }
     if (nil != dic) {
-        [uploadQueque removeObject:dic];
+        [array removeObject:dic];
     }
 }
 - (void) removeUploadObject:(NSString*)_guid
