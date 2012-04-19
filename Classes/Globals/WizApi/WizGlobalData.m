@@ -13,52 +13,58 @@
 #import "WizDocumentsByLocation.h"
 #import "WizDocumentsByTag.h"
 #import "WizDocumentsByKey.h"
-#import "WizDownloadRecentDocuments.h"
 #import "WizIndex.h"
 #import "WizMisc.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
 #import "LoginViewController.h"
 #import "PickViewController.h"
-#import "WizSyncByTag.h"
-#import "WizSyncByLocation.h"
-#import "WizSyncByKey.h"
 #import "WizChangePassword.h"
 #import "WizSettings.h"
 #import "TTTAttributedLabel.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
+#import "WizAccountManager.h"
 //
-#define DataTypeOfSyncManager   @"DataTypeOfSyncManager"
+#define DataTypeOfSyncManager               @"DataTypeOfSyncManager"
+#define DataTypeOfSync                      @"Sync"
+#define DataTypeOfCreateAccount             @"CreateAccount"
+#define DataTypeOfVerifyAccount             @"VerifyAccount"
+#define DataTypeOfDocumentsByLocation       @"DocumentsByLocation"
+#define DataTypeOfDocumentsByTag            @"DocumentsByTag"
+#define DataTypeOfDownloadRecentDocuments   @"DownloadRecentDocuments"
+#define DataTypeOfDocumentsByKey            @"DocumentsByKey"
+#define DataTypeOfDownloadObject            @"DownloadObject"
+#define DataTypeOfUploadObject              @"UploadObject"
+#define DataTypeOfUploadDocument            @"UploadDocument"
+#define DataTypeOfUploadAttachment          @"UploadAttachment"
+#define DataTypeOfDownloadDocument          @"DownloadDocument"
+#define DataTypeOfDownloadAttachment        @"DownloadAttachment"
+#define DataTypeOfIndex                     @"Index"
+#define DataMainOfWiz                       @"wizMain"
+#define DataTypeOfChangePassword            @"changeUserPassword"
+#define DataTypeOfSyncByTag                 @"SyncByTag"
+#define DataTypeOfSyncByLocation            @"SyncByLocation"
+#define DataTypeOfSyncByKey                 @"SyncByKey"
+#define DataTypeOfGlobalDownloadPool        @"GlobalDownloadPool"
+#define DataIconForDocumentWithoutData      @"IconDocumentWithoutData"
+#define DataTypeOfAccountManager            @"DataTypeOfAccountManager"
 
-NSString* DataTypeOfSync = @"Sync";
-NSString* DataTypeOfCreateAccount = @"CreateAccount";
-NSString* DataTypeOfVerifyAccount = @"VerifyAccount";
-NSString* DataTypeOfDocumentsByLocation = @"DocumentsByLocation";
-NSString* DataTypeOfDocumentsByTag = @"DocumentsByTag";
-NSString* DataTypeOfDownloadRecentDocuments = @"DownloadRecentDocuments";
-NSString* DataTypeOfDocumentsByKey = @"DocumentsByKey";
-//wiz-dzpqzb test
-NSString* DataTypeOfDownloadObject = @"DownloadObject";
-NSString* DataTypeOfUploadObject = @"UploadObject";
-NSString* DataTypeOfUploadDocument= @"UploadDocument";
-NSString* DataTypeOfUploadAttachment = @"UploadAttachment";
-NSString* DataTypeOfDownloadDocument = @"DownloadDocument";
-NSString* DataTypeOfDownloadAttachment = @"DownloadAttachment";
-NSString* DataTypeOfIndex = @"Index";
-NSString* DataTypeOfPickerView = @"PickViewOfUser";
-NSString* DataTypeOfLoginView = @"wizLgoin";
-NSString* DataMainOfWiz = @"wizMain";
-NSString* DataTypeOfChangePassword = @"changeUserPassword";
-static NSString* DataTypeOfSyncByTag = @"SyncByTag";
-static NSString* DataTypeOfSyncByLocation = @"SyncByLocation";
-static NSString* DataTypeOfSyncByKey = @"SyncByKey";
-
-static NSString* DataTypeOfGlobalDownloadPool = @"GlobalDownloadPool";
-//global image
-NSString* DataIconForDocumentWithoutData = @"IconDocumentWithoutData";
-
+//
+#define DataOfAttributesForDocumentListName                 @"attributesForDocumentListName"
+#define WizGlobalAccount                                    @"DataOfGlobalShareDataWiz"
+#define DataOfAttributesForPadAbstractViewParagraph         @"DataOfAttributesForPadAbstractViewParagraph"
+#define DataOfActiveAccountUserId                           @"DataOfActiveAccountUserId"
+#define DataOfGlobalWizNotification                         @"DataOfGlobalWizNotification"
 static WizGlobalData* g_data;
+
+@interface WizGlobalData()
+{
+	NSMutableDictionary* dict;
+}
+@property (nonatomic, retain) NSMutableDictionary* dict;
+
+@end
 
 @implementation WizGlobalData
 
@@ -190,16 +196,7 @@ static WizGlobalData* g_data;
         
     }
 }
-- (WizSyncByTag*) syncByTagData:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfSyncByTag];
-	if (data != nil)
-		return data;
-	data = [[WizSyncByTag alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfSyncByTag data:data];
-    [data release];
-    return data;
-}
+
 -(NSDictionary*) attributesForDocumentListName
 {
     id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfAttributesForDocumentListName];
@@ -246,27 +243,6 @@ static WizGlobalData* g_data;
     [self setDataOfAccount:WizGlobalAccount dataType:DataOfAttributesForPadAbstractViewParagraph data:attributeDic];
     return attributeDic;
 }
-- (WizSyncByKey*) syncByKeyData:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfSyncByKey];
-	if (data != nil)
-		return data;
-	data = [[WizSyncByKey alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfSyncByKey data:data];
-    [data release];
-    return data;
-}
-- (WizSyncByLocation*) syncByLocationData:(NSString*) userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfSyncByLocation];
-	if (data != nil)
-		return data;
-	data = [[WizSyncByLocation alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfSyncByLocation data:data];
-    [data release];
-    return data;
-}
-
 
 
 
@@ -317,17 +293,6 @@ static WizGlobalData* g_data;
 	[data release];
     return data;
 }
-- (WizDownloadRecentDocuments*) downloadRecentDocumentsData: (NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfDownloadRecentDocuments];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDownloadRecentDocuments alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDownloadRecentDocuments data:data];
-    [data release];
-	return data;
-}
 
 - (WizIndex *) indexData:(NSString*) userId
 {
@@ -354,14 +319,25 @@ static WizGlobalData* g_data;
 {
     id data = [self dataOfAccount:WizGlobalAccount dataType:DataTypeOfSyncManager];
     if (nil == data) {
-        WizSyncManager* defaultManager = [[WizSyncManager alloc] init];
-        [self setDataOfAccount:WizGlobalStopSync dataType:DataTypeOfSyncManager data:data];
-        [defaultManager release];
-        return defaultManager;
+        data = [[WizSyncManager alloc] init];
+        [self setDataOfAccount:WizGlobalAccount dataType:DataTypeOfSyncManager data:data];
+        [data release];
+        return data;
     }
     return data;
 }
 
+- (WizAccountManager*) defaultAccountManager
+{
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataTypeOfAccountManager];
+    if (nil == data) {
+        data = [[WizAccountManager alloc] init];
+        [self setDataOfAccount:WizGlobalAccount dataType:DataTypeOfAccountManager data:data];
+        [data release];
+        return data;
+    }
+    return data;
+}
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId
 {
     NSString* key = [WizGlobalData keyOfAccount:userId dataType: dataType];

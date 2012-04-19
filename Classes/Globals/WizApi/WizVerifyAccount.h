@@ -14,12 +14,8 @@
 }
 
 @property (readonly) BOOL busy;
-
 -(void) onError: (id)retObject;
 -(void) onClientLogin: (id)retObject;
 -(void) onClientLogout: (id)retObject;
-
 -(BOOL) verifyAccount;
-
-
 @end

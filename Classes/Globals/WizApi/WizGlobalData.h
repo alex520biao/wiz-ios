@@ -8,35 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CommonString.h"
-extern  NSString* DataTypeOfSync;
-extern NSString* DataTypeOfCreateAccount ;
-extern NSString* DataTypeOfVerifyAccount ;
 
-extern NSString* DataTypeOfDocumentsByLocation ;
-extern NSString* DataTypeOfDocumentsByTag ;
-extern NSString* DataTypeOfDownloadRecentDocuments ;
-extern NSString* DataTypeOfDocumentsByKey ;
-
-//wiz-dzpqzb test
-
-extern NSString* DataTypeOfDownloadObject;
-extern NSString* DataTypeOfUploadObject;
-extern NSString* DataTypeOfUploadDocument;
-extern NSString* DataTypeOfUploadAttachment ;
-
-extern NSString* DataTypeOfDownloadDocument ;
-extern NSString* DataTypeOfDownloadAttachment ;
-extern NSString* DataTypeOfIndex;
-
-extern NSString* DataTypeOfPickerView;
-extern NSString* DataTypeOfLoginView ;
-
-extern NSString* DataMainOfWiz;
-#define DataOfAttributesForDocumentListName                 @"attributesForDocumentListName"
-#define WizGlobalAccount                                    @"DataOfGlobalShareDataWiz"
-#define DataOfAttributesForPadAbstractViewParagraph         @"DataOfAttributesForPadAbstractViewParagraph"
-#define DataOfActiveAccountUserId                           @"DataOfActiveAccountUserId"
-#define DataOfGlobalWizNotification                         @"DataOfGlobalWizNotification"
 @class WizSync;
 @class WizIndex;
 @class WizCreateAccount;
@@ -53,10 +25,8 @@ extern NSString* DataMainOfWiz;
 @class WizDownloadPool;
 @class WizChangePassword;
 @class WizSyncManager;
-@interface WizGlobalData : NSObject {
-	NSMutableDictionary* dict;
-}
-@property (nonatomic, retain) NSMutableDictionary* dict;
+@class WizAccountManager;
+@interface WizGlobalData : NSObject 
 
 - (id) dataOfAccount: (NSString*) userId dataType: (NSString *) dataType;
 - (void) setDataOfAccount: (NSString*) userId dataType: (NSString *) dataType data: (id) data;
@@ -93,4 +63,5 @@ extern NSString* DataMainOfWiz;
 //2012-3-2
 - (void) stopSyncing;
 
+- (WizAccountManager*)defaultAccountManager;
 @end
