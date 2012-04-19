@@ -10,16 +10,16 @@
 
 @protocol WizApiDelegate <NSObject>
 @optional
--(void) onCallGetUserInfo:(id)retObject;
--(void) onAllCategories: (id)retObject;
--(void) onDownloadDocumentList: (id)retObject;
--(void) onAllTags: (id)retObject;
--(void) onDownloadAttachmentList:(id)retObject;
--(void) onDownloadDeletedList: (id)retObject;
--(void) onDocumentsByCategory: (id)retObject;
--(void) onDocumentsByTag: (id)retObject;
--(void) onDocumentsByKey: (id)retObject;
--(void) onUploadDeletedGUIDs: (id)retObjec;
+- (void) onCallGetUserInfo:(id)retObject;
+- (void) onAllCategories: (id)retObject;
+- (void) onDownloadDocumentList: (id)retObject;
+- (void) onAllTags: (id)retObject;
+- (void) onDownloadAttachmentList:(id)retObject;
+- (void) onDownloadDeletedList: (id)retObject;
+- (void) onDocumentsByCategory: (id)retObject;
+- (void) onDocumentsByTag: (id)retObject;
+- (void) onDocumentsByKey: (id)retObject;
+- (void) onUploadDeletedGUIDs: (id)retObjec;
 //
 - (void) onClientLogout:(id)retObject;
 - (void) onCreateAccount:(id)retObject;
@@ -87,8 +87,6 @@
 -(BOOL) callDocumentsByKey:(NSString*)keywords attributes:(NSString*)attributes;
 //
 -(BOOL) callDownloadAttachmentList;
-
-
 // 
 -(BOOL) callPostTagList;
 //
@@ -96,7 +94,6 @@
 //
 -(BOOL) callDocumentPostSimpleData:(NSString*) documentGUID withZipMD5:(NSString*) zipMD5;
 -(BOOL) callAttachmentPostSimpleData:(NSString*) attachmentGUID;
-
 -(void) cancel;
 
 @end
