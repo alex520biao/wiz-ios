@@ -14,7 +14,6 @@
 #import "WizMisc.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
-#import "LoginViewController.h"
 #import "PickViewController.h"
 #import "WizChangePassword.h"
 #import "WizSettings.h"

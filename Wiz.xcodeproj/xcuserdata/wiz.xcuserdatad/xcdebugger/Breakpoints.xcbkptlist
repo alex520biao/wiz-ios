@@ -2256,8 +2256,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "87"
          endingLineNumber = "87"
-         landmarkName = "@implementation WizSyncInfo"
-         landmarkType = "3">
+         landmarkName = "-onDownloadAttachmentList:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -2321,8 +2321,21 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "90"
          endingLineNumber = "90"
-         landmarkName = "@implementation WizSyncInfo"
-         landmarkType = "3">
+         landmarkName = "-onDownloadAttachmentList:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
+         timestampString = "356521842.458372"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "136"
+         endingLineNumber = "136"
+         landmarkName = "-onAllTags:"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

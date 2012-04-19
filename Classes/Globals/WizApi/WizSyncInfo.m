@@ -74,7 +74,7 @@
     NSArray* attachArr = [self getArrayFromResponse:retObject];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     int64_t oldVer = [index attachmentVersion];
-    [index updateTags:retObject];
+    [index updateAttachementList:attachArr];
     int64_t newVer = [self newVersion:attachArr];
     if (newVer > oldVer) {
         [index setAttachmentVersion:newVer+1];
@@ -133,7 +133,7 @@ else {
 	NSArray* obj = [self getArrayFromResponse:retObject];
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     int64_t oldVer = [index tagVersion];
-    [index updateTags:retObject];
+    [index updateTags:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
         [index setTageVersion:newVer+1];
