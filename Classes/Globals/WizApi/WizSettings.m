@@ -13,23 +13,24 @@
 static WizSettings* g_settings = nil;
 
 
-NSString* SettingsFileName = @"settings.plist";
-NSString* KeyOfAccounts = @"accounts";
-NSString* KeyOfUserId = @"userId";
-NSString* KeyOfPassword = @"password";
-NSString* KeyOfDefaultUserId = @"defaultUserId";
-
-static NSString* KeyOfProtectPassword = @"protectPassword";
+#define SettingsFileName            @"settings.plist"
+#define KeyOfAccounts               @"accounts"
+#define KeyOfUserId                 @"userId"
+#define KeyOfPassword               @"password"
+#define KeyOfDefaultUserId          @"defaultUserId"
+#define KeyOfProtectPassword        @"protectPassword"
 @implementation WizSettings
-
++(NSString*) settingsFileName
+{
+	NSString* filename = [[WizGlobals documentsPath] stringByAppendingPathComponent:SettingsFileName];
+	return filename;
+}
 -(id) init
 {
 	if (self = [super init])
 	{
 		NSString* filename = [WizSettings settingsFileName];
-		//
 		_dict = [NSMutableDictionary dictionaryWithContentsOfFile:filename];
-        NSLog(@"%@",_dict);
 		if (_dict == nil)
 		{
 			_dict = [[NSMutableDictionary alloc] init];
@@ -49,11 +50,7 @@ static NSString* KeyOfProtectPassword = @"protectPassword";
 	return _dict;
 }
 
-+(NSString*) settingsFileName
-{
-	NSString* filename = [[WizGlobals documentsPath] stringByAppendingPathComponent:SettingsFileName];
-	return filename;
-}
+
 +(WizSettings *) sharedSettings
 {
 	if (g_settings == nil)
