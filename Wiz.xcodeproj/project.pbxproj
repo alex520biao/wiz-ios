@@ -879,6 +879,17 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		4ACC39F5153FBDF8009D37DF /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				73A7842514F8CC22001387F6 /* WizCreateAccount.h */,
+				73A7842614F8CC22001387F6 /* WizCreateAccount.m */,
+				73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */,
+				73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
 		4ADA028D1536B8B3005F0ED8 /* AbstractCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -928,6 +939,7 @@
 		735C1B93153C214C00A80353 /* SyncCenter */ = {
 			isa = PBXGroup;
 			children = (
+				4ACC39F5153FBDF8009D37DF /* Account */,
 				73B46D18153E7AA90049556F /* DataSync */,
 				73E76477153D6FBA0089D5FF /* RefreshToken */,
 				735C1B95153C218100A80353 /* WizSyncManager.h */,
@@ -1045,15 +1057,11 @@
 				73B46D28153FAA9D0049556F /* AccountCenter */,
 				739BE7AF153E521400057601 /* WizTools */,
 				735C1B93153C214C00A80353 /* SyncCenter */,
-				73A7842514F8CC22001387F6 /* WizCreateAccount.h */,
-				73A7842614F8CC22001387F6 /* WizCreateAccount.m */,
 				73A7842714F8CC22001387F6 /* WizDictionaryMessage.h */,
 				73A7843814F8CC22001387F6 /* WizGlobalDictionaryKey.h */,
 				73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */,
 				73A7843C14F8CC22001387F6 /* WizIndex.h */,
 				73A7843D14F8CC22001387F6 /* WizIndex.mm */,
-				73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */,
-				73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */,
 			);
 			path = WizApi;
 			sourceTree = "<group>";

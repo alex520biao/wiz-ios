@@ -21,6 +21,7 @@
 - (void) onDocumentsByKey: (id)retObject;
 - (void) onUploadDeletedGUIDs: (id)retObjec;
 //
+- (void) onClientLogin:(id)retObject;
 - (void) onClientLogout:(id)retObject;
 - (void) onCreateAccount:(id)retObject;
 - (void) onChangePassword:(id)retObject;

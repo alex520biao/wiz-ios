@@ -12,6 +12,8 @@
 #import "WizGlobals.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
+#import "WizSyncManager.h"
+
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -103,7 +105,7 @@
 	return NO;
 }
 
-+(NSString*) accountPasswordByUserId:(NSString *)userID
+-(NSString*) accountPasswordByUserId:(NSString *)userID
 {
     if (![self findAccount:userID]) {
         return nil;
@@ -126,7 +128,13 @@
 {
     [self writeSettings:KeyOfDefaultUserId value:accountUserId];
 }
-
+- (void) registerActiveAccount:(NSString*)userId
+{
+    WizSyncManager* shareManager = [WizSyncManager shareManager];
+    shareManager.accountUserId = userId;
+    shareManager.accountPassword = [self accountPasswordByUserId:userId];
+    [self setDefalutAccount:userId];
+}
 - (NSString*) defaultAccountUserId
 {
     id userId = [self readSettings:KeyOfDefaultUserId];
@@ -137,7 +145,6 @@
     {
         return @"";
     }
-    
 }
 
 -(void) addAccount: (NSString*)userId password:(NSString*)password
@@ -220,6 +227,4 @@
     [arr removeObjectAtIndex:i];
     [self writeSettings:KeyOfAccounts value:arr];
 }
-
-
 @end

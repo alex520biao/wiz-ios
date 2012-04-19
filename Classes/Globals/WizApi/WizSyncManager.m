@@ -39,6 +39,7 @@
 - (void) startDownload;
 @end
 @implementation WizSyncManager
+@synthesize accountPassword;
 @synthesize accountUserId;
 static WizSyncManager* shareManager;
 + (id) shareManager

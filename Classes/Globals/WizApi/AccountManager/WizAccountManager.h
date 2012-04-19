@@ -9,28 +9,18 @@
 #import <UIKit/UIKit.h>
 
 @interface WizAccountManager : NSObject
-
--(id) init;
--(void)dealloc;
-+  (NSArray*) accountsUserIdArray;
-+ (void) logoutAccount:(NSString*)userId;
-+(NSString*) settingsFileName;
-+(WizSettings *) sharedSettings;
-+(id) readSettings: (NSString*)key;
-+(void) writeSettings: (NSString*)key value:(id)value;
-
-+(NSArray*) accounts;
-+(NSString*) accountUserIdAtIndex: (NSArray*)accounts index:(int)index;
-+(NSString*) accountPasswordAtIndex: (NSArray*)accounts index:(int)index;
-+(NSString*) accountPasswordByUserId: (NSString *)userID;
-+(void) setAccounts: (NSArray*)accounts;
-+(void) addAccount: (NSString*)userId password:(NSString*)password;
-+(void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
-+(void) removeAccount: (NSString*)userId;
-+(int) findAccount: (NSString*)userId;
-+(void) setDefalutAccount:(NSString*)accountUserId;
-+(NSString*) defaultAccountUserId;
-+ (NSString*) accountProtectPassword;
-+ (void) setAccountProtectPassword:(NSString*)password;
++(WizAccountManager *) defaultManager;
+-(NSArray*) accounts;
+-(BOOL) findAccount: (NSString*)userId;
+-(NSString*) accountPasswordByUserId:(NSString *)userID;
+- (void) setDefalutAccount:(NSString*)accountUserId;
+- (void) registerActiveAccount:(NSString*)userId;
+- (NSString*) defaultAccountUserId;
+-(void) addAccount: (NSString*)userId password:(NSString*)password;
+- (NSString*) accountProtectPassword;
+- (void) setAccountProtectPassword:(NSString*)password;
+-(void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
+- (void) logoutAccount:(NSString*)userId;
+-(void) removeAccount: (NSString*)userId;
 
 @end

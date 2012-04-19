@@ -11,8 +11,10 @@
 @interface WizSyncManager : NSObject
 {
     NSString* accountUserId;
+    NSString* accountPassword;
 }
 @property (nonatomic, retain) NSString* accountUserId;
+@property (nonatomic, retain) NSString* accountPassword;
 - (BOOL) uploadNext:(NSNotification*)nc;
 - (BOOL) uploadDocument:(NSString*)documentGUID;
 - (BOOL) uploadAttachment:(NSString*)attachmentGUID;
