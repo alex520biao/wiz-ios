@@ -195,7 +195,7 @@ enum
 - (BOOL) clearDeletedGUIDs;
 - (BOOL) hasDeletedGUIDs;
 //wiz-dzpqzb create zip file by object-guid
-- (NSDictionary*) attachmentFileMd5:(NSString*)attachmentGUID;
+- (NSString*) attachmentFileMd5:(NSString*)attachmentGUID;
 - (NSString*) createZipByGuid:(NSString*)objectGUID ;
 - (BOOL) downloadAllList;
 - (BOOL) downloadDocumentData;

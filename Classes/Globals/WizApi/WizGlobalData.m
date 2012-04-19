@@ -10,9 +10,6 @@
 #import "WizSync.h"
 #import "WizCreateAccount.h"
 #import "WizVerifyAccount.h"
-#import "WizDocumentsByLocation.h"
-#import "WizDocumentsByTag.h"
-#import "WizDocumentsByKey.h"
 #import "WizIndex.h"
 #import "WizMisc.h"
 #import "WizGlobals.h"
@@ -180,19 +177,6 @@ static WizGlobalData* g_data;
         if (nil != sync) {
             [sync cancel];
         }
-        WizSyncByKey* syncKey = [self dataOfAccount:userId dataType:DataTypeOfSyncByKey];
-        if (nil != syncKey) {
-            [syncKey cancel];
-        }
-        
-        WizSyncByTag* syncTag = [self dataOfAccount:userId dataType:DataTypeOfSyncByTag];
-        if (nil != syncTag) {
-            [syncTag cancel];
-        }
-        WizSyncByLocation* syncLoc = [self dataOfAccount:userId dataType:DataTypeOfSyncByLocation];
-        if (nil != syncLoc) {
-            [syncLoc cancel];
-        }
         
     }
 }
@@ -246,30 +230,6 @@ static WizGlobalData* g_data;
 
 
 
-
-- (WizDocumentsByLocation *) documentsByLocationData:(NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfDocumentsByLocation];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDocumentsByLocation alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDocumentsByLocation data:data];
-	 [data release]; 
-    return data;
-}
-
-- (WizDocumentsByKey *) documentsByKeyData:(NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfDocumentsByKey];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDocumentsByKey alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDocumentsByKey data:data];
-	[data release];
-    return data;
-}
 - (NSNotificationCenter*) wizNotificationCenter
 {
     id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfGlobalWizNotification];
@@ -282,17 +242,7 @@ static WizGlobalData* g_data;
     return data;
 }
 
-- (WizDocumentsByTag *) documentsByTagData:(NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfDocumentsByTag];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDocumentsByTag alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDocumentsByTag data:data];
-	[data release];
-    return data;
-}
+
 
 - (WizIndex *) indexData:(NSString*) userId
 {

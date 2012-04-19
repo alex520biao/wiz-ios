@@ -135,9 +135,6 @@
 	//
 	WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: accountIDString];
 	//
-	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
-	//
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	//
 	UIAlertView* alert = nil;
 	[WizGlobals showAlertView:WizStrSignIn message:WizStrPleasewaitwhileloggingin delegate:self retView:&alert];
@@ -146,8 +143,8 @@
 	self.waitAlertView = alert;
 	//
 	[alert release];
-	//
-	api.accountPassword = accountPasswordString;
+//	//
+//	api.accountPassword = accountPasswordString;
 	[api verifyAccount];
 }
 - (void) setExistAccountsTableViewFrame

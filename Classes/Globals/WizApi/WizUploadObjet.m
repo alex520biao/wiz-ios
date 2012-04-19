@@ -12,9 +12,6 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizSync.h"
-#import "WizSyncByTag.h"
-#import "WizSyncByLocation.h"
-#import "WizSyncByKey.h"
 #import "WizNotification.h"
 #define UploadPartSize  (256*1024)
 
@@ -32,6 +29,7 @@
     NSString*   objectGUID;
     NSString*   objectType;
     NSFileHandle* uploadFildHandel;
+    id          object;
 }
 @property                           int         currentUploadIndex;
 @property                           int         sumUploadPartCount;
@@ -42,6 +40,7 @@
 @property       (nonatomic, retain) NSString*   objectType;
 @property       (nonatomic, retain) NSFileHandle* uploadFildHandel;
 @property       (nonatomic, retain) NSString* currentUploadTempFilePath;
+@property       (nonatomic, retain) id          object;
 - (void) onUploadObjectSucceedAndCleanTemp;
 
 @end
@@ -55,6 +54,7 @@
 @synthesize objectGUID;
 @synthesize objectType;
 @synthesize uploadFildHandel;
+@synthesize object;
 -(void) dealloc
 {
     if (nil != uploadFildHandel) {
@@ -64,6 +64,7 @@
     [objectGUID release];
     [objectType release];
     [uploadObjMd5 release];
+    [object release];
     [super dealloc];
 }
 
@@ -107,7 +108,7 @@
 }
 -(BOOL) uploadObjectData
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSString* zip = [index createZipByGuid:self.objectGUID];
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
     NSString* md5 = [WizGlobals fileMD5:zip];
@@ -143,12 +144,13 @@
 }
 - (void) onUploadObjectDataDone
 {
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if ([self.objectType isEqualToString:WizDocumentKeyString]) {
-        [self callDocumentPostSimpleData:self.objectGUID withZipMD5:self.uploadObjMd5];
+        [self callDocumentPostSimpleData:self.object  withZipMD5:self.uploadObjMd5];
     }
     else if ([self.objectType isEqualToString:WizAttachmentKeyString])
     {
-        [self callAttachmentPostSimpleData:self.objectGUID];
+        [self callAttachmentPostSimpleData:self.object dataMd5:[index attachmentFileMd5:self.object] ziwMd5:self.uploadObjMd5];
     }
 }
 -(void) onUploadObjectSucceedAndCleanTemp
@@ -166,27 +168,28 @@
     [WizNotificationCenter postMessageUploadDone:self.objectGUID];
 }
 
-- (BOOL) uploadDocument:(NSString*)documentGUID
+- (BOOL) uploadDocument:(WizDocument*)document
 {
     if (self.busy) {
         return NO;
     }
     busy = YES;
-    self.objectGUID = documentGUID;
+    self.object = document;
+    self.objectGUID = document.guid;
     self.objectType = WizDocumentKeyString;
     return  [self uploadObjectData];
 }
-- (BOOL) uploadAttachment:(NSString*)attachmentGUID
+- (BOOL) uploadAttachment:(WizDocumentAttach*)attachment
 {
     if (self.busy) {
         return NO;
     }
     busy = YES;
-    self.objectGUID = attachmentGUID;
+    self.object = attachment;
+    self.objectGUID = attachment.attachmentGuid;
     self.objectType = WizAttachmentKeyString;
     return [self uploadObjectData];
 }
-
 - (void) onDocumentPostSimpleData:(id)retObject
 {
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];

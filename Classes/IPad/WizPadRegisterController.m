@@ -125,22 +125,22 @@
 	//
 	[nc removeObserver:self];
 	//
-	WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData: emailString];
-	//
-	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
-	//
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
-	//
+//	WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData: emailString];
+//	//
+//	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
+//	//
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
+//	//
 	UIAlertView* alert = nil;
 	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;
 	//
-	[alert release];
-	//
-	api.accountPassword = passwordString;
-	[api createAccount];
+//	[alert release];
+//	//
+//	api.accountPassword = passwordString;
+//	[api createAccount];
 }
 
 

@@ -549,40 +549,40 @@
 }
 - (void) downloadDocumentDone:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    NSDictionary* ret = [userInfo valueForKey:@"ret"];
-    NSString* documentGUID = [ret valueForKey:@"document_guid"];
-    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-    NSIndexPath* indexPath = [self indexPathOfDocument:documentGUID];
-    if (indexPath.section == WizNotFound) {
-        return;
-    }
-    else {
-        [self.documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }
-    [downloadPool removeDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
-    if ([documentGUID isEqualToString:selectedDocumentGUID]) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizDocument* selectedDocument = [index documentFromGUID:selectedDocumentGUID];
-        NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
-                                                            message:WizStrThisversionofWizNotdoesnotsupportdecryption
-                                                           delegate:self 
-                                                  cancelButtonTitle:WizStrOK 
-                                                  otherButtonTitles:nil];
-            alert.tag = 100;
-            [alert show];
-            [alert release];
-            return;
-        }
-        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
-        [self.webView loadRequest:req];
-        [req release];
-        [url release];
-    }
+//    NSDictionary* userInfo = [nc userInfo];
+//    NSDictionary* ret = [userInfo valueForKey:@"ret"];
+//    NSString* documentGUID = [ret valueForKey:@"document_guid"];
+//    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
+//    NSIndexPath* indexPath = [self indexPathOfDocument:documentGUID];
+//    if (indexPath.section == WizNotFound) {
+//        return;
+//    }
+//    else {
+//        [self.documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    }
+//    [downloadPool removeDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
+//    if ([documentGUID isEqualToString:selectedDocumentGUID]) {
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//        WizDocument* selectedDocument = [index documentFromGUID:selectedDocumentGUID];
+//        NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
+//        if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
+//        {
+//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
+//                                                            message:WizStrThisversionofWizNotdoesnotsupportdecryption
+//                                                           delegate:self 
+//                                                  cancelButtonTitle:WizStrOK 
+//                                                  otherButtonTitles:nil];
+//            alert.tag = 100;
+//            [alert show];
+//            [alert release];
+//            return;
+//        }
+//        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+//        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
+//        [self.webView loadRequest:req];
+//        [req release];
+//        [url release];
+//    }
 }
 - (void) downloadProcess:(NSNotification*) nc
 {
@@ -764,15 +764,15 @@
 }
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
-    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-    if ([pool documentIsDownloading:doc.guid]) {
-        [docCell.downloadIndicator startAnimating];
-    }
-    else {
-        [docCell.downloadIndicator stopAnimating];
-    }
+//    WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+//    DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
+//    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
+//    if ([pool documentIsDownloading:doc.guid]) {
+//        [docCell.downloadIndicator startAnimating];
+//    }
+//    else {
+//        [docCell.downloadIndicator stopAnimating];
+//    }
 }
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

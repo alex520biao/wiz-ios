@@ -10,7 +10,6 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizSyncByTag.h"
 @implementation TagDocumentListView
 @synthesize tag;
 
@@ -80,42 +79,42 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if( buttonIndex == 0 ) //Edit
-	{
-		return;
-	}else
-    {
-        WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
-        [[NSNotificationCenter defaultCenter] postNotificationName:[syncByTag notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-    }
-    self.assertAlerView = nil;
+//	if( buttonIndex == 0 ) //Edit
+//	{
+//		return;
+//	}else
+//    {
+//        WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:[syncByTag notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+//    }
+//    self.assertAlerView = nil;
 }
 
 - (void) displayProcessInfo
 {
-    WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[syncByTag notificationName:WizGlobalSyncProcessInfo] object:nil];
+//    WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[syncByTag notificationName:WizGlobalSyncProcessInfo] object:nil];
 }
 - (void) refresh
 {
-    WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
-    syncByTag.tag = self.tag.guid;
-    if( ![syncByTag startSync])
-    {
-        return;
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByTag notificationName:WizSyncEndNotificationPrefix] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByTag notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+//    WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
+//    syncByTag.tag = self.tag.guid;
+//    if( ![syncByTag startSync])
+//    {
+//        return;
+//    }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByTag notificationName:WizSyncEndNotificationPrefix] object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByTag notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
 }
 - (void) viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
-        if(syncByTag.busy)
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:[syncByTag notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-        }
-    }
+//    [super viewWillDisappear:animated];
+//    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+//        WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
+//        if(syncByTag.busy)
+//        {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:[syncByTag notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+//        }
+//    }
 }
 @end

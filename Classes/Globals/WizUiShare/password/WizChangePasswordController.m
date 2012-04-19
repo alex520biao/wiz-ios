@@ -84,21 +84,21 @@
     [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
     self.waitAlert = nil;
 	NSString* method = [userInfo valueForKey:@"method"];
-	if (method != nil && [method isEqualToString:SyncMethod_ChangeAccountPassword])
-	{
-		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-		if (succeeded)
-		{
-            [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
-            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
-            
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWizNote message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
-            alert.tag = SucceedTag;
-            [alert show];
-            [alert release];
-            
-		}
-	}
+//	if (method != nil && [method isEqualToString:SyncMethod_ChangeAccountPassword])
+//	{
+//		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
+//		if (succeeded)
+//		{
+//            [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
+//            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
+//            
+//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWizNote message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
+//            alert.tag = SucceedTag;
+//            [alert show];
+//            [alert release];
+//            
+//		}
+//	}
 }
 
 - (void) changePassword
@@ -135,7 +135,7 @@
     [changePw changeAccountPassword:pwNewStr];
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
-    [nc addObserver:self selector:@selector(xmlrpcDone:) name:[changePw notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
+//    [nc addObserver:self selector:@selector(xmlrpcDone:) name:[changePw notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
     
     UIAlertView* waitAlert_ = [[UIAlertView alloc] initWithTitle:WizStrChangePassword message:NSLocalizedString(@"Please waiting ...", nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
     waitAlert_.tag = WaitAlertTag;

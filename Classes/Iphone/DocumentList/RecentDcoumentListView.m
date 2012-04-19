@@ -131,10 +131,14 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserID];
-    if (!sync.busy) {
-        [self stopLoading];
-    }
+//    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserID];
+//    if (!sync.busy) {
+//        [self stopLoading];
+//    }
+    WizSyncManager* share = [WizSyncManager shareManager];
+    share.accountUserId = self.accountUserID;
+    share.accountPassword = [WizSettings accountPasswordByUserId:self.accountUserID];
+    [share startSyncInfo];
     int count = 0;
     for(NSArray* each in self.tableArray)
     {

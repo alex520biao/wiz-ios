@@ -16,8 +16,6 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
-
-#import "WizDocumentsByLocation.h"
 #import "WizDownloadObject.h"
 #import "ZipArchive.h"
 #import "DocumentViewCtrollerBase.h"
@@ -516,138 +514,138 @@
     return sectionView;
 }
 
-- (void) onSyncEnd
-{
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
-    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
-    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
-    [self stopLoading];
-    UIView* remindView = [self.view viewWithTag:10001];
-    [remindView removeFromSuperview];
-}
+//- (void) onSyncEnd
+//{
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
+//    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
+//    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
+//    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+//    [self stopLoading];
+//    UIView* remindView = [self.view viewWithTag:10001];
+//    [remindView removeFromSuperview];
+//}
 
-
-- (void) stopSyncing
-{
-    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-}
-
--(void) syncGoing:(NSNotification*) nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
-    NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
-    NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
-    NSString* objectName = [userInfo objectForKey:@"object_name"];
-    NSNotificationCenter* ncCenter = [NSNotificationCenter defaultCenter];
-    if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-        self.refreshLabel.text = WizStrSigningIn;
-    }
-    
-    else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-        self.refreshLabel.text =WizStrSigningOut;
-    }
-    
-    
-    else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-        self.refreshLabel.text = WizStrSyncingtags;
-    }
-    
-    else if([methodName isEqualToString:SyncMethod_PostTagList])
-    {
-        self.refreshLabel.text = WizStrSyncingtags;
-    }
-    
-    else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-        [ncCenter postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
-        self.refreshLabel.text = WizStrSyncingnoteslist;
-    }
-    
-    else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-         [ncCenter postNotificationName:MessageOfDocumentlistWillReloadData object:nil];
-        self.refreshLabel.text = WizStrSyncingattachmentlist;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
-    {
-        if ([current isEqualToNumber:total]) {
-            [ncCenter postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
-        }
-        self.refreshLabel.text = WizStrSyncingfolders;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
-    {
-        self.refreshLabel.text = WizStrSyncinguserinformation;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
-    {
-        self.refreshLabel.text = WizStrSyncingdeletednotes;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
-    {
-        self.refreshLabel.text =WizStrSyncingdeletednotes;
-    }
-    else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-        self.refreshLabel.text = WizStrUploadingnotes;
-        NSRange range = NSMakeRange(0, 20);
-        NSString* displayName = nil;
-        if (objectName.length >= 20) {
-             displayName = [objectName substringWithRange:range];
-        }
-        else
-        {
-            displayName = objectName;
-        }
-        self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %@",
-                                            displayName,
-                                            WizStrUploadsuccessfully];
-        }
-    }
-   
-    if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-        self.refreshLabel.text = WizStrDownloadingNotes;
-        NSRange range = NSMakeRange(0, 20);
-        NSString* displayName = nil;
-        if (objectName.length >= 20) {
-            displayName = [objectName substringWithRange:range];
-        }
-        else
-        {
-            displayName = objectName;
-        }
-        self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
-        if ([total isEqualToNumber:current]) {
-            self.refreshDetailLabel.text =[NSString stringWithFormat:@"%@ %@",
-                                           displayName,
-                                           WizStrDownloadSuccessfully];        }
-    }
-    return;
-}
-
-- (void) displayProcessInfo
-{
-    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
-}
--(void) refresh
-{
-    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-    if( ![sync startSync])
-    {
-        return;
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
-   
-}
+//
+//- (void) stopSyncing
+//{
+//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+//}
+//
+//-(void) syncGoing:(NSNotification*) nc
+//{
+//    NSDictionary* userInfo = [nc userInfo];
+//    NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
+//    NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
+//    NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
+//    NSString* objectName = [userInfo objectForKey:@"object_name"];
+//    NSNotificationCenter* ncCenter = [NSNotificationCenter defaultCenter];
+//    if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
+//        self.refreshLabel.text = WizStrSigningIn;
+//    }
+//    
+//    else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
+//        self.refreshLabel.text =WizStrSigningOut;
+//    }
+//    
+//    
+//    else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
+//        self.refreshLabel.text = WizStrSyncingtags;
+//    }
+//    
+//    else if([methodName isEqualToString:SyncMethod_PostTagList])
+//    {
+//        self.refreshLabel.text = WizStrSyncingtags;
+//    }
+//    
+//    else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
+//        [ncCenter postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
+//        self.refreshLabel.text = WizStrSyncingnoteslist;
+//    }
+//    
+//    else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
+//         [ncCenter postNotificationName:MessageOfDocumentlistWillReloadData object:nil];
+//        self.refreshLabel.text = WizStrSyncingattachmentlist;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
+//    {
+//        if ([current isEqualToNumber:total]) {
+//            [ncCenter postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
+//        }
+//        self.refreshLabel.text = WizStrSyncingfolders;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
+//    {
+//        self.refreshLabel.text = WizStrSyncinguserinformation;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
+//    {
+//        self.refreshLabel.text = WizStrSyncingdeletednotes;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
+//    {
+//        self.refreshLabel.text =WizStrSyncingdeletednotes;
+//    }
+//    else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
+//        self.refreshLabel.text = WizStrUploadingnotes;
+//        NSRange range = NSMakeRange(0, 20);
+//        NSString* displayName = nil;
+//        if (objectName.length >= 20) {
+//             displayName = [objectName substringWithRange:range];
+//        }
+//        else
+//        {
+//            displayName = objectName;
+//        }
+//        self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
+//        if ([total isEqualToNumber:current]) {
+//            self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %@",
+//                                            displayName,
+//                                            WizStrUploadsuccessfully];
+//        }
+//    }
+//   
+//    if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
+//        self.refreshLabel.text = WizStrDownloadingNotes;
+//        NSRange range = NSMakeRange(0, 20);
+//        NSString* displayName = nil;
+//        if (objectName.length >= 20) {
+//            displayName = [objectName substringWithRange:range];
+//        }
+//        else
+//        {
+//            displayName = objectName;
+//        }
+//        self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
+//        if ([total isEqualToNumber:current]) {
+//            self.refreshDetailLabel.text =[NSString stringWithFormat:@"%@ %@",
+//                                           displayName,
+//                                           WizStrDownloadSuccessfully];        }
+//    }
+//    return;
+//}
+//
+//- (void) displayProcessInfo
+//{
+//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
+//}
+//-(void) refresh
+//{
+//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
+//    if( ![sync startSync])
+//    {
+//        return;
+//    }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+//   
+//}
 - (void) viewDocument
 {
 	if (!self.currentDoc)

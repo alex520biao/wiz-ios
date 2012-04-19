@@ -14,15 +14,6 @@
 @class WizCreateAccount;
 @class WizVerifyAccount;
 @class WizApi;
-@class WizDocumentsByLocation;
-@class WizDocumentsByTag;
-@class WizDocumentsByKey;
-@class WizDownloadRecentDocuments;
-@class WizDocumentsByLocation;
-@class WizSyncByTag;
-@class WizSyncByKey;
-@class WizSyncByLocation;
-@class WizDownloadPool;
 @class WizChangePassword;
 @class WizSyncManager;
 @class WizAccountManager;
@@ -33,18 +24,10 @@
 - (WizSync *) syncData:(NSString*) userId;
 - (WizCreateAccount *) createAccountData:(NSString*) userId;
 - (WizVerifyAccount *) verifyAccountData:(NSString*) userId;
-- (WizDocumentsByLocation *) documentsByLocationData:(NSString*) userId;
-- (WizDocumentsByKey *) documentsByKeyData:(NSString*) userId;
-- (WizDocumentsByTag *) documentsByTagData:(NSString*) userId;
-- (WizDownloadRecentDocuments*) downloadRecentDocumentsData: (NSString*) userId;
 - (WizIndex *) indexData:(NSString*) userId;
-- (WizSyncByTag*) syncByTagData:(NSString*) userId;
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId;
 - (UIImage*) documentIconWithoutData;
-- (WizSyncByKey*) syncByKeyData:(NSString*) userId;
-- (WizSyncByLocation*) syncByLocationData:(NSString*) userId;
 - (void) removeAccountData:(NSString*)userId;
-- (WizDownloadPool*) globalDownloadPool:(NSString *)userId;
 - (WizChangePassword*) dataOfChangePassword:(NSString*)userId;
 //2012-2-25
 - (NSDictionary*) attributesForDocumentListName;

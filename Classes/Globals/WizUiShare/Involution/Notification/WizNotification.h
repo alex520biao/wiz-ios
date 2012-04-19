@@ -59,4 +59,9 @@
 + (void) removeObserverForDownloadDone:(id)observer;
 + (void) postMessageDownloadDone:(NSString*)guid;
 + (NSString*) downloadGuidFromNc:(NSNotification*)nc;
+//
++ (void) addObserverForAccountOperation:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForAccountOperation:(id)observer;
++ (void) postMessageAccountOperation:(BOOL)secceed;
++ (BOOL) isAccountOperationSucceedFromNc:(NSNotification*)nc;
 @end

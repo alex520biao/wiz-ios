@@ -782,6 +782,7 @@ NSInteger compareTag(id location1, id location2, void*);
 	{
 		try 
 		{
+            if (nil == tag) continue;
 			[self updateTag:tag];
 		}
 		catch (...) 
@@ -2632,29 +2633,17 @@ static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
     return count;
 }
 
--(NSDictionary*) attachmentFileMd5:(NSString *)attachmentGUID
+-(NSString*) attachmentFileMd5:(NSString *)attachmentGUID
 {
     NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachmentGUID];
     [WizGlobals ensurePathExists:objectPath];
     NSArray* selectedFile = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
-    NSString* zipPath = [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
-    
-    NSMutableDictionary* md5s = [NSMutableDictionary dictionary];
-    
     for(NSString* each in selectedFile) {
         NSString* path = [objectPath stringByAppendingPathComponent:each];
         if(![each isEqualToString:@"temppp.ziw"])
-            [md5s setObject:[WizGlobals fileMD5:path]  forKey:@"data_file_md5"];
+            return [WizGlobals fileMD5:path];
     }
-    if(![[NSFileManager defaultManager] fileExistsAtPath:zipPath])
-    {
-        [self createZipByGuid:attachmentGUID];
-        [md5s setObject:[WizGlobals fileMD5:zipPath] forKey:@"ziw_file_md5"];
-        [WizGlobals deleteFile:objectPath];
-    } else {
-        [md5s setObject:[WizGlobals fileMD5:zipPath] forKey:@"ziw_file_md5"];
-    }
-    return md5s;
+    return nil;
 }
 
 -(NSString*) createZipByGuid:(NSString*)objectGUID 

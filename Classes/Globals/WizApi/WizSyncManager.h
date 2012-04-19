@@ -20,5 +20,6 @@
 - (BOOL) uploadAttachment:(NSString*)attachmentGUID;
 - (void) downloadAttachment:(NSString*)attachmentGUID;
 - (void) downloadDocument:(NSString*)documentGUID;
+- (BOOL) startSyncInfo;
 + (id) shareManager;
 @end

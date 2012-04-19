@@ -41,38 +41,23 @@
 #define SyncMethod_GetUserInfo                  @"wiz.getInfo"
 
 @implementation WizApi
-
 @synthesize token;
 @synthesize kbguid;
 @synthesize accountURL;
 @synthesize apiURL;
-@synthesize accountUserId;
-@synthesize accountPassword;
 @synthesize connectionXmlrpc;
+@synthesize delegate;
 -(int) listCount
 {
-	return 30;
+	return 200;
 }
-
--(id) initWithAccount: (NSString*)userId password: (NSString*)password
+- (id) init
 {
-	if (self = [super init])
-	{
-		self.accountUserId = userId;
-		self.accountPassword = password;
-		//
-//#ifdef _DEBUG
-//        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.0.119:8800/wiz/xmlrpc"];
-//		
-//#else
-//        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
-//#endif
-        NSURL* urlAccount = [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
-		self.accountURL = urlAccount;
-		[urlAccount release];
-	}
-	//
-	return self;
+    self = [super init];
+    if (self) {
+        self.delegate = self;
+    }
+    return self;
 }
 -(void) dealloc
 {
@@ -80,8 +65,6 @@
     [kbguid release];
     [accountURL release];
     [apiURL release];
-    [accountUserId release];
-    [accountPassword release];
 	[super dealloc];
 }
 
@@ -91,81 +74,81 @@
 	{
 		if ([method isEqualToString:SyncMethod_ClientLogin])
 		{
-			[self onClientLogin:ret];
+			[delegate onClientLogin:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_ClientLogout])
 		{
-			[self onClientLogout:ret];
+			[delegate onClientLogout:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_CreateAccount])
 		{
-			[self onCreateAccount:ret];
+			[delegate onCreateAccount:ret];
 		}
         else if ([method isEqualToString:SyncMethod_ChangeAccountPassword])
         {
-            [self onChangePassword:ret];
+            [delegate onChangePassword:ret];
         }
 		else if ([method isEqualToString:SyncMethod_GetAllCategories])
 		{
-			[self onAllCategories:ret];
+			[delegate onAllCategories:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_GetAllTags])
 		{
-			[self onAllTags:ret];
+			[delegate onAllTags:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_DownloadDocumentList])
 		{
-			[self onDownloadDocumentList:ret];
+			[delegate onDownloadDocumentList:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_DocumentsByCategory])
 		{
-			[self onDocumentsByCategory:ret];
+			[delegate onDocumentsByCategory:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_DocumentsByTag])
 		{
-			[self onDocumentsByTag:ret];
+			[delegate onDocumentsByTag:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_DownloadDeletedList])
 		{
-			[self onDownloadDeletedList:ret];
+			[delegate onDownloadDeletedList:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_UploadDeletedList])
 		{
-			[self onUploadDeletedGUIDs:ret];
+			[delegate onUploadDeletedGUIDs:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_DocumentsByKey])
 		{
-			[self onDocumentsByKey:ret];
+			[delegate onDocumentsByKey:ret];
 		}
         else if([method isEqualToString:SyncMethod_DownloadObject])
         {
-            [self onDownloadObject:ret];
+            [delegate onDownloadObject:ret];
             return;
         }
         else if([method isEqualToString:SyncMethod_UploadObject])
         {
-            [self onUploadObjectData:ret];
+            [delegate onUploadObjectData:ret];
             return;
         }
         else if([method isEqualToString:SyncMethod_GetAttachmentList])
         {
-            [self onDownloadAttachmentList:ret];
+            [delegate onDownloadAttachmentList:ret];
         }
         else if([method isEqualToString:SyncMethod_PostTagList])
         {
-            [self onPostTagList:ret];
+            [delegate onPostTagList:ret];
         }
         else if([method isEqualToString:SyncMethod_DocumentPostSimpleData])
         {
-            [self onDocumentPostSimpleData:ret];
+            [delegate onDocumentPostSimpleData:ret];
         }
         else if([method isEqualToString:SyncMethod_AttachmentPostSimpleData])
         {
-            [self onAttachmentPostSimpleData:ret];
+            [delegate onAttachmentPostSimpleData:ret];
         }
         else if([method isEqualToString:SyncMethod_GetUserInfo])
         {
-            [self onCallGetUserInfo:ret];
+            [delegate onCallGetUserInfo:ret];
         } 
         else
 		{
@@ -226,26 +209,19 @@
 	}
 }
 
--(BOOL) callClientLogin
+-(BOOL) callClientLogin:(NSString*)accountUserId accountPassword:(NSString*)accountPassword
 {
-	if (self.accountUserId == nil || [self.accountUserId length] == 0)
+	if (accountUserId == nil || [accountUserId length] == 0)
 		return NO;
-	//
-	if (self.accountPassword == nil || [self.accountPassword length] == 0)
-	{
-		self.accountPassword = [WizSettings accountPasswordByUserId: accountUserId];
-	}
-	if (self.accountPassword == nil || [self.accountPassword length] == 0)
+	if (accountPassword == nil || [accountPassword length] == 0)
 		return NO;
 	//
 	self.token = nil;
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
-	[postParams setObject:self.accountUserId forKey:@"user_id"];
-	[postParams setObject:self.accountPassword forKey:@"password"];
+	[postParams setObject:accountUserId forKey:@"user_id"];
+	[postParams setObject:accountPassword forKey:@"password"];
 	[self addCommonParams:postParams];
-	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_ClientLogin args:args];
 }
 -(BOOL) callClientLogout
@@ -275,34 +251,19 @@
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAllCategories args:args];
 }
 
--(BOOL) callAllTags
+-(BOOL) callAllTags:(int64_t)version
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
 	[postParams setObject:[NSNumber numberWithInt:[self listCount]] forKey:@"count"];
-    int64_t version = [index tagVersion];
-	if(version)
-    {
-        [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
-    }
-    else
-    {
-        [postParams setObject:@"0" forKey:@"version"];
-    }
-	
+    [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAllTags args:args];
 }
 
-
-
--(BOOL) callPostTagList
+-(BOOL) callPostTagList:(NSArray*)tagList
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSArray* tagList =  [index tagsWillPostList];
     NSMutableArray* tagTemp = [[NSMutableArray alloc] initWithCapacity:[tagList count]];
     for(WizTag* each in tagList)
     {
@@ -327,67 +288,37 @@
     
 }
 
--(BOOL) callDownloadDocumentList
+-(BOOL) callDownloadDocumentList:(int64_t)version
 {
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
 	[postParams setObject:[NSNumber numberWithInt:[self listCount] ] forKey:@"count"];
-    
-    int64_t version = [index documentVersion];
-	if (version)
-	{
-		[postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
-	}
-    else
-    {
-        [postParams setObject:[NSNumber numberWithInt:0] forKey:@"version"];
-    }
-	//
+    [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDocumentList args:args];
 }
 
-//wiz-dzpqzb
-
--(BOOL) callDownloadAttachmentList
+-(BOOL) callDownloadAttachmentList:(int64_t)version
 {
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [postParams setObject:[NSNumber numberWithInt:[self listCount]] forKey:@"count"];
     [postParams setObject:[NSNumber numberWithInt:0] forKey:@"first"];
-   
-    
-    int64_t version = [index attachmentVersion];
-    if (version) {
-        [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
-    }
-    
-    else
-    {
-        [postParams setObject:[NSNumber numberWithInt:0] forKey:@"version"];
-    }
-    
+    [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAttachmentList args:args];
 }
 
-
--(BOOL) callDownloadDeletedList
+-(BOOL) callDownloadDeletedList:(int64_t)version
 {
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
 	[postParams setObject:[NSNumber numberWithInt:[self listCount] ] forKey:@"count"];
-	[postParams setObject:[index deletedGUIDVersionString] forKey:@"version"];
-	
+	[postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
     BOOL ret = [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDeletedList args:args];
 	return  ret;
 }
@@ -398,10 +329,8 @@
 	[self addCommonParams:postParams];
 	[postParams setObject:location forKey:@"category"];
 	[postParams setObject:[NSNumber numberWithInt:1000] forKey:@"count"];
-	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByCategory args:args];
-	
 }
 
 -(BOOL) callDocumentsByTag:(NSString*)tagGUID
@@ -427,7 +356,6 @@
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByKey args:args];
 }
 
-//wiz-dqzpqzb  new api to download data
 -(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize{
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
@@ -439,19 +367,15 @@
     return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadObject args:args];
 }
 
-
 -(BOOL) callDownloadMobileData:(NSString*)documentGUID
 {
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
 	[postParams setObject:documentGUID forKey:@"document_guid"];
-	
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadMobileData args:args];
 }
 
-//wiz-dzpqzb
 -(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCount
 {
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
@@ -473,58 +397,45 @@
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadObject args:args];
 }
 
-
--(BOOL) callUploadDeletedGUIDs
+-(BOOL) callUploadDeletedGUIDs:(NSArray*)deleteGuids
 {
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	//
-	NSArray* arr = [index deletedGUIDsForUpload];
-	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
-	[postParams setObject:arr forKey:@"deleteds"];
-	//
+	[postParams setObject:deleteGuids forKey:@"deleteds"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadDeletedList args:args];
-	
 }
 
-- (BOOL) callChangePassword:(NSString*)password
+- (BOOL) callChangePassword:(NSString*)accountUserId  oldPassword:(NSString*)oldPassword newPassword:(NSString*)newPassword
 {
     NSMutableDictionary* postParams = [NSMutableDictionary dictionary];
-    [postParams setObject:self.accountUserId forKey:TypeOfChangePasswordAccountUserId];
-    NSString* oldPassword = [WizSettings accountPasswordByUserId:self.accountUserId];
+    [postParams setObject:accountUserId forKey:TypeOfChangePasswordAccountUserId];
     [postParams setObject:oldPassword forKey:TypeOfChangePasswordOldPassword];
-    [postParams setObject:password forKey:TypeOfChangePasswordNewPassword];
+    [postParams setObject:newPassword forKey:TypeOfChangePasswordNewPassword];
     [self addCommonParams:postParams];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_ChangeAccountPassword args:args];
 }
 
--(BOOL) callCreateAccount
+-(BOOL) callCreateAccount:(NSString*)accountUserId  password:(NSString*)accountPassword
 {
-	if (self.accountUserId == nil || [self.accountUserId length] == 0)
+	if (accountUserId == nil || [accountUserId length] == 0)
 		return NO;
-	//
-	if (self.accountPassword == nil || [self.accountPassword length] == 0)
+	if (accountPassword == nil || [accountPassword length] == 0)
 		return NO;
-	//
-	self.token = nil;
+    self.token = nil;
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
-	[postParams setObject:self.accountUserId forKey:@"user_id"];
-	[postParams setObject:self.accountPassword forKey:@"password"];
+    [self addCommonParams:postParams];
+	[postParams setObject:accountUserId forKey:@"user_id"];
+	[postParams setObject:accountPassword forKey:@"password"];
     [postParams setObject:@"wiz_iphone" forKey:@"product_name"];
     [postParams setObject:@"f6d9193f" forKey:@"invite_code"];
-	[self addCommonParams:postParams];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_CreateAccount args:args];
 }
 
--(BOOL) callDocumentPostSimpleData:(NSString *)documentGUID withZipMD5:(NSString *)zipMD5
+-(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5
 {
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	WizDocument* doc = [index documentFromGUID:documentGUID];
 	if (!doc)
 		return NO;
 	//
@@ -558,16 +469,11 @@
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentPostSimpleData args:args];
 }
 
--(BOOL) callAttachmentPostSimpleData:(NSString *)attachmentGUID
+-(BOOL) callAttachmentPostSimpleData:(WizDocumentAttach*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    NSDictionary* md5s = [index attachmentFileMd5:attachmentGUID];
-    NSString* dataMD5 = [md5s objectForKey:@"data_file_md5"];
     if (dataMD5 == nil) {
         return NO;
     }
-    NSString* ziwMD5 = [md5s objectForKey:@"ziw_file_md5"];
-    WizDocumentAttach* attach = [index attachmentFromGUID:attachmentGUID];
     NSDate* dateModified = [WizGlobals sqlTimeStringToDate:attach.attachmentModifiedDate];
     //fill the post info
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
@@ -583,21 +489,6 @@
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_AttachmentPostSimpleData args:args];
 }
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        NSString* password=nil;
-        for (UIView* each in [alertView subviews]) {
-            if ([each isKindOfClass:[UITextField class]]) {
-                UITextField* text = (UITextField*)each;
-                password = text.text;
-                [WizSettings addAccount:self.accountUserId password:password];
-                [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
-            }
-        }
-    }
-    [self release];
-}
 -(void) onError: (id)retObject
 {
 	if ([retObject isKindOfClass:[NSError class]])
@@ -608,36 +499,6 @@
         {
             [WizNotificationCenter postMessageTokenUnactiveError];
         }
-//        else if (error.code == 301 && [error.domain isEqualToString:@"error.wiz.cn"])
-//        {
-//            static UIAlertView* prompt = nil;
-//            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//            if ([index isOpened]) {
-//                if (prompt == nil) {
-//                    prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)
-//                                                                     message:@"\n\n" 
-//                                                                    delegate:nil 
-//                                                           cancelButtonTitle:WizStrCancel 
-//                                                           otherButtonTitles:WizStrOK, nil];
-//                    prompt.tag = 10001;
-//                    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
-//                    textField.secureTextEntry = YES;
-//                    [textField setBackgroundColor:[UIColor whiteColor]];
-//                    [textField setPlaceholder:WizStrPassword];
-//                    [prompt addSubview:textField];
-//                    [textField release];
-//                    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
-//                    
-//                }
-//                prompt.delegate = self;
-//                [self retain];
-//                [prompt show];
-//                return;
-//            }
-//            else {
-//                [WizGlobals reportError:error];
-//            }
-//        }
         else if ([error.domain isEqualToString:WIZERRORDOMAIN] && [error.localizedDescription isEqualToString:WIZABORTNETERROR]) {
             return;
         }
@@ -652,7 +513,6 @@
 	}
     
 }
-
 -(void) cancel
 {
     if (self.connectionXmlrpc)

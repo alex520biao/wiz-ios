@@ -301,9 +301,9 @@
 	NSString* method = [userInfo valueForKey:@"method"];
 	if (method != nil && [method isEqualToString:@"accounts.clientLogin"])
 	{
-        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-        WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: userNameTextField.text];
-        [nc removeObserver:self name:[api notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
+//        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//        WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: userNameTextField.text];
+//        [nc removeObserver:self name:[api notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
 
 		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
 		if (succeeded)
@@ -347,14 +347,14 @@
 	}
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 	WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: userNameTextField.text];
-	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
-	[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
+//	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
+//	[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
 	UIAlertView* alert = nil;
 	[WizGlobals showAlertView:WizStrSignIn message:WizStrPleasewaitwhileloggingin delegate:self retView:&alert];
 	[alert show];
 	self.waitAlertView = alert;
 	[alert release];
-	api.accountPassword = userPasswordTextField.text;
+//	api.accountPassword = userPasswordTextField.text;
 	[api verifyAccount];
 }
 

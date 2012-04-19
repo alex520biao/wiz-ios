@@ -133,11 +133,9 @@
 	//
 	WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData: name];
 	//
-	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
+
 	//
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
-	//
-    api.accountPassword = password;
+//    api.accountPassword = password;
 	[api createAccount];
 	UIAlertView* alert = nil;
 	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];

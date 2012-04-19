@@ -33,3 +33,6 @@
 #define UserInfoTypeOfRefreshToken  @"UserInfoTypeOfRefreshToken"
 //
 #define MessageTypeOfTokenUnactive  @"MessageTypeOfTokenUnactive"
+//
+#define MessageTypeOfLoginDone      @"MessageTypeOfLoginDone"
+#define UserInfoTypeOfLoginSucceed  @"UserInfoTypeOfLoginSucceed"

@@ -9,9 +9,10 @@
 #import "WizSyncInfo.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
+#import "WizSyncManager.h"
 
 @implementation WizSyncInfo
--(void) onCallGetUserInfo:(id)retObject
+- (void) onCallGetUserInfo:(id)retObject
 {
     NSDictionary* dic = retObject;
     NSNumber* trafficLimit = [dic objectForKey:@"traffic_limit"];
@@ -20,21 +21,6 @@
     [index setUserTrafficLimit:[trafficLimit intValue]];
     [index setuserTrafficUsage:[trafficUsage intValue]];
 }
-
--(void) onAllCategories: (id)retObject
-{
-	NSDictionary* obj = retObject;
-	//
-	// save values returned by getUserInfo into current blog
-	NSString* categories = [obj valueForKey:@"categories"];
-	categories = [categories stringByAppendingString:@"*/My Mobiles/"];
-	//
-	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
-	//
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateLocations:arrCategory];
-}
-
 - (int64_t) newVersion:(NSArray*)array
 {
     int64_t newVer = 0;
@@ -64,57 +50,108 @@
     }
     return obj;
 }
--(void) onDownloadDocumentList: (id)retObject
+-(void) onDocumentsByCategory: (id)retObject
 {
-	NSArray* obj = [self getArrayFromResponse:retObject];
-    if (obj == nil) {
-        return;
-    }
+	NSArray* obj = retObject;
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    int64_t oldVer =[index documentVersion];
 	[index updateDocuments:obj];
-    int64_t newVer = [self newVersion:obj];
-    if (newVer > oldVer) {
-        [index setDocumentVersion:newVer];
-        [self callDownloadDocumentList];
-    }
 }
-
--(void) onAllTags: (id)retObject
+//
+-(void) onDocumentsByTag: (id)retObject
 {
-	NSArray* obj = [self getArrayFromResponse:retObject];
-    if (obj == nil) {
-        return;
-    }
+	NSArray* obj = retObject;
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    int64_t oldVer = [index tagVersion];
-    [index updateTags:retObject];
-    int64_t newVer = [self newVersion:obj];
-    if (newVer > oldVer) {
-        [index setTageVersion:newVer+1];
-        [self callAllTags];
-    }
+	[index updateDocuments:obj];
+}
+//
+-(void) onDocumentsByKey: (id)retObject
+{
+	NSArray* obj = retObject;
+	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+	[index updateDocuments:obj];
 }
 -(void) onDownloadAttachmentList:(id)retObject {
     NSArray* attachArr = [self getArrayFromResponse:retObject];
-    if (attachArr == nil) {
-        return;
-    }
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     int64_t oldVer = [index attachmentVersion];
     [index updateTags:retObject];
     int64_t newVer = [self newVersion:attachArr];
     if (newVer > oldVer) {
         [index setAttachmentVersion:newVer+1];
-        [self callDownloadAttachmentList];
+        [self callDownloadAttachmentList:newVer+1];
     }
+else {
+    NSArray* array = [index documentForDownload];
+    for(WizDocument* each in array)
+    {
+        [[WizSyncManager shareManager] downloadDocument:each.guid];
+    }
+    array = [index documentForUpload];
+    for(WizDocument* each in array)
+    {
+        [[WizSyncManager shareManager] uploadDocument:each.guid];
+    }}
+}
+-(void) onDownloadDocumentList: (id)retObject
+{
+	NSArray* obj = [self getArrayFromResponse:retObject];
+	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    int64_t oldVer =[index documentVersion];
+	[index updateDocuments:obj];
+    int64_t newVer = [self newVersion:obj];
+    if (newVer > oldVer) {
+        [index setDocumentVersion:newVer+1];
+        [self callDownloadDocumentList:newVer+1];
+    }
+    else {
+        [self callDownloadAttachmentList:[index attachmentVersion]];
+    }
+}
+- (void) onAllCategories: (id)retObject
+{
+	NSDictionary* obj = retObject;
+	//
+	// save values returned by getUserInfo into current blog
+	NSString* categories = [obj valueForKey:@"categories"];
+	categories = [categories stringByAppendingString:@"*/My Mobiles/"];
+	//
+	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
+	//
+	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+	[index updateLocations:arrCategory];
+    [self callDownloadDocumentList:[index documentVersion]];
+}
+- (void) onPostTagList:(id)retObject
+{
+    //
+    //clear
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [self callAllCategories];
+}
+-(void) onAllTags: (id)retObject
+{
+	NSArray* obj = [self getArrayFromResponse:retObject];
+	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    int64_t oldVer = [index tagVersion];
+    [index updateTags:retObject];
+    int64_t newVer = [self newVersion:obj];
+    if (newVer > oldVer) {
+        [index setTageVersion:newVer+1];
+        [self callAllTags:newVer+1];
+    }
+    else {
+        [self callPostTagList:[index tagsWillPostList]];
+    }
+}
+-(void) onUploadDeletedGUIDs: (id)retObjec
+{
+	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+	[index clearDeletedGUIDs];
+    [self callAllTags:[index tagVersion]];
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
     NSArray* arr =[ self getArrayFromResponse:retObject];
-    if (arr == nil) {
-        return;
-    }
 	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     int64_t oldVer = [index deletedGUIDVersion];
 	int64_t newVer = 0;
@@ -144,34 +181,19 @@
 	}
     if (newVer > oldVer) {
         [index setDeletedGUIDVersion:newVer+1];
-        [self callDownloadDeletedList];
+        [self callDownloadDeletedList:newVer+1];
+    }
+    else {
+        [self callUploadDeletedGUIDs:[index deletedGUIDsForUpload]];
     }
 }
--(void) onDocumentsByCategory: (id)retObject
+- (BOOL) startSync
 {
-	NSArray* obj = retObject;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateDocuments:obj];
+    if (self.busy) {
+        return NO;
+    }
+    busy = YES;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    return [self callDownloadDeletedList:[index deletedGUIDVersion]];
 }
-//
--(void) onDocumentsByTag: (id)retObject
-{
-	NSArray* obj = retObject;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateDocuments:obj];
-}
-//
--(void) onDocumentsByKey: (id)retObject
-{
-	NSArray* obj = retObject;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateDocuments:obj];
-}
-
--(void) onUploadDeletedGUIDs: (id)retObjec
-{
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index clearDeletedGUIDs];
-}
-
 @end

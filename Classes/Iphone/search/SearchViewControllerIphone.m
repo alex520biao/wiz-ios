@@ -12,7 +12,6 @@
 #import "WizGlobalData.h"
 #import "CommonString.h"
 #import "SearchResultViewController.h"
-#import "WizDocumentsByKey.h"
 #import "SearchHistoryView.h"
 @implementation SearchViewControllerIphone
 @synthesize searchBar;
@@ -137,38 +136,38 @@
 	}
 	
 	NSString* method = [userInfo valueForKey:@"method"];
-	if (method != nil && [method isEqualToString:SyncMethod_DocumentsByKey])
-	{
-		if (succeeded)
-		{
-			if (self.waitAlertView)
-			{
-				[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-				self.waitAlertView = nil;
-			}
-			//
-			[self showSearchResult];
-		}
-		else 
-		{
-			NSError* error = [userInfo valueForKey:@"ret"];
-			//
-			NSString* msg = nil;
-			if (error != nil)
-			{
-				msg = [NSString stringWithFormat:NSLocalizedString(@"Cannot sign in!\n%@", nil), [error localizedDescription]];
-			}
-			else 
-			{
-				msg = NSLocalizedString(@"Cannot sign in!\nUnknown error!", nil);
-			}
-			
-			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-			
-			[alert show];
-			[alert release];
-		}
-	}
+//	if (method != nil && [method isEqualToString:SyncMethod_DocumentsByKey])
+//	{
+//		if (succeeded)
+//		{
+//			if (self.waitAlertView)
+//			{
+//				[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+//				self.waitAlertView = nil;
+//			}
+//			//
+//			[self showSearchResult];
+//		}
+//		else 
+//		{
+//			NSError* error = [userInfo valueForKey:@"ret"];
+//			//
+//			NSString* msg = nil;
+//			if (error != nil)
+//			{
+//				msg = [NSString stringWithFormat:NSLocalizedString(@"Cannot sign in!\n%@", nil), [error localizedDescription]];
+//			}
+//			else 
+//			{
+//				msg = NSLocalizedString(@"Cannot sign in!\nUnknown error!", nil);
+//			}
+//			
+//			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+//			
+//			[alert show];
+//			[alert release];
+//		}
+//	}
 }
 
 
@@ -191,26 +190,26 @@
 	}
 	else 
 	{
-		WizDocumentsByKey* api = [[WizGlobalData sharedData] documentsByKeyData:self.accountUserId];
-		if (api.busy)
-			return;
-		NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
-		//
-		NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-		[nc removeObserver:self];
-		//
-		[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
-		//
-		UIAlertView* alert = nil;
-		[WizGlobals showAlertView:WizStrSearch message:NSLocalizedString(@"Please wait while searching!", nil) delegate:self retView:&alert];
-		[alert show];
-		//
-		self.waitAlertView = alert;
-		//
-		[alert release];
-		//
-		api.keywords = keywords;
-		[api searchDocuments];
+//		WizDocumentsByKey* api = [[WizGlobalData sharedData] documentsByKeyData:self.accountUserId];
+//		if (api.busy)
+//			return;
+//		NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
+//		//
+//		NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//		[nc removeObserver:self];
+//		//
+//		[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
+//		//
+//		UIAlertView* alert = nil;
+//		[WizGlobals showAlertView:WizStrSearch message:NSLocalizedString(@"Please wait while searching!", nil) delegate:self retView:&alert];
+//		[alert show];
+//		//
+//		self.waitAlertView = alert;
+//		//
+//		[alert release];
+//		//
+//		api.keywords = keywords;
+//		[api searchDocuments];
 	}
     
 }

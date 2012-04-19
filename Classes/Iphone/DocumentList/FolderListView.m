@@ -10,8 +10,6 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizDocumentsByLocation.h"
-#import "WizSyncByLocation.h"
 @implementation FolderListView
 @synthesize location;
 
@@ -46,33 +44,33 @@
 }
 - (void) displayProcessInfo
 {
-    WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[syncByLocation notificationName:WizGlobalSyncProcessInfo] object:nil];
+//    WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[syncByLocation notificationName:WizGlobalSyncProcessInfo] object:nil];
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if( buttonIndex == 0 ) //Edit
-	{
-		return;
-	}else
-    {
-        WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
-        [[NSNotificationCenter defaultCenter] postNotificationName:[syncByLocation notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-    }
-    self.assertAlerView = nil;
+//	if( buttonIndex == 0 ) //Edit
+//	{
+//		return;
+//	}else
+//    {
+//        WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:[syncByLocation notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+//    }
+//    self.assertAlerView = nil;
 }
 
 
 - (void) refresh
 {
-    WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
-    syncByLocation.location = self.location;
-    if( ![syncByLocation startSync])
-    {
-        return;
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByLocation notificationName:WizSyncEndNotificationPrefix] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByLocation notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+//    WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
+//    syncByLocation.location = self.location;
+//    if( ![syncByLocation startSync])
+//    {
+//        return;
+//    }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByLocation notificationName:WizSyncEndNotificationPrefix] object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[syncByLocation notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
 }
 
 - (void) reloadDocuments
@@ -96,11 +94,11 @@
     [super viewWillDisappear:animated];
     
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-        WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
-        if(syncByLocation.busy)
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:[syncByLocation notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-        }
+//        WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
+//        if(syncByLocation.busy)
+//        {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:[syncByLocation notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+//        }
     }
 }
 

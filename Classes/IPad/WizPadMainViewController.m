@@ -141,126 +141,126 @@
     UIBarButtonItem* item = [self.toolbarItems objectAtIndex:2];
     [item setTitle:@"dddd"];
 }
--(void) syncGoing:(NSNotification*) nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
-    NSString* processText = @"";
-    NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
-    NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
-    NSString* objectName = [userInfo objectForKey:@"object_name"];
-
-    if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-        processText = WizStrSigningIn;
-    }
-    
-    else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-        processText = WizStrSigningOut;
-    }
-    
-    
-    else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-        processText = WizStrSyncingtags;
-    }
-    
-    else if([methodName isEqualToString:SyncMethod_PostTagList])
-    {
-        processText = WizStrSyncingtags ;
-    }
-    
-    else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-        processText = WizStrSyncingnoteslist;
-    }
-    
-    else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
-        processText = WizStrSyncingattachmentlist;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
-    {
-        processText = WizStrSyncingfolders;
-        
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
-    {
-        processText = WizStrSyncinguserinformation;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
-    {
-        processText = WizStrSyncingdeletednotes;
-    }
-    
-    else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
-    {
-        processText = WizStrSyncingdeletednotes;
-    }
-    else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-        NSRange range = NSMakeRange(0, 20);
-        NSString* displayName = nil;
-        if (objectName.length >= 20) {
-            displayName = [objectName substringWithRange:range];
-        }
-        else
-        {
-            displayName = objectName;
-        }
-        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
-        if ([total isEqualToNumber:current]) {
-            processText = [NSString stringWithFormat:@"%@ %@",
-                                            displayName,
-                                            WizStrUploadsuccessfully];
-        }
-    }
-    else  if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-        NSRange range = NSMakeRange(0, 20);
-        NSString* displayName = nil;
-        if (objectName.length >= 20) {
-            displayName = [objectName substringWithRange:range];
-        }
-        else
-        {
-            displayName = objectName;
-        }
-        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
-        if ([total isEqualToNumber:current]) {
-            processText=[NSString stringWithFormat:@"%@ %@",
-                                           displayName,
-                                           WizStrDownloadSuccessfully];        }
-    }
-    if ([processText isEqualToString:@""]) {
-        processText = @"...";
-    }
-    self.refreshProcessLabel.text = processText;
-    return;
-}
-- (void) stopSyncByUser
-{
-    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
-    self.syncWillStop = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-}
-- (void) onSyncEnd
-{
-    self.refreshProcessLabel.text = @"";
-    
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
-    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
-    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserId];
-    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil ];
-    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
-    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
-    self.syncWillStop = NO;
-    [self.refreshButton removeTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
-    [self.refreshButton addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
-    [self.refreshButton setImage:[UIImage imageNamed:@"sync_gray"] forState:UIControlStateNormal];
-    [self.recentList reloadAllData];
-    
-}
+//-(void) syncGoing:(NSNotification*) nc
+//{
+//    NSDictionary* userInfo = [nc userInfo];
+//    NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
+//    NSString* processText = @"";
+//    NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
+//    NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
+//    NSString* objectName = [userInfo objectForKey:@"object_name"];
+//
+//    if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
+//        processText = WizStrSigningIn;
+//    }
+//    
+//    else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
+//        processText = WizStrSigningOut;
+//    }
+//    
+//    
+//    else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
+//        processText = WizStrSyncingtags;
+//    }
+//    
+//    else if([methodName isEqualToString:SyncMethod_PostTagList])
+//    {
+//        processText = WizStrSyncingtags ;
+//    }
+//    
+//    else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
+//        processText = WizStrSyncingnoteslist;
+//    }
+//    
+//    else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
+//        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//        [nc postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
+//        processText = WizStrSyncingattachmentlist;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
+//    {
+//        processText = WizStrSyncingfolders;
+//        
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
+//    {
+//        processText = WizStrSyncinguserinformation;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
+//    {
+//        processText = WizStrSyncingdeletednotes;
+//    }
+//    
+//    else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
+//    {
+//        processText = WizStrSyncingdeletednotes;
+//    }
+//    else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
+//        NSRange range = NSMakeRange(0, 20);
+//        NSString* displayName = nil;
+//        if (objectName.length >= 20) {
+//            displayName = [objectName substringWithRange:range];
+//        }
+//        else
+//        {
+//            displayName = objectName;
+//        }
+//        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
+//        if ([total isEqualToNumber:current]) {
+//            processText = [NSString stringWithFormat:@"%@ %@",
+//                                            displayName,
+//                                            WizStrUploadsuccessfully];
+//        }
+//    }
+//    else  if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
+//        NSRange range = NSMakeRange(0, 20);
+//        NSString* displayName = nil;
+//        if (objectName.length >= 20) {
+//            displayName = [objectName substringWithRange:range];
+//        }
+//        else
+//        {
+//            displayName = objectName;
+//        }
+//        processText = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
+//        if ([total isEqualToNumber:current]) {
+//            processText=[NSString stringWithFormat:@"%@ %@",
+//                                           displayName,
+//                                           WizStrDownloadSuccessfully];        }
+//    }
+//    if ([processText isEqualToString:@""]) {
+//        processText = @"...";
+//    }
+//    self.refreshProcessLabel.text = processText;
+//    return;
+//}
+//- (void) stopSyncByUser
+//{
+//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
+//    self.syncWillStop = YES;
+//    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
+//}
+//- (void) onSyncEnd
+//{
+//    self.refreshProcessLabel.text = @"";
+//    
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
+//    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+//    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserId];
+//    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil ];
+//    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+//    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
+//    self.syncWillStop = NO;
+//    [self.refreshButton removeTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
+//    [self.refreshButton addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.refreshButton setImage:[UIImage imageNamed:@"sync_gray"] forState:UIControlStateNormal];
+//    [self.recentList reloadAllData];
+//    
+//}
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
@@ -271,25 +271,25 @@
         
     }
 }
-- (void) refreshAccout
-{
-    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
-    if( ![sync startSync])
-    {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
-                                                        message:WizStrSyncAlreadyInProcess
-                                                       delegate:nil 
-                                              cancelButtonTitle:WizStrOK 
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        return;
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
-}
+//- (void) refreshAccout
+//{
+//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserId];
+//    if( ![sync startSync])
+//    {
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
+//                                                        message:WizStrSyncAlreadyInProcess
+//                                                       delegate:nil 
+//                                              cancelButtonTitle:WizStrOK 
+//                                              otherButtonTitles:nil];
+//        [alert show];
+//        [alert release];
+//        [[NSNotificationCenter defaultCenter] removeObserver:self];
+//        return;
+//    }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
+//}
 
 - (void) refreshAccountBegin:(id) sender
 {

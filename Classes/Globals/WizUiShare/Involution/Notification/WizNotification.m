@@ -205,4 +205,26 @@
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfGuid notification:nc];
 }
+//
++ (void) addObserverForAccountOperation:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfLoginDone];
+}
++ (void) removeObserverForAccountOperation:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfLoginDone];
+}
++ (void) postMessageAccountOperation:(BOOL)secceed
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfLoginDone userInfoObject:[NSNumber numberWithBool:secceed] userInfoKey:UserInfoTypeOfLoginSucceed];
+}
++ (BOOL) isAccountOperationSucceedFromNc:(NSNotification*)nc
+{
+    NSNumber* ret = [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfLoginSucceed notification:nc];
+    if (ret == nil) {
+        return NO;
+    }
+    return [ret boolValue];
+}
+
 @end

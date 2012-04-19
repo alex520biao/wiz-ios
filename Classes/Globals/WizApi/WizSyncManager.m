@@ -12,10 +12,16 @@
 #import "WizNotification.h"
 #import "WizRefreshToken.h"
 #import "WizDownloadObject.h"
+#import "WizIndex.h"
+#import "WizSyncInfo.h"
+
+//
+#define ServerUrlFile           @"config.dat"
 //
 #define SyncDataOfUploader      @"SyncDataOfUploader"
 #define SyncDataOfDownloader    @"SyncDataOfDownloader"
 #define SyncDataOfRefreshToken  @"SyncDataOfRefreshToken"
+#define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
 //
 #define SyncDataOfObjectGUID        @"SyncDataOfObjectGUID"
 #define SyncDataOfObjectType        @"SyncDataOfObjectType"
@@ -23,7 +29,10 @@
 #define SyncDataOfToken         @"SyncDataOfToken"
 #define SyncDataOfKbGuid        @"SyncDataOfKbGuid"
 #define SyncDataOfWizApi        @"SyncDataOfWizApi"
+#define SyncDataOfWizServerUrl  @"SyncDataOfWizServerUrl"
 //
+#define KeyOfServerUrl          @"KeyOfServerUrl"
+#define KeyOfApiUrl             @"KeyOfApiUrl"
 @interface WizSyncManager ()
 {
     NSMutableArray* downloadQueque;
@@ -32,7 +41,16 @@
     NSMutableDictionary* syncData;
     NSTimer* restartTimer;
     BOOL isRefreshToken;
+    NSURL* serverUrl;
+    NSURL* apiUrl;
+    NSString* token;
+    NSString* kbGuid;
 }
+
+@property (nonatomic, retain) NSURL* serverUrl;
+@property (nonatomic, retain) NSURL* apiUrl;
+@property (nonatomic, retain) NSString* token;
+@property (nonatomic, retain) NSString* kbGuid;
 - (void) refreshToken;
 - (void) downloadNext:(NSNotification*)nc;
 - (BOOL) uploadNext:(NSNotification*)nc;
@@ -41,6 +59,11 @@
 @implementation WizSyncManager
 @synthesize accountPassword;
 @synthesize accountUserId;
+@synthesize serverUrl;
+@synthesize apiUrl;
+@synthesize token;
+@synthesize kbGuid;
+
 static WizSyncManager* shareManager;
 + (id) shareManager
 {
@@ -61,10 +84,18 @@ static WizSyncManager* shareManager;
     [restartTimer release];
     [super dealloc];
 }
+- (void) loadServerUrl
+{
+    NSURL* url = [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
+    self.serverUrl = url;
+    [url release];
+}
+
 - (id) init
 {
     self = [super init];
     if (self) {
+        
         syncData = [[NSMutableDictionary alloc] init];
         uploadQueque = [[NSMutableArray alloc] init];
         downloadQueque = [[NSMutableArray alloc] init];
@@ -75,6 +106,7 @@ static WizSyncManager* shareManager;
         [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext:)];
         [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadNext:)];
         isRefreshToken = NO;
+        [self loadServerUrl];
     }
     return self;
 }
@@ -83,7 +115,8 @@ static WizSyncManager* shareManager;
     id data = [syncData valueForKey:SyncDataOfUploader];
     NSLog(@"upload calss is %@",[data class]);
     if (nil == data || ![data isKindOfClass:[WizUploadObjet class]]) {
-        data = [[WizUploadObjet alloc] initWithAccount:self.accountUserId password:nil];
+        data = [[WizUploadObjet alloc] init];
+        [data setAccountUserId:self.accountUserId];
         [syncData setObject:data forKey:SyncDataOfUploader];
         NSLog(@"upload is %@",data);
         [data release];
@@ -95,7 +128,8 @@ static WizSyncManager* shareManager;
     id data = [syncData valueForKey:SyncDataOfDownloader];
     NSLog(@"download calss is %@",[data class]);
     if (nil == data || ![data isKindOfClass:[WizDownloadObject class]]) {
-        data = [[WizDownloadObject alloc] initWithAccount:self.accountUserId password:nil];
+        data = [[WizDownloadObject alloc] init];
+        [data setAccountUserId:self.accountUserId];
         [syncData setObject:data forKey:SyncDataOfDownloader];
         NSLog(@"downloader is %@",data);
         [data release];
@@ -106,8 +140,22 @@ static WizSyncManager* shareManager;
 {
     id data = [syncData valueForKey:SyncDataOfRefreshToken];
     if (nil == nil || [data isKindOfClass:[WizRefreshToken class]]) {
-        data = [[WizRefreshToken alloc] initWithAccount:self.accountUserId password:nil];
+        data = [[WizRefreshToken alloc] init];
+        [data setAccountUserId:self.accountUserId];
+        [data setAccountPassword:self.accountPassword];
+        [data setAccountURL:self.serverUrl];
         [syncData setObject:data forKey:SyncDataOfRefreshToken];
+        [data release];
+    }
+    return data;
+}
+- (WizSyncInfo*) shareSyncInfo
+{
+    id data = [syncData valueForKey:SyncDataOfSyncInfo];
+    if (nil == nil || [data isKindOfClass:[WizSyncInfo class]]) {
+        data = [[WizSyncInfo alloc] init];
+        [data setAccountUserId:self.accountUserId];
+        [syncData setObject:data forKey:SyncDataOfSyncInfo];
         [data release];
     }
     return data;
@@ -140,6 +188,10 @@ static WizSyncManager* shareManager;
         {
             [self startDownload];
         }
+        else  if ([each isKindOfClass:[WizSyncInfo class]])
+        {
+            [self startSyncInfo];
+        }
     }
     [errorQueque removeAllObjects];
 }
@@ -148,12 +200,12 @@ static WizSyncManager* shareManager;
     [WizNotificationCenter removeObserverForRefreshToken:self];
     isRefreshToken = NO;
     NSDictionary* keys = [WizNotificationCenter getRefreshTokenDicFromNc:nc];
-    NSString* token = [keys valueForKey:@"token"];
-    NSString* kbGuid = [keys valueForKey:@"kb_guid"];
+    NSString* _token = [keys valueForKey:@"token"];
+    NSString* _kbGuid = [keys valueForKey:@"kb_guid"];
     NSURL* urlAPI = [[NSURL alloc] initWithString:[keys valueForKey:@"kapi_url"]];
-    [syncData setObject:token forKey:SyncDataOfToken];
-    [syncData setObject:kbGuid forKey:SyncDataOfKbGuid];
-    [syncData setObject:urlAPI forKey:SyncDataOfWizApi];
+    self.token = _token;
+    self.apiUrl = urlAPI;
+    self.kbGuid = _kbGuid;
     NSLog(@"did refresh token");
     [self restartSync];
 }
@@ -185,16 +237,13 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
-    NSString* token = [syncData valueForKey:SyncDataOfToken];
-    if (nil == token || [token isEqualToString:@""]) {
-        [errorQueque addObjectUnique:api];
+    if (nil == self.token || [self.token isEqualToString:@""]) {
         [self refreshToken];
         return NO;
     }
-    NSString* kbGuid = [syncData valueForKey:SyncDataOfKbGuid];
-    api.token = token;
-    api.kbguid = kbGuid;
-    api.apiURL = [syncData valueForKey:SyncDataOfWizApi];
+    api.token = self.token;
+    api.kbguid = self.kbGuid;
+    api.apiURL = self.apiUrl;
     return YES;
 }
 - (BOOL) startUpload
@@ -214,12 +263,13 @@ static WizSyncManager* shareManager;
     NSString* guid = [obj valueForKey:SyncDataOfObjectGUID];
 
     BOOL ret;
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if ([type isEqualToString:WizDocumentKeyString]) {
-        ret = [uploader uploadDocument:guid];
+        ret = [uploader uploadDocument:[index documentFromGUID:guid]];
     }
     else if ([type isEqualToString:WizAttachmentKeyString])
     {
-        ret =  [uploader uploadAttachment:guid];
+        ret =  [uploader uploadAttachment:[index attachmentFromGUID:guid]];
     }
     else {
         ret = NO;
@@ -310,5 +360,14 @@ static WizSyncManager* shareManager;
     NSDictionary* doc = [self documentSyncData:documentGUID];
     [self addSyncDataToArray:doc array:downloadQueque];
     [self startDownload];
+}
+//
+- (BOOL) startSyncInfo
+{
+    WizSyncInfo* syncInfo = [self shareSyncInfo];
+    if (![self addSyncToken:syncInfo]) {
+        return NO;
+    }
+    return [syncInfo startSync];
 }
 @end

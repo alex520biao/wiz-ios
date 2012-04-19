@@ -9,18 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @interface WizAccountManager : NSObject
-+(WizAccountManager *) defaultManager;
--(NSArray*) accounts;
--(BOOL) findAccount: (NSString*)userId;
--(NSString*) accountPasswordByUserId:(NSString *)userID;
++ (WizAccountManager *) defaultManager;
+- (NSArray*) accounts;
+- (BOOL) findAccount: (NSString*)userId;
+- (NSString*) accountPasswordByUserId:(NSString *)userID;
 - (void) setDefalutAccount:(NSString*)accountUserId;
 - (void) registerActiveAccount:(NSString*)userId;
 - (NSString*) defaultAccountUserId;
--(void) addAccount: (NSString*)userId password:(NSString*)password;
+- (void) addAccount: (NSString*)userId password:(NSString*)password;
 - (NSString*) accountProtectPassword;
 - (void) setAccountProtectPassword:(NSString*)password;
--(void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
+- (void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
 - (void) logoutAccount:(NSString*)userId;
--(void) removeAccount: (NSString*)userId;
-
+- (void) removeAccount: (NSString*)userId;
 @end

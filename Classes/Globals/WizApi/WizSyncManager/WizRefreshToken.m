@@ -11,13 +11,21 @@
 #import "WizGlobalData.h"
 #import "WizIndex.h"
 @implementation WizRefreshToken
+@synthesize accountUserId;
+@synthesize accountPassword;
+- (void) dealloc
+{
+    [accountPassword release];
+    [accountUserId release];
+    [super dealloc];
+}
 - (void) onError:(id)retObject
 {
     [super onError:retObject];
 }
 - (BOOL) refresh
 {
-    return [self callClientLogin];
+    return [self callClientLogin:self.accountUserId accountPassword:self.accountPassword];
 }
 -(void) onClientLogin: (id)retObject
 {

@@ -11,7 +11,6 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizSync.h"
-#import "WizDocumentsByLocation.h"
 #import "WizGlobalDictionaryKey.h"
 #import "Reachability.h"
 #import "WizNotification.h"
@@ -28,10 +27,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 }
 @property (nonatomic, retain) NSString* objType;
 @property (nonatomic, retain) NSString* objGuid;
-@property (nonatomic, retain) id owner;
 @property (nonatomic, retain) NSFileHandle* fileHandle;
-@property (assign) BOOL isLogin;
-@property int currentPos;
 @end
 
 @implementation WizDownloadObject
@@ -39,6 +35,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 @synthesize objType;
 @synthesize busy;
 @synthesize fileHandle;
+@synthesize accountUserId;
 -(void) dealloc {
     if (nil != fileHandle) {
         [fileHandle closeFile];
@@ -46,6 +43,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
     [objType release];
     [objGuid release];
+    [accountUserId release];
     [super dealloc];
 }
 
@@ -90,17 +88,12 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
     //
     busy = NO;
+    NSLog(@"download done!***************************");
     [WizNotificationCenter postMessageDownloadDone:self.objGuid];
-//    NSDictionary* ret = [[NSDictionary alloc] initWithObjectsAndKeys:self.objGuid,  @"document_guid",  nil];
-//    NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:SyncMethod_DownloadObject, @"method",ret,@"ret",[NSNumber numberWithBool:YES], @"succeeded", nil];
-//	[[NSNotificationCenter defaultCenter] postNotificationName:[self notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix] object: nil userInfo: userInfo];
-//	[userInfo release];
-//    [ret release];
 }
 
 -(void) onDownloadObject:(id)retObject
 {
-	
     NSDictionary* obj = retObject;
     NSData* data = [obj valueForKey:@"data"];
     NSNumber* eofPre = [obj valueForKey:@"eof"];
@@ -109,10 +102,8 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
      NSNumber* objSize = [obj valueForKey:@"obj_size"];
     NSString* localMd5 = [WizGlobals md5:data];
     BOOL succeed = [serverMd5 isEqualToString:localMd5]?YES:NO;
-    
     if(!succeed) {
         [self downloadNext];
-  
     }
     else
     {
@@ -125,10 +116,8 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
             [index updateObjectDataByPath:[index downloadObjectTempFilePath:self.objGuid] objectGuid:self.objGuid];
             [self downloadDone];
         }
-        [self postSyncDoloadObject:[self.fileHandle offsetInFile] current:[objSize intValue] objectGUID:self.objGuid objectType:self.objType];
     }
 }
-
 - (void) downloadDocument:(NSString*)documentGUID
 {
     if (self.busy) {
@@ -138,7 +127,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     self.objType = WizDocumentKeyString;
     return [self downloadObject];
 }
-- (void) downloadAttachment:(NSString*)attachmentGUID
+- (void) downloadAttachment:(NSString*) attachmentGUID
 {
     if (self.busy) {
         return ;

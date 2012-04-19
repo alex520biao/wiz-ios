@@ -229,9 +229,6 @@
     NSDictionary* userInfo = [nc userInfo];
     NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
     
-    if (![methodName isEqualToString:SyncMethod_DownloadObject]) {
-        return;
-    }
     //    [self.downloadProcessView setProgress:0.9*([current floatValue]/[total floatValue]) animated:YES];
     return;
 }
