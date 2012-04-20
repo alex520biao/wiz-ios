@@ -1,4 +1,4 @@
-//
+   //
 //  WizSyncBase.m
 //  Wiz
 //
@@ -158,7 +158,7 @@
 	}
 	else 
 	{
-        [self onError: ret];
+        [self onError:ret];
 	}
 	//
 	/////////////////////////////

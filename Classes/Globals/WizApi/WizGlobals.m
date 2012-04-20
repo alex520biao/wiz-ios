@@ -453,7 +453,11 @@ static NSArray* excelArray;
 	NSString* str = [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second];
 	return str;
 }
-
++ (NSURL*) wizServerUrl
+{
+//    return [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
+    return [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+}
 +(NSString*) dateToLocalString: (NSDate*)date
 {
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];

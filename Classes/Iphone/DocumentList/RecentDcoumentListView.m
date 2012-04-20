@@ -83,7 +83,7 @@
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
     }
     self.currentDoc = newDocument;
-    [self viewDocument];
+//    [self viewDocument];
 }
 - (void)viewDidUnload
 {

@@ -21,16 +21,12 @@
 }
 -(void) onError: (id)retObject
 {
-	[super onError:retObject];
-	busy = NO;
     [self.verifyDelegate didVerifyAccountFaild];
+	[WizGlobals reportError:retObject];
+	busy = NO;
 }
-
-
 -(void) onClientLogin: (id)retObject
 {
-	[super onClientLogin:retObject];
-	[self callClientLogout];
     [self.verifyDelegate didVerifyAccountSucceed];
 }
 
@@ -46,6 +42,7 @@
 	if (self.busy)
 		return NO;
 	busy = YES;
+    self.accountURL = [WizGlobals wizServerUrl];
 	return [self callClientLogin:self.accountUserId accountPassword:self.accountPassword];
 }
 

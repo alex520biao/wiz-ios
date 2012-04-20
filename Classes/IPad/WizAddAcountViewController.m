@@ -5,18 +5,19 @@
 //  Created by dong yishuiliunian on 11-12-27.
 //  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
 //
+#import <QuartzCore/QuartzCore.h>
 
 #import "WizAddAcountViewController.h"
 #import "WizInputView.h"
-#import "WizGlobals.h"
-#import "WizSettings.h"
 #import "WizGlobalData.h"
-#import "WizSettings.h"
-#import "CommonString.h"
 #import "WizVerifyAccount.h"
 #import "WizIndex.h"
+#import "WizAccountManager.h"
 #import "WizNotification.h"
-#import <QuartzCore/QuartzCore.h>
+
+
+
+
 @interface WizAddAcountViewController()
 {
         UIButton* accountButton;
@@ -38,6 +39,8 @@
     [waitAlertView release];
     [passwordInput release];
     [accountButton release];
+    [existAccountsTable release];
+    [fitAccounts release];
     [super dealloc];
 }
 
@@ -78,34 +81,31 @@
 }
 - (void) xmlrpcDone: (NSNotification*)nc
 {
-	if (self.waitAlertView)
+
+}
+- (void) didVerifyAccountFaild
+{
+    if (self.waitAlertView)
+	{
+		[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+		self.waitAlertView = nil;
+	}
+}
+- (void) didVerifyAccountSucceed
+{
+    if (self.waitAlertView)
 	{
 		[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
 		self.waitAlertView = nil;
 	}
 	//
-	NSDictionary* userInfo = [nc userInfo];
-	//
+
 	NSString* accountIDString = nameInput.textInputField.text;
     NSString* accountPasswordString = passwordInput.textInputField.text;
-	NSString* method = [userInfo valueForKey:@"method"];
-	if (method != nil && [method isEqualToString:@"accounts.clientLogin"])
-	{
-        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-        [nc removeObserver:self];
-		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-		if (succeeded)
-		{
-			[WizSettings addAccount:accountIDString password:accountPasswordString];
-            [self.navigationController dismissModalViewControllerAnimated:NO];
-            [WizNotificationCenter postPadSelectedAccountMessge:accountIDString];
-		}
-		else {
-            //null
-		}
-	}
+    [[WizAccountManager defaultManager] addAccount:accountIDString password:accountPasswordString];
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    [WizNotificationCenter postPadSelectedAccountMessge:accountIDString];
 }
-
 
 - (void) login
 {
@@ -129,22 +129,17 @@
 		[alert release];
 		return;
 	}
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-	//
-	[nc removeObserver:self];
-	//
-	WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: accountIDString];
-	//
-	//
-	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrSignIn message:WizStrPleasewaitwhileloggingin delegate:self retView:&alert];
+    //
+    UIAlertView* alert = nil;
+    [WizGlobals showAlertView:WizStrSignIn message:WizStrPleasewaitwhileloggingin delegate:self retView:&alert];
 	[alert show];
-	//
 	self.waitAlertView = alert;
-	//
 	[alert release];
-//	//
-//	api.accountPassword = accountPasswordString;
+	WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: accountIDString];
+    api.verifyDelegate = self;
+
+    api.accountUserId = accountIDString;
+    api.accountPassword = accountPasswordString;
 	[api verifyAccount];
 }
 - (void) setExistAccountsTableViewFrame
@@ -180,7 +175,7 @@
 }
 - (void)showAllAccounts:(id)sender
 {
-    [self showExistAccounts:[WizSettings accountsUserIdArray]];
+    [self showExistAccounts:[[WizAccountManager defaultManager] accounts]];
 }
 - (void) viewDidLoad
 {
@@ -192,16 +187,13 @@
     [self.view addSubview:nameInput_];
     [nameInput_ release];
     self.nameInput = nameInput_;
-
     nameInput.nameLable.text = WizStrUserId;
     nameInput.textInputField.placeholder = @"exmaple@email.com";
     nameInput.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
     nameInput.textInputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     nameInput.textInputField.delegate = self;
-    
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeTable)];
     ges.numberOfTapsRequired = 1;
-    
     UIView* titleView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 250, 44)];
     if (WizDeviceIsPad()) {
         titleView.frame = CGRectMake(0.0, 0.0, 400, 44);
@@ -213,7 +205,7 @@
     [ges release];
     [backView release];
     
-    if ([[WizSettings accounts] count]) {
+    if ([[[WizAccountManager defaultManager] accounts] count]) {
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:[UIImage imageNamed:@"userIcons"] forState:UIControlStateNormal];
         nameInput.textInputField.rightView = button;
@@ -302,7 +294,7 @@
 - (void) reloadAccountsTable:(NSString*)match
 {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"SELF like %@",match];
-    NSArray* nameIn = [[WizSettings accountsUserIdArray] filteredArrayUsingPredicate:predicate];
+    NSArray* nameIn = [[[WizAccountManager defaultManager] accounts] filteredArrayUsingPredicate:predicate];
     self.fitAccounts = [NSMutableArray arrayWithArray:nameIn];
     if ([fitAccounts count] > 1) {
         [self setExistAccountsTableViewFrame];

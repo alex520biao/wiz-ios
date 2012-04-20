@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizVerifyAccount.h"
 @class WizInputView;
-@interface WizAddAcountViewController : UIViewController <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface WizAddAcountViewController : UIViewController <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,WizVerifyAccountDeletage>
 {
     WizInputView* nameInput;
     WizInputView* passwordInput;

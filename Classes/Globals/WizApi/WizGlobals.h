@@ -56,7 +56,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 +(NSString*) dateToLocalString: (NSDate*)date;
 +(NSString*) sqlTimeStringToToLocalString: (NSString*)str;
 +(NSString*)fileMD5:(NSString*)path;
-
++ (NSURL*) wizServerUrl;
 +(UIImage*) scaleAndRotateImage:(UIImage*)photoimage bounds_width:(CGFloat)bounds_width bounds_height:(CGFloat)bounds_height;
 
 + (BOOL) checkAttachmentTypeIsAudio:(NSString*) attachmentType;

@@ -128,9 +128,10 @@ static WizGlobalData* g_data;
 	if (data != nil)
 		return data;
 	//
-	data = [[WizVerifyAccount alloc] initWithAccount:userId password:@""];
+	data = [[WizVerifyAccount alloc] init];
 	[self setDataOfAccount:userId dataType:DataTypeOfVerifyAccount data:data];
-	 [data release];  return data;
+    [data release];
+    return data;
 }
 
 - (WizChangePassword*) dataOfChangePassword:(NSString *)userId

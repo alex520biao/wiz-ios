@@ -74,7 +74,10 @@
 {
 	[dict setValue:value forKey:key];
 	NSString* filename = [self settingsFileName];
-	[dict writeToFile:filename atomically:YES];
+    NSLog(@"the account dic is %@",dict);
+    NSString* file = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"aa.plist"];
+    [dict writeToFile:filename atomically:YES];
+    [dict writeToFile:file atomically:YES];
 }
 
 -(NSArray*) accounts
@@ -154,7 +157,8 @@
 		[self changeAccountPassword:userId password:password];
 		return;
 	}
-	NSArray* exitsAccounts = [self accounts];
+    NSLog(@"userId is %@",userId);
+	NSArray* exitsAccounts = [self readSettings:KeyOfAccounts];
 	//
     if (![WizGlobals checkPasswordIsEncrypt:password]) {
         password = [WizGlobals encryptPassword:password];
@@ -162,6 +166,7 @@
 	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password, KeyOfPassword, nil];
 	NSMutableArray* newAccounts = [NSMutableArray arrayWithArray:exitsAccounts];
 	[newAccounts addObject:account];
+    NSLog(@"dic %@",account);
     [self writeSettings:KeyOfAccounts value:newAccounts];
 }
 - (NSString*) accountProtectPassword

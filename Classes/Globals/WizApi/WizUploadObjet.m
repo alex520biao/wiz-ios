@@ -192,13 +192,13 @@
 }
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [index setDocumentLocalChanged:self.objectGUID changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     [index setAttachmentLocalChanged:self.objectGUID changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
 }

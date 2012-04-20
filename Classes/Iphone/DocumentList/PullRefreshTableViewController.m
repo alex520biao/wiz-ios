@@ -148,7 +148,6 @@
     
 }
 - (void)startLoading {
-    [self performSelector:@selector(displayProcessInfo) withObject:nil];
     [self startLoadingAnimation];
     [self refresh];
 }

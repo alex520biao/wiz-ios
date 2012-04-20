@@ -86,9 +86,7 @@ static WizSyncManager* shareManager;
 }
 - (void) loadServerUrl
 {
-    NSURL* url = [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
-    self.serverUrl = url;
-    [url release];
+    self.serverUrl = [WizGlobals wizServerUrl];
 }
 
 - (id) init
