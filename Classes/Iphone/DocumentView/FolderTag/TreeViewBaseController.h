@@ -18,7 +18,6 @@
 @end
 
 @interface TreeViewBaseController : UITableViewController <WizTreeViewBaseMethod,UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate> {
-    NSString* accountUserId;
     NSArray* locations;
     NSMutableArray *displayNodes;
     LocationTreeNode* tree;
@@ -27,7 +26,6 @@
     BOOL isWillReloadAllData;
 }
 @property (assign)  BOOL isWillReloadAllData;
-@property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSArray* locations;
 @property(nonatomic, retain) NSMutableArray* displayNodes;
 @property(nonatomic,retain) LocationTreeNode* tree;

@@ -41,7 +41,7 @@
 }
 - (void) removeBlockLocationNode:(LocationTreeNode*)node
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData: self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     if ([node hasChildren]) {
         NSArray* arr = [node.children copy];
         for (LocationTreeNode* each in arr) {
@@ -64,9 +64,9 @@
 
 - (void) reloadAllData
 {
-    NSArray* tagArray = [[[WizGlobalData sharedData] indexData:accountUserId] allTagsForTree];
+    WizIndex* index = [WizIndex activeIndex];
+    NSArray* tagArray = [index allTagsForTree];
     NSLog(@"tagArray count is %d",[tagArray count]);
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     tree = [[LocationTreeNode alloc]init] ;
     tree.deep = 0;
     tree.title = @"/";
@@ -147,7 +147,7 @@
 
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[index fileCountOfTag:cell.treeNode.locationKey]];
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeTag"];
@@ -169,7 +169,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     WizTag* tag =  [index tagFromGuid:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];;
     //
     TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];

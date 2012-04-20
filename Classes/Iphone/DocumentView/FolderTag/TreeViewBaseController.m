@@ -16,7 +16,6 @@
 
 @implementation TreeViewBaseController
 @synthesize isWillReloadAllData;
-@synthesize accountUserId;
 @synthesize locations;
 @synthesize tree, displayNodes;
 @synthesize closedImage;

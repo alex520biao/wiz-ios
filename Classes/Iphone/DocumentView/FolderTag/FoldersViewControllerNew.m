@@ -47,7 +47,7 @@
 
 - (void) removeBlockLocationNode:(LocationTreeNode*)node
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData: self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     if ([node hasChildren]) {
         NSArray* arr = [node.children copy];
         for (LocationTreeNode* each in arr) {
@@ -92,7 +92,8 @@
 
 -(void) reloadAllData
 {
-    NSArray* wizDocumentLoationTemp = [[[WizGlobalData sharedData] indexData:accountUserId] allLocationsForTree];
+    WizIndex* index = [WizIndex activeIndex];
+    NSArray* wizDocumentLoationTemp = [index allLocationsForTree];
     NSMutableArray *wizDocumentLocations =[wizDocumentLoationTemp mutableCopy];
     tree = [[LocationTreeNode alloc]init];
     tree.deep = 0;
@@ -147,7 +148,7 @@
 }
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     NSString* current = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:cell.treeNode.locationKey]];
     NSString* total = [NSString stringWithFormat:@"%d",[index filecountWithChildOfLocation:cell.treeNode.locationKey]];
     if (![current isEqualToString:total]) {
