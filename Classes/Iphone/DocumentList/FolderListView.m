@@ -94,11 +94,7 @@
     [super viewWillDisappear:animated];
     
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-//        WizSyncByLocation* syncByLocation = [[WizGlobalData sharedData] syncByLocationData:self.accountUserID];
-//        if(syncByLocation.busy)
-//        {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:[syncByLocation notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-//        }
+
     }
 }
 

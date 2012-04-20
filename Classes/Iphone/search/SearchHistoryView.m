@@ -13,13 +13,12 @@
 #import "CommonString.h"
 #import "SearchResultViewController.h"
 #import "SearchViewControllerIphone.h"
+#import "WizAccountManager.h"
 @implementation SearchHistoryView
-@synthesize accountUserId;
 @synthesize history;
 @synthesize owner;
 - (void) dealloc
 {
-    [accountUserId release];
     [history release];
     [owner release];
     [super dealloc];
@@ -39,7 +38,7 @@
 }
 - (void) reloadData
 {
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:@"SearchHistoryDir"];
+    NSString* objectPath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:@"SearchHistoryDir"];
     [WizGlobals ensurePathExists:objectPath];
     NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"history.dat"];
     NSMutableArray* historyy = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
@@ -51,7 +50,7 @@
 {
     [self.history removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:@"SearchHistoryDir"];
+    NSString* objectPath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:@"SearchHistoryDir"];
     [WizGlobals ensurePathExists:objectPath];
     NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"history.dat"];
     [self.history writeToFile:fileNamePath atomically:NO];
@@ -150,7 +149,7 @@
 	if (keywords == nil || [keywords length] == 0)
 		return;
 	//
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+	WizIndex* index = [WizIndex activeIndex];
 	NSArray* arr = [index documentsByKey:keywords];
 	//
 	if (arr == nil || [arr count] == 0)

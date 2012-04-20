@@ -13,13 +13,12 @@
 #import "CommonString.h"
 #import "SearchResultViewController.h"
 #import "SearchHistoryView.h"
+#import "WizAccountManager.h"
 @implementation SearchViewControllerIphone
 @synthesize searchBar;
 @synthesize localSearchSwitch;
 @synthesize localSearchSwitchString;
 @synthesize localsearchView;
-@synthesize accountUserId;
-@synthesize accountUserPassword;
 @synthesize waitAlertView;
 @synthesize currentKeyWords;
 @synthesize historyView;
@@ -29,8 +28,6 @@
     [localSearchSwitch release];
     [localSearchSwitchString release];
     [localsearchView release];
-    [accountUserId release];
-    [accountUserPassword release];
     [waitAlertView release];
     [currentKeyWords release];
     [historyView release];
@@ -72,7 +69,7 @@
                          dateString, @"date",
                          [NSNumber numberWithInt:count], @"count",
                          nil,nil];
-    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:@"SearchHistoryDir"];
+    NSString* objectPath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:@"SearchHistoryDir"];
     [WizGlobals ensurePathExists:objectPath];
     NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"history.dat"];
     NSMutableArray* history = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
@@ -92,7 +89,7 @@
 	if (keywords == nil || [keywords length] == 0)
 		return;
 	//
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+	WizIndex* index = [WizIndex activeIndex];
 	NSArray* arr = [index documentsByKey:keywords];
 	//
 	if (arr == nil || [arr count] == 0)
@@ -254,7 +251,6 @@
     }
     if (nil == self.historyView) {
         self.historyView = [[[SearchHistoryView alloc] init] autorelease];
-        self.historyView.accountUserId = self.accountUserId;
         self.historyView.view.frame = CGRectMake(0.0, 0.0, 320, 327);
         self.historyView.owner = self;
         UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 50, 320, 317)];

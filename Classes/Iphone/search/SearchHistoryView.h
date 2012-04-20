@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 @interface SearchHistoryView : UITableViewController
 {
-    NSString* accountUserId;
     NSMutableArray* history;
     id          owner;
 }
-@property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSMutableArray* history;
 @property (nonatomic, retain) id            owner;
-
 - (void) reloadData;
 @end
