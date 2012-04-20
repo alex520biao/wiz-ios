@@ -10,6 +10,6 @@
 
 @interface WizSyncDescription : NSObject
 {
-
+    NSString* globalString;
 }
 @end
