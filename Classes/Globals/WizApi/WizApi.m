@@ -10,12 +10,7 @@
 #import "WizGlobalDictionaryKey.h"
 #import "XMLRPCConnection.h"
 #import "XMLRPCRequest.h"
-#import "WizSettings.h"
 #import "WizIndex.h"
-#import "WizGlobalData.h"
-#import "WizGlobals.h"
-#import "WizMisc.h"
-#import "WizSync.h"
 #import "WizNotification.h"
 
 #define SyncMethod_ClientLogin                  @"accounts.clientLogin"

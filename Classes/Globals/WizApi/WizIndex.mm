@@ -20,7 +20,6 @@
 //#import "RegexKitLite.h"
 #import "WizGlobalDictionaryKey.h"
 #import "NSDate-Utilities.h"
-#import "WizSettings.h"
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 
@@ -327,7 +326,6 @@ NSInteger compareTag(id location1, id location2, void*);
 
 - (BOOL) open
 {
-    [[WizGlobalData sharedData] registerActiveAccountUserId:self.accountUserId];
 	if ([self isOpened])
 	{
 		return NO;
@@ -1775,24 +1773,24 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     return index.DeleteAttachment([attachGuid UTF8String]) ? YES : NO;
 }
-- (void) versionUpdateSettings
-{
-    NSString* wizNoteVersion = [WizGlobals wizNoteVersion];
-    NSString* wizUpgradeVersion = [self wizUpgradeAppVersion];
-    if (![wizNoteVersion isEqualToString:wizUpgradeVersion]) {
-        NSArray* accounts = [WizSettings accounts];
-        for (int i=0 ; i<[accounts count]; i++) {
-            NSString* accountId = [WizSettings accountUserIdAtIndex:accounts index:i];
-            if (![accountId isEqualToString:self.accountUserId]) {
-                [WizSettings logoutAccount:accountId];
-            }
-        }
-        [self setWizUpgradeAppVersion:WizNoteAppVerSion];
-    }
-}
+//- (void) versionUpdateSettings
+//{
+//    NSString* wizNoteVersion = [WizGlobals wizNoteVersion];
+//    NSString* wizUpgradeVersion = [self wizUpgradeAppVersion];
+//    if (![wizNoteVersion isEqualToString:wizUpgradeVersion]) {
+//        NSArray* accounts = [WizSettings accounts];
+//        for (int i=0 ; i<[accounts count]; i++) {
+//            NSString* accountId = [WizSettings accountUserIdAtIndex:accounts index:i];
+//            if (![accountId isEqualToString:self.accountUserId]) {
+//                [WizSettings logoutAccount:accountId];
+//            }
+//        }
+//        [self setWizUpgradeAppVersion:WizNoteAppVerSion];
+//    }
+//}
 - (void) initAccountSetting
 {
-    [self versionUpdateSettings];
+//    [self versionUpdateSettings];
     if (![WizGlobals WizDeviceIsPad] ) {
         if ([self imageQualityValue] == 0) {
             [self setDownloadAllList:YES];
@@ -1831,7 +1829,7 @@ NSInteger compareTag(id location1, id location2, void*);
     }
     [self connectOnlyViaWifi];
     [self setDownloadAllList:YES];
-    [WizSettings setDefalutAccount:self.accountUserId];
+//    [WizSettings setDefalutAccount:self.accountUserId];
 }
 - (NSString*) meta: (NSString*)name key:(NSString*)key
 {

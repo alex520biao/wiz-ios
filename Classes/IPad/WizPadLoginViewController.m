@@ -10,7 +10,6 @@
 #import "WizAddAcountViewController.h"
 #import "WizPadRegisterController.h"
 #import "WizCheckAccounsController.h"
-#import "WizSettings.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizIndex.h"
@@ -99,14 +98,14 @@
 
 - (void) selecteDefaultAccount
 {
-    NSArray* accounts = [WizSettings accounts];
-    if ([accounts count] > 0) {
-        NSString* defaultUserId = [WizSettings defaultAccountUserId];
-        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-            return;
-        }
-        [self didSelectedAccount:defaultUserId];
-    }
+//    NSArray* accounts = [WizSettings accounts];
+//    if ([accounts count] > 0) {
+//        NSString* defaultUserId = [WizSettings defaultAccountUserId];
+//        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+//            return;
+//        }
+//        [self didSelectedAccount:defaultUserId];
+//    }
 }
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -114,15 +113,15 @@
     [self setFrames:self.interfaceOrientation];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES];
-    if ([[WizSettings accounts] count]) {
-        if (firstLoad) {
-            [self selecteDefaultAccount];
-            firstLoad = NO;
-        }
-        else {
-            [self loginViewAppear:nil];
-        }
-    }
+//    if ([[WizSettings accounts] count]) {
+//        if (firstLoad) {
+//            [self selecteDefaultAccount];
+//            firstLoad = NO;
+//        }
+//        else {
+//            [self loginViewAppear:nil];
+//        }
+//    }
     
 }
 - (void) viewDidAppear:(BOOL)animated

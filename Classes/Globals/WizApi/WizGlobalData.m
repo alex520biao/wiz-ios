@@ -16,7 +16,6 @@
 #import "WizDownloadObject.h"
 #import "PickViewController.h"
 #import "WizChangePassword.h"
-#import "WizSettings.h"
 #import "TTTAttributedLabel.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
@@ -169,17 +168,17 @@ static WizGlobalData* g_data;
 	[self setDataOfAccount:userId dataType:DataTypeOfDownloadObject data:data];
 	 [data release];  return data;
 }
-- (void) stopSyncing
-{
-    for (int i = 0; i < [[WizSettings accounts] count]; i++) {
-        NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
-        WizSync* sync = [self dataOfAccount:userId dataType:DataTypeOfSync];
-        if (nil != sync) {
-            [sync cancel];
-        }
-        
-    }
-}
+//- (void) stopSyncing
+//{
+//    for (int i = 0; i < [[WizSettings accounts] count]; i++) {
+//        NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
+//        WizSync* sync = [self dataOfAccount:userId dataType:DataTypeOfSync];
+//        if (nil != sync) {
+//            [sync cancel];
+//        }
+//        
+//    }
+//}
 
 -(NSDictionary*) attributesForDocumentListName
 {
@@ -315,33 +314,8 @@ static WizGlobalData* g_data;
     [self removeObserverFromDefaultNoticeCenter];
     
 }
-- (BOOL) registerActiveAccountUserId:(NSString *)userId
-{
-    if (userId == nil || [userId isEqualToString:@""]) {
-        userId = [WizSettings defaultAccountUserId];
-        if (userId == nil || [userId isEqualToString:@""]) {
-            if ([[WizSettings accounts] count] == 0) {
-                return NO;
-            }
-            [WizSettings setDefalutAccount:[WizSettings accountUserIdAtIndex:[WizSettings accounts] index:0]];
-            userId = [WizSettings defaultAccountUserId];
-        }
-    }
-    [self setDataOfAccount:WizGlobalAccount dataType:DataOfActiveAccountUserId data:userId];
-    return YES;
-}
-- (NSString*) activeAccountUserId
-{
-    id data = [self dataOfAccount:WizGlobalAccount dataType:DataOfActiveAccountUserId];
-    if (data != nil && [data isKindOfClass:[NSString class]]) {
-        return data;
-    }
-    if (![self registerActiveAccountUserId:@""]) {
-        return @"";
-    }
-    data = [self dataOfAccount:WizGlobalAccount dataType:DataOfActiveAccountUserId];
-    return data;
-}
+
+
 + (NSString*) keyOfAccount:(NSString*) userId dataType: (NSString *) dataType
 {
 	NSString* key = [NSString stringWithFormat:@"%@_%@", userId, dataType];

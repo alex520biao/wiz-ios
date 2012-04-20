@@ -11,7 +11,6 @@
  #import "FoldersViewController.h"
  #import "NewNoteView.h"
  #import "UIView-TagExtensions.h"
-#import "WizSettings.h"
 #import "WizIndex.h"
 #import "CommonString.h"
 #import "WizGlobals.h"
@@ -150,7 +149,7 @@
     
     SearchViewControllerIphone *searchView = [[SearchViewControllerIphone alloc] init];
     searchView.accountUserId = accountUserId;
-    searchView.accountUserPassword = [WizSettings accountPasswordByUserId:self.accountUserId];
+//    searchView.accountUserPassword = [WizSettings accountPasswordByUserId:self.accountUserId];
     UINavigationController* searchController = [[UINavigationController alloc]initWithRootViewController:searchView ];
     searchController.title = WizStrSearch;
     searchController.tabBarItem.image = [UIImage imageNamed:@"barItemSearch"];

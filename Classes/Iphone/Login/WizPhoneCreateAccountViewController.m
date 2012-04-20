@@ -7,7 +7,6 @@
 //
 
 #import "WizPhoneCreateAccountViewController.h"
-#import "WizSettings.h"
 #import "WizCreateAccount.h"
 #import "CommonString.h"
 #import "WizGlobals.h"
@@ -118,14 +117,14 @@
 		return;
 	}
 	//
-	if (-1 != [WizSettings findAccount:name])
-	{
-		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, name];
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
-		return;
-	}
+//	if (-1 != [WizSettings findAccount:name])
+//	{
+//		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, name];
+//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+//		[alert show];
+//		[alert release];
+//		return;
+//	}
 	//
 	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 	//
@@ -229,9 +228,9 @@
 		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
 		if (succeeded)
 		{
-			[WizSettings addAccount:name password:password];
-            [self.navigationController dismissModalViewControllerAnimated:NO];
-            [WizNotificationCenter postPadSelectedAccountMessge:name];
+//			[WizSettings addAccount:name password:password];
+//            [self.navigationController dismissModalViewControllerAnimated:NO];
+//            [WizNotificationCenter postPadSelectedAccountMessge:name];
             
 		}
 		else {

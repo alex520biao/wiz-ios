@@ -9,7 +9,6 @@
 #import "WizAppDelegate.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
-#import "WizSettings.h"
 #import "WizIphoneLoginViewController.h"
 #import "WizPadLoginViewController.h"
 #import "WizPadMainViewController.h"
@@ -65,18 +64,18 @@
 
 - (void) encryptPasswordV320
 {
-    NSArray* arr = [[NSArray alloc] initWithArray:[WizSettings accounts]];
-    for (int i = 0; i < [arr count]; i++) {
-        NSString* account = [WizSettings accountUserIdAtIndex:arr index:i];
-        NSString* password = [WizSettings accountPasswordAtIndex:arr index:i];
-        NSLog(@"account %@ password %@",account, password);
-        if (![WizGlobals checkPasswordIsEncrypt:password])
-        {
-            NSLog(@"change");
-            [WizSettings changeAccountPassword:account password:password];
-        }
-    }
-    [arr release];
+//    NSArray* arr = [[NSArray alloc] initWithArray:[WizSettings accounts]];
+//    for (int i = 0; i < [arr count]; i++) {
+//        NSString* account = [WizSettings accountUserIdAtIndex:arr index:i];
+//        NSString* password = [WizSettings accountPasswordAtIndex:arr index:i];
+//        NSLog(@"account %@ password %@",account, password);
+//        if (![WizGlobals checkPasswordIsEncrypt:password])
+//        {
+//            NSLog(@"change");
+//            [WizSettings changeAccountPassword:account password:password];
+//        }
+//    }
+//    [arr release];
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self encryptPasswordV320];
@@ -98,10 +97,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
     NSDictionary* userInfo = [nc userInfo];
     NSString* password = [userInfo valueForKey:TypeOfProtectPassword];
-    NSString* protectPw = [WizSettings accountProtectPassword];
-    if (![password isEqualToString:protectPw] ) {
-        [self accountProtect];
-    }
+//    NSString* protectPw = [WizSettings accountProtectPassword];
+//    if (![password isEqualToString:protectPw] ) {
+//        [self accountProtect];
+//    }
 }
 - (void) accountProtect
 {
@@ -124,19 +123,19 @@
     [[WizAbstractCache shareCache] didReceivedMenoryWarning];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if (WizAbs([[WizSettings lastActiveTime] timeIntervalSinceNow]) > 1800 ) {
-        for (int i = 0; i < [[WizSettings accounts] count]; i++) {
-            NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
-            [[WizGlobalData sharedData] removeAccountData:userId];
-        }
-    }
-    NSString* protectPw = [WizSettings accountProtectPassword];
-    if (protectPw != nil && ![protectPw isEqualToString:@""]) {
-        [self accountProtect];
-    }
+//    if (WizAbs([[WizSettings lastActiveTime] timeIntervalSinceNow]) > 1800 ) {
+//        for (int i = 0; i < [[WizSettings accounts] count]; i++) {
+//            NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
+//            [[WizGlobalData sharedData] removeAccountData:userId];
+//        }
+//    }
+//    NSString* protectPw = [WizSettings accountProtectPassword];
+//    if (protectPw != nil && ![protectPw isEqualToString:@""]) {
+//        [self accountProtect];
+//    }
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    [WizSettings setLastActiveTime];
+//    [WizSettings setLastActiveTime];
     [[WizGlobalData sharedData] stopSyncing];
 }
 

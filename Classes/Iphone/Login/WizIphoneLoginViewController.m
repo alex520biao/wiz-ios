@@ -11,7 +11,6 @@
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizAddAcountViewController.h"
 #import "WizNotification.h"
-#import "WizSettings.h"
 #import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
@@ -41,14 +40,14 @@
 
 - (void) selecteDefaultAccount
 {
-    NSArray* accounts = [WizSettings accounts];
-    if ([accounts count] > 0) {
-        NSString* defaultUserId = [WizSettings defaultAccountUserId];
-        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-            return;
-        }
-        [self didSelectedAccount:defaultUserId];
-    }
+//    NSArray* accounts = [WizSettings accounts];
+//    if ([accounts count] > 0) {
+//        NSString* defaultUserId = [WizSettings defaultAccountUserId];
+//        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+//            return;
+//        }
+//        [self didSelectedAccount:defaultUserId];
+//    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -58,13 +57,6 @@
         firstLoad = YES;
     }
     return self;
-}
-- (IBAction)cheackExistAccount:(id)sender
-{
-    WizCheckAccounsController* checkAccounts = [[WizCheckAccounsController alloc] init];
-    [self.navigationController pushViewController:checkAccounts animated:YES];
-    [checkAccounts release];
-
 }
 - (IBAction)signInAccount:(id)sender
 {

@@ -10,7 +10,6 @@
 #import "WizInputView.h"
 #import "WizGlobalData.h"
 #import "WizChangePassword.h"
-#import "WizSettings.h"
 #import "WizGlobals.h"
 #import "WizPadNotificationMessage.h"
 #import "WizPhoneNotificationMessage.h"

@@ -33,8 +33,6 @@
 - (NSDictionary*) attributesForDocumentListName;
 - (NSDictionary*) attributesForAbstractViewParagraphPad;
 //2012-3-9
-- (BOOL) registerActiveAccountUserId:(NSString*)userId;
-- (NSString*) activeAccountUserId;
 //2012-3-15
 - (NSNotificationCenter*) wizNotificationCenter;
 + (WizGlobalData*) sharedData;

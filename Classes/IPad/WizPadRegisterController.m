@@ -11,7 +11,6 @@
 #import "WizGlobalData.h"
 #import "CommonString.h"
 #import "WizCreateAccount.h"
-#import "WizSettings.h"
 #import "WizGlobals.h"
 #import "WizIndex.h"
 #import "WizNotification.h"
@@ -62,19 +61,19 @@
 	NSDictionary* userInfo = [nc userInfo];
 	//
 	NSString* method = [userInfo valueForKey:@"method"];
-	if (method != nil && [method isEqualToString:@"accounts.createAccount"])
-	{
-		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-		if (succeeded)
-		{
-			[WizSettings addAccount:emailString password:passwordString];
-            [self.navigationController dismissModalViewControllerAnimated:NO];
-            [WizNotificationCenter postPadSelectedAccountMessge:emailString];
-		}
-		else {
-            // null
-		}
-	}
+//	if (method != nil && [method isEqualToString:@"accounts.createAccount"])
+//	{
+//		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
+//		if (succeeded)
+//		{
+//			[WizSettings addAccount:emailString password:passwordString];
+//            [self.navigationController dismissModalViewControllerAnimated:NO];
+//            [WizNotificationCenter postPadSelectedAccountMessge:emailString];
+//		}
+//		else {
+//            // null
+//		}
+//	}
 }
 
 - (IBAction) registerAccount: (id)sender
@@ -111,15 +110,15 @@
 		[alert release];
 		return;
 	}
-	//
-	if (-1 != [WizSettings findAccount:emailString])
-	{
-		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, emailString];
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
-		return;
-	}
+//	//
+//	if (-1 != [WizSettings findAccount:emailString])
+//	{
+//		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, emailString];
+//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+//		[alert show];
+//		[alert release];
+//		return;
+//	}
 	//
 	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 	//

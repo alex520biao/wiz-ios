@@ -10,7 +10,6 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizSettings.h"
 #import "CommonString.h"
 #import "PickViewController.h"
 #import "WizPhoneNotificationMessage.h"
@@ -112,21 +111,21 @@
 }
 - (IBAction)setAsDefaultUser:(id)sender
 {
-    if ([[WizSettings accounts] count] > 1) {
-        if (self.defaultUserSwitch.on) {
-            [WizSettings setDefalutAccount:self.accountUserId];
-        }
-        else 
-        {
-            for (int i = 0 ; i < [[WizSettings accounts] count] ; i++)
-            {
-                NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
-                if (![userId isEqualToString:self.accountUserId]) {
-                    [WizSettings setDefalutAccount:userId];
-                }
-            }
-        }
-    }
+//    if ([[WizSettings accounts] count] > 1) {
+//        if (self.defaultUserSwitch.on) {
+//            [WizSettings setDefalutAccount:self.accountUserId];
+//        }
+//        else 
+//        {
+//            for (int i = 0 ; i < [[WizSettings accounts] count] ; i++)
+//            {
+//                NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
+//                if (![userId isEqualToString:self.accountUserId]) {
+//                    [WizSettings setDefalutAccount:userId];
+//                }
+//            }
+//        }
+//    }
 }
 - (IBAction)setMobileView:(id)sender
 {
@@ -254,19 +253,19 @@
 }
 - (void) logOutCurrentAccount
 {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [WizSettings logoutAccount:self.accountUserId];
-    WizLog(@"will log out");
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index close];
-    if (WizDeviceIsPad()) {
-        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-        return;
-    }
-    else
-    {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [WizSettings logoutAccount:self.accountUserId];
+//    WizLog(@"will log out");
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    [index close];
+//    if (WizDeviceIsPad()) {
+//        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+//        return;
+//    }
+//    else
+//    {
+//        [self.navigationController popToRootViewControllerAnimated:YES];
+//    }
 }
 - (void) buildNavItems
 {
@@ -285,26 +284,26 @@
     self.defaultUserLabel.text = NSLocalizedString(@"Set as default account", nil);
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     self.mobileViewSwitch.on = [index isMoblieView];
-    NSString* password = [WizSettings accountProtectPassword];
-    if (password != nil && ![password isEqualToString:@""]) {
-        self.accountProtectPassword = password;
-        self.protectCellSwitch.on = YES;
-    }
-    else
-    {
-        self.protectCellSwitch.on = NO;
-    }
-    NSString* defaultUserID = [WizSettings defaultAccountUserId];
-    if (defaultUserID == nil) {
-        defaultUserID = @"";
-    }
-    if ([self.accountUserId isEqualToString:defaultUserID]) {
-        self.defaultUserSwitch.on = YES;
-    }
-    else
-    {
-        self.defaultUserSwitch.on = NO;
-    }
+//    NSString* password = [WizSettings accountProtectPassword];
+//    if (password != nil && ![password isEqualToString:@""]) {
+//        self.accountProtectPassword = password;
+//        self.protectCellSwitch.on = YES;
+//    }
+//    else
+//    {
+//        self.protectCellSwitch.on = NO;
+//    }
+//    NSString* defaultUserID = [WizSettings defaultAccountUserId];
+//    if (defaultUserID == nil) {
+//        defaultUserID = @"";
+//    }
+//    if ([self.accountUserId isEqualToString:defaultUserID]) {
+//        self.defaultUserSwitch.on = YES;
+//    }
+//    else
+//    {
+//        self.defaultUserSwitch.on = NO;
+//    }
     self.downloadDuration = [index durationForDownloadDocument];
     self.imageQulity = [index imageQualityValue];
     self.tablelistViewOption = [index userTablelistViewOption];
@@ -359,12 +358,12 @@
 {
     switch (section) {
         case 0:
-            if ([[WizSettings accounts] count] > 1) {
-                return 7;
-            }
-            else {
+//            if ([[WizSettings accounts] count] > 1) {
+//                return 7;
+//            }
+//            else {
                 return 6;
-            }
+//            }
         case 1  :
             return 2;
         case 2:
@@ -543,14 +542,14 @@
         [alert release];
         return;
     }
-    self.accountProtectPassword = protectPassword;
-    if (!self.protectCellSwitch.on) {
-        [WizSettings setAccountProtectPassword:@""];
-    }
-    else
-    {
-        [WizSettings setAccountProtectPassword:self.accountProtectPassword];
-    }
+//    self.accountProtectPassword = protectPassword;
+//    if (!self.protectCellSwitch.on) {
+//        [WizSettings setAccountProtectPassword:@""];
+//    }
+//    else
+//    {
+//        [WizSettings setAccountProtectPassword:self.accountProtectPassword];
+//    }
 }
 - (void) clearCache
 {
@@ -577,13 +576,13 @@
 }
 - (IBAction)setUserProtectPassword:(id)sender
 {
-    if (self.protectCellSwitch.on) {
-        [self setProtectPassword];
-    }
-    else
-    {
-        [WizSettings setAccountProtectPassword:@""];
-    }
+//    if (self.protectCellSwitch.on) {
+//        [self setProtectPassword];
+//    }
+//    else
+//    {
+//        [WizSettings setAccountProtectPassword:@""];
+//    }
 }
 
 #pragma mark - Table view delegate
@@ -596,14 +595,14 @@
     {
         if( buttonIndex == 1 ) //NO
         {
-            [WizSettings removeAccount:self.accountUserId];
-            if (WizDeviceIsPad()) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-            }
-            else
-            {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }
+//            [WizSettings removeAccount:self.accountUserId];
+//            if (WizDeviceIsPad()) {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+//            }
+//            else
+//            {
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//            }
         }
     }
     else if (alertView.tag == ProtectPasswordTag)

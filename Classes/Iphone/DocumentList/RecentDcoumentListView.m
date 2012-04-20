@@ -10,7 +10,6 @@
 #import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizSettings.h"
 #import "UserSttingsViewController.h"
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
@@ -137,7 +136,7 @@
 //    }
     WizSyncManager* share = [WizSyncManager shareManager];
     share.accountUserId = self.accountUserID;
-    share.accountPassword = [WizSettings accountPasswordByUserId:self.accountUserID];
+//    share.accountPassword = [WizSettings accountPasswordByUserId:self.accountUserID];
     [share startSyncInfo];
     int count = 0;
     for(NSArray* each in self.tableArray)
