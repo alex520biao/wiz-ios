@@ -179,7 +179,6 @@
     if (tableView == self.tableView) {
         LocationTreeNode* node = [self.displayNodes objectAtIndex:indexPath.row];
         FolderListView* folder = [[FolderListView alloc] init];
-        folder.accountUserID = self.accountUserId;
         folder.location = node.locationKey;
         [self.navigationController pushViewController:folder animated:YES];
         [folder release];

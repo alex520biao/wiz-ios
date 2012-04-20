@@ -165,7 +165,6 @@
 	}
     
     SearchResultViewController* searchResultView = [[SearchResultViewController alloc] initWithStyle:UITableViewStylePlain];
-    searchResultView.accountUserID = accountUserId;
     searchResultView.searchResult = arr;
     SearchViewControllerIphone* parent = (SearchViewControllerIphone*)self.owner;
     [parent.navigationController pushViewController:searchResultView animated:YES];

@@ -109,7 +109,6 @@
     
     [self addSearchHistory:[arr count]];
     SearchResultViewController* searchResultView = [[SearchResultViewController alloc] initWithStyle:UITableViewStylePlain];
-    searchResultView.accountUserID = accountUserId;
     searchResultView.searchResult = arr;
     
 

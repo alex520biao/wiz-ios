@@ -187,8 +187,6 @@
     //
     FolderListView* folderView = [[FolderListView alloc] initWithStyle:UITableViewStylePlain];
     
-    folderView.accountUserID = accountUserId;
-    folderView.location = subLocation;
     //
     [self.navigationController pushViewController:folderView animated:YES];
     //

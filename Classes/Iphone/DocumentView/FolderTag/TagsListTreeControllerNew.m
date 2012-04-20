@@ -173,7 +173,6 @@
     WizTag* tag =  [index tagFromGuid:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];;
     //
     TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];
-    tagView.accountUserID = accountUserId;
     tagView.tag = tag;
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
