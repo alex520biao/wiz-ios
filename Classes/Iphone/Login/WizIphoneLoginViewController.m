@@ -34,7 +34,7 @@
             return;
         }
     }
-    PickerViewController* pick =[[PickerViewController alloc] initWithUserID:accountUserId];
+    PickerViewController* pick =[[PickerViewController alloc] init];
     [self.navigationController pushViewController:pick animated:YES];
     [pick release];
 }

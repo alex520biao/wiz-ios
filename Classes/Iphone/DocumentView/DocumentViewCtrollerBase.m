@@ -367,14 +367,12 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    
 }
 
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     self.doc = [index documentFromGUID:self.doc.guid];
     NSUInteger attachmentsCount = [index attachmentCountOfDocument:self.doc.guid];
     if (attachmentsCount > 0) {
