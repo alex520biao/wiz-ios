@@ -330,7 +330,6 @@
         [currentPoperController dismissPopoverAnimated:YES];
     }
     UserSttingsViewController* settings = [[UserSttingsViewController alloc] initWithNibName:@"UserSttingsViewController" bundle:nil ];
-    settings.accountUserId = self.accountUserId;
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:settings];
     [settings release];
     UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:controller];

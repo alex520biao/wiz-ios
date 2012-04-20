@@ -33,7 +33,6 @@
 #define ProtectPasswordSucceedTag 1301
 
 @implementation UserSttingsViewController
-@synthesize accountUserId;
 @synthesize tablelistViewOption;
 @synthesize mobileViewCell;
 @synthesize mobileViewSwitch;
@@ -63,7 +62,6 @@
     [pickView release];
     [imageQualityData release];
     [downloadDurationData release];
-    [accountUserId release];
     [defaultUserCell release];
     [defaultUserLabel release];
     [defaultUserSwitch release];
@@ -107,7 +105,7 @@
 }
 - (IBAction)setDownloadOnlyByWifi:(id)sender
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     [index setConnectOnlyViaWifi:self.connectViaWifiSwitch.on];
 }
 - (IBAction)setAsDefaultUser:(id)sender
@@ -130,7 +128,7 @@
 }
 - (IBAction)setMobileView:(id)sender
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     [index setDocumentMoblleView:self.mobileViewSwitch.on];
 }
 - (void) cancelSettings
@@ -255,9 +253,8 @@
 - (void) logOutCurrentAccount
 {
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [[WizAccountManager defaultManager] logoutAccount:self.accountUserId];
     WizLog(@"will log out");
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     [index close];
     if (WizDeviceIsPad()) {
         [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
@@ -283,7 +280,7 @@
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
     self.protectCellNameLabel.text = NSLocalizedString(@"App launch protection", nil);
     self.defaultUserLabel.text = NSLocalizedString(@"Set as default account", nil);
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     self.mobileViewSwitch.on = [index isMoblieView];
 //    NSString* password = [WizSettings accountProtectPassword];
 //    if (password != nil && ![password isEqualToString:@""]) {
@@ -414,7 +411,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = [NSString stringWithFormat:@"Cell"];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     WizUserSettingCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[WizUserSettingCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
@@ -426,7 +423,7 @@
     cell.detailTextLabel.text = @"";
     if (0 == indexPath.row && 0 == indexPath.section) {
         cell.nameLabel.text = WizStrUserId;
-        cell.valueLabel.text = self.accountUserId;
+        cell.valueLabel.text = [[WizAccountManager defaultManager] activeAccountUserId];
         cell.selectionStyle  = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -596,7 +593,7 @@
     {
         if( buttonIndex == 1 ) //NO
         {
-            [[WizAccountManager defaultManager] removeAccount:self.accountUserId];
+            [[WizAccountManager defaultManager] removeAccount:[[WizAccountManager defaultManager] activeAccountUserId]];
             if (WizDeviceIsPad()) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
             }
@@ -626,7 +623,7 @@
     else if (alertView.tag == ClearCacheTag)
     {
         if (buttonIndex == 1) {
-            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+            WizIndex* index = [WizIndex activeIndex];
             [index clearCache];
         }
     }
@@ -636,6 +633,7 @@
 - (void)removeAccount
 {
 	NSString *title = nil;
+    NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
 	if(accountUserId != nil && [accountUserId length] > 0 )
 		title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to remove %@?", nil), accountUserId];
 	else
@@ -654,7 +652,6 @@
 - (void) changeUserPassword
 {
     WizChangePasswordController* changepw = [[WizChangePasswordController alloc] init];
-    changepw.accountUserId = self.accountUserId;
     [self.navigationController pushViewController:changepw animated:YES];
     [changepw release];
 
@@ -664,7 +661,7 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
         mailPocker.mailComposeDelegate = self;
-        [mailPocker setSubject:[NSString stringWithFormat:@"[%@] %@ by %@",[[UIDevice currentDevice] model],NSLocalizedString(@"Feedback", nil),self.accountUserId]];
+        [mailPocker setSubject:[NSString stringWithFormat:@"[%@] %@ by %@",[[UIDevice currentDevice] model],NSLocalizedString(@"Feedback", nil),[[WizAccountManager defaultManager] activeAccountUserId]]];
         NSArray* toRecipients = [NSArray arrayWithObjects:@"support@wiz.cn",@"yishuiliunian@gmail.com",nil];
         NSString* mailBody = [NSString stringWithFormat:@"%@:\n\n\n\n\n\n\n\n\n\n\n\n\n\n %@\n %@ \n%@"
                               ,NSLocalizedString(@"Your advice", nil)
@@ -777,7 +774,7 @@
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     if (pickerView.tag == ImageQualityTag) {
         self.imageQulity = [self imageQulityFormIndex:row];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationRight];

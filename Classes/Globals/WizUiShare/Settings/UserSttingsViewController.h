@@ -9,7 +9,6 @@
 #import <MessageUI/MessageUI.h>
 @interface UserSttingsViewController:UITableViewController <UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate>
 {
-    NSString* accountUserId;
     UITableViewCell *mobileViewCell;
     UILabel* mbileViewCellLabel;
     UISwitch* mobileViewSwitch;
@@ -20,11 +19,9 @@
     UILabel* defaultUserLabel;
     UISwitch* defaultUserSwitch;
     NSString* accountProtectPassword;
-    
     UITableViewCell* connectViaWifiCell;
     UILabel* connectViaWifiLabel;
     UISwitch* connectViaWifiSwitch;
-    
     UIPickerView* pickView;
     NSArray* downloadDurationData;
     NSArray* imageQualityData;
@@ -34,7 +31,6 @@
     int imageQulity;
     int tablelistViewOption;
 }
-@property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSArray* viewOptions;
 @property (nonatomic, retain) IBOutlet UITableViewCell *mobileViewCell;
 @property (nonatomic, retain) IBOutlet UILabel* mbileViewCellLabel;

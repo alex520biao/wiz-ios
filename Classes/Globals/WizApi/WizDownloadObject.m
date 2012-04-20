@@ -112,6 +112,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
             [self downloadNext];
         }
         else {
+            if ([objSize longLongValue] != [self.fileHandle offsetInFile]) {
+                [self.fileHandle seekToFileOffset:0];
+                [self downloadNext];
+            }
+            
             WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
             [index updateObjectDataByPath:[index downloadObjectTempFilePath:self.objGuid] objectGuid:self.objGuid];
             [self downloadDone];

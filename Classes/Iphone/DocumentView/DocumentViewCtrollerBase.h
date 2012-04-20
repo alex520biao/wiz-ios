@@ -13,7 +13,6 @@
 {
     UIWebView* web;
     WizDocument* doc;
-    NSString* accountUserID;
     UISlider* webFontSizeSlider;
     UIBarItem* attachmentBarItem;
     UIBarItem* infoBarItem;
@@ -32,7 +31,6 @@
 }
 @property (nonatomic, retain) IBOutlet UIWebView* web;
 @property (nonatomic, retain) WizDocument* doc;
-@property (nonatomic, retain) NSString* accountUserID;
 @property (nonatomic, retain)  IBOutlet UIBarItem* attachmentBarItem;
 @property (nonatomic, retain)  IBOutlet UIBarItem* infoBarItem;
 @property (nonatomic, retain)  IBOutlet UIBarItem* editBarItem;

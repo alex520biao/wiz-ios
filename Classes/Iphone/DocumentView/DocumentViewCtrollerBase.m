@@ -82,7 +82,6 @@
 
 @implementation DocumentViewCtrollerBase
 @synthesize  web;
-@synthesize  accountUserID;
 @synthesize doc;
 @synthesize fontWidth;
 
@@ -107,7 +106,6 @@
 {
     [searchItem release];
     [web release];
-    [accountUserID release];
     [doc release];
     [attachmentBarItem release];
     [infoBarItem release];
@@ -164,7 +162,6 @@
 {
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
     checkAttach.documentGUID = self.doc.guid;
-    checkAttach.accountUserId = accountUserID;
     checkAttach.checkNav = self.navigationController;
     [self.navigationController pushViewController:checkAttach animated:YES];
     [checkAttach release];
@@ -173,7 +170,7 @@
 - (void)editCurrentDocument
 {
     NSMutableDictionary* data = [NSMutableDictionary dictionary];
-    NewNoteView* newNote= [[NewNoteView alloc]initWithAccountId:self.accountUserID];
+    NewNoteView* newNote= [[NewNoteView alloc]init];
     [data setObject:self.doc.title forKey:TypeOfDocumentTitle];
     [data setObject:self.doc.guid forKey:TypeOfDocumentGUID];
     [data setObject:[self.web bodyText] forKey:TypeOfDocumentBody];
@@ -237,7 +234,6 @@
 {
     DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
     infoView.doc = self.doc;
-    infoView.accountUserId = self.accountUserID;
     [self.navigationController pushViewController:infoView animated:YES];
     [infoView release];
 }
@@ -267,14 +263,13 @@
 {
     [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone)];
     WizSyncManager* share =[WizSyncManager shareManager];
-    share.accountUserId = self.accountUserID;
     [[WizSyncManager shareManager] downloadDocument:self.doc.guid];
     return;
 }
 - (void) checkDocument
 {
     self.web.scalesPageToFit = YES;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     NSString* documentFileName = [index documentViewFilename:self.doc.guid];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
     if ([index isMoblieView]) {
@@ -330,7 +325,7 @@
 }
 - (void) downloadDocumentDone
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     NSString* documentFileName = [index documentViewFilename:self.doc.guid];
     if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
@@ -417,7 +412,7 @@
     self.searchItem.enabled = NO;
     self.attachmentBarItem.enabled = NO;
     [self.downloadActivity startAnimating];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     NSString* documentFileName = [index documentViewFilename:self.doc.guid];
     if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
         if ([index documentServerChanged:self.doc.guid]) {
