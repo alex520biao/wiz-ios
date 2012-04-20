@@ -477,8 +477,8 @@
 		73A7849114F8CC22001387F6 /* PadFoldersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadFoldersController.m; sourceTree = "<group>"; };
 		73A7849214F8CC22001387F6 /* PadTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PadTagController.h; sourceTree = "<group>"; };
 		73A7849314F8CC22001387F6 /* PadTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PadTagController.m; sourceTree = "<group>"; };
-		73A7849414F8CC22001387F6 /* PickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickViewController.h; path = ../IPad/PickViewController.h; sourceTree = "<group>"; };
-		73A7849514F8CC22001387F6 /* PickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickViewController.m; path = ../IPad/PickViewController.m; sourceTree = "<group>"; };
+		73A7849414F8CC22001387F6 /* PickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickViewController.h; path = ../../IPad/PickViewController.h; sourceTree = "<group>"; };
+		73A7849514F8CC22001387F6 /* PickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickViewController.m; path = ../../IPad/PickViewController.m; sourceTree = "<group>"; };
 		73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAddAcountViewController.h; sourceTree = "<group>"; };
 		73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAddAcountViewController.m; sourceTree = "<group>"; };
 		73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
@@ -888,6 +888,15 @@
 			name = AbstractCache;
 			sourceTree = "<group>";
 		};
+		732403901541191200FDFE16 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				73A7849414F8CC22001387F6 /* PickViewController.h */,
+				73A7849514F8CC22001387F6 /* PickViewController.m */,
+			);
+			name = MainView;
+			sourceTree = "<group>";
+		};
 		733B1D4214F4D18E007F3402 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1164,8 +1173,6 @@
 		73A784B714F8CC22001387F6 /* Iphone */ = {
 			isa = PBXGroup;
 			children = (
-				73A7849414F8CC22001387F6 /* PickViewController.h */,
-				73A7849514F8CC22001387F6 /* PickViewController.m */,
 				734CA1251504597D002549CB /* FolderTag */,
 				73A784B814F8CC22001387F6 /* DocumentList */,
 				73A784C314F8CC22001387F6 /* DocumentView */,
@@ -1209,6 +1216,7 @@
 		73A784DD14F8CC22001387F6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				732403901541191200FDFE16 /* MainView */,
 				73A784E114F8CC22001387F6 /* WizPhoneCreateAccountViewController.h */,
 				73A784E214F8CC22001387F6 /* WizPhoneCreateAccountViewController.m */,
 				737B530B151EEA1200CE3656 /* WizIphoneLoginViewController.h */,

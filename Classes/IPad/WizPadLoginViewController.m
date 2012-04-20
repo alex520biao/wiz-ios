@@ -99,7 +99,7 @@
 {
 //    NSArray* accounts = [WizSettings accounts];
 //    if ([accounts count] > 0) {
-//        NSString* defaultUserId = [WizSettings defaultAccountUserId];
+//        NSString* defaultUserId = [WizSettings activeAccountUserId];
 //        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
 //            return;
 //        }

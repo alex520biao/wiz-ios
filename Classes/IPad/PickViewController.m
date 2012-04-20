@@ -26,44 +26,30 @@
 #import "WizNotification.h"
 //wiz-dzpqzb test
 #import "WizTableViewController.h"
+
  #define NEWNOTEENTRY 101
  
 @implementation PickerViewController
-@synthesize accountUserId;
 -(void) dealloc
 {
+    if ([WizGlobals WizDeviceVersion] < 5.0) {
+        self.navigationController.delegate = nil;
+    }
     [WizNotificationCenter removeObserver:self];
-    [accountUserId release];
     [super dealloc];
 }
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
- {
-         self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-         if (self) {
-                 // Custom initialization
-             }
-         return self;
-     }
- 
--   (id) initWithUserID:(NSString*) accountUserID;
- {
-         self.accountUserId = accountUserID;
-         return [self init];
-     }
- 
--  (void) addSelcetorToView:(SEL)sel :(UIView*)view
- {
-         UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:sel] autorelease];
-         tap.numberOfTapsRequired =1;
-         tap.numberOfTouchesRequired =1;
-         [view addGestureRecognizer:tap];
-         view.userInteractionEnabled = YES;
-     }
- 
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+
+    }
+    return self;
+}
 -(void) newNote
 {
-    NewNoteView* newNote= [[NewNoteView alloc]initWithAccountId:self.accountUserId];
+    NewNoteView* newNote= [[NewNoteView alloc]init];
     [newNote prepareForNewDocument];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
@@ -71,29 +57,31 @@
     [controller release];
 }
  
--   (id) init
- {
-         if(self = [super initWithNibName:nil bundle:nil])
-             {
-               
-                 }
-         return self;
-     }
- 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        if ([WizGlobals WizDeviceVersion] < 5.0) {
+            self.navigationController.delegate = self;
+        }
+        [WizNotificationCenter addObserverForIphoneSetupAccount:self selector:@selector(setupAccount)];
+    }
+    return self;
+}
 
--   (void) viewDidAppear:(BOOL)animated
- {
-         [[self.tabBarController.view viewWithTag:101]setHidden:NO];
-         [super viewDidAppear:animated];
+- (void) viewDidAppear:(BOOL)animated
+{
+     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
+     [super viewDidAppear:animated];
 }
  
- -  (void)didReceiveMemoryWarning
- {
+- (void)didReceiveMemoryWarning
+{
          // Releases the view if it doesn't have a superview.
 //         [super didReceiveMemoryWarning];
          
          // Release any cached data, images, etc that aren't in use.
- }
+}
  
  #pragma mark   View lifecycle
  
@@ -110,7 +98,6 @@
 - (void) setupAccount
 {
     UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithNibName:@"UserSttingsViewController" bundle:nil ];
-    editAccountView.accountUserId = self.accountUserId;
     editAccountView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:editAccountView animated:YES];
     [editAccountView release];
@@ -118,21 +105,14 @@
 
 - (void)viewDidLoad
 {
-     [super viewDidLoad];
-    if ([WizGlobals WizDeviceVersion] < 5.0) {
-        self.navigationController.delegate = self;
-    }
-    [WizNotificationCenter addObserverForIphoneSetupAccount:self selector:@selector(setupAccount)];
+    [super viewDidLoad];
     RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
-    recent.accountUserID =self.accountUserId;
-//    WizTableViewController* recent = [[WizTableViewController alloc] initWithAccountuserid:self.accountUserId];
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
     recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
     [recent release];
     
     FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];
-    folderView.accountUserId = self.accountUserId;
     UINavigationController* folderController = [[UINavigationController alloc] init] ;
     [folderController  pushViewController:folderView animated:NO];
     folderView.title = WizStrFolders;
@@ -140,7 +120,6 @@
     [folderView release];
 
     TagsListTreeControllerNew* tagView = [[TagsListTreeControllerNew alloc] init];
-    tagView.accountUserId = accountUserId;
     UINavigationController* tagController = [[UINavigationController alloc] init];
     tagView.title = WizStrTags;
     [tagController pushViewController:tagView animated:NO];
@@ -148,8 +127,6 @@
     [tagView release];
     
     SearchViewControllerIphone *searchView = [[SearchViewControllerIphone alloc] init];
-    searchView.accountUserId = accountUserId;
-//    searchView.accountUserPassword = [WizSettings accountPasswordByUserId:self.accountUserId];
     UINavigationController* searchController = [[UINavigationController alloc]initWithRootViewController:searchView ];
     searchController.title = WizStrSearch;
     searchController.tabBarItem.image = [UIImage imageNamed:@"barItemSearch"];
@@ -168,17 +145,13 @@
     [emptyController release];
     [tagController release];
     [searchController release];
-     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
+    [[self.tabBarController.view viewWithTag:101]setHidden:NO];
     
 }
--   (void)viewDidUnload
+- (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfMainPickSelectedView object:nil];
-    [WizNotificationCenter removeObserver:self];
-    if ([WizGlobals WizDeviceVersion] < 5.0) {
-        self.navigationController.delegate = nil;
-    }
+
 }
  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

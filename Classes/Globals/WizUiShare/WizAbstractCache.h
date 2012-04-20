@@ -16,7 +16,7 @@
 @property (nonatomic, retain) UIImage*              image;
 @end
 @interface WizAbstractCache : NSObject
-- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID  userID:(NSString*)userID;
+- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID;
 + (id) shareCache;
 - (void) didReceivedMenoryWarning;
 

@@ -137,6 +137,9 @@ enum
 	NSString* accountUserId;
 }
 @property (nonatomic, retain) NSString* accountUserId;
+
++ (id) activeIndex;
+
 - (id) initWithAccount: (NSString*)userId;
 
 - (BOOL) isOpened;

@@ -22,9 +22,9 @@
 #import "DocumentListViewCell.h"
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 
 @implementation DocumentListViewControllerBaseNew
-@synthesize accountUserID;
 @synthesize tableArray;
 @synthesize kOrder;
 @synthesize currentDoc;
@@ -87,7 +87,7 @@
     if (nil == indexPath) {
         return;
     }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     [index deleteDocument:documentGuid];
     [index addDeletedGUIDRecord:documentGuid type:@"document"];
     [[self.tableArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
@@ -101,7 +101,7 @@
 }
 - (void) willReloadAllData
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     self.kOrder = [index userTablelistViewOption];
     [self reloadAllData];
 }
@@ -118,8 +118,7 @@
         self.navigationController.delegate = self;
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     self.kOrder = [index userTablelistViewOption];
     [self reloadAllData];
 }
@@ -188,7 +187,6 @@
     WizDocument* doc = [[self.tableArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-        cell.accoutUserId = self.accountUserID;
     }
     cell.interfaceOrientation = self.interfaceOrientation;
     cell.doc = doc;
@@ -513,145 +511,11 @@
     sectionView.alpha = 0.8f;
     return sectionView;
 }
-
-//- (void) onSyncEnd
-//{
-//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-//    [nc removeObserver:self name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
-//    [nc removeObserver:self name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
-//    [nc removeObserver:self name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
-//    [self stopLoading];
-//    UIView* remindView = [self.view viewWithTag:10001];
-//    [remindView removeFromSuperview];
-//}
-
-//
-//- (void) stopSyncing
-//{
-//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:[sync notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-//}
-//
-//-(void) syncGoing:(NSNotification*) nc
-//{
-//    NSDictionary* userInfo = [nc userInfo];
-//    NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
-//    NSNumber* total = [userInfo objectForKey:@"sync_method_total"];
-//    NSNumber* current = [userInfo objectForKey:@"sync_method_current"];
-//    NSString* objectName = [userInfo objectForKey:@"object_name"];
-//    NSNotificationCenter* ncCenter = [NSNotificationCenter defaultCenter];
-//    if ([methodName isEqualToString:SyncMethod_ClientLogin]) {
-//        self.refreshLabel.text = WizStrSigningIn;
-//    }
-//    
-//    else if ([methodName isEqualToString:SyncMethod_ClientLogout]) {
-//        self.refreshLabel.text =WizStrSigningOut;
-//    }
-//    
-//    
-//    else if ([methodName isEqualToString:SyncMethod_GetAllTags]) {
-//        self.refreshLabel.text = WizStrSyncingtags;
-//    }
-//    
-//    else if([methodName isEqualToString:SyncMethod_PostTagList])
-//    {
-//        self.refreshLabel.text = WizStrSyncingtags;
-//    }
-//    
-//    else if ([methodName isEqualToString:SyncMethod_DownloadDocumentList]) {
-//        [ncCenter postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
-//        self.refreshLabel.text = WizStrSyncingnoteslist;
-//    }
-//    
-//    else if ([methodName isEqualToString:SyncMethod_GetAttachmentList]) {
-//         [ncCenter postNotificationName:MessageOfDocumentlistWillReloadData object:nil];
-//        self.refreshLabel.text = WizStrSyncingattachmentlist;
-//    }
-//    
-//    else if ( [methodName isEqualToString:SyncMethod_GetAllCategories])
-//    {
-//        if ([current isEqualToNumber:total]) {
-//            [ncCenter postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
-//        }
-//        self.refreshLabel.text = WizStrSyncingfolders;
-//    }
-//    
-//    else if ( [methodName isEqualToString:SyncMethod_GetUserInfo])
-//    {
-//        self.refreshLabel.text = WizStrSyncinguserinformation;
-//    }
-//    
-//    else if ( [methodName isEqualToString:SyncMethod_UploadDeletedList])
-//    {
-//        self.refreshLabel.text = WizStrSyncingdeletednotes;
-//    }
-//    
-//    else if ( [methodName isEqualToString:SyncMethod_DownloadDeletedList])
-//    {
-//        self.refreshLabel.text =WizStrSyncingdeletednotes;
-//    }
-//    else if ([methodName isEqualToString:SyncMethod_UploadObject]) {
-//        self.refreshLabel.text = WizStrUploadingnotes;
-//        NSRange range = NSMakeRange(0, 20);
-//        NSString* displayName = nil;
-//        if (objectName.length >= 20) {
-//             displayName = [objectName substringWithRange:range];
-//        }
-//        else
-//        {
-//            displayName = objectName;
-//        }
-//        self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
-//        if ([total isEqualToNumber:current]) {
-//            self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %@",
-//                                            displayName,
-//                                            WizStrUploadsuccessfully];
-//        }
-//    }
-//   
-//    if ([methodName isEqualToString:SyncMethod_DownloadObject]) {
-//        self.refreshLabel.text = WizStrDownloadingNotes;
-//        NSRange range = NSMakeRange(0, 20);
-//        NSString* displayName = nil;
-//        if (objectName.length >= 20) {
-//            displayName = [objectName substringWithRange:range];
-//        }
-//        else
-//        {
-//            displayName = objectName;
-//        }
-//        self.refreshDetailLabel.text = [NSString stringWithFormat:@"%@ %d%%",displayName,(int)([current floatValue]/[total floatValue]*100)];
-//        if ([total isEqualToNumber:current]) {
-//            self.refreshDetailLabel.text =[NSString stringWithFormat:@"%@ %@",
-//                                           displayName,
-//                                           WizStrDownloadSuccessfully];        }
-//    }
-//    return;
-//}
-//
-//- (void) displayProcessInfo
-//{
-//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncGoing:) name:[sync notificationName:WizGlobalSyncProcessInfo] object:nil];
-//}
-//-(void) refresh
-//{
-//    WizSync* sync = [[WizGlobalData sharedData] syncData: self.accountUserID];
-//    if( ![sync startSync])
-//    {
-//        return;
-//    }
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncEndNotificationPrefix] object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSyncEnd) name:[sync notificationName:WizSyncXmlRpcErrorNotificationPrefix] object:nil];
-//   
-//}
 - (void) viewDocument
 {
 	if (!self.currentDoc)
 		return;
 	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] initWithNibName:@"DocumentViewCtrollerBase" bundle:nil];
-	docView.accountUserID = self.accountUserID;
 	docView.doc = self.currentDoc;
     docView.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:docView animated:YES];
@@ -694,7 +558,6 @@
     [WizNotificationCenter removeObserver:self];
     [tableArray release];
     [sourceArray release];
-    [accountUserID release];
     [currentDoc release];
     self.isReverseDateOrdered = NO;
     [lastIndexPath release];

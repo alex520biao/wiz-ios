@@ -30,7 +30,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 @synthesize interfaceOrientation;
 @synthesize abstractImageView;
 @synthesize doc;
-@synthesize accoutUserId;
 @synthesize hasAbstract;
 @synthesize downloadIndicator;
 static NSMutableDictionary* detailAttributes;
@@ -86,7 +85,6 @@ static UIFont* nameFont;
     [abstractLabel release];
     [abstractImageView release];
     [doc release];
-    [accoutUserId release];
     self.hasAbstract = NO;
     [downloadIndicator release];
     [super dealloc];
@@ -158,7 +156,7 @@ static UIFont* nameFont;
 
 - (void) prepareForAppear
 {
-    WizAbstractData* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc.guid userID:self.accoutUserId];
+    WizAbstractData* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc.guid];
    if (abstract.image != nil) {
         self.abstractLabel.frame = CellWithImageFrame;
         self.abstractImageView.hidden = NO;

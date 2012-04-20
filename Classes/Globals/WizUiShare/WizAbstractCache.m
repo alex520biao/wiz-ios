@@ -11,6 +11,7 @@
 #import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 @implementation WizAbstractData
 
 @synthesize text, image;
@@ -159,16 +160,16 @@
         return str;
     }
 }
-- (WizAbstractData*) generateAbstractForDocument:(NSString*)documentGUID useID:(NSString*)userID
+- (WizAbstractData*) generateAbstractForDocument:(NSString*)documentGUID
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:userID];
+    WizIndex* index = [WizIndex activeIndex];
     WizDocument* doc = [index documentFromGUID:documentGUID];
     if (nil == doc) {
         return nil;
     }
     WizAbstract*   abstract = [index  abstractOfDocument:doc.guid];
     if (abstract == nil && ![index documentServerChanged:doc.guid]) {
-        NSString* documentFilePath = [WizIndex documentFileName:userID documentGUID:doc.guid];
+        NSString* documentFilePath = [WizIndex documentFileName:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:doc.guid];
         if ([[NSFileManager defaultManager] fileExistsAtPath:documentFilePath]) {
             [index extractSummary:documentGUID];
             abstract = [index abstractOfDocument:documentGUID];
@@ -229,11 +230,11 @@
     [absData release];
     return absData;
 }
-- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID  userID:(NSString*)userID
+- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID
 {
     WizAbstractData* abs = [self readAbstractData:documentGUID];
     if (nil == abs) {
-        return [self generateAbstractForDocument:documentGUID useID:userID];
+        return [self generateAbstractForDocument:documentGUID];
     }
     return abs;
 }

@@ -19,7 +19,6 @@
 {
     NSMutableArray* tableArray;
     NSMutableArray* sourceArray;
-    NSString* accountUserID;
     int             kOrder;
     WizDocument* currentDoc;
     BOOL        isReverseDateOrdered;
@@ -28,7 +27,6 @@
     BOOL hasNewDocument;
 }
 @property (nonatomic, retain) NSMutableArray* tableArray;
-@property (nonatomic, retain) NSString* accountUserID;
 @property (nonatomic, retain) WizDocument* currentDoc;
 @property (nonatomic, retain) NSIndexPath* lastIndexPath;
 @property (nonatomic, retain) UIAlertView* assertAlerView;

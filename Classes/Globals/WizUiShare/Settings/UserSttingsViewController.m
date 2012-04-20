@@ -294,7 +294,7 @@
 //    {
 //        self.protectCellSwitch.on = NO;
 //    }
-//    NSString* defaultUserID = [WizSettings defaultAccountUserId];
+//    NSString* defaultUserID = [WizSettings activeAccountUserId];
 //    if (defaultUserID == nil) {
 //        defaultUserID = @"";
 //    }

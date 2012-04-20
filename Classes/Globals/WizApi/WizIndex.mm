@@ -17,6 +17,7 @@
 #import "WizSync.h"
 #import "TFHpple.h"
 #import "pinyin.h"
+#import "WizAccountManager.h"
 //#import "RegexKitLite.h"
 #import "WizGlobalDictionaryKey.h"
 #import "NSDate-Utilities.h"
@@ -297,6 +298,10 @@ NSInteger compareTag(id location1, id location2, void*);
 
 @synthesize accountUserId;
 
++ (id) activeIndex
+{
+    return [[WizGlobalData sharedData] indexData:[[WizAccountManager defaultManager] activeAccountUserId]];
+}
 - (id) initWithAccount: (NSString*)userId
 {
 	if (self = [super init])
@@ -306,7 +311,6 @@ NSInteger compareTag(id location1, id location2, void*);
 		//
 		self.accountUserId = userId;
 	}
-	//
 	return self;
 }
 - (void) dealloc

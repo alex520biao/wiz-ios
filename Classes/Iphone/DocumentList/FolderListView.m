@@ -75,7 +75,7 @@
 
 - (void) reloadDocuments
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     self.sourceArray = [[[index documentsByLocation:self.location] mutableCopy] autorelease];
     if([self.sourceArray count] == 0)
     {

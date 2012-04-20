@@ -15,7 +15,7 @@
 - (NSString*) accountPasswordByUserId:(NSString *)userID;
 - (void) setDefalutAccount:(NSString*)accountUserId;
 - (void) registerActiveAccount:(NSString*)userId;
-- (NSString*) defaultAccountUserId;
+- (NSString*) activeAccountUserId;
 - (void) addAccount: (NSString*)userId password:(NSString*)password;
 - (NSString*) accountProtectPassword;
 - (void) setAccountProtectPassword:(NSString*)password;

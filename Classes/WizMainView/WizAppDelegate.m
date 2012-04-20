@@ -147,7 +147,7 @@
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
 
-    NSString* defaultAccount = [[WizAccountManager defaultManager] defaultAccountUserId];
+    NSString* defaultAccount = [[WizAccountManager defaultManager] activeAccountUserId];
     if (defaultAccount == nil || [defaultAccount isEqualToString:@""]) {
         return NO;
     }

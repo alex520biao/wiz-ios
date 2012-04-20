@@ -46,7 +46,7 @@
 
 - (void) reloadDocuments
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByTag:tag.guid]];
     if([self.sourceArray count] == 0)
     {

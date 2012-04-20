@@ -37,7 +37,7 @@
 */
 - (void) reloadDocuments
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     NSMutableArray* arr = [[index recentDocuments] mutableCopy];
     if (arr != nil)
     {
@@ -54,7 +54,7 @@
 {
     self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     WizDocument* newDocument = [index documentFromGUID:documentGUID];
 //    WizSyncManager* sync = [WizSyncManager shareManager];
 //    sync.accountUserId = self.accountUserID;
@@ -135,8 +135,6 @@
 //        [self stopLoading];
 //    }
     WizSyncManager* share = [WizSyncManager shareManager];
-    share.accountUserId = self.accountUserID;
-//    share.accountPassword = [WizSettings accountPasswordByUserId:self.accountUserID];
     [share startSyncInfo];
     int count = 0;
     for(NSArray* each in self.tableArray)
@@ -162,7 +160,7 @@
         [remind release];
     }
     
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+    WizIndex* index = [WizIndex activeIndex];
     if ([index isFirstLog] ) {
         [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:NO];
         [self startLoading];

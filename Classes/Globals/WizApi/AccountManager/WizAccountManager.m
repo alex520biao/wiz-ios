@@ -138,7 +138,7 @@
     shareManager.accountPassword = [self accountPasswordByUserId:userId];
     [self setDefalutAccount:userId];
 }
-- (NSString*) defaultAccountUserId
+- (NSString*) activeAccountUserId
 {
     id userId = [self readSettings:KeyOfDefaultUserId];
     if (userId != nil && [userId isKindOfClass:[NSString class]]) {

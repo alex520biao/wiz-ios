@@ -43,7 +43,7 @@
 {
     NSArray* accounts = [[WizAccountManager defaultManager] accounts];
     if ([accounts count] > 0) {
-        NSString* defaultUserId = [[WizAccountManager defaultManager] defaultAccountUserId];
+        NSString* defaultUserId = [[WizAccountManager defaultManager] activeAccountUserId];
         if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
             return;
         }
