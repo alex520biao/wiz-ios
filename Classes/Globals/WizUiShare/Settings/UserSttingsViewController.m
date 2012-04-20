@@ -20,6 +20,7 @@
 #import "WizGlobalNotificationMessage.h"
 #import "CloudReview.h"
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 
 #define ClearCacheTag          1201
 #define ChangePasswordTag 888
@@ -253,19 +254,19 @@
 }
 - (void) logOutCurrentAccount
 {
-//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//    [WizSettings logoutAccount:self.accountUserId];
-//    WizLog(@"will log out");
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    [index close];
-//    if (WizDeviceIsPad()) {
-//        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-//        return;
-//    }
-//    else
-//    {
-//        [self.navigationController popToRootViewControllerAnimated:YES];
-//    }
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [[WizAccountManager defaultManager] logoutAccount:self.accountUserId];
+    WizLog(@"will log out");
+    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    [index close];
+    if (WizDeviceIsPad()) {
+        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+        return;
+    }
+    else
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 - (void) buildNavItems
 {
@@ -595,14 +596,14 @@
     {
         if( buttonIndex == 1 ) //NO
         {
-//            [WizSettings removeAccount:self.accountUserId];
-//            if (WizDeviceIsPad()) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-//            }
-//            else
-//            {
-//                [self.navigationController popToRootViewControllerAnimated:YES];
-//            }
+            [[WizAccountManager defaultManager] removeAccount:self.accountUserId];
+            if (WizDeviceIsPad()) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+            }
+            else
+            {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
         }
     }
     else if (alertView.tag == ProtectPasswordTag)

@@ -8,14 +8,25 @@
 
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizCreateAccount.h"
-#import "CommonString.h"
-#import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
-#import "PickViewController.h"
-#import "WizPhoneNotificationMessage.h"
 #import "WizInputView.h"
 #import "WizNotification.h"
+#import "WizAccountManager.h"
+
+@interface WizPhoneCreateAccountViewController()
+{
+    WizInputView* idInputView;
+    WizInputView* passwordInputView;
+    WizInputView* confirmInputView;
+    UIButton* registerButton;
+    UIAlertView* waitAlertView;
+}
+@property (nonatomic, retain) WizInputView* idInputView;
+@property (nonatomic, retain) WizInputView* passwordInputView;
+@property (nonatomic, retain) WizInputView* confirmInputView;
+@property (nonatomic, retain) UIAlertView* waitAlertView;
+@property (nonatomic, retain)    UIButton* registerButton;
+@end
 
 @implementation WizPhoneCreateAccountViewController
 
@@ -82,106 +93,70 @@
     [self.passwordInputView.textInputField resignFirstResponder];
     [self.confirmInputView.textInputField resignFirstResponder];
 }
+
+- (void) showErrorAlert:(NSString*)message 
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:message delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+}
+- (void) showWaitAlert
+{
+    UIAlertView* alert = nil;
+	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];
+    self.waitAlertView = alert;
+	[alert show];
+	[alert release];
+}
 - (void) createAccount
 {
-	NSString* error = WizStrError;
     NSString* name = self.idInputView.textInputField.text;
     NSString* password = self.passwordInputView.textInputField.text;
     NSString* confirm = self.confirmInputView.textInputField.text;
 	if (name == nil|| [name length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenteuserid delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
+		[self showErrorAlert:WizStrPleaseenteuserid];
 		return;
 	}
 	if (password == nil || [password length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterpassword delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
+		[self showErrorAlert:WizStrPleaseenterpassword];
 		return;
 	}
 	if (confirm == nil || [confirm length] == 0)
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrPleaseenterthepasswordagain delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
+		[self showErrorAlert:WizStrPleaseenterthepasswordagain];
 		return;
 	}
 	if (![confirm isEqualToString:password])
 	{
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:WizStrThePasswordDontMatch delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
+		[self showErrorAlert:WizStrThePasswordDontMatch];
 		return;
 	}
-	//
-//	if (-1 != [WizSettings findAccount:name])
-//	{
-//		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, name];
-//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-//		[alert show];
-//		[alert release];
-//		return;
-//	}
-	//
-	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-	//
-	[nc removeObserver:self];
-	//
-	WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData: name];
-	//
-
-	//
-//    api.accountPassword = password;
+	if ([[WizAccountManager defaultManager] findAccount:name])
+	{
+		[self showErrorAlert:WizStrAccounthasalreadyexists];
+		return;
+	}
+	WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData];
+    api.accountUserId = name;
+    api.accountPassword = password;
+    api.createAccountDelegate = self;
 	[api createAccount];
-	UIAlertView* alert = nil;
-	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];
-    self.waitAlertView = alert;
-	[alert show];
-	[alert release];
-	//
-    
+    [self showWaitAlert];
 }
-- (void)viewDidLoad
+- (WizInputView*) addInputView:(CGRect)rect      title:(NSString*) title     placeHoder:(NSString*)placeHoder
 {
-    [super viewDidLoad];
-    
-    UIImageView* logi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title1"]];
-    logi.frame = CGRectMake(0.0, 20, 320, 40);
-    [self.view addSubview:logi];
-    [logi release];
-    WizInputView* name = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 80, 320, 40) title:@"Email" placeHoder:@"email@example.com"];
+    WizInputView* name = [[WizInputView alloc] initWithFrame:rect title:title placeHoder:placeHoder];
     name.textInputField.delegate = self;
     name.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
-    self.idInputView = name;
-    [name release];
-    
-    WizInputView* password = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 140, 320, 40) title:@"Password" placeHoder:@"Password"];
-    self.passwordInputView = password;
-    password.textInputField.secureTextEntry = YES;
-    password.textInputField.delegate = self;
-    [password release];
-    
-    WizInputView* confirm = [[WizInputView alloc] initWithFrame:CGRectMake(0.0, 200, 320, 40) title:@"Confirm" placeHoder:@"Password"];
-    self.confirmInputView = confirm;
-    confirm.textInputField.secureTextEntry = YES;
-    confirm.textInputField.delegate = self;
-    [confirm release];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keybordHide) name:UIKeyboardDidHideNotification object:nil];
-    [self.view addSubview:self.idInputView];
-    [self.view addSubview:self.passwordInputView];
-    [self.view addSubview:self.confirmInputView];
+    [self.view addSubview:name];
+    return [name autorelease];
+}
+
+- (void) initBackGroud
+{
     self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
-    
-    UIButton* logButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    logButton.frame = CGRectMake(10, 260, 300, 40);
-    [logButton setTitle:WizStrRegister forState:UIControlStateNormal];
-    logButton.titleLabel.textAlignment = UITextAlignmentCenter;
-    [self.view addSubview:logButton];
-    [logButton addTarget:self action:@selector(createAccount) forControlEvents:UIControlEventTouchUpInside];
-    [logButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud1"] forState:UIControlStateNormal];
     UIView* b1 = [[UIView alloc] initWithFrame:CGRectMake(0.0, 320, 320, 1)];
     b1.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
     [self.view addSubview:b1];
@@ -191,64 +166,71 @@
     [self.view addSubview:b2];
     [b2 release];
 }
+- (void) buildNavigationItem
+{
+    UIButton* logButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logButton.frame = CGRectMake(10, 260, 300, 40);
+    [logButton setTitle:WizStrRegister forState:UIControlStateNormal];
+    logButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    [self.view addSubview:logButton];
+    [logButton addTarget:self action:@selector(createAccount) forControlEvents:UIControlEventTouchUpInside];
+    [logButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud1"] forState:UIControlStateNormal];
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    UIImageView* logi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title1"]];
+    logi.frame = CGRectMake(0.0, 20, 320, 40);
+    [self.view addSubview:logi];
+    [logi release];
+    self.idInputView = [self addInputView:CGRectMake(0.0, 80, 320, 40) title:@"Email" placeHoder:@"email@example.com"];
+    self.passwordInputView = [self addInputView:CGRectMake(0.0, 140, 320, 40) title:@"Password" placeHoder:@"Password"];
+    self.confirmInputView = [self addInputView:CGRectMake(0.0, 200, 320, 40) title:@"Confirm" placeHoder:@"Password"];
+    self.passwordInputView.textInputField.secureTextEntry = YES;
+    self.confirmInputView.textInputField.secureTextEntry = YES;
+    [self buildNavigationItem];
+    [self initBackGroud];
+}
 
 - (void)viewDidUnload
 {
-    
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keybordHide) name:UIKeyboardDidHideNotification object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-
-- (void) xmlrpcDone: (NSNotification*)nc
+- (void) dismissAlertView
 {
-	if (self.waitAlertView)
+    if (self.waitAlertView)
 	{
 		[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
 		self.waitAlertView = nil;
 	}
-	//
-	NSDictionary* userInfo = [nc userInfo];
-	//
-	NSString* method = [userInfo valueForKey:@"method"];
-	if (method != nil && [method isEqualToString:@"accounts.createAccount"])
-	{
-        NSString* name = self.idInputView.textInputField.text;
-        NSString* password = self.passwordInputView.textInputField.text;
-		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-		if (succeeded)
-		{
-//			[WizSettings addAccount:name password:password];
-//            [self.navigationController dismissModalViewControllerAnimated:NO];
-//            [WizNotificationCenter postPadSelectedAccountMessge:name];
-            
-		}
-		else {
-			NSError* error = [userInfo valueForKey:@"ret"];
-			NSString* msg = nil;
-			if (error != nil)
-			{
-				msg = [NSString stringWithFormat:NSLocalizedString(@"Cannot create account!\n%@", nil), [error localizedDescription]];
-			}
-			else {
-				msg = NSLocalizedString(@"Cannot create account!\nUnknown error!", nil);
-			}
-			
-			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-			[alert show];
-			[alert release];
-		}
-	}
 }
+- (void) didCreateAccountSucceed
+{
+    [self dismissAlertView];
+    NSString* name = self.idInputView.textInputField.text;
+    NSString* password = self.passwordInputView.textInputField.text;
+    [[WizAccountManager defaultManager]  addAccount:name password:password];
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    [WizNotificationCenter postPadSelectedAccountMessge:name];
 
+}
+- (void) didCreateAccountFaild
+{
+    [self dismissAlertView];
+}
 @end

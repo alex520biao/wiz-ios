@@ -22,7 +22,7 @@
 - (id) dataOfAccount: (NSString*) userId dataType: (NSString *) dataType;
 - (void) setDataOfAccount: (NSString*) userId dataType: (NSString *) dataType data: (id) data;
 - (WizSync *) syncData:(NSString*) userId;
-- (WizCreateAccount *) createAccountData:(NSString*) userId;
+- (WizCreateAccount *) createAccountData;
 - (WizVerifyAccount *) verifyAccountData:(NSString*) userId;
 - (WizIndex *) indexData:(NSString*) userId;
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId;

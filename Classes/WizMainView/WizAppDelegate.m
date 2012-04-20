@@ -21,6 +21,7 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
 //#import "TestFlight.h"
@@ -97,10 +98,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
     NSDictionary* userInfo = [nc userInfo];
     NSString* password = [userInfo valueForKey:TypeOfProtectPassword];
-//    NSString* protectPw = [WizSettings accountProtectPassword];
-//    if (![password isEqualToString:protectPw] ) {
-//        [self accountProtect];
-//    }
+    NSString* protectPw = [[WizAccountManager defaultManager] accountProtectPassword];
+    if (![password isEqualToString:protectPw] ) {
+        [self accountProtect];
+    }
 }
 - (void) accountProtect
 {
@@ -123,16 +124,10 @@
     [[WizAbstractCache shareCache] didReceivedMenoryWarning];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-//    if (WizAbs([[WizSettings lastActiveTime] timeIntervalSinceNow]) > 1800 ) {
-//        for (int i = 0; i < [[WizSettings accounts] count]; i++) {
-//            NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
-//            [[WizGlobalData sharedData] removeAccountData:userId];
-//        }
-//    }
-//    NSString* protectPw = [WizSettings accountProtectPassword];
-//    if (protectPw != nil && ![protectPw isEqualToString:@""]) {
-//        [self accountProtect];
-//    }
+    NSString* protectPw = [[WizAccountManager defaultManager] accountProtectPassword];
+    if (protectPw != nil && ![protectPw isEqualToString:@""]) {
+        [self accountProtect];
+    }
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
 //    [WizSettings setLastActiveTime];
@@ -152,7 +147,7 @@
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
 
-    NSString* defaultAccount = [[WizGlobalData sharedData] activeAccountUserId];
+    NSString* defaultAccount = [[WizAccountManager defaultManager] defaultAccountUserId];
     if (defaultAccount == nil || [defaultAccount isEqualToString:@""]) {
         return NO;
     }

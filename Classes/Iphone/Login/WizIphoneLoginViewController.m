@@ -7,7 +7,6 @@
 //
 
 #import "WizIphoneLoginViewController.h"
-#import "WizCheckAccounsController.h"
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizAddAcountViewController.h"
 #import "WizNotification.h"
@@ -15,6 +14,7 @@
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "PickViewController.h"
+#import "WizAccountManager.h"
 @interface WizIphoneLoginViewController ()
 {
     BOOL firstLoad;
@@ -24,6 +24,7 @@
 @implementation WizIphoneLoginViewController
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
+    [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
     if (![index isOpened])
     {
@@ -40,14 +41,14 @@
 
 - (void) selecteDefaultAccount
 {
-//    NSArray* accounts = [WizSettings accounts];
-//    if ([accounts count] > 0) {
-//        NSString* defaultUserId = [WizSettings defaultAccountUserId];
-//        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-//            return;
-//        }
-//        [self didSelectedAccount:defaultUserId];
-//    }
+    NSArray* accounts = [[WizAccountManager defaultManager] accounts];
+    if ([accounts count] > 0) {
+        NSString* defaultUserId = [[WizAccountManager defaultManager] defaultAccountUserId];
+        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+            return;
+        }
+        [self didSelectedAccount:defaultUserId];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

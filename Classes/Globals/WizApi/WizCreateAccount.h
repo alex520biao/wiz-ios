@@ -10,16 +10,23 @@
 
 #import "WizApi.h"
 
+@protocol WizCreateAccountDelegate <NSObject>
+
+- (void) didCreateAccountSucceed;
+- (void) didCreateAccountFaild;
+
+@end
+
 @interface WizCreateAccount : WizApi {
 	BOOL busy;
+    NSString* accountUserId;
+    NSString* accountPassword;
+    id<WizCreateAccountDelegate> createAccountDelegate;
 }
 
 @property (readonly) BOOL busy;
-
--(void) onError: (id)retObject;
--(void) onCreateAccount: (id)retObject;
-//
+@property (nonatomic, retain) NSString* accountUserId;
+@property (nonatomic, retain) NSString* accountPassword;
+@property (nonatomic, retain) id<WizCreateAccountDelegate> createAccountDelegate;
 -(BOOL) createAccount;
-
-
 @end

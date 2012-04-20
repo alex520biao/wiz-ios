@@ -7,20 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@class WizInputView;
-@interface WizPhoneCreateAccountViewController : UIViewController <UITextFieldDelegate>
-{
-    WizInputView* idInputView;
-    WizInputView* passwordInputView;
-    WizInputView* confirmInputView;
-    UIButton* registerButton;
-    UIAlertView* waitAlertView;
-}
-@property (nonatomic, retain) WizInputView* idInputView;
-@property (nonatomic, retain) WizInputView* passwordInputView;
-@property (nonatomic, retain) WizInputView* confirmInputView;
-@property (nonatomic, retain) UIAlertView* waitAlertView;
-@property (nonatomic, retain)    UIButton* registerButton;
-
-- (void) xmlrpcDone: (NSNotification*)nc;
+#import "WizCreateAccount.h"
+@interface WizPhoneCreateAccountViewController : UIViewController <UITextFieldDelegate,WizCreateAccountDelegate>
 @end

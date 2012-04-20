@@ -9,7 +9,6 @@
 #import "WizPadLoginViewController.h"
 #import "WizAddAcountViewController.h"
 #import "WizPadRegisterController.h"
-#import "WizCheckAccounsController.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizIndex.h"

@@ -111,15 +111,16 @@ static WizGlobalData* g_data;
 	 [data release];  return data;
 }
 
-- (WizCreateAccount *) createAccountData:(NSString*) userId
+- (WizCreateAccount *) createAccountData
 {
-	id data = [self dataOfAccount:userId dataType: DataTypeOfCreateAccount];
+	id data = [self dataOfAccount:WizGlobalAccount dataType: DataTypeOfCreateAccount];
 	if (data != nil)
 		return data;
-	//
-	data = [[WizCreateAccount alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfCreateAccount data:data];
-	 [data release];  return data;
+	data = [[WizCreateAccount alloc] init];
+    
+	[self setDataOfAccount:WizGlobalAccount dataType:DataTypeOfCreateAccount data:data];
+    [data release];
+    return data;
 }
 - (WizVerifyAccount *) verifyAccountData:(NSString*) userId
 {

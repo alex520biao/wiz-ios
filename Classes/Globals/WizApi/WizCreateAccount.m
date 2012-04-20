@@ -10,52 +10,27 @@
 
 
 @implementation WizCreateAccount
-
 @synthesize busy;
-
+@synthesize accountPassword;
+@synthesize accountUserId;
+@synthesize createAccountDelegate;
 -(void) onError: (id)retObject
 {
-	[super onError:retObject];
-	
+	[WizGlobals reportError:retObject];
 	busy = NO;
+    [self.createAccountDelegate didCreateAccountFaild];
 }
 -(void) onCreateAccount: (id)retObject
 {
 	busy = NO;
+    [self.createAccountDelegate didCreateAccountSucceed];
 }
-
 - (BOOL) createAccount
 {
 	if (self.busy)
 		return NO;
-	//
 	busy = YES;
-	//
-	return [self callCreateAccount];
+    self.accountURL = [WizGlobals wizServerUrl];
+	return [self callCreateAccount:self.accountUserId password:self.accountPassword];
 }
-
-/*
- -(BOOL) clientLoginOnly
- {
- if (self.busy)
- return NO;
- //
- busy = YES;
- syncAll = NO;
- //
- return [self clientLogin];
- }
- -(BOOL) createAccountOnly
- {
- if (self.busy)
- return NO;
- //
- busy = YES;
- syncAll = NO;
- //
- return [self createAccount];
- }
- */
-
-
 @end
