@@ -312,6 +312,7 @@
 		73E9BA6615205C2E0033A1FE /* dialog_title1.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E9BA6815205C2E0033A1FE /* dialog_title1.png */; };
 		73E9BA6915205C320033A1FE /* dialog_title1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E9BA6B15205C320033A1FE /* dialog_title1@2x.png */; };
 		73EEF496153E650300481029 /* WizGlobalError.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EEF495153E650300481029 /* WizGlobalError.m */; };
+		73F208B215415BA900787DDF /* WizSyncDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F208B115415BA800787DDF /* WizSyncDescription.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -759,6 +760,8 @@
 		73E9BA70152060100033A1FE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/WizIphoneLoginViewController.xib"; sourceTree = "<group>"; };
 		73EEF494153E650300481029 /* WizGlobalError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalError.h; sourceTree = "<group>"; };
 		73EEF495153E650300481029 /* WizGlobalError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobalError.m; sourceTree = "<group>"; };
+		73F208B015415BA800787DDF /* WizSyncDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSyncDescription.h; path = WizSyncManager/WizSyncDescription.h; sourceTree = "<group>"; };
+		73F208B115415BA800787DDF /* WizSyncDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSyncDescription.m; path = WizSyncManager/WizSyncDescription.m; sourceTree = "<group>"; };
 		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -948,6 +951,8 @@
 				73A7842414F8CC22001387F6 /* WizApi.m */,
 				73B46D14153E77230049556F /* WizSyncInfo.h */,
 				73B46D15153E77230049556F /* WizSyncInfo.m */,
+				73F208B015415BA800787DDF /* WizSyncDescription.h */,
+				73F208B115415BA800787DDF /* WizSyncDescription.m */,
 			);
 			name = SyncCenter;
 			sourceTree = "<group>";
@@ -2055,6 +2060,7 @@
 				73EEF496153E650300481029 /* WizGlobalError.m in Sources */,
 				73B46D16153E77240049556F /* WizSyncInfo.m in Sources */,
 				73B46D2B153FAAD30049556F /* WizAccountManager.m in Sources */,
+				73F208B215415BA900787DDF /* WizSyncDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

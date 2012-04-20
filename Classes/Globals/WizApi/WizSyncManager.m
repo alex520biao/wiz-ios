@@ -63,7 +63,7 @@
 @synthesize apiUrl;
 @synthesize token;
 @synthesize kbGuid;
-
+@synthesize syncDescription;
 static WizSyncManager* shareManager;
 + (id) shareManager
 {
@@ -105,6 +105,7 @@ static WizSyncManager* shareManager;
         [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadNext:)];
         isRefreshToken = NO;
         [self loadServerUrl];
+        self.syncDescription = @"ddddd";
     }
     return self;
 }
@@ -132,6 +133,7 @@ static WizSyncManager* shareManager;
         NSLog(@"downloader is %@",data);
         [data release];
     }
+    self.syncDescription = @"xxxxxxx";
     return data;
 }
 - (WizRefreshToken*) shareRefreshTokener
@@ -158,24 +160,36 @@ static WizSyncManager* shareManager;
     }
     return data;
 }
-- (void) removeSyncDataFromArray:(NSString*)_guid   array:(NSMutableArray*)array
+
+
+//
+- (NSInteger) findSyncObject:(NSString*)guid     syncArray:(NSArray*)syncArray
 {
-    NSDictionary* dic = nil;
-    for (NSDictionary* each in array) {
-        NSString* guid = [each valueForKey:SyncDataOfObjectGUID];
-        if (nil != guid && [guid isEqualToString:_guid]) {
-            dic = each;
-            break;
+    for (int i = 0; i < [syncArray count]; i++) {
+        NSDictionary* dic = [syncArray objectAtIndex:i];
+        NSString* _guid = [dic valueForKey:SyncDataOfObjectGUID];
+        if ([_guid isEqualToString:guid]) {
+            return i;
         }
     }
-    if (nil != dic) {
-        [array removeObject:dic];
+    return NSNotFound;
+}
+
+- (void) addSyncDataToArray:(NSDictionary*)obj    array:(NSMutableArray*)array
+{
+    NSString* objGuid = [obj valueForKey:SyncDataOfObjectGUID];
+    if ([self findSyncObject:objGuid syncArray:array] == NSNotFound) {
+        [array insertObject:obj atIndex:0];
     }
 }
-- (void) removeUploadObject:(NSString*)_guid
+- (void) removeSyncDataFromArray:(NSString*)_guid   array:(NSMutableArray*)array
 {
-    [self removeSyncDataFromArray:_guid array:uploadQueque];
+    NSInteger index = [self findSyncObject:_guid syncArray:array];
+    if (index != NSNotFound) {
+        [array removeObjectAtIndex:index];
+    }
 }
+
 - (void) restartSync
 {
     for (id each in errorQueque) {
@@ -204,6 +218,7 @@ static WizSyncManager* shareManager;
     self.token = _token;
     self.apiUrl = urlAPI;
     self.kbGuid = _kbGuid;
+    self.syncDescription = @"did sync token";
     NSLog(@"did refresh token");
     [self restartSync];
 }
@@ -273,24 +288,18 @@ static WizSyncManager* shareManager;
         ret = NO;
     }
     return ret;
-} 
+}
+- (void) removeUploadObject:(NSString*)_guid
+{
+    [self removeSyncDataFromArray:_guid array:uploadQueque];
+}
 - (BOOL) uploadNext:(NSNotification*)nc
 {
     NSString* guid = [WizNotificationCenter uploadGuidFromNc:nc];
     [self removeUploadObject:guid];
     return [self startUpload];
 }
-- (void) addSyncDataToArray:(NSDictionary*)obj    array:(NSMutableArray*)array
-{
-    NSString* objGuid = [obj valueForKey:SyncDataOfObjectGUID];
-    for (NSDictionary* dic in array) {
-        NSString* guid = [dic valueForKey:SyncDataOfObjectGUID];
-        if ([guid isEqualToString:objGuid]) {
-            return;
-        }
-    }
-    [array insertObject:obj atIndex:0];
-}
+
 - (NSDictionary*) documentSyncData:(NSString*)documentGUID
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:documentGUID,SyncDataOfObjectGUID,WizDocumentKeyString, SyncDataOfObjectType, nil];
@@ -298,6 +307,24 @@ static WizSyncManager* shareManager;
 - (NSDictionary*) attachmentSyncData:(NSString*)attachmentGUID
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:attachmentGUID,SyncDataOfObjectGUID,WizAttachmentKeyString, SyncDataOfObjectType, nil];
+}
+
+- (BOOL) isSyncingObject:(NSString*)objectGuid  syncArray:(NSArray*)array
+{
+    if ([self findSyncObject:objectGuid syncArray:array] == NSNotFound) {
+        return NO;
+    }
+    else {
+        return YES;
+    }
+}
+- (BOOL) isUploadingDocument:(NSString*)documentGUID
+{
+    return [self isSyncingObject:documentGUID syncArray:uploadQueque];
+}
+- (BOOL) isUploadingAttachment:(NSString*)attachmentGUID
+{
+    return [self isSyncingObject:attachmentGUID syncArray:uploadQueque];
 }
 - (BOOL) uploadDocument:(NSString*)documentGUID
 {
@@ -347,6 +374,16 @@ static WizSyncManager* shareManager;
     [self removeDownloadObject:guid];
     [self startDownload];
 }
+- (BOOL) isDownloadingDocument:(NSString*)documentGUID
+{
+    return [self isSyncingObject:documentGUID syncArray:downloadQueque];
+}
+- (BOOL) isDownloadingAttachment:(NSString*)attachmentGUID
+{
+    return [self isSyncingObject:attachmentGUID syncArray:downloadQueque];
+}
+
+
 - (void) downloadAttachment:(NSString*)attachmentGUID
 {
     NSDictionary* attach = [self attachmentSyncData:attachmentGUID];

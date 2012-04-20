@@ -57,6 +57,7 @@
     WizIndex* index = [WizIndex activeIndex];
     WizDocument* newDocument = [index documentFromGUID:documentGUID];
     WizSyncManager* sync = [WizSyncManager shareManager];
+    self.title = sync.syncDescription;
     [sync uploadDocument:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {

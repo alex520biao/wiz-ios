@@ -12,14 +12,22 @@
 {
     NSString* accountUserId;
     NSString* accountPassword;
+    NSString* syncDescription;
 }
+@property (nonatomic, retain) NSString* syncDescription;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSString* accountPassword;
-- (BOOL) uploadNext:(NSNotification*)nc;
+//upload
+- (BOOL) isUploadingDocument:(NSString*)documentGUID;
+- (BOOL) isUploadingAttachment:(NSString*)attachmentGUID;
 - (BOOL) uploadDocument:(NSString*)documentGUID;
 - (BOOL) uploadAttachment:(NSString*)attachmentGUID;
+//download
+- (BOOL) isDownloadingDocument:(NSString*)documentGUID;
+- (BOOL) isDownloadingAttachment:(NSString*)attachmentGUID;
 - (void) downloadAttachment:(NSString*)attachmentGUID;
 - (void) downloadDocument:(NSString*)documentGUID;
+//
 - (BOOL) startSyncInfo;
 + (id) shareManager;
 @end
