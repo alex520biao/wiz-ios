@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface WizSyncDescription : NSObject
 {
     NSString* globalString;
+
 }
+@property (nonatomic, retain) NSString* globalString;
+
 @end

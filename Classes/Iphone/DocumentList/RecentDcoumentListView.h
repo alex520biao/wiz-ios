@@ -7,6 +7,7 @@
 //
 
 #import "DocumentListViewControllerBaseNew.h"
-@interface RecentDcoumentListView : DocumentListViewControllerBaseNew
+#import "WizSyncManager.h"
+@interface RecentDcoumentListView : DocumentListViewControllerBaseNew <WizSyncDescriptionDelegate>
 
 @end

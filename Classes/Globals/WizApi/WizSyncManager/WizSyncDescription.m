@@ -9,5 +9,15 @@
 #import "WizSyncDescription.h"
 
 @implementation WizSyncDescription
+@dynamic globalString;
 
+
+- (void) setGlobalString:(NSString *)_globalString
+{
+    if (globalString == _globalString) {
+        return;
+    }
+    [globalString release];
+    globalString = [_globalString retain];
+}
 @end

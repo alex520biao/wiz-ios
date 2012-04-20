@@ -63,8 +63,24 @@
 @synthesize apiUrl;
 @synthesize token;
 @synthesize kbGuid;
-@synthesize syncDescription;
+@dynamic syncDescription;
 static WizSyncManager* shareManager;
+
+- (NSString*) syncDescription
+{
+    return syncDescription;
+}
+- (void) setSyncDescription:(NSString *)_syncDescription
+{
+    if (syncDescription == _syncDescription) {
+        return;
+    }
+    [syncDescription release];
+    syncDescription =[_syncDescription retain];
+    if (nil != self.displayDelegate) {
+        [self.displayDelegate didChangedSyncDescription:syncDescription];
+    }
+}
 + (id) shareManager
 {
     @synchronized(shareManager)
@@ -207,6 +223,7 @@ static WizSyncManager* shareManager;
     }
     [errorQueque removeAllObjects];
 }
+
 - (void) didRefreshToken:(NSNotification*)nc
 {
     [WizNotificationCenter removeObserverForRefreshToken:self];
@@ -261,6 +278,7 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) startUpload
 {
+    
     WizUploadObjet* uploader = [self shareUploader];
     if (![self addSyncToken:uploader]) {
         return NO;
@@ -287,6 +305,7 @@ static WizSyncManager* shareManager;
     else {
         ret = NO;
     }
+    self.syncDescription = [NSString stringWithFormat:@"upload %@",guid];
     return ret;
 }
 - (void) removeUploadObject:(NSString*)_guid

@@ -7,14 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+@protocol WizSyncDescriptionDelegate <NSObject>
+
+- (void) didChangedSyncDescription:(NSString*)description;
+
+@end
 
 @interface WizSyncManager : NSObject
 {
     NSString* accountUserId;
     NSString* accountPassword;
     NSString* syncDescription;
+        id <WizSyncDescriptionDelegate> displayDelegate;
 }
-@property (nonatomic, retain) NSString* syncDescription;
+@property (nonatomic, retain) id<WizSyncDescriptionDelegate> displayDelegate;
+@property (retain) NSString* syncDescription;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSString* accountPassword;
 //upload

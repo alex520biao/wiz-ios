@@ -127,6 +127,10 @@
         self.tableArray = [NSMutableArray array];
     }
 }
+- (void) didChangedSyncDescription:(NSString *)description
+{
+    self.title = description;
+}
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -134,8 +138,9 @@
 //    if (!sync.busy) {
 //        [self stopLoading];
 //    }
-//    WizSyncManager* share = [WizSyncManager shareManager];
-//    [share startSyncInfo];
+    WizSyncManager* share = [WizSyncManager shareManager];
+    share.displayDelegate = self;
+    [share startSyncInfo];
     int count = 0;
     for(NSArray* each in self.tableArray)
     {

@@ -144,7 +144,6 @@
     if (nil != self.currentPopoverController) {
         [currentPopoverController dismissPopoverAnimated:YES];
     }
-    
 }
 - (void)didReceiveMemoryWarning
 {
