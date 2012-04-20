@@ -27,6 +27,7 @@
 #import "WizSelectTagViewController.h"
 
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
@@ -42,7 +43,6 @@
 @synthesize selectedTags;
 @synthesize session;
 @synthesize recorder;
-@synthesize accountUserId;
 @synthesize timer;
 @synthesize recoderLabel;
 @synthesize titleTextFiled;
@@ -67,7 +67,6 @@
     [firtResponser release];
     [session release];
     [recorder release];
-    [accountUserId release];
     [titleTextFiled release];
     [bodyTextField release];
     [attachmentsCountLabel release];
@@ -150,7 +149,7 @@
 //    [formatter release];
 //    NSString* audioFileName = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.aif",dateString]];
     
-    NSString* audioFileName = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".aif"];
+    NSString* audioFileName = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager] activeAccountUserId]] stringByAppendingString:@".aif"];
     self.currentRecodingFilePath = [[audioFileName mutableCopy] autorelease];
     NSURL* url = [NSURL fileURLWithPath:audioFileName];
     self.recorder = [[[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error ] autorelease];
@@ -260,7 +259,6 @@
 -(void) tagViewSelect
 {
     WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    tagView.accountUserId = self.accountUserId;
     tagView.initSelectedTags = self.selectedTags;
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
@@ -278,7 +276,6 @@
 -(void) floderViewSelected
 {
     SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
-    floderView.accountUserID = self.accountUserId;
     floderView.selectedFloderString = self.documentFloder;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedFloder:) name:TypeOfSelectedFolder object:nil];
     [self.navigationController pushViewController:floderView animated:YES];
@@ -304,7 +301,7 @@
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     for(NSDictionary* each in info)
     {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+        WizIndex* index = [WizIndex activeIndex];
         UIImage* image = [each objectForKey:@"UIImagePickerControllerOriginalImage"];
         image = [image compressedImage:[index imageQualityValue]];
 //        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
@@ -314,7 +311,7 @@
 //        NSString* dateString = [formatter stringFromDate:[NSDate date]];
 //        [formatter release];
 //        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-           NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
+           NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager]activeAccountUserId]] stringByAppendingString:@".jpg"];
         [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
         [self updateAttachment:fileNamePath];
     }
@@ -337,7 +334,7 @@
 }
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
     image = [image compressedImage:[index imageQualityValue]];
 //    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
@@ -347,7 +344,7 @@
 //    NSString* dateString = [formatter stringFromDate:[NSDate date]];
 //    [formatter release];
 //    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
+    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager] activeAccountUserId]] stringByAppendingString:@".jpg"];
     [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
     [self updateAttachment:fileNamePath];
     [picker dismissModalViewControllerAnimated:YES];
@@ -785,10 +782,8 @@
 
 - (void) newDocument
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    
+    WizIndex* index = [WizIndex activeIndex];
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    
     if([self.documentFloder isEqualToString:@""])
         self.documentFloder = [NSMutableString stringWithString:@"/My Notes/"];
     if (self.titleTextFiled.text == nil) {
@@ -885,13 +880,11 @@
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }
-
--(id) initWithAccountId:(NSString*)accountGuid
+- (id) init
 {
     self = [super init];
     if (self) {
         [self buildInterface];
-        self.accountUserId = accountGuid;
         UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrSave style:UIBarButtonItemStyleDone target:self action:@selector(saveDocument)];
         self.navigationItem.rightBarButtonItem = editButton;
         
@@ -902,7 +895,6 @@
     }
     return self;
 }
-
 - (void) keyboardWillShow:(NSNotification*) nc
 {
     NSDictionary* userInfo = [nc userInfo];
@@ -926,7 +918,7 @@
     self.documentGUID = documentGUID_;
     self.titleTextFiled.text = title;
     self.bodyTextField.text = body;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizIndex* index = [WizIndex activeIndex];
     WizDocument* doc = [index documentFromGUID:self.documentGUID];
 
     self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:documentGUID_]];
@@ -939,7 +931,7 @@
     {
         self.attachmentsSourcePaths = [NSMutableArray array];
         for (WizDocumentAttach* each in attachs) {
-            NSString* filePath = [WizIndex documentFilePath:self.accountUserId documentGUID:each.attachmentGuid];
+            NSString* filePath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:each.attachmentGuid];
             NSString* fileNamePath = [filePath stringByAppendingPathComponent:each.attachmentName];
             if ([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath]) {
                 [self.attachmentsSourcePaths addObject:fileNamePath];

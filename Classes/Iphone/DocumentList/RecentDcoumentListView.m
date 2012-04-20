@@ -56,9 +56,8 @@
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizIndex* index = [WizIndex activeIndex];
     WizDocument* newDocument = [index documentFromGUID:documentGUID];
-//    WizSyncManager* sync = [WizSyncManager shareManager];
-//    sync.accountUserId = self.accountUserID;
-//    [sync uploadDocument:documentGUID];
+    WizSyncManager* sync = [WizSyncManager shareManager];
+    [sync uploadDocument:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {
         NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
@@ -134,8 +133,8 @@
 //    if (!sync.busy) {
 //        [self stopLoading];
 //    }
-    WizSyncManager* share = [WizSyncManager shareManager];
-    [share startSyncInfo];
+//    WizSyncManager* share = [WizSyncManager shareManager];
+//    [share startSyncInfo];
     int count = 0;
     for(NSArray* each in self.tableArray)
     {
@@ -159,7 +158,6 @@
         [searchFooter addSubview:remind];
         [remind release];
     }
-    
     WizIndex* index = [WizIndex activeIndex];
     if ([index isFirstLog] ) {
         [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:NO];

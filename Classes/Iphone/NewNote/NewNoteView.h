@@ -14,7 +14,6 @@
 @class AVAudioSession;
 @class VoiceRecognition;
 @interface NewNoteView : UIViewController <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>{
-     NSString* accountUserId;
     //audio
     AVAudioRecorder *recorder;
 	AVAudioSession *session;
@@ -43,7 +42,6 @@
 @property (retain) AVAudioRecorder          *recorder;
 @property (retain)  VoiceRecognition* voiceInput;
 @property (retain) NSTimer* timer;
-@property (nonatomic, retain) NSString      *accountUserId;
 @property (nonatomic, retain) UILabel*      recoderLabel;
 @property (nonatomic, retain) UITextField*  titleTextFiled;
 @property (nonatomic, retain) UITextView*   bodyTextField;

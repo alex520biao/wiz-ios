@@ -131,7 +131,7 @@
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
 //    [WizSettings setLastActiveTime];
-    [[WizGlobalData sharedData] stopSyncing];
+//    [[WizGlobalData sharedData] stopSyncing];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
