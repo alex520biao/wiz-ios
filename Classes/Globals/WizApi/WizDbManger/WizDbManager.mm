@@ -130,7 +130,6 @@ static WizDbManager* shareDbManager = nil;
     {
         if (shareDbManager == nil) {
             shareDbManager = [[super allocWithZone:NULL] init];
-            [WizNotificationCenter addObserverForRegisterActiveAccount:shareDbManager selector:@selector(registerActiveAccount)];
         }
         return shareDbManager;
     }
@@ -170,11 +169,9 @@ static WizDbManager* shareDbManager = nil;
 {
     return index.IsOpened() && tempIndex.IsOpened();
 }
-- (BOOL) openDb
+- (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath
 {
-    NSString* dbFilePath = [WizFileManager accountDbFilePath];
     bool indexIsOpen = index.Open([dbFilePath UTF8String]);
-    NSString* tempDbFilePath = [WizFileManager accountTempDbFilePath];
     bool tempIndexIsOpen = tempIndex.Open([tempDbFilePath UTF8String]);
     if (tempIndexIsOpen && indexIsOpen) {
         return YES;
@@ -291,7 +288,6 @@ static WizDbManager* shareDbManager = nil;
     NSNumber* localChanged = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
     NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
     NSNumber* serverChanged = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
-    NSNumber* infoChanged = [doc valueForKey:DataTypeUpdateDocumentInfoLocalChanged];
 	WIZDOCUMENTDATA data;
 	data.strGUID =[guid UTF8String];
 	data.strTitle =[title UTF8String];
@@ -305,7 +301,6 @@ static WizDbManager* shareDbManager = nil;
 	data.strType = [type UTF8String];
 	data.strFileType = [fileType UTF8String];
     data.nAttachmentCount = [nAttachmentCount intValue];
-    data.strKbguid = [kbGuid UTF8String];
     if (nProtected == nil) {
         data.nProtected = 0;
     }
@@ -324,12 +319,6 @@ static WizDbManager* shareDbManager = nil;
     }
     else {
         data.nServerChanged = [serverChanged intValue];
-    }
-    if (nil == infoChanged) {
-        data.nInfoLocalChanged = 0;
-    }
-    else {
-        data.nInfoLocalChanged = [infoChanged intValue];
     }
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
 	return ret;
@@ -383,167 +372,167 @@ static WizDbManager* shareDbManager = nil;
 }
 
 //attachment
-- (WizAttachment*) attachmentFromGUID:(NSString *)guid
-{
-    WIZDOCUMENTATTACH data;
-    if (!index.AttachFromGUID([guid UTF8String], data)) {
-        return nil;
-    }
-    WizAttachment* attachment = [[WizAttachment alloc] initFromWizAttachmentData:data];
-    return [attachment autorelease];
-}
-- (BOOL) updateAttachment:(NSDictionary *)attachment
-{
-    NSString* guid = [attachment valueForKey:DataTypeUpdateAttachmentGuid];
-    NSString* title = [attachment valueForKey:DataTypeUpdateAttachmentTitle];
-    NSString* description = [attachment valueForKey:DataTypeUpdateAttachmentDescription];
-    NSString* dataMd5 = [attachment valueForKey:DataTypeUpdateAttachmentDataMd5];
-    NSString* documentGuid = [attachment valueForKey:DataTypeUpdateAttachmentDocumentGuid];
-    NSNumber* localChanged = [attachment valueForKey:DataTypeUpdateAttachmentLocalChanged];
-    NSNumber* serVerChanged = [attachment valueForKey:DataTypeUpdateAttachmentServerChanged];
-    NSDate*   dateModified = [attachment valueForKey:DataTypeUpdateAttachmentDateModified];
-    if (nil == title  || [title isBlock]) {
-        title = WizStrNoTitle;
-    }
-    if (nil == description || [description isBlock]) {
-        description = @"none";
-    }
-    if (nil == dataMd5 || [dataMd5 isBlock]) {
-        dataMd5 = @"";
-    }
-    if (nil == documentGuid || [documentGuid isBlock]) {
-        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"documentguid is nil" userInfo:nil];
-        @throw ex;
-    }
-    if (nil == guid || [guid isBlock]) {
-        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"guid is nil" userInfo:nil];
-        @throw ex;
-    }
-    if (nil == dateModified) {
-        dateModified = [NSDate date];
-    }
-    if (nil == localChanged) {
-        localChanged = [NSNumber numberWithInt:0];
-    }
-    if (nil == serVerChanged) {
-        serVerChanged = [NSNumber numberWithInt:1];
-    }
-    WIZDOCUMENTATTACH data;
-    data.strAttachmentGuid = [guid UTF8String];
-    data.strAttachmentName = [title UTF8String];
-    data.strDataMd5 = [dataMd5 UTF8String];
-    data.strDataModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
-    data.strDescription = [description UTF8String];
-    data.strDocumentGuid = [documentGuid UTF8String];
-    data.loaclChanged = [localChanged boolValue];
-    data.serverChanged = [serVerChanged boolValue];
-    return index.updateAttachment(data);
-}
-
-- (BOOL) updateAttachments:(NSArray *)attachments
-{
-    for (NSDictionary* doc in attachments)
-	{
-		@try {
-            [self updateAttachment:doc];
-        }
-        @catch (NSException *exception) {
-            return NO;
-        }
-        @finally {
-            
-        }
-	}
-	//
-	return YES;
-}
--(NSArray*) attachmentsFormWizDocumentAttachmentArray:(const CWizDocumentAttachmentArray&) array
-{
-    NSMutableArray* arr = [NSMutableArray array];
-    for(CWizDocumentAttachmentArray::const_iterator it = array.begin();
-        it != array.end();
-        it++)
-    {
-        WizAttachment* attach = [[WizAttachment alloc] initFromWizAttachmentData:*it];
-        if(attach)
-        {
-            [arr addObject:attach];
-            [attach release];
-        }
-        
-    }
-    return arr;
-}
-- (NSArray*) attachmentsFromDocumentGuid:(NSString *)documentGUID
-{
-    CWizDocumentAttachmentArray arrayAttachment;
-    if (!index.AttachmentsFromDocumentGUID([documentGUID UTF8String], arrayAttachment)) {
-        return nil;
-    }
-    return [self attachmentsFormWizDocumentAttachmentArray:arrayAttachment];
-}
-//tag
-- (WizTag*) tagFromGUID:(NSString *)_guid
-{
-    WIZTAGDATA data;
-    if (!index.TagFromGUID([_guid UTF8String], data)) {
-        return nil;
-    }
-    WizTag* tag = [[WizTag alloc] initFromWizTagData:data];
-    return [tag autorelease];
-}
-- (BOOL) updateTag: (NSDictionary*) tag
-{
-	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
-	NSString* guid = [tag valueForKey:DataTypeUpdateTagParentGuid];
-	NSString* parentGuid = [tag valueForKey:DataTypeUpdateTagParentGuid];
-	NSString* description = [tag valueForKey:DataTypeUpdateTagDescription];
-    NSNumber* version = [tag valueForKey:DataTypeUpdateTagVersion];
-    NSDate* dtInfoModifed = [tag valueForKey:DataTypeUpdateTagDtInfoModifed];
-    NSNumber* localChanged = [tag valueForKey:DataTypeUpdateTagLocalchanged];
-	
-    if (nil == localChanged) {
-        localChanged = [NSNumber numberWithInt:0];
-    }
-    if (nil == dtInfoModifed) {
-        dtInfoModifed = [NSDate date];
-    }
-    if (nil == guid) {
-        return NO;
-    }
-    if (nil == description) {
-        description = @"";
-    }
-    if (nil == parentGuid) {
-        parentGuid = @"";
-    }
-    if (nil == version) {
-        version = [NSNumber numberWithInt:0];
-    }
-	WIZTAGDATA data;
-	data.strName = [name UTF8String];
-	data.strGUID = [guid UTF8String];
-    data.strParentGUID = [parentGuid UTF8String];
-	data.strDescription= [description UTF8String];
-    data.strDtInfoModified = [[WizGlobals dateToSqlString:dtInfoModifed] UTF8String];
-    data.localchanged = [localChanged intValue];
-	return index.UpdateTag(data) ? YES : NO;
-}
-- (BOOL) updateTags: (NSArray*) tags
-{
-	for (NSDictionary* tag in tags)
-	{
-		try 
-		{
-			[self updateTag:tag];
-		}
-		catch (...) 
-		{
-		}
-	}
-	//
-	return YES;
-}
+//- (WizAttachment*) attachmentFromGUID:(NSString *)guid
+//{
+//    WIZDOCUMENTATTACH data;
+//    if (!index.AttachFromGUID([guid UTF8String], data)) {
+//        return nil;
+//    }
+//    WizAttachment* attachment = [[WizAttachment alloc] initFromWizAttachmentData:data];
+//    return [attachment autorelease];
+//}
+//- (BOOL) updateAttachment:(NSDictionary *)attachment
+//{
+//    NSString* guid = [attachment valueForKey:DataTypeUpdateAttachmentGuid];
+//    NSString* title = [attachment valueForKey:DataTypeUpdateAttachmentTitle];
+//    NSString* description = [attachment valueForKey:DataTypeUpdateAttachmentDescription];
+//    NSString* dataMd5 = [attachment valueForKey:DataTypeUpdateAttachmentDataMd5];
+//    NSString* documentGuid = [attachment valueForKey:DataTypeUpdateAttachmentDocumentGuid];
+//    NSNumber* localChanged = [attachment valueForKey:DataTypeUpdateAttachmentLocalChanged];
+//    NSNumber* serVerChanged = [attachment valueForKey:DataTypeUpdateAttachmentServerChanged];
+//    NSDate*   dateModified = [attachment valueForKey:DataTypeUpdateAttachmentDateModified];
+//    if (nil == title  || [title isBlock]) {
+//        title = WizStrNoTitle;
+//    }
+//    if (nil == description || [description isBlock]) {
+//        description = @"none";
+//    }
+//    if (nil == dataMd5 || [dataMd5 isBlock]) {
+//        dataMd5 = @"";
+//    }
+//    if (nil == documentGuid || [documentGuid isBlock]) {
+//        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"documentguid is nil" userInfo:nil];
+//        @throw ex;
+//    }
+//    if (nil == guid || [guid isBlock]) {
+//        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"guid is nil" userInfo:nil];
+//        @throw ex;
+//    }
+//    if (nil == dateModified) {
+//        dateModified = [NSDate date];
+//    }
+//    if (nil == localChanged) {
+//        localChanged = [NSNumber numberWithInt:0];
+//    }
+//    if (nil == serVerChanged) {
+//        serVerChanged = [NSNumber numberWithInt:1];
+//    }
+//    WIZDOCUMENTATTACH data;
+//    data.strAttachmentGuid = [guid UTF8String];
+//    data.strAttachmentName = [title UTF8String];
+//    data.strDataMd5 = [dataMd5 UTF8String];
+//    data.strDataModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
+//    data.strDescription = [description UTF8String];
+//    data.strDocumentGuid = [documentGuid UTF8String];
+//    data.loaclChanged = [localChanged boolValue];
+//    data.serverChanged = [serVerChanged boolValue];
+//    return index.updateAttachment(data);
+//}
+//
+//- (BOOL) updateAttachments:(NSArray *)attachments
+//{
+//    for (NSDictionary* doc in attachments)
+//	{
+//		@try {
+//            [self updateAttachment:doc];
+//        }
+//        @catch (NSException *exception) {
+//            return NO;
+//        }
+//        @finally {
+//            
+//        }
+//	}
+//	//
+//	return YES;
+//}
+//-(NSArray*) attachmentsFormWizDocumentAttachmentArray:(const CWizDocumentAttachmentArray&) array
+//{
+//    NSMutableArray* arr = [NSMutableArray array];
+//    for(CWizDocumentAttachmentArray::const_iterator it = array.begin();
+//        it != array.end();
+//        it++)
+//    {
+//        WizAttachment* attach = [[WizAttachment alloc] initFromWizAttachmentData:*it];
+//        if(attach)
+//        {
+//            [arr addObject:attach];
+//            [attach release];
+//        }
+//        
+//    }
+//    return arr;
+//}
+//- (NSArray*) attachmentsFromDocumentGuid:(NSString *)documentGUID
+//{
+//    CWizDocumentAttachmentArray arrayAttachment;
+//    if (!index.AttachmentsFromDocumentGUID([documentGUID UTF8String], arrayAttachment)) {
+//        return nil;
+//    }
+//    return [self attachmentsFormWizDocumentAttachmentArray:arrayAttachment];
+//}
+////tag
+//- (WizTag*) tagFromGUID:(NSString *)_guid
+//{
+//    WIZTAGDATA data;
+//    if (!index.TagFromGUID([_guid UTF8String], data)) {
+//        return nil;
+//    }
+//    WizTag* tag = [[WizTag alloc] initFromWizTagData:data];
+//    return [tag autorelease];
+//}
+//- (BOOL) updateTag: (NSDictionary*) tag
+//{
+//	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
+//	NSString* guid = [tag valueForKey:DataTypeUpdateTagParentGuid];
+//	NSString* parentGuid = [tag valueForKey:DataTypeUpdateTagParentGuid];
+//	NSString* description = [tag valueForKey:DataTypeUpdateTagDescription];
+//    NSNumber* version = [tag valueForKey:DataTypeUpdateTagVersion];
+//    NSDate* dtInfoModifed = [tag valueForKey:DataTypeUpdateTagDtInfoModifed];
+//    NSNumber* localChanged = [tag valueForKey:DataTypeUpdateTagLocalchanged];
+//	
+//    if (nil == localChanged) {
+//        localChanged = [NSNumber numberWithInt:0];
+//    }
+//    if (nil == dtInfoModifed) {
+//        dtInfoModifed = [NSDate date];
+//    }
+//    if (nil == guid) {
+//        return NO;
+//    }
+//    if (nil == description) {
+//        description = @"";
+//    }
+//    if (nil == parentGuid) {
+//        parentGuid = @"";
+//    }
+//    if (nil == version) {
+//        version = [NSNumber numberWithInt:0];
+//    }
+//	WIZTAGDATA data;
+//	data.strName = [name UTF8String];
+//	data.strGUID = [guid UTF8String];
+//    data.strParentGUID = [parentGuid UTF8String];
+//	data.strDescription= [description UTF8String];
+//    data.strDtInfoModified = [[WizGlobals dateToSqlString:dtInfoModifed] UTF8String];
+//    data.localchanged = [localChanged intValue];
+//	return index.UpdateTag(data) ? YES : NO;
+//}
+//- (BOOL) updateTags: (NSArray*) tags
+//{
+//	for (NSDictionary* tag in tags)
+//	{
+//		try 
+//		{
+//			[self updateTag:tag];
+//		}
+//		catch (...) 
+//		{
+//		}
+//	}
+//	//
+//	return YES;
+//}
 //delete
 - (BOOL) addDeletedGUIDRecord: (NSString*)guid type:(NSString*)type
 {
@@ -552,13 +541,6 @@ static WizDbManager* shareDbManager = nil;
 -(BOOL) deleteAttachment:(NSString *)attachGuid
 {
     BOOL ret = index.DeleteAttachment([attachGuid UTF8String]) ? YES : NO;
-    if (ret) {
-        NSString* attachmentDirectory = [WizFileManager objectDirectoryPath:attachGuid];
-        if (![[NSFileManager defaultManager] removeItemAtPath:attachmentDirectory error:nil]) {
-            NSLog(@"delete document error!");
-        }
-        [self addDeletedGUIDRecord:attachGuid type:WizAttachmentKeyString];
-    }
     return ret;
 }
 - (BOOL) deleteTag:(NSString*)tagGuid
@@ -573,15 +555,15 @@ static WizDbManager* shareDbManager = nil;
 {
     BOOL ret = index.DeleteDocument([documentGUID UTF8String]) ? YES: NO;
     if (ret) {
-        NSArray* attachments = [self attachmentsFromDocumentGuid:documentGUID];
-        NSString* documentDirectory = [WizFileManager objectDirectoryPath:documentGUID];
-        if (![[NSFileManager defaultManager] removeItemAtPath:documentDirectory error:nil]) {
-            NSLog(@"delete document error!");
-        }
-        for(WizAttachment* each in attachments)
-        {
-            [self deleteAttachment:each.guid];
-        }
+//        NSArray* attachments = [self attachmentsFromDocumentGuid:documentGUID];
+//        NSString* documentDirectory = [WizFileManager objectDirectoryPath:documentGUID];
+//        if (![[NSFileManager defaultManager] removeItemAtPath:documentDirectory error:nil]) {
+//            NSLog(@"delete document error!");
+//        }
+//        for(WizAttachment* each in attachments)
+//        {
+//            [self deleteAttachment:each.guid];
+//        }
         [self addDeletedGUIDRecord:documentGUID type:WizDocumentKeyString];
     }
 	return ret;
@@ -594,37 +576,37 @@ static WizDbManager* shareDbManager = nil;
 {
     return [self meta:TypeOfWizGroup key:key];
 }
-- (BOOL) updateKbGuid:(NSDictionary*)kbGuidData
-{
-    int i = 0;
-    NSString* guid = [kbGuidData valueForKey:DataTypeUpdateKbGuid];
-    for (; i < NSIntegerMax; i++) {
-        NSString* key = [NSString stringWithFormat:@"%d",i];
-        NSString* existGuid = [self groupKbGuid:key];
-        if (existGuid == nil || [existGuid isBlock]) {
-            return [self setGroupKbGuid:guid key:key];
-        }
-        else {
-            if ([existGuid isEqualToString:guid]) {
-                return YES;
-            }
-        }
-    }
-    return YES;
-}
-- (BOOL) updateKbGuidDatas: (NSArray*) tags
-{
-	for (NSDictionary* kbData in tags)
-	{
-		try 
-		{
-			[self updateKbGuid:kbData];
-		}
-		catch (...) 
-		{
-		}
-	}
-	//
-	return YES;
-}
+//- (BOOL) updateKbGuid:(NSDictionary*)kbGuidData
+//{
+//    int i = 0;
+//    NSString* guid = [kbGuidData valueForKey:DataTypeUpdateKbGuid];
+//    for (; i < NSIntegerMax; i++) {
+//        NSString* key = [NSString stringWithFormat:@"%d",i];
+//        NSString* existGuid = [self groupKbGuid:key];
+//        if (existGuid == nil || [existGuid isBlock]) {
+//            return [self setGroupKbGuid:guid key:key];
+//        }
+//        else {
+//            if ([existGuid isEqualToString:guid]) {
+//                return YES;
+//            }
+//        }
+//    }
+//    return YES;
+//}
+//- (BOOL) updateKbGuidDatas: (NSArray*) tags
+//{
+//	for (NSDictionary* kbData in tags)
+//	{
+//		try 
+//		{
+//			[self updateKbGuid:kbData];
+//		}
+//		catch (...) 
+//		{
+//		}
+//	}
+//	//
+//	return YES;
+//}
 @end

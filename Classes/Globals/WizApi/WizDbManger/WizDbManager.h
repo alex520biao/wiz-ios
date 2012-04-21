@@ -48,7 +48,7 @@
 @class WizTag;
 @interface WizDbManager : NSObject
 - (BOOL) isOpen;
-- (BOOL) openDb;
+- (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath;
 - (void) close;
 //syncVersion
 - (int64_t) documentVersionForKbGuid:(NSString*)kbGuid;
