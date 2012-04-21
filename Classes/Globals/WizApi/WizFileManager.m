@@ -79,4 +79,10 @@
 	NSString* filename = [path stringByAppendingPathComponent:@"index.html"];
 	return filename;
 }
+- (NSString*) documentMobileFile:(NSString*)documentGuid
+{
+    NSString* path = [self accountPath];
+    NSString* filename = [path stringByAppendingPathComponent:@"wiz_mobile.html"];
+    return filename;
+}
 @end
