@@ -58,4 +58,25 @@
     NSString* accountPath = [self accountPath];
 	return [accountPath stringByAppendingPathComponent:@"temp.db"];
 }
+- (NSString*) objectFilePath:(NSString*)objectGuid
+{
+	NSString* accountPath = [self accountPath];
+	NSString* subName = [NSString stringWithFormat:@"%@", objectGuid];
+	NSString* path = [accountPath stringByAppendingPathComponent:subName];
+    [self ensurePathExists:path];
+	return path;
+}
+- (NSString*) documentIndexFilesPath:(NSString*)documentGUID
+{
+    NSString* documentFilePath = [self accountPath];
+    NSString* indexFilesPath = [documentFilePath stringByAppendingPathComponent:@"index_files"];
+    [self ensurePathExists:indexFilesPath];
+    return indexFilesPath;
+}
+- (NSString*) documentFile:(NSString*)documentGUID
+{
+	NSString* path = [self objectFilePath:documentGUID];
+	NSString* filename = [path stringByAppendingPathComponent:@"index.html"];
+	return filename;
+}
 @end
