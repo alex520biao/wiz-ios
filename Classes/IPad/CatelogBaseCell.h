@@ -11,7 +11,6 @@
 @interface CatelogBaseCell : UITableViewCell
 {
     NSString* accountUserId;
-
     id owner;
 }
 @property (nonatomic, retain) NSString* accountUserId;
