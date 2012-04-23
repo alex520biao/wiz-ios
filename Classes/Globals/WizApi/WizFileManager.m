@@ -33,7 +33,13 @@
 	}
 	return b;
 }
-
+- (BOOL) ensureFileExists:(NSString*)path
+{
+    if (![self fileExistsAtPath:path]) {
+        return [self createFileAtPath:path contents:nil attributes:nil];
+    }
+    return YES;
+}
 - (NSString*) accountPath
 {
 	NSString* documentPath = [WizFileManager documentsPath];
