@@ -22,7 +22,7 @@
 @synthesize tagGuids;
 @synthesize dataMd5;
 @synthesize protected_;
-@synthesize serverChanged;
+@dynamic  serverChanged;
 @synthesize localChanged;
 @synthesize attachmentCount;
 - (void) dealloc
@@ -37,7 +37,19 @@
     [dataMd5 release];
     [super dealloc];
 }
-
+- (BOOL) serverChanged
+{
+    return serverChanged;
+}
+- (void) setServerChanged:(BOOL)_serverChanged
+{
+    if (serverChanged != _serverChanged) {
+        if (_serverChanged) {
+            [[WizDbManager shareDbManager] extractSummary:self.guid];
+        }
+    }
+    serverChanged = _serverChanged;
+}
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc
 {
     return [self.dateCreated isLaterThanDate:doc.dateCreated];

@@ -24,6 +24,7 @@
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
+#import "WizSettings.h"
 
 @implementation DocumentListViewControllerBaseNew
 @synthesize tableArray;
@@ -116,7 +117,8 @@
         self.navigationController.delegate = self;
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.kOrder = [[WizDbManager shareDbManager] userTablelistViewOption];
+    self.kOrder = [[WizSettings defaultSettings] userTablelistViewOption];
+    NSLog(@"korder is %d",self.kOrder);
     [self reloadAllData];
 }
 

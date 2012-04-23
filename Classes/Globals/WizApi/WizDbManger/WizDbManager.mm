@@ -10,6 +10,7 @@
 #import "index.h"
 #import "tempIndex.h"
 #import "WizDocumentEdit.h"
+#import "WizFileManager.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -724,7 +725,7 @@ static WizDbManager* shareDbManager = nil;
 - (BOOL) updateTag: (NSDictionary*) tag
 {
 	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
-	NSString* guid = [tag valueForKey:DataTypeUpdateTagParentGuid];
+	NSString* guid = [tag valueForKey:DataTypeUpdateTagGuid];
 	NSString* parentGuid = [tag valueForKey:DataTypeUpdateTagParentGuid];
 	NSString* description = [tag valueForKey:DataTypeUpdateTagDescription];
     NSNumber* version = [tag valueForKey:DataTypeUpdateTagVersion];
@@ -870,6 +871,151 @@ static WizDbManager* shareDbManager = nil;
     [imageData release];
     return ret;
 }
+- (void) extractSummary:(NSString *)documentGUID
+{
+    BOOL WizDeviceIsPad = [WizGlobals WizDeviceIsPad];
+    WIZABSTRACT abstract;
+    abstract.guid = [documentGUID UTF8String];
+    abstract.imageDataLength = 0;
+    NSString* sourceFilePath = [[WizFileManager shareManager] documentIndexFile:documentGUID];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:sourceFilePath]) {
+        return;
+    }
+    NSData* abstractImageData = nil;
+    NSString* abstractText = nil;
+    
+    
+    NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
+    NSString* removeTitle = [sourceStr stringReplaceUseRegular:@"<title.*title>"];
+    NSString* removeStyle = [removeTitle stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];
+    NSString* removeScript = [removeStyle stringReplaceUseRegular:@"<script[^>]*?>[\\s\\S]*?<\\/script>"];
+    NSString* removeHtmlSpace = [removeScript stringReplaceUseRegular:@"&(.*?);"];
+    NSString* removeOhterCharacter = [removeHtmlSpace stringReplaceUseRegular:@"&#(.*?);" ];
+    NSString* removeBlock = [removeOhterCharacter stringReplaceUseRegular:@"\\s{2,}|\\ \\;"];
+    NSString* removeCOntrol = [removeBlock stringReplaceUseRegular:@"/\n" ];
+    NSString* prepareStr = [removeCOntrol stringReplaceUseRegular:@"<[^>]*>" ];
+    NSString* destStr = [prepareStr stringReplaceUseRegular:@"'"];
+    if (destStr == nil || [destStr isEqualToString:@""]) {
+        destStr = @"";
+    }
+    if (WizDeviceIsPad) {
+        NSRange range = NSMakeRange(0, 100);
+        if (abstractText.length <= 100) {
+            range = NSMakeRange(0, destStr.length);
+        }
+        abstractText = [destStr substringWithRange:range];
+    }
+    else
+    {
+        NSRange range = NSMakeRange(0, 200);
+        if (abstractText.length <= 200) {
+            range = NSMakeRange(0, destStr.length);
+        }
+        abstractText = [destStr substringWithRange:range];
+    }
+    NSString* sourceImagePath = [[WizFileManager shareManager] documentIndexFilesPath:documentGUID];
+    NSArray* imageFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:sourceImagePath  error:nil];
+    //    NSString* maxImageFilePath = nil;
+    UIImage* maxImage = nil;
+    float maxImageArea = 0;
+    for (NSString* each in imageFiles) {
+        NSArray* typeArry = [each componentsSeparatedByString:@"."];
+        if ([WizGlobals checkAttachmentTypeIsImage:[typeArry lastObject]]) {
+            NSString* sourceImageFilePath = [sourceImagePath stringByAppendingPathComponent:each];
+            //            unsigned long long int currentImageFileLength = [[fileAttributers objectForKey:NSFileSize] unsignedLongLongValue];
+            UIImage* currentImage = [UIImage imageWithContentsOfFile:sourceImageFilePath];
+            float imageArea = currentImage.size.width*currentImage.size.height;
+            
+            if (imageArea <= 32* 32) {
+                continue;
+            }
+            if (imageArea == 468*60) {
+                continue;
+            }
+            if (imageArea == 170*60) {
+                continue;
+            }
+            if (imageArea == 234*60) {
+                continue;
+            }
+            if (imageArea == 88*31) {
+                continue;
+            }
+            if (imageArea == 120*60) {
+                continue;
+            }
+            if (imageArea == 120*90) {
+                continue;
+            }
+            if (imageArea == 120*120) {
+                continue;
+            }
+            if (imageArea == 360*300) {
+                continue;
+            }
+            if (imageArea == 392*72) {
+                continue;
+            }
+            if (imageArea == 125*125) {
+                continue;
+            }
+            if (imageArea == 770*100) {         
+                continue;
+            }
+            if (imageArea == 80*80) {
+                continue;
+            }
+            if (imageArea == 750*550) {
+                continue;
+            }
+            if (imageArea == 130* 200) {
+                continue;
+            }
+            maxImage = imageArea > maxImageArea  ? currentImage: maxImage;
+            maxImageArea = imageArea > maxImageArea ? imageArea:maxImageArea;
+            
+        }
+    }
+    UIImage* compassImage = nil;
+    //    UIImage* compassImageBig = nil;
+    if (nil != maxImage) {
+        float compassWidth=0;
+        float compassHeight = 0;
+        if (WizDeviceIsPad) {
+            compassWidth = 175;
+            compassHeight = 85;
+            compassImage = [maxImage wizCompressedImageWidth:compassWidth height:compassHeight];
+            //            compassImageBig = [maxImage wizCompressedImageWidth:140 height:140];
+        }
+        else
+        {
+            compassImage = [maxImage wizCompressedImageWidth:140 height:140];
+        }
+        
+    }
+    abstractImageData = [compassImage compressedData:1.0];
+    abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
+    abstract.imageDataLength = [abstractImageData length];
+    abstract.text = [abstractText UTF8String];
+    if (WizDeviceIsPad) {
+        tempIndex.UpdatePadAbstract(abstract);
+        //        WIZABSTRACT abstractLitle;
+        //        NSData* absData = [compassImageBig compressedData:1.0];
+        //        abstractLitle.setData((unsigned char *)[absData bytes], [absData length]);
+        //        abstractLitle.imageDataLength = [absData length];
+        //        abstractLitle.text = [abstractText UTF8String];
+        //        tempIndex.UpdateIphoneAbstract(abstractLitle);
+    }
+    else
+    {
+        tempIndex.UpdateIphoneAbstract(abstract);
+    }
+}
+- (BOOL) clearCache
+{
+    return YES;
+}
+
 //
 - (NSArray*) deletedGUIDsFromWizDeletedGUIDDataArray: (const CWizDeletedGUIDDataArray&) arrayDeletedGUID
 {

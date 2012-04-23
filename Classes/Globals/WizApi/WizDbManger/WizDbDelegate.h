@@ -60,4 +60,5 @@
 
 //abstract
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
+- (void) extractSummary:(NSString *)documentGUID;
 @end

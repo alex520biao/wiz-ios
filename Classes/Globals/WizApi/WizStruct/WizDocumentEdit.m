@@ -188,7 +188,6 @@
         self.dataMd5 = @"";
     }
     [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
-    [self buildBody];
     return [[WizDbManager shareDbManager] updateDocument:doc];
 }
 - (BOOL) deleteTag:(NSString*)tagGuid

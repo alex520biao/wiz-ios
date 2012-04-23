@@ -21,6 +21,7 @@
 #import "WizCheckAttachments.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
+#import "WizSettings.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -268,11 +269,10 @@
 }
 - (void) checkDocument
 {
-//    self.web.scalesPageToFit = YES;
-//    WizIndex* index = [WizIndex activeIndex];
-//    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-//    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-//    if ([index isMoblieView]) {
+    self.web.scalesPageToFit = YES;
+    NSString* documentFileName = [self.doc documentMobileFile];
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+//    if ([[WizSettings defaultSettings] isMoblieView]) {
 //        [self setDeviceWidth];
 //        if (![index documentMobileViewExist:self.doc.guid]) {
 //            NSString* documentType = self.doc.type;
@@ -306,10 +306,10 @@
 //            }
 //        }
 //    }
-//    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-//    [self.web loadRequest:req];
-//    [req release];
-//    [url release];
+    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+    [self.web loadRequest:req];
+    [req release];
+    [url release];
 }
 - (void) displayEncryInfo
 {
@@ -325,8 +325,8 @@
 }
 - (void) downloadDocumentDone
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+    NSString* documentFileName = [self.doc documentIndexFile];
+    [self checkDocument];
 //    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
 //        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
 //            [self checkDocument];
@@ -367,22 +367,33 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    WizIndex* index = [WizIndex activeIndex];
-//    self.doc = [index documentFromGUID:self.doc.guid];
-//    NSUInteger attachmentsCount = [index attachmentCountOfDocument:self.doc.guid];
-//    if (attachmentsCount > 0) {
-//        UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
-//        count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
-//        [self.view addSubview:count];
-//        [count release];
-//    }
-//    self.title = self.doc.title;
-//    if (self.isEdit) {
-//        [self.web reload];
-//        self.title = self.doc.title;
-//        self.isEdit = NO;
-//    }
-//    
+    self.doc = [WizDocument documentFromDb:self.doc.guid];
+    NSUInteger attachmentsCount = self.doc.attachmentCount;
+    if (attachmentsCount > 0) {
+        UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
+        count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+        [self.view addSubview:count];
+        [count release];
+    }
+    self.title = self.doc.title;
+    if (self.isEdit) {
+        [self.web reload];
+        self.title = self.doc.title;
+        self.isEdit = NO;
+    }
+    
+    NSString* documentFileName = [self.doc documentIndexFile];
+    if (self.doc.serverChanged) {
+        [self downloadDocument];
+    }
+    else {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+            [self checkDocument];
+        }
+        else {
+            [self downloadDocument];
+        }
+    }
     
 }
 
@@ -412,29 +423,7 @@
     self.searchItem.enabled = NO;
     self.attachmentBarItem.enabled = NO;
     [self.downloadActivity startAnimating];
-//    WizIndex* index = [WizIndex activeIndex];
-//    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-//    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
-//        if ([index documentServerChanged:self.doc.guid]) {
-//            [self downloadDocument];
-//        }
-//        else {
-//            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-//                [self checkDocument];
-//            }
-//            else {
-//                [self downloadDocument];
-//            }
-//        }
-//    }
-//    else {
-//        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
-//            [self downloadDocument];
-//        }
-//        else {
-//            [self displayEncryInfo]; 
-//        }
-//    }
+
 }
 
 @end

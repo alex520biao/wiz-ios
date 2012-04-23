@@ -25,4 +25,9 @@
     }
     return [[fileName componentsSeparatedByString:@"."] lastObject];
 }
+- (NSString*) stringReplaceUseRegular:(NSString*)regex
+{
+    NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
+    return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:@""];
+}
 @end

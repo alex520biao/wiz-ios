@@ -12,4 +12,5 @@
 - (BOOL) isBlock;
 - (NSString*) fileName;
 - (NSString*) fileType;
+- (NSString*) stringReplaceUseRegular:(NSString*)regex;
 @end

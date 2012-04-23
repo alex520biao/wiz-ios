@@ -22,7 +22,7 @@
 - (NSString*) documentMobileFile:(NSString*)documentGuid;
 - (NSString*) documentAbstractFile:(NSString*)documentGUID;
 - (NSString*) documentFullFile:(NSString*)documentGUID;
-
+- (NSString*) documentIndexFilesPath:(NSString*)documentGUID;
 - (BOOL) removeObjectPath:(NSString*)guid;
 //
 - (NSString*) downloadObjectTempFilePath:(NSString*)objGuid;

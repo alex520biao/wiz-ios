@@ -90,6 +90,10 @@ static WizSettings* defaultSettings = nil;
 }
 - (int64_t) userTablelistViewOption
 {
+    int64_t ret = [self.settingsDbDelegate userTablelistViewOption];
+    if (ret < 1) {
+        [self setUserTableListViewOption:2];
+    }
     return [self.settingsDbDelegate userTablelistViewOption];
 }
 //

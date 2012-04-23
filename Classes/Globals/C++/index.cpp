@@ -795,11 +795,13 @@ bool CIndex::UpdateTag(const WIZTAGDATA& data)
 	}
 	//
 	try {
+        printf("sql is %s",sql.c_str());
 		m_db.execDML(sql.c_str());
 		return true;
 	}
 	catch (const CppSQLite3Exception& e)
 	{
+        printf("%s",e.errorMessage());
 		TOLOG(e.errorMessage());
 		return false;
 	}

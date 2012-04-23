@@ -38,7 +38,8 @@
 */
 - (void) reloadDocuments
 {
-    NSMutableArray* arr = [[WizDocument recentDocuments] mutableCopy];
+    NSMutableArray* arr = [NSMutableArray arrayWithArray:[WizDocument recentDocuments]];
+    NSLog(@"arr %@ %d",arr,[arr count]);
     if (arr != nil)
     {
         self.sourceArray = arr;
@@ -47,14 +48,13 @@
     {
         self.sourceArray = [NSMutableArray array];
     }
-    [arr release];
 }
 
 - (void) addNewDocument:(NSNotification*)nc
 {
     self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizDocument* newDocument = [WizDocument documentFromGuid:documentGUID];
+    WizDocument* newDocument = [WizDocument documentFromDb:documentGUID];
     WizSyncManager* sync = [WizSyncManager shareManager];
     self.title = sync.syncDescription;
     [sync uploadDocument:documentGUID];
@@ -111,12 +111,12 @@
 
 - (void) viewDidLoad
 {
+    [super viewDidLoad];
     self.title = [self titleForView];
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
     [item release];
-    [super viewDidLoad];
-    
+        
 
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -133,10 +133,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    WizSync* sync = [[WizGlobalData sharedData] syncData:self.accountUserID];
-//    if (!sync.busy) {
-//        [self stopLoading];
-//    }
     WizSyncManager* share = [WizSyncManager shareManager];
     share.displayDelegate = self;
     [share startSyncInfo];

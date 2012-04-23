@@ -234,7 +234,6 @@
 - (void) logOutCurrentAccount
 {
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    WizLog(@"will log out");
     WizAccountManager* manager = [WizAccountManager defaultManager];
     [manager logoutAccount];
     if ([WizGlobals WizDeviceIsPad]) {
