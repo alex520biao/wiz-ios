@@ -53,7 +53,7 @@
 - (void) removeSelectedTag:(WizTag*)tag
 {
     for (WizTag* each in [self.tags objectAtIndex:0]) {
-        if ([[each name] isEqualToString:[tag name]]) {
+        if ([[each title] isEqualToString:[tag title]]) {
             [[self.tags objectAtIndex:0] removeObject:each];
             return;
         }
@@ -116,15 +116,15 @@
     if (nil == self.tags) {
         self.tags = [NSMutableArray arrayWithCapacity:2];
     }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSMutableArray* selectedTags = [NSMutableArray array];
-    if (self.initSelectedTags != nil) {
-        
-        [selectedTags  addObjectsFromArray:self.initSelectedTags];
-    }
-
-    [self.tags addObject:selectedTags];
-    [self.tags addObject:[NSMutableArray arrayWithArray:[index allTagsForTree]]];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    NSMutableArray* selectedTags = [NSMutableArray array];
+//    if (self.initSelectedTags != nil) {
+//        
+//        [selectedTags  addObjectsFromArray:self.initSelectedTags];
+//    }
+//
+//    [self.tags addObject:selectedTags];
+//    [self.tags addObject:[NSMutableArray arrayWithArray:[index allTagsForTree]]];
     [self buildSeachView];
     
 }
@@ -244,7 +244,7 @@
         if (newTagCell == nil) {
             newTagCell = [[[WizNewTagCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:newTagCellIdentifier] autorelease];
         }
-        [newTagCell setTextFieldText:[tag name]];
+        [newTagCell setTextFieldText:[tag title]];
         return newTagCell;
     }
     static NSString *CellIdentifier = @"Cell";
@@ -252,7 +252,7 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    cell.textLabel.text =  NSLocalizedString( [tag name], nil);
+    cell.textLabel.text =  NSLocalizedString( [tag title], nil);
     if ([self checkTagIsSeleted:tag]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
@@ -294,19 +294,18 @@
 - (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row ==0 && isNewTag) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-        WizTag* tag = [[index newTag:self.searchBar.text description:@"" parentTagGuid:nil] autorelease];
-        [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
-        [[self.tags objectAtIndex:0] addObject:tag];
-        [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
-        [self postSlectedTagMessage:tag];
-        self.isNewTag = NO;
-        if (WizDeviceIsPad()) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
-        }
-        else
-        {
-        }
+//        WizTag* tag = [[index newTag:self.searchBar.text description:@"" parentTagGuid:nil] autorelease];
+//        [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
+//        [[self.tags objectAtIndex:0] addObject:tag];
+//        [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
+//        [self postSlectedTagMessage:tag];
+//        self.isNewTag = NO;
+//        if (WizDeviceIsPad()) {
+//            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+//        }
+//        else
+//        {
+//        }
     }
     else
     {

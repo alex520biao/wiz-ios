@@ -259,7 +259,7 @@
     [self.selectedFloder removeLastObject];
     [self.selectedFloder addObject:folder];
     self.selectedFloderString = [NSMutableString stringWithString:folder];
-    if (WizDeviceIsPad()) {
+    if ([WizGlobals WizDeviceIsPad]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfSelectedFolder object:nil userInfo:[NSDictionary dictionaryWithObject:folder forKey:TypeOfFolderKey]];
     }
 }

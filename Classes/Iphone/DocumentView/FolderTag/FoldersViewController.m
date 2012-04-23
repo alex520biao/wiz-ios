@@ -130,11 +130,10 @@
 	}else {
 		filename=@"icon_for_folder";
 	}
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     cell.imageView.image = [UIImage imageNamed:filename];
     cell.textLabel.text = node.title;
     cell.textLabel.backgroundColor = [UIColor clearColor];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:node.locationKey]];	
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:node.locationKey]];	
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     if (![node hasChildren]) {

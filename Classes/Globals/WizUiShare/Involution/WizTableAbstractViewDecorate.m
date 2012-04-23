@@ -101,24 +101,24 @@ static NSMutableDictionary* timeAttributes;
 - (void) setDocumentGuid:(NSString *)documentGuid_
 {
     [super setDocumentGuid:documentGuid_];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:documentGuid_];
-    nameStr = doc.title;
-    timerStr = doc.dateModified;
-    if (doc.serverChanged) {
-        WizAbstract* abstract = [index abstractOfDocument:documentGuid_];
-        detailStr = abstract.text;
-        abstractImage = abstract.image;
-    }
-    else {
-        NSString* tagStr = [WizGlobals tagsDisplayStrFromGUIDS:[index tagsByDocumentGuid:documentGuid_]];
-        NSString* folderStr = [WizGlobals folderStringToLocal:doc.location];
-        if (tagStr !=nil && ![tagStr isEqualToString:@""]) {
-            folderStr = [folderStr stringByAppendingString:tagStr];
-        }
-        detailStr = folderStr;
-        abstractImage = nil;
-    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizDocument* doc = [index documentFromGUID:documentGuid_];
+//    nameStr = doc.title;
+//    timerStr = doc.dateModified;
+//    if (doc.serverChanged) {
+//        WizAbstract* abstract = [index abstractOfDocument:documentGuid_];
+//        detailStr = abstract.text;
+//        abstractImage = abstract.image;
+//    }
+//    else {
+//        NSString* tagStr = [WizGlobals tagsDisplayStrFromGUIDS:[index tagsByDocumentGuid:documentGuid_]];
+//        NSString* folderStr = [WizGlobals folderStringToLocal:doc.location];
+//        if (tagStr !=nil && ![tagStr isEqualToString:@""]) {
+//            folderStr = [folderStr stringByAppendingString:tagStr];
+//        }
+//        detailStr = folderStr;
+//        abstractImage = nil;
+//    }
 }
 - (void) drawRect:(CGRect)rect
 {

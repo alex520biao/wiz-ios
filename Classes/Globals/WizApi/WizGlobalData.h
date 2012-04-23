@@ -10,7 +10,6 @@
 #import "CommonString.h"
 
 @class WizSync;
-@class WizIndex;
 @class WizCreateAccount;
 @class WizVerifyAccount;
 @class WizApi;
@@ -24,7 +23,6 @@
 - (WizSync *) syncData:(NSString*) userId;
 - (WizCreateAccount *) createAccountData;
 - (WizVerifyAccount *) verifyAccountData:(NSString*) userId;
-- (WizIndex *) indexData:(NSString*) userId;
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId;
 - (UIImage*) documentIconWithoutData;
 - (void) removeAccountData:(NSString*)userId;

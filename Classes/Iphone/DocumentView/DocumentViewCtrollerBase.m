@@ -268,48 +268,48 @@
 }
 - (void) checkDocument
 {
-    self.web.scalesPageToFit = YES;
-    WizIndex* index = [WizIndex activeIndex];
-    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-    if ([index isMoblieView]) {
-        [self setDeviceWidth];
-        if (![index documentMobileViewExist:self.doc.guid]) {
-            NSString* documentType = self.doc.type;
-            if (documentType!=nil) {
-                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
-                    [self setZoomWidth];
-                }
-            }
-            else
-            {
-                NSString* url = self.doc.url;
-                if (url != nil && url.length > 4) {
-                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
-                        [self setZoomWidth];
-                    }
-                }
-            }
-            
-        }
-    }
-    else {
-        [self setZoomWidth];
-        NSString* url = self.doc.url;
-        NSString* type = self.doc.type;
-        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-            [self setDeviceWidth];
-        }
-        if ([type isEqualToString:@"webnote"]) {
-            if ([index checkWebnoteIsNew:documentFileName]) {
-                [self setDeviceWidth];
-            }
-        }
-    }
-    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-    [self.web loadRequest:req];
-    [req release];
-    [url release];
+//    self.web.scalesPageToFit = YES;
+//    WizIndex* index = [WizIndex activeIndex];
+//    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+//    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+//    if ([index isMoblieView]) {
+//        [self setDeviceWidth];
+//        if (![index documentMobileViewExist:self.doc.guid]) {
+//            NSString* documentType = self.doc.type;
+//            if (documentType!=nil) {
+//                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
+//                    [self setZoomWidth];
+//                }
+//            }
+//            else
+//            {
+//                NSString* url = self.doc.url;
+//                if (url != nil && url.length > 4) {
+//                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
+//                        [self setZoomWidth];
+//                    }
+//                }
+//            }
+//            
+//        }
+//    }
+//    else {
+//        [self setZoomWidth];
+//        NSString* url = self.doc.url;
+//        NSString* type = self.doc.type;
+//        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+//            [self setDeviceWidth];
+//        }
+//        if ([type isEqualToString:@"webnote"]) {
+//            if ([index checkWebnoteIsNew:documentFileName]) {
+//                [self setDeviceWidth];
+//            }
+//        }
+//    }
+//    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+//    [self.web loadRequest:req];
+//    [req release];
+//    [url release];
 }
 - (void) displayEncryInfo
 {
@@ -325,16 +325,16 @@
 }
 - (void) downloadDocumentDone
 {
-    WizIndex* index = [WizIndex activeIndex];
-    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-            [self checkDocument];
-        }
-    }
-    else {
-        [self displayEncryInfo];
-    }
+//    WizIndex* index = [WizIndex activeIndex];
+//    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+//            [self checkDocument];
+//        }
+//    }
+//    else {
+//        [self displayEncryInfo];
+//    }
 }
 
 - (void)viewDidUnload
@@ -367,22 +367,22 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    WizIndex* index = [WizIndex activeIndex];
-    self.doc = [index documentFromGUID:self.doc.guid];
-    NSUInteger attachmentsCount = [index attachmentCountOfDocument:self.doc.guid];
-    if (attachmentsCount > 0) {
-        UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
-        count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
-        [self.view addSubview:count];
-        [count release];
-    }
-    self.title = self.doc.title;
-    if (self.isEdit) {
-        [self.web reload];
-        self.title = self.doc.title;
-        self.isEdit = NO;
-    }
-    
+//    WizIndex* index = [WizIndex activeIndex];
+//    self.doc = [index documentFromGUID:self.doc.guid];
+//    NSUInteger attachmentsCount = [index attachmentCountOfDocument:self.doc.guid];
+//    if (attachmentsCount > 0) {
+//        UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
+//        count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+//        [self.view addSubview:count];
+//        [count release];
+//    }
+//    self.title = self.doc.title;
+//    if (self.isEdit) {
+//        [self.web reload];
+//        self.title = self.doc.title;
+//        self.isEdit = NO;
+//    }
+//    
     
 }
 
@@ -412,29 +412,29 @@
     self.searchItem.enabled = NO;
     self.attachmentBarItem.enabled = NO;
     [self.downloadActivity startAnimating];
-    WizIndex* index = [WizIndex activeIndex];
-    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
-        if ([index documentServerChanged:self.doc.guid]) {
-            [self downloadDocument];
-        }
-        else {
-            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-                [self checkDocument];
-            }
-            else {
-                [self downloadDocument];
-            }
-        }
-    }
-    else {
-        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
-            [self downloadDocument];
-        }
-        else {
-            [self displayEncryInfo]; 
-        }
-    }
+//    WizIndex* index = [WizIndex activeIndex];
+//    NSString* documentFileName = [index documentViewFilename:self.doc.guid];
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
+//        if ([index documentServerChanged:self.doc.guid]) {
+//            [self downloadDocument];
+//        }
+//        else {
+//            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+//                [self checkDocument];
+//            }
+//            else {
+//                [self downloadDocument];
+//            }
+//        }
+//    }
+//    else {
+//        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
+//            [self downloadDocument];
+//        }
+//        else {
+//            [self displayEncryInfo]; 
+//        }
+//    }
 }
 
 @end

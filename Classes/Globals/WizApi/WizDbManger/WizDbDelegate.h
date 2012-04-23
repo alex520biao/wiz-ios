@@ -94,9 +94,15 @@
 //tag
 - (BOOL) updateTag: (NSDictionary*) tag;
 - (BOOL) updateTags: (NSArray*) tags;
-
+- (NSArray*) tagsForUpload;
 //attachment
 - (BOOL) updateAttachment:(NSDictionary *)attachment;
 - (BOOL) updateAttachments:(NSArray *)attachments;
 
+//
+- (NSArray*) deletedGUIDsForUpload;
+- (BOOL) clearDeletedGUIDs;
+
+//
+- (BOOL) updateLocations:(NSArray*) locations;
 @end

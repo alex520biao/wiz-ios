@@ -464,12 +464,12 @@
 }
 - (void) viewDidAppear:(BOOL)animated
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if ([index isFirstLog] ) {
-        [self refreshAccountBegin:self.refreshButton];
-        [index setDownloadDocumentData:NO];
-        [index setFirstLog:YES];
-    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if ([index isFirstLog] ) {
+//        [self refreshAccountBegin:self.refreshButton];
+//        [index setDownloadDocumentData:NO];
+//        [index setFirstLog:YES];
+//    }
     [self buildToolBar];
 }
 - (void) checkDocument:(NSNotification*)nc

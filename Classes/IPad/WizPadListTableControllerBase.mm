@@ -183,27 +183,27 @@
             WizDocument* doc1 = [array objectAtIndex:k];
             WizDocument* doc2 = [array objectAtIndex:k+1];
             
-            if([[WizIndex pinyinFirstLetter:doc1.title] isEqualToString:[WizIndex pinyinFirstLetter:doc2.title]])
-            {
-                [sectionArray addObject:doc1];
-                if (k == [array count] - 2) {
-                    [sectionArray addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                    docIndex = k+1;
-                    break;
-                }
-            } else
-            {
-                [sectionArray addObject:doc1];
-                [self.tableArray addObject:sectionArray];
-                if (k == [array count] -2) {
-                    NSMutableArray* sectionTempArray = [NSMutableArray array];
-                    [sectionTempArray addObject:doc2];
-                    [self.tableArray addObject:sectionTempArray];
-                }
-                docIndex = k+1;
-                break;
-            }
+//            if([[WizIndex pinyinFirstLetter:doc1.title] isEqualToString:[WizIndex pinyinFirstLetter:doc2.title]])
+//            {
+//                [sectionArray addObject:doc1];
+//                if (k == [array count] - 2) {
+//                    [sectionArray addObject:doc2];
+//                    [self.tableArray addObject:sectionArray];
+//                    docIndex = k+1;
+//                    break;
+//                }
+//            } else
+//            {
+//                [sectionArray addObject:doc1];
+//                [self.tableArray addObject:sectionArray];
+//                if (k == [array count] -2) {
+//                    NSMutableArray* sectionTempArray = [NSMutableArray array];
+//                    [sectionTempArray addObject:doc2];
+//                    [self.tableArray addObject:sectionTempArray];
+//                }
+//                docIndex = k+1;
+//                break;
+//            }
             
         }
     }
@@ -413,23 +413,23 @@
 }
 - (void)onAddNewDocument:(NSNotification*)nc
 {
-    self.tableView.backgroundView = nil;
-    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    WizDocument* doc = [index documentFromGUID:documentGUID];
-    if (doc == nil) {
-        return;
-    }
-    if([self.tableArray count] >0)
-    {
-        [[self.tableArray objectAtIndex:0] insertObject:doc atIndex:0];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else {
-        NSMutableArray* array = [NSMutableArray arrayWithObject:doc];
-        [self.tableArray addObject:array];
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    }
+//    self.tableView.backgroundView = nil;
+//    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
+//    WizDocument* doc = [index documentFromGUID:documentGUID];
+//    if (doc == nil) {
+//        return;
+//    }
+//    if([self.tableArray count] >0)
+//    {
+//        [[self.tableArray objectAtIndex:0] insertObject:doc atIndex:0];
+//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+//    }
+//    else {
+//        NSMutableArray* array = [NSMutableArray arrayWithObject:doc];
+//        [self.tableArray addObject:array];
+//        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+//    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

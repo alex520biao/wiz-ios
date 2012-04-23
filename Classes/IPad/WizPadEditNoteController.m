@@ -19,6 +19,7 @@
 #import "WizPadCheckAttachments.h"
 #import "WizNotification.h"
 #import "WizDbManager.h"
+#import "WizDocumentFactory.h"
 
 #define titleInputTextFieldFrame CGRectMake(0.0,0.0,768,44)
 #define folderLabelFrame CGRectMake(0.0, 45, 768, 44)
@@ -375,61 +376,61 @@
 
 - (void) saveDocument
 {
-    if (self.recorder!= nil && [self.recorder isRecording])
-    {
-        [self audioStopRecord];
-    }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-
-    NSString* tagGuids = [NSMutableString string];
-    if ([self.selectedTags count]) {
-        for (int i = 0; i <[self.selectedTags count]-1; i++) {
-            WizTag* tag = [self.selectedTags objectAtIndex:i];
-            tagGuids = [tagGuids stringByAppendingFormat:@"%@*",[tag guid]];
-        }
-        tagGuids = [tagGuids stringByAppendingFormat:@"%@",[[self.selectedTags lastObject] guid]];
-    }
-    NSMutableArray* attachmentsGuid = [NSMutableArray array];
-    if ([self.attachmentSourcePath count]) {
-        for (NSString* each in self.attachmentSourcePath) {
-            NSArray* dir = [each componentsSeparatedByString:@"/"];
-            NSString* pathDir = [dir objectAtIndex:[dir count] -2];
-            if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
-                [attachmentsGuid addObject:pathDir];
-                continue;
-            }
-            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
-            [attachmentsGuid addObject:newAttachmentGuid];
-        }
-    }
-    NSMutableDictionary* documentData = [NSMutableDictionary dictionary];
-
-    if (nil == self.titleInputTextField.text) {
-        self.titleInputTextField.text = @"";
-    }
-    
-    if (nil == self.bodyInputTextView.text) {
-        self.bodyInputTextView.text = @"";
-    }
-    [documentData setObject:self.documentGUID forKey:TypeOfDocumentGUID];
-    [documentData setObject:self.documentFloder forKey:TypeOfDocumentLocation];
-    [documentData setObject:self.bodyInputTextView.text forKey:TypeOfDocumentBody];
-    [documentData setObject:attachmentsGuid forKey:TypeOfAttachmentGuids];
-    [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
-    [documentData setObject:tagGuids forKey:TypeOfDocumentTags];
-    if (isNewDocument) {
-        [index  newNoteWithGuidAndData:documentData];
-        [WizNotificationCenter postNewDocumentMessage:self.documentGUID];
-    }
-    else
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfEditDocumentDone object:nil userInfo:nil];
-        [index editDocumentWithGuidAndData:documentData];
-    }
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
-    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+//    if (self.recorder!= nil && [self.recorder isRecording])
+//    {
+//        [self audioStopRecord];
+//    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//
+//    NSString* tagGuids = [NSMutableString string];
+//    if ([self.selectedTags count]) {
+//        for (int i = 0; i <[self.selectedTags count]-1; i++) {
+//            WizTag* tag = [self.selectedTags objectAtIndex:i];
+//            tagGuids = [tagGuids stringByAppendingFormat:@"%@*",[tag guid]];
+//        }
+//        tagGuids = [tagGuids stringByAppendingFormat:@"%@",[[self.selectedTags lastObject] guid]];
+//    }
+//    NSMutableArray* attachmentsGuid = [NSMutableArray array];
+//    if ([self.attachmentSourcePath count]) {
+//        for (NSString* each in self.attachmentSourcePath) {
+//            NSArray* dir = [each componentsSeparatedByString:@"/"];
+//            NSString* pathDir = [dir objectAtIndex:[dir count] -2];
+//            if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
+//                [attachmentsGuid addObject:pathDir];
+//                continue;
+//            }
+//            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
+//            [attachmentsGuid addObject:newAttachmentGuid];
+//        }
+//    }
+//    NSMutableDictionary* documentData = [NSMutableDictionary dictionary];
+//
+//    if (nil == self.titleInputTextField.text) {
+//        self.titleInputTextField.text = @"";
+//    }
+//    
+//    if (nil == self.bodyInputTextView.text) {
+//        self.bodyInputTextView.text = @"";
+//    }
+//    [documentData setObject:self.documentGUID forKey:TypeOfDocumentGUID];
+//    [documentData setObject:self.documentFloder forKey:TypeOfDocumentLocation];
+//    [documentData setObject:self.bodyInputTextView.text forKey:TypeOfDocumentBody];
+//    [documentData setObject:attachmentsGuid forKey:TypeOfAttachmentGuids];
+//    [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
+//    [documentData setObject:tagGuids forKey:TypeOfDocumentTags];
+//    if (isNewDocument) {
+//        [index  newNoteWithGuidAndData:documentData];
+//        [WizNotificationCenter postNewDocumentMessage:self.documentGUID];
+//    }
+//    else
+//    {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfEditDocumentDone object:nil userInfo:nil];
+//        [index editDocumentWithGuidAndData:documentData];
+//    }
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
+//    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
+//    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (float) updateTime
@@ -438,7 +439,7 @@
     for (UIView* each in self.timerView.subviews) {
         if ([each isKindOfClass:[UILabel class]]) {
             UILabel* timeLabel = (UILabel*)each;
-            timeLabel.text = [WizIndex timerStringFromTimerInver:time];
+            timeLabel.text = [WizGlobals timerStringFromTimerInver:time];
         }
     }
     return 0;
@@ -479,7 +480,6 @@
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     for(NSDictionary* each in info)
     {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         UIImage* image = [each objectForKey:UIImagePickerControllerOriginalImage];
         image = [image compressedImage:[[WizDbManager shareDbManager] imageQualityValue]];
         NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
@@ -491,9 +491,8 @@
 }
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    image = [image compressedImage:[index imageQualityValue]];
+    image = [image compressedImage:[[WizDbManager shareDbManager] imageQualityValue]];
     NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
     [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
     [picker dismissModalViewControllerAnimated:YES];
@@ -652,13 +651,12 @@
 {
     [self buildView];
     self.isNewDocument = NO;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* document = [index documentFromGUID:self.documentGUID];
+    WizDocument* document = [WizDocumentFactory documentForUpload:self.documentGUID];
     NSString* documentTitle = [data valueForKey:TypeOfDocumentTitle];
     NSString* documentBody = [data valueForKey:TypeOfDocumentBody];
     self.titleInputTextField.text = documentTitle;
     self.bodyInputTextView.text = documentBody;
-    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:self.documentGUID]];
+//    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:self.documentGUID]];
     self.documentFloder = [NSMutableString stringWithString:document.location];
     for (WizTag* each in self.selectedTags) {
         if (nil == each) {
@@ -700,10 +698,10 @@
     
     NSString* tagGuid = [data valueForKey:TypeOfSelectedTag];
     if (nil != tagGuid) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizTag* tag = [index tagFromGuid:tagGuid];
-        [self.selectedTags addObject:tag];
-        [self addTagToDocument:tag];
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//        WizTag* tag = [index tagFromGuid:tagGuid];
+//        [self.selectedTags addObject:tag];
+//        [self addTagToDocument:tag];
     }
     NSString* documentFolderString = [data valueForKey:TypeOfSelectedFolder];
     if (nil != documentFolderString && ![documentFolderString isEqualToString:@""]) {
@@ -720,17 +718,17 @@
     NSString* cDir = [dir objectAtIndex:[dir count]-2];
     NSString* fileName = [dir lastObject];
     if (![cDir isEqualToString:ATTACHMENTTEMPFLITER]) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        NSString* documentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.documentGUID];
-        NSString* filesPath = [documentFilePath stringByAppendingPathComponent:@"index_files"];
-        NSString* filePath = [filesPath stringByAppendingPathComponent:fileName];
-        NSFileManager* fileManager = [NSFileManager defaultManager];
-        NSError* error = [[NSError alloc]init];
-        if(![fileManager removeItemAtPath:filePath error:&error])
-        {
-            NSLog(@"remove error");
-        }
-        [error release];
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//        NSString* documentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.documentGUID];
+//        NSString* filesPath = [documentFilePath stringByAppendingPathComponent:@"index_files"];
+//        NSString* filePath = [filesPath stringByAppendingPathComponent:fileName];
+//        NSFileManager* fileManager = [NSFileManager defaultManager];
+//        NSError* error = [[NSError alloc]init];
+//        if(![fileManager removeItemAtPath:filePath error:&error])
+//        {
+//            NSLog(@"remove error");
+//        }
+//        [error release];
 //        WizAttachment* attach = [index attachmentFromGUID:cDir];
 //        [index deleteAttachment:attach.attachmentGuid];
     }

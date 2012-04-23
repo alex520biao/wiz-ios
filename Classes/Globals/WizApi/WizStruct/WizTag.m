@@ -22,4 +22,8 @@
     [dateInfoModified release];
     [super dealloc];
 }
+- (id) initFromGuid:(NSString*)guid
+{
+    return nil;
+}
 @end

@@ -52,7 +52,7 @@
         self.number4 = [self textView];
         UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title"]];
         float zoomWidth = 0;
-        if (WizDeviceIsPad()) {
+        if ([WizGlobals WizDeviceIsPad]) {
             zoomWidth = 110;
         }
         else

@@ -82,7 +82,7 @@
 		73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842614F8CC22001387F6 /* WizCreateAccount.m */; };
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
 		73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843714F8CC22001387F6 /* WizGlobalData.m */; };
-		73A7856514F8CC23001387F6 /* WizGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843B14F8CC22001387F6 /* WizGlobals.m */; };
+		73A7856514F8CC23001387F6 /* WizGlobals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843B14F8CC22001387F6 /* WizGlobals.mm */; };
 		73A7856914F8CC23001387F6 /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844314F8CC22001387F6 /* WizSync.m */; };
 		73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844D14F8CC22001387F6 /* WizUploadObjet.m */; };
 		73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */; };
@@ -454,7 +454,7 @@
 		73A7843814F8CC22001387F6 /* WizGlobalDictionaryKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalDictionaryKey.h; sourceTree = "<group>"; };
 		73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalNotificationMessage.h; sourceTree = "<group>"; };
 		73A7843A14F8CC22001387F6 /* WizGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobals.h; sourceTree = "<group>"; };
-		73A7843B14F8CC22001387F6 /* WizGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobals.m; sourceTree = "<group>"; };
+		73A7843B14F8CC22001387F6 /* WizGlobals.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizGlobals.mm; sourceTree = "<group>"; };
 		73A7844214F8CC22001387F6 /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSync.h; sourceTree = "<group>"; };
 		73A7844314F8CC22001387F6 /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSync.m; sourceTree = "<group>"; };
 		73A7844C14F8CC22001387F6 /* WizUploadObjet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUploadObjet.h; sourceTree = "<group>"; };
@@ -1076,7 +1076,7 @@
 				73A7843614F8CC22001387F6 /* WizGlobalData.h */,
 				73A7843714F8CC22001387F6 /* WizGlobalData.m */,
 				73A7843A14F8CC22001387F6 /* WizGlobals.h */,
-				73A7843B14F8CC22001387F6 /* WizGlobals.m */,
+				73A7843B14F8CC22001387F6 /* WizGlobals.mm */,
 				739BE7B0153E524100057601 /* NSArray+WizTools.h */,
 				739BE7B1153E524100057601 /* NSArray+WizTools.m */,
 				73EEF494153E650300481029 /* WizGlobalError.h */,
@@ -2028,7 +2028,7 @@
 				73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */,
 				73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */,
 				73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */,
-				73A7856514F8CC23001387F6 /* WizGlobals.m in Sources */,
+				73A7856514F8CC23001387F6 /* WizGlobals.mm in Sources */,
 				73A7856914F8CC23001387F6 /* WizSync.m in Sources */,
 				73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */,
 				73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */,

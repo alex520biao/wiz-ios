@@ -78,10 +78,10 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    self.attachments = nil;
-    self.attachments = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:self.documentGUID]];
+//    [super viewWillAppear:animated];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    self.attachments = nil;
+//    self.attachments = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:self.documentGUID]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -140,7 +140,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     WizAttachment* attach = [self.attachments objectAtIndex:indexPath.row];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (attach.type == nil || [attach.type isEqualToString:@""]) {
         attach.type = @"noneType";
     }
@@ -185,7 +185,7 @@
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     check.req = req;
     [req release];
-    if (WizDeviceIsPad()) {
+    if ([WizGlobals WizDeviceIsPad]) {
         [self.checkNav pushViewController:check animated:YES];
         [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckAttachment object:nil userInfo:nil];
     }
@@ -260,9 +260,9 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
         self.waitAlert = nil;
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizAttachment* attach = [index attachmentFromGUID:attachmentGUID];
-        [self checkAttachment:attach inWiz:willCheckInWiz];
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//        WizAttachment* attach = [index attachmentFromGUID:attachmentGUID];
+//        [self checkAttachment:attach inWiz:willCheckInWiz];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -29,6 +29,7 @@
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
+#import "WizDocumentFactory.h"
 
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
@@ -128,7 +129,7 @@
 -(void) updateTime
 {
     self.currentTime += 0.1f;
-    self.recoderLabel.text = [WizIndex timerStringFromTimerInver:self.currentTime];
+    self.recoderLabel.text = [WizGlobals timerStringFromTimerInver:self.currentTime];
 }
 
 -(BOOL) record
@@ -334,9 +335,9 @@
 }
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    WizIndex* index = [WizIndex activeIndex];
-    UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    image = [image compressedImage:[index imageQualityValue]];
+//    WizIndex* index = [WizIndex activeIndex];
+//    UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+//    image = [image compressedImage:[index imageQualityValue]];
 //    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
 //    [WizGlobals ensurePathExists:objectPath];
 //    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
@@ -344,13 +345,13 @@
 //    NSString* dateString = [formatter stringFromDate:[NSDate date]];
 //    [formatter release];
 //    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager] activeAccountUserId]] stringByAppendingString:@".jpg"];
-    [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
-    [self updateAttachment:fileNamePath];
-    [picker dismissModalViewControllerAnimated:YES];
-    //2012-2-26 delete
-//    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
-    [picker.navigationController dismissModalViewControllerAnimated:YES];
+//    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager] activeAccountUserId]] stringByAppendingString:@".jpg"];
+//    [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
+//    [self updateAttachment:fileNamePath];
+//    [picker dismissModalViewControllerAnimated:YES];
+//    //2012-2-26 delete
+////    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
+//    [picker.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -782,7 +783,6 @@
 
 - (void) newDocument
 {
-    WizIndex* index = [WizIndex activeIndex];
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
     if([self.documentFloder isEqualToString:@""])
         self.documentFloder = [NSMutableString stringWithString:@"/My Notes/"];
@@ -801,8 +801,8 @@
                 [attachmentsGuid addObject:pathDir];
                 continue;
             }
-            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
-            [attachmentsGuid addObject:newAttachmentGuid];
+//            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
+//            [attachmentsGuid addObject:newAttachmentGuid];
         }
     }
     [dic setObject:self.documentGUID forKey:TypeOfDocumentGUID];
@@ -918,25 +918,24 @@
     self.documentGUID = documentGUID_;
     self.titleTextFiled.text = title;
     self.bodyTextField.text = body;
-    WizIndex* index = [WizIndex activeIndex];
-    WizDocument* doc = [index documentFromGUID:self.documentGUID];
+    WizDocument* doc = [WizDocumentFactory documentFromGuid:self.documentGUID];
 
-    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:documentGUID_]];
+//    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:documentGUID_]];
     if (selectedTags == nil) {
         self.selectedTags = [NSMutableArray array];
     }
     self.documentFloder = [NSMutableString stringWithString:doc.location];
-    NSArray* attachs = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:doc.guid]];
-    if(nil == self.attachmentsSourcePaths)
-    {
-        self.attachmentsSourcePaths = [NSMutableArray array];
-        for (WizAttachment* each in attachs) {
-            NSString* fileNamePath = [each attachmentFilePath];
-            if ([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath]) {
-                [self.attachmentsSourcePaths addObject:fileNamePath];
-            }
-        }
-    }
+//    NSArray* attachs = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:doc.guid]];
+//    if(nil == self.attachmentsSourcePaths)
+//    {
+//        self.attachmentsSourcePaths = [NSMutableArray array];
+//        for (WizAttachment* each in attachs) {
+//            NSString* fileNamePath = [each attachmentFilePath];
+//            if ([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath]) {
+//                [self.attachmentsSourcePaths addObject:fileNamePath];
+//            }
+//        }
+//    }
     self.addAttachmentView.tag = HIDDENTTAG;
     self.addDocumentInfoView.tag = NOHIDDENTTAG;
     self.isNewDocument = NO;

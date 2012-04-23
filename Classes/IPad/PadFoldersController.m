@@ -29,18 +29,17 @@
 {
     NSMutableArray* decorateArray = [NSMutableArray array];
     for (NSString* each in array) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        NSArray* documents = [index documentsByLocation:each];
-        if ([documents count] == 0 && ![each isEqualToString:@"/My Mobiles/"]) {
-            continue;
-        }
-        WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
-        data.name = [WizGlobals folderStringToLocal:each];
-        data.count = [NSString stringWithFormat:@"%d %@",[index fileCountOfLocation:each],WizStrNotes];
-        data.keyWords = each;
-        data.abstract = [[WizAbstractCache shareCache] folderAbstractForIpad:each userID:self.accountUserId].text;
-        [decorateArray addObject:data];
-        [data release];
+//        NSArray* documents = [index documentsByLocation:each];
+//        if ([documents count] == 0 && ![each isEqualToString:@"/My Mobiles/"]) {
+//            continue;
+//        }
+//        WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
+//        data.name = [WizGlobals folderStringToLocal:each];
+//        data.count = [NSString stringWithFormat:@"%d %@",[index fileCountOfLocation:each],WizStrNotes];
+//        data.keyWords = each;
+//        data.abstract = [[WizAbstractCache shareCache] folderAbstractForIpad:each userID:self.accountUserId].text;
+//        [decorateArray addObject:data];
+//        [data release];
     }
     CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
     [cateCell setContent:decorateArray];
@@ -48,18 +47,18 @@
 
 - (void) reloadAllData
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSArray* locationKeys = [index allLocationsForTree];
-    NSMutableArray* arr = [NSMutableArray arrayWithArray:locationKeys];
-    [self.dataArray removeAllObjects];
-    if (self.dataArray == nil) {
-        self.dataArray = [NSMutableArray array];
-    }
-    for (NSString* each in arr) {
-        if ([index fileCountOfLocation:each] != 0) {
-            [self.dataArray addObject:each];
-        }
-    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    NSArray* locationKeys = [index allLocationsForTree];
+//    NSMutableArray* arr = [NSMutableArray arrayWithArray:locationKeys];
+//    [self.dataArray removeAllObjects];
+//    if (self.dataArray == nil) {
+//        self.dataArray = [NSMutableArray array];
+//    }
+//    for (NSString* each in arr) {
+//        if ([index fileCountOfLocation:each] != 0) {
+//            [self.dataArray addObject:each];
+//        }
+//    }
     
 }
 - (void) reloadTableData

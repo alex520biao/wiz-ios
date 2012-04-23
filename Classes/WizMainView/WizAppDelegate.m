@@ -45,7 +45,7 @@
     [WizNotificationCenter removeObserver:self];
     UINavigationController* root = [[UINavigationController alloc] init];
     self.navController = root;
-    if (WizDeviceIsPad())
+    if ([WizGlobals WizDeviceIsPad])
     {
         WizPadLoginViewController* pad = [[WizPadLoginViewController alloc] init];
         [self.navController pushViewController:pad animated:NO];
@@ -155,7 +155,7 @@
         NSString* filePath = [url path];
         NSArray* breakFilePath = [filePath componentsSeparatedByString:@"/"];
         NSString* fileName = [breakFilePath lastObject];
-        WizIndex* index = [[WizGlobalData sharedData] indexData:defaultAccount];
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:defaultAccount];
         NSString* tempFilePath =[WizGlobals getAttachmentTempFilePath:defaultAccount];
         NSString* toFilePath = [tempFilePath stringByAppendingPathComponent:fileName];
         NSURL* toUrl = [NSURL fileURLWithPath:toFilePath];
@@ -164,11 +164,11 @@
             [WizGlobals reportError:error];
             return NO;
         }
-        NSString* documentGUID = [[index newDocumentWithOneAttachment:toUrl] autorelease];
-        if (documentGUID == nil) {
-            return NO;
-        }
-        [WizNotificationCenter postNewDocumentMessage:documentGUID];
+//        NSString* documentGUID = [[index newDocumentWithOneAttachment:toUrl] autorelease];
+//        if (documentGUID == nil) {
+//            return NO;
+//        }
+//        [WizNotificationCenter postNewDocumentMessage:documentGUID];
         return YES;
     }
 return NO;

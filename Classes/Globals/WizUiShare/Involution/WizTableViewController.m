@@ -14,6 +14,7 @@
 #import "CommonString.h"
 #import "WizTableVIewCell.h"
 #import "WizNotification.h"
+#import "WizDbManager.h"
 #define WizNotFound -2
 
 NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
@@ -56,12 +57,12 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 -(NSComparisonResult) compareDocument:(WizDocument *)doc mask:(WizTableOrder)mask
 {
-    if ([WizIndex isReverseOrder:mask]) {
-        return ReverseComparisonResult([self compareDocumentOrder:doc mask:mask]);
-    }
-    else {
-        return [self compareDocumentOrder:doc mask:mask];   
-    }
+//    if ([WizIndex isReverseOrder:mask]) {
+//        return ReverseComparisonResult([self compareDocumentOrder:doc mask:mask]);
+//    }
+//    else {
+//        return [self compareDocumentOrder:doc mask:mask];   
+//    }
 }
 - (NSComparisonResult) reverseDateGroup:(NSString*)date1 :(NSString*)date2
 {
@@ -142,7 +143,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (NSComparisonResult) compareFirstCharacter:(NSString *)str
 {
-    return [[WizIndex pinyinFirstLetter:self] compare:[WizIndex pinyinFirstLetter:str]];
+//    return [[WizIndex pinyinFirstLetter:self] compare:[WizIndex pinyinFirstLetter:str]];
 }
 @end
 
@@ -192,8 +193,8 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (NSMutableArray*) reloadAllData
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    return [NSMutableArray  arrayWithArray:[index recentDocuments]] ;
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    return [NSMutableArray  arrayWithArray:[[WizDbManager shareDbManager] recentDocuments]] ;
 }
 
 - (void) sortAllData
@@ -262,10 +263,10 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         }
         case kOrderFirstLetter:
         case kOrderReverseFirstLetter:
-            return [WizIndex pinyinFirstLetter:doc.title];
+            return [WizGlobals pinyinFirstLetter:doc.title];
         case kOrderReverseDate:
         {
-            NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
+            NSDate* date = doc.dateModified;
             if ([date isToday] ) {
                 return WizStrToday;
             }
@@ -307,28 +308,28 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (void) insertDocument:(NSNotification*)nc
 {
-    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:documentGUID];
-    NSInteger updateSection = [self groupIndexOfDocument:documentGUID];
-    if (updateSection == WizNotFound) {
-        NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
-        [newArr addObject:doc];
-        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
-            updateSection = 0;
-        }
-        else {
-            updateSection = [tableSourceArray count];
-        }
-        [self.tableSourceArray insertObject:doc atIndex:updateSection];
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
-    }
-    else {
-        NSMutableArray* arr = [tableSourceArray objectAtIndex:updateSection];
-        [arr addObject:doc];
-        [arr sortDocuments:self.kOrderIndex];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
-    }
+//    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizDocument* doc = [index documentFromGUID:documentGUID];
+//    NSInteger updateSection = [self groupIndexOfDocument:documentGUID];
+//    if (updateSection == WizNotFound) {
+//        NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
+//        [newArr addObject:doc];
+//        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
+//            updateSection = 0;
+//        }
+//        else {
+//            updateSection = [tableSourceArray count];
+//        }
+//        [self.tableSourceArray insertObject:doc atIndex:updateSection];
+//        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+//    }
+//    else {
+//        NSMutableArray* arr = [tableSourceArray objectAtIndex:updateSection];
+//        [arr addObject:doc];
+//        [arr sortDocuments:self.kOrderIndex];
+//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+//    }
     
 }
 - (void)viewDidLoad
@@ -382,32 +383,32 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (NSUInteger) indexOfInsertDocumentToArray:(WizDocument*)document :(NSArray*)arr
 {
     for (NSUInteger docIndex = 0 ; docIndex < [arr count]; docIndex++) {
-        WizDocument* doc = [arr objectAtIndex:docIndex];
-        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
-            if ([document compareDocument:doc mask:self.kOrderIndex] >= 0) {
-                return docIndex;
-            }
-        }
-        else {
-            if ([document compareDocument:doc mask:self.kOrderIndex] <=0) {
-                return docIndex;
-            }
-        }
+//        WizDocument* doc = [arr objectAtIndex:docIndex];
+//        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
+//            if ([document compareDocument:doc mask:self.kOrderIndex] >= 0) {
+//                return docIndex;
+//            }
+//        }
+//        else {
+//            if ([document compareDocument:doc mask:self.kOrderIndex] <=0) {
+//                return docIndex;
+//            }
+//        }
     }
     return WizNotFound;
 }
 - (NSInteger) groupIndexOfDocument:(NSString*)documentGUID
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:documentGUID];
-    for (int arrIndex = 0; arrIndex < [self.tableSourceArray count]; arrIndex++) 
-    {
-        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
-        if (![doc compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
-        {
-            return arrIndex;
-        }
-    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizDocument* doc = [index documentFromGUID:documentGUID];
+//    for (int arrIndex = 0; arrIndex < [self.tableSourceArray count]; arrIndex++) 
+//    {
+//        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
+//        if (![doc compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
+//        {
+//            return arrIndex;
+//        }
+//    }
     return WizNotFound;
 }
 

@@ -53,8 +53,8 @@
 
 -(void) updateAttachment:(NSString*) filePath
 {    
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [[index newAttachment:filePath documentGUID:self.editDocumentGuid] autorelease];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    [[index newAttachment:filePath documentGUID:self.editDocumentGuid] autorelease];
 }
 
 -(void) stopRecording

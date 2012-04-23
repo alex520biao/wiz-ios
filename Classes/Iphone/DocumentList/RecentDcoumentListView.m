@@ -16,6 +16,7 @@
 #import "WizNotification.h"
 #import "WizSync.h"
 #import "WizSyncManager.h"
+#import "WizDocumentFactory.h"
 @implementation RecentDcoumentListView
 
 
@@ -37,8 +38,7 @@
 */
 - (void) reloadDocuments
 {
-    WizIndex* index = [WizIndex activeIndex];
-    NSMutableArray* arr = [[index recentDocuments] mutableCopy];
+    NSMutableArray* arr = [[WizDocumentFactory recentDocuments] mutableCopy];
     if (arr != nil)
     {
         self.sourceArray = arr;
@@ -54,25 +54,24 @@
 {
     self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizIndex* index = [WizIndex activeIndex];
-    WizDocument* newDocument = [index documentFromGUID:documentGUID];
+    WizDocument* newDocument = [WizDocumentFactory documentFromGuid:documentGUID];
     WizSyncManager* sync = [WizSyncManager shareManager];
     self.title = sync.syncDescription;
     [sync uploadDocument:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {
-        NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
-        if ([date isToday]) {
-            [[self.tableArray objectAtIndex:0] insertObject:newDocument atIndex:0];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-        }
-        else
-        {
-            NSMutableArray* array = [NSMutableArray array];
-            [array addObject:newDocument];
-            [self.tableArray insertObject:array atIndex:0];
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
-        }
+//        NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
+//        if ([date isToday]) {
+//            [[self.tableArray objectAtIndex:0] insertObject:newDocument atIndex:0];
+//            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+//        }
+//        else
+//        {
+//            NSMutableArray* array = [NSMutableArray array];
+//            [array addObject:newDocument];
+//            [self.tableArray insertObject:array atIndex:0];
+//            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+//        }
     }
     else
     {
@@ -164,12 +163,12 @@
         [searchFooter addSubview:remind];
         [remind release];
     }
-    WizIndex* index = [WizIndex activeIndex];
-    if ([index isFirstLog] ) {
-        [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:NO];
-        [self startLoading];
-        [index setFirstLog:YES];
-    }
+//    WizIndex* index = [WizIndex activeIndex];
+//    if ([index isFirstLog] ) {
+//        [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:NO];
+//        [self startLoading];
+//        [index setFirstLog:YES];
+//    }
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

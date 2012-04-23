@@ -243,19 +243,6 @@ static WizGlobalData* g_data;
 }
 
 
-
-- (WizIndex *) indexData:(NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfIndex];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizIndex alloc] initWithAccount:userId];
-	[self setDataOfAccount:userId dataType:DataTypeOfIndex data:data];
-    [data release];
-	return data;	
-}
-
 - (void) removeObserverFromDefaultNoticeCenter
 {
     NSArray* arr = [dict allValues];

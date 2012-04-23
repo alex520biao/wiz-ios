@@ -84,7 +84,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 //2012-3-9
 +(NSString*) getAttachmentTempFilePath:(NSString*)userId;
 //2012-3-16
-+ (NSString*) tagsDisplayStrFromGUIDS:(NSArray*)tags;
+//+ (NSString*) tagsDisplayStrFromGUIDS:(NSArray*)tags;
 //2012-3-19
 + (BOOL) checkAttachmentTypeIsTxt:(NSString*)attachmentType;
 + (NSString*) wizNoteVersion;
@@ -104,6 +104,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 //
 + (NSInteger)fileLength:(NSString*)path;
 + (NSString*) pinyinFirstLetter:(NSString *)string;
++ (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 @end
 
 

@@ -295,17 +295,17 @@ static WizSyncManager* shareManager;
     NSString* guid = [obj valueForKey:SyncDataOfObjectGUID];
 
     BOOL ret;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if ([type isEqualToString:WizDocumentKeyString]) {
-        ret = [uploader uploadDocument:[index documentFromGUID:guid]];
-    }
-    else if ([type isEqualToString:WizAttachmentKeyString])
-    {
-        ret =  [uploader uploadAttachment:[index attachmentFromGUID:guid]];
-    }
-    else {
-        ret = NO;
-    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if ([type isEqualToString:WizDocumentKeyString]) {
+//        ret = [uploader uploadDocument:[index documentFromGUID:guid]];
+//    }
+//    else if ([type isEqualToString:WizAttachmentKeyString])
+//    {
+//        ret =  [uploader uploadAttachment:[index attachmentFromGUID:guid]];
+//    }
+//    else {
+//        ret = NO;
+//    }
     self.syncDescription = [NSString stringWithFormat:@"upload %@",guid];
     return ret;
 }

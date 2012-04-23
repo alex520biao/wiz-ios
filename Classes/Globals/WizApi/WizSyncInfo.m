@@ -51,27 +51,24 @@
 -(void) onDocumentsByCategory: (id)retObject
 {
 	NSArray* obj = retObject;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateDocuments:obj];
+	[self.dbDelegate updateDocuments:obj];
 }
 //
 -(void) onDocumentsByTag: (id)retObject
 {
 	NSArray* obj = retObject;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateDocuments:obj];
+	[self.dbDelegate updateDocuments:obj];
 }
 //
 -(void) onDocumentsByKey: (id)retObject
 {
 	NSArray* obj = retObject;
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateDocuments:obj];
+	[self.dbDelegate updateDocuments:obj];
 }
 -(void) onDownloadAttachmentList:(id)retObject {
     NSArray* attachArr = [self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate attachmentVersion];
-    [self.dbDelegate updateAttachementList:attachArr];
+    [self.dbDelegate updateAttachments:attachArr];
     int64_t newVer = [self newVersion:attachArr];
     if (newVer > oldVer) {
         [self.dbDelegate setAttachmentVersion:newVer+1];
@@ -125,13 +122,13 @@
         [self callAllTags:newVer+1];
     }
     else {
-        [self callPostTagList:[self.dbDelegate tagsWillPostList]];
+        [self callPostTagList:[self.dbDelegate tagsForUpload]];
     }
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec
 {
 	[self.dbDelegate clearDeletedGUIDs];
-    [self callAllTags:[index tagVersion]];
+    [self callAllTags:[self.dbDelegate tagVersion]];
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
@@ -176,7 +173,6 @@
         return NO;
     }
     busy = YES;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    return [self callDownloadDeletedList:[index deletedGUIDVersion]];
+    return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
 }
 @end

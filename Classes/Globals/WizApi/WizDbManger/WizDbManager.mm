@@ -37,6 +37,51 @@
 #define UserTablelistViewOption        @"UserTablelistViewOption"
 #define WizNoteAppVerSion              @"wizNoteAppVerSion"
 #define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
+
+
+@interface WizDeletedGUID : NSObject
+{
+	NSString* guid;
+	NSString* type;
+	NSString* dateDeleted;
+}
+@property (nonatomic, retain) NSString* guid;
+@property (nonatomic, retain)NSString* type;
+@property (nonatomic, retain)NSString* dateDeleted;
+@end
+
+
+@implementation WizDeletedGUID
+
+@synthesize guid;
+@synthesize type;
+@synthesize dateDeleted;
+
+-(void) dealloc
+{
+    [guid release];
+    [type release];
+    [dateDeleted release];
+    //
+    [super dealloc];
+}
+
+-(id) initFromWizDeletedGUIDData: (const WIZDELETEDGUIDDATA&) data
+{
+if (self = [super init])
+{
+    guid = [[NSString alloc] initWithUTF8String:data.strGUID.c_str()];
+    type = [[NSString alloc] initWithUTF8String:data.strType.c_str()];
+    dateDeleted = [[NSString alloc] initWithUTF8String:data.strDateDeleted.c_str()];
+}
+//
+return self;
+}
+
+
+@end
+
+
 @interface WizDocument(InitFromDb)
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data;
 @end
@@ -89,7 +134,7 @@
 @interface WizAttachment (InitFromDb)
 - (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH&) data;
 @end
-@implementation WizAttachment
+@implementation WizAttachment (InitFromDb)
 
 - (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH &)data
 {
@@ -655,6 +700,26 @@ static WizDbManager* shareDbManager = nil;
     }
 	return ret;
 }
+
+
+//
+-(NSArray*) tagsForUpload
+{
+    CWizTagDataArray arrayTag;
+    index.GetTagPostList(arrayTag);
+    
+    NSMutableArray* tags = [NSMutableArray arrayWithCapacity:arrayTag.size()];
+    //
+    for (CWizTagDataArray::const_iterator it = arrayTag.begin();
+         it != arrayTag.end();
+         it++)
+    {
+        WizTag* tag = [[WizTag alloc] initFromWizTagData:*it];
+        [tags addObject:tag];
+        [tag release];
+    }
+    return [[tags copy] autorelease];
+}
 - (BOOL) updateTag: (NSDictionary*) tag
 {
 	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
@@ -803,6 +868,72 @@ static WizDbManager* shareDbManager = nil;
     [text release];
     [imageData release];
     return ret;
+}
+//
+- (NSArray*) deletedGUIDsFromWizDeletedGUIDDataArray: (const CWizDeletedGUIDDataArray&) arrayDeletedGUID
+{
+    NSMutableArray* arr = [NSMutableArray array];
+    //
+    for (CWizDeletedGUIDDataArray::const_iterator it = arrayDeletedGUID.begin();
+         it != arrayDeletedGUID.end();
+         it++)
+    {
+        WizDeletedGUID* doc = [[WizDeletedGUID alloc] initFromWizDeletedGUIDData:*it];
+        if (doc)
+        {
+            [arr addObject:doc];
+            [doc release];
+        }
+    }
+    return arr;
+}
+- (NSArray*) allDeletedGUIDs
+{
+    CWizDeletedGUIDDataArray arrayGUID;
+    index.GetAllDeletedGUIDs(arrayGUID);
+    return [self deletedGUIDsFromWizDeletedGUIDDataArray: arrayGUID];
+}
+- (NSArray*) deletedGUIDsForUpload
+{
+    NSMutableArray* ret = [NSMutableArray array];
+    //
+    NSArray* src = [self allDeletedGUIDs];
+    for (WizDeletedGUID* guid in src)
+    {
+        NSDate* date = [WizGlobals sqlTimeStringToDate:guid.dateDeleted];
+        //
+        NSDictionary* dict = [[NSDictionary alloc] initWithObjectsAndKeys:guid.guid, @"deleted_guid", guid.type, @"guid_type", date, @"dt_deleted", nil];
+        [ret addObject:dict];
+        [dict release];
+    }
+    return ret;
+}
+- (BOOL) clearDeletedGUIDs
+{
+    //
+    return index.ClearDeletedGUIDs() ? YES : NO;
+}
+
+//
+- (BOOL) addLocation: (NSString*) location
+{
+    return index.AddLocation([location UTF8String]);
+}
+
+- (BOOL) updateLocations:(NSArray*) locations
+{
+    for (NSString* location in locations)
+    {
+        try {
+            [self addLocation:location];
+            
+        }
+        catch (...) {
+            
+        }
+    }
+    //
+    return YES;
 }
 
 @end

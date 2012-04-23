@@ -469,7 +469,7 @@
             WizDocument* doc1 = [array objectAtIndex:k];
             WizDocument* doc2 = [array objectAtIndex:k+1];
             
-            if([[WizIndex pinyinFirstLetter:doc1.title] isEqualToString:[WizIndex pinyinFirstLetter:doc2.title]])
+            if([[WizGlobals pinyinFirstLetter:doc1.title] isEqualToString:[WizGlobals pinyinFirstLetter:doc2.title]])
             {
                 [sectionArray addObject:doc1];
                 if (k == [array count] - 2) {

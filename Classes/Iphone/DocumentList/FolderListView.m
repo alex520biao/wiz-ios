@@ -10,6 +10,7 @@
 
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
+#import "WizDocumentFactory.h"
 @implementation FolderListView
 @synthesize location;
 
@@ -75,8 +76,7 @@
 
 - (void) reloadDocuments
 {
-    WizIndex* index = [WizIndex activeIndex];
-    self.sourceArray = [[[index documentsByLocation:self.location] mutableCopy] autorelease];
+    self.sourceArray = [NSMutableArray arrayWithArray:[WizDocumentFactory documentsByLocation:self.location]];
     if([self.sourceArray count] == 0)
     {
         self.tableView.backgroundView = [WizGlobals noNotesRemindFor:NSLocalizedString(@"There is no note in this folder",nil)];

@@ -16,6 +16,7 @@
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizTableViewController.h"
+#import "WizDbManager.h"
 @implementation FoldersViewControllerNew
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -47,23 +48,23 @@
 
 - (void) removeBlockLocationNode:(LocationTreeNode*)node
 {
-    WizIndex* index = [WizIndex activeIndex];
-    if ([node hasChildren]) {
-        NSArray* arr = [node.children copy];
-        for (LocationTreeNode* each in arr) {
-            [self removeBlockLocationNode:each];
-        }
-        if (![node hasChildren] && [index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"]) {
-            [node.parentLocationNode removeChild:node];
-        }
-        [arr release];
-    }
-    else
-    {
-        if ([index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"] ) {
-            [node.parentLocationNode removeChild:node];
-        }
-    }
+//    WizIndex* index = [WizIndex activeIndex];
+//    if ([node hasChildren]) {
+//        NSArray* arr = [node.children copy];
+//        for (LocationTreeNode* each in arr) {
+//            [self removeBlockLocationNode:each];
+//        }
+//        if (![node hasChildren] && [index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"]) {
+//            [node.parentLocationNode removeChild:node];
+//        }
+//        [arr release];
+//    }
+//    else
+//    {
+//        if ([index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"] ) {
+//            [node.parentLocationNode removeChild:node];
+//        }
+//    }
 }
 
 - (void) makeSureParentExisted:(NSArray*)locationArray
@@ -92,8 +93,7 @@
 
 -(void) reloadAllData
 {
-    WizIndex* index = [WizIndex activeIndex];
-    NSArray* wizDocumentLoationTemp = [index allLocationsForTree];
+    NSArray* wizDocumentLoationTemp = [[WizDbManager shareDbManager] allLocationsForTree];
     NSMutableArray *wizDocumentLocations =[wizDocumentLoationTemp mutableCopy];
     tree = [[LocationTreeNode alloc]init];
     tree.deep = 0;
@@ -148,14 +148,13 @@
 }
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    WizIndex* index = [WizIndex activeIndex];
-    NSString* current = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:cell.treeNode.locationKey]];
-    NSString* total = [NSString stringWithFormat:@"%d",[index filecountWithChildOfLocation:cell.treeNode.locationKey]];
+    NSString* current = [NSString stringWithFormat:@"%d",[[WizDbManager shareDbManager] fileCountOfLocation:cell.treeNode.locationKey]];
+    NSString* total = [NSString stringWithFormat:@"%d",[[WizDbManager shareDbManager] filecountWithChildOfLocation:cell.treeNode.locationKey]];
     if (![current isEqualToString:total]) {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@/%@",current,total];
     }
     else {
-        cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[index fileCountOfLocation:cell.treeNode.locationKey]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[[WizDbManager shareDbManager] fileCountOfLocation:cell.treeNode.locationKey]];
     }
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeFolder"];

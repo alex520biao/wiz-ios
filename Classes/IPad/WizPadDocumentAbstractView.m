@@ -119,56 +119,55 @@ static NSMutableDictionary* detailDecorator;
     self.nameLabel.text = @"";
     self.abstractImageView.image = nil;
     self.abstractLabel.text = @"";
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     self.nameLabel.text = document.title;
     NSMutableAttributedString* abstractString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
     [abstractString addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, abstractString.length)];
     float startPointX = 10.0f;
-    if ([index abstractExist:document.guid]) {
-        WizAbstract* abstract = [[WizDbManager shareDbManager] abstractOfDocument:document.guid];
-        NSMutableAttributedString* abstractText = [[NSMutableAttributedString alloc] initWithString:abstract.text];
-        NSRange textRange =NSMakeRange(0, abstractText.length);
-        [abstractText addAttributes:[[WizGlobalData sharedData] attributesForAbstractViewParagraphPad]  range:textRange];
-        [abstractString appendAttributedString:abstractText];
-         if (nil != abstract.image) {
-            self.abstractLabel.frame = AbstractLabelWithImageFrame;
-            self.abstractImageView.frame = AbstractImageviewFrame;
-            self.abstractImageView.image = abstract.image;
-            self.abstractImageView.frame= CGRectMake(0.0, 0.0, abstract.image.size.width , abstract.image.size.height);
-            self.abstractImageView.center = CGPointMake(102.5, 187.5);
-        }else
-        {
-            self.abstractLabel.frame = AbstractLabelWithoutImageFrame;
-            self.abstractImageView.frame = CGRectMake(startPointX, 0.0, 0.0, 0.0);
-        }
-        [abstractText release];
-    }
-    else
-    {
-        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
-        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-//        NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
-//        for (WizTag* each in tags) {
-//            NSString* tagName = getTagDisplayName(each.name);
-//            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+//    if ([index abstractExist:document.guid]) {
+//        WizAbstract* abstract = [[WizDbManager shareDbManager] abstractOfDocument:document.guid];
+//        NSMutableAttributedString* abstractText = [[NSMutableAttributedString alloc] initWithString:abstract.text];
+//        NSRange textRange =NSMakeRange(0, abstractText.length);
+//        [abstractText addAttributes:[[WizGlobalData sharedData] attributesForAbstractViewParagraphPad]  range:textRange];
+//        [abstractString appendAttributedString:abstractText];
+//         if (nil != abstract.image) {
+//            self.abstractLabel.frame = AbstractLabelWithImageFrame;
+//            self.abstractImageView.frame = AbstractImageviewFrame;
+//            self.abstractImageView.image = abstract.image;
+//            self.abstractImageView.frame= CGRectMake(0.0, 0.0, abstract.image.size.width , abstract.image.size.height);
+//            self.abstractImageView.center = CGPointMake(102.5, 187.5);
+//        }else
+//        {
+//            self.abstractLabel.frame = AbstractLabelWithoutImageFrame;
+//            self.abstractImageView.frame = CGRectMake(startPointX, 0.0, 0.0, 0.0);
 //        }
-        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-            if (tagstr != nil && tagstr.length > 1) {
-                tagstr = [tagstr substringToIndex:tagstr.length-1];
-                folder = [folder stringByAppendingString:tagstr];
-            }
-            
-            
-        }
-        NSMutableAttributedString* detail = [[NSMutableAttributedString alloc] initWithString:folder attributes:[WizPadDocumentAbstractView detailDecorator]];
-        [abstractString appendAttributedString:detail];
-        [detail release];
-        self.abstractImageView.image = nil;
-    }
-    [self.abstractLabel setText:abstractString];
-    [abstractString release];
-    self.userInteractionEnabled = YES;
-    [self addSelcetorToView:@selector(didSelectedDocument) :self];
+//        [abstractText release];
+//    }
+//    else
+//    {
+//        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
+//        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
+////        NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
+////        for (WizTag* each in tags) {
+////            NSString* tagName = getTagDisplayName(each.name);
+////            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+////        }
+//        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
+//            if (tagstr != nil && tagstr.length > 1) {
+//                tagstr = [tagstr substringToIndex:tagstr.length-1];
+//                folder = [folder stringByAppendingString:tagstr];
+//            }
+//            
+//            
+//        }
+//        NSMutableAttributedString* detail = [[NSMutableAttributedString alloc] initWithString:folder attributes:[WizPadDocumentAbstractView detailDecorator]];
+//        [abstractString appendAttributedString:detail];
+//        [detail release];
+//        self.abstractImageView.image = nil;
+//    }
+//    [self.abstractLabel setText:abstractString];
+//    [abstractString release];
+//    self.userInteractionEnabled = YES;
+//    [self addSelcetorToView:@selector(didSelectedDocument) :self];
 }
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

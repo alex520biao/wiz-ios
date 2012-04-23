@@ -141,7 +141,7 @@
 - (void) setExistAccountsTableViewFrame
 {
     CGFloat height = 35*[self.fitAccounts count];
-    if (WizDeviceIsPad()) {
+    if ([WizGlobals WizDeviceIsPad]) {
         self.existAccountsTable.frame= CGRectMake(175, 70, 245, height+20);
     }
     else {
@@ -191,7 +191,7 @@
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeTable)];
     ges.numberOfTapsRequired = 1;
     UIView* titleView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 250, 44)];
-    if (WizDeviceIsPad()) {
+    if ([WizGlobals WizDeviceIsPad]) {
         titleView.frame = CGRectMake(0.0, 0.0, 400, 44);
     }
     [titleView addGestureRecognizer:ges];
@@ -223,7 +223,7 @@
     [loginButton_ setTitle:WizStrSignIn forState:UIControlStateNormal];
     [loginButton_ addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton_];
-    if (WizDeviceIsPad()) {
+    if ([WizGlobals WizDeviceIsPad]) {
         UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel 
                                                                          style:UIBarButtonItemStyleDone
                                                                         target:self 
@@ -253,7 +253,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    if (WizDeviceIsPad()) {
+    if ([WizGlobals WizDeviceIsPad]) {
         return YES;
     }
     else {

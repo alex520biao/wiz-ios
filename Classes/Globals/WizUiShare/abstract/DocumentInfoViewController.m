@@ -136,8 +136,7 @@
     [super viewDidLoad];
     willReloadTagAndFoler = NO;
     [self.tableView reloadData];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    self.documentTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:self.doc.guid]];
+    self.documentTags = [NSMutableArray arrayWithArray:[[WizDbManager shareDbManager] tagsByDocumentGuid:self.doc.guid]];
     if (self.documentTags == nil) {
         self.documentTags = [NSMutableArray array];
     }
@@ -152,7 +151,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (self.documentFloder == nil) {
         self.documentFloder = [[self.doc.location mutableCopy] autorelease];
     }
@@ -160,8 +158,8 @@
         self.documentTags = [[self.doc.tagGuids mutableCopy] autorelease];
     }
     if (![self.documentFloder isEqualToString: doc.location]) {
-        [index setDocumentLocation:doc.guid location:self.documentFloder];
-        [index setDocumentLocalChanged:doc.guid changed:YES];
+//        [index setDocumentLocation:doc.guid location:self.documentFloder];
+//        [index setDocumentLocalChanged:doc.guid changed:YES];
     }
     if (nil !=self.lastIndexPath) {
         [self.tableView beginUpdates];
@@ -176,7 +174,7 @@
 {
     [super viewDidAppear:animated];
     if (willReloadTagAndFoler) {
-        if (!WizDeviceIsPad()) {
+        if (![WizGlobals WizDeviceIsPad]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
         }
@@ -188,7 +186,6 @@
 {
     [super viewWillDisappear:animated];
     BOOL tagChanged = NO;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     NSMutableString* tagGuids = [NSMutableString string];
     for (WizTag* each in documentTags) {
         [tagGuids appendFormat:@"%@*",each.guid];
@@ -196,18 +193,18 @@
             tagChanged = YES;
         }
     }
-    if ([documentTags count] != [[index tagsByDocumentGuid:self.doc.guid] count]) {
-        tagChanged = YES;
-    }
-    if (tagChanged == YES) {
-        if (nil == tagGuids || tagGuids.length <1) {
-            return;
-        }
-        NSString* tags = [tagGuids substringToIndex:tagGuids.length-1];
-
-        [index setDocumentTags:self.doc.guid tags:tags];
-        [index setDocumentLocalChanged:self.doc.guid changed:YES];
-    }
+//    if ([documentTags count] != [[index tagsByDocumentGuid:self.doc.guid] count]) {
+//        tagChanged = YES;
+//    }
+//    if (tagChanged == YES) {
+//        if (nil == tagGuids || tagGuids.length <1) {
+//            return;
+//        }
+//        NSString* tags = [tagGuids substringToIndex:tagGuids.length-1];
+//
+//        [index setDocumentTags:self.doc.guid tags:tags];
+//        [index setDocumentLocalChanged:self.doc.guid changed:YES];
+//    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -240,8 +237,8 @@
 }
 -(void) fontChanged
 {
-    WizIndex * index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index setWebFontSize:fontSlider.value];
+//    WizIndex * index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    [index setWebFontSize:fontSlider.value];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

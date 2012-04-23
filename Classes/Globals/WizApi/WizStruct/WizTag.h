@@ -21,4 +21,5 @@
 @property (nonatomic, retain) NSString* namePath;
 @property (nonatomic, retain) NSDate*   dateInfoModified;
 @property (assign) BOOL localChanged;
+- (id) initFromGuid:(NSString*)guid;
 @end

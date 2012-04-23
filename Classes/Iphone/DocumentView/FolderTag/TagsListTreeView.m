@@ -126,56 +126,56 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSArray* tagArray = [[[WizGlobalData sharedData] indexData:accountUserId] allTagsForTree];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    tree = [[LocationTreeNode alloc]init] ;
-    tree.deep = 0;
-    tree.title = @"/";
-    tree.locationKey = @"/";
-    tree.hidden = YES;
-    tree.expanded =YES;
-    for (WizTag* each in tagArray)
-    {
-        LocationTreeNode* node = [[LocationTreeNode alloc] init];
-        node.title = each.title;
-        node.locationKey = each.guid;
-        if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
-            LocationTreeNode* parent = [LocationTreeNode findNodeByKey:each.parentGUID :self.tree];
-            if (nil == parent) {
-                WizTag* parentTag = [[WizDbManager shareDbManager] tagFromGuid:each.parentGUID];
-                LocationTreeNode* nodee = [[LocationTreeNode alloc] init];
-                nodee.title = parentTag.title;
-                nodee.locationKey = parentTag.guid;
-                [tree addChild:parent];
-                [nodee addChild:node];
-                [nodee release];
-                [node release];
-                continue;
-            }
-            else
-            {
-                [parent addChild:node];
-                [node release];
-                continue;
-            }
-        }
-        else
-        {
-            [tree addChild:node];
-            [node release];
-        }
-        
-    }
-    if (nil == self.displayTree) {
-        self.displayTree = [NSMutableArray array];
-    } else
-    {
-        [self.displayTree removeAllObjects];
-    }
-    [LocationTreeNode getLocationNodes:self.tree :self.displayTree];
-    [self setNodeRow];
-    [self.tableView reloadData];
-
+//    NSArray* tagArray = [[[WizGlobalData sharedData] indexData:accountUserId] allTagsForTree];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    tree = [[LocationTreeNode alloc]init] ;
+//    tree.deep = 0;
+//    tree.title = @"/";
+//    tree.locationKey = @"/";
+//    tree.hidden = YES;
+//    tree.expanded =YES;
+//    for (WizTag* each in tagArray)
+//    {
+//        LocationTreeNode* node = [[LocationTreeNode alloc] init];
+//        node.title = each.title;
+//        node.locationKey = each.guid;
+//        if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
+//            LocationTreeNode* parent = [LocationTreeNode findNodeByKey:each.parentGUID :self.tree];
+//            if (nil == parent) {
+//                WizTag* parentTag = [[WizDbManager shareDbManager] tagFromGuid:each.parentGUID];
+//                LocationTreeNode* nodee = [[LocationTreeNode alloc] init];
+//                nodee.title = parentTag.title;
+//                nodee.locationKey = parentTag.guid;
+//                [tree addChild:parent];
+//                [nodee addChild:node];
+//                [nodee release];
+//                [node release];
+//                continue;
+//            }
+//            else
+//            {
+//                [parent addChild:node];
+//                [node release];
+//                continue;
+//            }
+//        }
+//        else
+//        {
+//            [tree addChild:node];
+//            [node release];
+//        }
+//        
+//    }
+//    if (nil == self.displayTree) {
+//        self.displayTree = [NSMutableArray array];
+//    } else
+//    {
+//        [self.displayTree removeAllObjects];
+//    }
+//    [LocationTreeNode getLocationNodes:self.tree :self.displayTree];
+//    [self setNodeRow];
+//    [self.tableView reloadData];
+//
     [super viewWillAppear:animated];
 }
 
@@ -222,10 +222,10 @@
 	}else {
 		filename=@"tagListIcon";
 	}
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     cell.imageView.image = [UIImage imageNamed:filename];
     cell.textLabel.text = node.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:node.locationKey]];
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d",[index fileCountOfLocation:node.locationKey]];
 	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 }
 
@@ -291,18 +291,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if (0 == indexPath.section)
-	{
-		if (indexPath.row < [self.displayTree count])
-		{
-			WizTag* tag =  [ index tagFromGuid:[[self.displayTree objectAtIndex:indexPath.row] locationKey]];;
-			//
-			TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];
-			tagView.tag = tag;
-			[self.navigationController pushViewController:tagView animated:YES];
-			[tagView release];
-			return;
-		}
-}}
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if (0 == indexPath.section)
+//	{
+//		if (indexPath.row < [self.displayTree count])
+//		{
+//			WizTag* tag =  [ index tagFromGuid:[[self.displayTree objectAtIndex:indexPath.row] locationKey]];;
+//			//
+//			TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];
+//			tagView.tag = tag;
+//			[self.navigationController pushViewController:tagView animated:YES];
+//			[tagView release];
+//			return;
+//		}
+//    }
+}
 @end

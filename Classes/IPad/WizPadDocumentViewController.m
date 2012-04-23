@@ -319,39 +319,38 @@
 
 - (void) loadArraySource
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    switch (self.listType) {
-        case TypeOfKey:
-        {
-            self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByKey:self.documentListKey]];
-            if (![self.sourceArray count]) {
-                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@", nil),self.documentListKey]];
-            }
-            break;
-        }
-        case TypeOfLocation:
-        {
-            NSMutableArray* array = [[index documentsByLocation:self.documentListKey] mutableCopy];
-            self.sourceArray = array;
-            [array release];
-            break;
-        }
-        case TypeOfTag:
-        {
-            NSMutableArray* array = [[index documentsByTag:self.documentListKey] mutableCopy];
-            self.sourceArray = array;
-            [array release];
-            break;
-        }
-        default:
-        {
-            NSMutableArray* array = [[index recentDocuments] mutableCopy];
-            self.sourceArray = array;
-            self.selectedDocumentGUID = self.documentListKey;
-            [array release];
-            break;
-        }  
-    }
+//       switch (self.listType) {
+//        case TypeOfKey:
+//        {
+//            self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByKey:self.documentListKey]];
+//            if (![self.sourceArray count]) {
+//                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@", nil),self.documentListKey]];
+//            }
+//            break;
+//        }
+//        case TypeOfLocation:
+//        {
+//            NSMutableArray* array = [[index documentsByLocation:self.documentListKey] mutableCopy];
+//            self.sourceArray = array;
+//            [array release];
+//            break;
+//        }
+//        case TypeOfTag:
+//        {
+//            NSMutableArray* array = [[index documentsByTag:self.documentListKey] mutableCopy];
+//            self.sourceArray = array;
+//            [array release];
+//            break;
+//        }
+//        default:
+//        {
+//            NSMutableArray* array = [[index recentDocuments] mutableCopy];
+//            self.sourceArray = array;
+//            self.selectedDocumentGUID = self.documentListKey;
+//            [array release];
+//            break;
+//        }  
+//    }
 }
 
 - (void) documentsOrderedBtMonth:(NSArray*) array
@@ -415,19 +414,19 @@
 
 - (void) checkDocumentDtail
 {
-    [self dismissPoperview];
-
-    DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID];
-    infoView.doc = doc;
-    infoView.accountUserId = self.accountUserId;
-    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:infoView] ;
-    pop.popoverContentSize = CGSizeMake(320, 300);
-    self.currentPopoverController = pop;
-    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [pop release];
-    [infoView release];
+//    [self dismissPoperview];
+//
+//    DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID];
+//    infoView.doc = doc;
+//    infoView.accountUserId = self.accountUserId;
+//    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:infoView] ;
+//    pop.popoverContentSize = CGSizeMake(320, 300);
+//    self.currentPopoverController = pop;
+//    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    [pop release];
+//    [infoView release];
 }
 - (void) onEditDone
 {
@@ -465,25 +464,25 @@
 
 - (IBAction) editCurrentDocument: (id)sender
 {
-    BOOL b = [self.webView containImages];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID]; 
-    if (b || ![doc.type isEqualToString:@"note"])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
-                                                        message:WizStrIfyouchoosetoeditthisdocument 
-                                                       delegate:self 
-                                              cancelButtonTitle:nil 
-                                              otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
-        alert.delegate = self;
-        alert.tag = EditTag;
-        [alert show];
-        [alert release];
-    }
-    else 
-    {
-        [self onEditCurrentDocument];
-    }
+//    BOOL b = [self.webView containImages];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
+//    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID]; 
+//    if (b || ![doc.type isEqualToString:@"note"])
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
+//                                                        message:WizStrIfyouchoosetoeditthisdocument 
+//                                                       delegate:self 
+//                                              cancelButtonTitle:nil 
+//                                              otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
+//        alert.delegate = self;
+//        alert.tag = EditTag;
+//        [alert show];
+//        [alert release];
+//    }
+//    else 
+//    {
+//        [self onEditCurrentDocument];
+//    }
 
 
 }
@@ -602,13 +601,13 @@
 }
 - (void) checkDocument:(NSString*)guid
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSString* documentFileName = [index documentViewFilename:guid];
-    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-    [self.webView loadRequest:req];
-    [req release];
-    [url release];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    NSString* documentFileName = [index documentViewFilename:guid];
+//    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+//    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+//    [self.webView loadRequest:req];
+//    [req release];
+//    [url release];
 }
 - (void) displayEncryInfo
 {
@@ -624,43 +623,43 @@
 }
 - (void) didSelectedDocument:(WizDocument*)doc
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    self.selectedDocumentGUID = doc.guid;
-    self.documentNameLabel.text = doc.title;
-    [self.webView loadHTMLString:@"" baseURL:nil];
-    NSUInteger attachmentsCount = [index attachmentCountOfDocument:selectedDocumentGUID];
-    if (attachmentsCount > 0) {
-        self.attachmentCountBadge.hidden = NO;
-        self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
-    }
-    else {
-        self.attachmentCountBadge.hidden = YES;
-    }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
-        if ([index documentServerChanged:doc.guid]) {
-            [self downloadDocument:doc.guid];
-        }
-        else {
-            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-            NSString* documentFileName = [index documentViewFilename:doc.guid];
-            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-                [self checkDocument:doc.guid];
-            }
-            else {
-                [self downloadDocument:doc.guid];
-            }
-        }
-    }
-    else {
-        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
-            [self downloadDocument:doc.guid];
-        }
-        else {
-           [self displayEncryInfo]; 
-        }
-        
-    }
-    [self updateTheNavigationTitle];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    self.selectedDocumentGUID = doc.guid;
+//    self.documentNameLabel.text = doc.title;
+//    [self.webView loadHTMLString:@"" baseURL:nil];
+//    NSUInteger attachmentsCount = [index attachmentCountOfDocument:selectedDocumentGUID];
+//    if (attachmentsCount > 0) {
+//        self.attachmentCountBadge.hidden = NO;
+//        self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+//    }
+//    else {
+//        self.attachmentCountBadge.hidden = YES;
+//    }
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
+//        if ([index documentServerChanged:doc.guid]) {
+//            [self downloadDocument:doc.guid];
+//        }
+//        else {
+//            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//            NSString* documentFileName = [index documentViewFilename:doc.guid];
+//            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
+//                [self checkDocument:doc.guid];
+//            }
+//            else {
+//                [self downloadDocument:doc.guid];
+//            }
+//        }
+//    }
+//    else {
+//        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
+//            [self downloadDocument:doc.guid];
+//        }
+//        else {
+//           [self displayEncryInfo]; 
+//        }
+//        
+//    }
+//    [self updateTheNavigationTitle];
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -804,19 +803,19 @@
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        [index deleteDocument:doc.guid];
-        [index addDeletedGUIDRecord:doc.guid type:[WizGlobals documentKeyString]];
-        [WizNotificationCenter postDeleteDocumentMassage:doc.guid];
-        if ([[documentsArray objectAtIndex:indexPath.section] count] == 1) {
-            [documentsArray removeObjectAtIndex:indexPath.section];
-            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationTop];
-        }
-        else {
-            [[documentsArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
-        }
+//        WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//        [index deleteDocument:doc.guid];
+//        [index addDeletedGUIDRecord:doc.guid type:[WizGlobals documentKeyString]];
+//        [WizNotificationCenter postDeleteDocumentMassage:doc.guid];
+//        if ([[documentsArray objectAtIndex:indexPath.section] count] == 1) {
+//            [documentsArray removeObjectAtIndex:indexPath.section];
+//            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationTop];
+//        }
+//        else {
+//            [[documentsArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+//            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+//        }
     }
 }
 @end

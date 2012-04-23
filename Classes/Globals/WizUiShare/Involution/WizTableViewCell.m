@@ -12,6 +12,7 @@
 #import "TTTAttributedLabel.h"
 #import "WizGlobals.h"
 #import "CommonString.h"
+#import "WizDocumentFactory.h"
 #define CellWithImageFrame CGRectMake(10,10,225,70) 
 #define CellWithoutImageFrame CGRectMake(10,10,300,70)
 @interface WizTableViewCell()
@@ -140,29 +141,29 @@ static NSMutableDictionary* timeAttributes;
 - (void) displayWithoutAbstract
 {
     [self setFrameWithoutAbs];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:self.documemtGuid];
-    NSString* detailText = nil;
-    NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,doc.location == nil? @"":[WizGlobals folderStringToLocal:doc.location]];
-    NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-    NSArray* tags = [index tagsByDocumentGuid:documemtGuid];
-    for (WizTag* each in tags) {
-        NSString* tagName = getTagDisplayName(each.title);
-        tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
-    }
-    if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-        tagstr = [tagstr substringToIndex:tagstr.length-1];
-        folder = [folder stringByAppendingString:tagstr];
-        detailText = folder;
-    }
-    else {
-        detailText = folder;
-    }
-    NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
-    NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateCreated];
-    NSMutableAttributedString* detailStr = [self decorateDetailString:detailText];
-    [timeStr appendAttributedString:detailStr];
-    [nameStr appendAttributedString:timeStr];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    WizDocument* doc = [index documentFromGUID:self.documemtGuid];
+//    NSString* detailText = nil;
+//    NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,doc.location == nil? @"":[WizGlobals folderStringToLocal:doc.location]];
+//    NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
+//    NSArray* tags = [index tagsByDocumentGuid:documemtGuid];
+//    for (WizTag* each in tags) {
+//        NSString* tagName = getTagDisplayName(each.title);
+//        tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+//    }
+//    if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
+//        tagstr = [tagstr substringToIndex:tagstr.length-1];
+//        folder = [folder stringByAppendingString:tagstr];
+//        detailText = folder;
+//    }
+//    else {
+//        detailText = folder;
+//    }
+//    NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
+//    NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateCreated];
+//    NSMutableAttributedString* detailStr = [self decorateDetailString:detailText];
+//    [timeStr appendAttributedString:detailStr];
+//    [nameStr appendAttributedString:timeStr];
 }
 - (void) displayWithAbstract
 {
@@ -171,9 +172,9 @@ static NSMutableDictionary* timeAttributes;
 }
 - (void) drawRect:(CGRect)rect
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [index documentFromGUID:documemtGuid];
-    WizAbstract* abstract = [index abstractOfDocument:documemtGuid];
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+    WizDocument* doc = [WizDocumentFactory documentFromGuid:documemtGuid];
+    WizAbstract* abstract = nil;
     NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
     NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateModified];
     NSMutableAttributedString* detailStr = [self decorateDetailString:abstract.text];

@@ -75,7 +75,7 @@
 {
     [super viewWillAppear:animated];
     [self.webView loadRequest:self.req];
-    if(WizDeviceIsPad())
+    if([WizGlobals WizDeviceIsPad])
     {
         if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
         {

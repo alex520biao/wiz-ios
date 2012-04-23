@@ -26,27 +26,27 @@
 {
     NSMutableArray* decorateArray = [NSMutableArray array];
     for (WizTag* eachTag in array) {
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        NSArray* documents = [index documentsByTag:eachTag.guid];
-        WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
-        data.name = eachTag.title;
-        data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
-        data.keyWords = eachTag.guid;
-        NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
-        int max = ([documents count] > 8? 8:[documents count]);
-        for (int i = 0; i <max; i++) {
-            WizDocument* doc = [documents objectAtIndex:i];
-            NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i, doc.title]];
-            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
-            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
-            [attibuteString appendAttributedString:str];
-            [str release];
-        }
-        [attibuteString addAttributes:[CatelogBaseController paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
-        data.abstract = attibuteString;
-        [attibuteString release];
-        [decorateArray addObject:data];
-        [data release];
+//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//        NSArray* documents = [index documentsByTag:eachTag.guid];
+//        WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
+//        data.name = eachTag.title;
+//        data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
+//        data.keyWords = eachTag.guid;
+//        NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
+//        int max = ([documents count] > 8? 8:[documents count]);
+//        for (int i = 0; i <max; i++) {
+//            WizDocument* doc = [documents objectAtIndex:i];
+//            NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i, doc.title]];
+//            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
+//            [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
+//            [attibuteString appendAttributedString:str];
+//            [str release];
+//        }
+//        [attibuteString addAttributes:[CatelogBaseController paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
+//        data.abstract = attibuteString;
+//        [attibuteString release];
+//        [decorateArray addObject:data];
+//        [data release];
     }
     CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
     [cateCell setContent:decorateArray];
@@ -74,18 +74,18 @@
 
 - (void) reloadAllData
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSArray* tags = [index allTagsForTree];
-    NSMutableArray* arr = [NSMutableArray arrayWithArray:tags];
-    [self.dataArray removeAllObjects];
-    if (self.dataArray == nil) {
-        self.dataArray = [NSMutableArray array];
-    }
-    for (WizTag* eachTag in arr) {
-        if ([index fileCountOfTag:eachTag.guid] != 0) {
-            [self.dataArray addObject:eachTag];
-        }
-    }
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    NSArray* tags = [index allTagsForTree];
+//    NSMutableArray* arr = [NSMutableArray arrayWithArray:tags];
+//    [self.dataArray removeAllObjects];
+//    if (self.dataArray == nil) {
+//        self.dataArray = [NSMutableArray array];
+//    }
+//    for (WizTag* eachTag in arr) {
+//        if ([index fileCountOfTag:eachTag.guid] != 0) {
+//            [self.dataArray addObject:eachTag];
+//        }
+//    }
 }
 
 - (void) didSelectedCatelog:(NSString *)keywords
