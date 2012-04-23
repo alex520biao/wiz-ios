@@ -9,7 +9,6 @@
 #import "WizPadDocumentViewController.h"
 #import "DocumentListViewControllerBaseNew.h"
 #import "WizUiTypeIndex.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "NSDate-Utilities.h"
@@ -17,7 +16,7 @@
 #import "DocumentInfoViewController.h"
 #import "DocumentListViewCell.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
+
 #import "CommonString.h"
 #import "WizPadEditNoteController.h"
 #import "WizDictionaryMessage.h"

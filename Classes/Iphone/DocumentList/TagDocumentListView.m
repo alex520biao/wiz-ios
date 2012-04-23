@@ -7,7 +7,7 @@
 //
 
 #import "TagDocumentListView.h"
-#import "WizIndex.h"
+
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 @implementation TagDocumentListView

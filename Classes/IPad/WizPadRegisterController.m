@@ -12,7 +12,7 @@
 #import "CommonString.h"
 #import "WizCreateAccount.h"
 #import "WizGlobals.h"
-#import "WizIndex.h"
+
 #import "WizNotification.h"
 @implementation WizPadRegisterController
 @synthesize accountEmail;

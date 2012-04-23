@@ -10,4 +10,5 @@
     #import "WizDocument.h"
     #import "WizAttachment.h"
     #import "WizTag.h"
+    #import "WizAbstract.h"
 #endif

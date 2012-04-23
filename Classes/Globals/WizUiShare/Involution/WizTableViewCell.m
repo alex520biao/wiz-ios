@@ -7,7 +7,7 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "WizTableVIewCell.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "TTTAttributedLabel.h"
 #import "WizGlobals.h"

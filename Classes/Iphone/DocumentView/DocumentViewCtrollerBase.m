@@ -7,7 +7,7 @@
 //
 
 #import "DocumentViewCtrollerBase.h"
-#import "WizIndex.h"
+
 #import "NewNoteView.h"
 #import "TFHpple.h"
 #import "WizGlobals.h"

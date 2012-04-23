@@ -18,6 +18,7 @@
 #import "ELCAlbumPickerController.h"
 #import "WizPadCheckAttachments.h"
 #import "WizNotification.h"
+#import "WizDbManager.h"
 
 #define titleInputTextFieldFrame CGRectMake(0.0,0.0,768,44)
 #define folderLabelFrame CGRectMake(0.0, 45, 768, 44)
@@ -480,7 +481,7 @@
     {
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         UIImage* image = [each objectForKey:UIImagePickerControllerOriginalImage];
-        image = [image compressedImage:[index imageQualityValue]];
+        image = [image compressedImage:[[WizDbManager shareDbManager] imageQualityValue]];
         NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:self.accountUserId] stringByAppendingString:@".jpg"];
         [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
         [self.attachmentSourcePath addObject:fileNamePath];
@@ -675,14 +676,14 @@
 //            
 //        }
 //    }
-    NSArray* attachments = [index attachmentsByDocumentGUID:self.documentGUID];
-    for (WizAttachment* eachAttach in attachments) {
-        NSString* filePath = [[WizIndex documentFilePath:self.accountUserId documentGUID:eachAttach.attachmentGuid] stringByAppendingPathComponent:eachAttach.attachmentName];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-            [self.attachmentSourcePath addObject:filePath];
-        }
-
-    }
+//    NSArray* attachments = [index attachmentsByDocumentGUID:self.documentGUID];
+//    for (WizAttachment* eachAttach in attachments) {
+//        NSString* filePath = [[WizIndex documentFilePath:self.accountUserId documentGUID:eachAttach.attachmentGuid] stringByAppendingPathComponent:eachAttach.attachmentName];
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+//            [self.attachmentSourcePath addObject:filePath];
+//        }
+//
+//    }
     self.folderTextField.text = [WizGlobals folderStringToLocal:self.documentFloder];
 }
 - (void) prepareNewDocumentData:(NSDictionary*)data
@@ -730,8 +731,8 @@
             NSLog(@"remove error");
         }
         [error release];
-        WizAttachment* attach = [index attachmentFromGUID:cDir];
-        [index deleteAttachment:attach.attachmentGuid];
+//        WizAttachment* attach = [index attachmentFromGUID:cDir];
+//        [index deleteAttachment:attach.attachmentGuid];
     }
     [self displayAttachmentsCount];
 }

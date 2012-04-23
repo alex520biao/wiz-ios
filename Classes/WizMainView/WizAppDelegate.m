@@ -13,7 +13,7 @@
 #import "WizPadLoginViewController.h"
 #import "WizPadMainViewController.h"
 #import "UIView-TagExtensions.h"
-#import "WizIndex.h"
+
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
 #import "WizSync.h"

@@ -10,7 +10,7 @@
 #import "LocationTreeNode.h"
 #import "LocationTreeViewCell.h"
 #import "WizApi.h"
-#import "WizIndex.h"
+
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 

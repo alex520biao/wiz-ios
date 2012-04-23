@@ -10,7 +10,7 @@
 #import "WizPhoneCreateAccountViewController.h"
 #import "WizAddAcountViewController.h"
 #import "WizNotification.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "PickViewController.h"

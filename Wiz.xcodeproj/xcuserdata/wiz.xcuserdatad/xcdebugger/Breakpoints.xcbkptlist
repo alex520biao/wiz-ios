@@ -924,9 +924,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "76"
-         endingLineNumber = "76"
-         landmarkName = "+writeSettings:value:"
-         landmarkType = "5">
+         endingLineNumber = "76">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1646,9 +1644,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "207"
-         endingLineNumber = "207"
-         landmarkName = "+changeAccountPassword:password:"
-         landmarkType = "5">
+         endingLineNumber = "207">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1659,9 +1655,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "33"
-         endingLineNumber = "33"
-         landmarkName = "-init"
-         landmarkType = "5">
+         endingLineNumber = "33">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -2267,7 +2261,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "155"
          endingLineNumber = "155"
-         landmarkName = "-addAccount:password:"
+         landmarkName = "-activeAccountUserId"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

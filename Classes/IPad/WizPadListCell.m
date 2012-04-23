@@ -8,7 +8,7 @@
 
 #import "WizPadListCell.h"
 #import "WizPadDocumentAbstractView.h"
-#import "WizIndex.h"
+
 @implementation WizPadListCell
 @synthesize accountUserId;
 @synthesize owner;

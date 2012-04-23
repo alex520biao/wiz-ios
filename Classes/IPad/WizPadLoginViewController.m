@@ -11,7 +11,7 @@
 #import "WizPadRegisterController.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
+
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
 #import "WizPadMainViewController.h"

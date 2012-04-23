@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
+
 #include "stdio.h"
 #import "pinyin.h"
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"

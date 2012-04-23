@@ -783,6 +783,26 @@ static WizDbManager* shareDbManager = nil;
 	//
 	return YES;
 }
-
+//abstract
+- (WizAbstract*) abstractOfDocument:(NSString *)documentGUID
+{
+    WIZABSTRACT abstract;
+    if (![WizGlobals WizDeviceIsPad]) {
+        tempIndex.PhoneAbstractFromGUID([documentGUID UTF8String], abstract);
+    }
+    else
+    {
+        tempIndex.PadAbstractFromGUID([documentGUID UTF8String], abstract);
+    }
+    NSString* text = [[NSString alloc] initWithUTF8String:abstract.text.c_str()];
+    NSData* imageData = [[NSData alloc] initWithBytes:abstract.imageData length:abstract.imageDataLength];
+    UIImage* image = [UIImage imageWithData:imageData];
+    WizAbstract* ret = [[[WizAbstract alloc] init] autorelease];
+    ret.image = image;
+    ret.text = text;
+    [text release];
+    [imageData release];
+    return ret;
+}
 
 @end

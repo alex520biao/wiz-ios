@@ -9,7 +9,7 @@
 #import "WizRefreshToken.h"
 #import "WizNotification.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
+
 @implementation WizRefreshToken
 @synthesize accountUserId;
 @synthesize accountPassword;

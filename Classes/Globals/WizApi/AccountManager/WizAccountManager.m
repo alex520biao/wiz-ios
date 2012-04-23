@@ -10,7 +10,7 @@
 
 
 #import "WizGlobals.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "WizSyncManager.h"
 #import "WizFileManager.h"

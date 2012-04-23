@@ -7,7 +7,7 @@
 //
 
 #import "WizTableViewController.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "NSDate-Utilities.h"

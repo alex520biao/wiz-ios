@@ -8,7 +8,7 @@
 
 #import "FoldersViewControllerNew.h"
 #import "TreeViewBaseController.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "LocationTreeNode.h"
 #import "LocationTreeViewCell.h"

@@ -7,10 +7,10 @@
 //
 
 #import "WizPadDocumentAbstractView.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizPadNotificationMessage.h"
 #import "WizGlobals.h"
+#import "WizDbManager.h"
 #define NameLabelFrame CGRectMake(15, 10, 175, 40)
 #define AbstractLabelWithoutImageFrame CGRectMake(15, 50, 175, 190)
 #define AbstractLabelWithImageFrame CGRectMake(15, 50, 175, 85)
@@ -125,7 +125,7 @@ static NSMutableDictionary* detailDecorator;
     [abstractString addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, abstractString.length)];
     float startPointX = 10.0f;
     if ([index abstractExist:document.guid]) {
-        WizAbstract* abstract = [index abstractOfDocument:document.guid];
+        WizAbstract* abstract = [[WizDbManager shareDbManager] abstractOfDocument:document.guid];
         NSMutableAttributedString* abstractText = [[NSMutableAttributedString alloc] initWithString:abstract.text];
         NSRange textRange =NSMakeRange(0, abstractText.length);
         [abstractText addAttributes:[[WizGlobalData sharedData] attributesForAbstractViewParagraphPad]  range:textRange];
@@ -147,11 +147,11 @@ static NSMutableDictionary* detailDecorator;
     {
         NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
         NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-        NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
-        for (WizTag* each in tags) {
-            NSString* tagName = getTagDisplayName(each.name);
-            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
-        }
+//        NSArray* tags = [index tagsByDocumentGuid:self.doc.guid];
+//        for (WizTag* each in tags) {
+//            NSString* tagName = getTagDisplayName(each.name);
+//            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+//        }
         if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
             if (tagstr != nil && tagstr.length > 1) {
                 tagstr = [tagstr substringToIndex:tagstr.length-1];

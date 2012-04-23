@@ -8,7 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TTTAttributedLabel.h"
 #import "WizAbstractCache.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"

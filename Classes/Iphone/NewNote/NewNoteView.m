@@ -9,7 +9,7 @@
 
 #import "NewNoteView.h"
 #import "UIView-TagExtensions.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "WizApi.h"

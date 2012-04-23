@@ -7,7 +7,7 @@
 //
 
 #import "WizSync.h"
-#import "WizIndex.h"
+
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"

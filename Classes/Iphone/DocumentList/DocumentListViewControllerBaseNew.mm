@@ -7,13 +7,13 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "DocumentListViewControllerBaseNew.h"
-#import "WizIndex.h"
+
 #import "pinyin.h"
 #import "WizGlobals.h"
 #import "WizApi.h"
 #import "WizSync.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
+
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizDownloadObject.h"
@@ -23,6 +23,7 @@
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
+#import "WizDbManager.h"
 
 @implementation DocumentListViewControllerBaseNew
 @synthesize tableArray;
@@ -87,9 +88,7 @@
     if (nil == indexPath) {
         return;
     }
-    WizIndex* index = [WizIndex activeIndex];
-    [index deleteDocument:documentGuid];
-    [index addDeletedGUIDRecord:documentGuid type:@"document"];
+//    [index deleteDocument:documentGuid];
     [[self.tableArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
     if (![[self.tableArray objectAtIndex:indexPath.section] count]) {
         [self.tableArray removeObjectAtIndex:indexPath.section];
@@ -101,8 +100,7 @@
 }
 - (void) willReloadAllData
 {
-    WizIndex* index = [WizIndex activeIndex];
-    self.kOrder = [index userTablelistViewOption];
+    self.kOrder = [[WizDbManager shareDbManager] userTablelistViewOption];
     [self reloadAllData];
 }
 - (void)viewDidLoad
@@ -118,8 +116,7 @@
         self.navigationController.delegate = self;
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    WizIndex* index = [WizIndex activeIndex];
-    self.kOrder = [index userTablelistViewOption];
+    self.kOrder = [[WizDbManager shareDbManager] userTablelistViewOption];
     [self reloadAllData];
 }
 
@@ -213,7 +210,7 @@
       else if (kOrderReverseDate == self.kOrder)
       {
           WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-          NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
+          NSDate* date = doc.dateModified;
           if ([date isToday]) {
               return WizStrToday;
           }
@@ -319,7 +316,7 @@
     for(int k = 0; k <[ array count]; k++)
     {
         WizDocument* doc = [array objectAtIndex:k];
-        NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
+        NSDate* date = doc.dateModified;
         int daysBeforToday = [date daysBeforeDate:todayDate];
         if ([date isToday] )
         {

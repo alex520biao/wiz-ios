@@ -10,7 +10,7 @@
 #import "WizSync.h"
 #import "WizCreateAccount.h"
 #import "WizVerifyAccount.h"
-#import "WizIndex.h"
+
 #import "WizMisc.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"

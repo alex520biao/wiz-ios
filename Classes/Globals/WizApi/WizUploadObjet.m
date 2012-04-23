@@ -8,7 +8,7 @@
 
 #import "WizUploadObjet.h"
 #import "WizGlobals.h"
-#import "WizIndex.h"
+
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizSync.h"

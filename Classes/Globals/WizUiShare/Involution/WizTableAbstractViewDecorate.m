@@ -9,7 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WizGlobalData.h"
 #import "WizTableAbstractViewDecorate.h"
-#import "WizIndex.h"
+
 #import "WizGlobals.h"
 //@interface WizTableAbstractDecorateInfo
 //{

@@ -12,7 +12,7 @@
 #import "WizNotification.h"
 #import "WizRefreshToken.h"
 #import "WizDownloadObject.h"
-#import "WizIndex.h"
+
 #import "WizSyncInfo.h"
 
 //

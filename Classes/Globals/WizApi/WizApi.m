@@ -10,7 +10,7 @@
 #import "WizGlobalDictionaryKey.h"
 #import "XMLRPCConnection.h"
 #import "XMLRPCRequest.h"
-#import "WizIndex.h"
+
 #import "WizNotification.h"
 #import "WizDocument.h"
 

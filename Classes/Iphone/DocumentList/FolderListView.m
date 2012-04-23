@@ -7,7 +7,7 @@
 //
 
 #import "FolderListView.h"
-#import "WizIndex.h"
+
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 @implementation FolderListView
