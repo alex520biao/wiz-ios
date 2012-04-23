@@ -243,8 +243,8 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         case kOrderCreatedDate:
         case kOrderReverseCreatedDate:
         {
-            if (doc.dateCreated != nil && doc.dateCreated.length>7) {
-                return [doc.dateCreated substringToIndex:7];
+            if (doc.dateCreated != nil) {
+                return [[WizGlobals dateToSqlString:doc.dateCreated] substringToIndex:7];
             }
             else {
                 return @"";
@@ -253,8 +253,8 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
             
         case kOrderDate:
         {
-            if (doc.dateModified != nil && doc.dateModified.length>7) {
-                return [doc.dateModified substringToIndex:7];
+            if (doc.dateModified != nil ) {
+                return [[WizGlobals dateToSqlString:doc.dateModified] substringToIndex:7];
             }
             else {
                 return @"";

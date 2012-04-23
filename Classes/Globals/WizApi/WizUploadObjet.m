@@ -13,6 +13,8 @@
 #import "WizGlobalData.h"
 #import "WizSync.h"
 #import "WizNotification.h"
+#import "WizFileManager.h"
+#import "WizDocumentEdit.h"
 #define UploadPartSize  (256*1024)
 
 @protocol WizUploadObjectDelegate
@@ -108,8 +110,7 @@
 }
 -(BOOL) uploadObjectData
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSString* zip = [index createZipByGuid:self.objectGUID];
+    NSString* zip = [[WizFileManager shareManager] createZipByGuid:self.objectGUID];
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
     NSString* md5 = [WizGlobals fileMD5:zip];
     self.uploadObjMd5 = md5;
@@ -144,13 +145,12 @@
 }
 - (void) onUploadObjectDataDone
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if ([self.objectType isEqualToString:WizDocumentKeyString]) {
         [self callDocumentPostSimpleData:self.object  withZipMD5:self.uploadObjMd5];
     }
     else if ([self.objectType isEqualToString:WizAttachmentKeyString])
     {
-        [self callAttachmentPostSimpleData:self.object dataMd5:[index attachmentFileMd5:self.object] ziwMd5:self.uploadObjMd5];
+        [self callAttachmentPostSimpleData:self.object dataMd5:self.uploadObjMd5 ziwMd5:self.uploadObjMd5];
     }
 }
 -(void) onUploadObjectSucceedAndCleanTemp
@@ -192,15 +192,17 @@
 }
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index setDocumentLocalChanged:self.objectGUID changed:NO];
-    [self onUploadObjectSucceedAndCleanTemp];
+    WizDocumentEdit* document = [[WizDocumentEdit alloc] initFromGuid:self.objectGUID];
+    [document setLocalChanged:NO];
+    [document  saveInfo];
+    [document release];
 }
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index setAttachmentLocalChanged:self.objectGUID changed:NO];
-    [self onUploadObjectSucceedAndCleanTemp];
+    WizAttachment* attach = [[WizAttachment alloc] initFromGuid:self.objectGUID];
+    attach.localChanged = NO;
+    [attach saveInfo];
+    [attach release];
 }
 -(void) onError: (id)retObject
 {

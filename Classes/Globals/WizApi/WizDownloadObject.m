@@ -14,6 +14,9 @@
 #import "WizGlobalDictionaryKey.h"
 #import "Reachability.h"
 #import "WizNotification.h"
+#import "WizFileManager.h"
+#import "WizDocumentEdit.h"
+#import "WizDbManager.h"
 
 NSString* SyncMethod_DownloadProcessPartBeginWithGuid = @"DownloadProcessPartBegin";
 NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd";
@@ -64,8 +67,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         return;
     }
     busy = YES;
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    NSString* fileNamePath = [index downloadObjectTempFilePath:self.objGuid];
+    NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.objGuid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
         [WizGlobals deleteFile:fileNamePath];
     if (![[NSFileManager defaultManager] createFileAtPath:fileNamePath contents:nil attributes:nil]) {
@@ -78,13 +80,18 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 - (void) downloadDone
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if ([self.objType isEqualToString:WizDocumentKeyString]) {
-        [index setDocumentServerChanged:self.objGuid changed:NO];
+        WizDocumentEdit* edit = [[WizDocumentEdit alloc] initFromGuid:self.objGuid];
+        edit.serverChanged = NO;
+        [edit saveInfo];
+        [edit release];
     }
     else if ([self.objType isEqualToString:WizAttachmentKeyString])
     {
-        [index setAttachmentServerChanged:self.objType changed:NO];
+        WizAttachment* attach = [[WizAttachment alloc] initFromGuid:self.objGuid];
+        attach.serverChanged = NO;
+        [attach saveInfo];
+        [attach release];
     }
     //
     busy = NO;
@@ -116,8 +123,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
                 [self.fileHandle seekToFileOffset:0];
                 [self downloadNext];
             }
-            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-            [index updateObjectDataByPath:[index downloadObjectTempFilePath:self.objGuid] objectGuid:self.objGuid];
+            [[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.objGuid] objectGuid:self.objGuid];
             [self downloadDone];
         }
     }

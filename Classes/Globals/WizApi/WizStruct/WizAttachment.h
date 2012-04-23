@@ -25,5 +25,8 @@
 @property (nonatomic, retain)     NSString* documentGuid;
 @property (assign) BOOL      serverChanged;
 @property (assign) BOOL      localChanged;
+- (id) initFromGuid:(NSString*)attachmentGuid;
 - (NSString*) attachmentFilePath;
+- (BOOL) saveInfo;
+- (BOOL) saveData:(NSString*)filePath;
 @end

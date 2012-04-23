@@ -25,15 +25,6 @@
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    if (![index isOpened])
-    {
-        if (![index open])
-        {
-            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-            return;
-        }
-    }
     PickerViewController* pick =[[PickerViewController alloc] init];
     [self.navigationController pushViewController:pick animated:YES];
     [pick release];

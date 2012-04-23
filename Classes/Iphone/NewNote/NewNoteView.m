@@ -28,6 +28,7 @@
 
 #import "WizNotification.h"
 #import "WizAccountManager.h"
+#import "WizDbManager.h"
 
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
@@ -301,9 +302,8 @@
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
     for(NSDictionary* each in info)
     {
-        WizIndex* index = [WizIndex activeIndex];
         UIImage* image = [each objectForKey:@"UIImagePickerControllerOriginalImage"];
-        image = [image compressedImage:[index imageQualityValue]];
+        image = [image compressedImage:[[WizDbManager shareDbManager] imageQualityValue]];
 //        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
 //        [WizGlobals ensurePathExists:objectPath];
 //        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
@@ -930,9 +930,8 @@
     if(nil == self.attachmentsSourcePaths)
     {
         self.attachmentsSourcePaths = [NSMutableArray array];
-        for (WizDocumentAttach* each in attachs) {
-            NSString* filePath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:each.attachmentGuid];
-            NSString* fileNamePath = [filePath stringByAppendingPathComponent:each.attachmentName];
+        for (WizAttachment* each in attachs) {
+            NSString* fileNamePath = [each attachmentFilePath];
             if ([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath]) {
                 [self.attachmentsSourcePaths addObject:fileNamePath];
             }

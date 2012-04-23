@@ -8,7 +8,7 @@
 
 #import "WizFileManager.h"
 #import "WizGlobalData.h"
-
+#import "ZipArchive.h"
 @implementation WizFileManager
 @synthesize accountUserId;
 
@@ -100,5 +100,81 @@
 - (NSString*) documentFullFile:(NSString*)documentGUID
 {
     return [self documentFile:documentGUID fileName:@"wiz_full.html"];
+}
+- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid
+{
+    NSString* objectPath = [self objectFilePath:objGuid];
+    return [objectPath stringByAppendingPathComponent:@"temp.zip"];
+}
+//
+- (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid
+{
+    NSString* objectPath = [self objectFilePath:objectGuid];
+    ZipArchive* zip = [[ZipArchive alloc] init];
+    [zip UnzipOpenFile:objectZipFilePath];
+    BOOL zipResult = [zip UnzipFileTo:objectPath overWrite:YES];
+    [zip UnzipCloseFile];
+    [zip release];
+    if (!zipResult) {
+        if ([WizGlobals checkFileIsEncry:objectZipFilePath]) {
+            return YES;
+        }
+        else {
+            [WizGlobals deleteFile:objectZipFilePath];
+            return NO;
+        }
+    }
+    else {
+        [WizGlobals deleteFile:objectZipFilePath];
+        return YES;
+    }
+    return YES;
+}
+-(BOOL) addToZipFile:(NSString*) directory directoryName:(NSString*)name zipFile:(ZipArchive*) zip
+{
+    NSArray* selectedFile = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
+    
+    for(NSString* each in selectedFile) {
+        BOOL isDir;
+        NSString* path = [directory stringByAppendingPathComponent:each];
+        if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir)
+        {
+            [self addToZipFile:path directoryName:[NSString stringWithFormat:@"%@/%@",name,each] zipFile:zip];
+        }
+        else
+        {
+            if(![zip addFileToZip:path newname:[NSString stringWithFormat:@"%@/%@",name,each]]) 
+            {
+                return NO;
+            }
+        }
+    }
+    return YES;
+}
+-(NSString*) createZipByGuid:(NSString*)objectGUID 
+{
+    NSString* objectPath = [self objectFilePath:objectGUID];
+    NSArray* selectedFile = [self contentsOfDirectoryAtPath:objectPath error:nil];
+    NSString* zipPath = [objectPath stringByAppendingPathComponent:@"temppp.ziw"];
+    ZipArchive* zip = [[ZipArchive alloc] init];
+    BOOL ret;
+    ret = [zip CreateZipFile2:zipPath];
+    for(NSString* each in selectedFile) {
+        BOOL isDir;
+        NSString* path = [objectPath stringByAppendingPathComponent:each];
+        if([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir)
+        {
+            [self addToZipFile:path directoryName:each zipFile:zip];
+        }
+        else
+        {
+            ret = [zip addFileToZip:path newname:each];
+        }
+    }
+    
+    [zip CloseZipFile2];
+    if(!ret) zipPath =nil;
+    [zip release];
+    return zipPath;
 }
 @end

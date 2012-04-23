@@ -15,6 +15,7 @@
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
 #import "WizPadMainViewController.h"
+#import "WizAccountManager.h"
 
 @implementation WizPadLoginViewController
 @synthesize loginButton;
@@ -80,17 +81,8 @@
 }
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-    if (![index isOpened])
-    {
-        if (![index open])
-        {
-            [WizGlobals reportErrorWithString:WizStrFailedtoopenaccountdata];
-            return;
-        }
-    }
+    [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
-    pad.accountUserId = accountUserId;
     [self.navigationController pushViewController:pad animated:YES];
     [pad release];
 }

@@ -31,4 +31,18 @@
     NSString* attachmentPath = [[WizFileManager shareManager] objectFilePath:self.guid];
     return  [attachmentPath stringByAppendingString:self.title];
 }
+
+- (id) initFromGuid:(NSString*)attachmentGuid
+{
+    return nil;
+}
+
+- (BOOL) saveInfo
+{
+    return YES;
+}
+- (BOOL) saveData:(NSString*)filePath
+{
+    return YES;
+}
 @end

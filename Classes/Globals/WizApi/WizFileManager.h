@@ -22,4 +22,11 @@
 - (NSString*) documentMobileFile:(NSString*)documentGuid;
 - (NSString*) documentAbstractFile:(NSString*)documentGUID;
 - (NSString*) documentFullFile:(NSString*)documentGUID;
+
+
+//
+- (NSString*) downloadObjectTempFilePath:(NSString*)objGuid;
+- (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid;
+//
+-(NSString*) createZipByGuid:(NSString*)objectGUID;
 @end

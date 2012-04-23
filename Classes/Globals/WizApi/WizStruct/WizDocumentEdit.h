@@ -18,6 +18,7 @@
     id<WizDocumentEditDelegate> editDelegate;
 }
 @property (nonatomic, retain) id<WizDocumentEditDelegate> editDelegate;
+- (id) initFromGuid:(NSString*)documentGuid;
 - (BOOL) saveWithData;
 - (BOOL) saveInfo;
 - (BOOL) deleteTag:(NSString*)tagGuid;

@@ -13,6 +13,27 @@
 @implementation WizDocumentEdit
 @synthesize editDelegate;
 
+- (id) initFromGuid:(NSString*)documentGuid
+{
+    self = [super init];
+    if (self) {
+        WizDocument* doc = [WizDocumentFactory documentFromGuid:documentGuid];
+        self.guid = doc.guid;
+        self.title = doc.title;
+        self.dateCreated = doc.dateCreated;
+        self.dateModified = doc.dateCreated;
+        self.location = doc.location;
+        self.url = doc.url;
+        self.type = doc.type;
+        self.fileType = doc.fileType;
+        self.attachmentCount = doc.attachmentCount;
+        self.localChanged = doc.localChanged;
+        self.serverChanged = doc.serverChanged;
+        self.protected_ = doc.protected_;
+        self.dataMd5 = doc.dataMd5;
+    }
+    return self;
+}
 - (NSString*) photoHtmlString:(NSString*)photoName
 {
     return [NSString stringWithFormat:@"<img src=\"index_files/%@\" alt=\"%@\" >",photoName,photoName];

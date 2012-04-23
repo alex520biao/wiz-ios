@@ -11,14 +11,14 @@
 @implementation WizSettings
 //single object
 static WizSettings* defaultSettings = nil;
-+ (id) shareDbManager
++ (id) defaultSettings
 {
-    @synchronized(shareDbManager)
+    @synchronized(defaultSettings)
     {
-        if (shareDbManager == nil) {
-            shareDbManager = [[super allocWithZone:NULL] init];
+        if (defaultSettings == nil) {
+            defaultSettings = [[super allocWithZone:NULL] init];
         }
-        return shareDbManager;
+        return defaultSettings;
     }
 }
 + (id) allocWithZone:(NSZone *)zone

@@ -12,6 +12,7 @@
 #import "LocationTreeNode.h"
 #import "LocationTreeViewCell.h"
 #import "TagDocumentListView.h"
+#import "WizDbManager.h"
 @implementation TagsListTreeView
 
 @synthesize accountUserId;
@@ -136,14 +137,14 @@
     for (WizTag* each in tagArray)
     {
         LocationTreeNode* node = [[LocationTreeNode alloc] init];
-        node.title = each.name;
+        node.title = each.title;
         node.locationKey = each.guid;
         if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
             LocationTreeNode* parent = [LocationTreeNode findNodeByKey:each.parentGUID :self.tree];
             if (nil == parent) {
-                WizTag* parentTag = [index tagFromGuid:each.parentGUID];
+                WizTag* parentTag = [[WizDbManager shareDbManager] tagFromGuid:each.parentGUID];
                 LocationTreeNode* nodee = [[LocationTreeNode alloc] init];
-                nodee.title = parentTag.name;
+                nodee.title = parentTag.title;
                 nodee.locationKey = parentTag.guid;
                 [tree addChild:parent];
                 [nodee addChild:node];

@@ -147,7 +147,7 @@ static NSMutableDictionary* timeAttributes;
     NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
     NSArray* tags = [index tagsByDocumentGuid:documemtGuid];
     for (WizTag* each in tags) {
-        NSString* tagName = getTagDisplayName(each.name);
+        NSString* tagName = getTagDisplayName(each.title);
         tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
     }
     if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {

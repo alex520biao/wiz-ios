@@ -76,7 +76,7 @@
     for (WizTag* each in tagArray)
     {
         LocationTreeNode* node = [[LocationTreeNode alloc] init];
-        NSString* tagName = getTagDisplayName(each.name);
+        NSString* tagName = getTagDisplayName(each.title);
         node.title = tagName;
         node.locationKey = each.guid;
         if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
@@ -84,7 +84,7 @@
             if (nil == parent) {
                 WizTag* parentTag = [index tagFromGuid:each.parentGUID];
                 LocationTreeNode* nodee = [[LocationTreeNode alloc] init];
-                nodee.title = parentTag.name;
+                nodee.title = parentTag.title;
                 nodee.locationKey = parentTag.guid;
                 [tree addChild:parent];
                 [nodee addChild:node];
