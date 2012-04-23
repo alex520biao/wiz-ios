@@ -7,7 +7,6 @@
 //
 
 #import "WizEditNoteBase.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "WizApi.h"

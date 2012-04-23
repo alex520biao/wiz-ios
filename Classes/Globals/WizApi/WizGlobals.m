@@ -483,7 +483,7 @@ static NSArray* excelArray;
 {
     NSString* tagstr = [NSString string];
     for (WizTag* each in tags) {
-        NSString* tagName = getTagDisplayName(each.name);
+        NSString* tagName = getTagDisplayName(each.title);
         tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
     }
     if (tagstr) {

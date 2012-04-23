@@ -11,12 +11,8 @@
 #import "WizInputView.h"
 #import "WizGlobalData.h"
 #import "WizVerifyAccount.h"
-#import "WizIndex.h"
 #import "WizAccountManager.h"
 #import "WizNotification.h"
-
-
-
 
 @interface WizAddAcountViewController()
 {

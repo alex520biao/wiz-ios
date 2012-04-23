@@ -8,7 +8,6 @@
 
 #import "CatelogBaseController.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
 #import "CatelogBaseCell.h"
 #import "TTTAttributedLabel.h"
 @implementation WizPadCatelogData

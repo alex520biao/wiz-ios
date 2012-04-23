@@ -8,6 +8,17 @@
 
 #import "WizObject.h"
 
+typedef NSUInteger WizTableOrder;
+//%2 is reverse
+enum
+{
+     kOrderDate=1,
+     kOrderReverseDate=2,
+     kOrderFirstLetter=3,
+     kOrderReverseFirstLetter=4,
+     kOrderCreatedDate=5,
+     kOrderReverseCreatedDate=6
+};
 @interface WizDocument : WizObject
 {
 	NSString* location;
@@ -35,12 +46,17 @@
 @property (assign) BOOL localChanged;
 @property (assign) BOOL protected_;
 @property int attachmentCount;
-
 - (NSComparisonResult) compareDate:(WizDocument*) doc;
 - (NSComparisonResult) compareReverseDate:(WizDocument*) doc;
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
 - (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
+
+- (NSString*) documentIndexFilesPath;
+- (NSString*) documentIndexFile;
+- (NSString*) documentMobileFile;
+- (NSString*) documentAbstractFile;
+- (NSString*) documentFullFile;
 
 @end

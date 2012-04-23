@@ -179,14 +179,14 @@
     self.objectType = WizDocumentKeyString;
     return  [self uploadObjectData];
 }
-- (BOOL) uploadAttachment:(WizDocumentAttach*)attachment
+- (BOOL) uploadAttachment:(WizAttachment*)attachment
 {
     if (self.busy) {
         return NO;
     }
     busy = YES;
     self.object = attachment;
-    self.objectGUID = attachment.attachmentGuid;
+    self.objectGUID = attachment.guid;
     self.objectType = WizAttachmentKeyString;
     return [self uploadObjectData];
 }

@@ -28,6 +28,11 @@
 #define WizDocumentKeyString @"document"
 #define WizAttachmentKeyString  @"attachment"
 
+//
+#define WizUpdateError              @"UpdateError"
+//
+
+
 #define WizLog(s,...) logTofile(__FILE__,(char *)__FUNCTION__ ,__LINE__,s,##__VA_ARGS__)
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...);
 @interface WizGlobals : NSObject {

@@ -8,8 +8,6 @@
 
 #import "FoldersViewController.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
-
 //#import "FolderViewController.h"
 #import "FolderListView.h"
 

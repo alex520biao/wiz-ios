@@ -9,6 +9,9 @@
 #import "WizDocument.h"
 #import "WizGlobals.h"
 #import "NSDate-Utilities.h"
+#import "WizDbManager.h"
+#import "WizFileManager.h"
+
 @implementation WizDocument
 @synthesize fileType;
 @synthesize type;
@@ -34,6 +37,7 @@
     [dataMd5 release];
     [super dealloc];
 }
+
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc
 {
     return [self.dateCreated isLaterThanDate:doc.dateCreated];
@@ -68,4 +72,31 @@
     }
     return ret;
 }
+- (NSString*) documentIndexFilesPath
+{
+    WizFileManager* share = [WizFileManager shareManager];
+    return [share documentIndexFile:self.guid];
+}
+- (NSString*) documentIndexFile
+{
+	WizFileManager* share = [WizFileManager shareManager];
+    return [share documentIndexFile:self.guid];
+}
+- (NSString*) documentMobileFile
+{
+    WizFileManager* share = [WizFileManager shareManager];
+    return [share documentMobileFile:self.guid];
+}
+- (NSString*) documentAbstractFile
+{
+    WizFileManager* share = [WizFileManager shareManager];
+    return [share documentAbstractFile:self.guid];
+}
+- (NSString*) documentFullFile
+{
+    WizFileManager* share = [WizFileManager shareManager];
+    return [share documentFullFile:self.guid];
+}
+
+
 @end

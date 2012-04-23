@@ -9,7 +9,6 @@
 #import "PadFoldersController.h"
 #import "WizUiTypeIndex.h"
 #import "WizPadNotificationMessage.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "TTTAttributedLabel.h"

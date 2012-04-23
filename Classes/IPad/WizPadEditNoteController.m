@@ -8,7 +8,6 @@
 
 #import "WizPadEditNoteController.h"
 #import "WizGlobals.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "SelectFloderView.h"
 #import "WizSelectTagViewController.h"
@@ -677,7 +676,7 @@
 //        }
 //    }
     NSArray* attachments = [index attachmentsByDocumentGUID:self.documentGUID];
-    for (WizDocumentAttach* eachAttach in attachments) {
+    for (WizAttachment* eachAttach in attachments) {
         NSString* filePath = [[WizIndex documentFilePath:self.accountUserId documentGUID:eachAttach.attachmentGuid] stringByAppendingPathComponent:eachAttach.attachmentName];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             [self.attachmentSourcePath addObject:filePath];
@@ -731,7 +730,7 @@
             NSLog(@"remove error");
         }
         [error release];
-        WizDocumentAttach* attach = [index attachmentFromGUID:cDir];
+        WizAttachment* attach = [index attachmentFromGUID:cDir];
         [index deleteAttachment:attach.attachmentGuid];
     }
     [self displayAttachmentsCount];

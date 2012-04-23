@@ -7,7 +7,6 @@
 //
 
 #import "WizCheckAttachments.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "WizDownloadObject.h"
@@ -117,14 +116,13 @@
 {
     return [self.attachments count];
 }
-- (NSURL*) getAttachmentFileURL:(WizDocumentAttach*)attachment
+- (NSURL*) getAttachmentFileURL:(WizAttachment*)attachment
 {
-    NSString* attachmentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:attachment.attachmentGuid];
-    NSString* attachmentFilePath = [attachmentPath stringByAppendingPathComponent:attachment.attachmentName];
+    NSString* attachmentFilePath = [attachment attachmentFilePath];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:attachmentFilePath];
     return [url autorelease];
 }
-- (BOOL) checkCanOpenInOtherApp:(WizDocumentAttach*)attach
+- (BOOL) checkCanOpenInOtherApp:(WizAttachment*)attach
 {
     NSURL* url = [self getAttachmentFileURL:attach];
     [currentPreview setURL:url];
@@ -141,46 +139,46 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    WizDocumentAttach* attach = [self.attachments objectAtIndex:indexPath.row];
+    WizAttachment* attach = [self.attachments objectAtIndex:indexPath.row];
     WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if (attach.attachmentType == nil || [attach.attachmentType isEqualToString:@""]) {
-        attach.attachmentType = @"noneType";
+    if (attach.type == nil || [attach.type isEqualToString:@""]) {
+        attach.type = @"noneType";
     }
-    if ([index attachmentSeverChanged:attach.attachmentGuid]) {
-        cell.detailTextLabel.text = NSLocalizedString(@"Tap to download", nil);
-    }
-    else 
-    {
-        cell.detailTextLabel.text = NSLocalizedString(@"Tap to view", nil);
-    }
-    if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
-        cell.imageView.image = [UIImage imageNamed:@"icon_video_img"];
-    }
-    else  if ([WizGlobals checkAttachmentTypeIsPPT:attach.attachmentType])
-    {
-        cell.imageView.image = [UIImage imageNamed:@"icon_ppt_img"];
-    }
-    else  if ([WizGlobals checkAttachmentTypeIsWord:attach.attachmentType])
-    {
-        cell.imageView.image = [UIImage imageNamed:@"icon_word_img"];
-    }
-    else  if ([WizGlobals checkAttachmentTypeIsExcel:attach.attachmentType])
-    {
-        cell.imageView.image = [UIImage imageNamed:@"icon_excel_img"];
-    }
-    else if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
-    {
-        cell.imageView.image = [UIImage imageNamed:@"icon_image_img"];
-    }
-    else 
-    {
-        cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
-    }
-    cell.textLabel.text = attach.attachmentName;
+//    if ([index attachmentSeverChanged:attach.attachmentGuid]) {
+//        cell.detailTextLabel.text = NSLocalizedString(@"Tap to download", nil);
+//    }
+//    else 
+//    {
+//        cell.detailTextLabel.text = NSLocalizedString(@"Tap to view", nil);
+//    }
+//    if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
+//        cell.imageView.image = [UIImage imageNamed:@"icon_video_img"];
+//    }
+//    else  if ([WizGlobals checkAttachmentTypeIsPPT:attach.attachmentType])
+//    {
+//        cell.imageView.image = [UIImage imageNamed:@"icon_ppt_img"];
+//    }
+//    else  if ([WizGlobals checkAttachmentTypeIsWord:attach.attachmentType])
+//    {
+//        cell.imageView.image = [UIImage imageNamed:@"icon_word_img"];
+//    }
+//    else  if ([WizGlobals checkAttachmentTypeIsExcel:attach.attachmentType])
+//    {
+//        cell.imageView.image = [UIImage imageNamed:@"icon_excel_img"];
+//    }
+//    else if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
+//    {
+//        cell.imageView.image = [UIImage imageNamed:@"icon_image_img"];
+//    }
+//    else 
+//    {
+//        cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
+//    }
+    cell.textLabel.text = attach.title;
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
 }
-- (void) checkInWiz:(WizDocumentAttach*)attachment
+- (void) checkInWiz:(WizAttachment*)attachment
 {
     WizCheckAttachment* check = [[WizCheckAttachment alloc] initWithNibName:nil bundle:nil];;
     NSURL* url = [self getAttachmentFileURL:attachment];
@@ -196,7 +194,7 @@
     }
     [check release];
 }
-- (void) checkInOtherApp:(WizDocumentAttach*)attachment
+- (void) checkInOtherApp:(WizAttachment*)attachment
 {
     NSURL* url = [self getAttachmentFileURL:attachment];
     [currentPreview setURL:url];
@@ -205,20 +203,20 @@
         [WizGlobals reportWarningWithString:NSLocalizedString(@"There is no application can open this file.", nil)];
     }
 }
--(void) checkAttachment:(WizDocumentAttach*) attachment inWiz:(BOOL)inWiz
+-(void) checkAttachment:(WizAttachment*) attachment inWiz:(BOOL)inWiz
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
-        if (inWiz) {
-            [self checkInWiz:attachment];
-        }
-        else {
-            [self checkInOtherApp:attachment];
-        }
-        
-    }
-    else
-    {
+//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
+//    if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
+//        if (inWiz) {
+//            [self checkInWiz:attachment];
+//        }
+//        else {
+//            [self checkInOtherApp:attachment];
+//        }
+//        
+//    }
+//    else
+//    {
 //        willCheckInWiz = inWiz;
 //        WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
 //        if ([downloader attachmentIsDownloading:attachment.attachmentGuid]) {
@@ -240,14 +238,14 @@
 //            self.waitAlert = alert;
 //            [alert show];
 //        }
-    }
+//            }
     
 }
 - (BOOL) checkAttachmentIsThere:(NSString*)attachmentGUID
 {
     for (int i = 0; i<[self.attachments count]; i++) {
-        WizDocumentAttach* attach = [self.attachments objectAtIndex:i];
-        if ([attach.attachmentGuid isEqualToString:attachmentGUID]) {
+        WizAttachment* attach = [self.attachments objectAtIndex:i];
+        if ([attach.guid isEqualToString:attachmentGUID]) {
             return YES;
         }
     }
@@ -263,19 +261,19 @@
         [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
         self.waitAlert = nil;
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-        WizDocumentAttach* attach = [index attachmentFromGUID:attachmentGUID];
+        WizAttachment* attach = [index attachmentFromGUID:attachmentGUID];
         [self checkAttachment:attach inWiz:willCheckInWiz];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
+    WizAttachment* attch = [self.attachments objectAtIndex:indexPath.row];
     self.lastIndexPath = indexPath;
     [self checkAttachment:attch inWiz:YES];
 }
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    WizDocumentAttach* attch = [self.attachments objectAtIndex:indexPath.row];
+    WizAttachment* attch = [self.attachments objectAtIndex:indexPath.row];
     self.lastIndexPath = indexPath;
     [self checkAttachment:attch inWiz:NO];
 }

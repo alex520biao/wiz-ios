@@ -7,7 +7,6 @@
 //
 
 #import "ScrollTableViewCell.h"
-#import "WizIndex.h"
 
 @implementation ScrollTableViewCell
 @synthesize attach;
@@ -32,7 +31,7 @@
             [[self viewWithTag:100] removeFromSuperview];
         }
         else {
-            if([attach.attachmentType isEqualToString:@"png"] )
+            if([attach.type isEqualToString:@"png"] )
             {
 //                UIScrollView* scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0.0, 0.0, 320, 420)];
 //                UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageWithContentsOfFile:attach.AttachLocation]];

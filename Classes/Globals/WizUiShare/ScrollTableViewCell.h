@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class WizDocumentAttach;
+@class WizAttachment;
 
 @interface ScrollTableViewCell : UITableViewCell {
-    WizDocumentAttach* attach;
+    WizAttachment* attach;
 }
-@property (nonatomic, retain) WizDocumentAttach* attach;
+@property (nonatomic, retain) WizAttachment* attach;
 @end

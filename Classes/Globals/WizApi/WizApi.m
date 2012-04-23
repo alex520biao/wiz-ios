@@ -267,9 +267,9 @@
         [dic setObject:each.guid forKey:@"tag_guid"];
         if(nil !=each.parentGUID)
             [dic setObject:each.parentGUID forKey:@"tag_group_guid"];
-        [dic setObject:each.name forKey:@"tag_name"];
+        [dic setObject:each.title forKey:@"tag_name"];
         [dic setObject:each.description forKey:@"tag_description"];
-        [dic setObject:[WizGlobals sqlTimeStringToDate:each.dtInfoModified] forKey:@"dt_info_modified"];
+        [dic setObject:each.dateInfoModified forKey:@"dt_info_modified"];
         [tagTemp addObject:dic];
         [dic release];
         
@@ -436,8 +436,8 @@
 		return NO;
 	//
 	//
-	NSDate* dateCreated = [WizGlobals sqlTimeStringToDate:doc.dateCreated];
-	NSDate* dateModified = [WizGlobals sqlTimeStringToDate:doc.dateModified];
+	NSDate* dateCreated = doc.dateCreated;
+	NSDate* dateModified = doc.dateModified;
 	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
@@ -465,19 +465,18 @@
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentPostSimpleData args:args];
 }
 
--(BOOL) callAttachmentPostSimpleData:(WizDocumentAttach*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5
+-(BOOL) callAttachmentPostSimpleData:(WizAttachment*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5
 {
     if (dataMD5 == nil) {
         return NO;
     }
-    NSDate* dateModified = [WizGlobals sqlTimeStringToDate:attach.attachmentModifiedDate];
     //fill the post info
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
-    [postParams setObject:attach.attachmentGuid             forKey:@"attachment_guid"];
-    [postParams setObject:attach.attachmentDocumentGuid           forKey:@"attachment_document_guid"];
-    [postParams setObject:[attach.attachmentName stringByReplacingOccurrencesOfString:@":" withString:@"-"]            forKey:@"attachment_name"];
-    [postParams setObject:dateModified                  forKey:@"dt_modified"];
+    [postParams setObject:attach.guid             forKey:@"attachment_guid"];
+    [postParams setObject:attach.documentGuid           forKey:@"attachment_document_guid"];
+    [postParams setObject:[attach.title stringByReplacingOccurrencesOfString:@":" withString:@"-"]            forKey:@"attachment_name"];
+    [postParams setObject:attach.dateModified                  forKey:@"dt_modified"];
     [postParams setObject:dataMD5                       forKey:@"data_md5"];
     [postParams setObject:ziwMD5                        forKey:@"attachment_zip_md5"];
     [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_info"];

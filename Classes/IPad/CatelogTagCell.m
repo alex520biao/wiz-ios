@@ -8,7 +8,6 @@
 
 #import "CatelogTagCell.h"
 #import "CatelogBaseAbstractView.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "CatelogBaseController.h"
 #import "CommonString.h"

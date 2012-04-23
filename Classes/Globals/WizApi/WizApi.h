@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class WizDocument;
-@class WizDocumentAttach;
+@class WizAttachment;
 
 @protocol WizApiDelegate <NSObject>
 @optional
@@ -84,7 +84,7 @@
 
 -(BOOL) callCreateAccount:(NSString*)accountUserId  password:(NSString*)accountPassword;
 -(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5;
--(BOOL) callAttachmentPostSimpleData:(WizDocumentAttach*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5;
+-(BOOL) callAttachmentPostSimpleData:(WizAttachment*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5;
 -(void) onError: (id)retObject;
 -(void) cancel;
 

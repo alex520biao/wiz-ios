@@ -25,4 +25,5 @@
 @property (nonatomic, retain)     NSString* documentGuid;
 @property (assign) BOOL      serverChanged;
 @property (assign) BOOL      localChanged;
+- (NSString*) attachmentFilePath;
 @end

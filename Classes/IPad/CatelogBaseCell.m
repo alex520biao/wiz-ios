@@ -8,7 +8,6 @@
 
 #import "CatelogBaseCell.h"
 #import "CatelogBaseAbstractView.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "TTTAttributedLabel.h"
 #import "CatelogBaseController.h"

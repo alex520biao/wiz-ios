@@ -9,6 +9,7 @@
 #import "WizDbManager.h"
 #import "index.h"
 #import "tempIndex.h"
+#import "WizDocumentEdit.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -206,28 +207,11 @@ static WizDbManager* shareDbManager = nil;
 	
 	return [self setMeta:KeyOfSyncVersion key:type value:verString];
 }
-- (int64_t) syncVersion:(NSString*)type
-{
-	NSString* str = [self meta:KeyOfSyncVersion key:type];
-	if (!str)
-		return 0;
-	if ([str length] == 0)
-		return 0;
-	//
-	return [str longLongValue];
-}
 
 - (NSString*) userInfo:(NSString*)type
 {
     NSString* str = [self meta:KeyOfUserInfo key:type];
     return str;
-}
-
-- (BOOL) setSyncVersion:(NSString*)type version:(int64_t)ver
-{
-	NSString* verString = [NSString stringWithFormat:@"%lld", ver];
-	
-	return [self setMeta:KeyOfSyncVersion key:type value:verString];
 }
 
 -(BOOL) setUserInfo:(NSString*) type info:(NSString*)info
@@ -618,15 +602,6 @@ static WizDbManager* shareDbManager = nil;
 	index.GetRecentDocuments(arrayDocument);
 	return [self documentsFromWizDocumentDataArray: arrayDocument];
 }
-- (WizDocument*) documentFromGUID:(NSString *)guid
-{
-    WIZDOCUMENTDATA data;
-    if (!index.DocumentFromGUID([guid UTF8String], data)) {
-        return nil;
-    }
-    WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
-    return [doc autorelease];
-}
 - (NSArray*) documentsByTag: (NSString*)tagGUID
 {
 	CWizDocumentDataArray arrayDocument;
@@ -666,7 +641,8 @@ static WizDbManager* shareDbManager = nil;
 - (BOOL) deleteTag:(NSString*)tagGuid
 {
     NSArray* documents = [self documentsByTag:tagGuid];
-    for (WizDocument* eachDoc in documents) {
+    for (WizDocumentEdit* eachDoc in documents) {
+        
         [eachDoc deleteTag:tagGuid];
     }
     return index.DeleteTag([tagGuid UTF8String]) ? YES : NO;

@@ -7,7 +7,6 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "DocumentListViewCell.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "TTTAttributedLabel.h"
 #import "WizGlobals.h"

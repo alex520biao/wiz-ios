@@ -111,7 +111,7 @@
 ////            return YES;
 ////        }
 ////    }
-////    WizDocumentAttach* attach = [self.attachmentsForUpdated lastObject];
+////    WizAttachment* attach = [self.attachmentsForUpdated lastObject];
 ////    WizUploadAttachment* upload = [[WizGlobalData sharedData] uploadAttachmentData:self.accountUserId attachmentGUID:attach.attachmentGuid owner:self];
 ////    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 ////    [nc removeObserver:self];
@@ -144,7 +144,7 @@
 //        [[WizSyncManager shareManager] uploadDocument:each.guid];
 //    }
 //    NSArray* attachments = [index attachmentsForUpload];
-////    for (WizDocumentAttach* each in attachments) {
+////    for (WizAttachment* each in attachments) {
 ////        [[WizSyncManager shareManager] uploadAttachment:each.attachmentGuid];
 ////    }
 //    self.busy = NO;

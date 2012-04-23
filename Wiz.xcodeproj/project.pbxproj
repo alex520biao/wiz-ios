@@ -45,6 +45,8 @@
 		7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311620A14F5091D007EC8AC /* Default-Landscape~ipad.png */; };
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
+		7326AE9115452D3F00E531FB /* WizDocumentFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326AE9015452D3F00E531FB /* WizDocumentFactory.m */; };
+		7326AE9415452E1B00E531FB /* WizDocumentEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326AE9315452E1B00E531FB /* WizDocumentEdit.m */; };
 		732A5FC515244BEC0056090E /* userIcons.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC315244BEC0056090E /* userIcons.png */; };
 		732A5FC615244BEC0056090E /* userIcons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC415244BEC0056090E /* userIcons@2x.png */; };
 		73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 73467DFA154506AE00ECF5F9 /* WizAttachment.m */; };
@@ -79,7 +81,6 @@
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
 		73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843714F8CC22001387F6 /* WizGlobalData.m */; };
 		73A7856514F8CC23001387F6 /* WizGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843B14F8CC22001387F6 /* WizGlobals.m */; };
-		73A7856614F8CC23001387F6 /* WizIndex.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843D14F8CC22001387F6 /* WizIndex.mm */; };
 		73A7856914F8CC23001387F6 /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844314F8CC22001387F6 /* WizSync.m */; };
 		73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844D14F8CC22001387F6 /* WizUploadObjet.m */; };
 		73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */; };
@@ -375,6 +376,10 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		7326AE8F15452D3F00E531FB /* WizDocumentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentFactory.h; path = WizStruct/WizDocumentFactory.h; sourceTree = "<group>"; };
+		7326AE9015452D3F00E531FB /* WizDocumentFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentFactory.m; path = WizStruct/WizDocumentFactory.m; sourceTree = "<group>"; };
+		7326AE9215452E1B00E531FB /* WizDocumentEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentEdit.h; path = WizStruct/WizDocumentEdit.h; sourceTree = "<group>"; };
+		7326AE9315452E1B00E531FB /* WizDocumentEdit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentEdit.m; path = WizStruct/WizDocumentEdit.m; sourceTree = "<group>"; };
 		732A5FC315244BEC0056090E /* userIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userIcons.png; sourceTree = "<group>"; };
 		732A5FC415244BEC0056090E /* userIcons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "userIcons@2x.png"; sourceTree = "<group>"; };
 		732E510B1519C05600EDF1BB /* WizTestUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTestUnit.h; path = TestFlightSDK0.8.3/WizTestUnit.h; sourceTree = "<group>"; };
@@ -444,8 +449,6 @@
 		73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalNotificationMessage.h; sourceTree = "<group>"; };
 		73A7843A14F8CC22001387F6 /* WizGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobals.h; sourceTree = "<group>"; };
 		73A7843B14F8CC22001387F6 /* WizGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobals.m; sourceTree = "<group>"; };
-		73A7843C14F8CC22001387F6 /* WizIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizIndex.h; sourceTree = "<group>"; };
-		73A7843D14F8CC22001387F6 /* WizIndex.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizIndex.mm; sourceTree = "<group>"; };
 		73A7844214F8CC22001387F6 /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSync.h; sourceTree = "<group>"; };
 		73A7844314F8CC22001387F6 /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSync.m; sourceTree = "<group>"; };
 		73A7844C14F8CC22001387F6 /* WizUploadObjet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUploadObjet.h; sourceTree = "<group>"; };
@@ -904,6 +907,10 @@
 				73467DFA154506AE00ECF5F9 /* WizAttachment.m */,
 				73D455AD154508AB0003103F /* WizTag.h */,
 				73D455AE154508AB0003103F /* WizTag.m */,
+				7326AE8F15452D3F00E531FB /* WizDocumentFactory.h */,
+				7326AE9015452D3F00E531FB /* WizDocumentFactory.m */,
+				7326AE9215452E1B00E531FB /* WizDocumentEdit.h */,
+				7326AE9315452E1B00E531FB /* WizDocumentEdit.m */,
 			);
 			name = WizStruct;
 			sourceTree = "<group>";
@@ -1111,8 +1118,6 @@
 				73A7842714F8CC22001387F6 /* WizDictionaryMessage.h */,
 				73A7843814F8CC22001387F6 /* WizGlobalDictionaryKey.h */,
 				73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */,
-				73A7843C14F8CC22001387F6 /* WizIndex.h */,
-				73A7843D14F8CC22001387F6 /* WizIndex.mm */,
 				4A4F0D1B1542F35900767434 /* WizDbManager.h */,
 				73467DF71545036500ECF5F9 /* WizDbDelegate.h */,
 				4A4F0D1C1542F35A00767434 /* WizDbManager.mm */,
@@ -2006,7 +2011,6 @@
 				73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */,
 				73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */,
 				73A7856514F8CC23001387F6 /* WizGlobals.m in Sources */,
-				73A7856614F8CC23001387F6 /* WizIndex.mm in Sources */,
 				73A7856914F8CC23001387F6 /* WizSync.m in Sources */,
 				73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */,
 				73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */,
@@ -2121,6 +2125,8 @@
 				73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */,
 				73D455AF154508AB0003103F /* WizTag.m in Sources */,
 				73D455B81545130A0003103F /* NSString+WizString.m in Sources */,
+				7326AE9115452D3F00E531FB /* WizDocumentFactory.m in Sources */,
+				7326AE9415452E1B00E531FB /* WizDocumentEdit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,6 @@
  #import "FoldersViewController.h"
  #import "NewNoteView.h"
  #import "UIView-TagExtensions.h"
-#import "WizIndex.h"
 #import "CommonString.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"

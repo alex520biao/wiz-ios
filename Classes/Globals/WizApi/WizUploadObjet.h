@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "WizApi.h"
 @class WizDocument;
-@class WizDocumentAttach;
+@class WizAttachment;
 @interface WizUploadObjet : WizApi
 {
     BOOL        busy;
@@ -18,5 +18,5 @@
 @property       (readonly)           BOOL        busy;
 @property (nonatomic, retain) NSString* accountUserId;
 - (BOOL) uploadDocument:(WizDocument*)document;
-- (BOOL) uploadAttachment:(WizDocumentAttach*)attachment;
+- (BOOL) uploadAttachment:(WizAttachment*)attachment;
 @end

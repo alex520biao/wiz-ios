@@ -8,7 +8,6 @@
 
 #import "PadTagController.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
 #import "WizPadNotificationMessage.h"
 #import "WizUiTypeIndex.h"
 #import "CatelogTagCell.h"
@@ -30,7 +29,7 @@
         WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
         NSArray* documents = [index documentsByTag:eachTag.guid];
         WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
-        data.name = eachTag.name;
+        data.name = eachTag.title;
         data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
         data.keyWords = eachTag.guid;
         NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];

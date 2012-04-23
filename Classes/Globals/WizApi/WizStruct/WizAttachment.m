@@ -7,6 +7,7 @@
 //
 
 #import "WizAttachment.h"
+#import "WizFileManager.h"
 
 @implementation WizAttachment
 @synthesize type;
@@ -24,5 +25,10 @@
     [documentGuid release];
     [documentGuid release];
     [super dealloc];
+}
+- (NSString*) attachmentFilePath
+{
+    NSString* attachmentPath = [[WizFileManager shareManager] objectFilePath:self.guid];
+    return  [attachmentPath stringByAppendingString:self.title];
 }
 @end

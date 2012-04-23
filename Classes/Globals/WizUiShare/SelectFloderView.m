@@ -8,7 +8,6 @@
 
 #import "SelectFloderView.h"
 #import "WizGlobalData.h"
-#import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizPadNotificationMessage.h"
 #import "WizGlobals.h"

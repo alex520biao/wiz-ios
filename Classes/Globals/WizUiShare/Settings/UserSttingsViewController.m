@@ -7,7 +7,6 @@
 //
 
 #import "UserSttingsViewController.h"
-#import "WizIndex.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "CommonString.h"

@@ -48,6 +48,7 @@
 @class WizAttachment;
 @class WizTag;
 @interface WizDbManager : NSObject <WizDbDelegate>
++ (id) shareDbManager;
 - (void) close;
 - (BOOL) isOpen;
 - (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath;

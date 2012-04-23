@@ -82,9 +82,15 @@
 - (BOOL) deleteTag:(NSString*)tagGuid;
 - (BOOL) deleteDocument:(NSString*)documentGUID;
 
-
-
-
+//document
+- (WizDocument*) documentFromGUID:(NSString*)documentGUID;
+- (BOOL) updateDocument:(NSDictionary*) doc;
+- (BOOL) updateDocuments:(NSArray *)documents;
+- (NSArray*) recentDocuments;
+- (NSArray*) documentsByTag: (NSString*)tagGUID;
+- (NSArray*) documentsByKey: (NSString*)keywords;
+- (NSArray*) documentsByLocation: (NSString*)parentLocation;
+- (NSArray*) documentForUpload;
 //tag
 - (BOOL) updateTag: (NSDictionary*) tag;
 - (BOOL) updateTags: (NSArray*) tags;

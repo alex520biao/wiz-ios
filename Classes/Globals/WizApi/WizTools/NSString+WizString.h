@@ -10,4 +10,6 @@
 
 @interface NSString (WizString)
 - (BOOL) isBlock;
+- (NSString*) fileName;
+- (NSString*) fileType;
 @end

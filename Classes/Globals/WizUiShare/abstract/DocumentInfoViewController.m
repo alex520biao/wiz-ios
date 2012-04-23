@@ -7,7 +7,6 @@
 //
 
 #import "DocumentInfoViewController.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "SelectFloderView.h"
 #import "WizGlobals.h"
@@ -15,6 +14,7 @@
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
 #import "WizPhoneNotificationMessage.h"
+#import "WizDbManager.h"
 @interface DocumentInfoCell : UITableViewCell {
     UILabel* nameLabel;
     UILabel* valueLabel;
@@ -259,12 +259,11 @@
         [name setFont:[UIFont systemFontOfSize:15.0]];
         name.adjustsFontSizeToFitWidth = YES;
         self.fontSlider = [[[UISlider alloc] initWithFrame:CGRectMake(110, 0.0, 200, 40)] autorelease];
-        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
 
         [fontSlider addTarget:self action:@selector(fontChanged) forControlEvents:UIControlEventValueChanged];
         fontSlider.maximumValue =600;
         fontSlider.minimumValue =60;
-        fontSlider.value =[index webFontSize];
+        fontSlider.value =[[WizDbManager shareDbManager] webFontSize];
         [cell addSubview:fontSlider];
         [cell addSubview:name];
         [name release];
@@ -283,7 +282,7 @@
         cell.nameLabel.text = WizStrTags;
         NSMutableString* tagNames = [NSMutableString string];
         for (WizTag* each in self.documentTags) {
-            [tagNames appendFormat:@"|%@",getTagDisplayName(each.name)];
+            [tagNames appendFormat:@"|%@",getTagDisplayName(each.title)];
         }
         cell.valueLabel.text = tagNames;
     }
@@ -294,11 +293,11 @@
     
     else if (3 == indexPath.row) {
         cell.nameLabel.text =  WizStrDateModified;
-        cell.valueLabel.text = doc.dateModified;
+        cell.valueLabel.text = [WizGlobals dateToSqlString:doc.dateModified];
     }
     else if (4 == indexPath.row) {
         cell.nameLabel.text = WizStrDateCreated;
-        cell.valueLabel.text = doc.dateCreated;
+        cell.valueLabel.text = [WizGlobals dateToSqlString:doc.dateCreated];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

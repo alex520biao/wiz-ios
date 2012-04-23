@@ -7,7 +7,6 @@
 //
 
 #import "WizPadListTableControllerBase.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizPadListCell.h"
 #import "WizGlobals.h"
@@ -19,6 +18,8 @@
 #import "WizNotification.h"
 #import "pinyin.h"
 #import <ifaddrs.h>
+#import "WizDocumentFactory.h"
+#import "WizDbManager.h"
 
 #define WizNotFoundIndex    -2
 @implementation WizPadListTableControllerBase
@@ -49,8 +50,7 @@
 }
 - (NSArray*) reloadDocuments
 {
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    return [index recentDocuments];
+    return [WizDocumentFactory recentDocuments];
 }
 - (void) orderByReverseDate
 {
@@ -65,7 +65,7 @@
     for(int k = 0; k <[ array count]; k++)
     {
         WizDocument* doc = [array objectAtIndex:k];
-        NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
+        NSDate* date = doc.dateModified;
         int daysBeforToday = [date daysBeforeDate:todayDate];
         if ([date isToday] )
         {
@@ -121,37 +121,37 @@
     int docIndex = [array count]-1;
     for (int i =0; i<12; i++) {
         NSMutableArray* sectionArray = [NSMutableArray array];
-        for(int k = docIndex; k >= 0; k--)
-        {
-            WizDocument* doc1 = [array objectAtIndex:k];
-            WizDocument* doc2 = [array objectAtIndex:k-1];
-            if(k == 1)
-            {
-                if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
-                    [sectionArray addObject:doc1];
-                    [sectionArray addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                } else
-                {
-                    [sectionArray addObject:doc1];
-                    NSMutableArray* sectionArr = [NSMutableArray array];
-                    [sectionArr addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                    [self.tableArray addObject:sectionArr];
-                }
-                return;
-            }
-            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
-                [sectionArray addObject:doc1];
-            } else
-            {
-                [sectionArray addObject:doc1];
-                [self.tableArray addObject:sectionArray];
-                docIndex = k-1;
-                break;
-            }
-            
-        }
+//        for(int k = docIndex; k >= 0; k--)
+//        {
+//            WizDocument* doc1 = [array objectAtIndex:k];
+//            WizDocument* doc2 = [array objectAtIndex:k-1];
+//            if(k == 1)
+//            {
+//                if ([WizGlobals sqlTimeStringToDate:doc1.dateModifiedified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+//                    [sectionArray addObject:doc1];
+//                    [sectionArray addObject:doc2];
+//                    [self.tableArray addObject:sectionArray];
+//                } else
+//                {
+//                    [sectionArray addObject:doc1];
+//                    NSMutableArray* sectionArr = [NSMutableArray array];
+//                    [sectionArr addObject:doc2];
+//                    [self.tableArray addObject:sectionArray];
+//                    [self.tableArray addObject:sectionArr];
+//                }
+//                return;
+//            }
+//            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+//                [sectionArray addObject:doc1];
+//            } else
+//            {
+//                [sectionArray addObject:doc1];
+//                [self.tableArray addObject:sectionArray];
+//                docIndex = k-1;
+//                break;
+//            }
+//            
+//        }
     }
 }
 
@@ -293,8 +293,7 @@
     {
         self.tableView.backgroundView = nil;
     }
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-    self.kOrderIndex = [index userTablelistViewOption];
+    self.kOrderIndex = [[WizDbManager shareDbManager] userTablelistViewOption];
     switch (self.kOrderIndex) {
         case kOrderDate:
             [self orderByDate];
@@ -490,7 +489,7 @@
         else if (kOrderReverseDate == self.kOrderIndex)
         {
             WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
+            NSDate* date = doc.dateModified;
             if ([date isToday]) {
                 return WizStrToday;
             }

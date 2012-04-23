@@ -7,7 +7,6 @@
 //
 
 #import "WizSelectTagViewController.h"
-#import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizNewTagCell.h"
 #import "WizPadNotificationMessage.h"
@@ -216,7 +215,7 @@
     if([predicateArray count]==0)
     {
         WizTag* tag =[[WizTag alloc]init];
-        tag.name = self.searchBar.text;
+        tag.title = self.searchBar.text;
         [self.searchedTags insertObject:tag atIndex:0];
         self.isNewTag = YES;
         [tag release];
@@ -274,7 +273,7 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         }
         WizTag* tag = [[tags objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        NSString* tagName = getTagDisplayName(tag.name);
+        NSString* tagName = getTagDisplayName(tag.title);
         cell.textLabel.text = NSLocalizedString(tagName, nil);
         if ([self checkTagIsSeleted:tag]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

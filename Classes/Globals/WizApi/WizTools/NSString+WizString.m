@@ -13,4 +13,16 @@
 {
     return nil == self ||[self isEqualToString:@""];
 }
+- (NSString*) fileName
+{
+    return [[self componentsSeparatedByString:@"/"] lastObject];
+}
+- (NSString*) fileType
+{
+    NSString* fileName = [self fileName];
+    if (fileName == nil || [fileName isBlock]) {
+        return nil;
+    }
+    return [[fileName componentsSeparatedByString:@"."] lastObject];
+}
 @end
