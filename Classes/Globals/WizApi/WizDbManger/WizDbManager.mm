@@ -18,35 +18,10 @@
 //
 #define TypeOfWizGroup                  @"GROUPS"
 #define TypeOfPrivateGroup              @"PRIVATE"
-//WizAttachment
-//@interface WizAttachment(initFromDb)
-//- (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH&) data;
-//@end
-//@implementation WizAttachment(initFromDb)
-//
-//- (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH &)data
-//{
-//    self = [super init];
-//    if (self) {
-//        self.guid = [NSString stringWithCString:data.strAttachmentGuid.c_str() encoding:NSUTF8StringEncoding];
-//        self.title = [NSString stringWithCString:data.strAttachmentName.c_str() encoding:NSUTF8StringEncoding];
-//        self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
-//        self.documentGuid = [NSString stringWithCString:data.strDocumentGuid.c_str() encoding:NSUTF8StringEncoding];
-//        self.dataMd5 = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
-//        self.dateModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDataModified.c_str() encoding:NSUTF8StringEncoding]];
-//        self.localChanged = data.loaclChanged?YES:NO;
-//        self.serverChanged = data.serverChanged?YES:NO;
-//    }
-//    return self;
-//}
-//
-//@end
-
-//wizdocument
-@interface WizNote(InitFromDb)
+@interface WizDocument(InitFromDb)
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data;
 @end
-@implementation WizNote(InitFromDb)
+@implementation WizDocument(InitFromDb)
 
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data
 {
@@ -72,26 +47,6 @@
 }
 
 @end
-
-//@interface WizTag(db)
-//- (id) initFromWizTagData:(const WIZTAGDATA&) data;
-//@end
-//@implementation WizTag(db)
-//- (id) initFromWizTagData:(const WIZTAGDATA &)data
-//{
-//    self = [super init];
-//    if (self) {
-//        self.guid = [NSString stringWithCString:data.strGUID.c_str() encoding:NSUTF8StringEncoding];
-//        self.parentGuid = [NSString stringWithCString:data.strParentGUID.c_str() encoding:NSUTF8StringEncoding];
-//        self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
-//        self.title  = [NSString stringWithCString:data.strName.c_str() encoding:NSUTF8StringEncoding];
-//        self.dateModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDtInfoModified.c_str() encoding:NSUTF8StringEncoding]];
-//        self.localChanged = data.localchanged?YES:NO;
-//    }
-//    return self;
-//}
-//
-//@end
 @interface WizDbManager()
 {
     CIndex index;
@@ -101,25 +56,6 @@
 @end
 
 @implementation WizDbManager
-- (NSArray*) documentsFromWizDocumentDataArray: (const CWizDocumentDataArray&) arrayDocument
-{
-	NSMutableArray* arr = [NSMutableArray array];
-	//
-	for (CWizDocumentDataArray::const_iterator it = arrayDocument.begin();
-		 it != arrayDocument.end();
-		 it++)
-	{
-		WizNote* doc = [[WizNote alloc] initFromWizDocumentData:*it];
-		if (doc)
-		{
-			[arr addObject:doc];
-			[doc release];
-		}
-	}
-	return arr;
-}
-
-
 
 
 //single object
@@ -191,8 +127,6 @@ static WizDbManager* shareDbManager = nil;
         
     }
 }
-
-
 //data
 - (NSString*) meta: (NSString*)name key:(NSString*)key
 {
@@ -220,59 +154,319 @@ static WizDbManager* shareDbManager = nil;
 	
 	return [self setMeta:KeyOfSyncVersion key:type value:verString];
 }
-- (BOOL) setSyncVersionForKbGuid:(NSString*)kbGuid  key:(NSString*)key version:(int64_t)ver
+- (int64_t) syncVersion:(NSString*)type
 {
-    NSString* dataKey = [kbGuid stringByAppendingString:key];
-    return [self setSyncVersion:dataKey version:ver];
+	NSString* str = [self meta:KeyOfSyncVersion key:type];
+	if (!str)
+		return 0;
+	if ([str length] == 0)
+		return 0;
+	//
+	return [str longLongValue];
 }
-- (int64_t) syncVersionForKbGuid:(NSString*)guid key:(NSString*)key
+
+- (NSString*) userInfo:(NSString*)type
 {
-    NSString* dataKey = [guid stringByAppendingString:key];
-    return [self syncVersion:dataKey];
+    NSString* str = [self meta:KeyOfUserInfo key:type];
+    return str;
 }
-- (int64_t) documentVersionForKbGuid:(NSString*)kbGuid
+
+- (BOOL) setSyncVersion:(NSString*)type version:(int64_t)ver
 {
-	return [self syncVersionForKbGuid:kbGuid key:DocumentNameOfSyncVersion];
+	NSString* verString = [NSString stringWithFormat:@"%lld", ver];
+	
+	return [self setMeta:KeyOfSyncVersion key:type value:verString];
 }
-- (BOOL) setDocumentVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver  
+
+-(BOOL) setUserInfo:(NSString*) type info:(NSString*)info
 {
-	return [self setSyncVersionForKbGuid:kbGuid key:DocumentNameOfSyncVersion version:ver];
+    BOOL ret = [self setMeta:KeyOfUserInfo key:type value:info];
+    return  ret;
 }
-- (int64_t) attachmentVersionForKbGuid:(NSString*)kbGuid
+
+// version
+- (int64_t) documentVersion
 {
-    return [self syncVersionForKbGuid:kbGuid key:AttachmentNameOfSyncVersion];
+	return [self syncVersion:DocumentNameOfSyncVersion];
 }
-- (BOOL) setAttachmentVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver
+- (BOOL) setDocumentVersion:(int64_t)ver
 {
-    return [self setSyncVersionForKbGuid:kbGuid key:AttachmentNameOfSyncVersion version:ver];
-}
-- (int64_t) tagVersionForKbGuid:(NSString*)kbGuid
-{
-    return [self syncVersionForKbGuid:kbGuid key:TagVersion];
-}
-- (BOOL) setTagVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver
-{
-    return [self setSyncVersionForKbGuid:kbGuid key:TagVersion version:ver];
-}
-- (BOOL) setDeleteVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver
-{
-    return [self setSyncVersionForKbGuid:kbGuid key:DeletedGUIDNameOfSyncVersion version:ver];
-}
-- (int64_t) deleteVersionForKbGuid:(NSString*)kbGuid
-{
-    return [self syncVersionForKbGuid:kbGuid key:DeletedGUIDNameOfSyncVersion];
+	return [self setSyncVersion:DocumentNameOfSyncVersion version:ver];
 }
 //
-- (BOOL) setPriveteKbGuid:(NSString *)kbGuid
+- (BOOL) setDeletedGUIDVersion:(int64_t)ver
 {
-    return [self setMeta:TypeOfWizGroup key:TypeOfPrivateGroup value:kbGuid];
+	return [self setSyncVersion:DeletedGUIDNameOfSyncVersion version:ver];
 }
-- (NSString*) priveteKbGuid
+- (int64_t) deletedGUIDVersion
 {
-    return [self meta:TypeOfWizGroup key:TypeOfPrivateGroup];
+	return [self syncVersion:DeletedGUIDNameOfSyncVersion];
 }
 //
-- (BOOL) updateDocumentForKbGuid:(NSString*)kbGuid doc:(NSDictionary*) doc
+- (int64_t) tagVersion
+{
+    return [self syncVersion:TagVersion];
+}
+- (BOOL) setTageVersion:(int64_t)ver
+{
+    return [self setSyncVersion:TagVersion version:ver];
+}
+//
+- (int64_t) attachmentVersion
+{
+	return [self syncVersion:AttachmentVersion];
+}
+- (BOOL) setAttachmentVersion:(int64_t)ver
+{
+	return [self setSyncVersion:AttachmentVersion version:ver];
+}
+//
+- (int64_t) wizDataBaseVersion
+{
+    return  [self syncVersion:DatabaseVesion];
+}
+- (BOOL) setWizDataBaseVersion:(int64_t)ver
+{
+    return [self setSyncVersion:DatabaseVesion version:ver];
+}
+
+
+//settings
+- (int64_t) imageQualityValue
+{
+    NSString* str = [self userInfo:ImageQuality];
+    if(!str)
+        return 0;
+    else
+        return [str longLongValue];
+}
+- (BOOL) setImageQualityValue:(int64_t)value
+{
+    NSString* imageValue = [NSString stringWithFormat:@"%lld",value];
+    return [self setUserInfo:ImageQuality info:imageValue];
+}
+//
+- (BOOL) connectOnlyViaWifi
+{
+    NSString* wifiStr = [self userInfo:ConnectServerOnlyByWif];
+    if (wifiStr == nil) {
+        [self setConnectOnlyViaWifi:NO];
+        return NO;
+    }
+    BOOL ret = [wifiStr intValue] == 1? YES: NO;
+    return ret;
+}
+- (BOOL) setConnectOnlyViaWifi:(BOOL)wifi
+{
+    NSString* wifiStr = [NSString stringWithFormat:@"%d",wifi?1:0];
+    return [self setUserInfo:ConnectServerOnlyByWif info:wifiStr];
+}
+//
+-(BOOL) setUserTableListViewOption:(int64_t)option
+{
+    NSString* info = [NSString stringWithFormat:@"%lld",option];
+    return [self setUserInfo:UserTablelistViewOption info:info];
+}
+
+- (int64_t) userTablelistViewOption
+{
+    NSString* str = [self userInfo:UserTablelistViewOption];
+    if (str == nil || [str isEqualToString:@""]) {
+        return -1;
+    }
+    else
+        return [str longLongValue];
+}
+//
+- (int) webFontSize
+{
+    NSString* fontsize = [self userInfo:WebFontSize];
+    if(!fontsize)
+    {
+        return 0;
+    }
+    else
+    {
+        return [fontsize intValue];
+    }
+}
+
+- (BOOL) setWebFontSize:(int)fontsize
+{
+    NSString* fontString = [NSString stringWithFormat:@"%d",fontsize];
+    return [self setUserInfo:WebFontSize info:fontString];
+}
+//
+- (NSString*) wizUpgradeAppVersion
+{
+    NSString* ver = [self userInfo:WizNoteAppVerSion];
+    if (!ver) {
+        return @"";
+    }
+    else {
+        return ver;
+    }
+}
+- (BOOL) setWizUpgradeAppVersion:(NSString*)ver
+{
+    return [self setUserInfo:ver info:WizNoteAppVerSion];
+}
+- (int64_t) durationForDownloadDocument
+{
+    NSString* duration = [self userInfo:DurationForDownloadDocument];
+    if(duration == nil || [duration isEqualToString:@""])
+        return -1;
+    else
+        return [duration longLongValue];
+}
+- (NSString*) durationForDownloadDocumentString
+{
+    return [self userInfo:DurationForDownloadDocument];
+}
+-(BOOL) setDurationForDownloadDocument:(int64_t)duration
+{
+    NSString* durationString = [NSString stringWithFormat:@"%lld",duration];
+    return [self setUserInfo:DurationForDownloadDocument info:durationString];
+}
+- (BOOL) isMoblieView
+{
+    NSString* ret = [self userInfo:MoblieView];
+    if (nil == ret || [ret isEqualToString:@""]) {
+        [self setDocumentMoblleView:YES];
+        return YES;
+    }
+    return  [ret isEqualToString:@"1"];
+}
+- (BOOL) isFirstLog
+{
+    NSString* first = [self userInfo:FirstLog];
+    if (first == nil || [first isEqualToString:@""]) {
+        return YES;
+    }
+    return [first isEqualToString:@"0"];
+}
+- (BOOL) setFirstLog:(BOOL)first
+{
+    NSString* firstStr = first?@"1":@"0";
+    return [self setUserInfo:FirstLog info:firstStr];
+}
+- (BOOL) setDocumentMoblleView:(BOOL)mobileView
+{
+    NSString* mobile = mobileView? @"1": @"0";
+    return [self setUserInfo:MoblieView info:mobile];
+}
+
+//userInfo
+-(int64_t) userTrafficLimit
+{
+    NSString* str = [self userInfo:UserTrafficLimit];
+    if(!str)
+        return 0;
+    else
+        return [str longLongValue];
+}
+-(BOOL) setUserTrafficLimit:(int64_t)ver
+{
+    NSString* info = [NSString stringWithFormat:@"%lld",ver];
+    return [self setUserInfo:UserTrafficLimit info:info];
+}
+- (NSString*) userTrafficLimitString
+{
+    int64_t used = [self userTrafficLimit];
+    int64_t kb = used / 1024;
+    int64_t mb = kb / 1024;
+    if (mb == 0) {
+        return [NSString stringWithFormat:@"%lldkb",kb];
+    }
+    return  [NSString stringWithFormat:@"%lldM",mb];
+}
+//
+-(int64_t) userTrafficUsage
+{
+    NSString* str = [self userInfo:UserTrafficUsage];
+    if(!str)
+        return 0;
+    else
+        return [str longLongValue];
+}
+-(NSString*) userTrafficUsageString
+{
+    int64_t used = [self userTrafficUsage];
+    int64_t kb = used / 1024;
+    int64_t mb = kb / 1024;
+    if (mb == 0) {
+        return [NSString stringWithFormat:@"%lldkb",kb];
+    }
+    return  [NSString stringWithFormat:@"%lldM",mb];
+}
+-(BOOL) setuserTrafficUsage:(int64_t)ver
+{
+    NSString* info = [NSString stringWithFormat:@"%lld",ver];
+    return [self setUserInfo:UserTrafficUsage info:info];
+}
+//
+- (BOOL) setUserLevel:(int)ver
+{
+    NSString* level = [NSString stringWithFormat:@"%d",ver];
+    return [self setUserInfo:UserLevel info:level];
+}
+- (int) userLevel
+{
+    NSString* level = [self userInfo:UserLevel];
+    if (!level) {
+        return 0;
+    } else
+    {
+        return [level intValue];
+    }
+}
+//
+
+- (BOOL) setUserLevelName:(NSString*)levelName
+{
+    return [self setUserInfo:UserLevelName info:levelName];
+}
+
+- (NSString*) userLevelName
+{
+    return [self userInfo:UserLevelName];
+}
+//
+- (BOOL) setUserType:(NSString*)userType
+{
+    return [self setUserInfo:UserType info:userType];
+}
+- (NSString*) userType
+{
+    return [self userInfo:UserType];
+}
+//
+- (BOOL) setUserPoints:(int64_t)ver
+{
+    NSString* userPoints = [NSString stringWithFormat:@"%lld",ver];
+    return [self setUserInfo:UserPoints info:userPoints];
+}
+- (int64_t) userPoints
+{
+    NSString* userPoints = [self userInfo:UserPoints];
+    if(!userPoints)
+        return 0;
+    else
+        return [userPoints longLongValue];
+}
+- (NSString*) userPointsString
+{
+    return [self userInfo:UserPoints];
+}
+//
+
+
+
+
+
+
+//
+- (BOOL) updateDocument:(NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
 	NSString* title =[doc valueForKey:DataTypeUpdateDocumentTitle];
@@ -323,12 +517,12 @@ static WizDbManager* shareDbManager = nil;
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
 	return ret;
 }
-- (BOOL) updateDocumentsForKbGuid:(NSString *)kbGuid docs:(NSArray *)documents
+- (BOOL) updateDocuments:(NSArray *)documents
 {
 	for (NSDictionary* doc in documents)
 	{
 		@try {
-            [self updateDocumentForKbGuid:kbGuid doc:doc];
+            [self updateDocument:doc];
         }
         @catch (NSException *exception) {
             return NO;
@@ -340,6 +534,23 @@ static WizDbManager* shareDbManager = nil;
 	//
 	return YES;
 	
+}
+- (NSArray*) documentsFromWizDocumentDataArray: (const CWizDocumentDataArray&) arrayDocument
+{
+	NSMutableArray* arr = [NSMutableArray array];
+	//
+	for (CWizDocumentDataArray::const_iterator it = arrayDocument.begin();
+		 it != arrayDocument.end();
+		 it++)
+	{
+		WizNote* doc = [[WizNote alloc] initFromWizDocumentData:*it];
+		if (doc)
+		{
+			[arr addObject:doc];
+			[doc release];
+		}
+	}
+	return arr;
 }
 - (NSArray*) recentDocuments
 {
@@ -365,175 +576,10 @@ static WizDbManager* shareDbManager = nil;
 }
 - (NSArray*) documentsByKey: (NSString*)keywords
 {
-	//
 	CWizDocumentDataArray arrayDocument;
 	index.GetDocumentsByKey([keywords UTF8String], arrayDocument);
 	return [self documentsFromWizDocumentDataArray: arrayDocument];
 }
-
-//attachment
-//- (WizAttachment*) attachmentFromGUID:(NSString *)guid
-//{
-//    WIZDOCUMENTATTACH data;
-//    if (!index.AttachFromGUID([guid UTF8String], data)) {
-//        return nil;
-//    }
-//    WizAttachment* attachment = [[WizAttachment alloc] initFromWizAttachmentData:data];
-//    return [attachment autorelease];
-//}
-//- (BOOL) updateAttachment:(NSDictionary *)attachment
-//{
-//    NSString* guid = [attachment valueForKey:DataTypeUpdateAttachmentGuid];
-//    NSString* title = [attachment valueForKey:DataTypeUpdateAttachmentTitle];
-//    NSString* description = [attachment valueForKey:DataTypeUpdateAttachmentDescription];
-//    NSString* dataMd5 = [attachment valueForKey:DataTypeUpdateAttachmentDataMd5];
-//    NSString* documentGuid = [attachment valueForKey:DataTypeUpdateAttachmentDocumentGuid];
-//    NSNumber* localChanged = [attachment valueForKey:DataTypeUpdateAttachmentLocalChanged];
-//    NSNumber* serVerChanged = [attachment valueForKey:DataTypeUpdateAttachmentServerChanged];
-//    NSDate*   dateModified = [attachment valueForKey:DataTypeUpdateAttachmentDateModified];
-//    if (nil == title  || [title isBlock]) {
-//        title = WizStrNoTitle;
-//    }
-//    if (nil == description || [description isBlock]) {
-//        description = @"none";
-//    }
-//    if (nil == dataMd5 || [dataMd5 isBlock]) {
-//        dataMd5 = @"";
-//    }
-//    if (nil == documentGuid || [documentGuid isBlock]) {
-//        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"documentguid is nil" userInfo:nil];
-//        @throw ex;
-//    }
-//    if (nil == guid || [guid isBlock]) {
-//        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"guid is nil" userInfo:nil];
-//        @throw ex;
-//    }
-//    if (nil == dateModified) {
-//        dateModified = [NSDate date];
-//    }
-//    if (nil == localChanged) {
-//        localChanged = [NSNumber numberWithInt:0];
-//    }
-//    if (nil == serVerChanged) {
-//        serVerChanged = [NSNumber numberWithInt:1];
-//    }
-//    WIZDOCUMENTATTACH data;
-//    data.strAttachmentGuid = [guid UTF8String];
-//    data.strAttachmentName = [title UTF8String];
-//    data.strDataMd5 = [dataMd5 UTF8String];
-//    data.strDataModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
-//    data.strDescription = [description UTF8String];
-//    data.strDocumentGuid = [documentGuid UTF8String];
-//    data.loaclChanged = [localChanged boolValue];
-//    data.serverChanged = [serVerChanged boolValue];
-//    return index.updateAttachment(data);
-//}
-//
-//- (BOOL) updateAttachments:(NSArray *)attachments
-//{
-//    for (NSDictionary* doc in attachments)
-//	{
-//		@try {
-//            [self updateAttachment:doc];
-//        }
-//        @catch (NSException *exception) {
-//            return NO;
-//        }
-//        @finally {
-//            
-//        }
-//	}
-//	//
-//	return YES;
-//}
-//-(NSArray*) attachmentsFormWizDocumentAttachmentArray:(const CWizDocumentAttachmentArray&) array
-//{
-//    NSMutableArray* arr = [NSMutableArray array];
-//    for(CWizDocumentAttachmentArray::const_iterator it = array.begin();
-//        it != array.end();
-//        it++)
-//    {
-//        WizAttachment* attach = [[WizAttachment alloc] initFromWizAttachmentData:*it];
-//        if(attach)
-//        {
-//            [arr addObject:attach];
-//            [attach release];
-//        }
-//        
-//    }
-//    return arr;
-//}
-//- (NSArray*) attachmentsFromDocumentGuid:(NSString *)documentGUID
-//{
-//    CWizDocumentAttachmentArray arrayAttachment;
-//    if (!index.AttachmentsFromDocumentGUID([documentGUID UTF8String], arrayAttachment)) {
-//        return nil;
-//    }
-//    return [self attachmentsFormWizDocumentAttachmentArray:arrayAttachment];
-//}
-////tag
-//- (WizTag*) tagFromGUID:(NSString *)_guid
-//{
-//    WIZTAGDATA data;
-//    if (!index.TagFromGUID([_guid UTF8String], data)) {
-//        return nil;
-//    }
-//    WizTag* tag = [[WizTag alloc] initFromWizTagData:data];
-//    return [tag autorelease];
-//}
-//- (BOOL) updateTag: (NSDictionary*) tag
-//{
-//	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
-//	NSString* guid = [tag valueForKey:DataTypeUpdateTagParentGuid];
-//	NSString* parentGuid = [tag valueForKey:DataTypeUpdateTagParentGuid];
-//	NSString* description = [tag valueForKey:DataTypeUpdateTagDescription];
-//    NSNumber* version = [tag valueForKey:DataTypeUpdateTagVersion];
-//    NSDate* dtInfoModifed = [tag valueForKey:DataTypeUpdateTagDtInfoModifed];
-//    NSNumber* localChanged = [tag valueForKey:DataTypeUpdateTagLocalchanged];
-//	
-//    if (nil == localChanged) {
-//        localChanged = [NSNumber numberWithInt:0];
-//    }
-//    if (nil == dtInfoModifed) {
-//        dtInfoModifed = [NSDate date];
-//    }
-//    if (nil == guid) {
-//        return NO;
-//    }
-//    if (nil == description) {
-//        description = @"";
-//    }
-//    if (nil == parentGuid) {
-//        parentGuid = @"";
-//    }
-//    if (nil == version) {
-//        version = [NSNumber numberWithInt:0];
-//    }
-//	WIZTAGDATA data;
-//	data.strName = [name UTF8String];
-//	data.strGUID = [guid UTF8String];
-//    data.strParentGUID = [parentGuid UTF8String];
-//	data.strDescription= [description UTF8String];
-//    data.strDtInfoModified = [[WizGlobals dateToSqlString:dtInfoModifed] UTF8String];
-//    data.localchanged = [localChanged intValue];
-//	return index.UpdateTag(data) ? YES : NO;
-//}
-//- (BOOL) updateTags: (NSArray*) tags
-//{
-//	for (NSDictionary* tag in tags)
-//	{
-//		try 
-//		{
-//			[self updateTag:tag];
-//		}
-//		catch (...) 
-//		{
-//		}
-//	}
-//	//
-//	return YES;
-//}
-//delete
 - (BOOL) addDeletedGUIDRecord: (NSString*)guid type:(NSString*)type
 {
 	return index.LogDeletedGUID([guid UTF8String], [type UTF8String]) ? YES : NO;
@@ -555,58 +601,8 @@ static WizDbManager* shareDbManager = nil;
 {
     BOOL ret = index.DeleteDocument([documentGUID UTF8String]) ? YES: NO;
     if (ret) {
-//        NSArray* attachments = [self attachmentsFromDocumentGuid:documentGUID];
-//        NSString* documentDirectory = [WizFileManager objectDirectoryPath:documentGUID];
-//        if (![[NSFileManager defaultManager] removeItemAtPath:documentDirectory error:nil]) {
-//            NSLog(@"delete document error!");
-//        }
-//        for(WizAttachment* each in attachments)
-//        {
-//            [self deleteAttachment:each.guid];
-//        }
         [self addDeletedGUIDRecord:documentGUID type:WizDocumentKeyString];
     }
 	return ret;
 }
-- (BOOL) setGroupKbGuid:(NSString *)kbGuid  key:(NSString*)key
-{
-    return [self setMeta:TypeOfWizGroup key:key value:kbGuid];
-}
-- (NSString*) groupKbGuid:(NSString*)key
-{
-    return [self meta:TypeOfWizGroup key:key];
-}
-//- (BOOL) updateKbGuid:(NSDictionary*)kbGuidData
-//{
-//    int i = 0;
-//    NSString* guid = [kbGuidData valueForKey:DataTypeUpdateKbGuid];
-//    for (; i < NSIntegerMax; i++) {
-//        NSString* key = [NSString stringWithFormat:@"%d",i];
-//        NSString* existGuid = [self groupKbGuid:key];
-//        if (existGuid == nil || [existGuid isBlock]) {
-//            return [self setGroupKbGuid:guid key:key];
-//        }
-//        else {
-//            if ([existGuid isEqualToString:guid]) {
-//                return YES;
-//            }
-//        }
-//    }
-//    return YES;
-//}
-//- (BOOL) updateKbGuidDatas: (NSArray*) tags
-//{
-//	for (NSDictionary* kbData in tags)
-//	{
-//		try 
-//		{
-//			[self updateKbGuid:kbData];
-//		}
-//		catch (...) 
-//		{
-//		}
-//	}
-//	//
-//	return YES;
-//}
 @end

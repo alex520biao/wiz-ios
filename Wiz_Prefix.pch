@@ -7,4 +7,5 @@
     #import <UIKit/UIKit.h>
     #import "CommonString.h"
     #import "WizGlobals.h"
+    #import "WizDocument.h"
 #endif

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WizDbDelegate.h"
 
 // doc data type
 #define DataTypeUpdateDocumentGUID              @"document_guid"
@@ -46,45 +47,8 @@
 @class WizDocument;
 @class WizAttachment;
 @class WizTag;
-@interface WizDbManager : NSObject
+@interface WizDbManager : NSObject <WizDbDelegate>
+- (void) close;
 - (BOOL) isOpen;
 - (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath;
-- (void) close;
-//syncVersion
-- (int64_t) documentVersionForKbGuid:(NSString*)kbGuid;
-- (BOOL) setDocumentVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver;
-- (int64_t) attachmentVersionForKbGuid:(NSString*)kbGuid;
-- (BOOL) setAttachmentVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver;
-- (int64_t) tagVersionForKbGuid:(NSString*)kbGuid;
-- (BOOL) setTagVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver;
-- (BOOL) setDeleteVersionForKbGuid:(NSString*)kbGuid  version:(int64_t)ver;
-- (int64_t) deleteVersionForKbGuid:(NSString*)kbGuid;
-//
-- (BOOL) setPriveteKbGuid:(NSString*) kbGuid;
-- (NSString*) priveteKbGuid;
-- (BOOL) updateKbGuid:(NSDictionary*)kbGuidData;
-- (BOOL) updateKbGuidDatas: (NSArray*) tags;
-//
-- (BOOL) updateDocumentForKbGuid:(NSString*)kbGuid doc:(NSDictionary*) doc;
-- (BOOL) updateDocumentsForKbGuid:(NSString*)kbGuid docs: (NSArray*) documents;
-- (WizDocument*) documentFromGUID:(NSString*)guid;
-- (NSArray*) recentDocuments;
-- (NSArray*) documentsByTag: (NSString*)tagGUID;
-- (NSArray*) documentsByKey: (NSString*)keywords;
-//
-- (BOOL) updateAttachment:(NSDictionary*)attachment;
-- (BOOL) updateAttachments:(NSArray*)attachments;
-- (WizAttachment*) attachmentFromGUID:(NSString*)guid;
-- (NSArray*) attachmentsFromDocumentGuid:(NSString*)documentGUID;
-//
-+ (id) shareDbManager;
-// wiztag
-- (WizTag*) tagFromGUID:(NSString*)_guid;
-- (BOOL) updateTag: (NSDictionary*) tag;
-- (BOOL) updateTags: (NSArray*) tags;
-// delete
--(BOOL) deleteAttachment:(NSString *)attachGuid;
-- (BOOL) deleteTag:(NSString*)tagGuid;
-- (BOOL) deleteDocument:(NSString*)documentGUID;
-
 @end

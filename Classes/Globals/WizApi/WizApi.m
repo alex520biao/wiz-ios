@@ -12,6 +12,7 @@
 #import "XMLRPCRequest.h"
 #import "WizIndex.h"
 #import "WizNotification.h"
+#import "WizDocument.h"
 
 #define SyncMethod_ClientLogin                  @"accounts.clientLogin"
 #define SyncMethod_ClientLogout                 @"accounts.clientLogout"

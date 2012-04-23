@@ -17,4 +17,8 @@
 - (NSString*) accountPath;
 - (NSString*) dbPath;
 - (NSString*) tempDbPath;
+- (NSString*) documentIndexFile:(NSString*)documentGUID;
+- (NSString*) documentMobileFile:(NSString*)documentGuid;
+- (NSString*) documentAbstractFile:(NSString*)documentGUID;
+- (NSString*) documentFullFile:(NSString*)documentGUID;
 @end

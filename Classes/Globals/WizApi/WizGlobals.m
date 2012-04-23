@@ -11,6 +11,7 @@
 #import "WizGlobalData.h"
 #import "WizIndex.h"
 #include "stdio.h"
+#import "pinyin.h"
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 #define MD5PART 10*1024
 
@@ -176,6 +177,10 @@ static NSArray* excelArray;
     return s;  
 } 
 
++ (NSString*) pinyinFirstLetter:(NSString *)string
+{
+    return  [[NSString stringWithFormat:@"%c",pinyinFirstLetter([string characterAtIndex:0])] uppercaseString];
+}
 
 + (NSString*)documentMD5:(NSString *)documentGUID :(NSString*)accountUserId
 {

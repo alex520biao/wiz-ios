@@ -7,21 +7,17 @@
 //
 
 #import "WizSyncInfo.h"
-#import "WizIndex.h"
+#import "WizDbManager.h"
 #import "WizGlobalData.h"
 #import "WizSyncManager.h"
 
 @implementation WizSyncInfo
 @synthesize accountUserId;
 @synthesize busy;
+@synthesize dbDelegate;
 - (void) onCallGetUserInfo:(id)retObject
 {
-    NSDictionary* dic = retObject;
-    NSNumber* trafficLimit = [dic objectForKey:@"traffic_limit"];
-    NSNumber* trafficUsage = [dic objectForKey:@"traffic_usage"];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    [index setUserTrafficLimit:[trafficLimit intValue]];
-    [index setuserTrafficUsage:[trafficUsage intValue]];
+
 }
 - (int64_t) newVersion:(NSArray*)array
 {
@@ -74,39 +70,28 @@
 }
 -(void) onDownloadAttachmentList:(id)retObject {
     NSArray* attachArr = [self getArrayFromResponse:retObject];
-    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    int64_t oldVer = [index attachmentVersion];
-    [index updateAttachementList:attachArr];
+    int64_t oldVer = [self.dbDelegate attachmentVersion];
+    [self.dbDelegate updateAttachementList:attachArr];
     int64_t newVer = [self newVersion:attachArr];
     if (newVer > oldVer) {
-        [index setAttachmentVersion:newVer+1];
+        [self.dbDelegate setAttachmentVersion:newVer+1];
         [self callDownloadAttachmentList:newVer+1];
     }
-else {
-    NSArray* array = [index documentForDownload];
-    for(WizDocument* each in array)
-    {
-        [[WizSyncManager shareManager] downloadDocument:each.guid];
+    else {
     }
-    array = [index documentForUpload];
-    for(WizDocument* each in array)
-    {
-        [[WizSyncManager shareManager] uploadDocument:each.guid];
-    }}
 }
 -(void) onDownloadDocumentList: (id)retObject
 {
 	NSArray* obj = [self getArrayFromResponse:retObject];
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    int64_t oldVer =[index documentVersion];
-	[index updateDocuments:obj];
+    int64_t oldVer =[self.dbDelegate documentVersion];
+	[self.dbDelegate updateDocuments:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [index setDocumentVersion:newVer+1];
+        [self.dbDelegate setDocumentVersion:newVer+1];
         [self callDownloadDocumentList:newVer+1];
     }
     else {
-        [self callDownloadAttachmentList:[index attachmentVersion]];
+        [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
     }
 }
 - (void) onAllCategories: (id)retObject
@@ -119,9 +104,8 @@ else {
 	//
 	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
 	//
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index updateLocations:arrCategory];
-    [self callDownloadDocumentList:[index documentVersion]];
+	[self.dbDelegate updateLocations:arrCategory];
+    [self callDownloadDocumentList:[self.dbDelegate documentVersion]];
 }
 - (void) onPostTagList:(id)retObject
 {
@@ -133,29 +117,26 @@ else {
 -(void) onAllTags: (id)retObject
 {
 	NSArray* obj = [self getArrayFromResponse:retObject];
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    int64_t oldVer = [index tagVersion];
-    [index updateTags:obj];
+    int64_t oldVer = [self.dbDelegate tagVersion];
+    [self.dbDelegate updateTags:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [index setTageVersion:newVer+1];
+        [self.dbDelegate setTageVersion:newVer+1];
         [self callAllTags:newVer+1];
     }
     else {
-        [self callPostTagList:[index tagsWillPostList]];
+        [self callPostTagList:[self.dbDelegate tagsWillPostList]];
     }
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec
 {
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-	[index clearDeletedGUIDs];
+	[self.dbDelegate clearDeletedGUIDs];
     [self callAllTags:[index tagVersion]];
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
     NSArray* arr =[ self getArrayFromResponse:retObject];
-	WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    int64_t oldVer = [index deletedGUIDVersion];
+    int64_t oldVer = [self.dbDelegate deletedGUIDVersion];
 	int64_t newVer = 0;
 	for (NSDictionary* dict in arr)
 	{
@@ -165,28 +146,28 @@ else {
 		//
 		int64_t ver = [verString longLongValue];
 		//
-		if (ver > newVer)
-			newVer = ver;
-		//
-		if ([type isEqualToString:@"document"])
-		{
-			[index deleteDocument:guid];
-		}
-		else if ([type isEqualToString:@"tag"])
-		{
-			[index deleteTag:guid];
-		}
-        if ([type isEqualToString:@"attachment"])
-        {
-            [index deleteAttachment:guid];
-        }
+//		if (ver > newVer)
+//			newVer = ver;
+//		//
+//		if ([type isEqualToString:@"document"])
+//		{
+//			[self.dbDelegate deleteDocument:guid];
+//		}
+//		else if ([type isEqualToString:@"tag"])
+//		{
+//			[index deleteTag:guid];
+//		}
+//        if ([type isEqualToString:@"attachment"])
+//        {
+//            [index deleteAttachment:guid];
+//        }
 	}
     if (newVer > oldVer) {
-        [index setDeletedGUIDVersion:newVer+1];
+        [self.dbDelegate setDeletedGUIDVersion:newVer+1];
         [self callDownloadDeletedList:newVer+1];
     }
     else {
-        [self callUploadDeletedGUIDs:[index deletedGUIDsForUpload]];
+        [self callUploadDeletedGUIDs:[self.dbDelegate deletedGUIDsForUpload]];
     }
 }
 - (BOOL) startSync

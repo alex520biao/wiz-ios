@@ -97,6 +97,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (UIView*) noNotesRemindFor:(NSString*)string;
 //
 + (NSInteger)fileLength:(NSString*)path;
++ (NSString*) pinyinFirstLetter:(NSString *)string;
 @end
 
 

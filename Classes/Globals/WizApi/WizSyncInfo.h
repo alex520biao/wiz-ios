@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "WizApi.h"
-@interface WizSyncInfo :WizApi 
+#import "WizDbDelegate.h"
+
+@interface WizSyncInfo :WizApi
 {
     NSString* accountUserId;
+    id <WizDbDelegate> dbDelegate;
     BOOL busy;
 }
 @property (readonly) BOOL busy;
 @property (nonatomic, retain) NSString* accountUserId;
+@property (nonatomic, retain) id<WizDbDelegate> dbDelegate;
 - (BOOL) startSync;
 @end

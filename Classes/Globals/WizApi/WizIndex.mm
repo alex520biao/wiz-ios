@@ -24,6 +24,9 @@
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 
+//struct
+#import "WizDocument.h"
+
 #define WizAbs(x) x>0?x:-x
 
 #define IMAGEABSTRACTTYPE @"IMAGE"
@@ -101,69 +104,6 @@ NSInteger compareTag(id location1, id location2, void*);
 
 @implementation WizDocument
 
-@synthesize guid;
-@synthesize title;
-@synthesize location;
-@synthesize url;
-@synthesize dateCreated;
-@synthesize dateModified;
-@synthesize type;
-@synthesize fileType;
-@synthesize attachmentCount;
-@synthesize tagGuids;
-@synthesize serverChanged;
-@synthesize localChanged;
-@synthesize dataMd5;
--(void) dealloc
-{
-	[guid release];
-	[title release];
-	[location release];
-	[url release];
-	[type release];
-	[fileType release];
-	[dateCreated release];
-	[dateModified release];
-    [tagGuids release];
-    [dataMd5 release];
-	//
-	[super dealloc];
-}
-
-- (NSComparisonResult) compareCreateDate:(WizDocument*)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
-}
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateCreated] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateCreated]];
-}
-- (NSComparisonResult) compareDate:(WizDocument *)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isLaterThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
-}
-- (NSComparisonResult) compareReverseDate:(WizDocument *)doc
-{
-    return [[WizGlobals sqlTimeStringToDate:self.dateModified] isEarlierThanDate:[WizGlobals sqlTimeStringToDate:doc.dateModified]];
-}
-
-- (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
-{
-    return [[WizIndex pinyinFirstLetter:self.title] compare:[WizIndex pinyinFirstLetter:doc.title]];
-}
-
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument *)doc
-{
-    NSComparisonResult ret = [[WizIndex pinyinFirstLetter:self.title] compare:[WizIndex pinyinFirstLetter:doc.title]];
-    if (ret == -1) {
-        return 1;
-    }
-    else if (ret == 1)
-    {
-        return -1;
-    }
-    return ret;
-}
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data
 {
 	if (self = [super init])
@@ -173,14 +113,15 @@ NSInteger compareTag(id location1, id location2, void*);
 		self.location        = [[[NSString alloc] initWithUTF8String: data.strLocation.c_str()] autorelease];
 		self.url             = [[[NSString alloc] initWithUTF8String: data.strURL.c_str()] autorelease];
 		self.type            = [[[NSString alloc] initWithUTF8String: data.strType.c_str()] autorelease]; 
-		self.fileType        = [[[NSString alloc] initWithUTF8String: data.strFileType.c_str()] autorelease]; 
-		self.dateCreated     = [[[NSString alloc] initWithUTF8String: data.strDateCreated.c_str()] autorelease];
-		self.dateModified    = [[[NSString alloc] initWithUTF8String: data.strDateModified.c_str()] autorelease];
+		self.fileType        = [[[NSString alloc] initWithUTF8String: data.strFileType.c_str()] autorelease];
+		self.dateCreated     = [WizGlobals sqlTimeStringToDate:[[[NSString alloc] initWithUTF8String: data.strDateCreated.c_str()] autorelease]];
+		self.dateModified    = [WizGlobals sqlTimeStringToDate:[[[NSString alloc] initWithUTF8String: data.strDateModified.c_str()] autorelease]];
         self.tagGuids           = [[[NSString alloc] initWithUTF8String: data.strTagGUIDs.c_str()] autorelease];
         self.dataMd5 = [[[NSString alloc] initWithUTF8String:data.strDataMd5.c_str()] autorelease];
 		self.attachmentCount = data.nAttachmentCount;
         self.serverChanged = data.nServerChanged?YES:NO;
         self.localChanged = data.nLocalChanged?YES:NO;
+        self.protected_ = data.nProtected?YES:NO;
 	}
 	return self;
 }
@@ -308,7 +249,6 @@ NSInteger compareTag(id location1, id location2, void*);
 	{
 		_indexData = [[WizIndexData alloc] init];
         _tempIndexData = [[WizTempIndexData alloc] init];
-		//
 		self.accountUserId = userId;
 	}
 	return self;
@@ -866,7 +806,6 @@ NSInteger compareTag(id location1, id location2, void*);
 	NSString* type = [doc valueForKey:@"document_type"];
 	NSString* fileType = [doc valueForKey:@"document_filetype"];
     NSNumber* nAttachmentCount = [doc valueForKey:@"document_attachment_count"];
-	//
 	//wiz-dzpqzb
     NSNumber* localChanged = [doc valueForKey:TypeOfUpdateDocumentLocalchanged];
 	WIZDOCUMENTDATA data;

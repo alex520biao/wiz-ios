@@ -734,7 +734,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "2658"
          endingLineNumber = "2658"
-         landmarkName = "-createZipByGuid:"
+         landmarkName = "+pinyinFirstLetter:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -760,7 +760,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "2490"
          endingLineNumber = "2490"
-         landmarkName = "-newAttachment:documentGUID:"
+         landmarkName = "+documentFilePath:documentGUID:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1055,7 +1055,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "601"
          endingLineNumber = "601"
-         landmarkName = "-tagsByDocumentGuid:"
+         landmarkName = "-allLocationsForTree"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1738,8 +1738,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "66"
          endingLineNumber = "66"
-         landmarkName = "-xmlrpcDone:isSucceeded:retObject:forMethod:"
-         landmarkType = "5">
+         landmarkName = "@implementation WizApi"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1944,8 +1944,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "360"
          endingLineNumber = "360"
-         landmarkName = "@implementation WizSyncManager"
-         landmarkType = "3">
+         landmarkName = "-uploadAttachment:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1970,7 +1970,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "311"
          endingLineNumber = "311"
-         landmarkName = "-removeUploadObject:"
+         landmarkName = "-startUpload"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -2172,19 +2172,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
-         timestampString = "356516277.847264"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
-         landmarkName = "-onDownloadAttachmentList:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncManager.m"
          timestampString = "356613936.580968"
          startingColumnNumber = "9223372036854775807"
@@ -2231,32 +2218,6 @@
          startingLineNumber = "434"
          endingLineNumber = "434"
          landmarkName = "-callDocumentPostSimpleData:withZipMD5:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
-         timestampString = "356518253.705739"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "90"
-         endingLineNumber = "90"
-         landmarkName = "-onDownloadAttachmentList:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
-         timestampString = "356521842.458372"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "136"
-         endingLineNumber = "136"
-         landmarkName = "-onAllTags:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

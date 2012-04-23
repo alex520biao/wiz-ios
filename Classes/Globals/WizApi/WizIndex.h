@@ -23,6 +23,7 @@ enum
 @class WizIndexData;
 @class ZipArchive;
 @class WizTempIndexData;
+@class WizDocument;
 @interface WizAbstract : NSObject {
 @private
     UIImage* image;
@@ -54,45 +55,6 @@ enum
 @property int localChanged;
 
 @end
-
-@interface WizDocument : NSObject 
-{
-	NSString* guid;
-	NSString* title;
-	NSString* location;
-	NSString* url;
-	NSString* dateCreated;
-	NSString* dateModified;
-	NSString* type;
-	NSString* fileType;
-    NSString* tagGuids;
-    NSString* dataMd5;
-    BOOL serverChanged;
-    BOOL localChanged;
-	int attachmentCount;
-}
-
-@property (nonatomic, retain) NSString* guid;
-@property (nonatomic, retain) NSString* title;
-@property (nonatomic, retain) NSString* location;
-@property (nonatomic, retain) NSString* url;
-@property (nonatomic, retain) NSString* dateCreated;
-@property (nonatomic, retain) NSString* dateModified;
-@property (nonatomic, retain) NSString* type;
-@property (nonatomic, retain) NSString* fileType;
-@property (nonatomic, retain) NSString* tagGuids;
-@property (nonatomic, retain) NSString* dataMd5;
-@property (assign) BOOL serverChanged;
-@property (assign) BOOL localChanged;
-@property int attachmentCount;
-- (NSComparisonResult) compareDate:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseDate:(WizDocument*) doc;
-- (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
-- (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
-@end
-
 @interface WizDeletedGUID : NSObject
 {
 	NSString* guid;

@@ -1,14 +1,14 @@
 //
-//  WizNote.h
+//  WizDocument.h
 //  Wiz
 //
-//  Created by MagicStudio on 12-4-21.
+//  Created by 朝 董 on 12-4-23.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
 #import "WizObject.h"
 
-@interface WizNote : WizObject
+@interface WizDocument : WizObject
 {
 	NSString* location;
 	NSString* url;
@@ -35,4 +35,12 @@
 @property (assign) BOOL localChanged;
 @property (assign) BOOL protected_;
 @property int attachmentCount;
+
+- (NSComparisonResult) compareDate:(WizDocument*) doc;
+- (NSComparisonResult) compareReverseDate:(WizDocument*) doc;
+- (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
+- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
+- (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
+- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
+
 @end

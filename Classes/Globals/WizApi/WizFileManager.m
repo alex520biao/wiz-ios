@@ -79,16 +79,26 @@
     [self ensurePathExists:indexFilesPath];
     return indexFilesPath;
 }
-- (NSString*) documentFile:(NSString*)documentGUID
+- (NSString*) documentFile:(NSString*)documentGUID fileName:(NSString*)fileName
 {
-	NSString* path = [self objectFilePath:documentGUID];
-	NSString* filename = [path stringByAppendingPathComponent:@"index.html"];
+    NSString* path = [self objectFilePath:documentGUID];
+	NSString* filename = [path stringByAppendingPathComponent:fileName];
 	return filename;
+}
+- (NSString*) documentIndexFile:(NSString*)documentGUID
+{
+	return [self documentFile:documentGUID fileName:@"index.html"];
 }
 - (NSString*) documentMobileFile:(NSString*)documentGuid
 {
-    NSString* path = [self accountPath];
-    NSString* filename = [path stringByAppendingPathComponent:@"wiz_mobile.html"];
-    return filename;
+    return [self documentFile:documentGuid fileName:@"wiz_mobile.html"];
+}
+- (NSString*) documentAbstractFile:(NSString*)documentGUID
+{
+    return [self documentFile:documentGUID fileName:@"wiz_abstract.html"];
+}
+- (NSString*) documentFullFile:(NSString*)documentGUID
+{
+    return [self documentFile:documentGUID fileName:@"wiz_full.html"];
 }
 @end
