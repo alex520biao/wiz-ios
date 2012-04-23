@@ -45,11 +45,13 @@ struct WIZDOCUMENTDATA
 	int nAttachmentCount;
 	int nServerChanged;
 	int nLocalChanged;
+    int nProtected;
 	//
 	WIZDOCUMENTDATA()
     : nAttachmentCount(0)
     , nServerChanged(0)
     , nLocalChanged(0)
+    , nProtected(0)
 	{
 		
 	}

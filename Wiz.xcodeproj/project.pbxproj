@@ -24,6 +24,10 @@
 		4495D52114BAB5870045F1EA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52014BAB5870045F1EA /* CFNetwork.framework */; };
 		4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */; };
 		4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4497AA7114B1971D002A2E4A /* CoreText.framework */; };
+		4A4F0D141542F02200767434 /* WizObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D131542F02200767434 /* WizObject.m */; };
+		4A4F0D1A1542F13F00767434 /* WizNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D191542F13F00767434 /* WizNote.m */; };
+		4A4F0D1D1542F35A00767434 /* WizDbManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D1C1542F35A00767434 /* WizDbManager.mm */; };
+		4A4F0D261542FEAB00767434 /* WizFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D251542FEAB00767434 /* WizFileManager.m */; };
 		4ADA02901536B9AD005F0ED8 /* WizAbstractCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */; };
 		730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1A14F78B8700707A07 /* loginBackgroud.png */; };
 		730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1C14F78B8700707A07 /* loginBackgroud@2x.png */; };
@@ -337,6 +341,14 @@
 		4495D52014BAB5870045F1EA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4497AA7114B1971D002A2E4A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		4A4F0D121542F02200767434 /* WizObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizObject.h; path = WizStruct/WizObject.h; sourceTree = "<group>"; };
+		4A4F0D131542F02200767434 /* WizObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizObject.m; path = WizStruct/WizObject.m; sourceTree = "<group>"; };
+		4A4F0D181542F13E00767434 /* WizNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNote.h; path = WizStruct/WizNote.h; sourceTree = "<group>"; };
+		4A4F0D191542F13F00767434 /* WizNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizNote.m; path = WizStruct/WizNote.m; sourceTree = "<group>"; };
+		4A4F0D1B1542F35900767434 /* WizDbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDbManager.h; path = WizDbManger/WizDbManager.h; sourceTree = "<group>"; };
+		4A4F0D1C1542F35A00767434 /* WizDbManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = WizDbManager.mm; path = WizDbManger/WizDbManager.mm; sourceTree = "<group>"; };
+		4A4F0D241542FEAB00767434 /* WizFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizFileManager.h; sourceTree = "<group>"; };
+		4A4F0D251542FEAB00767434 /* WizFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizFileManager.m; sourceTree = "<group>"; };
 		4ADA028E1536B9AD005F0ED8 /* WizAbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractCache.h; sourceTree = "<group>"; };
 		4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAbstractCache.m; sourceTree = "<group>"; };
 		730B2F1B14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/loginBackgroud.png; sourceTree = "<group>"; };
@@ -871,6 +883,26 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		4A4F0D101542EFCF00767434 /* WizStruct */ = {
+			isa = PBXGroup;
+			children = (
+				4A4F0D121542F02200767434 /* WizObject.h */,
+				4A4F0D131542F02200767434 /* WizObject.m */,
+				4A4F0D181542F13E00767434 /* WizNote.h */,
+				4A4F0D191542F13F00767434 /* WizNote.m */,
+			);
+			name = WizStruct;
+			sourceTree = "<group>";
+		};
+		4A4F0D231542FE7B00767434 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				4A4F0D241542FEAB00767434 /* WizFileManager.h */,
+				4A4F0D251542FEAB00767434 /* WizFileManager.m */,
+			);
+			name = FileManager;
+			sourceTree = "<group>";
+		};
 		4ACC39F5153FBDF8009D37DF /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -1055,6 +1087,8 @@
 		73A7842214F8CC22001387F6 /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
+				4A4F0D231542FE7B00767434 /* FileManager */,
+				4A4F0D101542EFCF00767434 /* WizStruct */,
 				73B46D28153FAA9D0049556F /* AccountCenter */,
 				739BE7AF153E521400057601 /* WizTools */,
 				735C1B93153C214C00A80353 /* SyncCenter */,
@@ -1063,6 +1097,8 @@
 				73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */,
 				73A7843C14F8CC22001387F6 /* WizIndex.h */,
 				73A7843D14F8CC22001387F6 /* WizIndex.mm */,
+				4A4F0D1B1542F35900767434 /* WizDbManager.h */,
+				4A4F0D1C1542F35A00767434 /* WizDbManager.mm */,
 			);
 			path = WizApi;
 			sourceTree = "<group>";
@@ -2061,6 +2097,10 @@
 				73B46D16153E77240049556F /* WizSyncInfo.m in Sources */,
 				73B46D2B153FAAD30049556F /* WizAccountManager.m in Sources */,
 				73F208B215415BA900787DDF /* WizSyncDescription.m in Sources */,
+				4A4F0D141542F02200767434 /* WizObject.m in Sources */,
+				4A4F0D1A1542F13F00767434 /* WizNote.m in Sources */,
+				4A4F0D1D1542F35A00767434 /* WizDbManager.mm in Sources */,
+				4A4F0D261542FEAB00767434 /* WizFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

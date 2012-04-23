@@ -14,7 +14,7 @@
 - (BOOL) findAccount: (NSString*)userId;
 - (NSString*) accountPasswordByUserId:(NSString *)userID;
 - (void) setDefalutAccount:(NSString*)accountUserId;
-- (void) registerActiveAccount:(NSString*)userId;
+- (BOOL) registerActiveAccount:(NSString*)userId;
 - (NSString*) activeAccountUserId;
 - (void) addAccount: (NSString*)userId password:(NSString*)password;
 - (NSString*) accountProtectPassword;

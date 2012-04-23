@@ -12,6 +12,8 @@
 #import "WizSyncManager.h"
 
 @implementation WizSyncInfo
+@synthesize accountUserId;
+@synthesize busy;
 - (void) onCallGetUserInfo:(id)retObject
 {
     NSDictionary* dic = retObject;

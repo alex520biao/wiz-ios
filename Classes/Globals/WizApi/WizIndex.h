@@ -132,7 +132,6 @@ enum
 
 @interface WizIndex : NSObject {
 	WizIndexData* _indexData;
-	//
     WizTempIndexData* _tempIndexData;
 	NSString* accountUserId;
 }

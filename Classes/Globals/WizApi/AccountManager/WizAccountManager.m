@@ -13,7 +13,8 @@
 #import "WizIndex.h"
 #import "WizGlobalData.h"
 #import "WizSyncManager.h"
-
+#import "WizFileManager.h"
+#import "WizDbManager.h"
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -131,12 +132,20 @@
 {
     [self writeSettings:KeyOfDefaultUserId value:accountUserId];
 }
-- (void) registerActiveAccount:(NSString*)userId
+- (BOOL) registerActiveAccount:(NSString*)userId
 {
     WizSyncManager* shareManager = [WizSyncManager shareManager];
     shareManager.accountUserId = userId;
     shareManager.accountPassword = [self accountPasswordByUserId:userId];
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    fileManager.accountUserId = userId;
+    WizDbManager* dbManager = [WizDbManager shareDbManager];
+    if(![dbManager openDb:[fileManager dbPath] tempDbFilePath:[fileManager tempDbPath]])
+    {
+        return NO;
+    }
     [self setDefalutAccount:userId];
+    return YES;
 }
 - (NSString*) activeAccountUserId
 {

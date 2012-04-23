@@ -2724,7 +2724,6 @@ static NSString* WizNoteAppVerSion              = @"wizNoteAppVerSion";
 {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
 	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    
     NSDate* date = [NSDate dateWithTimeIntervalSince1970:ftime];
     NSRange range = NSMakeRange(14, 5);
     NSString* ret = [[formatter stringFromDate:date] substringWithRange:range];

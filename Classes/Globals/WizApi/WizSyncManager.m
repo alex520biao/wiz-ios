@@ -64,6 +64,7 @@
 @synthesize token;
 @synthesize kbGuid;
 @dynamic syncDescription;
+@synthesize displayDelegate;
 static WizSyncManager* shareManager;
 
 - (NSString*) syncDescription
