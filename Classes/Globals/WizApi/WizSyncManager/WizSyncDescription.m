@@ -11,7 +11,6 @@
 @implementation WizSyncDescription
 @dynamic globalString;
 
-
 - (void) setGlobalString:(NSString *)_globalString
 {
     if (globalString == _globalString) {

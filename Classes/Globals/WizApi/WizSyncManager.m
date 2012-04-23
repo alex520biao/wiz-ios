@@ -14,6 +14,7 @@
 #import "WizDownloadObject.h"
 
 #import "WizSyncInfo.h"
+#import "WizDbManager.h"
 
 //
 #define ServerUrlFile           @"config.dat"
@@ -172,6 +173,7 @@ static WizSyncManager* shareManager;
     if (nil == nil || [data isKindOfClass:[WizSyncInfo class]]) {
         data = [[WizSyncInfo alloc] init];
         [data setAccountUserId:self.accountUserId];
+        [data setDbDelegate:[WizDbManager shareDbManager]];
         [syncData setObject:data forKey:SyncDataOfSyncInfo];
         [data release];
     }
@@ -295,17 +297,16 @@ static WizSyncManager* shareManager;
     NSString* guid = [obj valueForKey:SyncDataOfObjectGUID];
 
     BOOL ret;
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    if ([type isEqualToString:WizDocumentKeyString]) {
-//        ret = [uploader uploadDocument:[index documentFromGUID:guid]];
-//    }
-//    else if ([type isEqualToString:WizAttachmentKeyString])
-//    {
-//        ret =  [uploader uploadAttachment:[index attachmentFromGUID:guid]];
-//    }
-//    else {
-//        ret = NO;
-//    }
+    if ([type isEqualToString:WizDocumentKeyString]) {
+        ret = [uploader uploadDocument:[WizDocument documentFromDb:guid]];
+    }
+    else if ([type isEqualToString:WizAttachmentKeyString])
+    {
+        ret =  [uploader uploadAttachment:[WizAttachment attachmentFromDb:guid]];
+    }
+    else {
+        ret = NO;
+    }
     self.syncDescription = [NSString stringWithFormat:@"upload %@",guid];
     return ret;
 }
@@ -424,5 +425,13 @@ static WizSyncManager* shareManager;
         return NO;
     }
     return [syncInfo startSync];
+}
+
+//
+- (void) resignActive
+{
+    [downloadQueque removeAllObjects];
+    [errorQueque removeAllObjects];
+    [uploadQueque removeAllObjects];
 }
 @end

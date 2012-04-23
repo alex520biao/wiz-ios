@@ -21,5 +21,6 @@
 @property (nonatomic, retain) NSString* namePath;
 @property (nonatomic, retain) NSDate*   dateInfoModified;
 @property (assign) BOOL localChanged;
-- (id) initFromGuid:(NSString*)guid;
++ (WizTag*) tagFromDb:(NSString*)guid;
++ (void) deleteTag:(NSString*)tagGuid;
 @end

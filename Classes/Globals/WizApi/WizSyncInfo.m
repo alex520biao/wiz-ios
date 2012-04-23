@@ -143,27 +143,29 @@
 		//
 		int64_t ver = [verString longLongValue];
 		//
-//		if (ver > newVer)
-//			newVer = ver;
-//		//
-//		if ([type isEqualToString:@"document"])
-//		{
-//			[self.dbDelegate deleteDocument:guid];
-//		}
-//		else if ([type isEqualToString:@"tag"])
-//		{
-//			[index deleteTag:guid];
-//		}
-//        if ([type isEqualToString:@"attachment"])
-//        {
-//            [index deleteAttachment:guid];
-//        }
+		if (ver > newVer)
+			newVer = ver;
+		//
+		if ([type isEqualToString:@"document"])
+		{
+            [WizDocument deleteDocument:guid];
+		}
+		else if ([type isEqualToString:@"tag"])
+		{
+			[WizTag deleteTag:guid];
+		}
+        if ([type isEqualToString:@"attachment"])
+        {
+            [WizAttachment deleteAttachment:guid];
+        }
 	}
     if (newVer > oldVer) {
         [self.dbDelegate setDeletedGUIDVersion:newVer+1];
         [self callDownloadDeletedList:newVer+1];
     }
     else {
+        NSArray* array = [self.dbDelegate deletedGUIDsForUpload];
+        NSLog(@"%@",array);
         [self callUploadDeletedGUIDs:[self.dbDelegate deletedGUIDsForUpload]];
     }
 }

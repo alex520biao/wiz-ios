@@ -214,6 +214,7 @@ static WizDbManager* shareDbManager = nil;
 }
 - (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath
 {
+    NSLog(@"dbFilePath is %@",dbFilePath);
     bool indexIsOpen = index.Open([dbFilePath UTF8String]);
     bool tempIndexIsOpen = tempIndex.Open([tempDbFilePath UTF8String]);
     if (tempIndexIsOpen && indexIsOpen) {
@@ -896,7 +897,6 @@ static WizDbManager* shareDbManager = nil;
 - (NSArray*) deletedGUIDsForUpload
 {
     NSMutableArray* ret = [NSMutableArray array];
-    //
     NSArray* src = [self allDeletedGUIDs];
     for (WizDeletedGUID* guid in src)
     {

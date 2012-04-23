@@ -140,6 +140,8 @@
     WizFileManager* fileManager = [WizFileManager shareManager];
     fileManager.accountUserId = userId;
     WizDbManager* dbManager = [WizDbManager shareDbManager];
+    NSLog(@"userID is %@",userId);
+    NSLog(@"file db Path is %@",[fileManager dbPath]);
     if(![dbManager openDb:[fileManager dbPath] tempDbFilePath:[fileManager tempDbPath]])
     {
         return NO;
@@ -218,8 +220,12 @@
     [arr replaceObjectAtIndex:i withObject:account];
     [self writeSettings:KeyOfAccounts value:arr];
 }
-- (void) logoutAccount:(NSString*)userId
+- (void) logoutAccount
 {
+    WizDbManager* share = [WizDbManager shareDbManager];
+    [share close];
+    WizSyncManager* sync = [WizSyncManager shareManager];
+    [sync resignActive];
     [self setDefalutAccount:@""];
 }
 

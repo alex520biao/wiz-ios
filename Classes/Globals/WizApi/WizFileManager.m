@@ -12,6 +12,46 @@
 @implementation WizFileManager
 @synthesize accountUserId;
 
+//singleton
+static WizFileManager* shareManager = nil;
++ (id) shareManager;
+{
+    @synchronized(shareManager)
+    {
+        if (shareManager == nil) {
+            shareManager = [[super allocWithZone:NULL] init];
+        }
+        return shareManager;
+    }
+}
++ (id) allocWithZone:(NSZone *)zone
+{
+    return [[self shareManager] retain];
+}
+- (id) retain
+{
+    return self;
+}
+- (NSUInteger) retainCount
+{
+    return NSUIntegerMax;
+}
+- (id) copyWithZone:(NSZone*)zone
+{
+    return self;
+}
+- (id) autorelease
+{
+    return self;
+}
+- (oneway void) release
+{
+    return;
+}
+
+//
+
+
 +(NSString*) documentsPath
 {
 	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -48,12 +88,6 @@
 	[self ensurePathExists:path];
 	return path;
 }
-
-+ (id) shareManager
-{
-    return nil;
-}
-
 - (NSString*) dbPath
 {
     NSString* accountPath = [self accountPath];
@@ -176,5 +210,11 @@
     if(!ret) zipPath =nil;
     [zip release];
     return zipPath;
+}
+
+- (BOOL) removeObjectPath:(NSString*)guid
+{
+    NSString* objectPath = [self objectFilePath:guid];
+    return [self removeItemAtPath:objectPath error:nil];
 }
 @end

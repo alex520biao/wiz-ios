@@ -59,4 +59,15 @@ enum
 - (NSString*) documentAbstractFile;
 - (NSString*) documentFullFile;
 
+//
++ (NSArray*) recentDocuments;
++ (NSArray*) documentsByTag: (NSString*)tagGUID;
++ (NSArray*) documentsByKey: (NSString*)keywords;
++ (NSArray*) documentsByLocation: (NSString*)parentLocation;
++ (NSArray*) documentForUpload;
++ (WizDocument*) documentFromDb:(NSString*)guid;
+
+//
+- (NSArray*) tagDatas;
++ (void) deleteDocument:(NSString*)documentGUID;
 @end

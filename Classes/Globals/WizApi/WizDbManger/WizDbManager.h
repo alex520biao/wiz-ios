@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WizDbDelegate.h"
-
+#import "WizSettingsDbDelegate.h"
 // doc data type
 #define DataTypeUpdateDocumentGUID              @"document_guid"
 #define DataTypeUpdateDocumentTitle             @"document_title"
@@ -47,7 +47,7 @@
 @class WizDocument;
 @class WizAttachment;
 @class WizTag;
-@interface WizDbManager : NSObject <WizDbDelegate>
+@interface WizDbManager : NSObject <WizDbDelegate, WizSettingsDbDelegate>
 + (id) shareDbManager;
 - (void) close;
 - (BOOL) isOpen;

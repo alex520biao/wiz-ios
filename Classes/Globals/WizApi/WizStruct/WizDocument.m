@@ -97,6 +97,68 @@
     WizFileManager* share = [WizFileManager shareManager];
     return [share documentFullFile:self.guid];
 }
+//
+- (NSArray*) tagDatas
+{
+    if (self.tagGuids ==nil || [self.tagGuids isBlock]) {
+        return nil;
+    }
+    NSArray* tagGuidArray = [tagGuids componentsSeparatedByString:@"*"];
+    NSMutableArray* ret = [NSMutableArray array];
+    for(NSString* eachGuid in tagGuidArray)
+    {
+        if (eachGuid == nil || [eachGuid isEqualToString:@""]) {
+            continue;
+        }
+        WizTag* tag = [WizTag tagFromDb:eachGuid];
+        if (tag == nil) {
+            continue;
+        }
+        
+        [ret addObject:tag];
+    }
+    return ret;
+}
+//
++ (NSArray*) recentDocuments
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    return [share recentDocuments];
+}
++ (NSArray*) documentsByTag: (NSString*)tagGUID
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    return [share documentsByTag:tagGUID];
+}
++ (NSArray*) documentsByKey: (NSString*)keywords
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    return [share documentsByKey:keywords];
+}
++ (NSArray*) documentsByLocation: (NSString*)parentLocation
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    return [share documentsByLocation:parentLocation];
+}
++ (NSArray*) documentForUpload
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    return [share documentForUpload];
+}
++ (WizDocument*) documentFromDb:(NSString *)_guid
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    return [share documentFromGUID:_guid];
+}
 
+
+//
++ (void) deleteDocument:(NSString*)documentGUID
+{
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    [fileManager removeObjectPath:documentGUID];
+    WizDbManager* db = [WizDbManager shareDbManager];
+    [db deleteDocument:documentGUID];
+}
 
 @end

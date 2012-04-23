@@ -1,5 +1,5 @@
 //
-//  WizSettings.h
+//  WizSettingsDbDelegate.h
 //  Wiz
 //
 //  Created by 朝 董 on 12-4-23.
@@ -7,16 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WizSettingsDbDelegate.h"
 
+@protocol WizSettingsDbDelegate <NSObject>
 
-@interface WizSettings : NSObject
-{
-    id<WizSettingsDbDelegate> settingsDbDelegate;
-}
-@property (nonatomic, retain) id<WizSettingsDbDelegate> settingsDbDelegate;
-
-+ (id) defaultSettings;
 - (int64_t) wizDataBaseVersion;
 - (BOOL) setWizDataBaseVersion:(int64_t)ver;
 //settings

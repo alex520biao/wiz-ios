@@ -36,5 +36,7 @@
 - (void) downloadDocument:(NSString*)documentGUID;
 //
 - (BOOL) startSyncInfo;
+//
+- (void) resignActive;
 + (id) shareManager;
 @end

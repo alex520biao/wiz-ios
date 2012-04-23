@@ -29,7 +29,7 @@
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 
 #define KEYHIDDEN 209
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
@@ -918,7 +918,7 @@
     self.documentGUID = documentGUID_;
     self.titleTextFiled.text = title;
     self.bodyTextField.text = body;
-    WizDocument* doc = [WizDocumentFactory documentFromGuid:self.documentGUID];
+    WizDocument* doc = [WizDocument documentFromGuid:self.documentGUID];
 
 //    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:documentGUID_]];
     if (selectedTags == nil) {

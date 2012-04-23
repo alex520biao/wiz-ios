@@ -29,4 +29,6 @@
 - (NSString*) attachmentFilePath;
 - (BOOL) saveInfo;
 - (BOOL) saveData:(NSString*)filePath;
++ (void) deleteAttachment:(NSString*)attachmentGuid;
++ (WizAttachment*) attachmentFromDb:(NSString*)attachmentGuid;
 @end

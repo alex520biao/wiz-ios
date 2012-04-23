@@ -9,7 +9,7 @@
 #import "WizDocumentEdit.h"
 #import "WizDbManager.h"
 #import "WizFileManager.h"
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 @implementation WizDocumentEdit
 @synthesize editDelegate;
 
@@ -17,7 +17,7 @@
 {
     self = [super init];
     if (self) {
-        WizDocument* doc = [WizDocumentFactory documentFromGuid:documentGuid];
+        WizDocument* doc = [WizDocument documentFromDb:documentGuid];
         self.guid = doc.guid;
         self.title = doc.title;
         self.dateCreated = doc.dateCreated;

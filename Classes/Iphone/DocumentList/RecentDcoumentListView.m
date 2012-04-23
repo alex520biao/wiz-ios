@@ -16,7 +16,7 @@
 #import "WizNotification.h"
 #import "WizSync.h"
 #import "WizSyncManager.h"
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 @implementation RecentDcoumentListView
 
 
@@ -38,7 +38,7 @@
 */
 - (void) reloadDocuments
 {
-    NSMutableArray* arr = [[WizDocumentFactory recentDocuments] mutableCopy];
+    NSMutableArray* arr = [[WizDocument recentDocuments] mutableCopy];
     if (arr != nil)
     {
         self.sourceArray = arr;
@@ -54,7 +54,7 @@
 {
     self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    WizDocument* newDocument = [WizDocumentFactory documentFromGuid:documentGUID];
+    WizDocument* newDocument = [WizDocument documentFromGuid:documentGUID];
     WizSyncManager* sync = [WizSyncManager shareManager];
     self.title = sync.syncDescription;
     [sync uploadDocument:documentGUID];

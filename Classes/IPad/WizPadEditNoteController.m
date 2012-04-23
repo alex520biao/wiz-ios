@@ -19,7 +19,7 @@
 #import "WizPadCheckAttachments.h"
 #import "WizNotification.h"
 #import "WizDbManager.h"
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 
 #define titleInputTextFieldFrame CGRectMake(0.0,0.0,768,44)
 #define folderLabelFrame CGRectMake(0.0, 45, 768, 44)
@@ -651,7 +651,7 @@
 {
     [self buildView];
     self.isNewDocument = NO;
-    WizDocument* document = [WizDocumentFactory documentForUpload:self.documentGUID];
+    WizDocument* document = [WizDocument documentForUpload:self.documentGUID];
     NSString* documentTitle = [data valueForKey:TypeOfDocumentTitle];
     NSString* documentBody = [data valueForKey:TypeOfDocumentBody];
     self.titleInputTextField.text = documentTitle;

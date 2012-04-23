@@ -9,8 +9,6 @@
 #import "UserSttingsViewController.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "CommonString.h"
-#import "PickViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"
 #import "WizUserSettingCell.h"
@@ -20,6 +18,8 @@
 #import "CloudReview.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
+
+#import "WizSettings.h"
 
 #define ClearCacheTag          1201
 #define ChangePasswordTag 888
@@ -104,31 +104,13 @@
 }
 - (IBAction)setDownloadOnlyByWifi:(id)sender
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    [index setConnectOnlyViaWifi:self.connectViaWifiSwitch.on];
+ 
+    [[WizSettings defaultSettings] setConnectOnlyViaWifi:self.connectViaWifiSwitch.on];
 }
-- (IBAction)setAsDefaultUser:(id)sender
-{
-//    if ([[WizSettings accounts] count] > 1) {
-//        if (self.defaultUserSwitch.on) {
-//            [WizSettings setDefalutAccount:self.accountUserId];
-//        }
-//        else 
-//        {
-//            for (int i = 0 ; i < [[WizSettings accounts] count] ; i++)
-//            {
-//                NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
-//                if (![userId isEqualToString:self.accountUserId]) {
-//                    [WizSettings setDefalutAccount:userId];
-//                }
-//            }
-//        }
-//    }
-}
+
 - (IBAction)setMobileView:(id)sender
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    [index setDocumentMoblleView:self.mobileViewSwitch.on];
+    [[WizSettings defaultSettings]  setDocumentMoblleView:self.mobileViewSwitch.on];
 }
 - (void) cancelSettings
 {
@@ -251,18 +233,18 @@
 }
 - (void) logOutCurrentAccount
 {
-//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//    WizLog(@"will log out");
-//    WizIndex* index = [WizIndex activeIndex];
-//    [index close];
-//    if (WizDeviceIsPad()) {
-//        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-//        return;
-//    }
-//    else
-//    {
-//        [self.navigationController popToRootViewControllerAnimated:YES];
-//    }
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    WizLog(@"will log out");
+    WizAccountManager* manager = [WizAccountManager defaultManager];
+    [manager logoutAccount];
+    if ([WizGlobals WizDeviceIsPad]) {
+        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+        return;
+    }
+    else
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 - (void) buildNavItems
 {
@@ -279,32 +261,22 @@
     self.mbileViewCellLabel.text = NSLocalizedString(@"Mobile view" , nil);
     self.protectCellNameLabel.text = NSLocalizedString(@"App launch protection", nil);
     self.defaultUserLabel.text = NSLocalizedString(@"Set as default account", nil);
-//    WizIndex* index = [WizIndex activeIndex];
-//    self.mobileViewSwitch.on = [index isMoblieView];
-////    NSString* password = [WizSettings accountProtectPassword];
-////    if (password != nil && ![password isEqualToString:@""]) {
-////        self.accountProtectPassword = password;
-////        self.protectCellSwitch.on = YES;
-////    }
-////    else
-////    {
-////        self.protectCellSwitch.on = NO;
-////    }
-////    NSString* defaultUserID = [WizSettings activeAccountUserId];
-////    if (defaultUserID == nil) {
-////        defaultUserID = @"";
-////    }
-////    if ([self.accountUserId isEqualToString:defaultUserID]) {
-////        self.defaultUserSwitch.on = YES;
-////    }
-////    else
-////    {
-////        self.defaultUserSwitch.on = NO;
-////    }
-//    self.downloadDuration = [index durationForDownloadDocument];
-//    self.imageQulity = [index imageQualityValue];
-//    self.tablelistViewOption = [index userTablelistViewOption];
-//    self.connectViaWifiSwitch.on = [index connectOnlyViaWifi];
+    WizSettings* defaultSettings = [WizSettings defaultSettings];
+    self.mobileViewSwitch.on = [defaultSettings isMoblieView];
+//    NSString* password = [defaultSettings accountProtectPassword];
+//    if (password != nil && ![password isEqualToString:@""]) {
+//        self.accountProtectPassword = password;
+//        self.protectCellSwitch.on = YES;
+//    }
+//    else
+//    {
+//        self.protectCellSwitch.on = NO;
+//    }
+
+    self.downloadDuration = [defaultSettings durationForDownloadDocument];
+    self.imageQulity = [defaultSettings imageQualityValue];
+    self.tablelistViewOption = [defaultSettings userTablelistViewOption];
+    self.connectViaWifiSwitch.on = [defaultSettings connectOnlyViaWifi];
     self.connectViaWifiLabel.text = NSLocalizedString(@"Download notes only over WIFI", nil);
     self.connectViaWifiLabel.adjustsFontSizeToFitWidth = YES;
     
@@ -410,115 +382,115 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = [NSString stringWithFormat:@"Cell"];
-//    WizIndex* index = [WizIndex activeIndex];
+    WizSettings* defaultSettings = [WizSettings defaultSettings];
     WizUserSettingCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[[WizUserSettingCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-//    }
-//    cell.nameLabel.text = @"";
-//    cell.valueLabel.text = @"";
-//    cell.textLabel.text = @"";
-//    cell.textLabel.font = [UIFont systemFontOfSize:15];
-//    cell.detailTextLabel.text = @"";
-//    if (0 == indexPath.row && 0 == indexPath.section) {
-//        cell.nameLabel.text = WizStrUserId;
-//        cell.valueLabel.text = [[WizAccountManager defaultManager] activeAccountUserId];
-//        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
-//        return cell;
-//    }
-//    else  if (1 == indexPath.row && 0 == indexPath.section) {
-//        cell.nameLabel.text = NSLocalizedString(@"User Type", nil);
-//        cell.valueLabel.text =  NSLocalizedString([index userType], nil);
-//        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
-//        return cell;
-//    }
-//    else if ( 2 == indexPath.row && 0 == indexPath.section)
-//    {
-//        cell.nameLabel.text = NSLocalizedString(@"User Points", nil);
-//        cell.valueLabel.text = [index userPointsString];
-//        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
-//        return cell;
-//    }
-//    else if ( 3 == indexPath.row && 0 == indexPath.section)
-//    {
-//        cell.nameLabel.text = NSLocalizedString(@"Traffic Usage", nil);
-//        cell.valueLabel.text = [NSString stringWithFormat:@"%@/%@",[index userTrafficUsageString],[index userTrafficLimitString]];
-//        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
-//        return cell;
-//    }
-//    else if ( 4 == indexPath.row && 0 == indexPath.section)
-//    {
-//        cell.textLabel.text = WizStrChangePassword;
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//        return cell;
-//    }
-//    else if (5 == indexPath.row && 0 == indexPath.section)
-//    {
-//        cell.textLabel.text = NSLocalizedString(@"Remove account", nil);
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//        return cell;
-//    }
-//    else if ( 6== indexPath.row && 0 == indexPath.section)
-//    {
-//        return self.defaultUserCell;
-//    }
-//    else if (0 == indexPath.row && 1 == indexPath.section)
-//    {
-//        cell.nameLabel.text = NSLocalizedString(@"Notes sorted by", nil);
-//        cell.valueLabel.text  = [self.viewOptions objectAtIndex:(self.tablelistViewOption-1)];
-//        return cell;
-//    }
-//    else if (1 == indexPath.row && 1 == indexPath.section)
-//    {
-//        return self.mobileViewCell;
-//    }
-//    else if (0 == indexPath.row && 2 == indexPath.section)
-//    {
-//        cell.nameLabel.text = NSLocalizedString(@"Download notes data", nil);
-//        cell.valueLabel.text  = [self.downloadDurationData objectAtIndex:[self indexOfDownloadDuration:self.downloadDuration]];
-//        return cell;
-//    }
-//    else if (1 == indexPath.row && 2 == indexPath.section) {
-//        return self.connectViaWifiCell;
-//    }
-//    else if (0 == indexPath.row && 3 == indexPath.section)
-//    {
-//        cell.nameLabel.text = NSLocalizedString(@"Image size", nil);
-//        cell.valueLabel.text = [self.imageQualityData objectAtIndex:[self indexOfImageQuality:self.imageQulity]];
-//        return cell;
-//    }
-//    else if (1 == indexPath.row && 3 == indexPath.section)
-//    {
-//        cell.textLabel.text = NSLocalizedString(@"Clear cache",nil);
-//    }
-//    else if (2 == indexPath.row && 3 == indexPath.section)
-//    {
-//        return self.protectCell;
-//    }
-//    else if (0 == indexPath.row && 4 == indexPath.section)
-//    {
-//        cell.textLabel.text =NSLocalizedString( @"About WizNote", nil);
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//        return cell;
-//    }
-//    else if (1 == indexPath.row && 4 == indexPath.section)
-//    {
-//        cell.textLabel.text =NSLocalizedString( @"User Manual", nil);
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//        return cell;
-//    }
-//    else if (2 == indexPath.row && 4 == indexPath.section)
-//    {
-//        cell.textLabel.text =NSLocalizedString( @"Feedback", nil);
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//        return cell;
-//    }
-//    else if (3 == indexPath.row && 4 == indexPath.section)
-//    {
-//        cell.textLabel.text =WizStrRateWizNote;
-//        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//        return cell;
-//    }
+    if (cell == nil) {
+        cell = [[[WizUserSettingCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    }
+    cell.nameLabel.text = @"";
+    cell.valueLabel.text = @"";
+    cell.textLabel.text = @"";
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
+    cell.detailTextLabel.text = @"";
+    if (0 == indexPath.row && 0 == indexPath.section) {
+        cell.nameLabel.text = WizStrUserId;
+        cell.valueLabel.text = [[WizAccountManager defaultManager] activeAccountUserId];
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    else  if (1 == indexPath.row && 0 == indexPath.section) {
+        cell.nameLabel.text = NSLocalizedString(@"User Type", nil);
+        cell.valueLabel.text =  NSLocalizedString([defaultSettings userType], nil);
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    else if ( 2 == indexPath.row && 0 == indexPath.section)
+    {
+        cell.nameLabel.text = NSLocalizedString(@"User Points", nil);
+        cell.valueLabel.text = [defaultSettings userPointsString];
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    else if ( 3 == indexPath.row && 0 == indexPath.section)
+    {
+        cell.nameLabel.text = NSLocalizedString(@"Traffic Usage", nil);
+        cell.valueLabel.text = [NSString stringWithFormat:@"%@/%@",[defaultSettings userTrafficUsageString],[defaultSettings userTrafficLimitString]];
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    else if ( 4 == indexPath.row && 0 == indexPath.section)
+    {
+        cell.textLabel.text = WizStrChangePassword;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if (5 == indexPath.row && 0 == indexPath.section)
+    {
+        cell.textLabel.text = NSLocalizedString(@"Remove account", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if ( 6== indexPath.row && 0 == indexPath.section)
+    {
+        return self.defaultUserCell;
+    }
+    else if (0 == indexPath.row && 1 == indexPath.section)
+    {
+        cell.nameLabel.text = NSLocalizedString(@"Notes sorted by", nil);
+        cell.valueLabel.text  = [self.viewOptions objectAtIndex:(self.tablelistViewOption-1)];
+        return cell;
+    }
+    else if (1 == indexPath.row && 1 == indexPath.section)
+    {
+        return self.mobileViewCell;
+    }
+    else if (0 == indexPath.row && 2 == indexPath.section)
+    {
+        cell.nameLabel.text = NSLocalizedString(@"Download notes data", nil);
+        cell.valueLabel.text  = [self.downloadDurationData objectAtIndex:[self indexOfDownloadDuration:self.downloadDuration]];
+        return cell;
+    }
+    else if (1 == indexPath.row && 2 == indexPath.section) {
+        return self.connectViaWifiCell;
+    }
+    else if (0 == indexPath.row && 3 == indexPath.section)
+    {
+        cell.nameLabel.text = NSLocalizedString(@"Image size", nil);
+        cell.valueLabel.text = [self.imageQualityData objectAtIndex:[self indexOfImageQuality:self.imageQulity]];
+        return cell;
+    }
+    else if (1 == indexPath.row && 3 == indexPath.section)
+    {
+        cell.textLabel.text = NSLocalizedString(@"Clear cache",nil);
+    }
+    else if (2 == indexPath.row && 3 == indexPath.section)
+    {
+        return self.protectCell;
+    }
+    else if (0 == indexPath.row && 4 == indexPath.section)
+    {
+        cell.textLabel.text =NSLocalizedString( @"About WizNote", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if (1 == indexPath.row && 4 == indexPath.section)
+    {
+        cell.textLabel.text =NSLocalizedString( @"User Manual", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if (2 == indexPath.row && 4 == indexPath.section)
+    {
+        cell.textLabel.text =NSLocalizedString( @"Feedback", nil);
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
+    else if (3 == indexPath.row && 4 == indexPath.section)
+    {
+        cell.textLabel.text =WizStrRateWizNote;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        return cell;
+    }
     return cell;
 }
 
@@ -539,14 +511,14 @@
         [alert release];
         return;
     }
-//    self.accountProtectPassword = protectPassword;
-//    if (!self.protectCellSwitch.on) {
-//        [WizSettings setAccountProtectPassword:@""];
-//    }
-//    else
-//    {
-//        [WizSettings setAccountProtectPassword:self.accountProtectPassword];
-//    }
+    self.accountProtectPassword = protectPassword;
+    if (!self.protectCellSwitch.on) {
+        [[WizSettings defaultSettings] setAccountProtectPassword:@""];
+    }
+    else
+    {
+        [[WizSettings defaultSettings] setAccountProtectPassword:self.accountProtectPassword];
+    }
 }
 - (void) clearCache
 {
@@ -573,13 +545,13 @@
 }
 - (IBAction)setUserProtectPassword:(id)sender
 {
-//    if (self.protectCellSwitch.on) {
-//        [self setProtectPassword];
-//    }
-//    else
-//    {
-//        [WizSettings setAccountProtectPassword:@""];
-//    }
+    if (self.protectCellSwitch.on) {
+        [self setProtectPassword];
+    }
+    else
+    {
+        [[WizSettings defaultSettings] setAccountProtectPassword:@""];
+    }
 }
 
 #pragma mark - Table view delegate
@@ -773,40 +745,33 @@
 
 - (void) pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    if (pickerView.tag == ImageQualityTag) {
-//        self.imageQulity = [self imageQulityFormIndex:row];
-//        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationRight];
-//        [index setImageQualityValue:self.imageQulity];
-//    }
-//    else if (pickerView.tag == DownloadDurationTag)
-//    {
-//        self.downloadDuration = [self downloadDurationFromIndex:row];
-//        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationRight];
-//        [index setDurationForDownloadDocument:self.downloadDuration];
-//        if (self.downloadDuration == 0) {
-//            [index setDownloadDocumentData:NO];
-//        }
-//        else {
-//            [index setDownloadDocumentData:YES];
-//        }
-//    }
-//    else if (pickerView.tag == TableListViewOptionTag)
-//    {
-//        self.tablelistViewOption = row+1;
-//        if (self.tablelistViewOption != [index userTablelistViewOption]) {
-//            [index setUserTableListViewOption:self.tablelistViewOption];
-//            if ([WizGlobals WizDeviceIsPad]) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
-//            }
-//            else
-//            {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfDocumentlistWillReloadData object:nil]; 
-//            }
-//            
-//        }
-//        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
-//    }
+    if (pickerView.tag == ImageQualityTag) {
+        self.imageQulity = [self imageQulityFormIndex:row];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationRight];
+        [[WizSettings defaultSettings] setImageQualityValue:self.imageQulity];
+    }
+    else if (pickerView.tag == DownloadDurationTag)
+    {
+        self.downloadDuration = [self downloadDurationFromIndex:row];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationRight];
+        [[WizSettings defaultSettings] setDurationForDownloadDocument:self.downloadDuration];
+    }
+    else if (pickerView.tag == TableListViewOptionTag)
+    {
+        self.tablelistViewOption = row+1;
+        if (self.tablelistViewOption != [[WizSettings defaultSettings] userTablelistViewOption]) {
+            [[WizSettings defaultSettings] setUserTableListViewOption:self.tablelistViewOption];
+            if ([WizGlobals WizDeviceIsPad]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfChangeDocumentListOrderMethod object:nil];
+            }
+            else
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfDocumentlistWillReloadData object:nil]; 
+            }
+            
+        }
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
+    }
     self.tableView.scrollEnabled = YES;
     [pickerView removeFromSuperview];
 }

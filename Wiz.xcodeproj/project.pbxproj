@@ -47,7 +47,6 @@
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
-		7326AE9115452D3F00E531FB /* WizDocumentFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326AE9015452D3F00E531FB /* WizDocumentFactory.m */; };
 		7326AE9415452E1B00E531FB /* WizDocumentEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326AE9315452E1B00E531FB /* WizDocumentEdit.m */; };
 		732A5FC515244BEC0056090E /* userIcons.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC315244BEC0056090E /* userIcons.png */; };
 		732A5FC615244BEC0056090E /* userIcons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC415244BEC0056090E /* userIcons@2x.png */; };
@@ -382,8 +381,7 @@
 		7321310D15454AD70077F77E /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
 		7321310F15454BD50077F77E /* WizAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstract.h; path = WizStruct/WizAbstract.h; sourceTree = "<group>"; };
 		7321311015454BD50077F77E /* WizAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAbstract.m; path = WizStruct/WizAbstract.m; sourceTree = "<group>"; };
-		7326AE8F15452D3F00E531FB /* WizDocumentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentFactory.h; path = WizStruct/WizDocumentFactory.h; sourceTree = "<group>"; };
-		7326AE9015452D3F00E531FB /* WizDocumentFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentFactory.m; path = WizStruct/WizDocumentFactory.m; sourceTree = "<group>"; };
+		73213113154572100077F77E /* WizSettingsDbDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizSettingsDbDelegate.h; path = WizDbManger/WizSettingsDbDelegate.h; sourceTree = "<group>"; };
 		7326AE9215452E1B00E531FB /* WizDocumentEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentEdit.h; path = WizStruct/WizDocumentEdit.h; sourceTree = "<group>"; };
 		7326AE9315452E1B00E531FB /* WizDocumentEdit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentEdit.m; path = WizStruct/WizDocumentEdit.m; sourceTree = "<group>"; };
 		732A5FC315244BEC0056090E /* userIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = userIcons.png; sourceTree = "<group>"; };
@@ -913,8 +911,6 @@
 				73467DFA154506AE00ECF5F9 /* WizAttachment.m */,
 				73D455AD154508AB0003103F /* WizTag.h */,
 				73D455AE154508AB0003103F /* WizTag.m */,
-				7326AE8F15452D3F00E531FB /* WizDocumentFactory.h */,
-				7326AE9015452D3F00E531FB /* WizDocumentFactory.m */,
 				7326AE9215452E1B00E531FB /* WizDocumentEdit.h */,
 				7326AE9315452E1B00E531FB /* WizDocumentEdit.m */,
 				7321310F15454BD50077F77E /* WizAbstract.h */,
@@ -959,6 +955,17 @@
 				7321310D15454AD70077F77E /* WizSettings.m */,
 			);
 			name = WizSettings;
+			sourceTree = "<group>";
+		};
+		73213112154571B60077F77E /* WizDb */ = {
+			isa = PBXGroup;
+			children = (
+				4A4F0D1B1542F35900767434 /* WizDbManager.h */,
+				4A4F0D1C1542F35A00767434 /* WizDbManager.mm */,
+				73467DF71545036500ECF5F9 /* WizDbDelegate.h */,
+				73213113154572100077F77E /* WizSettingsDbDelegate.h */,
+			);
+			name = WizDb;
 			sourceTree = "<group>";
 		};
 		732403901541191200FDFE16 /* MainView */ = {
@@ -1127,6 +1134,7 @@
 		73A7842214F8CC22001387F6 /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
+				73213112154571B60077F77E /* WizDb */,
 				7321310A15454AC60077F77E /* WizSettings */,
 				4A4F0D231542FE7B00767434 /* FileManager */,
 				4A4F0D101542EFCF00767434 /* WizStruct */,
@@ -1136,9 +1144,6 @@
 				73A7842714F8CC22001387F6 /* WizDictionaryMessage.h */,
 				73A7843814F8CC22001387F6 /* WizGlobalDictionaryKey.h */,
 				73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */,
-				4A4F0D1B1542F35900767434 /* WizDbManager.h */,
-				73467DF71545036500ECF5F9 /* WizDbDelegate.h */,
-				4A4F0D1C1542F35A00767434 /* WizDbManager.mm */,
 			);
 			path = WizApi;
 			sourceTree = "<group>";
@@ -2143,7 +2148,6 @@
 				73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */,
 				73D455AF154508AB0003103F /* WizTag.m in Sources */,
 				73D455B81545130A0003103F /* NSString+WizString.m in Sources */,
-				7326AE9115452D3F00E531FB /* WizDocumentFactory.m in Sources */,
 				7326AE9415452E1B00E531FB /* WizDocumentEdit.m in Sources */,
 				7321310E15454AD70077F77E /* WizSettings.m in Sources */,
 				7321311115454BD50077F77E /* WizAbstract.m in Sources */,

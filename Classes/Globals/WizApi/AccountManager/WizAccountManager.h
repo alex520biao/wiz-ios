@@ -20,6 +20,6 @@
 - (NSString*) accountProtectPassword;
 - (void) setAccountProtectPassword:(NSString*)password;
 - (void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
-- (void) logoutAccount:(NSString*)userId;
+- (void) logoutAccount;
 - (void) removeAccount: (NSString*)userId;
 @end

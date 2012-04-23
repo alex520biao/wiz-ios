@@ -7,6 +7,7 @@
 //
 
 #import "WizTag.h"
+#import "WizDbManager.h"
 
 @implementation WizTag
 @synthesize parentGUID;
@@ -22,8 +23,13 @@
     [dateInfoModified release];
     [super dealloc];
 }
-- (id) initFromGuid:(NSString*)guid
++ (WizTag*) tagFromDb:(NSString*)guid
 {
     return nil;
+}
++ (void) deleteTag:(NSString*)tagGuid
+{
+    WizDbManager* db = [WizDbManager shareDbManager];
+    [db deleteTag:tagGuid];
 }
 @end

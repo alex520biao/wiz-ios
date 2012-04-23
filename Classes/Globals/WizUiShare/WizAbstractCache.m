@@ -12,6 +12,8 @@
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
+#import "WizDbManager.h"
+#import "WizFileManager.h"
 @implementation WizAbstractData
 
 @synthesize text, image;
@@ -162,73 +164,65 @@
 }
 - (WizAbstractData*) generateAbstractForDocument:(NSString*)documentGUID
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    WizDocument* doc = [index documentFromGUID:documentGUID];
-//    if (nil == doc) {
-//        return nil;
-//    }
-//    WizAbstract*   abstract = [index  abstractOfDocument:doc.guid];
-//    if (abstract == nil && ![index documentServerChanged:doc.guid]) {
-//        NSString* documentFilePath = [WizIndex documentFileName:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:doc.guid];
-//        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFilePath]) {
-//            [index extractSummary:documentGUID];
-//            abstract = [index abstractOfDocument:documentGUID];
-//        }
-//    }
-//    NSString* titleStr = doc.title;
-//    NSString* detailStr=@"";
-//    NSString* timeStr = @"";
-//    UIImage* abstractImage = nil;
-//    NSUInteger kOrderIndex = [index userTablelistViewOption];
-//    if (kOrderIndex == kOrderCreatedDate || kOrderIndex == kOrderReverseCreatedDate) {
-//        timeStr = doc.dateCreated;
-//    }
-//    else {
-//        timeStr = doc.dateModified;
-//    }
-//    timeStr = [timeStr stringByAppendingFormat:@"\n"];
-//    if ([index documentServerChanged:doc.guid]) {
-//        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,doc.location == nil? @"":[WizGlobals folderStringToLocal:doc.location]];
-//        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-//        NSArray* tags = [index tagsByDocumentGuid:doc.guid];
-//        for (WizTag* each in tags) {
-//            NSString* tagName = getTagDisplayName(each.title);
-//            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
-//        }
-//        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-//            if (nil != tagstr || tagstr.length > 0) {
-//                tagstr = [tagstr substringToIndex:tagstr.length-1];
-//                folder = [folder stringByAppendingString:tagstr];
-//            }
-//        }
-//        detailStr = folder;
-//        abstractImage = [UIImage imageNamed:@"documentWithoutData"];
-//    }
-//    else {
-//        detailStr = abstract.text;
-//        abstractImage = abstract.image;
-//    }
-//    if (abstractImage != nil) {
-//        titleStr = [self nameToDisplay:titleStr width:230];
-//    }
-//    else {
-//        titleStr = [self nameToDisplay:titleStr width:300];
-//    }
-//    titleStr = [titleStr stringByAppendingFormat:@"\n"];
-//    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[self getNameAttributes]];
-//    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[self getTimeAttributes]];
-//    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[self getDetailAttributes]];
-//    [nameAtrStr appendAttributedString:timeAtrStr];
-//    [nameAtrStr appendAttributedString:detailAtrStr];
-//    WizAbstractData* absData = [[WizAbstractData alloc] init];
-//    absData.text = nameAtrStr;
-//    absData.image = abstractImage;
-//    [timeAtrStr release];
-//    [detailAtrStr release];
-//    [nameAtrStr release];
-//    [data setObject:absData forKey:documentGUID];
-//    [absData release];
-//    return absData;
+    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
+    if (nil == doc) {
+        return nil;
+    }
+    WizAbstract*   abstract = [WizAbstract  abstractFromDb:doc.guid];
+    NSString* titleStr = doc.title;
+    NSString* detailStr=@"";
+    NSString* timeStr = @"";
+    UIImage* abstractImage = nil;
+    NSUInteger kOrderIndex = [[WizDbManager shareDbManager] userTablelistViewOption];
+    if (kOrderIndex == kOrderCreatedDate || kOrderIndex == kOrderReverseCreatedDate) {
+        timeStr = [WizGlobals dateToSqlString:doc.dateCreated];
+    }
+    else {
+        timeStr = [WizGlobals dateToSqlString:doc.dateModified];
+    }
+    timeStr = [timeStr stringByAppendingFormat:@"\n"];
+    if (doc.serverChanged) {
+        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,doc.location == nil? @"":[WizGlobals folderStringToLocal:doc.location]];
+        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
+        NSArray* tags = [doc tagDatas];
+        for (WizTag* each in tags) {
+            NSString* tagName = getTagDisplayName(each.title);
+            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+        }
+        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
+            if (nil != tagstr || tagstr.length > 0) {
+                tagstr = [tagstr substringToIndex:tagstr.length-1];
+                folder = [folder stringByAppendingString:tagstr];
+            }
+        }
+        detailStr = folder;
+        abstractImage = [UIImage imageNamed:@"documentWithoutData"];
+    }
+    else {
+        detailStr = abstract.text;
+        abstractImage = abstract.image;
+    }
+    if (abstractImage != nil) {
+        titleStr = [self nameToDisplay:titleStr width:230];
+    }
+    else {
+        titleStr = [self nameToDisplay:titleStr width:300];
+    }
+    titleStr = [titleStr stringByAppendingFormat:@"\n"];
+    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[self getNameAttributes]];
+    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[self getTimeAttributes]];
+    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[self getDetailAttributes]];
+    [nameAtrStr appendAttributedString:timeAtrStr];
+    [nameAtrStr appendAttributedString:detailAtrStr];
+    WizAbstractData* absData = [[WizAbstractData alloc] init];
+    absData.text = nameAtrStr;
+    absData.image = abstractImage;
+    [timeAtrStr release];
+    [detailAtrStr release];
+    [nameAtrStr release];
+    [data setObject:absData forKey:documentGUID];
+    [absData release];
+    return absData;
 }
 - (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID
 {

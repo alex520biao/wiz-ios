@@ -10,7 +10,7 @@
 
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 @implementation TagDocumentListView
 @synthesize tag;
 
@@ -47,7 +47,7 @@
 
 - (void) reloadDocuments
 {
-    self.sourceArray = [[[WizDocumentFactory documentsByTag:self.tag.guid] mutableCopy] autorelease];
+    self.sourceArray = [[[WizDocument documentsByTag:self.tag.guid] mutableCopy] autorelease];
     if([self.sourceArray count] == 0)
     {
         self.tableView.backgroundView = [WizGlobals noNotesRemindFor:NSLocalizedString(@"There is no note in this tag",nil)];

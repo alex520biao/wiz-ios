@@ -18,7 +18,7 @@
 #import "WizNotification.h"
 #import "pinyin.h"
 #import <ifaddrs.h>
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 #import "WizDbManager.h"
 
 #define WizNotFoundIndex    -2
@@ -50,7 +50,7 @@
 }
 - (NSArray*) reloadDocuments
 {
-    return [WizDocumentFactory recentDocuments];
+    return [WizDocument recentDocuments];
 }
 - (void) orderByReverseDate
 {

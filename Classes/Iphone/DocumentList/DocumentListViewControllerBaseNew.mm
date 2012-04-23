@@ -187,7 +187,7 @@
     }
     cell.interfaceOrientation = self.interfaceOrientation;
     cell.doc = doc;
-    [cell performSelectorOnMainThread:@selector(prepareForAppear) withObject:nil waitUntilDone:YES];
+    [cell prepareForAppear];
     return cell;
 }
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

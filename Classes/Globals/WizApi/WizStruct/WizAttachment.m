@@ -8,6 +8,7 @@
 
 #import "WizAttachment.h"
 #import "WizFileManager.h"
+#import "WizDbManager.h"
 
 @implementation WizAttachment
 @synthesize type;
@@ -44,5 +45,14 @@
 - (BOOL) saveData:(NSString*)filePath
 {
     return YES;
+}
++ (void) deleteAttachment:(NSString*)attachmentGuid
+{
+    WizDbManager* db = [WizDbManager shareDbManager];
+    [db deleteAttachment:attachmentGuid];
+}
++ (WizAttachment*) attachmentFromDb:(NSString *)attachmentGuid
+{
+    return [[WizDbManager shareDbManager] attachmentFromGUID:attachmentGuid];
 }
 @end

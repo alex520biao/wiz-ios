@@ -12,7 +12,7 @@
 #import "TTTAttributedLabel.h"
 #import "WizGlobals.h"
 #import "CommonString.h"
-#import "WizDocumentFactory.h"
+#import "WizDocument.h"
 #define CellWithImageFrame CGRectMake(10,10,225,70) 
 #define CellWithoutImageFrame CGRectMake(10,10,300,70)
 @interface WizTableViewCell()
@@ -173,7 +173,7 @@ static NSMutableDictionary* timeAttributes;
 - (void) drawRect:(CGRect)rect
 {
 //    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    WizDocument* doc = [WizDocumentFactory documentFromGuid:documemtGuid];
+    WizDocument* doc = [WizDocument documentFromGuid:documemtGuid];
     WizAbstract* abstract = nil;
     NSMutableAttributedString* nameStr = [self decorateNameString:doc.title];
     NSMutableAttributedString* timeStr = [self decorateTimeString:doc.dateModified];
