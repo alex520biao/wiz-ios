@@ -314,6 +314,7 @@
 		73C59EE0151C25B500715995 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 73C59EE2151C25B500715995 /* InfoPlist.strings */; };
 		73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CAAA1C14EA388500D5FF9B /* MessageUI.framework */; };
 		73D455AF154508AB0003103F /* WizTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D455AE154508AB0003103F /* WizTag.m */; };
+		73D455B81545130A0003103F /* NSString+WizString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D455B71545130A0003103F /* NSString+WizString.m */; };
 		73E7647B153D6FE30089D5FF /* WizRefreshToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E7647A153D6FE30089D5FF /* WizRefreshToken.m */; };
 		73E9BA6615205C2E0033A1FE /* dialog_title1.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E9BA6815205C2E0033A1FE /* dialog_title1.png */; };
 		73E9BA6915205C320033A1FE /* dialog_title1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E9BA6B15205C320033A1FE /* dialog_title1@2x.png */; };
@@ -770,6 +771,8 @@
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		73D455AD154508AB0003103F /* WizTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTag.h; path = WizStruct/WizTag.h; sourceTree = "<group>"; };
 		73D455AE154508AB0003103F /* WizTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizTag.m; path = WizStruct/WizTag.m; sourceTree = "<group>"; };
+		73D455B61545130A0003103F /* NSString+WizString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+WizString.h"; path = "WizTools/NSString+WizString.h"; sourceTree = "<group>"; };
+		73D455B71545130A0003103F /* NSString+WizString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+WizString.m"; path = "WizTools/NSString+WizString.m"; sourceTree = "<group>"; };
 		73E76479153D6FE30089D5FF /* WizRefreshToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizRefreshToken.h; path = WizSyncManager/WizRefreshToken.h; sourceTree = "<group>"; };
 		73E7647A153D6FE30089D5FF /* WizRefreshToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizRefreshToken.m; path = WizSyncManager/WizRefreshToken.m; sourceTree = "<group>"; };
 		73E9BA6715205C2E0033A1FE /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/dialog_title1.png; sourceTree = "<group>"; };
@@ -1054,6 +1057,8 @@
 				739BE7B1153E524100057601 /* NSArray+WizTools.m */,
 				73EEF494153E650300481029 /* WizGlobalError.h */,
 				73EEF495153E650300481029 /* WizGlobalError.m */,
+				73D455B61545130A0003103F /* NSString+WizString.h */,
+				73D455B71545130A0003103F /* NSString+WizString.m */,
 			);
 			name = WizTools;
 			sourceTree = "<group>";
@@ -2115,6 +2120,7 @@
 				736EBAAB1544F76A00D97ACB /* WizDocument.m in Sources */,
 				73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */,
 				73D455AF154508AB0003103F /* WizTag.m in Sources */,
+				73D455B81545130A0003103F /* NSString+WizString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

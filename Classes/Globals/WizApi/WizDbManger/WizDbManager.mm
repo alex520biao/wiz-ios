@@ -9,20 +9,37 @@
 #import "WizDbManager.h"
 #import "index.h"
 #import "tempIndex.h"
-#import "WizNote.h"
-#define KeyOfSyncVersion   @"SYNC_VERSION"
-#define DocumentNameOfSyncVersion       @"DOCUMENT"
-#define DeletedGUIDNameOfSyncVersion    @"DELETED_GUID"
-#define TagVersion                      @"TAGVERSION"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
 #define TypeOfPrivateGroup              @"PRIVATE"
+//
+#define KeyOfSyncVersion               @"SYNC_VERSION"
+#define DocumentNameOfSyncVersion      @"DOCUMENT"
+#define DeletedGUIDNameOfSyncVersion   @"DELETED_GUID"
+#define TagVersion                     @"TAGVERSION"
+#define UserTrafficLimit               @"TRAFFICLIMIT"
+#define UserTrafficUsage               @"TRAFFUCUSAGE"
+#define KeyOfUserInfo                  @"USERINFO"
+#define UserLevel                      @"USERLEVEL"
+#define UserLevelName                  @"USERLEVELNAME"
+#define UserType                       @"USERTYPE"
+#define UserPoints                     @"USERPOINTS"
+#define AttachmentVersion              @"ATTACHMENTVERSION"
+#define MoblieView                     @"MOBLIEVIEW"
+#define DurationForDownloadDocument    @"DURATIONFORDOWLOADDOCUMENT"
+#define WebFontSize                    @"WEBFONTSIZE"
+#define DatabaseVesion                 @"DATABASE"
+#define ImageQuality                   @"IMAGEQUALITY"
+#define ProtectPssword                 @"PROTECTPASSWORD"
+#define FirstLog                       @"UserFirstLog"
+#define UserTablelistViewOption        @"UserTablelistViewOption"
+#define WizNoteAppVerSion              @"wizNoteAppVerSion"
+#define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
 @interface WizDocument(InitFromDb)
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data;
 @end
 @implementation WizDocument(InitFromDb)
-
 - (id) initFromWizDocumentData: (const WIZDOCUMENTDATA&) data
 {
     self = [super init];
@@ -45,8 +62,52 @@
 	}
 	return self;
 }
+@end
+
+@interface WizTag (InitFromDb)
+- (id) initFromWizTagData:(const WIZTAGDATA&) data;
+@end
+
+@implementation WizTag (InitFromDb)
+- (id) initFromWizTagData:(const WIZTAGDATA &)data
+{
+    self = [super init];
+    if (self) {
+        self.guid = [NSString stringWithCString:data.strGUID.c_str() encoding:NSUTF8StringEncoding];
+        self.title = [NSString stringWithCString:data.strName.c_str() encoding:NSUTF8StringEncoding];
+        self.namePath = [NSString stringWithCString:data.strNamePath.c_str() encoding:NSUTF8StringEncoding];
+        self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
+        self.parentGUID = [NSString stringWithCString:data.strParentGUID.c_str() encoding:NSUTF8StringEncoding];
+        self.dateInfoModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDtInfoModified.c_str() encoding:NSUTF8StringEncoding]];
+        self.localChanged = data.localchanged ? YES:NO;
+    }
+    return self;
+}
+@end
+
+@interface WizAttachment (InitFromDb)
+- (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH&) data;
+@end
+@implementation WizAttachment
+
+- (id) initFromWizAttachmentData:(const WIZDOCUMENTATTACH &)data
+{
+    self = [super init];
+    if (self) {
+        self.guid = [NSString stringWithCString:data.strAttachmentGuid.c_str() encoding:NSUTF8StringEncoding];
+        self.title = [NSString stringWithCString:data.strAttachmentName.c_str() encoding:NSUTF8StringEncoding];
+        self.dateMd5 = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
+        self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
+        self.documentGuid = [NSString stringWithCString:data.strDocumentGuid.c_str() encoding:NSUTF8StringEncoding];
+        self.dateModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDataModified.c_str() encoding:NSUTF8StringEncoding]];
+        self.localChanged = data.loaclChanged?YES:NO;
+        self.serverChanged = data.serverChanged?YES:NO;
+    }
+    return  self;
+}
 
 @end
+
 @interface WizDbManager()
 {
     CIndex index;
@@ -116,15 +177,6 @@ static WizDbManager* shareDbManager = nil;
         index.Close();
         tempIndex.Close();
         return NO;
-    }
-}
-- (void) registerActiveAccount
-{
-    if ([[WizDbManager shareDbManager] isOpen]) {
-        [[WizDbManager shareDbManager] close];
-    }
-    if ([[WizDbManager shareDbManager] openDb]) {
-        
     }
 }
 //data
@@ -466,6 +518,14 @@ static WizDbManager* shareDbManager = nil;
 
 
 //
+- (WizDocument*) documentFromGUID:(NSString*)documentGUID
+{
+	WIZDOCUMENTDATA data;
+	if (!index.DocumentFromGUID([documentGUID UTF8String], data))
+		return nil;
+	WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
+	return [doc autorelease];
+}
 - (BOOL) updateDocument:(NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
@@ -543,7 +603,7 @@ static WizDbManager* shareDbManager = nil;
 		 it != arrayDocument.end();
 		 it++)
 	{
-		WizNote* doc = [[WizNote alloc] initFromWizDocumentData:*it];
+		WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:*it];
 		if (doc)
 		{
 			[arr addObject:doc];
@@ -558,16 +618,15 @@ static WizDbManager* shareDbManager = nil;
 	index.GetRecentDocuments(arrayDocument);
 	return [self documentsFromWizDocumentDataArray: arrayDocument];
 }
-- (WizNote*) documentFromGUID:(NSString *)guid
+- (WizDocument*) documentFromGUID:(NSString *)guid
 {
     WIZDOCUMENTDATA data;
     if (!index.DocumentFromGUID([guid UTF8String], data)) {
         return nil;
     }
-    WizNote* doc = [[WizNote alloc] initFromWizDocumentData:data];
+    WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
     return [doc autorelease];
 }
-
 - (NSArray*) documentsByTag: (NSString*)tagGUID
 {
 	CWizDocumentDataArray arrayDocument;
@@ -580,6 +639,21 @@ static WizDbManager* shareDbManager = nil;
 	index.GetDocumentsByKey([keywords UTF8String], arrayDocument);
 	return [self documentsFromWizDocumentDataArray: arrayDocument];
 }
+- (NSArray*) documentsByLocation: (NSString*)parentLocation
+{
+	CWizDocumentDataArray arrayDocument;
+	index.GetDocumentsByLocation([parentLocation UTF8String], arrayDocument);
+	//
+	return [self documentsFromWizDocumentDataArray: arrayDocument];
+}
+- (NSArray*) documentForUpload
+{
+	CWizDocumentDataArray arrayDocument;
+	index.GetDocumentsForUpdate(arrayDocument);
+	//
+	return [self documentsFromWizDocumentDataArray: arrayDocument];	
+}
+//
 - (BOOL) addDeletedGUIDRecord: (NSString*)guid type:(NSString*)type
 {
 	return index.LogDeletedGUID([guid UTF8String], [type UTF8String]) ? YES : NO;
@@ -605,4 +679,134 @@ static WizDbManager* shareDbManager = nil;
     }
 	return ret;
 }
+- (BOOL) updateTag: (NSDictionary*) tag
+{
+	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
+	NSString* guid = [tag valueForKey:DataTypeUpdateTagParentGuid];
+	NSString* parentGuid = [tag valueForKey:DataTypeUpdateTagParentGuid];
+	NSString* description = [tag valueForKey:DataTypeUpdateTagDescription];
+    NSNumber* version = [tag valueForKey:DataTypeUpdateTagVersion];
+    NSDate* dtInfoModifed = [tag valueForKey:DataTypeUpdateTagDtInfoModifed];
+    NSNumber* localChanged = [tag valueForKey:DataTypeUpdateTagLocalchanged];
+	
+    if (nil == localChanged) {
+        localChanged = [NSNumber numberWithInt:0];
+    }
+    if (nil == dtInfoModifed) {
+        dtInfoModifed = [NSDate date];
+    }
+    if (nil == guid) {
+        return NO;
+    }
+    if (nil == description) {
+        description = @"";
+    }
+    if (nil == parentGuid) {
+        parentGuid = @"";
+    }
+    if (nil == version) {
+        version = [NSNumber numberWithInt:0];
+    }
+	WIZTAGDATA data;
+	data.strName = [name UTF8String];
+	data.strGUID = [guid UTF8String];
+    data.strParentGUID = [parentGuid UTF8String];
+	data.strDescription= [description UTF8String];
+    data.strDtInfoModified = [[WizGlobals dateToSqlString:dtInfoModifed] UTF8String];
+    data.localchanged = [localChanged intValue];
+	return index.UpdateTag(data) ? YES : NO;
+}
+- (BOOL) updateTags: (NSArray*) tags
+{
+	for (NSDictionary* tag in tags)
+	{
+		try 
+		{
+			[self updateTag:tag];
+		}
+		catch (...) 
+		{
+		}
+	}
+	//
+	return YES;
+}
+
+//
+- (WizAttachment*) attachmentFromGUID:(NSString *)guid
+{
+    WIZDOCUMENTATTACH data;
+    if (!index.AttachFromGUID([guid UTF8String], data)) {
+        return nil;
+    }
+    WizAttachment* attachment = [[WizAttachment alloc] initFromWizAttachmentData:data];
+    return [attachment autorelease];
+}
+- (BOOL) updateAttachment:(NSDictionary *)attachment
+{
+    NSString* guid = [attachment valueForKey:DataTypeUpdateAttachmentGuid];
+    NSString* title = [attachment valueForKey:DataTypeUpdateAttachmentTitle];
+    NSString* description = [attachment valueForKey:DataTypeUpdateAttachmentDescription];
+    NSString* dataMd5 = [attachment valueForKey:DataTypeUpdateAttachmentDataMd5];
+    NSString* documentGuid = [attachment valueForKey:DataTypeUpdateAttachmentDocumentGuid];
+    NSNumber* localChanged = [attachment valueForKey:DataTypeUpdateAttachmentLocalChanged];
+    NSNumber* serVerChanged = [attachment valueForKey:DataTypeUpdateAttachmentServerChanged];
+    NSDate*   dateModified = [attachment valueForKey:DataTypeUpdateAttachmentDateModified];
+    if (nil == title  || [title isBlock]) {
+        title = WizStrNoTitle;
+    }
+    if (nil == description || [description isBlock]) {
+        description = @"none";
+    }
+    if (nil == dataMd5 || [dataMd5 isBlock]) {
+        dataMd5 = @"";
+    }
+    if (nil == documentGuid || [documentGuid isBlock]) {
+        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"documentguid is nil" userInfo:nil];
+        @throw ex;
+    }
+    if (nil == guid || [guid isBlock]) {
+        NSException* ex = [NSException exceptionWithName:WizUpdateError reason:@"guid is nil" userInfo:nil];
+        @throw ex;
+    }
+    if (nil == dateModified) {
+        dateModified = [NSDate date];
+    }
+    if (nil == localChanged) {
+        localChanged = [NSNumber numberWithInt:0];
+    }
+    if (nil == serVerChanged) {
+        serVerChanged = [NSNumber numberWithInt:1];
+    }
+    WIZDOCUMENTATTACH data;
+    data.strAttachmentGuid = [guid UTF8String];
+    data.strAttachmentName = [title UTF8String];
+    data.strDataMd5 = [dataMd5 UTF8String];
+    data.strDataModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
+    data.strDescription = [description UTF8String];
+    data.strDocumentGuid = [documentGuid UTF8String];
+    data.loaclChanged = [localChanged boolValue];
+    data.serverChanged = [serVerChanged boolValue];
+    return index.updateAttachment(data);
+}
+
+- (BOOL) updateAttachments:(NSArray *)attachments
+{
+    for (NSDictionary* doc in attachments)
+	{
+		@try {
+            [self updateAttachment:doc];
+        }
+        @catch (NSException *exception) {
+            return NO;
+        }
+        @finally {
+            
+        }
+	}
+	//
+	return YES;
+}
+
+
 @end

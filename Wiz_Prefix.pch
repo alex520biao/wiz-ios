@@ -8,4 +8,6 @@
     #import "CommonString.h"
     #import "WizGlobals.h"
     #import "WizDocument.h"
+    #import "WizAttachment.h"
+    #import "WizTag.h"
 #endif

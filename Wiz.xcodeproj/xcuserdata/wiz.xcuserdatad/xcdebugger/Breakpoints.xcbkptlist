@@ -2047,9 +2047,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "195"
-         endingLineNumber = "195"
-         landmarkName = "-startSync"
-         landmarkType = "5">
+         endingLineNumber = "195">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -2061,7 +2059,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "148"
          endingLineNumber = "148"
-         landmarkName = "-onUploadDeletedGUIDs:"
+         landmarkName = "-onDownloadDeletedList:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -2074,7 +2072,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "97"
          endingLineNumber = "97"
-         landmarkName = "-onDownloadDocumentList:"
+         landmarkName = "-onAllCategories:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -2139,7 +2137,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "107"
          endingLineNumber = "107"
-         landmarkName = "-onDownloadDocumentList:"
+         landmarkName = "-onAllCategories:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -2152,7 +2150,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "102"
          endingLineNumber = "102"
-         landmarkName = "-onDownloadDocumentList:"
+         landmarkName = "-onAllCategories:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -2335,6 +2333,19 @@
          startingLineNumber = "168"
          endingLineNumber = "168"
          landmarkName = "-addAccount:password:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizDbManger/WizDbManager.mm"
+         timestampString = "356848509.028884"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "521"
+         endingLineNumber = "521"
+         landmarkName = "-updateDocument:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

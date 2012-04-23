@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WizTools/NSArray+WizTools.h"
 #import "WizGlobalError.h"
+#import "NSString+WizString.h"
 #define _DEBUG
 #ifdef _DEBUG
 #else

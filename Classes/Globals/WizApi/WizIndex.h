@@ -33,28 +33,6 @@ enum
 @property (nonatomic, retain) NSString* text;
 @end
 
-
-
-@interface WizTag : NSObject
-{
-	NSString* name;
-	NSString* guid;
-	NSString* parentGUID;
-	NSString* description;
-	NSString* namePath;
-    int       localChanged;
-    NSString*   dtInfoModified;
-}
-
-@property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSString* guid;
-@property (nonatomic, retain) NSString* parentGUID;
-@property (nonatomic, retain) NSString* description;
-@property (nonatomic, retain) NSString* namePath;
-@property (nonatomic, retain) NSString*   dtInfoModified;
-@property int localChanged;
-
-@end
 @interface WizDeletedGUID : NSObject
 {
 	NSString* guid;
@@ -68,29 +46,6 @@ enum
 
 
 @end
-
-@interface WizDocumentAttach : NSObject {
-    NSString* attachmentGuid;
-    NSString* attachmentType;
-    NSString* attachmentName;
-    NSString* attachmentDataMd5;
-    NSString* attachmentDescription;
-    NSString* attachmentModifiedDate;
-    NSString* attachmentDocumentGuid;
-    BOOL      serverChanged;
-    BOOL      localChanged;
-}
-@property (nonatomic, retain) NSString* attachmentGuid;
-@property (nonatomic, retain) NSString* attachmentType;
-@property (nonatomic, retain) NSString* attachmentName;
-@property (nonatomic, retain) NSString* attachmentDataMd5;
-@property (nonatomic, retain) NSString* attachmentDescription;
-@property (nonatomic, retain) NSString* attachmentModifiedDate;
-@property (nonatomic, retain) NSString* attachmentDocumentGuid;
-@property (assign) BOOL      serverChanged;
-@property (assign) BOOL      localChanged;
-@end
-
 
 @interface WizIndex : NSObject {
 	WizIndexData* _indexData;

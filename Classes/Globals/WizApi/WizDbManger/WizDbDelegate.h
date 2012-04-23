@@ -72,10 +72,8 @@
 - (int64_t) userPoints;
 - (NSString*) userPointsString;
 //
-
 - (BOOL) updateDocuments:(NSArray *)documents;
-- (NSArray*) documentsFromWizDocumentDataArray: (const CWizDocumentDataArray&) arrayDocument;
-- (NSArray*) recentDocumentsk;
+- (NSArray*) recentDocuments;
 - (WizDocument*) documentFromGUID:(NSString *)guid;
 - (NSArray*) documentsByTag: (NSString*)tagGUID;
 - (NSArray*) documentsByKey: (NSString*)keywords;
@@ -83,4 +81,16 @@
 - (BOOL) deleteAttachment:(NSString *)attachGuid;
 - (BOOL) deleteTag:(NSString*)tagGuid;
 - (BOOL) deleteDocument:(NSString*)documentGUID;
+
+
+
+
+//tag
+- (BOOL) updateTag: (NSDictionary*) tag;
+- (BOOL) updateTags: (NSArray*) tags;
+
+//attachment
+- (BOOL) updateAttachment:(NSDictionary *)attachment;
+- (BOOL) updateAttachments:(NSArray *)attachments;
+
 @end
