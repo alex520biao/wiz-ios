@@ -17,6 +17,8 @@
 #import "WizSync.h"
 #import "WizSyncManager.h"
 #import "WizDocument.h"
+#import "WizDbManager.h"
+#import "WizSettings.h"
 @implementation RecentDcoumentListView
 
 
@@ -160,12 +162,11 @@
         [searchFooter addSubview:remind];
         [remind release];
     }
-//    WizIndex* index = [WizIndex activeIndex];
-//    if ([index isFirstLog] ) {
-//        [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:NO];
-//        [self startLoading];
-//        [index setFirstLog:YES];
-//    }
+    if ([[WizSettings defaultSettings] isFirstLog] ) {
+        [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [self startLoading];
+        [[WizSettings defaultSettings] setFirstLog:YES];
+    }
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -178,7 +179,7 @@
 {
     self = [super init];
     if (self) {
-        [WizNotificationCenter addObserverWithKey:self selector:@selector(addNewDocument:) name:MessageTypeOfNewDocument];
+        [WizNotificationCenter addObserverForNewDocument:self selector:@selector(addNewDocument:)];
     }
     return self;
 }

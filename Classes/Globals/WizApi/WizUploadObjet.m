@@ -192,17 +192,11 @@
 }
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizDocumentEdit* document = [[WizDocumentEdit alloc] initFromGuid:self.objectGUID];
-    [document setLocalChanged:NO];
-    [document  saveInfo];
-    [document release];
+    [WizDocumentEdit setDocumentLocalChanged:self.objectGUID changed:NO];
 }
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    WizAttachment* attach = [[WizAttachment alloc] initFromGuid:self.objectGUID];
-    attach.localChanged = NO;
-    [attach saveInfo];
-    [attach release];
+    [WizAttachment setAttachmentLocalChanged:self.objectGUID changed:NO];
 }
 -(void) onError: (id)retObject
 {

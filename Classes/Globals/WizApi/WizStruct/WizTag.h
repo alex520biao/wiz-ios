@@ -23,4 +23,5 @@
 @property (assign) BOOL localChanged;
 + (WizTag*) tagFromDb:(NSString*)guid;
 + (void) deleteTag:(NSString*)tagGuid;
+- (BOOL) save;
 @end

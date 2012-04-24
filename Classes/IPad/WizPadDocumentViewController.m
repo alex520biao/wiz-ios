@@ -154,7 +154,6 @@
 - (void) newNote
 {
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
-    newNote.accountUserId = self.accountUserId;
     NSMutableDictionary* data = [NSMutableDictionary dictionary];
     if (TypeOfLocation == self.listType) {
         [data setObject:self.documentListKey forKey:TypeOfSelectedFolder];
@@ -440,7 +439,6 @@
     [data setObject:[self.webView bodyText] forKey:TypeOfDocumentBody];
     [data setObject:doc.title forKey:TypeOfDocumentTitle];
     edit.documentGUID = selectedDocumentGUID;
-    edit.accountUserId = accountUserId;
     [edit prepareEditingData:data];
     
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];

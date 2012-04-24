@@ -636,7 +636,15 @@ static WizDbManager* shareDbManager = nil;
     BOOL ret = index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
     return ret;
 }
-
+- (BOOL) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed
+{
+    if (changed) {
+        [self deleteAbstractByGUID:documentGUID];
+        [self extractSummary:documentGUID];
+    }
+    [WizNotificationCenter postUpdateDocument:documentGUID];
+    return index.SetDocumentLocalChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
+}
 - (BOOL) updateDocument:(NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
@@ -685,7 +693,6 @@ static WizDbManager* shareDbManager = nil;
     else {
         data.nServerChanged = [serverChanged intValue];
     }
-    [self documentServerChanged:guid changed:[serverChanged boolValue]];
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
 	return ret;
 }
@@ -823,6 +830,15 @@ static WizDbManager* shareDbManager = nil;
     }
     return [[tags copy] autorelease];
 }
+-(WizTag*) tagFromGuid:(NSString *)guid
+{
+    WIZTAGDATA tagData;
+    if (!index.TagFromGUID([guid UTF8String], tagData)) {
+        return nil;
+    }
+    WizTag* tag = [[[WizTag alloc] initFromWizTagData:tagData] autorelease];
+    return tag;
+}
 - (BOOL) updateTag: (NSDictionary*) tag
 {
 	NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
@@ -877,6 +893,35 @@ static WizDbManager* shareDbManager = nil;
 }
 
 //
+-(NSArray*) attachmentsFormWizDocumentAttachmentArray:(const CWizDocumentAttachmentArray&) array
+{
+    NSMutableArray* arr = [NSMutableArray array];
+    for(CWizDocumentAttachmentArray::const_iterator it = array.begin();
+        it != array.end();
+        it++)
+    {
+        WizAttachment* attach = [[WizAttachment alloc] initFromWizAttachmentData:*it];
+        if(attach)
+        {
+            [arr addObject:attach];
+            [attach release];
+        }
+        
+    }
+    return arr;
+}
+-(NSArray*) attachmentsByDocumentGUID:(NSString*) documentGUID
+{
+    //
+    CWizDocumentAttachmentArray arrayAttachment;
+    index.AttachmentsFromDocumentGUID([documentGUID UTF8String], arrayAttachment);
+    //
+    return [self attachmentsFormWizDocumentAttachmentArray: arrayAttachment];
+}
+- (BOOL) setAttachmentLocalChanged:(NSString *)attchmentGUID changed:(BOOL)changed
+{
+    return index.SetAttachmentLocalChanged([attchmentGUID UTF8String], changed? true : false) ? YES: NO;
+}
 - (BOOL) setAttachmentServerChanged:(NSString *)attchmentGUID changed:(BOOL)changed
 {
     return index.SetAttachmentServerChanged([attchmentGUID UTF8String], changed? true : false) ? YES: NO;
@@ -988,8 +1033,7 @@ static WizDbManager* shareDbManager = nil;
     }
     NSData* abstractImageData = nil;
     NSString* abstractText = nil;
-    
-    
+
     NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
     NSString* removeTitle = [sourceStr stringReplaceUseRegular:@"<title.*title>"];
     NSString* removeStyle = [removeTitle stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];

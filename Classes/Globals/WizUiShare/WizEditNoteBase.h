@@ -8,34 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
+#import "WizDocumentEdit.h"
 
+#define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 @class ELCImagePickerController;
-@interface WizEditNoteBase : UIViewController<AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>
+@interface WizEditNoteBase : UIViewController<AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizDocumentEditDelegate>
 {
-    @private
-    AVAudioRecorder *recorder;
-	AVAudioSession *session;
-    NSTimer* timer;
-    NSMutableString* currentRecodingFilePath;
+    WizDocumentEdit* docEdit;
     float currentTime;
-    NSMutableArray* attachmentSourcePath;
-    @public
-    NSString* accountUserId;
-    NSString* editDocumentGuid;
+    NSMutableArray* picturesArray;
+    NSMutableArray* audiosArray;
 }
-@property (retain) AVAudioRecorder* recorder;
-@property (retain) AVAudioSession* session;
-@property (nonatomic, retain) NSString* accountUserId;
-@property (nonatomic, retain)  NSString* editDocumentGuid;
-@property (retain) NSTimer* timer;
-@property (nonatomic, retain)  NSMutableString* currentRecodingFilePath;
-@property (nonatomic, retain) NSMutableArray* attachmentSourcePath;
-@property float currentTime;
+@property (nonatomic, retain)  WizDocumentEdit* docEdit;
+@property (nonatomic, retain)  NSMutableArray* picturesArray;
+@property (nonatomic, retain)  NSMutableArray* audiosArray;
+@property (readonly) float currentTime;
 - (void) audioStartRecode;
--(void) audioStopRecord;
--(float) updateTime;
--(void) updateAttachment:(NSString*) filePath;
--(UIImagePickerController*) takePhotoViewSelcevted;
--(ELCImagePickerController*) photoViewSelected;
+- (void) audioStopRecord;
+- (BOOL) takePhoto;
+-(BOOL) selectePhotos;
+- (void) attachmentAddDone;
 @end

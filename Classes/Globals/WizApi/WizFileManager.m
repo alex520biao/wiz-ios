@@ -9,6 +9,7 @@
 #import "WizFileManager.h"
 #import "WizGlobalData.h"
 #import "ZipArchive.h"
+#define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 @implementation WizFileManager
 @synthesize accountUserId;
 
@@ -109,7 +110,7 @@ static WizFileManager* shareManager = nil;
 - (NSString*) documentIndexFilesPath:(NSString*)documentGUID
 {
     NSString* documentFilePath = [self accountPath];
-    NSString* indexFilesPath = [documentFilePath stringByAppendingPathComponent:@"index_files"];
+    NSString* indexFilesPath = [[documentFilePath stringByAppendingPathComponent:documentGUID] stringByAppendingPathComponent:@"index_files"];
     [self ensurePathExists:indexFilesPath];
     return indexFilesPath;
 }
@@ -229,5 +230,41 @@ static WizFileManager* shareManager = nil;
 {
     NSString* objectPath = [self objectFilePath:guid];
     return [self removeItemAtPath:objectPath error:nil];
+}
+//editDocumentAndAttachment
+- (NSString*) attachmentTempDirectory
+{
+    return [self objectFilePath:ATTACHMENTTEMPFLITER];
+}
+- (NSString*)getAttachmentSourceFileName
+{
+    NSString* ret = @"";
+    NSString* dateString = [[NSDate date] stringSql];
+    NSString* objectPath = [self attachmentTempDirectory];
+    for (int i = 0;;i++) {
+        NSString* dateAppend = [NSString stringWithString:dateString];
+        if (i != 0) {
+            dateAppend = [dateString stringByAppendingFormat:@"%d",i];
+        }
+        ret = [objectPath stringByAppendingPathComponent:dateAppend];
+        
+        NSArray* fileExist = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
+        BOOL fileNotExist = YES;
+        for (NSString* each in fileExist) {
+            NSArray* nameArray = [each componentsSeparatedByString:@"."];
+            for (NSString* ea in nameArray) {
+                if ([ea isEqualToString:dateAppend]) {
+                    fileNotExist = NO;
+                }
+            }
+        }
+        if (fileNotExist) {
+            break;
+        }
+        else {
+            continue;
+        }
+    }
+    return ret;
 }
 @end

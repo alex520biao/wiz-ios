@@ -25,7 +25,29 @@
 }
 + (WizTag*) tagFromDb:(NSString*)guid
 {
-    return nil;
+    return [[WizDbManager shareDbManager] tagFromGuid:guid];
+}
+- (BOOL) save
+{
+    if (nil == self.guid || [self.guid isBlock]) {
+        self.guid = [WizGlobals genGUID];
+    }
+    NSMutableDictionary* tag = [NSMutableDictionary dictionary];
+    
+    [tag setObject:self.guid forKey:DataTypeUpdateTagGuid];
+    [tag setObject:self.title forKey:DataTypeUpdateTagTitle];
+    [tag setObject:self.description forKey:DataTypeUpdateTagDescription];
+//    [tag setObject:self.namePath forKey:datatypeupdatetag]
+    [tag setObject:[NSNumber numberWithInt:1] forKey:DataTypeUpdateTagLocalchanged];
+    if (nil == self.dateInfoModified) {
+        self.dateInfoModified = [NSDate date];
+    }
+    [tag setObject:self.dateInfoModified forKey:DataTypeUpdateTagDtInfoModifed];
+    if (nil == parentGUID) {
+        self.parentGUID = @"";
+    }
+    [tag setObject:self.parentGUID forKey:DataTypeUpdateTagParentGuid];
+    return [[WizDbManager shareDbManager] updateTag:tag];
 }
 + (void) deleteTag:(NSString*)tagGuid
 {

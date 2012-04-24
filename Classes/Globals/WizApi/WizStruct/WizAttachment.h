@@ -25,11 +25,10 @@
 @property (nonatomic, retain)     NSString* documentGuid;
 @property (assign) BOOL      serverChanged;
 @property (assign) BOOL      localChanged;
-- (id) initFromGuid:(NSString*)attachmentGuid;
 - (NSString*) attachmentFilePath;
-- (BOOL) saveInfo;
 - (BOOL) saveData:(NSString*)filePath;
 + (void) deleteAttachment:(NSString*)attachmentGuid;
 + (WizAttachment*) attachmentFromDb:(NSString*)attachmentGuid;
++ (void) setAttachmentLocalChanged:(NSString*)attachmentGuid changed:(BOOL)changed;
 + (void) setAttachServerChanged:(NSString*)attachmentGUID changed:(BOOL)changed;
 @end

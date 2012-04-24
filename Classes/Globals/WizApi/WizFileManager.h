@@ -30,4 +30,6 @@
 //
 -(NSString*) createZipByGuid:(NSString*)objectGUID;
 -(BOOL) deleteFile:(NSString*)fileName;
+- (NSString*) attachmentTempDirectory;
+- (NSString*)getAttachmentSourceFileName;
 @end

@@ -18,16 +18,10 @@
     UIBarItem* infoBarItem;
     UIBarItem* editBarItem;
     UIBarItem* searchItem;
-    
     UISearchBar* searchDocumentBar;
-    
     UIAlertView* conNotDownloadAlert;
-    
     UIActivityIndicatorView* downloadActivity;
-    
-    
     BOOL isEdit;
-    
 }
 @property (nonatomic, retain) IBOutlet UIWebView* web;
 @property (nonatomic, retain) WizDocument* doc;

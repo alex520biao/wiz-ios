@@ -108,13 +108,9 @@
 }
 - (void) viewWillDisappear:(BOOL)animated
 {
-//    [super viewWillDisappear:animated];
-//    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-//        WizSyncByTag* syncByTag = [[WizGlobalData sharedData] syncByTagData:self.accountUserID];
-//        if(syncByTag.busy)
-//        {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:[syncByTag notificationName:WizGlobalStopSync] object: nil userInfo:nil];
-//        }
-//    }
+    [super viewWillDisappear:animated];
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+
+    }
 }
 @end

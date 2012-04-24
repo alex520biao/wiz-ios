@@ -16,26 +16,9 @@
 {
     [[WizDbManager shareDbManager] setDocumentServerChanged:documentGUID changed:changed];
 }
-- (id) initFromGuid:(NSString*)documentGuid
++ (void) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed
 {
-    self = [super init];
-    if (self) {
-        WizDocument* doc = [WizDocument documentFromDb:documentGuid];
-        self.guid = doc.guid;
-        self.title = doc.title;
-        self.dateCreated = doc.dateCreated;
-        self.dateModified = doc.dateCreated;
-        self.location = doc.location;
-        self.url = doc.url;
-        self.type = doc.type;
-        self.fileType = doc.fileType;
-        self.attachmentCount = doc.attachmentCount;
-        self.localChanged = doc.localChanged;
-        self.serverChanged = doc.serverChanged;
-        self.protected_ = doc.protected_;
-        self.dataMd5 = doc.dataMd5;
-    }
-    return self;
+    [[WizDbManager shareDbManager] setDocumentLocalChanged:documentGUID changed:changed];
 }
 - (NSString*) photoHtmlString:(NSString*)photoName
 {
@@ -142,7 +125,10 @@
         self.guid = [WizGlobals genGUID];
     }
     [self buildBody];
-    return [self saveInfo];
+    [self saveInfo];
+    [WizDocumentEdit setDocumentLocalChanged:self.guid changed:YES];
+    [WizDocumentEdit setDocumentServerchangedToDb:self.guid changed:NO];
+    return YES;
 }
 - (BOOL) saveInfo
 {

@@ -49,7 +49,10 @@
 -(void) newNote
 {
     NewNoteView* newNote= [[NewNoteView alloc]init];
-    [newNote prepareForNewDocument];
+    WizDocumentEdit* doc = [[WizDocumentEdit alloc] init];
+    doc.editDelegate = newNote;
+    newNote.docEdit = doc;
+    [doc release];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];

@@ -1156,6 +1156,8 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				73A7847914F8CC22001387F6 /* WizEditNoteBase.h */,
+				73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */,
 				4ADA028D1536B8B3005F0ED8 /* AbstractCache */,
 				737999A8150DB84B0029A967 /* Involution */,
 				73A7845114F8CC22001387F6 /* abstract */,
@@ -1175,8 +1177,6 @@
 				73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */,
 				73A7847714F8CC22001387F6 /* WizCheckProtectPassword.h */,
 				73A7847814F8CC22001387F6 /* WizCheckProtectPassword.m */,
-				73A7847914F8CC22001387F6 /* WizEditNoteBase.h */,
-				73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */,
 				73A7847B14F8CC22001387F6 /* WizInputView.h */,
 				73A7847C14F8CC22001387F6 /* WizInputView.m */,
 				73A7847D14F8CC22001387F6 /* WizNewTagCell.h */,

@@ -127,7 +127,6 @@
     [data setObject:self.doc.guid forKey:TypeOfDocumentGUID];
     [data setObject:[self.web bodyText] forKey:TypeOfDocumentBody];
     [newNote prepareForEdit:data];
-    
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];
@@ -175,10 +174,6 @@
 
 - (void) downloadProcess:(NSNotification*) nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* methodName = [userInfo objectForKey:@"sync_method_name"];
-    
-    //    [self.downloadProcessView setProgress:0.9*([current floatValue]/[total floatValue]) animated:YES];
     return;
 }
 
@@ -214,49 +209,48 @@
 - (void) downloadDocument
 {
     [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone)];
-    WizSyncManager* share =[WizSyncManager shareManager];
     [[WizSyncManager shareManager] downloadDocument:self.doc.guid];
     return;
 }
 - (void) checkDocument
 {
     self.web.scalesPageToFit = YES;
-    NSString* documentFileName = [self.doc documentMobileFile];
+    NSString* documentFileName = [self.doc documentIndexFile];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-//    if ([[WizSettings defaultSettings] isMoblieView]) {
-//        [self setDeviceWidth];
-//        if (![index documentMobileViewExist:self.doc.guid]) {
-//            NSString* documentType = self.doc.type;
-//            if (documentType!=nil) {
-//                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
-//                    [self setZoomWidth];
-//                }
-//            }
-//            else
-//            {
-//                NSString* url = self.doc.url;
-//                if (url != nil && url.length > 4) {
-//                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
-//                        [self setZoomWidth];
-//                    }
-//                }
-//            }
-//            
-//        }
-//    }
-//    else {
-//        [self setZoomWidth];
-//        NSString* url = self.doc.url;
-//        NSString* type = self.doc.type;
-//        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-//            [self setDeviceWidth];
-//        }
-//        if ([type isEqualToString:@"webnote"]) {
-//            if ([index checkWebnoteIsNew:documentFileName]) {
-//                [self setDeviceWidth];
-//            }
-//        }
-//    }
+    if ([[WizSettings defaultSettings] isMoblieView]) {
+        [self setDeviceWidth];
+        if (![self.doc isExistMobileViewFile]) {
+            NSString* documentType = self.doc.type;
+            if (documentType!=nil) {
+                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
+                    [self setZoomWidth];
+                }
+            }
+            else
+            {
+                NSString* url = self.doc.url;
+                if (url != nil && url.length > 4) {
+                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
+                        [self setZoomWidth];
+                    }
+                }
+            }
+            
+        }
+    }
+    else {
+        [self setZoomWidth];
+        NSString* url = self.doc.url;
+        NSString* type = self.doc.type;
+        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+            [self setDeviceWidth];
+        }
+        if ([type isEqualToString:@"webnote"]) {
+            if ([self.doc isNewWebnote]) {
+                [self setDeviceWidth];
+            }
+        }
+    }
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     [self.web loadRequest:req];
     [req release];
@@ -276,16 +270,7 @@
 }
 - (void) downloadDocumentDone
 {
-    NSString* documentFileName = [self.doc documentIndexFile];
     [self checkDocument];
-//    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:self.doc.guid]]) {
-//        if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-//            [self checkDocument];
-//        }
-//    }
-//    else {
-//        [self displayEncryInfo];
-//    }
 }
 
 - (void)viewDidUnload
@@ -334,6 +319,10 @@
     }
     
     NSString* documentFileName = [self.doc documentIndexFile];
+    if (self.doc.protected_) {
+        [self displayEncryInfo];
+        return;
+    }
     if (self.doc.serverChanged) {
         [self downloadDocument];
     }

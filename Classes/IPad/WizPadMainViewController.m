@@ -126,7 +126,6 @@
 {
     
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
-    newNote.accountUserId = self.accountUserId;
     NSMutableDictionary* data = [NSMutableDictionary dictionary];
     [newNote prepareNewDocumentData:data];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];

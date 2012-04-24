@@ -198,15 +198,13 @@
         if(kOrderDate == self.kOrder )
       {
           WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-          NSRange range = NSMakeRange(0, 7);
-          NSString* sectionTitle = [doc.dateModified substringWithRange:range];
+          NSString* sectionTitle = [doc.dateModified stringYearAndMounth];
           return sectionTitle;
       }
         else if ( kOrderCreatedDate == self.kOrder || kOrderReverseCreatedDate == self.kOrder )
         {
             WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSRange range = NSMakeRange(0, 7);
-            NSString* sectionTitle = [doc.dateCreated substringWithRange:range];
+            NSString* sectionTitle = [doc.dateCreated stringYearAndMounth];
             return sectionTitle;
         }
       else if (kOrderReverseDate == self.kOrder)
@@ -253,7 +251,6 @@
 {
     NSMutableArray* array = [NSMutableArray arrayWithArray:self.sourceArray];
     [self.tableArray removeAllObjects];
-    NSRange range = NSMakeRange(0, 7);
     if (self.kOrder == kOrderCreatedDate) {
         [array sortUsingSelector:@selector(compareCreateDate:)];
     }
@@ -278,7 +275,7 @@
             WizDocument* doc2 = [array objectAtIndex:k-1];
             if(k == 1)
             {
-                if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
+                if ([[doc1.dateCreated stringYearAndMounth] isEqualToString:[doc2.dateCreated stringYearAndMounth]]) {
                     [sectionArray addObject:doc1];
                     [sectionArray addObject:doc2];
                     [self.tableArray addObject:sectionArray];
@@ -292,7 +289,7 @@
                 }
                 return;
             }
-            if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
+            if ([[doc1.dateCreated stringYearAndMounth] isEqualToString:[doc2.dateCreated stringYearAndMounth]]) {
                 [sectionArray addObject:doc1];
             } else
             {
@@ -396,7 +393,6 @@
 {
     NSMutableArray* array = [NSMutableArray arrayWithArray:self.sourceArray];
     [self.tableArray removeAllObjects];
-    NSRange range = NSMakeRange(0, 7);
     if ([array count] == 1) {
         NSMutableArray* sectionArray = [NSMutableArray array];
         [sectionArray addObject:[array objectAtIndex:0]];
@@ -415,7 +411,7 @@
             WizDocument* doc2 = [array objectAtIndex:k-1];
             if(k == 1)
             {
-                if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+                if ([[doc1.dateModified stringYearAndMounth] isEqualToString:[doc2.dateModified stringYearAndMounth]]) {
                     [sectionArray addObject:doc1];
                     [sectionArray addObject:doc2];
                     [self.tableArray addObject:sectionArray];
@@ -429,7 +425,7 @@
                 }
                 return;
             }
-            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+            if ([[doc1.dateModified stringYearAndMounth] isEqualToString:[doc2.dateModified stringYearAndMounth]]) {
                 [sectionArray addObject:doc1];
             } else
             {

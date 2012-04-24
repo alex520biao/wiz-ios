@@ -53,6 +53,9 @@ enum
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
 - (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
 
+- (BOOL) isNewWebnote;
+- (BOOL) isExistMobileViewFile;
+- (BOOL) isExistAbstractFile;
 - (NSString*) documentIndexFilesPath;
 - (NSString*) documentIndexFile;
 - (NSString*) documentMobileFile;
@@ -70,4 +73,5 @@ enum
 //
 - (NSArray*) tagDatas;
 + (void) deleteDocument:(NSString*)documentGUID;
+- (NSArray*) attachments;
 @end

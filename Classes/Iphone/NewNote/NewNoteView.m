@@ -38,185 +38,80 @@
 
 #define INFOVIEWHEIGN  68
 #define ATTACHMENTSVIEWHEIGH 105
-
+@interface NewNoteView()
+{
+    //audio
+    UILabel* recoderLabel;
+    UITextField* titleTextFiled;
+    UITextView* bodyTextField;
+    UILabel* attachmentsCountLabel;
+    BOOL            isNewDocument;
+    UIButton* attachmentsTableviewEntryButton;
+    UIView* addAttachmentView;
+    UIView* addDocumentInfoView;
+    UIView* inputContentView;
+    UIImageView* keyControl;
+    VoiceRecognition* voiceInput;
+    id firtResponser;
+}
+@property (nonatomic, retain) UILabel*          recoderLabel;
+@property (nonatomic, retain) UITextField*      titleTextFiled;
+@property (nonatomic, retain) UITextView*       bodyTextField;
+@property (nonatomic, retain) UILabel*          attachmentsCountLabel;
+@property (nonatomic, retain) UIImageView*      keyControl;
+@property (nonatomic, retain) UIView*           addAttachmentView;
+@property (nonatomic, retain) UIView*           addDocumentInfoView;
+@property (nonatomic, retain) UIView*           inputContentView;
+@property (nonatomic, retain) UIButton*         attachmentsTableviewEntryButton;
+@property (nonatomic, retain) VoiceRecognition* voiceInput;
+@property (nonatomic, retain) id                firtResponser;
+@property  BOOL                                 isNewDocument;
+- (void) addDocumentInfoViewAnimation;
+- (void) addAttachmentsViewAnimation;
+- (void) startVoiceInput;
+- (void) voiceInputOver:(NSString*)result;
+@end
 
 
 @implementation NewNoteView
-@synthesize selectedTags;
-@synthesize session;
-@synthesize recorder;
-@synthesize timer;
 @synthesize recoderLabel;
 @synthesize titleTextFiled;
 @synthesize bodyTextField;
 @synthesize attachmentsCountLabel;
-@synthesize documentFloder;
-@synthesize currentRecodingFilePath;
 @synthesize isNewDocument;
-@synthesize attachmentsSourcePaths;
-@synthesize documentGUID;
-@synthesize voiceInput;
 @synthesize keyControl;
 @synthesize addAttachmentView;
 @synthesize addDocumentInfoView;
 @synthesize inputContentView;
 @synthesize attachmentsTableviewEntryButton;
-@synthesize currentTime ;
 @synthesize firtResponser;
+@synthesize voiceInput;
 -(void) dealloc
 {
-    [selectedTags release];
     [firtResponser release];
-    [session release];
-    [recorder release];
     [titleTextFiled release];
     [bodyTextField release];
     [attachmentsCountLabel release];
-    [currentRecodingFilePath release];
     [recoderLabel release];
-    [attachmentsSourcePaths release];
     [voiceInput release];
     [keyControl release];
     [addDocumentInfoView release];
     [addAttachmentView release];
     [inputContentView release];
     [attachmentsTableviewEntryButton release];
-    self.currentTime = 0.0;
     [super dealloc];
 }
-
-
 -(void) displayAttachmentsCount
 {
-    if (nil == self.attachmentsSourcePaths) {
-        
-    }
-    NSString* displayString = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"Attachments", nil), [self.attachmentsSourcePaths count]];
+    NSInteger count = [self.picturesArray count] + [self.audiosArray count];
+    NSString* displayString = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"Attachments", nil), count];
     [self.attachmentsTableviewEntryButton setTitle:displayString forState:UIControlStateNormal];
-}
-
--(void) updateAttachment:(NSString*) filePath
-{   
-    [self.attachmentsSourcePaths addObject:filePath];
-    [self displayAttachmentsCount];
-}
-
--(void) stopRecording
-{
-    [self.recorder stop];
-    [self.timer invalidate];
-    
-    self.currentTime = 0.0f;
-    [self updateAttachment:self.currentRecodingFilePath];
-}
-
--(BOOL) startAudioSession
-{
-    NSError* error;
-    self.session = [AVAudioSession sharedInstance];
-    if(![self.session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error])
-    {
-        return NO;
-    }
-    if(![self.session setActive:YES error:&error])
-    {
-        return NO;
-    }
-    
-    return self.session.inputIsAvailable;
-}
-
--(void) updateTime
-{
-    self.currentTime += 0.1f;
-    self.recoderLabel.text = [WizGlobals timerStringFromTimerInver:self.currentTime];
-}
-
--(BOOL) record
-{
-    NSError* error;
-    NSMutableDictionary *settings = [NSMutableDictionary dictionary];
-    [settings setValue:[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
-    self.recoderLabel.text = @"start";
-    [settings setValue:[NSNumber numberWithFloat:8000.0] forKey:AVSampleRateKey];
-    [settings setValue:[NSNumber numberWithInt:1 ] forKey:AVNumberOfChannelsKey];
-    [settings setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
-    [settings setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
-    [settings setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
-//    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-//    [WizGlobals ensurePathExists:objectPath];
-//    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-//	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-//    [formatter release];
-//    NSString* audioFileName = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.aif",dateString]];
-    
-    NSString* audioFileName = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager] activeAccountUserId]] stringByAppendingString:@".aif"];
-    self.currentRecodingFilePath = [[audioFileName mutableCopy] autorelease];
-    NSURL* url = [NSURL fileURLWithPath:audioFileName];
-    self.recorder = [[[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error ] autorelease];
-    if(!self.recorder)
-    {
-        return NO;
-    }
-    self.recorder.delegate = self;
-    self.recorder.meteringEnabled = YES;
-    if(![self.recorder prepareToRecord])
-    {
-        return NO;
-    }
-    if(![self.recorder record])
-    {
-        return NO;
-    }
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
-    self.currentTime = 0.0f;
-    [error release];
-    return YES;
-}
-- (void) audioStartRecode
-{
-    if (![self startAudioSession]) {
-        [WizGlobals reportErrorWithString:NSLocalizedString(@"Can not start an audio session!", nil)];
-    }
-    UIView* first = (UIView*)[self.view viewWithTag:100];
-    UIView* second = (UIView*) [self.view viewWithTag:101];
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:second cache:YES];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:1.0];
-    [first setAlpha:0.0f];
-    [second setAlpha:1.0f];
-    [self.view exchangeSubviewAtIndex:[[self.view subviews] indexOfObject:first]
-                   withSubviewAtIndex:[[self.view subviews] indexOfObject:second] ];
-    [UIView commitAnimations];
-    [self record];
-}
-
--(void) audioStopRecord
-{
-    UIView* first = (UIView*)[self.view viewWithTag:101];
-    UIView* second = (UIView*) [self.view viewWithTag:100];
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:second cache:YES];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationDuration:1.0];
-    [first setAlpha:0.0f];
-    [second setAlpha:1.0f];
-    [self.view exchangeSubviewAtIndex:[[self.view subviews] indexOfObject:first]
-                   withSubviewAtIndex:[[self.view subviews] indexOfObject:second] ];
-    [UIView commitAnimations];
-    [self stopRecording];
-    [self.session setActive:NO error:nil];
 }
 
 -(UIImage*) imageReduceRect:(NSString*) imageName
 {
     UIImage* image = [UIImage imageNamed:imageName];
     return image;
-    
 }
 
 -(void) keyHideOrShow
@@ -234,94 +129,10 @@
     [self.titleTextFiled resignFirstResponder];
     [self.bodyTextField resignFirstResponder];
 }
-- (void) addTag:(NSNotification*)nc
-{
-    NSDictionary* dic = [nc userInfo];
-    WizTag* tag = [dic valueForKey:TypeOfTagKey];
-    [self.selectedTags addObject:tag];
-}
 
-- (NSUInteger) tagIndexAtSlectedArray:(WizTag*)tag
-{
-    for (int i = 0; i < [self.selectedTags count]; i++) {
-        if ([[[self.selectedTags objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-- (void) removeTag:(NSNotification*)nc
-{
-    NSDictionary* dic = [nc userInfo];
-    WizTag* tag = [dic valueForKey:TypeOfTagKey];
-    [self.selectedTags removeObjectAtIndex:[self tagIndexAtSlectedArray:tag]];
-}
-
--(void) tagViewSelect
-{
-    WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    tagView.initSelectedTags = self.selectedTags;
-    [self.navigationController pushViewController:tagView animated:YES];
-    [tagView release];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
-
-}
-- (void) selectedFloder:(NSNotification*)nc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TypeOfSelectedFolder object:nil];
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* foler = [userInfo valueForKey:TypeOfFolderKey];
-    self.documentFloder = [NSMutableString stringWithString:foler];
-}
--(void) floderViewSelected
-{
-    SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
-    floderView.selectedFloderString = self.documentFloder;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedFloder:) name:TypeOfSelectedFolder object:nil];
-    [self.navigationController pushViewController:floderView animated:YES];
-    [floderView release];
-}
--(void) photoViewSelected
-{
-    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];    
-	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
-    [albumController setParent:elcPicker];
-	[elcPicker setDelegate:self];
-    [self.navigationController presentModalViewController:elcPicker animated:YES];
-    [albumController release];
-    [elcPicker release];
-}
-
-
-
-- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
-    
-	[self dismissModalViewControllerAnimated:YES];
-}
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
-    for(NSDictionary* each in info)
-    {
-        UIImage* image = [each objectForKey:@"UIImagePickerControllerOriginalImage"];
-        image = [image compressedImage:[[WizDbManager shareDbManager] imageQualityValue]];
-//        NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-//        [WizGlobals ensurePathExists:objectPath];
-//        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//        NSString* dateString = [formatter stringFromDate:[NSDate date]];
-//        [formatter release];
-//        NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-           NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager]activeAccountUserId]] stringByAppendingString:@".jpg"];
-        [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
-        [self updateAttachment:fileNamePath];
-    }
-    [self elcImagePickerControllerDidCancel:picker];
-}
 -(void) attachmentsViewSelect
 {
     WizPadCheckAttachments* checkAttachments = [[WizPadCheckAttachments alloc] init];
-    checkAttachments.source = self.attachmentsSourcePaths;
     [self.navigationController pushViewController:checkAttachments animated:YES];
     [checkAttachments release];
 }
@@ -333,43 +144,7 @@
     [view addGestureRecognizer:tap];
     view.userInteractionEnabled = YES;
 }
-- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-//    WizIndex* index = [WizIndex activeIndex];
-//    UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-//    image = [image compressedImage:[index imageQualityValue]];
-//    NSString* objectPath = [WizIndex documentFilePath:self.accountUserId documentGUID:ATTACHMENTTEMPFLITER];
-//    [WizGlobals ensurePathExists:objectPath];
-//    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-//    [formatter release];
-//    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",dateString]];
-//    NSString* fileNamePath = [[WizGlobals getAttachmentSourceFileName:[[WizAccountManager defaultManager] activeAccountUserId]] stringByAppendingString:@".jpg"];
-//    [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
-//    [self updateAttachment:fileNamePath];
-//    [picker dismissModalViewControllerAnimated:YES];
-//    //2012-2-26 delete
-////    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
-//    [picker.navigationController dismissModalViewControllerAnimated:YES];
-}
 
-- (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissModalViewControllerAnimated:YES];
-}
-
--(void) takePhotoViewSelcevted
-{
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentModalViewController:picker animated:YES];
-        [picker release];
-    }
-}
  -(void) addAudioRecorderStopView
 {
     UIView* audioRecording = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
@@ -781,68 +556,20 @@
     [reg release];
 }
 
-- (void) newDocument
-{
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    if([self.documentFloder isEqualToString:@""])
-        self.documentFloder = [NSMutableString stringWithString:@"/My Notes/"];
-    if (self.titleTextFiled.text == nil) {
-        self.titleTextFiled.text = @"";
-    }
-    if (self.bodyTextField.text == nil) {
-        self.bodyTextField.text = @"";
-    }
-    NSMutableArray* attachmentsGuid = [NSMutableArray array];
-    if ([self.attachmentsSourcePaths count]) {
-        for (NSString* each in self.attachmentsSourcePaths) {
-            NSArray* dir = [each componentsSeparatedByString:@"/"];
-            NSString* pathDir = [dir objectAtIndex:[dir count] -2];
-            if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
-                [attachmentsGuid addObject:pathDir];
-                continue;
-            }
-//            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
-//            [attachmentsGuid addObject:newAttachmentGuid];
-        }
-    }
-    [dic setObject:self.documentGUID forKey:TypeOfDocumentGUID];
-    [dic setObject:attachmentsGuid forKey:TypeOfAttachmentGuids];
-    [dic setObject:self.titleTextFiled.text forKey:TypeOfDocumentTitle];
-    [dic setObject:self.bodyTextField.text forKey:TypeOfDocumentBody];
-    [dic setObject:self.documentFloder forKey:TypeOfDocumentLocation];
-    
-    NSString* tagGuids = [NSMutableString string];
-    if ([self.selectedTags count]) {
-        for (int i = 0; i <[self.selectedTags count]-1; i++) {
-            WizTag* tag = [self.selectedTags objectAtIndex:i];
-            tagGuids = [tagGuids stringByAppendingFormat:@"%@*",[tag guid]];
-        }
-        tagGuids = [tagGuids stringByAppendingFormat:@"%@",[[self.selectedTags lastObject] guid]];
-    }
-    [dic setObject:tagGuids forKey:TypeOfDocumentTags];
-    if (isNewDocument) {
-        [index newNoteWithGuidAndData:dic];
-        [WizNotificationCenter postNewDocumentMessage:documentGUID];
-    }
-    else
-    {
-        [index editDocumentWithGuidAndData:dic];
-    }
-
-}
-
 - (void) postSelectedMessageToPicker
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfMainPickSelectedView object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:TypeOfMainPickerViewIndex]];
 }
+- (NSString*) documentBody
+{
+    return self.bodyTextField.text;
+}
 -(void) saveDocument
 {
-    if (self.recorder!= nil && [self.recorder isRecording])
-    {
-        [self stopRecording];
-    }
-    [self newDocument];
+    [self audioStopRecord];
+    [self.docEdit saveWithData];
     [self postSelectedMessageToPicker];
+    [WizNotificationCenter postNewDocumentMessage:self.docEdit.guid];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
     [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -862,13 +589,10 @@
 
 - (void) cancelSave
 {
-    if (self.recorder!= nil && [self.recorder isRecording])
-    {
-        [self stopRecording];
-    }
+    [self audioStopRecord];
     if (self.titleTextFiled.text == nil || [self.titleTextFiled.text isEqualToString:@""]  ) {
         if ( self.bodyTextField.text == nil || [self.bodyTextField.text isEqualToString:@""]) {
-            if ([self.attachmentsSourcePaths count] == 0) {
+            if ([self.picturesArray count] == 0 || 0 == [self.audiosArray count]) {
                 [self postSelectedMessageToPicker];
                 [self.navigationController dismissModalViewControllerAnimated:YES];
                 return;
@@ -887,7 +611,6 @@
         [self buildInterface];
         UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrSave style:UIBarButtonItemStyleDone target:self action:@selector(saveDocument)];
         self.navigationItem.rightBarButtonItem = editButton;
-        
         UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:WizStrCancel style:UIBarButtonItemStyleDone target:self action:@selector(cancelSave)];
         self.navigationItem.leftBarButtonItem = cancelButton;
         [editButton release];
@@ -909,46 +632,6 @@
     self.keyControl.hidden = NO;
     [UIView commitAnimations];
     
-}
-- (void) prepareForEdit:(NSDictionary*)data
-{
-    NSString* title = [data valueForKey:TypeOfDocumentTitle];
-    NSString* body = [data valueForKey:TypeOfDocumentBody];
-    NSString* documentGUID_ = [data valueForKey:TypeOfDocumentGUID];
-    self.documentGUID = documentGUID_;
-    self.titleTextFiled.text = title;
-    self.bodyTextField.text = body;
-    WizDocument* doc = [WizDocument documentFromGuid:self.documentGUID];
-
-//    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:documentGUID_]];
-    if (selectedTags == nil) {
-        self.selectedTags = [NSMutableArray array];
-    }
-    self.documentFloder = [NSMutableString stringWithString:doc.location];
-//    NSArray* attachs = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:doc.guid]];
-//    if(nil == self.attachmentsSourcePaths)
-//    {
-//        self.attachmentsSourcePaths = [NSMutableArray array];
-//        for (WizAttachment* each in attachs) {
-//            NSString* fileNamePath = [each attachmentFilePath];
-//            if ([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath]) {
-//                [self.attachmentsSourcePaths addObject:fileNamePath];
-//            }
-//        }
-//    }
-    self.addAttachmentView.tag = HIDDENTTAG;
-    self.addDocumentInfoView.tag = NOHIDDENTTAG;
-    self.isNewDocument = NO;
-}
-
-- (void) prepareForNewDocument
-{
-    self.documentGUID = [WizGlobals genGUID];
-    self.selectedTags = [NSMutableArray array];
-    self.documentFloder = [NSMutableString string];
-    if(nil == self.attachmentsSourcePaths)
-        self.attachmentsSourcePaths = [NSMutableArray array];
-    self.isNewDocument = YES;
 }
 - (void)viewDidLoad
 {

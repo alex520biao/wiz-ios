@@ -71,6 +71,23 @@
     }
     return ret;
 }
+- (BOOL) isExistMobileViewFile
+{
+    return [[WizFileManager shareManager] fileExistsAtPath:[self documentMobileFile]];
+}
+- (BOOL) isExistAbstractFile
+{
+    return [[WizFileManager shareManager] fileExistsAtPath:[self documentAbstractFile]];
+}
+- (BOOL) isNewWebnote
+{
+    NSString* content = [NSString stringWithContentsOfFile:[self documentIndexFile] usedEncoding:nil error:nil];
+    NSRange range = [content rangeOfString:@"<title>Web Note</title>"];
+    if (range.location == NSNotFound) {
+        return NO;
+    }
+    return YES;
+}
 - (NSString*) documentIndexFilesPath
 {
     WizFileManager* share = [WizFileManager shareManager];
@@ -158,6 +175,12 @@
     [fileManager removeObjectPath:documentGUID];
     WizDbManager* db = [WizDbManager shareDbManager];
     [db deleteDocument:documentGUID];
+}
+//
+
+- (NSArray*) attachments
+{
+    return [[WizDbManager shareDbManager] attachmentsByDocumentGUID:self.guid];
 }
 
 @end
