@@ -52,7 +52,6 @@
 		732A5FC615244BEC0056090E /* userIcons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC415244BEC0056090E /* userIcons@2x.png */; };
 		732BB3F715464936000DDCB4 /* NSDate+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 732BB3F615464936000DDCB4 /* NSDate+WizTools.m */; };
 		73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 73467DFA154506AE00ECF5F9 /* WizAttachment.m */; };
-		734CA13A1504597D002549CB /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1271504597D002549CB /* FoldersViewController.m */; };
 		734CA13B1504597D002549CB /* FoldersViewControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1291504597D002549CB /* FoldersViewControllerNew.m */; };
 		734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12B1504597D002549CB /* LocationTreeNode.m */; };
 		734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12D1504597D002549CB /* LocationTreeViewCell.m */; };
@@ -396,8 +395,6 @@
 		73467DF9154506AE00ECF5F9 /* WizAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAttachment.h; path = WizStruct/WizAttachment.h; sourceTree = "<group>"; };
 		73467DFA154506AE00ECF5F9 /* WizAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAttachment.m; path = WizStruct/WizAttachment.m; sourceTree = "<group>"; };
 		734C439815216433001188C4 /* WizNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = WizNote.entitlements; sourceTree = "<group>"; };
-		734CA1261504597D002549CB /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
-		734CA1271504597D002549CB /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
 		734CA1281504597D002549CB /* FoldersViewControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewControllerNew.h; sourceTree = "<group>"; };
 		734CA1291504597D002549CB /* FoldersViewControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewControllerNew.m; sourceTree = "<group>"; };
 		734CA12A1504597D002549CB /* LocationTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTreeNode.h; sourceTree = "<group>"; };
@@ -998,8 +995,6 @@
 		734CA1251504597D002549CB /* FolderTag */ = {
 			isa = PBXGroup;
 			children = (
-				734CA1261504597D002549CB /* FoldersViewController.h */,
-				734CA1271504597D002549CB /* FoldersViewController.m */,
 				734CA1281504597D002549CB /* FoldersViewControllerNew.h */,
 				734CA1291504597D002549CB /* FoldersViewControllerNew.m */,
 				734CA12A1504597D002549CB /* LocationTreeNode.h */,
@@ -2130,7 +2125,6 @@
 				73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */,
 				73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */,
 				738DA46F14FC92850075BFC9 /* Reachability.m in Sources */,
-				734CA13A1504597D002549CB /* FoldersViewController.m in Sources */,
 				734CA13B1504597D002549CB /* FoldersViewControllerNew.m in Sources */,
 				734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */,
 				734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */,
