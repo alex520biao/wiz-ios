@@ -164,6 +164,23 @@ return self;
 - (void)registerActiveAccount;
 @end
 
+
+NSInteger compareString(id location1, id location2, void* context)
+{
+    NSString* str1 = location1;
+    NSString* str2 = location2;
+    //
+    return [str1 compare: str2 options:NSCaseInsensitiveSearch];
+}
+
+NSInteger compareTag(id location1, id location2, void*)
+{
+    WizTag* tag1 = location1;
+    WizTag* tag2 = location2;
+    //
+    return [tag1.namePath compare: tag2.namePath options:NSCaseInsensitiveSearch];
+}
+
 @implementation WizDbManager
 
 
@@ -1151,6 +1168,50 @@ static WizDbManager* shareDbManager = nil;
     }
     //
     return YES;
+}
+
+- (void) stdStringArrayToNSArray: (const CWizStdStringArray&) arrayLocation retArray:(NSArray**) pretArray
+{
+    NSMutableArray* arr = [[NSMutableArray alloc] init];
+    *pretArray = arr;
+    //
+    for (CWizStdStringArray::const_iterator it = arrayLocation.begin();
+         it != arrayLocation.end();
+         it++)
+    {
+        NSString* str = [[NSString alloc] initWithUTF8String:it->c_str()];
+        [arr addObject:str];
+        [str release];
+    }
+}
+//folder
+- (NSArray*) allLocationsForTree
+{
+    CWizStdStringArray arrayLocation;
+    index.GetAllLocations(arrayLocation);
+    NSArray* allLocations = nil;
+    [self stdStringArrayToNSArray: arrayLocation retArray:&allLocations];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc ] init];
+    for (NSString* location in allLocations)
+    {
+        NSString* subLocation = location;
+        while ([subLocation length] > 2)
+        {
+            [dict setObject:subLocation forKey:[subLocation lowercaseString]];
+            subLocation = [subLocation stringByDeletingLastPathComponent];
+            if ([subLocation isEqualToString:@"/"])
+            {
+                break;
+            }
+            subLocation = [subLocation stringByAppendingString:@"/"];
+        }
+    }
+    //
+    [allLocations release];
+    NSMutableArray* locations = [NSMutableArray arrayWithArray:[dict allValues]];
+    [locations sortUsingFunction:compareString context:NULL];
+    [dict release];
+    return locations;
 }
 
 @end

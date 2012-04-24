@@ -58,9 +58,9 @@
 - (NSArray*) deletedGUIDsForUpload;
 - (BOOL) clearDeletedGUIDs;
 
-//
+//folder
 - (BOOL) updateLocations:(NSArray*) locations;
-
+- (NSArray*) allLocationsForTree;
 //abstract
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
 - (void) extractSummary:(NSString *)documentGUID;
