@@ -9,10 +9,9 @@
 #import "WizFileManager.h"
 #import "WizGlobalData.h"
 #import "ZipArchive.h"
+#import "WizAccountManager.h"
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 @implementation WizFileManager
-@synthesize accountUserId;
-
 //singleton
 static WizFileManager* shareManager = nil;
 + (id) shareManager;
@@ -84,7 +83,7 @@ static WizFileManager* shareManager = nil;
 - (NSString*) accountPath
 {
 	NSString* documentPath = [WizFileManager documentsPath];
-	NSString* subPathName = [NSString stringWithFormat:@"%@/", self.accountUserId]; 
+	NSString* subPathName = [NSString stringWithFormat:@"%@/", [[WizAccountManager defaultManager] activeAccountUserId]];
 	NSString* path = [documentPath stringByAppendingPathComponent:subPathName];
 	[self ensurePathExists:path];
 	return path;
@@ -265,6 +264,7 @@ static WizFileManager* shareManager = nil;
             continue;
         }
     }
+    ret = [ret stringByReplacingOccurrencesOfString:@":" withString:@"-"];
     return ret;
 }
 @end

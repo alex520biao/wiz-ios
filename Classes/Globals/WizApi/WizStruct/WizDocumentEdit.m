@@ -58,7 +58,7 @@
             [contentArray addObject:[self photoHtmlString:fileName]];
         }
     }
-    return array;
+    return contentArray;
 }
 
 - (NSArray*) audiosContentArray:(NSArray*)array
@@ -73,7 +73,7 @@
             [contentArray addObject:[self audioHtmlString:fileName]];
         }
     }
-    return array;
+    return contentArray;
 }
 - (void) buildBody
 {
@@ -97,10 +97,10 @@
 
     NSMutableArray* filesArray = [NSMutableArray array];
     if (hasAudio) {
-        [filesArray addObjectsFromArray:[self picturesContentArray:pictures]];
+        [filesArray addObjectsFromArray:[self picturesContentArray:audios]];
     }
     if (hasPicture) {
-        [filesArray addObjectsFromArray:[self picturesContentArray:audios]];
+        [filesArray addObjectsFromArray:[self picturesContentArray:pictures]];
     }
     NSString* tableString = [self tableHtmlString:filesArray];
     if (self.title == nil || [self.title length] == 0)
@@ -111,6 +111,7 @@
         self.title = WizStrNoTitle;
     }
     NSString* titleHtml = [self titleHtmlString:self.title];
+    body = [body toHtml];
     body = [body stringByAppendingString:tableString];
     NSString* html = [self wizHtmlString:titleHtml body:body];
     NSString* documentIndex = [self documentIndexFile];

@@ -155,7 +155,7 @@
 }
 -(void) onUploadObjectSucceedAndCleanTemp
 {
-    [WizGlobals deleteFile:self.currentUploadTempFilePath];
+    [[WizFileManager shareManager] deleteFile:self.currentUploadTempFilePath];
     busy = NO;
     self.objectType = nil;
     self.sumUploadPartCount = -1;
@@ -193,10 +193,12 @@
 - (void) onDocumentPostSimpleData:(id)retObject
 {
     [WizDocumentEdit setDocumentLocalChanged:self.objectGUID changed:NO];
+    [self onUploadObjectSucceedAndCleanTemp];
 }
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
     [WizAttachment setAttachmentLocalChanged:self.objectGUID changed:NO];
+    [self onUploadObjectSucceedAndCleanTemp];
 }
 -(void) onError: (id)retObject
 {

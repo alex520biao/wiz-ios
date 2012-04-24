@@ -58,8 +58,6 @@
 - (void) startDownload;
 @end
 @implementation WizSyncManager
-@synthesize accountPassword;
-@synthesize accountUserId;
 @synthesize serverUrl;
 @synthesize apiUrl;
 @synthesize token;
@@ -133,7 +131,6 @@ static WizSyncManager* shareManager;
     NSLog(@"upload calss is %@",[data class]);
     if (nil == data || ![data isKindOfClass:[WizUploadObjet class]]) {
         data = [[WizUploadObjet alloc] init];
-        [data setAccountUserId:self.accountUserId];
         [syncData setObject:data forKey:SyncDataOfUploader];
         NSLog(@"upload is %@",data);
         [data release];
@@ -146,7 +143,6 @@ static WizSyncManager* shareManager;
     NSLog(@"download calss is %@",[data class]);
     if (nil == data || ![data isKindOfClass:[WizDownloadObject class]]) {
         data = [[WizDownloadObject alloc] init];
-        [data setAccountUserId:self.accountUserId];
         [syncData setObject:data forKey:SyncDataOfDownloader];
         NSLog(@"downloader is %@",data);
         [data release];
@@ -159,8 +155,6 @@ static WizSyncManager* shareManager;
     id data = [syncData valueForKey:SyncDataOfRefreshToken];
     if (nil == nil || [data isKindOfClass:[WizRefreshToken class]]) {
         data = [[WizRefreshToken alloc] init];
-        [data setAccountUserId:self.accountUserId];
-        [data setAccountPassword:self.accountPassword];
         [data setAccountURL:self.serverUrl];
         [syncData setObject:data forKey:SyncDataOfRefreshToken];
         [data release];
@@ -172,7 +166,6 @@ static WizSyncManager* shareManager;
     id data = [syncData valueForKey:SyncDataOfSyncInfo];
     if (nil == nil || [data isKindOfClass:[WizSyncInfo class]]) {
         data = [[WizSyncInfo alloc] init];
-        [data setAccountUserId:self.accountUserId];
         [data setDbDelegate:[WizDbManager shareDbManager]];
         [syncData setObject:data forKey:SyncDataOfSyncInfo];
         [data release];

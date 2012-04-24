@@ -13,10 +13,8 @@
 @interface WizUploadObjet : WizApi
 {
     BOOL        busy;
-    NSString* accountUserId;
 }
 @property       (readonly)           BOOL        busy;
-@property (nonatomic, retain) NSString* accountUserId;
 - (BOOL) uploadDocument:(WizDocument*)document;
 - (BOOL) uploadAttachment:(WizAttachment*)attachment;
 @end

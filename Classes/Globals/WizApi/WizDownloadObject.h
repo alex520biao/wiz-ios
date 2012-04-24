@@ -14,10 +14,8 @@ extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 
 @interface WizDownloadObject : WizApi {
     BOOL busy;
-    NSString* accountUserId;
 }
 @property (readonly) BOOL busy;
-@property (nonatomic, retain) NSString* accountUserId;
 - (void) downloadDocument:(NSString*)documentGUID;
 - (void) downloadAttachment:(NSString*)attachmentGUID;
 @end

@@ -38,7 +38,6 @@
 - (BOOL) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed;
 - (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed;
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID;
-- (BOOL) updateDocumentAfterEdit:(NSDictionary*)doc;
 - (BOOL) updateDocument:(NSDictionary*) doc;
 - (BOOL) updateDocuments:(NSArray *)documents;
 - (NSArray*) recentDocuments;

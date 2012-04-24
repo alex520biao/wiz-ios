@@ -38,7 +38,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 @synthesize objType;
 @synthesize busy;
 @synthesize fileHandle;
-@synthesize accountUserId;
 -(void) dealloc {
     if (nil != fileHandle) {
         [fileHandle closeFile];
@@ -46,7 +45,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
     [objType release];
     [objGuid release];
-    [accountUserId release];
     [super dealloc];
 }
 

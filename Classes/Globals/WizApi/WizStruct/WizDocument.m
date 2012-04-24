@@ -91,7 +91,7 @@
 - (NSString*) documentIndexFilesPath
 {
     WizFileManager* share = [WizFileManager shareManager];
-    return [share documentIndexFile:self.guid];
+    return [share documentIndexFilesPath:self.guid];
 }
 - (NSString*) documentIndexFile
 {

@@ -9,11 +9,5 @@
 #import "WizApi.h"
 
 @interface WizRefreshToken : WizApi
-{
-    NSString* accountUserId;
-    NSString* accountPassword;
-}
-@property (nonatomic, retain)     NSString* accountUserId;
-@property (nonatomic, retain)    NSString* accountPassword;
 - (BOOL) refresh;
 @end

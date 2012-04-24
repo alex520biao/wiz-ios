@@ -204,7 +204,7 @@
     UIView* selecte = [[UIView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
     UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(18, 13, 24, 24)];
     photo.image = [self imageReduceRect:@"attachSelectPhotoPad"];
-    [self addSelcetorToView:@selector(photoViewSelected) :selecte];
+    [self addSelcetorToView:@selector(takePhoto) :selecte];
     [selecte addSubview:photo];
     UILabel* pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
     pictureLabel.adjustsFontSizeToFitWidth = YES;
@@ -224,7 +224,7 @@
     UIView* take = [[UIView alloc] initWithFrame:CGRectMake(210, 11, 100, 48)];
     UIImageView* takePhoto = [[UIImageView alloc]initWithFrame:CGRectMake(18, 13, 24, 24)];
     takePhoto.image = [self imageReduceRect:@"attachTakePhotoPad"];
-    [self addSelcetorToView:@selector(takePhotoViewSelcevted) :take];
+    [self addSelcetorToView:@selector(takePhoto) :take];
     [take addSubview:takePhoto];
     UILabel* photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
     photoLabel.adjustsFontSizeToFitWidth = YES;

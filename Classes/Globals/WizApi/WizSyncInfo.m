@@ -12,9 +12,15 @@
 #import "WizSyncManager.h"
 
 @implementation WizSyncInfo
-@synthesize accountUserId;
 @synthesize busy;
 @synthesize dbDelegate;
+
+- (void) dealloc
+{
+    [dbDelegate release];
+    [super dealloc];
+}
+
 - (void) onCallGetUserInfo:(id)retObject
 {
 

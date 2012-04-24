@@ -134,19 +134,14 @@
 }
 - (BOOL) registerActiveAccount:(NSString*)userId
 {
-    WizSyncManager* shareManager = [WizSyncManager shareManager];
-    shareManager.accountUserId = userId;
-    shareManager.accountPassword = [self accountPasswordByUserId:userId];
+    [self setDefalutAccount:userId];
     WizFileManager* fileManager = [WizFileManager shareManager];
-    fileManager.accountUserId = userId;
     WizDbManager* dbManager = [WizDbManager shareDbManager];
-    NSLog(@"userID is %@",userId);
-    NSLog(@"file db Path is %@",[fileManager dbPath]);
     if(![dbManager openDb:[fileManager dbPath] tempDbFilePath:[fileManager tempDbPath]])
     {
         return NO;
     }
-    [self setDefalutAccount:userId];
+    
     return YES;
 }
 - (NSString*) activeAccountUserId

@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface WizFileManager : NSFileManager
-{
-    NSString* accountUserId;
-}
-@property (nonatomic, retain) NSString* accountUserId;
 + (id) shareManager;
 - (NSString*) accountPath;
 - (NSString*) dbPath;

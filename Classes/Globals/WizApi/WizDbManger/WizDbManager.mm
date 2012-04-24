@@ -161,7 +161,6 @@ return self;
     CIndex index;
     CTempIndex tempIndex;
 }
-- (void)registerActiveAccount;
 @end
 
 

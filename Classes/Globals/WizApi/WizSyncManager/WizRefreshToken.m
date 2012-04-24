@@ -10,14 +10,11 @@
 #import "WizNotification.h"
 #import "WizGlobalData.h"
 #import "WizSettings.h"
+#import "WizAccountManager.h"
 
 @implementation WizRefreshToken
-@synthesize accountUserId;
-@synthesize accountPassword;
 - (void) dealloc
 {
-    [accountPassword release];
-    [accountUserId release];
     [super dealloc];
 }
 - (void) onError:(id)retObject
@@ -26,7 +23,9 @@
 }
 - (BOOL) refresh
 {
-    return [self callClientLogin:self.accountUserId accountPassword:self.accountPassword];
+    NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    NSString* password  = [[WizAccountManager defaultManager] accountPasswordByUserId:accountUserId];
+    return [self callClientLogin:accountUserId accountPassword:password];
 }
 -(void) onClientLogin: (id)retObject
 {
