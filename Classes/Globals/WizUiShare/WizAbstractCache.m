@@ -175,10 +175,10 @@
     UIImage* abstractImage = nil;
     NSUInteger kOrderIndex = [[WizDbManager shareDbManager] userTablelistViewOption];
     if (kOrderIndex == kOrderCreatedDate || kOrderIndex == kOrderReverseCreatedDate) {
-        timeStr = [WizGlobals dateToSqlString:doc.dateCreated];
+        timeStr = [doc.dateCreated  stringLocal];
     }
     else {
-        timeStr = [WizGlobals dateToSqlString:doc.dateModified];
+        timeStr = [doc.dateModified stringLocal];
     }
     timeStr = [timeStr stringByAppendingFormat:@"\n"];
     if (doc.serverChanged) {

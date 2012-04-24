@@ -161,7 +161,6 @@
 	//
 	////send xml-rpc done notification
 	//
-    
     self.connectionXmlrpc = nil;
 	NSDictionary* userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:method, @"method", ret, @"ret", [NSNumber numberWithBool:succeeded], @"succeeded", nil];
 	[userInfo release];

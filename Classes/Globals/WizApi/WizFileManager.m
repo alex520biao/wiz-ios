@@ -141,6 +141,19 @@ static WizFileManager* shareManager = nil;
     return [objectPath stringByAppendingPathComponent:@"temp.zip"];
 }
 //
+
+-(BOOL) deleteFile:(NSString*)fileName
+{
+	NSError* err = nil;
+	BOOL b = [self removeItemAtPath:fileName error:&err];
+	if (!b && err)
+	{
+		[WizGlobals reportError:err];
+	}
+	//
+	return b;
+}
+
 - (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid
 {
     NSString* objectPath = [self objectFilePath:objectGuid];
@@ -154,12 +167,12 @@ static WizFileManager* shareManager = nil;
             return YES;
         }
         else {
-            [WizGlobals deleteFile:objectZipFilePath];
+            [self deleteFile:objectZipFilePath];
             return NO;
         }
     }
     else {
-        [WizGlobals deleteFile:objectZipFilePath];
+        [self deleteFile:objectZipFilePath];
         return YES;
     }
     return YES;

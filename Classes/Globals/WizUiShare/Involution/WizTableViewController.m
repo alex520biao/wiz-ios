@@ -66,8 +66,8 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (NSComparisonResult) reverseDateGroup:(NSString*)date1 :(NSString*)date2
 {
-    NSDate* d1 = [WizGlobals sqlTimeStringToDate:date1];
-    NSDate* d2 = [WizGlobals sqlTimeStringToDate:date2];
+    NSDate* d1 = [date1 dateFromSqlTimeString];
+    NSDate* d2 = [date2 dateFromSqlTimeString];
     if ([d1 isToday]) {
         if ([d2 isToday]) {
             return 0;

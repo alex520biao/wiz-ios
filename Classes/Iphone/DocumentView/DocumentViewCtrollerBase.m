@@ -25,55 +25,6 @@
 
 #define NOSUPPOURTALERT 199
 
-@interface UIWebView(WizUIWebView) 
-
-- (BOOL) containImages;
-
-@end
-
-@implementation UIWebView(WizUIWebView) 
-
-
-- (BOOL) containImages
-{
-	NSString* script = @"function containImages() { var images = document.images; return (images && images.length > 0) ? \"1\" : \"0\"; } containImages();";
-	//
-	NSString* ret = [self stringByEvaluatingJavaScriptFromString:script];
-	//
-	if (!ret)
-		return NO;
-	if ([ret isEqualToString:@"1"])
-		return YES;
-	if ([ret isEqualToString:@"0"])
-		return NO;
-	
-	//
-	return NO;
-}
-
-- (NSString*) bodyText
-{
-	//NSString* script = @"function getBodyText() { var body = document.body; if (!body) return ""; if (body.innerText) return body.innerText;  return body.innerHTML.replace(/\\&lt;br\\&gt;/gi,\"\\n\").replace(/(&lt;([^&gt;]+)&gt;)/gi, \"\"); } getBodyText();";
-	NSString* script = @"function getBodyText() { var body = document.body; if (!body) return ""; if (body.innerText) return body.innerText;  return \"\"; } getBodyText();";
-	//
-	NSMutableString* ret = [NSMutableString stringWithString: [self stringByEvaluatingJavaScriptFromString:script]];
-	if (!ret)
-		return @"";
-	//
-	/*
-     while ([ret rangeOfString:@"\n\n"].location != NSNotFound)
-     {
-     [ret replaceOccurrencesOfString:@"\n\n" withString:@"\n" options:0 range:NSMakeRange(0, [ret length])];
-     }
-     */
-	
-	//
-	return ret;
-}
-
-
-@end
-
 @interface DocumentViewCtrollerBase()
 {
     NSString* fontWidth;

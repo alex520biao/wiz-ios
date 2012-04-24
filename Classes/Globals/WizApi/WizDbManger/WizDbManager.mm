@@ -11,6 +11,7 @@
 #import "tempIndex.h"
 #import "WizDocumentEdit.h"
 #import "WizFileManager.h"
+#import "WizNotification.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -98,8 +99,8 @@ return self;
 		self.url                 = [NSString stringWithCString:data.strURL.c_str() encoding:NSUTF8StringEncoding];
 		self.type                = [NSString stringWithCString:data.strType.c_str() encoding:NSUTF8StringEncoding];
 		self.fileType            = [NSString stringWithCString:data.strFileType.c_str() encoding:NSUTF8StringEncoding];
-		self.dateCreated         = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDateCreated.c_str() encoding:NSUTF8StringEncoding]];
-		self.dateModified        = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDateModified.c_str() encoding:NSUTF8StringEncoding]];
+		self.dateCreated         = [[NSString stringWithCString:data.strDateCreated.c_str() encoding:NSUTF8StringEncoding] dateFromSqlTimeString];
+		self.dateModified        = [[NSString stringWithCString:data.strDateModified.c_str() encoding:NSUTF8StringEncoding] dateFromSqlTimeString];
         self.tagGuids           = [NSString stringWithCString:data.strTagGUIDs.c_str() encoding:NSUTF8StringEncoding];
         self.dataMd5             = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
 		self.attachmentCount     = data.nAttachmentCount;
@@ -125,7 +126,7 @@ return self;
         self.namePath = [NSString stringWithCString:data.strNamePath.c_str() encoding:NSUTF8StringEncoding];
         self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
         self.parentGUID = [NSString stringWithCString:data.strParentGUID.c_str() encoding:NSUTF8StringEncoding];
-        self.dateInfoModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDtInfoModified.c_str() encoding:NSUTF8StringEncoding]];
+        self.dateInfoModified = [[NSString stringWithCString:data.strDtInfoModified.c_str() encoding:NSUTF8StringEncoding] dateFromSqlTimeString];
         self.localChanged = data.localchanged ? YES:NO;
     }
     return self;
@@ -146,7 +147,7 @@ return self;
         self.dateMd5 = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
         self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
         self.documentGuid = [NSString stringWithCString:data.strDocumentGuid.c_str() encoding:NSUTF8StringEncoding];
-        self.dateModified = [WizGlobals sqlTimeStringToDate:[NSString stringWithCString:data.strDataModified.c_str() encoding:NSUTF8StringEncoding]];
+        self.dateModified = [[NSString stringWithCString:data.strDataModified.c_str() encoding:NSUTF8StringEncoding]dateFromSqlTimeString];
         self.localChanged = data.loaclChanged?YES:NO;
         self.serverChanged = data.serverChanged?YES:NO;
     }
@@ -213,12 +214,44 @@ static WizDbManager* shareDbManager = nil;
 {
     return index.IsOpened() && tempIndex.IsOpened();
 }
+- (void) initAccountSetting
+{
+    //    [self versionUpdateSettings];
+    if (![WizGlobals WizDeviceIsPad] ) {
+        if ([self imageQualityValue] == 0) {
+            [self setImageQualityValue:750];
+        }
+        if (0 == [self webFontSize]) {
+            [self setWebFontSize:270];
+        }
+        if (-1 == [self durationForDownloadDocument]) {
+            if ([WizGlobals WizDeviceIsPad]) {
+                [self setDurationForDownloadDocument:3];
+            }
+            else {
+                [self setDurationForDownloadDocument:0];
+            }
+        }
+    }
+    else
+    {
+        
+        if ([self durationForDownloadDocument]== -1) {
+            [self setDurationForDownloadDocument:0];
+            
+        }
+        if ([self imageQualityValue] ==0) {
+            [self setImageQualityValue:750];
+        }
+    }
+}
 - (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath
 {
     NSLog(@"dbFilePath is %@",dbFilePath);
     bool indexIsOpen = index.Open([dbFilePath UTF8String]);
     bool tempIndexIsOpen = tempIndex.Open([tempDbFilePath UTF8String]);
     if (tempIndexIsOpen && indexIsOpen) {
+        [self initAccountSetting];
         return YES;
     }
     else {
@@ -398,9 +431,11 @@ static WizDbManager* shareDbManager = nil;
 {
     NSString* duration = [self userInfo:DurationForDownloadDocument];
     if(duration == nil || [duration isEqualToString:@""])
-        return -1;
-    else
-        return [duration longLongValue];
+    {
+        [self setDurationForDownloadDocument:1];
+        duration = [self userInfo:DurationForDownloadDocument];
+    }
+    return [duration longLongValue];
 }
 - (NSString*) durationForDownloadDocumentString
 {
@@ -557,6 +592,34 @@ static WizDbManager* shareDbManager = nil;
 	WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
 	return [doc autorelease];
 }
+- (BOOL) deleteAbstractByGUID:(NSString *)documentGUID
+{
+    return  tempIndex.DeleteAbstractByGUID([documentGUID UTF8String])?YES:NO;
+}
+- (void) documentServerChanged:(NSString*)documentGuid  changed:(BOOL)changed
+{
+    if (!changed) {
+        [self extractSummary:documentGuid];
+    }
+    else {
+        [self deleteAbstractByGUID:documentGuid];
+    }
+}
+- (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed
+{
+    if (changed) {
+        [self deleteAbstractByGUID:documentGUID];
+    }
+    else
+    {
+        [self deleteAbstractByGUID:documentGUID];
+        [self extractSummary:documentGUID];
+    }
+    [WizNotificationCenter postUpdateDocument:documentGUID];
+    BOOL ret = index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
+    return ret;
+}
+
 - (BOOL) updateDocument:(NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
@@ -581,8 +644,8 @@ static WizDbManager* shareDbManager = nil;
         data.strDataMd5 = [dataMd5 UTF8String];
 	data.strURL = [url UTF8String];
 	data.strTagGUIDs = [tagGUIDs UTF8String];
-	data.strDateCreated = [[WizGlobals dateToSqlString:dateCreated] UTF8String];
-	data.strDateModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
+	data.strDateCreated = [[dateCreated stringSql] UTF8String];
+	data.strDateModified = [[dateModified stringSql] UTF8String];
 	data.strType = [type UTF8String];
 	data.strFileType = [fileType UTF8String];
     data.nAttachmentCount = [nAttachmentCount intValue];
@@ -605,6 +668,7 @@ static WizDbManager* shareDbManager = nil;
     else {
         data.nServerChanged = [serverChanged intValue];
     }
+    [self documentServerChanged:guid changed:[serverChanged boolValue]];
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
 	return ret;
 }
@@ -755,7 +819,7 @@ static WizDbManager* shareDbManager = nil;
 	data.strGUID = [guid UTF8String];
     data.strParentGUID = [parentGuid UTF8String];
 	data.strDescription= [description UTF8String];
-    data.strDtInfoModified = [[WizGlobals dateToSqlString:dtInfoModifed] UTF8String];
+    data.strDtInfoModified = [[dtInfoModifed stringSql] UTF8String];
     data.localchanged = [localChanged intValue];
 	return index.UpdateTag(data) ? YES : NO;
 }
@@ -776,6 +840,10 @@ static WizDbManager* shareDbManager = nil;
 }
 
 //
+- (BOOL) setAttachmentServerChanged:(NSString *)attchmentGUID changed:(BOOL)changed
+{
+    return index.SetAttachmentServerChanged([attchmentGUID UTF8String], changed? true : false) ? YES: NO;
+}
 - (WizAttachment*) attachmentFromGUID:(NSString *)guid
 {
     WIZDOCUMENTATTACH data;
@@ -825,7 +893,7 @@ static WizDbManager* shareDbManager = nil;
     data.strAttachmentGuid = [guid UTF8String];
     data.strAttachmentName = [title UTF8String];
     data.strDataMd5 = [dataMd5 UTF8String];
-    data.strDataModified = [[WizGlobals dateToSqlString:dateModified] UTF8String];
+    data.strDataModified = [[dateModified stringSql] UTF8String];
     data.strDescription = [description UTF8String];
     data.strDocumentGuid = [documentGuid UTF8String];
     data.loaclChanged = [localChanged boolValue];
@@ -997,6 +1065,9 @@ static WizDbManager* shareDbManager = nil;
     abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
     abstract.imageDataLength = [abstractImageData length];
     abstract.text = [abstractText UTF8String];
+    
+    NSLog(@"abstract is %@",abstractText);
+    
     if (WizDeviceIsPad) {
         tempIndex.UpdatePadAbstract(abstract);
         //        WIZABSTRACT abstractLitle;
@@ -1046,7 +1117,7 @@ static WizDbManager* shareDbManager = nil;
     NSArray* src = [self allDeletedGUIDs];
     for (WizDeletedGUID* guid in src)
     {
-        NSDate* date = [WizGlobals sqlTimeStringToDate:guid.dateDeleted];
+        NSDate* date = [guid.dateDeleted dateFromSqlTimeString];
         //
         NSDictionary* dict = [[NSDictionary alloc] initWithObjectsAndKeys:guid.guid, @"deleted_guid", guid.type, @"guid_type", date, @"dt_deleted", nil];
         [ret addObject:dict];

@@ -35,7 +35,9 @@
 - (BOOL) deleteDocument:(NSString*)documentGUID;
 
 //document
+- (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed;
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID;
+- (BOOL) updateDocumentAfterEdit:(NSDictionary*)doc;
 - (BOOL) updateDocument:(NSDictionary*) doc;
 - (BOOL) updateDocuments:(NSArray *)documents;
 - (NSArray*) recentDocuments;
@@ -48,6 +50,7 @@
 - (BOOL) updateTags: (NSArray*) tags;
 - (NSArray*) tagsForUpload;
 //attachment
+- (BOOL) setAttachmentServerChanged:(NSString *)attchmentGUID changed:(BOOL)changed;
 - (BOOL) updateAttachment:(NSDictionary *)attachment;
 - (BOOL) updateAttachments:(NSArray *)attachments;
 - (WizAttachment*) attachmentFromGUID:(NSString *)guid;

@@ -55,4 +55,9 @@
 {
     return [[WizDbManager shareDbManager] attachmentFromGUID:attachmentGuid];
 }
+
++ (void) setAttachServerChanged:(NSString*)attachmentGUID changed:(BOOL)changed
+{
+    [[WizDbManager shareDbManager] setAttachmentServerChanged:attachmentGUID changed:changed];
+}
 @end

@@ -69,7 +69,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     busy = YES;
     NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.objGuid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
-        [WizGlobals deleteFile:fileNamePath];
+        [[WizFileManager shareManager]  deleteFile:fileNamePath];
     if (![[NSFileManager defaultManager] createFileAtPath:fileNamePath contents:nil attributes:nil]) {
         
     }
@@ -81,17 +81,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 - (void) downloadDone
 {
     if ([self.objType isEqualToString:WizDocumentKeyString]) {
-        WizDocumentEdit* edit = [[WizDocumentEdit alloc] initFromGuid:self.objGuid];
-        edit.serverChanged = NO;
-        [edit saveInfo];
-        [edit release];
+        [WizDocumentEdit setDocumentServerchangedToDb:self.objGuid changed:NO];
     }
     else if ([self.objType isEqualToString:WizAttachmentKeyString])
     {
-        WizAttachment* attach = [[WizAttachment alloc] initFromGuid:self.objGuid];
-        attach.serverChanged = NO;
-        [attach saveInfo];
-        [attach release];
+        [WizAttachment setAttachServerChanged:self.objGuid changed:NO];
     }
     //
     busy = NO;

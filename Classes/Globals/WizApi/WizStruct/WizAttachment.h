@@ -31,4 +31,5 @@
 - (BOOL) saveData:(NSString*)filePath;
 + (void) deleteAttachment:(NSString*)attachmentGuid;
 + (WizAttachment*) attachmentFromDb:(NSString*)attachmentGuid;
++ (void) setAttachServerChanged:(NSString*)attachmentGUID changed:(BOOL)changed;
 @end

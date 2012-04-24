@@ -12,7 +12,10 @@
 #import "WizDocument.h"
 @implementation WizDocumentEdit
 @synthesize editDelegate;
-
++ (void) setDocumentServerchangedToDb:(NSString*)documentGUID  changed:(BOOL)changed
+{
+    [[WizDbManager shareDbManager] setDocumentServerChanged:documentGUID changed:changed];
+}
 - (id) initFromGuid:(NSString*)documentGuid
 {
     self = [super init];
@@ -74,6 +77,7 @@
     }
     return array;
 }
+
 - (NSArray*) audiosContentArray:(NSArray*)array
 {
     NSMutableArray* contentArray = [NSMutableArray array];
@@ -142,9 +146,6 @@
 }
 - (BOOL) saveInfo
 {
-    if (self.serverChanged) {
-        return NO;
-    }
     if (self.guid == nil || [self.guid isBlock]) {
         self.guid = [WizGlobals genGUID];
     }

@@ -22,4 +22,5 @@
 - (BOOL) saveWithData;
 - (BOOL) saveInfo;
 - (BOOL) deleteTag:(NSString*)tagGuid;
++ (void) setDocumentServerchangedToDb:(NSString*)documentGUID  changed:(BOOL)changed;
 @end

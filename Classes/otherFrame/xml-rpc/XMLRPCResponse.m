@@ -180,7 +180,7 @@
 		//
 		NSString* sqlTime = [WizGlobals iso8601TimeToStringSqlTimeString:val];
 		//
-		NSDate* date = [WizGlobals sqlTimeStringToDate:sqlTime];
+		NSDate* date = [sqlTime dateFromSqlTimeString];
 		//
 		return date;
 	}

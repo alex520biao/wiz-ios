@@ -29,4 +29,5 @@
 - (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid;
 //
 -(NSString*) createZipByGuid:(NSString*)objectGUID;
+-(BOOL) deleteFile:(NSString*)fileName;
 @end

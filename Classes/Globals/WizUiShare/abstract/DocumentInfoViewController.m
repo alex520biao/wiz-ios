@@ -290,11 +290,11 @@
     
     else if (3 == indexPath.row) {
         cell.nameLabel.text =  WizStrDateModified;
-        cell.valueLabel.text = [WizGlobals dateToSqlString:doc.dateModified];
+        cell.valueLabel.text =[doc.dateModified stringLocal];
     }
     else if (4 == indexPath.row) {
         cell.nameLabel.text = WizStrDateCreated;
-        cell.valueLabel.text = [WizGlobals dateToSqlString:doc.dateCreated];
+        cell.valueLabel.text = [doc.dateCreated stringLocal];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

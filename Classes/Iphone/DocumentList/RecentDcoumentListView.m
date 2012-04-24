@@ -60,18 +60,19 @@
     [sync uploadDocument:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {
-//        NSDate * date = [WizGlobals sqlTimeStringToDate:[[[self.tableArray objectAtIndex:0] objectAtIndex:0] dateModified]];
-//        if ([date isToday]) {
-//            [[self.tableArray objectAtIndex:0] insertObject:newDocument atIndex:0];
-//            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-//        }
-//        else
-//        {
-//            NSMutableArray* array = [NSMutableArray array];
-//            [array addObject:newDocument];
-//            [self.tableArray insertObject:array atIndex:0];
-//            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
-//        }
+        WizDocument* doc = [[self.tableArray objectAtIndex:0] objectAtIndex:0];
+        NSDate * date = doc.dateModified;
+        if ([date isToday]) {
+            [[self.tableArray objectAtIndex:0] insertObject:newDocument atIndex:0];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+        }
+        else
+        {
+            NSMutableArray* array = [NSMutableArray array];
+            [array addObject:newDocument];
+            [self.tableArray insertObject:array atIndex:0];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+        }
     }
     else
     {

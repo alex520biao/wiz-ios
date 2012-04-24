@@ -756,8 +756,8 @@
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     WizDocument* doc = [[self.documentsArray objectAtIndex:section] objectAtIndex:0];
-    NSDate* date = [WizGlobals sqlTimeStringToDate:doc.dateModified];
-    return [WizGlobals dateToLocalString:date];
+    NSDate* date = [doc.dateModified dateFromSqlTimeString];
+    return [date stringLocal];
 }
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
