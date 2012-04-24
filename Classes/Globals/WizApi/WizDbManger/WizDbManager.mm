@@ -785,7 +785,27 @@ static WizDbManager* shareDbManager = nil;
 }
 
 
-//
+//tag
+- (NSArray*) allTagsForTree
+{
+    CWizTagDataArray arrayTag;
+    index.GetAllTagsPathForTree(arrayTag);
+    //
+    NSMutableArray* tags = [NSMutableArray arrayWithCapacity:arrayTag.size()];
+    //
+    for (CWizTagDataArray::const_iterator it = arrayTag.begin();
+         it != arrayTag.end();
+         it++)
+    {
+        WizTag* tag = [[WizTag alloc] initFromWizTagData:*it];
+        [tags addObject:tag];
+        [tag release];
+    }
+    //
+    [tags sortUsingFunction:compareTag context:NULL];
+    //
+    return tags;
+}
 -(NSArray*) tagsForUpload
 {
     CWizTagDataArray arrayTag;
@@ -1213,5 +1233,21 @@ static WizDbManager* shareDbManager = nil;
     [dict release];
     return locations;
 }
+- (int) filecountWithChildOfLocation:(NSString*) location
+{
+    int count;
+    index.fileCountWithChildInlocation([location UTF8String], count);
+    return count;
+}
+- (int) fileCountOfLocation:(NSString *)location
+{
+    int count;
+    index.fileCountInLocation([location UTF8String], count);
+    return count;
+}
 
+- (int) fileCountOfTag:(NSString *)tagGUID
+{
+    return [[self documentsByTag:tagGUID] count];
+}
 @end

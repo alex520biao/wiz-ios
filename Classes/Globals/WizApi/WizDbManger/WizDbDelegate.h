@@ -46,9 +46,11 @@
 - (NSArray*) documentsByLocation: (NSString*)parentLocation;
 - (NSArray*) documentForUpload;
 //tag
+- (NSArray*) allTagsForTree;
 - (BOOL) updateTag: (NSDictionary*) tag;
 - (BOOL) updateTags: (NSArray*) tags;
 - (NSArray*) tagsForUpload;
+- (int) fileCountOfTag:(NSString *)tagGUID;
 //attachment
 - (BOOL) setAttachmentServerChanged:(NSString *)attchmentGUID changed:(BOOL)changed;
 - (BOOL) updateAttachment:(NSDictionary *)attachment;
@@ -61,6 +63,9 @@
 //folder
 - (BOOL) updateLocations:(NSArray*) locations;
 - (NSArray*) allLocationsForTree;
+- (int) fileCountOfLocation:(NSString *)location;
+- (int) filecountWithChildOfLocation:(NSString*) location;
+
 //abstract
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
 - (void) extractSummary:(NSString *)documentGUID;

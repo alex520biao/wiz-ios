@@ -16,7 +16,6 @@
 @synthesize expandImage;
 - (void) dealloc
 {
-    [onExpand release];
     [owner release];
     [closedImage release];
     [expandImage release];

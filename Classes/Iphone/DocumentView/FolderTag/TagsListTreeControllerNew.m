@@ -17,6 +17,7 @@
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
 #import "CommonString.h"
+#import "WizDbManager.h"
 @implementation TagsListTreeControllerNew
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -64,8 +65,7 @@
 
 - (void) reloadAllData
 {
-//    WizIndex* index = [WizIndex activeIndex];
-    NSArray* tagArray = nil;
+    NSArray* tagArray = [[WizDbManager shareDbManager] allTagsForTree];
     NSLog(@"tagArray count is %d",[tagArray count]);
     tree = [[LocationTreeNode alloc]init] ;
     tree.deep = 0;
@@ -82,7 +82,7 @@
         if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
             LocationTreeNode* parent = [LocationTreeNode findNodeByKey:each.parentGUID :self.tree];
             if (nil == parent) {
-                WizTag* parentTag = [[WizTag alloc]initFromGuid:each.parentGUID];
+                WizTag* parentTag = [WizTag  tagFromDb:each.parentGUID];
                 LocationTreeNode* nodee = [[LocationTreeNode alloc] init];
                 nodee.title = parentTag.title;
                 nodee.locationKey = parentTag.guid;
@@ -147,11 +147,10 @@
 
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[index fileCountOfTag:cell.treeNode.locationKey]];
-//    if (![cell.treeNode hasChildren]) {
-//        cell.imageView.image = [UIImage imageNamed:@"treeTag"];
-//    }
+    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[[WizDbManager shareDbManager ]fileCountOfTag:cell.treeNode.locationKey]];
+    if (![cell.treeNode hasChildren]) {
+        cell.imageView.image = [UIImage imageNamed:@"treeTag"];
+    }
 }
 - (void)viewDidUnload
 {
@@ -169,13 +168,11 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    WizTag* tag =  [index tagFromGuid:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];;
-//    //
-//    TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];
-//    tagView.tag = tag;
-//    [self.navigationController pushViewController:tagView animated:YES];
-//    [tagView release];
+    WizTag* tag =  [WizTag tagFromDb:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];;
+    TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];
+    tagView.tag = tag;
+    [self.navigationController pushViewController:tagView animated:YES];
+    [tagView release];
 }
 
 @end
