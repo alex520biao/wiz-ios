@@ -8,7 +8,6 @@
  //
  
 #import "PickViewController.h"
-#import "FoldersViewController.h"
 #import "RecentDcoumentListView.h"
 #import "TagsListTreeControllerNew.h"
 #import "NewNoteView.h"
@@ -18,7 +17,6 @@
 #import "WizGlobalData.h"
 
 #import "SearchViewControllerIphone.h"
-#import "TagsListTreeView.h"
 #import "WizPhoneNotificationMessage.h"
 #import "UserSttingsViewController.h"
 //wiz-dzpqzb test
