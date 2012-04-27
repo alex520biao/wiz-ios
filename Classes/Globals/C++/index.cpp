@@ -648,7 +648,7 @@ bool CIndex::SQLToDocuments(const char* lpszSQL, CWizDocumentDataArray& arrayDoc
 }
 bool CIndex::GetRecentDocuments(CWizDocumentDataArray& arrayDocument)
 {
-	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 1000";
+	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 100";
 	//
 	return SQLToDocuments(sql.c_str(), arrayDocument);
 }

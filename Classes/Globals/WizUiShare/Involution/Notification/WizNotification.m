@@ -30,7 +30,7 @@
 {
     NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
     if (infoKey == nil || infoObject == nil) {
-        [nc postNotificationName:messageName object:nil userInfo:nil];
+        [nc  postNotificationName:messageName object:nil userInfo:nil];
     }
     else {
         [nc postNotificationName:messageName object:nil userInfo:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey]];
@@ -227,6 +227,19 @@
         return NO;
     }
     return [ret boolValue];
+}
+//
++ (void) addObserverForUpdateCache:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateCache];
+}
++ (void) removeObserverForUpdateCache:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfUpdateCache];
+}
++ (void) postMessageUpdateCache:(NSString*)documentGuid
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfUpdateCache userInfoObject:documentGuid userInfoKey:UserInfoTypeOfDocumentGUID];
 }
 
 @end

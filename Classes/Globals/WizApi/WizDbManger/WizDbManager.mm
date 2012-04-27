@@ -12,6 +12,7 @@
 #import "WizDocumentEdit.h"
 #import "WizFileManager.h"
 #import "WizNotification.h"
+#import "WizAbstractCache.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -194,30 +195,6 @@ static WizDbManager* shareDbManager = nil;
         }
         return shareDbManager;
     }
-}
-+ (id) allocWithZone:(NSZone *)zone
-{
-    return [[self shareDbManager] retain];
-}
-- (id) retain
-{
-    return self;
-}
-- (NSUInteger) retainCount
-{
-    return NSUIntegerMax;
-}
-- (id) copyWithZone:(NSZone*)zone
-{
-    return self;
-}
-- (id) autorelease
-{
-    return self;
-}
-- (oneway void) release
-{
-    return;
 }
 // over
 
@@ -607,24 +584,15 @@ static WizDbManager* shareDbManager = nil;
 //
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID
 {
-	WIZDOCUMENTDATA data;
-	if (!index.DocumentFromGUID([documentGUID UTF8String], data))
-		return nil;
-	WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
-	return [doc autorelease];
+        WIZDOCUMENTDATA data;
+        if (!index.DocumentFromGUID([documentGUID UTF8String], data))
+            return nil;
+        WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
+        return [doc autorelease];
 }
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID
 {
     return  tempIndex.DeleteAbstractByGUID([documentGUID UTF8String])?YES:NO;
-}
-- (BOOL) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed
-{
-    if (changed) {
-        [self deleteAbstractByGUID:documentGUID];
-        [self extractSummary:documentGUID];
-    }
-    [WizNotificationCenter postUpdateDocument:documentGUID];
-    return index.SetDocumentLocalChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
 }
 
 - (BOOL) updateDocument:(NSDictionary*) doc
@@ -683,7 +651,7 @@ static WizDbManager* shareDbManager = nil;
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
     [self deleteAbstractByGUID:guid];
     if (data.nServerChanged == 0 || data.nLocalChanged!=0) {
-        [self extractSummary:guid];
+        [[WizAbstractCache shareCache] abstractOfDocument:guid];
     }
     [WizNotificationCenter postUpdateDocument:guid];
 	return ret;

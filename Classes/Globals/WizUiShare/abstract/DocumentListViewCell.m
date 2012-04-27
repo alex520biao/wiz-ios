@@ -54,13 +54,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.abstractImageView = abstractImageView_;
         [abstractImageView_ release];
         self.interfaceOrientation = UIInterfaceOrientationPortrait;
-        CALayer* layer = [abstractImageView layer];
-        layer.borderColor = [UIColor whiteColor].CGColor;
-        layer.borderWidth = 0.5f;
-        layer.shadowColor = [UIColor grayColor].CGColor;
-        layer.shadowOffset = CGSizeMake(1, 1);
-        layer.shadowOpacity = 0.5;
-        layer.shadowRadius = 0.5;
+       
         self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
         UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 480, 1)];
@@ -82,7 +76,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 
 - (void) prepareForAppear
 {
-    WizAbstractData* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc.guid];
+    WizAbstractData* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc];
     self.abstractImageView.frame = CGRectMake(self.contentView.frame.size.width - 75, 10, 70, 70);
     if (abstract.image != nil) {
         self.abstractLabel.frame = [self getRectWithImage];
@@ -94,9 +88,12 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     }
     self.abstractLabel.text = abstract.text;
     self.abstractImageView.image = abstract.image;
-   
+    [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
 }
-
+- (void) drawRect:(CGRect)rect
+{
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

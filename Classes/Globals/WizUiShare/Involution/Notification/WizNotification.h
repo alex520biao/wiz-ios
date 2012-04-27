@@ -64,4 +64,9 @@
 + (void) removeObserverForAccountOperation:(id)observer;
 + (void) postMessageAccountOperation:(BOOL)secceed;
 + (BOOL) isAccountOperationSucceedFromNc:(NSNotification*)nc;
+//
++ (void) addObserverForUpdateCache:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForUpdateCache:(id)observer;
++ (void) postMessageUpdateCache:(NSString*)documentGuid;
+
 @end

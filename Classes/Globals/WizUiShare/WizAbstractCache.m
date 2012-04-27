@@ -8,25 +8,23 @@
 #import <QuartzCore/QuartzCore.h>
 #import "TTTAttributedLabel.h"
 #import "WizAbstractCache.h"
-
+#import "WizDecorate.h"
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 #import "WizFileManager.h"
-@implementation WizAbstractData
-
-@synthesize text, image;
-
-@end
-
+#import "WizGenDocumentAbstract.h"
 @interface WizAbstractCache()
 {
     NSMutableDictionary* data;
+    NSOperationQueue* genQueue;
 }
+@property (atomic, retain) NSOperationQueue* genQueue;
+@property (atomic, retain) NSMutableDictionary* data;
 @end
 @implementation WizAbstractCache
-@synthesize dbDelegate;
+@synthesize genQueue;
 + (id) shareCache
 {
     static WizAbstractCache* shareCache;
@@ -34,7 +32,6 @@
     {
         if (shareCache == nil) {
             shareCache = [[super allocWithZone:NULL] init];
-            shareCache.dbDelegate = [WizDbManager shareDbManager];
         }
         return shareCache;
     }
@@ -71,12 +68,16 @@
         return;
     }
     [data removeObjectForKey:documentGUID];
+    WizGenDocumentAbstract* gen = [[WizGenDocumentAbstract alloc] initWithDegeate:documentGUID delegate:self];
+    [self.genQueue addOperation:gen];
+    [gen release];
 }
 - (id) init
 {
     self = [super init];
     if (self) {
-        data = [[NSMutableDictionary alloc] init];
+        self.data = [NSMutableDictionary dictionary];
+        self.genQueue = [[[NSOperationQueue alloc] init] autorelease];
         [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateAbstract:)];
     }
     return self;
@@ -84,103 +85,15 @@
 
 - (void) startCacheAbstrat
 {
-    if(![self.dbDelegate isTempDbOpen])
-    {
-        [self.dbDelegate openTempDb:[[WizFileManager shareManager] tempDbPath]];
-    }
-}
-//
-
-- (UIFont*) nameFont
-{
-    static UIFont* nameFont = nil;
-    if(nameFont == nil)
-    {
-        nameFont = [UIFont boldSystemFontOfSize:15];
-    }
-    return nameFont;
+    NSArray* rectents = [WizDocument recentDocuments];
+    
 }
 
-- (NSMutableDictionary*) getDetailAttributes
+- (WizAbstractData*) genDocumentPlaceHolder:(WizDocument*)doc
 {
-    static NSMutableDictionary* detailAttributes = nil;
-    if (detailAttributes == nil) {
-        detailAttributes = [[NSMutableDictionary alloc] init];
-        UIFont* textFont = [UIFont systemFontOfSize:13];
-        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
-        [detailAttributes setObject:(id)[[UIColor grayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
-        [detailAttributes setObject:(id)textCtfont forKey:(NSString*)kCTFontAttributeName];
-    }
-    return detailAttributes;
-}
-- (NSMutableDictionary*) getNameAttributes
-{
-    static NSMutableDictionary* nameAttributes = nil;
-    if (nameAttributes == nil) {
-        nameAttributes = [[NSMutableDictionary alloc] init];
-        UIFont* stringFont = [self nameFont];
-        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-        [nameAttributes setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
-        CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
-        CTParagraphStyleSetting settings[]={lineBreakMode};
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
-        [nameAttributes setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
-    }
-    return nameAttributes;
-}
-
-- (NSMutableDictionary*) getTimeAttributes
-{
-    static NSMutableDictionary* timeAttributes=nil;
-    if (timeAttributes == nil) {
-        timeAttributes = [[NSMutableDictionary alloc] init];
-        [timeAttributes setObject:(id)[[UIColor lightGrayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
-    }
-    return timeAttributes;
-}
-
-//
-
-- (WizAbstractData*) readAbstractData:(NSString*)guid
-{
-    WizAbstractData* abs = nil;
-    @try {
-        abs = [data valueForKey:guid];
-    }
-    @catch (NSException *exception) {
-        abs = nil;
-    }
-    @finally {
-        
-    }
-    return abs;
-}
-- (NSString*) nameToDisplay:(NSString*)str   width:(CGFloat)width
-{
-    UIFont* nameFont = [self nameFont];
-    CGSize boundingSize = CGSizeMake(CGFLOAT_MAX, 20);
-    CGSize requiredSize = [str sizeWithFont:nameFont constrainedToSize:boundingSize
-                              lineBreakMode:UILineBreakModeCharacterWrap];
-    CGFloat requireWidth = requiredSize.width;
-    if (requireWidth > width) {
-        if (nil == str || str.length <1) {
-            return @"";
-        }
-        return [self nameToDisplay:[str substringToIndex:str.length-1 ] width:width];
-    }
-    else
-    {
-        return str;
-    }
-}
-- (WizAbstractData*) generateAbstractForDocument:(NSString*)documentGUID
-{
-    NSLog(@"abstract document documentGuid %@",documentGUID);
-    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
     if (nil == doc) {
         return nil;
     }
-    WizAbstract*   abstract = [self.dbDelegate abstractOfDocument:doc.guid];
     NSString* titleStr = doc.title;
     NSString* detailStr=@"";
     NSString* timeStr = @"";
@@ -193,37 +106,26 @@
         timeStr = [doc.dateModified stringLocal];
     }
     timeStr = [timeStr stringByAppendingFormat:@"\n"];
-    if (doc.serverChanged) {
-        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,doc.location == nil? @"":[WizGlobals folderStringToLocal:doc.location]];
-        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-        NSArray* tags = [doc tagDatas];
-        for (WizTag* each in tags) {
-            NSString* tagName = getTagDisplayName(each.title);
-            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+    NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,doc.location == nil? @"":[WizGlobals folderStringToLocal:doc.location]];
+    NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
+    NSArray* tags = [doc tagDatas];
+    for (WizTag* each in tags) {
+        NSString* tagName = getTagDisplayName(each.title);
+        tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
+    }
+    if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
+        if (nil != tagstr || tagstr.length > 0) {
+            tagstr = [tagstr substringToIndex:tagstr.length-1];
+            folder = [folder stringByAppendingString:tagstr];
         }
-        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-            if (nil != tagstr || tagstr.length > 0) {
-                tagstr = [tagstr substringToIndex:tagstr.length-1];
-                folder = [folder stringByAppendingString:tagstr];
-            }
-        }
-        detailStr = folder;
-        abstractImage = [UIImage imageNamed:@"documentWithoutData"];
     }
-    else {
-        detailStr = abstract.text;
-        abstractImage = abstract.image;
-    }
-    if (abstractImage != nil) {
-        titleStr = [self nameToDisplay:titleStr width:400];
-    }
-    else {
-        titleStr = [self nameToDisplay:titleStr width:400];
-    }
+    detailStr = folder;
+    abstractImage = [UIImage imageNamed:@"documentWithoutData"];
+    titleStr = [WizDecorate nameToDisplay:titleStr width:400];
     titleStr = [titleStr stringByAppendingFormat:@"\n"];
-    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[self getNameAttributes]];
-    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[self getTimeAttributes]];
-    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[self getDetailAttributes]];
+    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[WizDecorate getNameAttributes]];
+    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[WizDecorate getTimeAttributes]];
+    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[WizDecorate getDetailAttributes]];
     [nameAtrStr appendAttributedString:timeAtrStr];
     [nameAtrStr appendAttributedString:detailAtrStr];
     WizAbstractData* absData = [[WizAbstractData alloc] init];
@@ -232,73 +134,85 @@
     [timeAtrStr release];
     [detailAtrStr release];
     [nameAtrStr release];
-    [data setObject:absData forKey:documentGUID];
-    [absData release];
-    return absData;
+    return [absData autorelease];
 }
-- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID
+- (void) postUpdateCacheMassage:(NSString*)documentGuid
+{
+    [WizNotificationCenter postMessageUpdateCache:documentGuid];
+}
+- (void) didGenDocumentAbstract:(NSString*)documentGuid  abstractData:(WizAbstractData*)abs
+{
+    [self.data setObject:abs forKey:documentGuid];
+    [self performSelectorOnMainThread:@selector(postUpdateCacheMassage:) withObject:documentGuid waitUntilDone:NO];
+}
+
+- (WizAbstractData*) documentAbstractForIphone:(WizDocument*)document
 {
     
-    WizAbstractData* abs = [self readAbstractData:documentGUID];
+    WizAbstractData* abs = [self.data valueForKey:document.guid];
     if (nil == abs) {
-        return [self generateAbstractForDocument:documentGUID];
+        WizGenDocumentAbstract* genAbs = [[WizGenDocumentAbstract alloc] initWithDegeate:document.guid delegate:self];
+        [self.genQueue addOperation:genAbs];
     }
-    return abs;
+    else {
+        return abs;
+    }
+    return [self genDocumentPlaceHolder:document];
 }
 - (void) didReceivedMenoryWarning
 {
-    [data removeAllObjects];
+    [self.data removeAllObjects];
 }
 
-- (NSDictionary*) paragrahAttributeDic
-{
-    static NSDictionary* paragrahAttributeDic=nil;
-    if (paragrahAttributeDic == nil) {
-        paragrahAttributeDic = [NSMutableArray array];
-        long characheterSpacing = 0.5f;
-        CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &characheterSpacing);
-        CGFloat lineSpace = 18;
-        CTParagraphStyleSetting lineSpaceStyle;
-        lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
-        lineSpaceStyle.valueSize = sizeof(lineSpace);
-        lineSpaceStyle.value = &lineSpace;
-        CTParagraphStyleSetting settings[] = {lineSpaceStyle};
-        CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
-        UIFont* stringFont = [UIFont systemFontOfSize:13];
-        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-        paragrahAttributeDic = [[NSDictionary alloc] initWithObjectsAndKeys:(id)num,(NSString *)kCTKernAttributeName,(id)style,(id)kCTParagraphStyleAttributeName, (id)font,(NSString*)kCTFontAttributeName,nil];
-        CFRelease(num);
-    }
-    return paragrahAttributeDic;
-}
-- (WizAbstractData*) generateAbstractForFolder:(NSString*)folderKey     userID:(NSString*)userId
-{
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:userId];
-//    NSArray* documents = [index documentsByLocation:folderKey];
-//    NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
-//    int max = ([documents count] > 8? 8:[documents count]);
-//    for (int i = 0; i <max; i++) {
-//        WizDocument* doc = [documents objectAtIndex:i];
-//        NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i+1, doc.title]];
-//        [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
-//        [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
-//        [attibuteString appendAttributedString:str];
-//        [str release];
+//- (NSDictionary*) paragrahAttributeDic
+//{
+//    static NSDictionary* paragrahAttributeDic=nil;
+//    if (paragrahAttributeDic == nil) {
+//        paragrahAttributeDic = [NSMutableArray array];
+//        long characheterSpacing = 0.5f;
+//        CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberLongType, &characheterSpacing);
+//        CGFloat lineSpace = 18;
+//        CTParagraphStyleSetting lineSpaceStyle;
+//        lineSpaceStyle.spec = kCTParagraphStyleSpecifierMinimumLineHeight;
+//        lineSpaceStyle.valueSize = sizeof(lineSpace);
+//        lineSpaceStyle.value = &lineSpace;
+//        CTParagraphStyleSetting settings[] = {lineSpaceStyle};
+//        CTParagraphStyleRef style = CTParagraphStyleCreate(settings, sizeof(settings));
+//        UIFont* stringFont = [UIFont systemFontOfSize:13];
+//        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
+//        paragrahAttributeDic = [[NSDictionary alloc] initWithObjectsAndKeys:(id)num,(NSString *)kCTKernAttributeName,(id)style,(id)kCTParagraphStyleAttributeName, (id)font,(NSString*)kCTFontAttributeName,nil];
+//        CFRelease(num);
 //    }
-//    [attibuteString addAttributes:[self paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
-//    WizAbstractData* abs =[[WizAbstractData alloc] init];
-//    abs.text = attibuteString;
-//    [data setObject:abs forKey:folderKey];
-//    [abs release];
-//    [attibuteString release];
+//    return paragrahAttributeDic;
+//}
+//- (WizAbstractData*) generateAbstractForFolder:(NSString*)folderKey     userID:(NSString*)userId
+//{
+////    WizIndex* index = [[WizGlobalData sharedData] indexData:userId];
+////    NSArray* documents = [index documentsByLocation:folderKey];
+////    NSMutableAttributedString* attibuteString = [[NSMutableAttributedString alloc] init];
+////    int max = ([documents count] > 8? 8:[documents count]);
+////    for (int i = 0; i <max; i++) {
+////        WizDocument* doc = [documents objectAtIndex:i];
+////        NSMutableAttributedString* str = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d %@\n",i+1, doc.title]];
+////        [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, 1)];
+////        [str addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor grayColor].CGColor range:NSMakeRange(1, str.length-1)];
+////        [attibuteString appendAttributedString:str];
+////        [str release];
+////    }
+////    [attibuteString addAttributes:[self paragrahAttributeDic] range:NSMakeRange(0, attibuteString.length)];
+////    WizAbstractData* abs =[[WizAbstractData alloc] init];
+////    abs.text = attibuteString;
+////    [data setObject:abs forKey:folderKey];
+////    [abs release];
+////    [attibuteString release];
+////    return abs;
+//}
+//- (WizAbstractData*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId
+//{
+//    WizAbstractData* abs = [self readAbstractData:folderKey];
+//    if (nil == abs) {
+//        return [self generateAbstractForFolder:folderKey userID:userId];
+//    }
 //    return abs;
-}
-- (WizAbstractData*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId
-{
-    WizAbstractData* abs = [self readAbstractData:folderKey];
-    if (nil == abs) {
-        return [self generateAbstractForFolder:folderKey userID:userId];
-    }
-    return abs;
-}
+//}
 @end

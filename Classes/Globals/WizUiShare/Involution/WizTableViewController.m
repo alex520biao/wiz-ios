@@ -466,7 +466,18 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
 }
 
-
+- (void) displayDocumentAbstract:(NSNotification*)nc
+{
+    NSString* guid = [WizNotificationCenter getDocumentGUIDFromNc:nc];
+    NSLog(@"update cache guid is %@",guid);
+    NSArray* visibleCells = [self.tableView visibleCells];
+    for (DocumentListViewCell* cell in visibleCells)
+    {
+        if ([cell.doc.guid isEqualToString:guid]) {
+            [cell prepareForAppear];
+        }
+    }
+}
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -474,6 +485,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         self.tableSourceArray = [NSMutableArray array];
         [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [WizNotificationCenter addObserverForUpdateCache:self selector:@selector(displayDocumentAbstract:)];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.kOrderIndex = kOrderReverseDate;
     }

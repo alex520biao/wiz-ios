@@ -36,3 +36,5 @@
 //
 #define MessageTypeOfLoginDone      @"MessageTypeOfLoginDone"
 #define UserInfoTypeOfLoginSucceed  @"UserInfoTypeOfLoginSucceed"
+//
+#define MessageTypeOfUpdateCache    @"MessageTypeOfUpdateCache"

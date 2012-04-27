@@ -138,6 +138,9 @@
     {
         return NO;
     }
+    if (![dbManager openDb:[fileManager tempDbPath]]) {
+        return NO;
+    }
     return YES;
 }
 - (NSString*) activeAccountUserId
