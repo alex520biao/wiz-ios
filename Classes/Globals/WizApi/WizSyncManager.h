@@ -7,12 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@protocol WizSyncDescriptionDelegate <NSObject>
-
-- (void) didChangedSyncDescription:(NSString*)description;
-
-@end
-
+#import "WizSyncDescriptionDelegate.h"
 @interface WizSyncManager : NSObject
 {
     NSString* syncDescription;

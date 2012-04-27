@@ -11,6 +11,14 @@
 #import "NSDate-Utilities.h"
 #import "WizDbManager.h"
 #import "WizFileManager.h"
+#import "WizNotification.h"
+BOOL isReverseMask(NSInteger mask)
+{
+    if (mask %2 == 0) {
+        return YES;
+    }
+    return NO;
+}
 
 @implementation WizDocument
 @synthesize fileType;
@@ -45,11 +53,11 @@
 {
     return [self.dateCreated isEarlierThanDate:doc.dateCreated];
 }
-- (NSComparisonResult) compareDate:(WizDocument *)doc
+- (NSComparisonResult) compareModifiedDate:(WizDocument *)doc
 {
     return [self.dateModified isLaterThanDate:doc.dateModified];
 }
-- (NSComparisonResult) compareReverseDate:(WizDocument *)doc
+- (NSComparisonResult) compareReverseModifiedDate:(WizDocument *)doc
 {
     return [self.dateModified isEarlierThanDate:doc.dateModified];
 }
@@ -79,6 +87,25 @@
 {
     return [[WizFileManager shareManager] fileExistsAtPath:[self documentAbstractFile]];
 }
+- (BOOL) isExistIndexFile
+{
+    BOOL ret = [[WizFileManager shareManager] fileExistsAtPath:[self documentIndexFile]];
+    return ret;
+}
+
+- (BOOL) isEdited
+{
+    return YES;
+}
+
+- (NSString*) localDataMd5
+{
+    NSString* zipPath = [[WizFileManager shareManager] createZipByGuid:self.guid];
+    NSString* fileMd5 = [WizGlobals fileMD5:zipPath];
+    [[WizFileManager shareManager] deleteFile:zipPath];
+    return fileMd5;
+}
+
 - (BOOL) isNewWebnote
 {
     NSString* content = [NSString stringWithContentsOfFile:[self documentIndexFile] usedEncoding:nil error:nil];
@@ -166,8 +193,6 @@
     WizDbManager* share = [WizDbManager shareDbManager];
     return [share documentFromGUID:_guid];
 }
-
-
 //
 + (void) deleteDocument:(NSString*)documentGUID
 {
@@ -175,6 +200,7 @@
     [fileManager removeObjectPath:documentGUID];
     WizDbManager* db = [WizDbManager shareDbManager];
     [db deleteDocument:documentGUID];
+    [WizNotificationCenter postDeleteDocumentMassage:documentGUID];
 }
 //
 
@@ -183,4 +209,51 @@
     return [[WizDbManager shareDbManager] attachmentsByDocumentGUID:self.guid];
 }
 
+- (BOOL) saveInfo
+{
+    if (self.guid == nil || [self.guid isBlock]) {
+        self.guid = [WizGlobals genGUID];
+    }
+    NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithCapacity:14];
+    [doc setObject:self.guid forKey:DataTypeUpdateDocumentGUID];
+    [doc setObject:[NSNumber numberWithBool:self.serverChanged] forKey:DataTypeUpdateDocumentServerChanged];
+    [doc setObject:[NSNumber numberWithBool:self.localChanged] forKey:DataTypeUpdateDocumentLocalchanged];
+    [doc setObject:[NSNumber numberWithBool:self.protected_] forKey:DataTypeUpdateDocumentProtected];
+    [doc setObject:[NSNumber numberWithInt:self.attachmentCount] forKey:DataTypeUpdateDocumentAttachmentCount];
+    [doc setObject:self.type forKey:DataTypeUpdateDocumentType];
+    if (nil == self.url) {
+        self.url = @"";
+    }
+    [doc setObject:self.url forKey:DataTypeUpdateDocumentUrl];
+    if (nil == self.location || [self.location isBlock]) {
+        self.location = @"/My Notes/";
+    }
+    [doc setObject:self.location forKey:DataTypeUpdateDocumentLocation];
+    if (nil == self.title || [self.title isBlock]) {
+        self.title = WizStrNoTitle;
+    }
+    [doc setObject:self.title forKey:DataTypeUpdateDocumentTitle];
+    if (nil == self.tagGuids) {
+        self.tagGuids = @"";
+    }
+    [doc setObject:self.tagGuids forKey:DataTypeUpdateDocumentTagGuids];
+    if (nil == self.fileType) {
+        self.fileType = @"";
+    }
+    [doc setObject:self.fileType forKey:DataTypeUpdateDocumentFileType];
+    if (nil == self.dateCreated ) {
+        self.dateCreated = [NSDate date];
+    }
+    [doc setObject:self.dateCreated forKey:DataTypeUpdateDocumentDateCreated];
+    if (nil == self.dateModified) {
+        self.dateModified = [NSDate date];
+    }
+    [doc setObject:self.dateModified forKey:DataTypeUpdateDocumentDateModified];
+    if (nil == self.dataMd5 || [self.dataMd5 isBlock]) {
+        //md5
+        self.dataMd5 = @"";
+    }
+    [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
+    return [[WizDbManager shareDbManager] updateDocument:doc];
+}
 @end

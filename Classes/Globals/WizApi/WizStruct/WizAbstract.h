@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @interface WizAbstract : NSObject
 {
     UIImage* image;
@@ -15,6 +14,4 @@
 }
 @property (nonatomic, retain) UIImage* image;
 @property (nonatomic, retain) NSString* text;
-
-+ (WizAbstract*) abstractFromDb:(NSString*)guid;
 @end

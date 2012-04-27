@@ -569,7 +569,6 @@
     [self audioStopRecord];
     [self.docEdit saveWithData];
     [self postSelectedMessageToPicker];
-    [WizNotificationCenter postNewDocumentMessage:self.docEdit.guid];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
     [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -690,7 +689,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return NO;
+    return YES;
 }
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField

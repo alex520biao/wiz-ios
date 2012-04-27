@@ -66,6 +66,16 @@
 @synthesize displayDelegate;
 static WizSyncManager* shareManager;
 
+- (BOOL) isSyncing
+{
+    if ([errorQueque count] || [downloadQueque count] || [uploadQueque count]) {
+        return YES;
+    }
+    else {
+        self.syncDescription = @"";
+        return NO;
+    }
+}
 - (NSString*) syncDescription
 {
     return syncDescription;
@@ -259,7 +269,6 @@ static WizSyncManager* shareManager;
     [WizNotificationCenter addObserverForRefreshToken:self selector:@selector(didRefreshToken:)];
     [self pauseAllSync];
     [re refresh];
-    
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
@@ -274,7 +283,7 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) startUpload
 {
-    
+    [self isSyncing];
     WizUploadObjet* uploader = [self shareUploader];
     if (![self addSyncToken:uploader]) {
         return NO;
@@ -285,13 +294,16 @@ static WizSyncManager* shareManager;
     if ([uploadQueque count] == 0) {
         return YES;
     }
+    
     NSDictionary* obj = [uploadQueque objectAtIndex:0];
     NSString* type = [obj valueForKey:SyncDataOfObjectType];
     NSString* guid = [obj valueForKey:SyncDataOfObjectGUID];
 
     BOOL ret;
     if ([type isEqualToString:WizDocumentKeyString]) {
-        ret = [uploader uploadDocument:[WizDocument documentFromDb:guid]];
+        WizDocument* doc = [WizDocument documentFromDb:guid];
+        self.syncDescription = [NSString stringWithFormat:@"upload %@",doc.title];
+        ret = [uploader uploadDocument:doc];
     }
     else if ([type isEqualToString:WizAttachmentKeyString])
     {

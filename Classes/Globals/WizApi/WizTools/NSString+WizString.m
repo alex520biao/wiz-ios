@@ -9,6 +9,17 @@
 #import "NSString+WizString.h"
 
 @implementation NSString (WizString)
+
+- (NSComparisonResult) compareFirstCharacter:(NSString*)string
+{
+    return [[self pinyinFirstLetter] compare:[string pinyinFirstLetter]];
+}
+
+//
+- (NSString*) pinyinFirstLetter
+{
+    return [WizGlobals pinyinFirstLetter:self];
+}
 - (BOOL) isBlock
 {
     return nil == self ||[self isEqualToString:@""];

@@ -20,8 +20,8 @@
 #import <ifaddrs.h>
 #import "WizDocument.h"
 #import "WizDbManager.h"
+#import "WizTableViewController.h"
 
-#define WizNotFoundIndex    -2
 @implementation WizPadListTableControllerBase
 @synthesize isLandscape;
 @synthesize accountUserID;
@@ -46,7 +46,7 @@
             }
         }
     }
-    return [NSIndexPath indexPathForRow:WizNotFoundIndex inSection:WizNotFoundIndex];
+    return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
 }
 - (NSArray*) reloadDocuments
 {
@@ -121,37 +121,37 @@
     int docIndex = [array count]-1;
     for (int i =0; i<12; i++) {
         NSMutableArray* sectionArray = [NSMutableArray array];
-//        for(int k = docIndex; k >= 0; k--)
-//        {
-//            WizDocument* doc1 = [array objectAtIndex:k];
-//            WizDocument* doc2 = [array objectAtIndex:k-1];
-//            if(k == 1)
-//            {
-//                if ([WizGlobals sqlTimeStringToDate:doc1.dateModifiedified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
-//                    [sectionArray addObject:doc1];
-//                    [sectionArray addObject:doc2];
-//                    [self.tableArray addObject:sectionArray];
-//                } else
-//                {
-//                    [sectionArray addObject:doc1];
-//                    NSMutableArray* sectionArr = [NSMutableArray array];
-//                    [sectionArr addObject:doc2];
-//                    [self.tableArray addObject:sectionArray];
-//                    [self.tableArray addObject:sectionArr];
-//                }
-//                return;
-//            }
-//            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
-//                [sectionArray addObject:doc1];
-//            } else
-//            {
-//                [sectionArray addObject:doc1];
-//                [self.tableArray addObject:sectionArray];
-//                docIndex = k-1;
-//                break;
-//            }
-//            
-//        }
+        for(int k = docIndex; k >= 0; k--)
+        {
+            WizDocument* doc1 = [array objectAtIndex:k];
+            WizDocument* doc2 = [array objectAtIndex:k-1];
+            if(k == 1)
+            {
+                if ([doc1.dateModified isEqualToDate:doc2.dateModified]) {
+                    [sectionArray addObject:doc1];
+                    [sectionArray addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                } else
+                {
+                    [sectionArray addObject:doc1];
+                    NSMutableArray* sectionArr = [NSMutableArray array];
+                    [sectionArr addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                    [self.tableArray addObject:sectionArr];
+                }
+                return;
+            }
+            if ([doc1.dateModified isEqualToDate:doc2.dateModified]) {
+                [sectionArray addObject:doc1];
+            } else
+            {
+                [sectionArray addObject:doc1];
+                [self.tableArray addObject:sectionArray];
+                docIndex = k-1;
+                break;
+            }
+            
+        }
     }
 }
 
@@ -183,27 +183,27 @@
             WizDocument* doc1 = [array objectAtIndex:k];
             WizDocument* doc2 = [array objectAtIndex:k+1];
             
-//            if([[WizIndex pinyinFirstLetter:doc1.title] isEqualToString:[WizIndex pinyinFirstLetter:doc2.title]])
-//            {
-//                [sectionArray addObject:doc1];
-//                if (k == [array count] - 2) {
-//                    [sectionArray addObject:doc2];
-//                    [self.tableArray addObject:sectionArray];
-//                    docIndex = k+1;
-//                    break;
-//                }
-//            } else
-//            {
-//                [sectionArray addObject:doc1];
-//                [self.tableArray addObject:sectionArray];
-//                if (k == [array count] -2) {
-//                    NSMutableArray* sectionTempArray = [NSMutableArray array];
-//                    [sectionTempArray addObject:doc2];
-//                    [self.tableArray addObject:sectionTempArray];
-//                }
-//                docIndex = k+1;
-//                break;
-//            }
+            if([doc1.title compare:doc2.title] == 0)
+            {
+                [sectionArray addObject:doc1];
+                if (k == [array count] - 2) {
+                    [sectionArray addObject:doc2];
+                    [self.tableArray addObject:sectionArray];
+                    docIndex = k+1;
+                    break;
+                }
+            } else
+            {
+                [sectionArray addObject:doc1];
+                [self.tableArray addObject:sectionArray];
+                if (k == [array count] -2) {
+                    NSMutableArray* sectionTempArray = [NSMutableArray array];
+                    [sectionTempArray addObject:doc2];
+                    [self.tableArray addObject:sectionTempArray];
+                }
+                docIndex = k+1;
+                break;
+            }
             
         }
     }
@@ -213,7 +213,6 @@
 {
     NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
     [self.tableArray removeAllObjects];
-    NSRange range = NSMakeRange(0, 7);
     if (self.kOrderIndex == kOrderCreatedDate) {
         [array sortUsingSelector:@selector(compareCreateDate:)];
     }
@@ -238,7 +237,7 @@
             WizDocument* doc2 = [array objectAtIndex:k-1];
             if(k == 1)
             {
-                if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
+                if ([[doc1.dateCreated stringYearAndMounth] isEqualToString:[doc2.dateCreated stringYearAndMounth]]) {
                     [sectionArray addObject:doc1];
                     [sectionArray addObject:doc2];
                     [self.tableArray addObject:sectionArray];
@@ -252,7 +251,7 @@
                 }
                 return;
             }
-            if ([[doc1.dateCreated substringWithRange:range] isEqualToString:[doc2.dateCreated substringWithRange:range]]) {
+            if ([[doc1.dateCreated stringYearAndMounth] isEqualToString:[doc2.dateCreated stringYearAndMounth]]) {
                 [sectionArray addObject:doc1];
             } else
             {
@@ -476,14 +475,12 @@
         if(kOrderDate == self.kOrderIndex )
         {
             WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSRange range = NSMakeRange(0, 7);
-            NSString* sectionTitle = [doc.dateModified substringWithRange:range];
+            NSString* sectionTitle = [doc.dateModified stringYearAndMounth];
             return sectionTitle;
         }
         else if (kOrderCreatedDate == self.kOrderIndex || kOrderReverseCreatedDate == self.kOrderIndex) {
             WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSRange range = NSMakeRange(0, 7);
-            NSString* sectionTitle = [doc.dateCreated substringWithRange:range];
+            NSString* sectionTitle = [doc.dateCreated stringYearAndMounth];
             return sectionTitle;
         }
         else if (kOrderReverseDate == self.kOrderIndex)
@@ -548,7 +545,7 @@
         return;
     }
     NSIndexPath* docIndex = [self indexPathForDocument:documentGUID];
-    if (docIndex.section == WizNotFoundIndex)
+    if (docIndex.section == NSNotFound)
     {
         return;
     }

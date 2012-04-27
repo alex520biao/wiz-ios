@@ -10,6 +10,7 @@
 
 typedef NSUInteger WizTableOrder;
 //%2 is reverse
+BOOL isReverseMask(NSInteger mask);
 enum
 {
      kOrderDate=1,
@@ -46,8 +47,8 @@ enum
 @property (assign) BOOL localChanged;
 @property (assign) BOOL protected_;
 @property int attachmentCount;
-- (NSComparisonResult) compareDate:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseDate:(WizDocument*) doc;
+- (NSComparisonResult) compareModifiedDate:(WizDocument*) doc;
+- (NSComparisonResult) compareReverseModifiedDate:(WizDocument*) doc;
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
@@ -56,6 +57,8 @@ enum
 - (BOOL) isNewWebnote;
 - (BOOL) isExistMobileViewFile;
 - (BOOL) isExistAbstractFile;
+- (BOOL) isExistIndexFile;
+
 - (NSString*) documentIndexFilesPath;
 - (NSString*) documentIndexFile;
 - (NSString*) documentMobileFile;
@@ -71,7 +74,11 @@ enum
 + (WizDocument*) documentFromDb:(NSString*)guid;
 
 //
+- (NSString*) localDataMd5;
 - (NSArray*) tagDatas;
 + (void) deleteDocument:(NSString*)documentGUID;
 - (NSArray*) attachments;
+
+//
+- (BOOL) saveInfo;
 @end

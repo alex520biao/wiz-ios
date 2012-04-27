@@ -449,11 +449,8 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 	WIZDOCUMENTDATA dataExists;
 	if (DocumentFromGUID(data.strGUID.c_str(), dataExists))
 	{
-		if (dataExists.nLocalChanged && !data.nLocalChanged)
-			return true;
-		//
-		std::string strServerChanged = (dataExists.nServerChanged==1 || data.strDataMd5 != dataExists.strDataMd5) ? "1" : "0";
-		std::string strLocalChanged = (data.nLocalChanged==1 || dataExists.nLocalChanged) ? "1" : "0";
+//		std::string strServerChanged = (dataExists.nServerChanged==1 || data.strDataMd5 != dataExists.strDataMd5) ? "1" : "0";
+//		std::string strLocalChanged = (data.nLocalChanged==1 || dataExists.nLocalChanged) ? "1" : "0";
 		//
 		sql = std::string("update WIZ_DOCUMENT set DOCUMENT_TITLE=") + WizStringToSQLString(data.strTitle) 
 		+ ", DOCUMENT_LOCATION=" + WizStringToSQLString(data.strLocation)
@@ -465,16 +462,12 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 		+ ", DT_MODIFIED=" + WizStringToSQLString(data.strDateModified)
 		+ ", DOCUMENT_DATA_MD5=" + WizStringToSQLString(data.strDataMd5)
 		+ ", ATTACHMENT_COUNT=" + WizIntToStdString(data.nAttachmentCount)
-		+ ", SERVER_CHANGED=" + strServerChanged
-		+ ", LOCAL_CHANGED=" + strLocalChanged
+		+ ", SERVER_CHANGED=" + WizIntToStdString(data.nServerChanged)
+		+ ", LOCAL_CHANGED=" + WizIntToStdString(data.nLocalChanged)
 		+ " where DOCUMENT_GUID=" + WizStringToSQLString(data.strGUID);
 	}
 	else
 	{
-		bool bLocalChanged = data.nLocalChanged ? true : false;
-		bool bServerChanged = true;
-		std::string strLocalChanged = bLocalChanged ? "1" : "0";
-		std::string strServerChanged = bServerChanged ? "1" : "0";
 		
 		sql = std::string("insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED) values (")
 		+ WizStringToSQLString(data.strGUID) + ", "
@@ -488,9 +481,11 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 		+ WizStringToSQLString(data.strDateModified) + ", "
 		+ WizStringToSQLString(data.strDataMd5) + ", "
 		+ WizIntToStdString(data.nAttachmentCount) + ", "
-		+ strServerChanged + ", "
-		+ strLocalChanged + ""
+		+ WizIntToStdString(data.nServerChanged) + ", "
+		+ WizIntToStdString(data.nLocalChanged)+ ""
 		+ ") ";
+        
+        printf("insert document %s",sql.c_str());
 	}
 	//
 	try {
@@ -653,7 +648,7 @@ bool CIndex::SQLToDocuments(const char* lpszSQL, CWizDocumentDataArray& arrayDoc
 }
 bool CIndex::GetRecentDocuments(CWizDocumentDataArray& arrayDocument)
 {
-	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 100";
+	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 1000";
 	//
 	return SQLToDocuments(sql.c_str(), arrayDocument);
 }

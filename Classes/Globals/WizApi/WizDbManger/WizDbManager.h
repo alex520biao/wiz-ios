@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "WizDbDelegate.h"
 #import "WizSettingsDbDelegate.h"
+#import "WizAbstractDbDelegate.h"
+
 // doc data type
 #define DataTypeUpdateDocumentGUID              @"document_guid"
 #define DataTypeUpdateDocumentTitle             @"document_title"
@@ -47,9 +49,6 @@
 @class WizDocument;
 @class WizAttachment;
 @class WizTag;
-@interface WizDbManager : NSObject <WizDbDelegate, WizSettingsDbDelegate>
+@interface WizDbManager : NSObject <WizDbDelegate, WizSettingsDbDelegate,WizAbstractDbDelegate>
 + (id) shareDbManager;
-- (void) close;
-- (BOOL) isOpen;
-- (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath;
 @end

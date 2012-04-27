@@ -93,6 +93,7 @@
 {
     [WizNotificationCenter postMessageWithName:MessageTypeOfIphoneSetupAccount userInfoObject:nil userInfoKey:nil];
 }
+//
 + (void) addObserverForDeleteDocument:(id) observer selector:(SEL)selector
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfDeleteDocument];
@@ -109,6 +110,7 @@
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];
 }
+//
 + (void) addObserverForUpdateDocument:(id) observer selector:(SEL)selector
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateDocument];

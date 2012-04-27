@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class WizDocument;
 
-@interface DocumentViewCtrollerBase : UIViewController <UIWebViewDelegate, UISearchBarDelegate>
+@interface DocumentViewCtrollerBase : UIViewController <UIWebViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate>
 {
     UIWebView* web;
     WizDocument* doc;

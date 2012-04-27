@@ -15,14 +15,16 @@
 - (NSString*) stringReplaceUseRegular:(NSString*)regex;
 - (NSDate *) dateFromSqlTimeString;
 //help
--(NSString*) trim;
--(NSString*) trimChar:(unichar) ch;
--(int) indexOfChar:(unichar)ch;
--(int) indexOf:(NSString*)find;
--(int) lastIndexOfChar: (unichar)ch;
--(int) lastIndexOf:(NSString*)find;
--(NSString*) firstLine;
--(NSString*) toHtml;
+- (NSString*) trim;
+- (NSString*) trimChar:(unichar) ch;
+- (int) indexOfChar:(unichar)ch;
+- (int) indexOf:(NSString*)find;
+- (int) lastIndexOfChar: (unichar)ch;
+- (int) lastIndexOf:(NSString*)find;
+- (NSString*) firstLine;
+- (NSString*) toHtml;
+- (NSString*) pinyinFirstLetter;
+- (NSString*) toValidPathComponent;
 
--(NSString*) toValidPathComponent;
+- (NSComparisonResult) compareFirstCharacter:(NSString*)string;
 @end

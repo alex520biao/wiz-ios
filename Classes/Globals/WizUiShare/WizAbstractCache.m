@@ -26,6 +26,7 @@
 }
 @end
 @implementation WizAbstractCache
+@synthesize dbDelegate;
 + (id) shareCache
 {
     static WizAbstractCache* shareCache;
@@ -33,6 +34,7 @@
     {
         if (shareCache == nil) {
             shareCache = [[super allocWithZone:NULL] init];
+            shareCache.dbDelegate = [WizDbManager shareDbManager];
         }
         return shareCache;
     }
@@ -64,6 +66,7 @@
 - (void) updateAbstract:(NSNotification*)nc
 {
     NSString* documentGUID = [WizNotificationCenter getDocumentGUIDFromNc:nc];
+    NSLog(@"abstract delete documentGuid %@",documentGUID);
     if (documentGUID == nil) {
         return;
     }
@@ -77,6 +80,14 @@
         [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateAbstract:)];
     }
     return self;
+}
+
+- (void) startCacheAbstrat
+{
+    if(![self.dbDelegate isTempDbOpen])
+    {
+        [self.dbDelegate openTempDb:[[WizFileManager shareManager] tempDbPath]];
+    }
 }
 //
 
@@ -164,11 +175,12 @@
 }
 - (WizAbstractData*) generateAbstractForDocument:(NSString*)documentGUID
 {
+    NSLog(@"abstract document documentGuid %@",documentGUID);
     WizDocument* doc = [WizDocument documentFromDb:documentGUID];
     if (nil == doc) {
         return nil;
     }
-    WizAbstract*   abstract = [WizAbstract  abstractFromDb:doc.guid];
+    WizAbstract*   abstract = [self.dbDelegate abstractOfDocument:doc.guid];
     NSString* titleStr = doc.title;
     NSString* detailStr=@"";
     NSString* timeStr = @"";
@@ -203,10 +215,10 @@
         abstractImage = abstract.image;
     }
     if (abstractImage != nil) {
-        titleStr = [self nameToDisplay:titleStr width:230];
+        titleStr = [self nameToDisplay:titleStr width:400];
     }
     else {
-        titleStr = [self nameToDisplay:titleStr width:300];
+        titleStr = [self nameToDisplay:titleStr width:400];
     }
     titleStr = [titleStr stringByAppendingFormat:@"\n"];
     NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[self getNameAttributes]];
@@ -226,6 +238,7 @@
 }
 - (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID
 {
+    
     WizAbstractData* abs = [self readAbstractData:documentGUID];
     if (nil == abs) {
         return [self generateAbstractForDocument:documentGUID];

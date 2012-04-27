@@ -52,14 +52,20 @@
     }
 }
 
+- (void) updateDocument:(NSString*)documentGUID
+{
+    
+}
 - (void) addNewDocument:(NSNotification*)nc
 {
     self.tableView.backgroundView = nil;
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+    NSIndexPath* indexPath = [self indexPathForDocumentInTable:documentGUID];
+    if (NSNotFound != indexPath.section) {
+        [self updateDocument:documentGUID];
+        return;
+    }
     WizDocument* newDocument = [WizDocument documentFromDb:documentGUID];
-    WizSyncManager* sync = [WizSyncManager shareManager];
-    self.title = sync.syncDescription;
-    [sync uploadDocument:documentGUID];
     [self.sourceArray insertObject:newDocument atIndex:0];
     if ([self.tableArray count]) {
         WizDocument* doc = [[self.tableArray objectAtIndex:0] objectAtIndex:0];
@@ -179,7 +185,7 @@
 {
     self = [super init];
     if (self) {
-        [WizNotificationCenter addObserverForNewDocument:self selector:@selector(addNewDocument:)];
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(addNewDocument:)];
     }
     return self;
 }

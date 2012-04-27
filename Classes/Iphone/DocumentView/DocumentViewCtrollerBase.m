@@ -79,17 +79,17 @@
 }
 
 
--(void) webViewDidFinishLoad:(UIWebView *)webView
-{
-    [self.downloadActivity stopAnimating];
-    self.downloadActivity.hidden = YES;
-    self.searchItem.enabled = YES;
-    self.editBarItem.enabled = YES;
-    self.attachmentBarItem.enabled = YES;
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    [self changeWebViewWidth];
-}
+//-(void) webViewDidFinishLoad:(UIWebView *)webView
+//{
+//    [self.downloadActivity stopAnimating];
+//    self.downloadActivity.hidden = YES;
+//    self.searchItem.enabled = YES;
+//    self.editBarItem.enabled = YES;
+//    self.attachmentBarItem.enabled = YES;
+//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+//    [nc removeObserver:self];
+//    [self changeWebViewWidth];
+//}
 - (void) setDeviceWidth
 {
     self.fontWidth = @"device-width";
@@ -288,16 +288,22 @@
     // Return YES for supported orientations
     return YES;
 }
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
 -(void) viewWillDisappear:(BOOL)animated
 {
     [WizNotificationCenter removeObserverForDownloadDone:self];
     [super viewWillDisappear:animated];
+    [self.navigationController setToolbarHidden:YES];
     
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -336,7 +342,17 @@
     }
     
 }
-
+- (void) changeToolBarStatue:(UITapGestureRecognizer*)sender
+{
+    if (self.navigationController.toolbarHidden) {
+        [self.navigationController setToolbarHidden:NO animated:YES];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    }
+    else {
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        [self.navigationController setToolbarHidden:YES animated:YES];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -349,11 +365,7 @@
     self.editBarItem.image = [UIImage imageNamed:@"edit"];
     self.infoBarItem.image = [UIImage imageNamed:@"detail"];
     self.attachmentBarItem.image = [UIImage imageNamed:@"newNoteAttach"];
-    if(nil == self.web)
-    {
-        self.web = [[[UIWebView alloc] init] autorelease];
-        self.web.opaque = NO;
-    }
+    self.view = self.web;
     self.web.delegate = self;
     self.searchDocumentBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)] autorelease];
     self.searchDocumentBar.delegate = self;
@@ -363,8 +375,22 @@
     self.searchItem.enabled = NO;
     self.attachmentBarItem.enabled = NO;
     [self.downloadActivity startAnimating];
+    UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeToolBarStatue:)] autorelease];
+    tap.delegate = self;
+    tap.cancelsTouchesInView = NO;
+    [self.web addGestureRecognizer:tap];
 
 }
-
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if (otherGestureRecognizer.numberOfTouches > 1) {
+        return NO;
+    }
+    return YES;
+}
+- (BOOL) gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return NO;
+}
 @end
 

@@ -12,11 +12,12 @@
 @implementation NSDate (WizTools)
 - (NSString*) stringYearAndMounth
 {
-    NSString* dateToLocalString = [self stringLocal];
+    NSString* dateToLocalString = [self stringSql];
     if (nil == dateToLocalString || dateToLocalString.length <7) {
         return nil;
     }
     NSRange range = NSMakeRange(0, 7);
+    NSLog(@"year and mounth is %@",[dateToLocalString substringWithRange:range]);
    return [dateToLocalString substringWithRange:range];
 }
 - (NSString*) stringLocal

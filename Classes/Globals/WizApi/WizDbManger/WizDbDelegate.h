@@ -11,6 +11,9 @@
 @class WizAttachment;
 @class WizTag;
 @protocol WizDbDelegate <NSObject>
+- (void) close;
+- (BOOL) isOpen;
+- (BOOL) openDb:(NSString*)dbFilePath;
 // version
 - (int64_t) documentVersion;
 - (BOOL) setDocumentVersion:(int64_t)ver;
@@ -68,8 +71,4 @@
 - (NSArray*) allLocationsForTree;
 - (int) fileCountOfLocation:(NSString *)location;
 - (int) filecountWithChildOfLocation:(NSString*) location;
-
-//abstract
-- (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
-- (void) extractSummary:(NSString *)documentGUID;
 @end

@@ -22,43 +22,63 @@
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
+#import "WizSyncManager.h"
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
 //#import "TestFlight.h"
 #endif
 #define WizAbs(x) x>0?x:-x
+@interface WizAppDelegate()
+{
+    UILabel* syncLabel;
+}
+@property (nonatomic, retain) UILabel* syncLabel;
+@end
+
 @implementation WizAppDelegate
+@synthesize syncLabel;
 @synthesize window;
-@synthesize navController;
 - (void) dealloc
 {
-    [navController release];
     [window release];
     [super dealloc];
 }
 #pragma mark -
 #pragma mark Application lifecycle
-
+- (void) didChangedSyncDescription:(NSString *)description
+{
+//    if (description == nil || [description isBlock]) {
+//        self.window.frame = CGRectMake(0.0, 0.0, 320, 480);
+//    }
+//    else {
+//        self.window.frame = CGRectMake(0.0, 40, 320, 440);
+//        self.syncLabel.text = description;
+//    }
+}
 - (void) initRootNavigation
 {
     [WizGlobals toLog:@"dd"];
     [WizNotificationCenter removeObserver:self];
     UINavigationController* root = [[UINavigationController alloc] init];
-    self.navController = root;
     if ([WizGlobals WizDeviceIsPad])
     {
         WizPadLoginViewController* pad = [[WizPadLoginViewController alloc] init];
-        [self.navController pushViewController:pad animated:NO];
+        [root pushViewController:pad animated:NO];
         [pad release];
     }
     else
     {
+        UILabel* label =[[ UILabel alloc] initWithFrame:CGRectMake(0.0, 20, 320, 20)];
+        self.syncLabel = label;
+        [window addSubview:label];
+        label.textAlignment = UITextAlignmentCenter;
+        [label release];
+        [[WizSyncManager shareManager] setDisplayDelegate:self];
         WizIphoneLoginViewController* login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewController" bundle:nil];
-        [self.navController pushViewController:login animated:NO];
+        [root pushViewController:login animated:NO];
         [login release];
     }
-
-    [window addSubview:self.navController.view];
+    window.rootViewController = root;
     [root release];
     [self.window makeKeyAndVisible];
 }
@@ -110,7 +130,7 @@
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
     nav.view.frame = CGRectMake(0.0, 0.0, 320, 480);
     nav.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self.navController presentModalViewController:nav animated:NO];
+    [self.window.rootViewController presentModalViewController:nav animated:NO];
     [check release];
     [nav release];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];
@@ -175,3 +195,4 @@ return NO;
 }
 
 @end
+

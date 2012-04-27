@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizSyncDescriptionDelegate.h"
 @class UINavigationController;
-@interface WizAppDelegate : NSObject <UIApplicationDelegate> {
+@interface WizAppDelegate : NSObject <UIApplicationDelegate,WizSyncDescriptionDelegate> {
     UIWindow *window;
-	UINavigationController* navController;
 }
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navController;
 - (void) accountProtect;
 @end
 

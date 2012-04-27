@@ -145,6 +145,14 @@
 }
 - (void) onUploadObjectDataDone
 {
+    [[WizFileManager shareManager] deleteFile:self.currentUploadTempFilePath];
+    self.sumUploadPartCount = -1;
+    self.currentUploadIndex = -1;
+    self.currentUploadPos = -1;
+    self.sumUploadPartCount = -1;
+    self.currentUploadTempFilePath = nil;
+    self.uploadFileSize = -1;
+    [self.uploadFildHandel closeFile];
     if ([self.objectType isEqualToString:WizDocumentKeyString]) {
         [self callDocumentPostSimpleData:self.object  withZipMD5:self.uploadObjMd5];
     }
@@ -155,16 +163,8 @@
 }
 -(void) onUploadObjectSucceedAndCleanTemp
 {
-    [[WizFileManager shareManager] deleteFile:self.currentUploadTempFilePath];
-    busy = NO;
     self.objectType = nil;
-    self.sumUploadPartCount = -1;
-    self.currentUploadIndex = -1;
-    self.currentUploadPos = -1;
-    self.sumUploadPartCount = -1;
-    self.currentUploadTempFilePath = nil;
-    self.uploadFileSize = -1;
-    [self.uploadFildHandel closeFile];
+    busy = NO;
     [WizNotificationCenter postMessageUploadDone:self.objectGUID];
 }
 
@@ -192,7 +192,9 @@
 }
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    [WizDocumentEdit setDocumentLocalChanged:self.objectGUID changed:NO];
+    WizDocument* eidt = [WizDocument documentFromDb:self.objectGUID];
+    eidt.localChanged = NO;
+    [eidt saveInfo];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 - (void) onAttachmentPostSimpleData:(id)retObject

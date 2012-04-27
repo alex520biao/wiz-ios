@@ -41,4 +41,5 @@
 -(void) syncGoing:(NSNotification*) nc;
 -(void) refresh;
 - (void) viewDocument;
+- (NSIndexPath*) indexPathForDocumentInTable:(NSString*)documentGuid;
 @end

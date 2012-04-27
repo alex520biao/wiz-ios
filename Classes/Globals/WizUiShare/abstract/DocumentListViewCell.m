@@ -13,17 +13,11 @@
 #import "CommonString.h"
 #import "WizAbstractCache.h"
 
-#define CellWithImageFrame CGRectMake(8,8,225,74) 
-#define CellWithoutImageFrame CGRectMake(8,8,300,74)
+//#define CellWithImageFrame CGRectMake(8,8,225,74)
+//#define CellWithoutImageFrame CGRectMake(8,8,300,74)
 int CELLHEIGHTWITHABSTRACT = 90;
 int CELLHEIGHTWITHOUTABSTRACT = 50;
 
-@interface DocumentListViewCell()
-+ (NSMutableDictionary*) getDetailAttributes;
-+ (NSMutableDictionary*) getNameAttributes;
-+ (NSMutableDictionary*) getTimeAttributes;
-+ (UIFont*) nameFont;
-@end
 @implementation DocumentListViewCell
 @synthesize abstractLabel;
 @synthesize interfaceOrientation;
@@ -31,89 +25,22 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 @synthesize doc;
 @synthesize hasAbstract;
 @synthesize downloadIndicator;
-static NSMutableDictionary* detailAttributes;
-static NSMutableDictionary* nameAttributes;
-static NSMutableDictionary* timeAttributes;
-static UIFont* nameFont;
 
-+ (UIFont*) nameFont
+- (CGRect) getRectWithImage
 {
-    if(nameFont == nil)
-    {
-        nameFont = [UIFont boldSystemFontOfSize:15];
-    }
-    return nameFont;
+    return CGRectMake(8, 8, self.contentView.frame.size.width-20-75, 74);
 }
 
-+ (NSMutableDictionary*) getDetailAttributes
+- (CGRect) getRectWithoutImage
 {
-    if (detailAttributes == nil) {
-        detailAttributes = [[NSMutableDictionary alloc] init];
-        UIFont* textFont = [UIFont systemFontOfSize:13];
-        CTFontRef textCtfont = CTFontCreateWithName((CFStringRef)textFont.fontName, textFont.pointSize, NULL);
-        [detailAttributes setObject:(id)[[UIColor grayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
-        [detailAttributes setObject:(id)textCtfont forKey:(NSString*)kCTFontAttributeName];
-    }
-    return detailAttributes;
+    return CGRectMake(8, 8, self.contentView.frame.size.width-20, 74);
 }
-+ (NSMutableDictionary*) getNameAttributes
-{
-    if (nameAttributes == nil) {
-        nameAttributes = [[NSMutableDictionary alloc] init];
-        UIFont* stringFont = [self nameFont];
-        CTFontRef font = CTFontCreateWithName((CFStringRef)stringFont.fontName, stringFont.pointSize, NULL);
-        [nameAttributes setObject:(id)font forKey:(NSString*)kCTFontAttributeName];
-        CTLineBreakMode lineBreakMode = kCTLineBreakByCharWrapping;
-        CTParagraphStyleSetting settings[]={lineBreakMode};
-        CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings));
-        [nameAttributes setObject:(id)paragraphStyle forKey:(NSString*)kCTParagraphStyleAttributeName];
-    }
-    return nameAttributes;
-}
-
-+ (NSMutableDictionary*) getTimeAttributes
-{
-    if (timeAttributes == nil) {
-        timeAttributes = [[NSMutableDictionary alloc] init];
-        [timeAttributes setObject:(id)[[UIColor lightGrayColor] CGColor] forKey:(NSString *)kCTForegroundColorAttributeName];
-    }
-    return timeAttributes;
-}
-- (void) dealloc
-{
-    [abstractLabel release];
-    [abstractImageView release];
-    [doc release];
-    self.hasAbstract = NO;
-    [downloadIndicator release];
-    [super dealloc];
-}
-
-- (NSString*) nameToDisplay:(NSString*)str   width:(CGFloat)width
-{
-    UIFont* nameFont = [DocumentListViewCell nameFont];
-    CGSize boundingSize = CGSizeMake(CGFLOAT_MAX, 20);
-    CGSize requiredSize = [str sizeWithFont:nameFont constrainedToSize:boundingSize
-                              lineBreakMode:UILineBreakModeCharacterWrap];
-    CGFloat requireWidth = requiredSize.width;
-    if (requireWidth > width) {
-        if (nil == str || str.length <1) {
-            return @"";
-        }
-        return [self nameToDisplay:[str substringToIndex:str.length-1 ] width:width];
-    }
-    else
-    {
-        return str;
-    }
-}
-
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        TTTAttributedLabel* abstractLabel_ = [[TTTAttributedLabel alloc] initWithFrame:CellWithImageFrame];
+        TTTAttributedLabel* abstractLabel_ = [[TTTAttributedLabel alloc] initWithFrame:[self getRectWithImage]];
         abstractLabel_.numberOfLines  =0;
         abstractLabel_.backgroundColor = [UIColor clearColor];
         abstractLabel_.textAlignment = UITextAlignmentLeft;
@@ -136,7 +63,7 @@ static UIFont* nameFont;
         layer.shadowRadius = 0.5;
         self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0];
-        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 320, 1)];
+        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 480, 1)];
         breakView.image = [UIImage imageNamed:@"separetorLine"];
         [self addSubview:breakView];
         [breakView release];
@@ -156,12 +83,13 @@ static UIFont* nameFont;
 - (void) prepareForAppear
 {
     WizAbstractData* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc.guid];
-   if (abstract.image != nil) {
-        self.abstractLabel.frame = CellWithImageFrame;
+    self.abstractImageView.frame = CGRectMake(self.contentView.frame.size.width - 75, 10, 70, 70);
+    if (abstract.image != nil) {
+        self.abstractLabel.frame = [self getRectWithImage];
         self.abstractImageView.hidden = NO;
     }
     else {
-        self.abstractLabel.frame = CellWithoutImageFrame;
+        self.abstractLabel.frame = [self getRectWithoutImage];
         self.abstractImageView.hidden = YES;
     }
     self.abstractLabel.text = abstract.text;

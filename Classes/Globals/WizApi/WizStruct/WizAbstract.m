@@ -12,9 +12,4 @@
 @implementation WizAbstract
 @synthesize image;
 @synthesize text;
-+ (WizAbstract*) abstractFromDb:(NSString*)guid
-{
-    WizDbManager* share = [WizDbManager shareDbManager];
-    return [share abstractOfDocument:guid];
-}
 @end

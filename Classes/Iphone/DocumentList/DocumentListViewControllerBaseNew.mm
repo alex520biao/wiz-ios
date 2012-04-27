@@ -69,13 +69,12 @@
             }
         }
     }
-    return nil;
+    return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
 }
 
 - (void) onDeleteDocument:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* documentGuid = [userInfo valueForKey:TypeOfPhoneDocumentGuid];
+    NSString* documentGuid = [WizNotificationCenter getDeleteDocumentGUIDFromNc:nc];
     if (nil == documentGuid) {
         return;
     }
@@ -531,8 +530,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         WizDocument* doc = [[self.tableArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:doc.guid forKey:TypeOfPhoneDocumentGuid];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPhoneDeleteDocument object:nil userInfo:userInfo];
+        [WizDocument deleteDocument:doc.guid];
     }
 }
 
@@ -571,7 +569,7 @@
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeleteDocument:) name:MessageOfPhoneDeleteDocument object:nil];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willReloadAllData) name:MessageOfDocumentlistWillReloadData object:nil];
     }
     return self;

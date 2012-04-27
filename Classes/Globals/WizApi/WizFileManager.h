@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface WizFileManager : NSFileManager
++(NSString*) documentsPath;
 + (id) shareManager;
 - (NSString*) accountPath;
 - (NSString*) dbPath;

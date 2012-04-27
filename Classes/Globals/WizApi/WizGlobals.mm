@@ -435,7 +435,7 @@ static NSArray* excelArray;
 + (NSURL*) wizServerUrl
 {
 //    return [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
-    return [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
 }
 +(NSString*) dateToLocalString: (NSDate*)date
 {

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizAbstractDbDelegate.h"
 @interface WizAbstractData : NSObject
 {
     NSAttributedString* text;
@@ -16,9 +17,12 @@
 @property (nonatomic, retain) UIImage*              image;
 @end
 @interface WizAbstractCache : NSObject
-- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID;
+{
+    id <WizAbstractDbDelegate> dbDelegate;
+}
+@property (atomic, retain) id <WizAbstractDbDelegate> dbDelegate;
 + (id) shareCache;
+- (WizAbstractData*) documentAbstractForIphone:(NSString*)documentGUID;
 - (void) didReceivedMenoryWarning;
-
 - (WizAbstractData*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId;
 @end

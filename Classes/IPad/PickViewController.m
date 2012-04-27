@@ -24,7 +24,7 @@
 
 #import "WizNotification.h"
 //wiz-dzpqzb test
-#import "WizTableViewController.h"
+#import "PhRecentViewController.h"
 
  #define NEWNOTEENTRY 101
  
@@ -108,12 +108,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
+    
+    
+//    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
+//    UINavigationController* recentController = [[UINavigationController alloc]init];
+//    [recentController pushViewController:recent animated:NO];
+//    recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
+//    [recent release];
+
+    PhRecentViewController* recent = [[PhRecentViewController alloc]init] ;
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
     recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
     [recent release];
-    
+    //
     FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];
     UINavigationController* folderController = [[UINavigationController alloc] init] ;
     [folderController  pushViewController:folderView animated:NO];
@@ -159,7 +167,8 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
          // Return YES for supported orientations
-         return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//         return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
  
 - (void) dismissModalViewControllerAnimated:(BOOL)animated

@@ -81,6 +81,14 @@
         [self callDownloadAttachmentList:newVer+1];
     }
     else {
+        NSArray* ups = [WizDocument documentForUpload];
+        for (WizDocument* each in ups) {
+            [[WizSyncManager shareManager] uploadDocument:each.guid];
+        }
+//        NSArray* downs = [WizDocument recentDocuments];
+//        for (WizDocument* each in downs) {
+//            [[WizSyncManager shareManager] downloadDocument:each.guid];
+//        }
     }
 }
 -(void) onDownloadDocumentList: (id)retObject

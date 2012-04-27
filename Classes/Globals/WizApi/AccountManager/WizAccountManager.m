@@ -32,7 +32,7 @@
 @implementation WizAccountManager
 -(NSString*) settingsFileName
 {
-	NSString* filename = [[WizGlobals documentsPath] stringByAppendingPathComponent:SettingsFileName];
+	NSString* filename = [[WizFileManager  documentsPath] stringByAppendingPathComponent:SettingsFileName];
 	return filename;
 }
 -(id) init
@@ -75,10 +75,7 @@
 {
 	[dict setValue:value forKey:key];
 	NSString* filename = [self settingsFileName];
-    NSLog(@"the account dic is %@",dict);
-    NSString* file = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"aa.plist"];
     [dict writeToFile:filename atomically:YES];
-    [dict writeToFile:file atomically:YES];
 }
 
 -(NSArray*) accounts
@@ -137,11 +134,10 @@
     [self setDefalutAccount:userId];
     WizFileManager* fileManager = [WizFileManager shareManager];
     WizDbManager* dbManager = [WizDbManager shareDbManager];
-    if(![dbManager openDb:[fileManager dbPath] tempDbFilePath:[fileManager tempDbPath]])
+    if(![dbManager openDb:[fileManager dbPath]])
     {
         return NO;
     }
-    
     return YES;
 }
 - (NSString*) activeAccountUserId

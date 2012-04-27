@@ -8,27 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "WizNotification.h"
-@interface NSString (WizTableViewControllerNSString)
-- (NSComparisonResult) compareDate:(NSString*)str;
-- (NSComparisonResult) compareFirstCharacter:(NSString*) str;
+@protocol WizTableDataDelegate <NSObject>
+- (NSArray*) reloadAllDocument;
+- (void) deleteDocument:(NSString*)documentGuid;
+- (void) insertDocument:(WizDocument*)doc indexPath:(NSIndexPath*)indexPath;
 @end
 
 @protocol WizTableViewControllerDataDelegate
 - (void) reloadSourceData;
 @end
-
 @interface WizTableViewController : UITableViewController
 {
-    @public
-    NSString* accountUserId;
+    id <WizTableDataDelegate> wizDataDelegate;
     @private
     NSMutableArray* tableSourceArray;
     NSUInteger kOrderIndex;
 }
-@property(retain, nonatomic) NSString* accountUserId;
 @property(retain, nonatomic) NSMutableArray* tableSourceArray;
+@property(retain, nonatomic) id <WizTableDataDelegate> wizDataDelegate;
 @property NSUInteger kOrderIndex;
-- (id) initWithAccountuserid:(NSString*)userId;
+- (NSInteger) documentsCount;
 @end
 
 

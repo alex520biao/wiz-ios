@@ -224,11 +224,10 @@ static WizDbManager* shareDbManager = nil;
 - (void) close
 {
     index.Close();
-    tempIndex.Close();
 }
 - (BOOL) isOpen
 {
-    return index.IsOpened() && tempIndex.IsOpened();
+    return index.IsOpened();
 }
 - (void) initAccountSetting
 {
@@ -251,7 +250,6 @@ static WizDbManager* shareDbManager = nil;
     }
     else
     {
-        
         if ([self durationForDownloadDocument]== -1) {
             [self setDurationForDownloadDocument:0];
             
@@ -261,20 +259,27 @@ static WizDbManager* shareDbManager = nil;
         }
     }
 }
-- (BOOL) openDb:(NSString*)dbFilePath    tempDbFilePath:(NSString*)tempDbFilePath
+- (BOOL) openDb:(NSString*)dbFilePath
 {
     NSLog(@"dbFilePath is %@",dbFilePath);
     bool indexIsOpen = index.Open([dbFilePath UTF8String]);
-    bool tempIndexIsOpen = tempIndex.Open([tempDbFilePath UTF8String]);
-    if (tempIndexIsOpen && indexIsOpen) {
+    if (indexIsOpen) {
         [self initAccountSetting];
         return YES;
     }
-    else {
-        index.Close();
-        tempIndex.Close();
-        return NO;
-    }
+    return NO;
+}
+- (BOOL) openTempDb:(NSString *)tempDbFilePath
+{
+    return tempIndex.Open([tempDbFilePath UTF8String]);
+}
+- (BOOL) isTempDbOpen
+{
+    return tempIndex.IsOpened();
+}
+- (void) closeTempDb
+{
+    return tempIndex.Close();
 }
 //data
 - (NSString*) meta: (NSString*)name key:(NSString*)key
@@ -612,29 +617,6 @@ static WizDbManager* shareDbManager = nil;
 {
     return  tempIndex.DeleteAbstractByGUID([documentGUID UTF8String])?YES:NO;
 }
-- (void) documentServerChanged:(NSString*)documentGuid  changed:(BOOL)changed
-{
-    if (!changed) {
-        [self extractSummary:documentGuid];
-    }
-    else {
-        [self deleteAbstractByGUID:documentGuid];
-    }
-}
-- (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed
-{
-    if (changed) {
-        [self deleteAbstractByGUID:documentGUID];
-    }
-    else
-    {
-        [self deleteAbstractByGUID:documentGUID];
-        [self extractSummary:documentGUID];
-    }
-    [WizNotificationCenter postUpdateDocument:documentGUID];
-    BOOL ret = index.SetDocumentServerChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
-    return ret;
-}
 - (BOOL) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed
 {
     if (changed) {
@@ -644,9 +626,11 @@ static WizDbManager* shareDbManager = nil;
     [WizNotificationCenter postUpdateDocument:documentGUID];
     return index.SetDocumentLocalChanged([documentGUID UTF8String], changed ? true : false) ? YES : NO;
 }
+
 - (BOOL) updateDocument:(NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
+    NSLog(@"guid is %@",guid);
 	NSString* title =[doc valueForKey:DataTypeUpdateDocumentTitle];
 	NSString* location = [doc valueForKey:DataTypeUpdateDocumentLocation];
 	NSString* dataMd5 = [doc valueForKey:DataTypeUpdateDocumentDataMd5];
@@ -679,36 +663,48 @@ static WizDbManager* shareDbManager = nil;
     else {
         data.nProtected = [nProtected intValue];
     }
-    if (localChanged == nil) {
+    if (nil == localChanged) {
         data.nLocalChanged = 0;
     }
-    else
-    {
-        data.nLocalChanged = [localChanged intValue];
+    else {
+        data.nLocalChanged = [localChanged boolValue];
     }
+    
     if (nil == serverChanged) {
         data.nServerChanged = 1;
+        WizDocument* docExit = [WizDocument documentFromDb:guid];
+        if (nil != docExit && [docExit.dataMd5 isEqualToString:dataMd5]) {
+            data.nServerChanged = 0;
+        }
     }
     else {
-        data.nServerChanged = [serverChanged intValue];
+        data.nServerChanged = [serverChanged  boolValue];
     }
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
+    [self deleteAbstractByGUID:guid];
+    if (data.nServerChanged == 0 || data.nLocalChanged!=0) {
+        [self extractSummary:guid];
+    }
+    [WizNotificationCenter postUpdateDocument:guid];
 	return ret;
 }
 - (BOOL) updateDocuments:(NSArray *)documents
 {
-	for (NSDictionary* doc in documents)
-	{
-		@try {
+    NSLog(@"documents count is %d",[documents count]);
+    for (int i =0; i < [documents count]; i++) {
+        NSDictionary* doc = [documents objectAtIndex:i];
+        @try {
+            NSLog(@"begin updateDocument");
             [self updateDocument:doc];
         }
         @catch (NSException *exception) {
-            return NO;
+            NSLog(@"catch exception %@",exception);
+            continue;
         }
         @finally {
             
         }
-	}
+    }
 	//
 	return YES;
 	

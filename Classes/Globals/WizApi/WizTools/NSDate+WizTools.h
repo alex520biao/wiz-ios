@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSDate-Utilities.h"
 
 @interface NSDate (WizTools)
 - (NSString*) stringYearAndMounth;
 - (NSString*) stringLocal;
--(NSString*) stringSql;
+- (NSString*) stringSql;
 @end

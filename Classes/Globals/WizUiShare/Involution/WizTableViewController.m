@@ -1,5 +1,5 @@
 //
-//  WizTableViewController.m
+//  WizTableVController.m
 //  Wiz
 //
 //  Created by wiz on 12-3-12.
@@ -10,13 +10,12 @@
 
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
-#import "NSDate-Utilities.h"
 #import "CommonString.h"
-#import "WizTableVIewCell.h"
 #import "WizNotification.h"
 #import "WizDbManager.h"
-#define WizNotFound -2
-
+#import "DocumentListViewCell.h"
+#import "WizSyncManager.h"
+#import "DocumentViewCtrollerBase.h"
 NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     if (result > 0) {
@@ -42,11 +41,13 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     switch (mask) {
         case kOrderDate:
+            return [self compareModifiedDate:doc];
         case kOrderReverseDate:
-            return  [self.dateModified compareDate:doc.dateModified];
+            return  [self compareModifiedDate:doc];
         case kOrderCreatedDate:
+            return [self compareCreateDate:doc];
         case kOrderReverseCreatedDate:
-            return [self.dateCreated compareDate:doc.dateCreated];
+            return [self compareCreateDate:doc];
         case kOrderFirstLetter:
         case kOrderReverseFirstLetter:
             return  [self.title compareFirstCharacter:doc.title];
@@ -57,17 +58,10 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 -(NSComparisonResult) compareDocument:(WizDocument *)doc mask:(WizTableOrder)mask
 {
-//    if ([WizIndex isReverseOrder:mask]) {
-//        return ReverseComparisonResult([self compareDocumentOrder:doc mask:mask]);
-//    }
-//    else {
-//        return [self compareDocumentOrder:doc mask:mask];   
-//    }
+    return ReverseComparisonResult([self compareDocumentOrder:doc mask:mask]);
 }
-- (NSComparisonResult) reverseDateGroup:(NSString*)date1 :(NSString*)date2
+- (NSComparisonResult) reverseDateGroup:(NSDate*)d1 date2:(NSDate*)d2
 {
-    NSDate* d1 = [date1 dateFromSqlTimeString];
-    NSDate* d2 = [date2 dateFromSqlTimeString];
     if ([d1 isToday]) {
         if ([d2 isToday]) {
             return 0;
@@ -111,21 +105,17 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         }
     }
 }
-- (NSComparisonResult) dateBreakForGoup:(NSString*)date1 :(NSString*)date2
-{
-    NSRange range = NSMakeRange(0, 7);
-    return [[date1 substringWithRange:range] compare:[date2 substringWithRange:range] options:NSCaseInsensitiveSearch];
-}
+
 -(NSComparisonResult) compareToGroup:(WizDocument*)doc mask:(WizTableOrder)mask
 {
     switch (mask) {
         case kOrderDate:
-            return [self dateBreakForGoup:self.dateModified :doc.dateModified];
+            return [[self.dateModified stringYearAndMounth] compare:[self.dateModified stringYearAndMounth] ];
         case kOrderReverseDate:
-            return [self reverseDateGroup:self.dateModified :doc.dateModified];
+            return [self reverseDateGroup:self.dateModified date2:doc.dateModified];
         case kOrderCreatedDate:
         case kOrderReverseCreatedDate:
-            return [self dateBreakForGoup:self.dateCreated :doc.dateCreated];
+            return [[self.dateCreated stringYearAndMounth] compare:[self.dateCreated stringYearAndMounth]];
         case kOrderFirstLetter:
         case kOrderReverseFirstLetter:
             return [self.title compareFirstCharacter:doc.title];
@@ -135,18 +125,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     return 0;
 }
 @end
-
-@implementation NSString (WizTableViewControllerNSString)
-- (NSComparisonResult) compareDate:(NSString*)str
-{
-    return [[WizGlobals sqlTimeStringToDate:self] compare:[WizGlobals sqlTimeStringToDate:str]];
-}
-- (NSComparisonResult) compareFirstCharacter:(NSString *)str
-{
-//    return [[WizIndex pinyinFirstLetter:self] compare:[WizIndex pinyinFirstLetter:str]];
-}
-@end
-
 
 @interface NSMutableArray (WizSortDocument)
 - (void) sortDocuments:(WizTableOrder)mask;
@@ -160,41 +138,23 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
          return [doc1 compareDocument:doc2 mask:mask];
      }];
 }
-
 @end
 
 @implementation WizTableViewController
-@synthesize accountUserId;
 @synthesize kOrderIndex;
+@synthesize wizDataDelegate;
 @synthesize tableSourceArray;
+
 - (void) dealloc
 {
-    [accountUserId release];
     [tableSourceArray release];
+    [wizDataDelegate release];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
-}
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-    
-    }
-    return self;
-}
-- (id) initWithAccountuserid:(NSString*)userId
-{
-    self = [super init];
-    if (self) {
-        self.accountUserId = userId;
-        self.tableSourceArray = [NSMutableArray array];
-        self.kOrderIndex = -1;
-    }
-    return self;
 }
 - (NSMutableArray*) reloadAllData
 {
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-    return [NSMutableArray  arrayWithArray:[[WizDbManager shareDbManager] recentDocuments]] ;
+    return [NSMutableArray arrayWithArray:[self.wizDataDelegate reloadAllDocument]];
 }
 
 - (void) sortAllData
@@ -240,25 +200,26 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     WizDocument* doc = [[self.tableSourceArray objectAtIndex:section] firstObject];
+    NSLog(@"korder is %d",self.kOrderIndex);
     switch (self.kOrderIndex) {
         case kOrderCreatedDate:
         case kOrderReverseCreatedDate:
         {
             if (doc.dateCreated != nil) {
-                return [[WizGlobals dateToSqlString:doc.dateCreated] substringToIndex:7];
+                return [doc.dateCreated  stringYearAndMounth];
             }
             else {
-                return @"";
+                return @"dd";
             }
         }
             
         case kOrderDate:
         {
             if (doc.dateModified != nil ) {
-                return [[WizGlobals dateToSqlString:doc.dateModified] substringToIndex:7];
+                return [doc.dateModified stringYearAndMounth];
             }
             else {
-                return @"";
+                return @"dddd";
             }
         }
         case kOrderFirstLetter:
@@ -290,58 +251,29 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         default:
             break;
     }
-    return @"";
+    return @"ddddddddddddd";
 }
 - (void) reloadSelf
 {
-    static int i = 0;
-    if (i == 0) {
-        i = self.kOrderIndex;
-    }
-    i++;
-    if (i%7 == 0) {
-        i = 1;
-    }
-    self.kOrderIndex = i;
-    [self sortAllData];
-    [self.tableView reloadData];
+    [[WizSyncManager shareManager] startSyncInfo];
 }
-- (void) insertDocument:(NSNotification*)nc
+- (void) reloadDocument:(WizDocument*)doc  indexPath:(NSIndexPath*)indexPath
 {
-//    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    WizDocument* doc = [index documentFromGUID:documentGUID];
-//    NSInteger updateSection = [self groupIndexOfDocument:documentGUID];
-//    if (updateSection == WizNotFound) {
-//        NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
-//        [newArr addObject:doc];
-//        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
-//            updateSection = 0;
-//        }
-//        else {
-//            updateSection = [tableSourceArray count];
-//        }
-//        [self.tableSourceArray insertObject:doc atIndex:updateSection];
-//        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
-//    }
-//    else {
-//        NSMutableArray* arr = [tableSourceArray objectAtIndex:updateSection];
-//        [arr addObject:doc];
-//        [arr sortDocuments:self.kOrderIndex];
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
-//    }
-    
+    [[self.tableSourceArray objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:doc];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
 }
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.kOrderIndex = kOrderFirstLetter;
+    self.kOrderIndex = kOrderReverseDate;
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(reloadSelf)];
     self.navigationItem.rightBarButtonItem = item;
     self.tableView.frame = CGRectMake(0.0, 0.0, 200, 480);
     [item release];
     [self sortAllData];
-    [WizNotificationCenter addObserverWithKey:self selector:@selector(insertDocument:) name:MessageTypeOfNewDocument];
 }
 
 - (void)viewDidUnload
@@ -356,7 +288,18 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    for (DocumentListViewCell* each in [self.tableView visibleCells]) {
+        [each prepareForAppear];
+    }
+}
+- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -371,53 +314,55 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.accountUserId];
-    if (!cell) {
-        cell = [[[WizTableViewCell alloc] initWithUserIdAndDocGUID:UITableViewCellStyleValue1 userId:self.accountUserId] autorelease];
+    static NSString* CellIdentifier = @"DocumentCell";
+    DocumentListViewCell *cell = (DocumentListViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (cell == nil) {
+        cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
-    WizDocument* document = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.documemtGuid = document.guid;
-    [cell setNeedsDisplay];
+    cell.interfaceOrientation = self.interfaceOrientation;
+    cell.doc = doc;
     return cell;
 }
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
+    [docCell prepareForAppear];
+}
+
 - (NSUInteger) indexOfInsertDocumentToArray:(WizDocument*)document :(NSArray*)arr
 {
     for (NSUInteger docIndex = 0 ; docIndex < [arr count]; docIndex++) {
-//        WizDocument* doc = [arr objectAtIndex:docIndex];
-//        if ([WizIndex isReverseOrder:self.kOrderIndex]) {
-//            if ([document compareDocument:doc mask:self.kOrderIndex] >= 0) {
-//                return docIndex;
-//            }
-//        }
-//        else {
-//            if ([document compareDocument:doc mask:self.kOrderIndex] <=0) {
-//                return docIndex;
-//            }
-//        }
+        WizDocument* doc = [arr objectAtIndex:docIndex];
+        if ([document compareDocument:doc mask:self.kOrderIndex] >= 0) {
+            return docIndex;
+        }
     }
-    return WizNotFound;
+    return NSNotFound;
 }
 - (NSInteger) groupIndexOfDocument:(NSString*)documentGUID
 {
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    WizDocument* doc = [index documentFromGUID:documentGUID];
-//    for (int arrIndex = 0; arrIndex < [self.tableSourceArray count]; arrIndex++) 
-//    {
-//        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
-//        if (![doc compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
-//        {
-//            return arrIndex;
-//        }
-//    }
-    return WizNotFound;
+    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
+    if (nil == doc) {
+        return NSNotFound;
+    }
+    for (int arrIndex = 0; arrIndex < [self.tableSourceArray count]; arrIndex++)
+    {
+        NSMutableArray* docArr =[self.tableSourceArray objectAtIndex:arrIndex];
+        if (![doc compareToGroup:[docArr objectAtIndex:0] mask:self.kOrderIndex]) 
+        {
+            return arrIndex;
+        }
+    }
+    return NSNotFound;
 }
 
 
 - (NSIndexPath*) indexOfDocumentInTableSourceArray:(NSString*)documentGUID
 {
     NSInteger section = [self groupIndexOfDocument:documentGUID];
-    NSInteger row = WizNotFound;
-    if (WizNotFound != section) {
+    NSInteger row = NSNotFound;
+    if (NSNotFound != section) {
         NSArray* arr = [tableSourceArray objectAtIndex:section];
         for (NSInteger docIndex = 0; docIndex < [arr count]; docIndex++) {
             if ([documentGUID isEqualToString:[[arr objectAtIndex:docIndex] guid]]) {
@@ -429,30 +374,118 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
-- (void) insertDocumentToTableArray:(NSString*)documentGUID
+- (NSIndexPath*) indexPathOfDocument:(NSString*)document
 {
-
+    NSInteger section = NSNotFound;
+    NSInteger row = NSNotFound;
+    for (int i =0 ; i < [self.tableSourceArray count]; i++) {
+        NSArray* array = [self.tableSourceArray objectAtIndex:i];
+        for (int j = 0; j < [array count]; j++) {
+            WizDocument* doc = [array objectAtIndex:j];
+            if ([doc.guid isEqualToString:document]) {
+                section = i;
+                row = j;
+                break;
+            }
+        }
+    }
+    return [NSIndexPath indexPathForRow:row inSection:section];
 }
+- (void) viewDocument:(WizDocument*)doc
+{
+	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] initWithNibName:@"DocumentViewCtrollerBase" bundle:nil];
+    docView.hidesBottomBarWhenPushed = YES;
+    docView.doc = doc;
+	[self.navigationController pushViewController:docView animated:YES];
+	[docView release];
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    NSIndexPath* a = [self indexOfDocumentInTableSourceArray:doc.guid];
+    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [self viewDocument:doc];
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 95;
+    return 90;
 }
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSArray* arr = [tableSourceArray objectAtIndex:indexPath.section];
-        if ([arr count] == 1) {
-            [self.tableSourceArray removeObjectAtIndex:indexPath.section];
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationTop];
-            return;
-        }
-        [[self.tableSourceArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+        WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        [WizDocument deleteDocument:doc.guid];
+    }
+}
+- (NSInteger) documentsCount
+{
+    NSInteger ret = 0;
+    for (NSArray* each in self.tableSourceArray) {
+        ret += [each count];
+    }
+    return ret;
+}
+- (void) onDeleteDocument:(NSNotification*)nc
+{
+    NSString* documentGUID = [WizNotificationCenter getDeleteDocumentGUIDFromNc:nc];
+    NSLog(@"documentGUID is %@",documentGUID);
+    if (documentGUID == nil || [documentGUID isEqualToString:@""]) {
+        NSLog(@"nil");
+        return;
+    }
+    NSIndexPath* docIndex = [self indexPathOfDocument:documentGUID];
+    if (docIndex.section == NSNotFound || docIndex.row == NSNotFound)
+    {
+        return;
+    }
+    [[self.tableSourceArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
+    if ([[self.tableSourceArray objectAtIndex:docIndex.section] count] > 0)
+    {
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationRight];
+    }
+    else {
+        [self.tableSourceArray removeObjectAtIndex:docIndex.section];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (void) updateDocument:(NSNotification*)nc
+{
+    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
+    if (nil == doc) {
+        return;
+    }
+    NSIndexPath* indexPath = [self indexOfDocumentInTableSourceArray:documentGUID];
+    if (indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
+        //        [self reloadDocument:doc indexPath:indexPath];
+        return;
+    }
+    else {
+        [self.wizDataDelegate insertDocument:doc indexPath:indexPath];
+    }
+}
+
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        self.tableSourceArray = [NSMutableArray array];
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.kOrderIndex = kOrderReverseDate;
+    }
+    return self;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSArray* array = [self.tableView visibleCells];
+    for (DocumentListViewCell* each in array) {
+        [each prepareForAppear];
     }
 }
 @end

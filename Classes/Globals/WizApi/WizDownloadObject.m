@@ -79,7 +79,9 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 - (void) downloadDone
 {
     if ([self.objType isEqualToString:WizDocumentKeyString]) {
-        [WizDocumentEdit setDocumentServerchangedToDb:self.objGuid changed:NO];
+        WizDocument* document = [WizDocument documentFromDb:self.objGuid];
+        document.serverChanged = NO;
+        [document saveInfo];
     }
     else if ([self.objType isEqualToString:WizAttachmentKeyString])
     {

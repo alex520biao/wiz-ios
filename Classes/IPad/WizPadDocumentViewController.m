@@ -27,7 +27,6 @@
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
-#define WizNotFound   -2
 #define TableLandscapeFrame CGRectMake(0.0, 0.0, 320, 660)
 #define ToolbarLandscapeFrame CGRectMake(0.0, 660, 1024, 44)
 #define WebViewLandscapeFrame CGRectMake(321, 45, 703, 616)
@@ -282,7 +281,7 @@
             }
         }
     }
-    return [NSIndexPath indexPathForRow:WizNotFound inSection:WizNotFound];
+    return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
 }
 - (NSUInteger) indexOfDocument:(NSString*)guid
 {
@@ -549,7 +548,7 @@
 //    NSString* documentGUID = [ret valueForKey:@"document_guid"];
 //    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
 //    NSIndexPath* indexPath = [self indexPathOfDocument:documentGUID];
-//    if (indexPath.section == WizNotFound) {
+//    if (indexPath.section == NSNotFound) {
 //        return;
 //    }
 //    else {
