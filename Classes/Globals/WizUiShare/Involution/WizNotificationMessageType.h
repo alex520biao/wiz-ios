@@ -38,3 +38,4 @@
 #define UserInfoTypeOfLoginSucceed  @"UserInfoTypeOfLoginSucceed"
 //
 #define MessageTypeOfUpdateCache    @"MessageTypeOfUpdateCache"
+#define MessageTypeOfChangedUser    @"MessageTypeOfChangedUser"

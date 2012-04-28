@@ -7,8 +7,6 @@
 //
 
 #import "WizAbstract.h"
-#import "WizDbManager.h"
-
 @implementation WizAbstract
 @synthesize image;
 @synthesize text;

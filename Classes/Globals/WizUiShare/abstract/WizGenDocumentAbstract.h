@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-@class WizAbstractData;
 @protocol WizGenDocumentAbstractDelegate <NSObject>
-- (void) didGenDocumentAbstract:(NSString*)documentGuid  abstractData:(WizAbstractData*)abs;
+- (NSString*) popNeedGenAbstrctDocument;
+- (void) didGenDocumentAbstract:(NSString*)documentGuid  abstractData:(WizAbstract*)abs;
 @end
 @interface WizGenDocumentAbstract : NSOperation
-- (id) initWithDegeate:(NSString*)documentGuid_ delegate:(id<WizGenDocumentAbstractDelegate>)delegate_;
+{
+    BOOL isChangedUser;
+}
+@property (atomic) BOOL isChangedUser;
+- (id) initWithDelegate:(id<WizGenDocumentAbstractDelegate>)delegate_;
 @end

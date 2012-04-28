@@ -651,7 +651,7 @@ static WizDbManager* shareDbManager = nil;
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
     [self deleteAbstractByGUID:guid];
     if (data.nServerChanged == 0 || data.nLocalChanged!=0) {
-        [[WizAbstractCache shareCache] abstractOfDocument:guid];
+        [self extractSummary:guid];
     }
     [WizNotificationCenter postUpdateDocument:guid];
 	return ret;

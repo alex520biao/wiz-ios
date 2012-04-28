@@ -251,7 +251,7 @@
             }
         }
     }
-    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageAllowed timeoutInterval:40.0f];
     [self.web loadRequest:req];
     [req release];
     [url release];

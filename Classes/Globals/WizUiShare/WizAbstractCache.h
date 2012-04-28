@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WizAbstractData.h"
 #import "WizGenDocumentAbstract.h"
 @protocol WizGenDocumentAbstractDelegate;
 @interface WizAbstractCache : NSObject <WizGenDocumentAbstractDelegate>
 + (id) shareCache;
 - (void) genDocumentAbstract:(NSString*)documentGuid    isUpdate:(BOOL)isUpdate;
-- (WizAbstractData*) documentAbstractForIphone:(WizDocument*)document;
+- (WizAbstract*) documentAbstractForIphone:(WizDocument*)document;
 - (void) didReceivedMenoryWarning;
-- (WizAbstractData*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId;
+- (WizAbstract*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId;
 @end

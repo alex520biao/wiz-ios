@@ -15,18 +15,12 @@ extern int CELLHEIGHTWITHOUTABSTRACT;
 @class WizDocument;
 @interface DocumentListViewCell : UITableViewCell
 {
-    TTTAttributedLabel* abstractLabel;
-    UIImageView* abstractImageView;
     WizDocument* doc;
-    BOOL hasAbstract;
-    UIInterfaceOrientation interfaceOrientation;
+    WizAbstract* abstractData;
     UIActivityIndicatorView* downloadIndicator;
 }
-@property (nonatomic, retain) TTTAttributedLabel* abstractLabel;
-@property (nonatomic, retain) UIImageView* abstractImageView;
+@property (nonatomic, retain) WizAbstract* abstractData;
 @property (nonatomic, retain) WizDocument* doc;
 @property (nonatomic, retain) UIActivityIndicatorView* downloadIndicator;
-@property (assign)  BOOL hasAbstract;
-@property UIInterfaceOrientation interfaceOrientation;
 - (void) prepareForAppear;
 @end

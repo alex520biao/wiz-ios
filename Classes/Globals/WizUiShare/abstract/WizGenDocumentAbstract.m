@@ -8,84 +8,57 @@
 
 #import "WizGenDocumentAbstract.h"
 #import "WizDbManager.h"
-#import "WizAbstractData.h"
 #import "WizFileManager.h"
 #import "WizDecorate.h"
 @interface WizGenDocumentAbstract()
 {
-    NSString* documentGuid;
     id<WizGenDocumentAbstractDelegate> delegate;
     WizDbManager* dbManager;
 }
-@property (nonatomic, retain) NSString* documentGuid;
 @property (nonatomic, retain) id<WizGenDocumentAbstractDelegate> delegate;
 @property (nonatomic, retain) WizDbManager* dbManager;
 @end
 @implementation WizGenDocumentAbstract
-@synthesize documentGuid;
+@synthesize dbManager;
+@synthesize delegate;
+@synthesize isChangedUser;
 - (void) dealloc
 {
     [delegate release];
-    [documentGuid release];
     [dbManager release];
     [super dealloc];
 }
-- (id) initWithDegeate:(NSString*)documentGuid_ delegate:(id<WizGenDocumentAbstractDelegate>)delegate_
+- (id) initWithDelegate:(id<WizGenDocumentAbstractDelegate>)delegate_
 {
     self = [super init];
     if (self) {
-        self.documentGuid = documentGuid_;
         self.delegate = delegate_;
         WizDbManager* db = [[WizDbManager alloc] init];
-        [db openDb:[[WizFileManager shareManager] dbPath]];
-        [db openTempDb:[[WizFileManager shareManager] tempDbPath]];
         self.dbManager = db;
         [db release];
+        self.isChangedUser = YES;
     }
     return self;
 }
+- (void) checkDb
+{
+    if (self.isChangedUser) {
+        [self.dbManager closeTempDb];
+        [self.dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]];
+        self.isChangedUser = NO;
+    }
+}
 - (void) start
 {
-    
-    NSLog(@"%@",self.documentGuid);
-    WizDocument* doc = [self.dbManager documentFromGUID:self.documentGuid];
-    if (nil == doc) {
-        return;
-    }
-    if(!doc.serverChanged)
-    {
-        [self.dbManager extractSummary:self.documentGuid];
-    }
-    WizAbstract*   abstract = [self.dbManager  abstractOfDocument:doc.guid];
-    NSLog(@"((((((( %d %d ",[self.dbManager isOpen], [self.dbManager isTempDbOpen]);
-    NSString* titleStr = doc.title;
-    NSString* detailStr=@"";
-    NSString* timeStr = @"";
-    UIImage* abstractImage = nil;
-    NSUInteger kOrderIndex = [self.dbManager userTablelistViewOption];
-    if (kOrderIndex == kOrderCreatedDate || kOrderIndex == kOrderReverseCreatedDate) {
-        timeStr = [doc.dateCreated  stringLocal];
+    [self checkDb];
+    NSString* documentGuid = [self.delegate popNeedGenAbstrctDocument];
+    if (nil != documentGuid) {
+        WizAbstract* abstract = nil;
+        abstract = [self.dbManager  abstractOfDocument:documentGuid];
+        [self.delegate didGenDocumentAbstract:documentGuid abstractData:abstract];
     }
     else {
-        timeStr = [doc.dateModified stringLocal];
+        sleep(1000);
     }
-    NSLog(@"document abstract is %@",abstract.text);
-    timeStr = [timeStr stringByAppendingFormat:@"\n"];
-    detailStr = abstract.text;
-    abstractImage = abstract.image;
-    titleStr = [WizDecorate nameToDisplay:titleStr width:400];
-    titleStr = [titleStr stringByAppendingFormat:@"\n"];
-    NSMutableAttributedString* nameAtrStr = [[NSMutableAttributedString alloc] initWithString:titleStr attributes:[WizDecorate getNameAttributes]];
-    NSAttributedString* timeAtrStr = [[NSAttributedString alloc] initWithString:timeStr attributes:[WizDecorate getTimeAttributes]];
-    NSAttributedString* detailAtrStr = [[NSAttributedString alloc] initWithString:detailStr attributes:[WizDecorate getDetailAttributes]];
-    [nameAtrStr appendAttributedString:timeAtrStr];
-    [nameAtrStr appendAttributedString:detailAtrStr];
-    WizAbstractData* absData = [[WizAbstractData alloc] init];
-    absData.text = nameAtrStr;
-    absData.image = abstractImage;
-    [timeAtrStr release];
-    [detailAtrStr release];
-    [nameAtrStr release];
-    [self.delegate didGenDocumentAbstract:self.documentGuid abstractData:[absData autorelease]];
 }
 @end

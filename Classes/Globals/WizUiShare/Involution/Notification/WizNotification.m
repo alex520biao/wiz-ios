@@ -242,4 +242,17 @@
     [WizNotificationCenter postMessageWithName:MessageTypeOfUpdateCache userInfoObject:documentGuid userInfoKey:UserInfoTypeOfDocumentGUID];
 }
 
+//
++ (void) addObserverForChangeUser:(id)observer  selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfChangedUser];
+}
++ (void) removeObserverForChangUser:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfChangedUser];
+}
++ (void) postMessageChangedUser
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfChangedUser userInfoObject:nil userInfoKey:nil];
+}
 @end

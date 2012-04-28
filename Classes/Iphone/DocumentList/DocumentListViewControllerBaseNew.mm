@@ -186,7 +186,6 @@
     if (cell == nil) {
         cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
-    cell.interfaceOrientation = self.interfaceOrientation;
     cell.doc = doc;
     [cell prepareForAppear];
     return cell;

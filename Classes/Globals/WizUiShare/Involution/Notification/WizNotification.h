@@ -68,5 +68,8 @@
 + (void) addObserverForUpdateCache:(id)observer  selector:(SEL)selector;
 + (void) removeObserverForUpdateCache:(id)observer;
 + (void) postMessageUpdateCache:(NSString*)documentGuid;
-
+//
++ (void) addObserverForChangeUser:(id)observer  selector:(SEL)selector;
++ (void) removeObserverForChangUser:(id)observer;
++ (void) postMessageChangedUser;
 @end
