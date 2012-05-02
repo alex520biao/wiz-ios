@@ -85,6 +85,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
     else if ([self.objType isEqualToString:WizAttachmentKeyString])
     {
+        NSLog(@"download attachment %@ done",self.objGuid);
         [WizAttachment setAttachServerChanged:self.objGuid changed:NO];
     }
     //

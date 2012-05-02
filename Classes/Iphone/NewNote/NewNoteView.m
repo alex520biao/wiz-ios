@@ -26,6 +26,11 @@
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
 
+
+#import "WizEditItemBackgroudView.h"
+
+
+
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
@@ -120,7 +125,7 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
     [self.keyControl layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
-    [self.bodyTextField setFrame:CGRectMake(0.0, 31, 320, self.view.frame.size.height-30)];
+    [self.bodyTextField setFrame:CGRectMake(0.0, 31, self.view.frame.size.width, self.view.frame.size.height-30)];
     [self.keyControl setFrame:CGRectMake( 250, self.view.frame.size.height - 35, 50, 25)];
     [self.voiceInput setFrame:CGRectMake( 250, self.view.frame.size.height - 35, 50, 25)];
     self.voiceInput.hidden = YES;
@@ -178,66 +183,30 @@
 - (void) addAudioRecorderStartView
 {
     //recoding start
-    UIView* audio = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
-    UIImageView* audioRecordStart = [[UIImageView alloc] initWithFrame:CGRectMake(18, 13, 24, 24)];
-    audioRecordStart.image = [self imageReduceRect:@"attachRecorderPad"];
-    [self addSelcetorToView:@selector(audioStartRecode) :audio];
-    audioRecordStart.userInteractionEnabled = YES;
-    [audio addSubview:audioRecordStart];
-    UILabel* startLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
-    startLabel.adjustsFontSizeToFitWidth = YES;
-    startLabel.backgroundColor = [UIColor clearColor];
-    [startLabel setFont:[UIFont systemFontOfSize:13]];
-    [startLabel setTextColor:[UIColor grayColor]];
-    startLabel.textAlignment = UITextAlignmentLeft;
-    startLabel.text = NSLocalizedString(@"Record", nil);
-    [audio addSubview:startLabel];
-    [startLabel release];
-    [audioRecordStart release];
-    audio.tag = 100;
-    [self.addAttachmentView addSubview:audio];
-    [audio release];
+    WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
+    UIImage* image = [UIImage imageNamed:@"attachRecorderPad"];
+    temp.imageView.image = image;
+    temp.label.text = NSLocalizedString(@"Record", nil);
+    [self.addAttachmentView addSubview:temp];
+    [temp release];
 }
-
 - (void) addSelectedPhotoView
 {
-    UIView* selecte = [[UIView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
-    UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(18, 13, 24, 24)];
-    photo.image = [self imageReduceRect:@"attachSelectPhotoPad"];
-    [self addSelcetorToView:@selector(takePhoto) :selecte];
-    [selecte addSubview:photo];
-    UILabel* pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
-    pictureLabel.adjustsFontSizeToFitWidth = YES;
-    pictureLabel.backgroundColor = [UIColor clearColor];
-    [pictureLabel setFont:[UIFont systemFontOfSize:13]];
-    [pictureLabel setTextColor:[UIColor grayColor]];
-    pictureLabel.textAlignment = UITextAlignmentLeft;
-    pictureLabel.text = NSLocalizedString(@"Camera roll", nil);
-    [selecte addSubview:pictureLabel];
-    [pictureLabel release];
-    [photo release];
-    [self.addAttachmentView addSubview:selecte];
-    [selecte release];
+    WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
+    UIImage* image = [UIImage imageNamed:@"attachSelectPhotoPad"];
+    temp.imageView.image = image;
+    temp.label.text = NSLocalizedString(@"Record", nil);
+    [self.addAttachmentView addSubview:temp];
+    [temp release];
 }
 - (void) addTakePhotoView
 {
-    UIView* take = [[UIView alloc] initWithFrame:CGRectMake(210, 11, 100, 48)];
-    UIImageView* takePhoto = [[UIImageView alloc]initWithFrame:CGRectMake(18, 13, 24, 24)];
-    takePhoto.image = [self imageReduceRect:@"attachTakePhotoPad"];
-    [self addSelcetorToView:@selector(takePhoto) :take];
-    [take addSubview:takePhoto];
-    UILabel* photoLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 15, 50, 20)];
-    photoLabel.adjustsFontSizeToFitWidth = YES;
-    photoLabel.backgroundColor = [UIColor clearColor];
-    [photoLabel setFont:[UIFont systemFontOfSize:13]];
-    [photoLabel setTextColor:[UIColor grayColor]];
-    photoLabel.textAlignment = UITextAlignmentLeft;
-    photoLabel.text = NSLocalizedString(@"Snapshot", nil);
-    [take addSubview:photoLabel];
-    [photoLabel release];
-    [takePhoto release];
-    [self.addAttachmentView addSubview:take];
-    [take release];
+    WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(210, 11, 100, 48)];
+    UIImage* image = [UIImage imageNamed:@"attachTakePhotoPad"];
+    temp.imageView.image = image;
+    temp.label.text = NSLocalizedString(@"Snapshot", nil);
+    [self.addAttachmentView addSubview:temp];
+    [temp release];
 }
 - (void) buildAddAttachmentsView
 {
@@ -245,10 +214,21 @@
         UIView* addAttach = [[UIView alloc] initWithFrame:CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, 100)];
         self.addAttachmentView = addAttach;
         [addAttach release];
-        UIImageView* bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"attachBack"]];
-        bg.frame = CGRectMake(0.0, 0.0, 320, ATTACHMENTSVIEWHEIGH);
-        [self.addAttachmentView addSubview:bg];
-        [bg release];
+        
+        UIView* backGroud = [[UIView alloc] initWithFrame:CGRectMake(20, 2, 50, 40)];
+        CAGradientLayer* gradient = [CAGradientLayer layer];
+        gradient.borderColor = [UIColor whiteColor].CGColor;
+        gradient.borderWidth = 0.5f;
+        gradient.shadowColor = [UIColor grayColor].CGColor;
+        gradient.shadowOffset = CGSizeMake(1, 1);
+        gradient.shadowOpacity = 0.5;
+        gradient.shadowRadius = 0.9;
+        gradient.frame = CGRectMake(0.0, 0.0, 50, 40);
+        gradient.colors = [NSArray arrayWithObjects:
+                           (id)[UIColor colorWithRed:207/256.0 green:207/256.0 blue:207/256.0 alpha:1.0].CGColor,
+                           (id)[UIColor colorWithRed:241/256.0 green:241/256.0 blue:241/256.0 alpha:1.0].CGColor, nil];
+        
+        [self.addAttachmentView.layer addSublayer:gradient];
         self.addAttachmentView.tag = HIDDENTTAG;
         self.addAttachmentView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
     }
@@ -361,54 +341,56 @@
     }
 }
 
+- (void) addFolderSelecteView
+{
+    WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
+    UIImage* image = [UIImage imageNamed:@"newNoteFolder"];
+    temp.imageView.image = image;
+    temp.label.text = WizStrFolders;
+    [self.addDocumentInfoView addSubview:temp];
+    [temp release];
+}
+- (void) addTagSelecteView
+{
+    WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(210, 11, 100, 48)];
+    UIImage* image = [UIImage imageNamed:@"newNoteTag"];
+    temp.imageView.image = image;
+    temp.label.text = WizStrTags;
+    [self.addDocumentInfoView addSubview:temp];
+    [temp release];
+}
 
+- (void) fitAttachmentItemFrame
+{
+    float start = (self.view.frame.size.width-300)/2;
+    for (UIView* each in self.addAttachmentView.subviews) {
+        if ([each isKindOfClass:[WizEditItemBackgroudView class]]) {
+            each.frame = CGRectMake(start, 11, 100, 40);
+            start+=100;
+        }
+    }
+}
 
+- (void) fitInfoItemFrame
+{
+    float start = (self.view.frame.size.width-200)/2;
+    for (UIView* each in self.addDocumentInfoView.subviews) {
+        if ([each isKindOfClass:[WizEditItemBackgroudView class]]) {
+            each.frame = CGRectMake(start, 11, 100, 40);
+            start+=100;
+        }
+    }
+}
 - (void) buildAddDocumentInfoView
 {
     if (nil == self.addDocumentInfoView) {
         self.addDocumentInfoView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, -INFOVIEWHEIGN, 320, INFOVIEWHEIGN)] autorelease];
         self.addDocumentInfoView.tag = HIDDENTTAG;
-        UIImageView* backGroud = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newNoteDetailBackgroud"]]autorelease];
-        backGroud.frame = CGRectMake(0.0,0.0, 320, INFOVIEWHEIGN);
-        [self.addDocumentInfoView addSubview:backGroud];
         self.addDocumentInfoView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
+        [self.view addSubview:self.addDocumentInfoView];
     }
-    // floader
-    
-    UIView* folderView = [[UIView alloc] initWithFrame:CGRectMake(60, 4, 100, 48)];
-    UIImageView* floder = [[UIImageView alloc]initWithFrame:CGRectMake(23, 17, 24, 24)];
-    floder.image = [self imageReduceRect:@"newNoteFolder"];
-    [self addSelcetorToView:@selector(floderViewSelected) :folderView];
-    [folderView addSubview:floder];
-    [self.addDocumentInfoView addSubview:folderView];
-    UILabel* folderLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 19, 50, 20)];
-    folderLabel.backgroundColor = [UIColor clearColor];
-    [folderLabel setFont:[UIFont systemFontOfSize:13]];
-    [folderLabel setTextColor:[UIColor grayColor]];
-    folderLabel.textAlignment = UITextAlignmentCenter;
-    folderLabel.text = WizStrFolders;
-    [folderView addSubview:folderLabel];
-    [folderLabel release];
-    [floder release];
-    [folderView release];
-    //tag
-    UIView* tagView = [[UIView alloc] initWithFrame:CGRectMake(160, 4, 100, 48)];
-    UIImageView* tag = [[UIImageView alloc]initWithFrame:CGRectMake(23, 17, 24, 24)];
-    tag.image = [self imageReduceRect:@"newNoteTag"];
-    UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 19, 50, 20)];
-    tagLabel.backgroundColor = [UIColor clearColor];
-    [tagLabel setFont:[UIFont systemFontOfSize:13]];
-    [tagLabel setTextColor:[UIColor grayColor]];
-    tagLabel.textAlignment = UITextAlignmentCenter;
-    tagLabel.text = WizStrTags;
-    [tagView addSubview:tagLabel];
-    [tagLabel release];
-    [self addSelcetorToView:@selector(tagViewSelect) :tagView];
-    [tagView addSubview:tag];
-    [self.addDocumentInfoView addSubview:tagView];
-    [tag release];
-    [tagView release];
-    [self.view addSubview:self.addDocumentInfoView];
+    [self addFolderSelecteView];
+    [self addTagSelecteView];
     
 }
 - (void) buildNavigationButtons
@@ -458,7 +440,7 @@
     self.titleTextFiled.delegate = self;
     [self.inputContentView addSubview:self.titleTextFiled];
     //body text input
-    UIView* breakLine = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 30, 320, 1)] autorelease];
+    UIView* breakLine = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 30, 480, 1)] autorelease];
     breakLine.backgroundColor = [UIColor lightGrayColor];
     [self.inputContentView addSubview:breakLine];
     UITextView* edit = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 31, 320, self.view.frame.size.height - 31)];
@@ -617,6 +599,10 @@
     }
     return self;
 }
+- (void) printRect:(CGRect) rect
+{
+    NSLog(@"rect is %f %f %f %f",rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+}
 - (void) keyboardWillShow:(NSNotification*) nc
 {
     NSDictionary* userInfo = [nc userInfo];
@@ -624,9 +610,11 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
-    self.bodyTextField.frame = CGRectMake(0.0,31,320,self.view.frame.size.height - kbSize.height - 70);
-    [self.keyControl setFrame:CGRectMake( 250, self.view.frame.size.height - kbSize.height - 35, 50, 25)];
-    [self.voiceInput setFrame:CGRectMake( 190, self.view.frame.size.height - kbSize.height - 35, 50, 25)];
+    CGFloat kbHeight = kbSize.height < kbSize.width?kbSize.height:kbSize.width;
+    self.bodyTextField.frame = CGRectMake(0.0,31,self.view.frame.size.width,self.view.frame.size.height - kbHeight - 70);
+    [self printRect:self.bodyTextField.frame];
+    [self.keyControl setFrame:CGRectMake( self.view.frame.size.width - 50, self.view.frame.size.height - kbHeight - 35, 50, 25)];
+    [self.voiceInput setFrame:CGRectMake( self.view.frame.size.width - 100, self.view.frame.size.height - kbHeight - 35, 50, 25)];
     self.voiceInput.hidden = NO;
     self.keyControl.hidden = NO;
     [UIView commitAnimations];
@@ -635,7 +623,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   
@@ -655,6 +642,8 @@
         [self addDocumentInfoViewAnimation];
     }
     [self displayAttachmentsCount];
+    [self fitInfoItemFrame];
+    [self fitAttachmentItemFrame];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -688,10 +677,17 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
-
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self fitInfoItemFrame];
+    [self fitAttachmentItemFrame];
+    self.addAttachmentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.addAttachmentView.frame.size.height);
+    self.addDocumentInfoView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.addDocumentInfoView.frame.size.height);
+    self.bodyTextField.frame = CGRectMake(0.0, 31, self.view.frame.size.width, self.bodyTextField.frame.size.height);
+    self.titleTextFiled.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.bodyTextField.frame.size.height);
+}
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
     [self addAttachemntsViewDisappear];

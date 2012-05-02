@@ -12,6 +12,7 @@
 #import "WizDbManager.h"
 #import "WizFileManager.h"
 #import "WizNotification.h"
+#import "WizSyncManager.h"
 BOOL isReverseMask(NSInteger mask)
 {
     if (mask %2 == 0) {
@@ -256,5 +257,20 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
     NSLog(@"self is %@",[WizDbManager shareDbManager]);
     return [[WizDbManager shareDbManager] updateDocument:doc];
+}
+
+- (void) upload
+{
+    if (!self.localChanged) {
+        return;
+    }
+    [[WizSyncManager shareManager] uploadDocument:self.guid];
+}
+- (void) download
+{
+    if (!self.serverChanged) {
+        return;
+    }
+    [[WizSyncManager shareManager] downloadDocument:self.guid];
 }
 @end

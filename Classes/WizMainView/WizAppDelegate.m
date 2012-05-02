@@ -23,6 +23,9 @@
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 #import "WizSyncManager.h"
+#import "WizFileManager.h"
+
+
 //#import "WizTestFlight.h"
 #ifdef WIZTESTFLIGHTDEBUG
 //#import "TestFlight.h"
@@ -40,6 +43,7 @@
 @synthesize window;
 - (void) dealloc
 {
+    [syncLabel release];
     [window release];
     [super dealloc];
 }
@@ -68,11 +72,6 @@
     }
     else
     {
-        UILabel* label =[[ UILabel alloc] initWithFrame:CGRectMake(0.0, 20, 320, 20)];
-        self.syncLabel = label;
-        [window addSubview:label];
-        label.textAlignment = UITextAlignmentCenter;
-        [label release];
         [[WizSyncManager shareManager] setDisplayDelegate:self];
         WizIphoneLoginViewController* login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewController" bundle:nil];
         [root pushViewController:login animated:NO];
@@ -162,7 +161,52 @@
 #pragma mark -
 #pragma mark Memory management
 
-
+- (void) application:(UIApplication *)application willChangeStatusBarFrame:(CGRect)newStatusBarFrame
+{
+//    
+//    if (newStatusBarFrame.origin.x == 0) {
+//        if (newStatusBarFrame.origin.y == 0) {
+//            if (newStatusBarFrame.size.width == 20) {
+//                // 0 0 20 480
+//                float rotateAngle = -M_PI/2;
+//                CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
+//                self.syncDescriptionWindow.frame = CGRectMake(0.0, 0.0, 20, 480);
+//                self.syncDescriptionWindow.textLabel.transform = transform;
+//            }
+//            else {
+//                // 0 0 320 20
+//                float rotateAngle = 0;
+//                CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
+//                self.syncDescriptionWindow.textLabel.transform = transform;
+//            }
+//        }
+//        else {
+//            //0 460 320 20
+//            float rotateAngle = M_PI/2;
+//            CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
+//            self.syncDescriptionWindow.textLabel.transform = transform;
+//        }
+//    }
+//    else {
+//        // 300 0 20 480
+//        float rotateAngle = M_PI/2;
+//        CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
+//        self.syncDescriptionWindow.textLabel.transform = transform;
+//    }
+////    if (newStatusBarFrame.origin.x != 0) {
+////        float rotateAngle = M_PI/2;
+////        CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
+////        self.syncDescriptionWindow.transform = transform;
+////        self.syncDescriptionWindow.frame = CGRectMake(newStatusBarFrame.origin.x - newStatusBarFrame.size.width/2-10, 0, newStatusBarFrame.size.width, newStatusBarFrame.size.height);
+////    }
+////    else
+////    {
+////        float rotateAngle = -M_PI/2;
+////        CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
+////        self.syncDescriptionWindow.transform = transform;
+////        self.syncDescriptionWindow.frame = CGRectMake(newStatusBarFrame.origin.x - newStatusBarFrame.size.width/2-10, 0, newStatusBarFrame.size.width, newStatusBarFrame.size.height);
+////    }
+}
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
@@ -175,8 +219,7 @@
         NSString* filePath = [url path];
         NSArray* breakFilePath = [filePath componentsSeparatedByString:@"/"];
         NSString* fileName = [breakFilePath lastObject];
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:defaultAccount];
-        NSString* tempFilePath =[WizGlobals getAttachmentTempFilePath:defaultAccount];
+        NSString* tempFilePath =[[WizFileManager shareManager] getAttachmentSourceFileName];
         NSString* toFilePath = [tempFilePath stringByAppendingPathComponent:fileName];
         NSURL* toUrl = [NSURL fileURLWithPath:toFilePath];
         NSError* error = nil;

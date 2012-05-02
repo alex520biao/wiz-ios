@@ -9,6 +9,7 @@
 #import "WizAttachment.h"
 #import "WizFileManager.h"
 #import "WizDbManager.h"
+#import "WizSyncManager.h"
 
 @implementation WizAttachment
 @synthesize type;
@@ -23,7 +24,6 @@
     [type release];
     [dateMd5 release];
     [description release];
-    [documentGuid release];
     [documentGuid release];
     [super dealloc];
 }
@@ -41,7 +41,7 @@
     NSString* fileType = [filePath fileType];
     self.type = fileType;
     self.title = fileName;
-    NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithCapacity:14];
+    NSMutableDictionary* attachment = [NSMutableDictionary dictionaryWithCapacity:14];
     if (nil == self.title || [self.title isBlock]) {
         self.title = WizStrNoTitle;
     }
@@ -52,16 +52,15 @@
         self.description = @"";
     }
     self.dateMd5 = [WizGlobals fileMD5:filePath];
-    [doc setObject:self.guid forKey:DataTypeUpdateAttachmentGuid];
-    [doc setObject:self.dateMd5 forKey:DataTypeUpdateAttachmentDataMd5];
-    [doc setObject:[NSNumber numberWithBool:self.serverChanged] forKey:DataTypeUpdateAttachmentServerChanged];
-    [doc setObject:[NSNumber numberWithBool:1] forKey:DataTypeUpdateAttachmentLocalChanged];
-//    [doc setObject:self.type forKey:DataTypeUpdateAttachmentDataMd5];
-    [doc setObject:self.title forKey:DataTypeUpdateAttachmentTitle];
-    [doc setObject:self.documentGuid forKey:DataTypeUpdateAttachmentDocumentGuid];
-    [doc setObject:self.dateModified forKey:DataTypeUpdateAttachmentDateModified];
-    [doc setObject:self.description forKey:DataTypeUpdateAttachmentDescription];
-    return [[WizDbManager shareDbManager] updateDocument:doc];
+    [attachment setObject:self.guid forKey:DataTypeUpdateAttachmentGuid];
+    [attachment setObject:self.dateMd5 forKey:DataTypeUpdateAttachmentDataMd5];
+    [attachment setObject:[NSNumber numberWithBool:0] forKey:DataTypeUpdateAttachmentServerChanged];
+    [attachment setObject:[NSNumber numberWithBool:1] forKey:DataTypeUpdateAttachmentLocalChanged];
+    [attachment setObject:self.title forKey:DataTypeUpdateAttachmentTitle];
+    [attachment setObject:self.documentGuid forKey:DataTypeUpdateAttachmentDocumentGuid];
+    [attachment setObject:self.dateModified forKey:DataTypeUpdateAttachmentDateModified];
+    [attachment setObject:self.description forKey:DataTypeUpdateAttachmentDescription];
+    return [[WizDbManager shareDbManager] updateAttachment:attachment];
 }
 + (void) deleteAttachment:(NSString*)attachmentGuid
 {
@@ -81,4 +80,20 @@
 {
     [[WizDbManager shareDbManager] setAttachmentLocalChanged:attachmentGuid changed:changed];
 }
+- (void) upload
+{
+    if (!self.localChanged) {
+        return;
+    }
+    [[WizSyncManager shareManager] uploadAttachment:self.guid];
+}
+
+- (void) download
+{
+    if (!self.serverChanged) {
+        return;
+    }
+    [[WizSyncManager shareManager] downloadAttachment:self.guid];
+}
+
 @end

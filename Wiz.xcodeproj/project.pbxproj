@@ -71,6 +71,7 @@
 		7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F16815076FAB00668DA8 /* WizCheckAttachment.m */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
+		738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */; };
 		738DA46F14FC92850075BFC9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 738DA46E14FC92850075BFC9 /* Reachability.m */; };
 		739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 739BE7B1153E524100057601 /* NSArray+WizTools.m */; };
 		73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */; };
@@ -125,9 +126,7 @@
 		73A785A414F8CC23001387F6 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784BE14F8CC22001387F6 /* PullRefreshTableViewController.m */; };
 		73A785A514F8CC23001387F6 /* RecentDcoumentListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C014F8CC22001387F6 /* RecentDcoumentListView.m */; };
 		73A785A614F8CC23001387F6 /* TagDocumentListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C214F8CC22001387F6 /* TagDocumentListView.m */; };
-		73A785A714F8CC23001387F6 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784C414F8CC22001387F6 /* DocumentViewController.xib */; };
 		73A785A814F8CC23001387F6 /* DocumentViewCtrollerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */; };
-		73A785A914F8CC23001387F6 /* DocumentViewCtrollerBase.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784C714F8CC22001387F6 /* DocumentViewCtrollerBase.xib */; };
 		73A785B614F8CC23001387F6 /* WizPhoneCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E214F8CC22001387F6 /* WizPhoneCreateAccountViewController.m */; };
 		73A785B714F8CC23001387F6 /* NewNoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E514F8CC22001387F6 /* NewNoteView.m */; };
 		73A785B814F8CC23001387F6 /* VoiceRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E714F8CC22001387F6 /* VoiceRecognition.m */; };
@@ -173,8 +172,6 @@
 		73A785E214F8CC23001387F6 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7854414F8CC23001387F6 /* MainWindow.xib */; };
 		73A785E414F8CC23001387F6 /* WizAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7854814F8CC23001387F6 /* WizAppDelegate.m */; };
 		73A7867314F8CD5D001387F6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785E614F8CD5C001387F6 /* arrow.png */; };
-		73A7867414F8CD5D001387F6 /* attachBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785E714F8CD5C001387F6 /* attachBack.png */; };
-		73A7867514F8CD5D001387F6 /* attachBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785E814F8CD5C001387F6 /* attachBack@2x.png */; };
 		73A7867614F8CD5D001387F6 /* attachRecorderPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785E914F8CD5C001387F6 /* attachRecorderPad.png */; };
 		73A7867714F8CD5D001387F6 /* attachRecorderPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785EA14F8CD5C001387F6 /* attachRecorderPad@2x.png */; };
 		73A7867814F8CD5D001387F6 /* attachSelectPhotoPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A785EB14F8CD5C001387F6 /* attachSelectPhotoPad.png */; };
@@ -225,8 +222,6 @@
 		73A786A914F8CD5D001387F6 /* loginButtonBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7861C14F8CD5C001387F6 /* loginButtonBackgroud@2x.png */; };
 		73A786AA14F8CD5D001387F6 /* newNoteAttach.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7861D14F8CD5D001387F6 /* newNoteAttach.png */; };
 		73A786AB14F8CD5D001387F6 /* newNoteAttach@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7861E14F8CD5D001387F6 /* newNoteAttach@2x.png */; };
-		73A786AC14F8CD5D001387F6 /* newNoteDetailBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7861F14F8CD5D001387F6 /* newNoteDetailBackgroud.png */; };
-		73A786AD14F8CD5D001387F6 /* newNoteDetailBackgroud@2x .png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862014F8CD5D001387F6 /* newNoteDetailBackgroud@2x .png */; };
 		73A786AE14F8CD5D001387F6 /* newNoteFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862114F8CD5D001387F6 /* newNoteFolder.png */; };
 		73A786AF14F8CD5D001387F6 /* newNoteFolder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862214F8CD5D001387F6 /* newNoteFolder@2x.png */; };
 		73A786B014F8CD5D001387F6 /* newNoteLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862314F8CD5D001387F6 /* newNoteLocation.png */; };
@@ -235,16 +230,12 @@
 		73A786B314F8CD5D001387F6 /* newNoteTag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862614F8CD5D001387F6 /* newNoteTag@2x.png */; };
 		73A786B414F8CD5D001387F6 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862714F8CD5D001387F6 /* Overlay.png */; };
 		73A786B514F8CD5D001387F6 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862814F8CD5D001387F6 /* Overlay@2x.png */; };
-		73A786B614F8CD5D001387F6 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862914F8CD5D001387F6 /* picture.png */; };
-		73A786B714F8CD5D001387F6 /* picture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862A14F8CD5D001387F6 /* picture@2x.png */; };
 		73A786B814F8CD5D001387F6 /* pushDownRemind.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862B14F8CD5D001387F6 /* pushDownRemind.png */; };
 		73A786B914F8CD5D001387F6 /* pushDownRemind@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862C14F8CD5D001387F6 /* pushDownRemind@2x.png */; };
 		73A786BA14F8CD5D001387F6 /* recentRemind.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862D14F8CD5D001387F6 /* recentRemind.png */; };
 		73A786BB14F8CD5D001387F6 /* recentRemind@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862E14F8CD5D001387F6 /* recentRemind@2x.png */; };
 		73A786BC14F8CD5D001387F6 /* recentTableFooter.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7862F14F8CD5D001387F6 /* recentTableFooter.png */; };
 		73A786BD14F8CD5D001387F6 /* recentTableFooter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7863014F8CD5D001387F6 /* recentTableFooter@2x.png */; };
-		73A786BE14F8CD5D001387F6 /* recorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7863114F8CD5D001387F6 /* recorder.png */; };
-		73A786BF14F8CD5D001387F6 /* recorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7863214F8CD5D001387F6 /* recorder@2x.png */; };
 		73A786C014F8CD5D001387F6 /* recorderPause.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7863314F8CD5D001387F6 /* recorderPause.png */; };
 		73A786C114F8CD5D001387F6 /* recorderPause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7863414F8CD5D001387F6 /* recorderPause@2x.png */; };
 		73A786C214F8CD5D001387F6 /* recorderPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7863514F8CD5D001387F6 /* recorderPlay.png */; };
@@ -430,6 +421,8 @@
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
+		738B80A6155135300005FD33 /* WizEditItemBackgroudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditItemBackgroudView.h; sourceTree = "<group>"; };
+		738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditItemBackgroudView.m; sourceTree = "<group>"; };
 		738DA46D14FC92850075BFC9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		738DA46E14FC92850075BFC9 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		739BE7B0153E524100057601 /* NSArray+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+WizTools.h"; path = "WizTools/NSArray+WizTools.h"; sourceTree = "<group>"; };
@@ -542,10 +535,8 @@
 		73A784C014F8CC22001387F6 /* RecentDcoumentListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentDcoumentListView.m; sourceTree = "<group>"; };
 		73A784C114F8CC22001387F6 /* TagDocumentListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagDocumentListView.h; sourceTree = "<group>"; };
 		73A784C214F8CC22001387F6 /* TagDocumentListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagDocumentListView.m; sourceTree = "<group>"; };
-		73A784C414F8CC22001387F6 /* DocumentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentViewController.xib; sourceTree = "<group>"; };
 		73A784C514F8CC22001387F6 /* DocumentViewCtrollerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewCtrollerBase.h; sourceTree = "<group>"; };
 		73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewCtrollerBase.m; sourceTree = "<group>"; };
-		73A784C714F8CC22001387F6 /* DocumentViewCtrollerBase.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentViewCtrollerBase.xib; sourceTree = "<group>"; };
 		73A784E114F8CC22001387F6 /* WizPhoneCreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneCreateAccountViewController.h; sourceTree = "<group>"; };
 		73A784E214F8CC22001387F6 /* WizPhoneCreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPhoneCreateAccountViewController.m; sourceTree = "<group>"; };
 		73A784E414F8CC22001387F6 /* NewNoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewNoteView.h; sourceTree = "<group>"; };
@@ -628,8 +619,6 @@
 		73A7854714F8CC23001387F6 /* WizAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAppDelegate.h; sourceTree = "<group>"; };
 		73A7854814F8CC23001387F6 /* WizAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAppDelegate.m; sourceTree = "<group>"; };
 		73A785E614F8CD5C001387F6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
-		73A785E714F8CD5C001387F6 /* attachBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachBack.png; sourceTree = "<group>"; };
-		73A785E814F8CD5C001387F6 /* attachBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attachBack@2x.png"; sourceTree = "<group>"; };
 		73A785E914F8CD5C001387F6 /* attachRecorderPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachRecorderPad.png; sourceTree = "<group>"; };
 		73A785EA14F8CD5C001387F6 /* attachRecorderPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attachRecorderPad@2x.png"; sourceTree = "<group>"; };
 		73A785EB14F8CD5C001387F6 /* attachSelectPhotoPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachSelectPhotoPad.png; sourceTree = "<group>"; };
@@ -680,8 +669,6 @@
 		73A7861C14F8CD5C001387F6 /* loginButtonBackgroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginButtonBackgroud@2x.png"; sourceTree = "<group>"; };
 		73A7861D14F8CD5D001387F6 /* newNoteAttach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newNoteAttach.png; sourceTree = "<group>"; };
 		73A7861E14F8CD5D001387F6 /* newNoteAttach@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newNoteAttach@2x.png"; sourceTree = "<group>"; };
-		73A7861F14F8CD5D001387F6 /* newNoteDetailBackgroud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newNoteDetailBackgroud.png; sourceTree = "<group>"; };
-		73A7862014F8CD5D001387F6 /* newNoteDetailBackgroud@2x .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newNoteDetailBackgroud@2x .png"; sourceTree = "<group>"; };
 		73A7862114F8CD5D001387F6 /* newNoteFolder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newNoteFolder.png; sourceTree = "<group>"; };
 		73A7862214F8CD5D001387F6 /* newNoteFolder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newNoteFolder@2x.png"; sourceTree = "<group>"; };
 		73A7862314F8CD5D001387F6 /* newNoteLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newNoteLocation.png; sourceTree = "<group>"; };
@@ -690,16 +677,12 @@
 		73A7862614F8CD5D001387F6 /* newNoteTag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newNoteTag@2x.png"; sourceTree = "<group>"; };
 		73A7862714F8CD5D001387F6 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overlay.png; sourceTree = "<group>"; };
 		73A7862814F8CD5D001387F6 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
-		73A7862914F8CD5D001387F6 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
-		73A7862A14F8CD5D001387F6 /* picture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "picture@2x.png"; sourceTree = "<group>"; };
 		73A7862B14F8CD5D001387F6 /* pushDownRemind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pushDownRemind.png; sourceTree = "<group>"; };
 		73A7862C14F8CD5D001387F6 /* pushDownRemind@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pushDownRemind@2x.png"; sourceTree = "<group>"; };
 		73A7862D14F8CD5D001387F6 /* recentRemind.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recentRemind.png; sourceTree = "<group>"; };
 		73A7862E14F8CD5D001387F6 /* recentRemind@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recentRemind@2x.png"; sourceTree = "<group>"; };
 		73A7862F14F8CD5D001387F6 /* recentTableFooter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recentTableFooter.png; sourceTree = "<group>"; };
 		73A7863014F8CD5D001387F6 /* recentTableFooter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recentTableFooter@2x.png"; sourceTree = "<group>"; };
-		73A7863114F8CD5D001387F6 /* recorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recorder.png; sourceTree = "<group>"; };
-		73A7863214F8CD5D001387F6 /* recorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recorder@2x.png"; sourceTree = "<group>"; };
 		73A7863314F8CD5D001387F6 /* recorderPause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recorderPause.png; sourceTree = "<group>"; };
 		73A7863414F8CD5D001387F6 /* recorderPause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recorderPause@2x.png"; sourceTree = "<group>"; };
 		73A7863514F8CD5D001387F6 /* recorderPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recorderPlay.png; sourceTree = "<group>"; };
@@ -1070,6 +1053,15 @@
 			name = Accounts;
 			sourceTree = "<group>";
 		};
+		738B80A2155134080005FD33 /* EidtNote */ = {
+			isa = PBXGroup;
+			children = (
+				738B80A6155135300005FD33 /* WizEditItemBackgroudView.h */,
+				738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */,
+			);
+			name = EidtNote;
+			sourceTree = "<group>";
+		};
 		738DA46C14FC92850075BFC9 /* NetworkDetect */ = {
 			isa = PBXGroup;
 			children = (
@@ -1163,13 +1155,13 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				738B80A2155134080005FD33 /* EidtNote */,
 				73A7847914F8CC22001387F6 /* WizEditNoteBase.h */,
 				73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */,
 				737999A8150DB84B0029A967 /* Involution */,
 				73A7845614F8CC22001387F6 /* attachmentView */,
 				73A7845F14F8CC22001387F6 /* CommonString.h */,
 				73A7846014F8CC22001387F6 /* CommonString.m */,
-				73A7846114F8CC22001387F6 /* documentView */,
 				73A7846414F8CC22001387F6 /* password */,
 				73A7846914F8CC22001387F6 /* ScrollTableViewCell.h */,
 				73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */,
@@ -1211,13 +1203,6 @@
 				7380F16815076FAB00668DA8 /* WizCheckAttachment.m */,
 			);
 			path = attachmentView;
-			sourceTree = "<group>";
-		};
-		73A7846114F8CC22001387F6 /* documentView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = documentView;
 			sourceTree = "<group>";
 		};
 		73A7846414F8CC22001387F6 /* password */ = {
@@ -1302,10 +1287,8 @@
 		73A784C314F8CC22001387F6 /* DocumentView */ = {
 			isa = PBXGroup;
 			children = (
-				73A784C414F8CC22001387F6 /* DocumentViewController.xib */,
 				73A784C514F8CC22001387F6 /* DocumentViewCtrollerBase.h */,
 				73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */,
-				73A784C714F8CC22001387F6 /* DocumentViewCtrollerBase.xib */,
 			);
 			path = DocumentView;
 			sourceTree = "<group>";
@@ -1540,8 +1523,6 @@
 				7311201C14F9026F00193E64 /* sync_gray.png */,
 				7311201D14F9026F00193E64 /* sync_gray@2x.png */,
 				73A785E614F8CD5C001387F6 /* arrow.png */,
-				73A785E714F8CD5C001387F6 /* attachBack.png */,
-				73A785E814F8CD5C001387F6 /* attachBack@2x.png */,
 				73A785E914F8CD5C001387F6 /* attachRecorderPad.png */,
 				73A785EA14F8CD5C001387F6 /* attachRecorderPad@2x.png */,
 				73A785EB14F8CD5C001387F6 /* attachSelectPhotoPad.png */,
@@ -1594,8 +1575,6 @@
 				73A7861C14F8CD5C001387F6 /* loginButtonBackgroud@2x.png */,
 				73A7861D14F8CD5D001387F6 /* newNoteAttach.png */,
 				73A7861E14F8CD5D001387F6 /* newNoteAttach@2x.png */,
-				73A7861F14F8CD5D001387F6 /* newNoteDetailBackgroud.png */,
-				73A7862014F8CD5D001387F6 /* newNoteDetailBackgroud@2x .png */,
 				73A7862114F8CD5D001387F6 /* newNoteFolder.png */,
 				73A7862214F8CD5D001387F6 /* newNoteFolder@2x.png */,
 				73A7862314F8CD5D001387F6 /* newNoteLocation.png */,
@@ -1604,16 +1583,12 @@
 				73A7862614F8CD5D001387F6 /* newNoteTag@2x.png */,
 				73A7862714F8CD5D001387F6 /* Overlay.png */,
 				73A7862814F8CD5D001387F6 /* Overlay@2x.png */,
-				73A7862914F8CD5D001387F6 /* picture.png */,
-				73A7862A14F8CD5D001387F6 /* picture@2x.png */,
 				73A7862B14F8CD5D001387F6 /* pushDownRemind.png */,
 				73A7862C14F8CD5D001387F6 /* pushDownRemind@2x.png */,
 				73A7862D14F8CD5D001387F6 /* recentRemind.png */,
 				73A7862E14F8CD5D001387F6 /* recentRemind@2x.png */,
 				73A7862F14F8CD5D001387F6 /* recentTableFooter.png */,
 				73A7863014F8CD5D001387F6 /* recentTableFooter@2x.png */,
-				73A7863114F8CD5D001387F6 /* recorder.png */,
-				73A7863214F8CD5D001387F6 /* recorder@2x.png */,
 				73A7863314F8CD5D001387F6 /* recorderPause.png */,
 				73A7863414F8CD5D001387F6 /* recorderPause@2x.png */,
 				73A7863514F8CD5D001387F6 /* recorderPlay.png */,
@@ -1861,8 +1836,6 @@
 				73A7857E14F8CC23001387F6 /* UserSttingsViewController.xib in Resources */,
 				737B5318151EFF0900CE3656 /* WizPadLoginViewController.xib in Resources */,
 				73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */,
-				73A785A714F8CC23001387F6 /* DocumentViewController.xib in Resources */,
-				73A785A914F8CC23001387F6 /* DocumentViewCtrollerBase.xib in Resources */,
 				73A785BA14F8CC23001387F6 /* NewWelcomePage.xib in Resources */,
 				73A785C214F8CC23001387F6 /* ELCAlbumPickerController.xib in Resources */,
 				73A785C514F8CC23001387F6 /* ELCAssetPicker.xib in Resources */,
@@ -1871,8 +1844,6 @@
 				73A785E114F8CC23001387F6 /* MainWindow-iPad.xib in Resources */,
 				73A785E214F8CC23001387F6 /* MainWindow.xib in Resources */,
 				73A7867314F8CD5D001387F6 /* arrow.png in Resources */,
-				73A7867414F8CD5D001387F6 /* attachBack.png in Resources */,
-				73A7867514F8CD5D001387F6 /* attachBack@2x.png in Resources */,
 				73A7867614F8CD5D001387F6 /* attachRecorderPad.png in Resources */,
 				73A7867714F8CD5D001387F6 /* attachRecorderPad@2x.png in Resources */,
 				73A7867814F8CD5D001387F6 /* attachSelectPhotoPad.png in Resources */,
@@ -1923,8 +1894,6 @@
 				73A786A914F8CD5D001387F6 /* loginButtonBackgroud@2x.png in Resources */,
 				73A786AA14F8CD5D001387F6 /* newNoteAttach.png in Resources */,
 				73A786AB14F8CD5D001387F6 /* newNoteAttach@2x.png in Resources */,
-				73A786AC14F8CD5D001387F6 /* newNoteDetailBackgroud.png in Resources */,
-				73A786AD14F8CD5D001387F6 /* newNoteDetailBackgroud@2x .png in Resources */,
 				73A786AE14F8CD5D001387F6 /* newNoteFolder.png in Resources */,
 				73A786AF14F8CD5D001387F6 /* newNoteFolder@2x.png in Resources */,
 				73A786B014F8CD5D001387F6 /* newNoteLocation.png in Resources */,
@@ -1933,16 +1902,12 @@
 				73A786B314F8CD5D001387F6 /* newNoteTag@2x.png in Resources */,
 				73A786B414F8CD5D001387F6 /* Overlay.png in Resources */,
 				73A786B514F8CD5D001387F6 /* Overlay@2x.png in Resources */,
-				73A786B614F8CD5D001387F6 /* picture.png in Resources */,
-				73A786B714F8CD5D001387F6 /* picture@2x.png in Resources */,
 				73A786B814F8CD5D001387F6 /* pushDownRemind.png in Resources */,
 				73A786B914F8CD5D001387F6 /* pushDownRemind@2x.png in Resources */,
 				73A786BA14F8CD5D001387F6 /* recentRemind.png in Resources */,
 				73A786BB14F8CD5D001387F6 /* recentRemind@2x.png in Resources */,
 				73A786BC14F8CD5D001387F6 /* recentTableFooter.png in Resources */,
 				73A786BD14F8CD5D001387F6 /* recentTableFooter@2x.png in Resources */,
-				73A786BE14F8CD5D001387F6 /* recorder.png in Resources */,
-				73A786BF14F8CD5D001387F6 /* recorder@2x.png in Resources */,
 				73A786C014F8CD5D001387F6 /* recorderPause.png in Resources */,
 				73A786C114F8CD5D001387F6 /* recorderPause@2x.png in Resources */,
 				73A786C214F8CD5D001387F6 /* recorderPlay.png in Resources */,
@@ -2158,6 +2123,7 @@
 				732951641548F8FC00FA4FAA /* PhRecentViewController.m in Sources */,
 				73465140154A8B5B001F06A8 /* WizDecorate.m in Sources */,
 				73E5DB751550C7E800CC3562 /* WizString.m in Sources */,
+				738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

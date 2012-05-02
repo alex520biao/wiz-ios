@@ -28,20 +28,35 @@
 @interface DocumentViewCtrollerBase()
 {
     NSString* fontWidth;
+    UIWebView* web;
+    UISlider* webFontSizeSlider;
+    UIBarItem* attachmentBarItem;
+    UIBarItem* infoBarItem;
+    UIBarItem* editBarItem;
+    UIBarItem* searchItem;
+    UISearchBar* searchDocumentBar;
+    UIAlertView* conNotDownloadAlert;
+    UIActivityIndicatorView* downloadActivity;
+    BOOL isEdit;
 }
+@property (nonatomic, retain) IBOutlet UIWebView* web;
+@property (nonatomic, retain)  UISearchBar* searchDocumentBar;
+@property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
+@property (nonatomic, retain)  UIActivityIndicatorView* downloadActivity;
+@property (assign) BOOL isEdit;
 @property (nonatomic, retain) NSString* fontWidth;
+- (void) downloadDocumentDone;
+-(void)editDocument;
+-(void)viewAttachments;
+-(void)viewDocumentInfo;
+-(void)searchDocument;
 @end
 
 @implementation DocumentViewCtrollerBase
 @synthesize  web;
 @synthesize doc;
 @synthesize fontWidth;
-
 @synthesize downloadActivity;
-@synthesize attachmentBarItem;
-@synthesize infoBarItem;
-@synthesize editBarItem;
-@synthesize searchItem;
 @synthesize searchDocumentBar;
 @synthesize conNotDownloadAlert;
 @synthesize isEdit;
@@ -49,7 +64,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        UIWebView* webView = [[UIWebView alloc] init];
+        self.web = webView;
+        [webView release];
     }
     return self;
 }
@@ -110,7 +127,7 @@
 #pragma mark - View lifecycle
 
 
-- (IBAction)viewAttachments:(id)sender
+- (void)viewAttachments
 {
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
     checkAttach.documentGUID = self.doc.guid;
@@ -148,8 +165,7 @@
 	}
 }
 
-
-- (IBAction) editDocument: (id)sender
+- (void) editDocument
 {
 	BOOL b = [web containImages];
 	//
@@ -177,7 +193,7 @@
     return;
 }
 
-- (IBAction)viewDocumentInfo:(id)sender
+- (void)viewDocumentInfo
 {
     DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
     infoView.doc = self.doc;
@@ -194,7 +210,7 @@
     [self.web highlightAllOccurencesOfString:searchText];
 }
 
-- (IBAction)searchDocument:(id)sender
+- (void)searchDocument
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDelegate:self];
@@ -209,7 +225,7 @@
 - (void) downloadDocument
 {
     [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone)];
-    [[WizSyncManager shareManager] downloadDocument:self.doc.guid];
+    [self.doc download];
     return;
 }
 - (void) checkDocument
@@ -353,33 +369,39 @@
         [self.navigationController setToolbarHidden:YES animated:YES];
     }
 }
+- (void) buildToolBar
+{
+    UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editDocument)];
+    
+    UIBarButtonItem* info = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"detail"] style:UIBarButtonItemStyleBordered target:self action:@selector(viewDocumentInfo)];
+    
+    UIBarButtonItem* attachment = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newNoteAttach"] style:UIBarButtonItemStyleBordered target:self action:@selector(viewAttachments)];
+    
+    UIBarButtonItem* search = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchDocument)];
+    search.style = UIBarButtonItemStyleBordered;
+    
+    UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    NSArray* array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info,flex,search, nil];
+    [edit release];
+    [flex release];
+    [info release];
+    [attachment release];
+    [search release];
+    
+    [self setToolbarItems:array];
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view = self.web;
     if (nil == self.downloadActivity) {
         self.downloadActivity = [[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(150, 150, 20, 20)] autorelease];
         [self.downloadActivity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
         [self.view addSubview:self.downloadActivity];
     }
-    
-    self.editBarItem.image = [UIImage imageNamed:@"edit"];
-    self.infoBarItem.image = [UIImage imageNamed:@"detail"];
-    self.attachmentBarItem.image = [UIImage imageNamed:@"newNoteAttach"];
-    self.view = self.web;
-    self.web.delegate = self;
-    self.searchDocumentBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)] autorelease];
-    self.searchDocumentBar.delegate = self;
-    [self.view addSubview:self.searchDocumentBar];
-    self.searchDocumentBar.hidden = YES;
-    self.editBarItem.enabled = NO;
-    self.searchItem.enabled = NO;
-    self.attachmentBarItem.enabled = NO;
-    [self.downloadActivity startAnimating];
-    UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeToolBarStatue:)] autorelease];
-    tap.delegate = self;
-    tap.cancelsTouchesInView = NO;
-    [self.web addGestureRecognizer:tap];
-
+    [self buildToolBar];
 }
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {

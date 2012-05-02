@@ -392,7 +392,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (void) viewDocument:(WizDocument*)doc
 {
-	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] initWithNibName:@"DocumentViewCtrollerBase" bundle:nil];
+	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] init];
     docView.hidesBottomBarWhenPushed = YES;
     docView.doc = doc;
 	[self.navigationController pushViewController:docView animated:YES];

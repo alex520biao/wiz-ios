@@ -11,7 +11,7 @@
 @interface WizSyncManager : NSObject
 {
     NSString* syncDescription;
-        id <WizSyncDescriptionDelegate> displayDelegate;
+    id <WizSyncDescriptionDelegate> displayDelegate;
 }
 @property (nonatomic, retain) id<WizSyncDescriptionDelegate> displayDelegate;
 @property (retain) NSString* syncDescription;

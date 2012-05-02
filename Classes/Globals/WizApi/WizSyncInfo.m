@@ -87,7 +87,15 @@
         }
         NSArray* downs = [WizDocument recentDocuments];
         for (WizDocument* each in downs) {
-            [[WizSyncManager shareManager] downloadDocument:each.guid];
+            NSLog(@"attachments count is %d",each.attachmentCount);
+            if (each.attachmentCount > 0) {
+                NSArray* attachments = [each attachments];
+                NSLog(@"attachments count is %d",[attachments count]);
+                for (WizAttachment* attach in attachments) {
+                    [[WizSyncManager shareManager] downloadAttachment:attach.guid];
+                }
+            }
+            
         }
     }
 }

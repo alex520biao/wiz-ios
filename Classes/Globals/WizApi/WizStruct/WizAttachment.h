@@ -31,4 +31,6 @@
 + (WizAttachment*) attachmentFromDb:(NSString*)attachmentGuid;
 + (void) setAttachmentLocalChanged:(NSString*)attachmentGuid changed:(BOOL)changed;
 + (void) setAttachServerChanged:(NSString*)attachmentGUID changed:(BOOL)changed;
+- (void) upload;
+- (void) download;
 @end

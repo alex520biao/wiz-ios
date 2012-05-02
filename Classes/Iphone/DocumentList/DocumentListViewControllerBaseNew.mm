@@ -508,7 +508,7 @@
 {
 	if (!self.currentDoc)
 		return;
-	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] initWithNibName:@"DocumentViewCtrollerBase" bundle:nil];
+	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] init];
 	docView.doc = self.currentDoc;
     docView.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:docView animated:YES];

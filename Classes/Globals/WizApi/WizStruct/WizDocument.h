@@ -81,4 +81,6 @@ enum
 
 //
 - (BOOL) saveInfo;
+- (void) upload;
+- (void) download;
 @end
