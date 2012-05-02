@@ -20,6 +20,7 @@
 #import "WizNotification.h"
 #import "WizSyncManager.h"
 #import "WizAccountManager.h"
+#import "WizFileManager.h"
 //
 #define DataTypeOfSyncManager               @"DataTypeOfSyncManager"
 #define DataTypeOfSync                      @"Sync"
@@ -69,7 +70,7 @@ static WizGlobalData* g_data;
 {
 	if (self  = [super init])
 	{
-		NSString* logFileName = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"info.log"];
+		NSString* logFileName = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"info.log"];
 		SetLogFileName([logFileName UTF8String]);
 		NSMutableDictionary* d = [[NSMutableDictionary alloc] init] ;
 		self.dict = d;

@@ -30,6 +30,7 @@
 #import "XMLRPCEncoder.h"
 
 #import "WizGlobals.h"
+#import "WizFileManager.h"
 
 @implementation XMLRPCRequest
 
@@ -126,7 +127,7 @@
 	NSData *request = [[_encoder encode] dataUsingEncoding: NSUTF8StringEncoding];
 	NSNumber *length = [NSNumber numberWithInt: [request length]];
 	
-	NSString* filename = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"xml-rpc-request.xml"];
+	NSString* filename = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"xml-rpc-request.xml"];
 	[request writeToFile:filename atomically:NO];
     //wiz-dzpqzb 
 	//

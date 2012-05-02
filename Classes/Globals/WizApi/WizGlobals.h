@@ -41,7 +41,6 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 @interface WizGlobals : NSObject {
 
 }
-+ (NSString*)documentMD5:(NSString *)documentGUID :(NSString*)accountUserId;
 +(float) heightForWizTableFooter:(int)exisitCellCount;
 + (NSString*) folderStringToLocal:(NSString*) str;
 +(int) currentTimeZone;
@@ -60,7 +59,6 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 
 +(NSString*)fileMD5:(NSString*)path;
 + (NSURL*) wizServerUrl;
-+(UIImage*) scaleAndRotateImage:(UIImage*)photoimage bounds_width:(CGFloat)bounds_width bounds_height:(CGFloat)bounds_height;
 
 + (BOOL) checkAttachmentTypeIsAudio:(NSString*) attachmentType;
 + (BOOL) checkAttachmentTypeIsImage:(NSString *)attachmentType;
@@ -73,24 +71,16 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (BOOL) checkAttachmentTypeIsExcel:(NSString*)type;
 //2012-2-25
 + (BOOL) checkFileIsEncry:(NSString*)filePath;
-//2012-2-27
-+(NSString*)getAttachmentSourceFileName:(NSString*)userId;
-//2012-2-28
 +(void) reportWarningWithString:(NSString*)error;
 + (void) reportWarning:(NSError*)error;
 //2012-3-9
-+(NSString*) getAttachmentTempFilePath:(NSString*)userId;
 //2012-3-16
 //+ (NSString*) tagsDisplayStrFromGUIDS:(NSArray*)tags;
 //2012-3-19
 + (BOOL) checkAttachmentTypeIsTxt:(NSString*)attachmentType;
 + (NSString*) wizNoteVersion;
 + (NSString*) localLanguageKey;
-+ (NSString*) getWizObjectNameFromPath:(NSString*)filePath;
-+ (NSString*) getWizObjectTypeFromName:(NSString*)objectName;
-+ (BOOL) copyFileToDocumentIndexfiles:(NSString *)filePath   toDocument:(NSString*)documentGUID   accountUserId:(NSString*)accountUserId;
 + (void) toLog:(NSString*)log;
-+ (void) changeAccountLocalPassword;
 //
 + (NSString*) md5:(NSData *)input;
 + (NSString*) encryptPassword:(NSString*)password;
@@ -108,6 +98,3 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 extern BOOL WizDeviceIsPad(void);
 
 
-@interface UIImageView (AddAction) 
-- (void) addAction:(SEL)action  target:(id) target;
-@end

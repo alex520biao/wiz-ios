@@ -548,7 +548,7 @@
     [keyControl addGestureRecognizer:keyHide];
     keyControl.userInteractionEnabled = YES;
     VoiceRecognition* reg = [[VoiceRecognition alloc] initWithFrame:CGRectMake(200, 100, 50 , 25) parentView:self.view];
-    [reg.image addAction:@selector(startVoiceInput) target:self];
+    [self addSelcetorToView:@selector(startVoiceInput) :reg.image];
     self.voiceInput = reg;
     self.voiceInput.hidden = YES;
     reg.owner = self;

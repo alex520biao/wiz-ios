@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WizGenDocumentAbstract.h"
-@protocol WizGenDocumentAbstractDelegate;
-@interface WizAbstractCache : NSObject <WizGenDocumentAbstractDelegate>
+@interface WizAbstractCache : NSObject
 + (id) shareCache;
 - (void) genDocumentAbstract:(NSString*)documentGuid    isUpdate:(BOOL)isUpdate;
 - (WizAbstract*) documentAbstractForIphone:(WizDocument*)document;

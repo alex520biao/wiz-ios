@@ -486,7 +486,8 @@
 -(void) onError: (id)retObject
 {
 	if ([retObject isKindOfClass:[NSError class]])
-	{  
+	{
+        [WizGlobals toLog:[NSString stringWithFormat:@"%@",retObject]];
         NSError* error = (NSError*)retObject;
         NSLog(@"error is %@",error);
         if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
@@ -503,6 +504,7 @@
         else {
             [WizGlobals reportError:retObject];
         }
+        
 		 
 	}
     

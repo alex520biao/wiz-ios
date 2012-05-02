@@ -32,6 +32,7 @@
 #import "XMLRPCExtensions.h"
 
 #import "WizGlobals.h"
+#import "WizFileManager.h"
 
 
 @implementation XMLRPCResponse
@@ -209,7 +210,7 @@
 
 -(id) decodeXML: (NSData*) data fault: (BOOL*)pvbFault
 {
-	NSString* filename = [[WizGlobals documentsPath] stringByAppendingPathComponent:@"xml-rpc-response.xml"];
+	NSString* filename = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"xml-rpc-response.xml"];
 	[data writeToFile:filename atomically:NO];
 	//
 	*pvbFault = NO;

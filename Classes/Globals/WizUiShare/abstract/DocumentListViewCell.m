@@ -46,6 +46,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 }
 - (void) dealloc
 {
+    [WizNotificationCenter removeObserver:self];
     [abstractData release];
     [doc release];
     [super dealloc];
@@ -89,9 +90,9 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         CGRect imageRect = CGRectMake(self.contentView.frame.size.width-80, 7, 75, 75);
         self.imageView = imageV;
         self.imageView.frame = imageRect;
+        [self.contentView addSubview:self.imageView];
         [imageV release];
         
-        //
         CALayer* layer =  self.imageView.layer;
         layer.borderColor = [UIColor whiteColor].CGColor;
         layer.borderWidth = 0.5f;
@@ -99,17 +100,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         layer.shadowOffset = CGSizeMake(1, 1);
         layer.shadowOpacity = 0.5;
         layer.shadowRadius = 0.9;
-//        CGSize size = self.imageView.bounds.size;
-//        CGFloat curlFactor = 10;
-//        CGFloat shadowDepth = 3.0f;
-//        UIBezierPath *path = [UIBezierPath bezierPath];
-//        [path moveToPoint:CGPointMake(0.0f, 0.0f)];
-//        [path addLineToPoint:CGPointMake(size.width, 0.0f)];
-//        [path addLineToPoint:CGPointMake(size.width, size.height + shadowDepth)];
-//        [path addCurveToPoint:CGPointMake(0.0f, size.height + shadowDepth)
-//                controlPoint1:CGPointMake(size.width - curlFactor, size.height + shadowDepth - curlFactor)
-//                controlPoint2:CGPointMake(curlFactor, size.height + shadowDepth - curlFactor)];
-//        layer.shadowPath = path.CGPath;
         [WizNotificationCenter addObserverForUpdateCache:self selector:@selector(updateAbstract:)];
     }
     return self;
@@ -125,47 +115,57 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 
 - (void) drawRect:(CGRect)rect
 {
-    NSLog(@"abstract is %@",self.abstractData);
+    NSInteger leftBreakWidth = 10;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     //trans View
     CGAffineTransform textTransform = CGAffineTransformMake(1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
 	CGContextSetTextMatrix(context, textTransform);
 	CGContextTranslateCTM(context, rect.origin.x, rect.origin.y);
-    
-    NSInteger imageWidth = 80;
+    NSInteger rightBreakWidth = 90;
     if (nil != self.abstractData && nil ==self.abstractData.image) {
-        [self.imageView removeFromSuperview];
-        imageWidth = 0;
+        self.imageView.hidden = YES;
+        rightBreakWidth = 10;
     }
     else {
-        [self.contentView addSubview:self.imageView];
+        self.imageView.frame = CGRectMake(self.frame.size.width-80, 10, 70, 70);
+        self.imageView.hidden = NO;
     }
-    //
-    NSAttributedString* title = [[NSAttributedString alloc] initWithString:[WizDecorate nameToDisplay:self.doc.title width:self.contentView.frame.size.width-imageWidth-10] attributes:[WizDecorate getNameAttributes]];
+    //title
+    NSAttributedString* title = [[NSAttributedString alloc] initWithString:[WizDecorate nameToDisplay:self.doc.title width:self.contentView.frame.size.width-rightBreakWidth] attributes:[WizDecorate getNameAttributes]];
     CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)title);
-    CGContextSetTextPosition(context, 5, 15);
-    
+    CGContextSetTextPosition(context, leftBreakWidth, 20);
     CTLineDraw(line, context);
     CFRelease(line);
     [title release];
     //time
     NSAttributedString* time = [[NSAttributedString alloc] initWithString:[self.doc.dateCreated stringLocal] attributes:[WizDecorate getTimeAttributes]];
     CTLineRef timeLine = CTLineCreateWithAttributedString((CFAttributedStringRef)timeLine);
-    CGContextSetTextPosition(context, 5, 30);
+    CGContextSetTextPosition(context, leftBreakWidth, 35);
     CTLineDraw(timeLine, context);
     CFRelease(timeLine);
     [time release];
    //
+    NSString* folderString = [WizGlobals folderStringToLocal:self.doc.location];
+    NSString* detailStr = @"";
     if (self.abstractData.text != nil) {
-        NSAttributedString* detail = [[NSAttributedString alloc] initWithString:self.abstractData.text attributes:[WizDecorate getDetailAttributes]];
-        CTLineRef detailLine = CTLineCreateWithAttributedString((CFAttributedStringRef)detail);
-        CGContextSetTextPosition(context, 5, 50);
-        CTLineDraw(detailLine, context);
-        CFRelease(detailLine);
+        detailStr = [self.abstractData.text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
     }
-   
-    
+    else if (folderString != nil){
+        detailStr = folderString;
+    }
+    NSAttributedString* detail = [[NSAttributedString alloc] initWithString:detailStr attributes:[WizDecorate getDetailAttributes]];
+    CGContextSetTextMatrix(context , CGAffineTransformIdentity);
+    CGContextTranslateCTM(context , 0 ,self.bounds.size.height);
+    CGContextScaleCTM(context, 1.0 ,-1.0);
+    CTFramesetterRef frameStter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)detail);
+    CGMutablePathRef leftColumnPath = CGPathCreateMutable();
+    CGPathAddRect(leftColumnPath, NULL, CGRectMake(leftBreakWidth, 5, self.bounds.size.width-rightBreakWidth, self.bounds.size.height-45));
+    CTFrameRef textFrame = CTFramesetterCreateFrame(frameStter, CFRangeMake(0.0, 0.0), leftColumnPath, NULL);
+    CTFrameDraw(textFrame, context);
+    CFRelease(frameStter);
+    CFRelease(leftColumnPath);
+    [detail release];
     if (nil != self.abstractData && nil != self.abstractData.image) {
         self.imageView.image = abstractData.image;
     }

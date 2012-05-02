@@ -138,7 +138,8 @@
     {
         return NO;
     }
-    if (![dbManager openDb:[fileManager tempDbPath]]) {
+    if (![dbManager openTempDb:[fileManager tempDbPath]]) {
+        NSLog(@"temp db cant open");
         return NO;
     }
     return YES;

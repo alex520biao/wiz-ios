@@ -167,7 +167,11 @@ bool CTempIndex::UpdateIphoneAbstract(const WIZABSTRACT &lpszAbstract)
 bool CTempIndex::UpdateAbstract(const WIZABSTRACT &lpszAbstract, const char *type)
 {
     if(!m_db.IsOpened())
+    {
+        printf("temp not open");
         return false;
+    }
+    
     std::string sql;
     WIZABSTRACT abstract;
     if (AbstractFromGUID(lpszAbstract.guid.c_str() ,abstract, type)) {
