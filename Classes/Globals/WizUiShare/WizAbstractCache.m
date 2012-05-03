@@ -1,110 +1,57 @@
 #import "WizAbstractCache.h"
-
 #import "WizNotification.h"
-
 #import "WizAccountManager.h"
-
 #import "WizDbManager.h"
-
 #import "WizFileManager.h"
-
 @interface WizAbstractCache()
-
 {
-    
     NSMutableDictionary* data;
-    
     NSMutableArray* needGenAbstractDocuments;
-    
     NSString* currentDocument;
-    
     BOOL isChangedUser;
-    
 }
-
 @property (atomic, retain) NSMutableDictionary* data;
-
 @property (atomic, retain) NSMutableArray* needGenAbstractDocuments;
-
 @property (atomic) BOOL isChangedUser;
-
 @property (atomic, retain) NSString* currentDocument;
-
 - (void) genAbstract;
-
 @end
-
 @implementation WizAbstractCache
-
 @synthesize data;
-
 @synthesize needGenAbstractDocuments;
-
 @synthesize isChangedUser;
-
 @synthesize currentDocument;
 //single
-
 + (id) shareCache
-
 {
-    
     static WizAbstractCache* shareCache;
-    
     @synchronized(shareCache)
-    
     {
-        
         if (shareCache == nil) {
-            
             shareCache = [[super allocWithZone:NULL] init];
-            
         }
-        
         return shareCache;
-        
     }
-    
 }
-
 + (id) allocWithZone:(NSZone *)zone
-
 {
-    
     return [[self shareCache] retain];
-    
 }
-
 - (id) retain
-
 {
-    
     return self;
-    
 }
-
 - (NSUInteger) retainCount
-
 {
-    
     return NSUIntegerMax;
-    
 }
-
 - (id) copyWithZone:(NSZone*)zone
-
 {
-    
     return self;
-    
 }
-
 - (id) autorelease
-
 {
-    
     return self;
-    
 }
 
 - (oneway void) release

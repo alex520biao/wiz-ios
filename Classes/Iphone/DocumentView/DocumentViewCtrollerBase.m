@@ -12,10 +12,8 @@
 #import "TFHpple.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizApi.h"
 #import "WizDownloadObject.h"
 #import "DocumentInfoViewController.h"
-#import "CommonString.h"
 #import "UIBadgeView.h"
 #import "WizDictionaryMessage.h"
 #import "WizCheckAttachments.h"
@@ -36,13 +34,13 @@
     UIBarItem* searchItem;
     UISearchBar* searchDocumentBar;
     UIAlertView* conNotDownloadAlert;
-    UIActivityIndicatorView* downloadActivity;
+    MBProgressHUD* downloadActivity;
     BOOL isEdit;
 }
 @property (nonatomic, retain) IBOutlet UIWebView* web;
 @property (nonatomic, retain)  UISearchBar* searchDocumentBar;
 @property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
-@property (nonatomic, retain)  UIActivityIndicatorView* downloadActivity;
+@property (nonatomic, retain)  MBProgressHUD* downloadActivity;
 @property (assign) BOOL isEdit;
 @property (nonatomic, retain) NSString* fontWidth;
 - (void) downloadDocumentDone;
@@ -65,10 +63,15 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         UIWebView* webView = [[UIWebView alloc] init];
+        webView.delegate = self;
         self.web = webView;
         [webView release];
     }
     return self;
+}
+- (void) loadView
+{
+    self.view = self.web;
 }
 
 -(void) dealloc
@@ -95,18 +98,16 @@
     [self.web stringByEvaluatingJavaScriptFromString:ret];
 }
 
-
-//-(void) webViewDidFinishLoad:(UIWebView *)webView
-//{
-//    [self.downloadActivity stopAnimating];
-//    self.downloadActivity.hidden = YES;
-//    self.searchItem.enabled = YES;
-//    self.editBarItem.enabled = YES;
-//    self.attachmentBarItem.enabled = YES;
-//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//    [nc removeObserver:self];
-//    [self changeWebViewWidth];
-//}
+- (void) webViewDidStartLoad:(UIWebView *)webView
+{
+    [self.downloadActivity show:NO];
+    self.downloadActivity.hidden = YES;
+    
+}
+-(void) webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self changeWebViewWidth];
+}
 - (void) setDeviceWidth
 {
     self.fontWidth = @"device-width";
@@ -138,12 +139,10 @@
 
 - (void)editCurrentDocument
 {
-    NSMutableDictionary* data = [NSMutableDictionary dictionary];
     NewNoteView* newNote= [[NewNoteView alloc]init];
-    [data setObject:self.doc.title forKey:TypeOfDocumentTitle];
-    [data setObject:self.doc.guid forKey:TypeOfDocumentGUID];
-    [data setObject:[self.web bodyText] forKey:TypeOfDocumentBody];
-    [newNote prepareForEdit:data];
+    WizDocumentEdit* edit = [[WizDocumentEdit alloc] initFromWizDocument:self.doc];
+    newNote.docEdit = edit;
+    edit.editDelegate = newNote;
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];
@@ -291,9 +290,6 @@
 
 - (void)viewDidUnload
 {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    [nc removeObserver:self.web];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -388,18 +384,18 @@
     [info release];
     [attachment release];
     [search release];
-    
     [self setToolbarItems:array];
-    
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view = self.web;
     if (nil == self.downloadActivity) {
-        self.downloadActivity = [[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(150, 150, 20, 20)] autorelease];
-        [self.downloadActivity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
+        self.downloadActivity =[[MBProgressHUD alloc] initWithView:self.navigationController.view];
         [self.view addSubview:self.downloadActivity];
+        [self.view bringSubviewToFront:self.downloadActivity];  
+        self.downloadActivity.delegate = self;  
+        self.downloadActivity.labelText = WizStrLoading;
+        [self.downloadActivity show:YES];
     }
     [self buildToolBar];
 }

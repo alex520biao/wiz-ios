@@ -30,7 +30,6 @@
 
 - (void) insertDocument:(WizDocument*)doc indexPath:(NSIndexPath*)indexPath
 {
-    
     if ([self documentsCount] > 100) {
         [self deleteDocument:[[[self.tableSourceArray lastObject]lastObject] guid]];
     }
@@ -62,6 +61,7 @@
 	// Do any additional setup after loading the view.
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
+    self.title = WizStrRecentNotes;
     [item release];
 }
 

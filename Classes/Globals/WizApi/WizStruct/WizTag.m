@@ -34,10 +34,12 @@
     }
     NSMutableDictionary* tag = [NSMutableDictionary dictionary];
     
+    if (nil == self.description) {
+        self.description = @"";
+    }
     [tag setObject:self.guid forKey:DataTypeUpdateTagGuid];
     [tag setObject:self.title forKey:DataTypeUpdateTagTitle];
     [tag setObject:self.description forKey:DataTypeUpdateTagDescription];
-//    [tag setObject:self.namePath forKey:datatypeupdatetag]
     [tag setObject:[NSNumber numberWithInt:1] forKey:DataTypeUpdateTagLocalchanged];
     if (nil == self.dateInfoModified) {
         self.dateInfoModified = [NSDate date];
@@ -53,5 +55,10 @@
 {
     WizDbManager* db = [WizDbManager shareDbManager];
     [db deleteTag:tagGuid];
+}
+
++ (NSArray*) allTags
+{
+    return [[WizDbManager shareDbManager] allTagsForTree];
 }
 @end

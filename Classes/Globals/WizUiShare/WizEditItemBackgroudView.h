@@ -15,4 +15,5 @@
 }
 @property (nonatomic, retain) UIImageView* imageView;
 @property (nonatomic, retain) UILabel* label;
+- (void) setTargetAndSelector:(id)target  selector:(SEL)selector;
 @end

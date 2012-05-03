@@ -7,19 +7,31 @@
 //
 
 #import "SelectFloderView.h"
-#import "WizGlobalData.h"
-#import "WizGlobals.h"
 #import "WizPadNotificationMessage.h"
-#import "WizGlobals.h"
+#import "WizFolderSelectDelegate.h"
+#import "WizDbManager.h"
+@interface SelectFloderView ()
+{
+    NSMutableArray* allFloders;
+    NSMutableArray*       selectedFloder;
+    UISearchBar* searchBar;
+    UISearchDisplayController* searchDisplayController;
+    NSArray* searchedFolder;
+}
+@property (nonatomic, retain) NSMutableArray* allFloders;
+@property (nonatomic, retain) NSMutableArray* selectedFloder;
+@property (nonatomic, retain) UISearchBar* searchBar;
+@property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
+@property (nonatomic, retain) NSArray* searchedFolder;
+@end
 @implementation SelectFloderView
 
 @synthesize selectedFloder;
 @synthesize allFloders;
-@synthesize accountUserID;
-@synthesize selectedFloderString;
 @synthesize searchBar;
 @synthesize searchDisplayController;
 @synthesize searchedFolder;
+@synthesize selectDelegate;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -32,9 +44,9 @@
 {
     [searchedFolder release];
     [allFloders release];
-    [accountUserID release];
     [searchDisplayController release];
     [searchBar release];
+    [selectDelegate release];
     [super dealloc];
 }
 - (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,11 +94,6 @@
 {
     [super viewDidLoad];
     [self buildSeachView];
-    if (![WizGlobals WizDeviceIsPad]) {
-        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:WizStrOK style:UIBarButtonItemStyleDone target:self action:@selector(addFloder)];
-        self.navigationItem.rightBarButtonItem = editButton;
-        [editButton release];
-    }
 
 }
 
@@ -100,29 +107,19 @@
 
     [super viewWillAppear:animated];
     if(self.selectedFloder == nil)
-        self.selectedFloder = [[[NSMutableArray alloc] init] autorelease];
-    if(self.allFloders == nil)
-        self.allFloders = [[[[[WizGlobalData sharedData] indexData:self.accountUserID] allLocationsForTree] mutableCopy] autorelease];
-    if(![self.selectedFloderString isEqual:@""])
     {
-        for(int i = 0; i < [self.allFloders count]; i++)
-        {
-            NSString* each = [self.allFloders objectAtIndex:i];
-            if([each isEqualToString:self.selectedFloderString])
-            {
-                [self.selectedFloder addObject:each];
-            }
+        self.selectedFloder = [NSMutableArray array];
+        NSString* sFolder = [self.selectDelegate selectedFolderOld];
+        if (nil == sFolder || [sFolder isBlock]) {
+            sFolder = @"/My Notes/";
         }
-    if ([self.selectedFloder count] ==0) {
-        [self.selectedFloder addObject:self.selectedFloderString];
-        [self.allFloders insertObject:self.selectedFloderString atIndex:0];
+        [self.selectedFloder addObject:sFolder];
     }
-    }
-    else
+    if(self.allFloders == nil)
     {
-        [self.selectedFloder addObject:[self.allFloders objectAtIndex:0]];
+        self.allFloders =[NSMutableArray array];
+        [self.allFloders addObjectsFromArray:[[WizDbManager shareDbManager] allLocationsForTree]];
     }
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -258,10 +255,7 @@
     }
     [self.selectedFloder removeLastObject];
     [self.selectedFloder addObject:folder];
-    self.selectedFloderString = [NSMutableString stringWithString:folder];
-    if ([WizGlobals WizDeviceIsPad]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfSelectedFolder object:nil userInfo:[NSDictionary dictionaryWithObject:folder forKey:TypeOfFolderKey]];
-    }
+    [self.selectDelegate didSelectedFolderString:folder];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

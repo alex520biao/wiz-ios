@@ -9,40 +9,23 @@
 
 #import "NewNoteView.h"
 #import "UIView-TagExtensions.h"
-
-#import "WizGlobalData.h"
-#import "WizGlobals.h"
-#import "WizApi.h"
 #import "SelectFloderView.h"
-#import "ELCAlbumPickerController.h"
-#import "ELCImagePickerController.h"
-#import "PickViewController.h"
 #import "VoiceRecognition.h"
 #import "WizDictionaryMessage.h"
-#import "RecentDcoumentListView.h"
-#import "CommonString.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadCheckAttachments.h"
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
-
-
 #import "WizEditItemBackgroudView.h"
-
-
-
 #import "WizNotification.h"
-#import "WizAccountManager.h"
-#import "WizDbManager.h"
-#import "WizDocument.h"
+#define KEYHIDDEN               209
+#define HIDDENTTAG              300
+#define NOHIDDENTTAG            301
+#define INFOVIEWHEIGN           68
+#define ATTACHMENTSVIEWHEIGH    105
 
-#define KEYHIDDEN 209
-#define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
-#define HIDDENTTAG  300
-#define NOHIDDENTTAG 301
-
-#define INFOVIEWHEIGN  68
-#define ATTACHMENTSVIEWHEIGH 105
+#define AudioRecoderStartTag    1200
+#define AudioRecoderStopTag     1201
 @interface NewNoteView()
 {
     //audio
@@ -106,13 +89,46 @@
     [attachmentsTableviewEntryButton release];
     [super dealloc];
 }
--(void) displayAttachmentsCount
+- (void) attachmentAddDone
 {
     NSInteger count = [self.picturesArray count] + [self.audiosArray count];
     NSString* displayString = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"Attachments", nil), count];
     [self.attachmentsTableviewEntryButton setTitle:displayString forState:UIControlStateNormal];
 }
+- (void) startRecoder
+{
+    UIView* first = (UIView*)[self.view viewWithTag:AudioRecoderStartTag];
+    UIView* second = (UIView*) [self.view viewWithTag:AudioRecoderStopTag];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:second cache:YES];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:1.0];
+    [first setAlpha:0.0f];
+    [second setAlpha:1.0f];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(audioStartRecode)];
+    [self.view exchangeSubviewAtIndex:[[self.view subviews] indexOfObject:first]
+                   withSubviewAtIndex:[[self.view subviews] indexOfObject:second] ];
+    [UIView commitAnimations];
+}
 
+-(void) stopRecord
+{
+    UIView* first = (UIView*)[self.view viewWithTag:AudioRecoderStopTag];
+    UIView* second = (UIView*) [self.view viewWithTag:AudioRecoderStartTag];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:second cache:YES];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationDuration:1.0];
+    [first setAlpha:0.0f];
+    [second setAlpha:1.0f];
+    [self.view exchangeSubviewAtIndex:[[self.view subviews] indexOfObject:first]
+                   withSubviewAtIndex:[[self.view subviews] indexOfObject:second] ];
+    [UIView commitAnimations];
+    [self audioStopRecord];
+}
 -(UIImage*) imageReduceRect:(NSString*) imageName
 {
     UIImage* image = [UIImage imageNamed:imageName];
@@ -152,42 +168,42 @@
 
  -(void) addAudioRecorderStopView
 {
-    UIView* audioRecording = [[UIView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
-    audioRecording.backgroundColor = [UIColor clearColor];
-    audioRecording.tag = 101;
+    WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
+    temp.tag = AudioRecoderStopTag;
     UIImageView* back = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recorderTimeBack"]];
     back.frame = CGRectMake(10, 5, 80, 24);
-    [audioRecording addSubview:back];
+    [temp addSubview:back];
     [back release];
-    audioRecording.userInteractionEnabled = YES;
     UILabel* stopLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 26, 100, 24)];
     stopLabel.backgroundColor = [UIColor clearColor];
     [stopLabel setFont:[UIFont systemFontOfSize:13]];
     [stopLabel setTextColor:[UIColor grayColor]];
     stopLabel.textAlignment = UITextAlignmentCenter;
     stopLabel.text = NSLocalizedString(@"Tap to stop", nil);
-    [audioRecording addSubview:stopLabel];
+    [temp addSubview:stopLabel];
     UILabel* recoderL = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 80, 24)] ;
     self.recoderLabel = recoderL;
-    [audioRecording addSubview:self.recoderLabel];
+    [temp addSubview:self.recoderLabel];
     recoderL.font = [UIFont systemFontOfSize:15];
     recoderL.textAlignment = UITextAlignmentCenter;
     self.recoderLabel.backgroundColor = [UIColor clearColor];
     [recoderL release];
-    [self.addAttachmentView addSubview:audioRecording];
-    [self addSelcetorToView:@selector(audioStopRecord) :audioRecording];
-    [audioRecording setAlpha:0.0f];
-    [audioRecording release];
+    [self.addAttachmentView addSubview:temp];
+    [temp setTargetAndSelector:self selector:@selector(stopRecord)];
+    [temp setAlpha:0.0f];
     [stopLabel release];
+    [temp release];
 }
+
 - (void) addAudioRecorderStartView
 {
-    //recoding start
     WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(10, 11, 100, 48)];
     UIImage* image = [UIImage imageNamed:@"attachRecorderPad"];
     temp.imageView.image = image;
     temp.label.text = NSLocalizedString(@"Record", nil);
     [self.addAttachmentView addSubview:temp];
+    [temp setTargetAndSelector:self selector:@selector(startRecoder)];
+    temp.tag = AudioRecoderStartTag;
     [temp release];
 }
 - (void) addSelectedPhotoView
@@ -195,8 +211,9 @@
     WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
     UIImage* image = [UIImage imageNamed:@"attachSelectPhotoPad"];
     temp.imageView.image = image;
-    temp.label.text = NSLocalizedString(@"Record", nil);
+    temp.label.text = NSLocalizedString(@"Cramall", nil);
     [self.addAttachmentView addSubview:temp];
+    [temp setTargetAndSelector:self selector:@selector(selectePhotos)];
     [temp release];
 }
 - (void) addTakePhotoView
@@ -206,6 +223,7 @@
     temp.imageView.image = image;
     temp.label.text = NSLocalizedString(@"Snapshot", nil);
     [self.addAttachmentView addSubview:temp];
+    [temp setTargetAndSelector:self selector:@selector(takePhoto)];
     [temp release];
 }
 - (void) buildAddAttachmentsView
@@ -214,21 +232,6 @@
         UIView* addAttach = [[UIView alloc] initWithFrame:CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, 100)];
         self.addAttachmentView = addAttach;
         [addAttach release];
-        
-        UIView* backGroud = [[UIView alloc] initWithFrame:CGRectMake(20, 2, 50, 40)];
-        CAGradientLayer* gradient = [CAGradientLayer layer];
-        gradient.borderColor = [UIColor whiteColor].CGColor;
-        gradient.borderWidth = 0.5f;
-        gradient.shadowColor = [UIColor grayColor].CGColor;
-        gradient.shadowOffset = CGSizeMake(1, 1);
-        gradient.shadowOpacity = 0.5;
-        gradient.shadowRadius = 0.9;
-        gradient.frame = CGRectMake(0.0, 0.0, 50, 40);
-        gradient.colors = [NSArray arrayWithObjects:
-                           (id)[UIColor colorWithRed:207/256.0 green:207/256.0 blue:207/256.0 alpha:1.0].CGColor,
-                           (id)[UIColor colorWithRed:241/256.0 green:241/256.0 blue:241/256.0 alpha:1.0].CGColor, nil];
-        
-        [self.addAttachmentView.layer addSublayer:gradient];
         self.addAttachmentView.tag = HIDDENTTAG;
         self.addAttachmentView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
     }
@@ -239,16 +242,32 @@
     //takephoto
     [self addTakePhotoView];
     // attachments entry
-    UIButton* attachmentsTableEntry = [[UIButton alloc] initWithFrame:CGRectMake(11, 74, 310, 20)];
+    UIButton* attachmentsTableEntry = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 300)/2, 74, self.view.frame.size.width - 20, 20)];
+    CAGradientLayer* gradient = [CAGradientLayer layer];
+    gradient.borderColor = [UIColor colorWithRed:159/256.0 green:159/256.0 blue:159/256.0 alpha:1.0].CGColor;
+    gradient.borderWidth = 0.5f;
+    gradient.shadowColor = [UIColor whiteColor].CGColor;
+    gradient.shadowOffset = CGSizeMake(1, 0.5);
+    gradient.shadowOpacity = 0.5;
+    gradient.shadowRadius = 0.5;
+    gradient.frame = CGRectMake(0.0, 0.0, attachmentsTableEntry.frame.size.width,  20);
+    gradient.colors = [NSArray arrayWithObjects:
+                       (id)[UIColor colorWithRed:241/256.0 green:241/256.0 blue:241/256.0 alpha:1.0].CGColor,
+                       (id)[UIColor colorWithRed:207/256.0 green:207/256.0 blue:207/256.0 alpha:1.0].CGColor,
+                       
+                       nil];
+    
+    gradient.cornerRadius = 2;
+    gradient.masksToBounds = YES;
+    
+    [attachmentsTableEntry.layer insertSublayer:gradient atIndex:0];
     self.attachmentsTableviewEntryButton = attachmentsTableEntry;
-
     [self.attachmentsTableviewEntryButton setTitle:@"ddd" forState:UIControlStateNormal];
     [self.attachmentsTableviewEntryButton addTarget:self action:@selector(attachmentsViewSelect) forControlEvents:UIControlEventTouchUpInside];
     attachmentsTableEntry.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     attachmentsTableEntry.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     attachmentsTableEntry.titleLabel.font = [UIFont systemFontOfSize:13];
     attachmentsTableEntry.titleLabel.textColor = [UIColor grayColor];
-
     [self.addAttachmentView addSubview:self.attachmentsTableviewEntryButton];
     [self.view addSubview:self.addAttachmentView];
     [attachmentsTableEntry release];
@@ -260,8 +279,8 @@
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
-    self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, ATTACHMENTSVIEWHEIGH);
-    self.inputContentView.frame = CGRectMake(0.0, 0.0, 320, 400);
+    self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, self.view.frame.size.width, ATTACHMENTSVIEWHEIGH);
+    self.inputContentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 400);
     self.addAttachmentView.tag = HIDDENTTAG;
     [UIView commitAnimations];
 }
@@ -274,11 +293,11 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
     if (HIDDENTTAG != self.addDocumentInfoView.tag) {
-        self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, 320, INFOVIEWHEIGN);
+        self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, self.view.frame.size.width, INFOVIEWHEIGN);
         self.addDocumentInfoView.tag = HIDDENTTAG;
     }
-    self.addAttachmentView.frame = CGRectMake(0.0, 0.0, 320, ATTACHMENTSVIEWHEIGH);
-    self.inputContentView.frame = CGRectMake(0.0, ATTACHMENTSVIEWHEIGH, 320, self.view.frame.size.height - ATTACHMENTSVIEWHEIGH);
+    self.addAttachmentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, ATTACHMENTSVIEWHEIGH);
+    self.inputContentView.frame = CGRectMake(0.0, ATTACHMENTSVIEWHEIGH, self.view.frame.size.width, self.view.frame.size.height - ATTACHMENTSVIEWHEIGH);
     [self.view bringSubviewToFront:addAttachmentView];
     [self keyHideOrShow];
     self.addAttachmentView.tag = NOHIDDENTTAG;
@@ -303,8 +322,8 @@
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
-    self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, 320, INFOVIEWHEIGN-10);
-    self.inputContentView.frame = CGRectMake(0.0, 0.0, 320, 400);
+    self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, self.view.frame.size.width, INFOVIEWHEIGN-10);
+    self.inputContentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 400);
     self.addDocumentInfoView.tag = HIDDENTTAG;
     [UIView commitAnimations];
 }
@@ -317,11 +336,11 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
     if (HIDDENTTAG != self.addAttachmentView.tag) {
-        self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, 320, ATTACHMENTSVIEWHEIGH);
+        self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, self.view.frame.size.width, ATTACHMENTSVIEWHEIGH);
         self.addAttachmentView.tag = HIDDENTTAG;
     }
-    self.addDocumentInfoView.frame = CGRectMake(0.0, 0.0, 320, INFOVIEWHEIGN);
-    self.inputContentView.frame = CGRectMake(0.0, INFOVIEWHEIGN, 320, 250);
+    self.addDocumentInfoView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, INFOVIEWHEIGN);
+    self.inputContentView.frame = CGRectMake(0.0, INFOVIEWHEIGN, self.view.frame.size.width, 250);
     [self.view bringSubviewToFront:addDocumentInfoView];
     [self keyHideOrShow];
     self.addDocumentInfoView.tag = NOHIDDENTTAG;
@@ -340,13 +359,51 @@
         [self addDocumentInfoDisappear];
     }
 }
+- (NSArray*) selectedTagsOld
+{
+    return [self.docEdit tagDatas];
+}
+- (void) willSelecteTags
+{
+    WizSelectTagViewController* sTag = [[WizSelectTagViewController alloc] init];
+    sTag.selectDelegate = self;
+    [self.navigationController pushViewController:sTag animated:YES];
+    [sTag release];
+}
+- (void) didSelectedTags:(NSArray*)tags
+{
+    NSMutableString* tagsGuid = [NSMutableString stringWithCapacity:0];
+    for (WizTag* tag in tags) {
+        [tagsGuid appendFormat:@"%@*",tag.guid];
+    }
+    if (tagsGuid.length >0) {
+        tagsGuid = [NSMutableString stringWithString:[tagsGuid substringToIndex:tagsGuid.length -1]];
+    }
+    self.docEdit.tagGuids = tagsGuid;
+}
+- (NSString*) selectedFolderOld
+{
+    return self.docEdit.location;
+}
 
+- (void) didSelectedFolderString:(NSString *)folderString
+{
+    self.docEdit.location = folderString;
+}
+- (void) willSelectedFolder
+{
+    SelectFloderView* sFolder = [[SelectFloderView alloc] init];
+    sFolder.selectDelegate = self;
+    [self.navigationController pushViewController:sFolder animated:YES];
+    [sFolder release];
+}
 - (void) addFolderSelecteView
 {
     WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
     UIImage* image = [UIImage imageNamed:@"newNoteFolder"];
     temp.imageView.image = image;
     temp.label.text = WizStrFolders;
+    [temp setTargetAndSelector:self selector:@selector(willSelectedFolder)];
     [self.addDocumentInfoView addSubview:temp];
     [temp release];
 }
@@ -356,6 +413,7 @@
     UIImage* image = [UIImage imageNamed:@"newNoteTag"];
     temp.imageView.image = image;
     temp.label.text = WizStrTags;
+    [temp setTargetAndSelector:self selector:@selector(willSelecteTags)];
     [self.addDocumentInfoView addSubview:temp];
     [temp release];
 }
@@ -363,10 +421,15 @@
 - (void) fitAttachmentItemFrame
 {
     float start = (self.view.frame.size.width-300)/2;
+    float stepStart = start;
     for (UIView* each in self.addAttachmentView.subviews) {
         if ([each isKindOfClass:[WizEditItemBackgroudView class]]) {
-            each.frame = CGRectMake(start, 11, 100, 40);
-            start+=100;
+            if (each.tag == AudioRecoderStartTag || each.tag == AudioRecoderStopTag) {
+                each.frame = CGRectMake(start, 11, 100, 40);
+                continue;
+            }
+            stepStart+=100;
+            each.frame = CGRectMake(stepStart, 11, 100, 40);
         }
     }
 }
@@ -453,6 +516,12 @@
     [self.view addSubview:self.inputContentView];
 }
 
+- (float) updateTime
+{
+    float time = [super updateTime];
+    self.recoderLabel.text = [WizGlobals timerStringFromTimerInver:time];
+    return time;
+}
 - (NSString*) insertStringToOldWithRange:(NSString*)oldString inserString:(NSString*) insertString range:(NSRange)selectedRange
 {
     NSString* newBody = nil;
@@ -513,7 +582,6 @@
 }
 -(void) buildInterface
 {
-    
     self.view.backgroundColor = [UIColor whiteColor];
     [self buildAddAttachmentsView];
     [self buildAddDocumentInfoView];
@@ -549,6 +617,7 @@
 -(void) saveDocument
 {
     [self audioStopRecord];
+    self.docEdit.title = self.titleTextFiled.text;
     [self.docEdit saveWithData];
     [self postSelectedMessageToPicker];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
@@ -580,7 +649,6 @@
             }
         }
     }
-    
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
@@ -641,9 +709,10 @@
     else  if (self.addDocumentInfoView.tag == HIDDENTTAG) {
         [self addDocumentInfoViewAnimation];
     }
-    [self displayAttachmentsCount];
     [self fitInfoItemFrame];
     [self fitAttachmentItemFrame];
+    [self printRect:self.view.frame];
+    self.attachmentsTableviewEntryButton.frame = CGRectMake((self.view.frame.size.width - 300)/2, 74, 300, 20);
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -674,7 +743,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
@@ -683,10 +751,11 @@
 {
     [self fitInfoItemFrame];
     [self fitAttachmentItemFrame];
-    self.addAttachmentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.addAttachmentView.frame.size.height);
-    self.addDocumentInfoView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.addDocumentInfoView.frame.size.height);
+    self.addAttachmentView.frame = CGRectMake(self.addAttachmentView.frame.origin.x, self.addAttachmentView.frame.origin.y, self.view.frame.size.width, self.addAttachmentView.frame.size.height);
+    self.addDocumentInfoView.frame = CGRectMake(self.addDocumentInfoView.frame.origin.x, self.addDocumentInfoView.frame.origin.y, self.view.frame.size.width, self.addDocumentInfoView.frame.size.height);
     self.bodyTextField.frame = CGRectMake(0.0, 31, self.view.frame.size.width, self.bodyTextField.frame.size.height);
     self.titleTextFiled.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.bodyTextField.frame.size.height);
+    self.attachmentsTableviewEntryButton.frame = CGRectMake((self.view.frame.size.width - 300)/2, 74, 300, 20);
 }
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -694,7 +763,6 @@
     self.voiceInput.hidden = NO;
     [self addDocumentInfoDisappear];
 }
-
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
     [self addAttachemntsViewDisappear];

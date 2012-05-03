@@ -7,23 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-
-@interface SelectFloderView : UITableViewController <UISearchBarDelegate,UISearchDisplayDelegate>{
-    NSMutableArray* allFloders;
-    NSMutableArray*       selectedFloder;
-    NSString*       accountUserID;
-    NSMutableString*       selectedFloderString;
-    
-    UISearchBar* searchBar;
-    UISearchDisplayController* searchDisplayController;
-    NSArray* searchedFolder;
+@protocol WizFolderSelectDelegate;
+@interface SelectFloderView : UITableViewController <UISearchBarDelegate,UISearchDisplayDelegate>
+{
+    id<WizFolderSelectDelegate> selectDelegate;
 }
-@property (nonatomic, retain) NSMutableArray* allFloders;
-@property (nonatomic, retain) NSMutableArray* selectedFloder;
-@property (nonatomic, retain) NSString*       accountUserID;
-@property (nonatomic, retain) NSMutableString*       selectedFloderString;
-@property (nonatomic, retain) UISearchBar* searchBar;
-@property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
-@property (nonatomic, retain) NSArray* searchedFolder;
+@property (nonatomic, retain) id<WizFolderSelectDelegate> selectDelegate;
 @end

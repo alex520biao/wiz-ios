@@ -764,9 +764,7 @@ static WizDbManager* shareDbManager = nil;
 {
     CWizTagDataArray arrayTag;
     index.GetAllTagsPathForTree(arrayTag);
-    //
     NSMutableArray* tags = [NSMutableArray arrayWithCapacity:arrayTag.size()];
-    //
     for (CWizTagDataArray::const_iterator it = arrayTag.begin();
          it != arrayTag.end();
          it++)
@@ -775,9 +773,7 @@ static WizDbManager* shareDbManager = nil;
         [tags addObject:tag];
         [tag release];
     }
-    //
     [tags sortUsingFunction:compareTag context:NULL];
-    //
     return tags;
 }
 -(NSArray*) tagsForUpload
@@ -1000,7 +996,6 @@ static WizDbManager* shareDbManager = nil;
     }
     NSData* abstractImageData = nil;
     NSString* abstractText = nil;
-
     NSLog(@"%@",sourceFilePath);
     NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
     NSString* removeTitle = [sourceStr stringReplaceUseRegular:@"<title.*title>"];
@@ -1024,8 +1019,8 @@ static WizDbManager* shareDbManager = nil;
     }
     else
     {
-        NSRange range = NSMakeRange(0, 200);
-        if (abstractText.length <= 200) {
+        NSRange range = NSMakeRange(0, 100);
+        if (abstractText.length <= 100) {
             range = NSMakeRange(0, destStr.length);
         }
         abstractText = [destStr substringWithRange:range];
@@ -1090,7 +1085,6 @@ static WizDbManager* shareDbManager = nil;
             }
             maxImage = imageArea > maxImageArea  ? currentImage: maxImage;
             maxImageArea = imageArea > maxImageArea ? imageArea:maxImageArea;
-            
         }
     }
     UIImage* compassImage = nil;
@@ -1121,12 +1115,6 @@ static WizDbManager* shareDbManager = nil;
     NSLog(@"self is %@",self);
     if (WizDeviceIsPad) {
         tempIndex.UpdatePadAbstract(abstract);
-        //        WIZABSTRACT abstractLitle;
-        //        NSData* absData = [compassImageBig compressedData:1.0];
-        //        abstractLitle.setData((unsigned char *)[absData bytes], [absData length]);
-        //        abstractLitle.imageDataLength = [absData length];
-        //        abstractLitle.text = [abstractText UTF8String];
-        //        tempIndex.UpdateIphoneAbstract(abstractLitle);
     }
     else
     {

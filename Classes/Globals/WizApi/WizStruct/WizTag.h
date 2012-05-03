@@ -24,4 +24,5 @@
 + (WizTag*) tagFromDb:(NSString*)guid;
 + (void) deleteTag:(NSString*)tagGuid;
 - (BOOL) save;
++ (NSArray*) allTags;
 @end

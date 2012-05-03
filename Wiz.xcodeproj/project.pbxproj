@@ -63,6 +63,7 @@
 		734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1371504597D002549CB /* TreeTableViewBase.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
+		736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DEA541552843D00633B89 /* MBProgressHUD.m */; };
 		736EBAAB1544F76A00D97ACB /* WizDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 736EBAAA1544F76A00D97ACB /* WizDocument.m */; };
 		737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AA150DB84B0029A967 /* WizTableViewController.m */; };
 		737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B530C151EEA1200CE3656 /* WizIphoneLoginViewController.m */; };
@@ -408,6 +409,9 @@
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
 		735C1B95153C218100A80353 /* WizSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncManager.h; sourceTree = "<group>"; };
 		735C1B96153C218100A80353 /* WizSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncManager.m; sourceTree = "<group>"; };
+		736DE97715526A4500633B89 /* WizFolderSelectDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizFolderSelectDelegate.h; sourceTree = "<group>"; };
+		736DEA531552843D00633B89 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		736DEA541552843D00633B89 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		736EBAA91544F76A00D97ACB /* WizDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocument.h; path = WizStruct/WizDocument.h; sourceTree = "<group>"; };
 		736EBAAA1544F76A00D97ACB /* WizDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocument.m; path = WizStruct/WizDocument.m; sourceTree = "<group>"; };
 		737999A9150DB84B0029A967 /* WizTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewController.h; sourceTree = "<group>"; };
@@ -1021,6 +1025,15 @@
 			name = SyncCenter;
 			sourceTree = "<group>";
 		};
+		736DEA521552843D00633B89 /* MBProcessHUD */ = {
+			isa = PBXGroup;
+			children = (
+				736DEA531552843D00633B89 /* MBProgressHUD.h */,
+				736DEA541552843D00633B89 /* MBProgressHUD.m */,
+			);
+			path = MBProcessHUD;
+			sourceTree = "<group>";
+		};
 		737999A8150DB84B0029A967 /* Involution */ = {
 			isa = PBXGroup;
 			children = (
@@ -1165,6 +1178,7 @@
 				73A7846414F8CC22001387F6 /* password */,
 				73A7846914F8CC22001387F6 /* ScrollTableViewCell.h */,
 				73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */,
+				736DE97715526A4500633B89 /* WizFolderSelectDelegate.h */,
 				73A7846B14F8CC22001387F6 /* SelectFloderView.h */,
 				73A7846C14F8CC22001387F6 /* SelectFloderView.m */,
 				73A7847F14F8CC22001387F6 /* WizSelectTagViewController.h */,
@@ -1352,6 +1366,7 @@
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
 			isa = PBXGroup;
 			children = (
+				736DEA521552843D00633B89 /* MBProcessHUD */,
 				732E510B1519C05600EDF1BB /* WizTestUnit.h */,
 				738DA46C14FC92850075BFC9 /* NetworkDetect */,
 				73A784F914F8CC22001387F6 /* CloudReview */,
@@ -2124,6 +2139,7 @@
 				73465140154A8B5B001F06A8 /* WizDecorate.m in Sources */,
 				73E5DB751550C7E800CC3562 /* WizString.m in Sources */,
 				738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */,
+				736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

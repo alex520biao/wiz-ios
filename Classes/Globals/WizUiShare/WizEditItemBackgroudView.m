@@ -12,6 +12,13 @@
 @implementation WizEditItemBackgroudView
 @synthesize imageView;
 @synthesize label;
+
+- (void) dealloc
+{
+    [imageView release];
+    [label release];
+    [super dealloc];
+}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -30,6 +37,8 @@
                            (id)[UIColor colorWithRed:207/256.0 green:207/256.0 blue:207/256.0 alpha:1.0].CGColor,
                            
                            nil];
+        gradient.cornerRadius = 2;
+        gradient.masksToBounds = YES;
         [self.layer insertSublayer:gradient atIndex:0];
         UIImageView* imV = [[UIImageView alloc] initWithFrame:CGRectMake(18, 13, 24, 24)];
         self.imageView = imV;
@@ -48,7 +57,15 @@
     }
     return self;
 }
-
+- (void) setTargetAndSelector:(id)target  selector:(SEL)selector
+{
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:selector];
+    tap.numberOfTapsRequired = 1;
+     tap.numberOfTouchesRequired =1;
+    self.userInteractionEnabled = YES;
+    [self addGestureRecognizer:tap];
+    [tap release];
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

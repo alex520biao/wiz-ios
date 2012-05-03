@@ -7,24 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol WizSelectTagDelegate <NSObject>
+- (NSArray*) selectedTagsOld;
+- (void) didSelectedTags:(NSArray*)tags;
+@end
 @interface WizSelectTagViewController : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate>
 {
-    @private
-    NSMutableArray* tags;
-    UISearchBar* searchBar;
-    UISearchDisplayController* searchDisplayController;
-    NSMutableArray* searchedTags;
-    BOOL isNewTag;
-    @public
-    NSString* accountUserId;
-    NSArray*  initSelectedTags;
+    id<WizSelectTagDelegate> selectDelegate;
 }
-@property (nonatomic, retain) NSMutableArray* tags;
-@property (nonatomic, retain)UISearchBar* searchBar;
-@property (nonatomic, retain)UISearchDisplayController* searchDisplayController;
-@property (nonatomic, retain)NSString* accountUserId;
-@property (nonatomic, retain)  NSArray*  initSelectedTags;
-@property (nonatomic, retain) NSMutableArray* searchedTags;
-@property BOOL isNewTag;
+@property (nonatomic, retain) id<WizSelectTagDelegate> selectDelegate;
 @end

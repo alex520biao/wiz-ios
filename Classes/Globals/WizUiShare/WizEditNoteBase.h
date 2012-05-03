@@ -26,6 +26,7 @@
 - (void) audioStartRecode;
 - (void) audioStopRecord;
 - (BOOL) takePhoto;
--(BOOL) selectePhotos;
+- (BOOL) selectePhotos;
 - (void) attachmentAddDone;
+- (float) updateTime;
 @end

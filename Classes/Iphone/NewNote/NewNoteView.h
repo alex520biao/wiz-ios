@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "WizEditNoteBase.h"
-
-@interface NewNoteView : WizEditNoteBase <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>
+#import "WizSelectTagViewController.h"
+#import "WizFolderSelectDelegate.h"
+@protocol WizSelectTagDelegate;
+@interface NewNoteView : WizEditNoteBase <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizSelectTagDelegate,WizFolderSelectDelegate>
 @end

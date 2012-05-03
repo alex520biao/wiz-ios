@@ -328,7 +328,19 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
     [docCell prepareForAppear];
 }
-
+-(UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView* sectionView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 20)] autorelease];
+    sectionView.image = [UIImage imageNamed:@"tableSectionHeader"];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(10, 4.0, 320, 15)];
+    [label setFont:[UIFont systemFontOfSize:13]];
+    [sectionView addSubview:label];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = [self tableView:self.tableView titleForHeaderInSection:section];
+    [label release];
+    sectionView.alpha = 0.8f;
+    return sectionView;
+}
 - (NSUInteger) indexOfInsertDocumentToArray:(WizDocument*)document :(NSArray*)arr
 {
     for (NSUInteger docIndex = 0 ; docIndex < [arr count]; docIndex++) {

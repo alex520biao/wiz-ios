@@ -97,7 +97,7 @@
 
     NSMutableArray* filesArray = [NSMutableArray array];
     if (hasAudio) {
-        [filesArray addObjectsFromArray:[self picturesContentArray:audios]];
+        [filesArray addObjectsFromArray:[self audiosContentArray:audios]];
     }
     if (hasPicture) {
         [filesArray addObjectsFromArray:[self picturesContentArray:pictures]];
@@ -153,5 +153,26 @@
         }
     }
     return [self saveInfo];
+}
+- (id) initFromWizDocument:(WizDocument*)doc
+{
+    self = [super init];
+    if (self) {
+        self.title = doc.title;
+        self.guid = doc.guid;
+        self.location = doc.location;
+        self.protected_ = doc.protected_;
+        self.tagGuids = doc.tagGuids;
+        self.dataMd5 = doc.dataMd5;
+        self.dateCreated = doc.dateCreated;
+        self.dateModified = doc.dateModified;
+        self.serverChanged = doc.serverChanged;
+        self.localChanged = doc.localChanged;
+        self.fileType = doc.fileType;
+        self.type = doc.type;
+        self.attachmentCount = doc.attachmentCount;
+        self.url = doc.url;
+    }
+    return self;
 }
 @end

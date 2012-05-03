@@ -105,8 +105,6 @@
 {
     willReloadTagAndFoler = YES;
     WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    tagView.accountUserId = self.accountUserId;
-    tagView.initSelectedTags = self.documentTags;
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
@@ -124,8 +122,6 @@
 {
     willReloadTagAndFoler = YES;
     SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
-    floderView.accountUserID = self.accountUserId;
-    floderView.selectedFloderString = self.documentFloder;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedFloder:) name:TypeOfSelectedFolder object:nil];
     [self.navigationController pushViewController:floderView animated:YES];
     [floderView release];
@@ -136,7 +132,7 @@
     [super viewDidLoad];
     willReloadTagAndFoler = NO;
     [self.tableView reloadData];
-    self.documentTags = [NSMutableArray arrayWithArray:[[WizDbManager shareDbManager] tagsByDocumentGuid:self.doc.guid]];
+    self.documentTags = [NSMutableArray arrayWithArray:[self.doc tagDatas]];
     if (self.documentTags == nil) {
         self.documentTags = [NSMutableArray array];
     }

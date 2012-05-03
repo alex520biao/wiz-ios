@@ -162,13 +162,15 @@ static WizSyncManager* shareManager;
 }
 - (WizRefreshToken*) shareRefreshTokener
 {
-    id data = [syncData valueForKey:SyncDataOfRefreshToken];
-    if (nil == nil || [data isKindOfClass:[WizRefreshToken class]]) {
-        data = [[WizRefreshToken alloc] init];
-        [data setAccountURL:self.serverUrl];
-        [syncData setObject:data forKey:SyncDataOfRefreshToken];
-        [data release];
+    WizRefreshToken* data = [syncData valueForKey:SyncDataOfRefreshToken];
+    if (nil == nil || ![data isKindOfClass:[WizRefreshToken class]]) {
+        WizRefreshToken*  refresh = [[WizRefreshToken alloc] init];
+        [refresh setAccountURL:self.serverUrl];
+        [syncData setObject:refresh forKey:SyncDataOfRefreshToken];
+        [refresh release];
+        return refresh;
     }
+    [data setAccountURL:self.serverUrl];
     return data;
 }
 - (WizSyncInfo*) shareSyncInfo

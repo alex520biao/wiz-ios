@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 @protocol WizDocumentEditDelegate <NSObject>
 - (NSString*) documentBody;
-- (NSArray*) documentPictures;
-- (NSArray*) documentAudios;
+- (NSArray*)  documentPictures;
+- (NSArray*)  documentAudios;
 @end
 
 @interface WizDocumentEdit : WizDocument
@@ -22,4 +22,5 @@
 - (BOOL) deleteTag:(NSString*)tagGuid;
 + (void) setDocumentServerchangedToDb:(NSString*)documentGUID  changed:(BOOL)changed;
 + (void) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed;
+- (id) initFromWizDocument:(WizDocument*)doc;
 @end

@@ -13,20 +13,33 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizGlobals.h"
 
+@interface WizSelectTagViewController()
+{
+    NSMutableArray* tags;
+    UISearchBar* searchBar;
+    UISearchDisplayController* searchDisplayController;
+    NSMutableArray* searchedTags;
+    BOOL isNewTag;
+}
+@property (nonatomic, retain) NSMutableArray* tags;
+@property (nonatomic, retain)UISearchBar* searchBar;
+@property (nonatomic, retain)UISearchDisplayController* searchDisplayController;
+@property (nonatomic, retain) NSMutableArray* searchedTags;
+@property BOOL isNewTag;
+@end
+
 @implementation WizSelectTagViewController
 
 @synthesize searchBar;
 @synthesize searchDisplayController;
 @synthesize tags;
-@synthesize accountUserId;
-@synthesize initSelectedTags;
 @synthesize searchedTags;
 @synthesize isNewTag;
+@synthesize selectDelegate;
 - (void) dealloc
 {
+    [selectDelegate release];
     [searchedTags release];
-    [initSelectedTags release];
-    [accountUserId release];
     [searchDisplayController release];
     [searchBar release];
     [tags release];
@@ -50,15 +63,7 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void) removeSelectedTag:(WizTag*)tag
-{
-    for (WizTag* each in [self.tags objectAtIndex:0]) {
-        if ([[each title] isEqualToString:[tag title]]) {
-            [[self.tags objectAtIndex:0] removeObject:each];
-            return;
-        }
-    }
-}
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self.tableView reloadData];
@@ -75,20 +80,6 @@
         }
     }
 }
-- (void) postSlectedTagMessage:(WizTag*)tag
-{
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObject:tag forKey:TypeOfTagKey];
-    [nc postNotificationName:TypeOfSelectedTag object:nil userInfo:userInfo];
-}
-
-- (void) postUnSelectedTagMessage:(WizTag*)tag
-{
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObject:tag forKey:TypeOfTagKey];
-    [nc postNotificationName:TypeOfUnSelectedTag object:nil userInfo:userInfo];
-}
-
 - (void) buildSeachView
 {
     self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)] autorelease];
@@ -113,19 +104,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self buildSeachView];
     if (nil == self.tags) {
         self.tags = [NSMutableArray arrayWithCapacity:2];
     }
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    NSMutableArray* selectedTags = [NSMutableArray array];
-//    if (self.initSelectedTags != nil) {
-//        
-//        [selectedTags  addObjectsFromArray:self.initSelectedTags];
-//    }
-//
-//    [self.tags addObject:selectedTags];
-//    [self.tags addObject:[NSMutableArray arrayWithArray:[index allTagsForTree]]];
-    [self buildSeachView];
+    NSArray* initSelectedTags = [self.selectDelegate selectedTagsOld];
+    NSMutableArray* selectedTags = [NSMutableArray array];
+    if (initSelectedTags != nil) {
+        [selectedTags  addObjectsFromArray:initSelectedTags];
+    }
+    [self.tags addObject:selectedTags];
+    NSLog(@"all tag count is %d",[[WizTag allTags] count]);
+    [self.tags addObject:[NSMutableArray arrayWithArray:[WizTag allTags]]];
     
 }
 
@@ -207,10 +197,10 @@
 {
     
     NSString* match = [NSString stringWithFormat:@"*%@*",self.searchBar.text];
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"name like %@",match];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"title like %@",match];
     NSArray* nameIn = [[self.tags objectAtIndex:1] filteredArrayUsingPredicate:predicate];
     self.searchedTags = [NSMutableArray arrayWithArray:nameIn];
-    NSPredicate* searchFullName = [NSPredicate predicateWithFormat:@"name = %@",self.searchBar.text];
+    NSPredicate* searchFullName = [NSPredicate predicateWithFormat:@"title = %@",self.searchBar.text];
     NSArray* predicateArray = [[self.tags objectAtIndex:1] filteredArrayUsingPredicate:searchFullName];
     if([predicateArray count]==0)
     {
@@ -262,7 +252,15 @@
     }
     return cell;
 }
-
+- (void) removeSelectedTag:(WizTag*)tag
+{
+    for (WizTag* each in [self.tags objectAtIndex:0]) {
+        if ([[each title] isEqualToString:[tag title]]) {
+            [[self.tags objectAtIndex:0] removeObject:each];
+            return;
+        }
+    }
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.tableView) {
@@ -290,45 +288,12 @@
     }
 
 }
-
-- (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row ==0 && isNewTag) {
-//        WizTag* tag = [[index newTag:self.searchBar.text description:@"" parentTagGuid:nil] autorelease];
-//        [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
-//        [[self.tags objectAtIndex:0] addObject:tag];
-//        [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
-//        [self postSlectedTagMessage:tag];
-//        self.isNewTag = NO;
-//        if (WizDeviceIsPad()) {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
-//        }
-//        else
-//        {
-//        }
-    }
-    else
-    {
-        WizTag* tag = [searchedTags objectAtIndex:indexPath.row];
-        if ([self checkTagIsSeleted:tag]) {
-            [self removeSelectedTag:tag];
-            [self postUnSelectedTagMessage:tag];
-        }
-        else
-        {
-            [[self.tags objectAtIndex:0] addObject:[searchedTags objectAtIndex:indexPath.row]];
-            [self postSlectedTagMessage:tag];
-        }
-    }
-    [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-}
-
 - (void) unselectedTag:(WizTag*)tag
 {
     NSUInteger indexOfSelected = [self tagIndexAtSelected:tag];
     [[tags objectAtIndex:0] removeObjectAtIndex:indexOfSelected];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexOfSelected inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-    [self postUnSelectedTagMessage:tag];
+    [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
 }
 
 - (void) selectedTag:(WizTag*)tag
@@ -336,13 +301,34 @@
     if (![self checkTagIsSeleted:tag]) {
         [[tags objectAtIndex:0] insertObject:tag atIndex:0];
         [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-        [self postSlectedTagMessage:tag];
     }
     else
     {
         [self unselectedTag:tag];
     }
+    [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
 }
+- (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row ==0 && isNewTag) {
+        WizTag* tag = [[WizTag alloc] init];
+        tag.title = self.searchBar.text;
+        [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
+        [[self.tags objectAtIndex:0] addObject:tag];
+        [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
+        self.isNewTag = NO;
+        [tag save];
+        [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
+        [tag release];
+    }
+    else
+    {
+        [self selectedTag:[self.searchedTags objectAtIndex:indexPath.row]];
+    }
+    [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.tableView) {
