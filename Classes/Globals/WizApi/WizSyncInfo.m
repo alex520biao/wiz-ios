@@ -86,6 +86,7 @@
             [[WizSyncManager shareManager] uploadDocument:each.guid];
         }
     }
+    busy = NO;
 }
 -(void) onDownloadDocumentList: (id)retObject
 {

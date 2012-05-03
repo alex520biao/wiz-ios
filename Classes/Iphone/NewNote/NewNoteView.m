@@ -211,7 +211,7 @@
     WizEditItemBackgroudView* temp = [[WizEditItemBackgroudView alloc] initWithFrame:CGRectMake(110, 11, 100, 48)];
     UIImage* image = [UIImage imageNamed:@"attachSelectPhotoPad"];
     temp.imageView.image = image;
-    temp.label.text = NSLocalizedString(@"Cramall", nil);
+    temp.label.text = NSLocalizedString(@"Camera roll", nil);
     [self.addAttachmentView addSubview:temp];
     [temp setTargetAndSelector:self selector:@selector(selectePhotos)];
     [temp release];
