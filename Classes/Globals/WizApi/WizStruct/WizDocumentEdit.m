@@ -57,6 +57,9 @@
         {
             [contentArray addObject:[self photoHtmlString:fileName]];
         }
+        else {
+            [WizGlobals reportErrorWithString:@"move error"];
+        }
     }
     return contentArray;
 }
@@ -94,6 +97,7 @@
     else {
         self.type = @"note";
     }
+    NSLog(@"picture count is %d",[pictures count]);
 
     NSMutableArray* filesArray = [NSMutableArray array];
     if (hasAudio) {

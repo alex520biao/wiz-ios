@@ -315,7 +315,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -352,6 +351,8 @@
             [self downloadDocument];
         }
     }
+    [self.navigationController setToolbarHidden:NO animated:YES];
+    [self.tabBarItem setEnabled:NO];
     
 }
 - (void) changeToolBarStatue:(UITapGestureRecognizer*)sender

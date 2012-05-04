@@ -11,6 +11,7 @@
 #import "WizEditNoteBase.h"
 #import "WizSelectTagViewController.h"
 #import "WizFolderSelectDelegate.h"
+#import "MBProgressHUD.h"
 @protocol WizSelectTagDelegate;
-@interface NewNoteView : WizEditNoteBase <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizSelectTagDelegate,WizFolderSelectDelegate>
+@interface NewNoteView : WizEditNoteBase <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizSelectTagDelegate,WizFolderSelectDelegate,MBProgressHUDDelegate>
 @end

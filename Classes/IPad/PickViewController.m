@@ -193,7 +193,7 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self setSelectedIndex:0];
+//    [self setSelectedIndex:0];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
