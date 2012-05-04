@@ -255,7 +255,6 @@ BOOL isReverseMask(NSInteger mask)
         self.dataMd5 = @"";
     }
     [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
-    NSLog(@"self is %@",[WizDbManager shareDbManager]);
     return [[WizDbManager shareDbManager] updateDocument:doc];
 }
 

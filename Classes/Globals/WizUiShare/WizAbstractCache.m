@@ -192,7 +192,6 @@
 - (void) didGenDocumentAbstract:(NSDictionary*)dic
 
 {
-    
     NSString* documentguid = [dic valueForKey:@"documentGuid"];
     WizAbstract* abstract = [dic valueForKey:@"abstract"];
     if (nil == abstract)
@@ -201,7 +200,6 @@
     }
     [self.data setObject:abstract forKey:documentguid];
     [self postUpdateCacheMassage:documentguid];
-    
 }
 
 - (void) pushNeedGenAbstractDoument:(NSString*)documentGuid

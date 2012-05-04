@@ -115,6 +115,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 
 - (void) drawRect:(CGRect)rect
 {
+    NSDate* date1= [NSDate date];
     NSInteger leftBreakWidth = 10;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
@@ -140,7 +141,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     [title release];
     //time
     NSAttributedString* time = [[NSAttributedString alloc] initWithString:[self.doc.dateCreated stringLocal] attributes:[WizDecorate getTimeAttributes]];
-    CTLineRef timeLine = CTLineCreateWithAttributedString((CFAttributedStringRef)timeLine);
+    CTLineRef timeLine = CTLineCreateWithAttributedString((CFAttributedStringRef)time);
     CGContextSetTextPosition(context, leftBreakWidth, 35);
     CTLineDraw(timeLine, context);
     CFRelease(timeLine);
@@ -163,6 +164,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     CGPathAddRect(leftColumnPath, NULL, CGRectMake(leftBreakWidth, 5, self.bounds.size.width-rightBreakWidth, self.bounds.size.height-45));
     CTFrameRef textFrame = CTFramesetterCreateFrame(frameStter, CFRangeMake(0.0, 0.0), leftColumnPath, NULL);
     CTFrameDraw(textFrame, context);
+    CFRelease(textFrame);
     CFRelease(frameStter);
     CFRelease(leftColumnPath);
     [detail release];
@@ -173,6 +175,9 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.imageView.image = [DocumentListViewCell documentNoDataImage];
     }
     CGContextRestoreGState(context);
+    
+    NSDate* date2 = [NSDate date];
+    NSLog(@"||||||||||||||||||||draw abstract spend time %f",[date2 timeIntervalSinceDate:date1]);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

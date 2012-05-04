@@ -249,8 +249,6 @@ static WizDbManager* shareDbManager = nil;
 - (BOOL) openTempDb:(NSString *)tempDbFilePath
 {
     BOOL ret = tempIndex.Open([tempDbFilePath UTF8String]);
-    NSLog(@"open temp db is %d", ret);
-    NSLog(@"self is %@",self);
     return ret;
 }
 - (BOOL) isTempDbOpen
@@ -653,7 +651,6 @@ static WizDbManager* shareDbManager = nil;
     }
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
     [self deleteAbstractByGUID:guid];
-    NSLog(@"self is %@",self);
     if (data.nServerChanged == 0 || data.nLocalChanged!=0) {
         [self extractSummary:guid];
     }
@@ -666,11 +663,9 @@ static WizDbManager* shareDbManager = nil;
     for (int i =0; i < [documents count]; i++) {
         NSDictionary* doc = [documents objectAtIndex:i];
         @try {
-            NSLog(@"begin updateDocument");
             [self updateDocument:doc];
         }
         @catch (NSException *exception) {
-            NSLog(@"catch exception %@",exception);
             continue;
         }
         @finally {
@@ -1109,10 +1104,7 @@ static WizDbManager* shareDbManager = nil;
     abstract.imageDataLength = [abstractImageData length];
     abstract.text = [abstractText UTF8String];
     
-    NSLog(@"abstract is %@",abstractText);
     
-    NSLog(@"temp db is open %d",tempIndex.IsOpened());
-    NSLog(@"self is %@",self);
     if (WizDeviceIsPad) {
         tempIndex.UpdatePadAbstract(abstract);
     }

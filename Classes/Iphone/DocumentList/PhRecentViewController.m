@@ -30,9 +30,9 @@
 
 - (void) insertDocument:(WizDocument*)doc indexPath:(NSIndexPath*)indexPath
 {
-    if ([self documentsCount] > 100) {
-        [self deleteDocument:[[[self.tableSourceArray lastObject]lastObject] guid]];
-    }
+//    if ([self documentsCount] > 100) {
+//        [self deleteDocument:[[[self.tableSourceArray lastObject]lastObject] guid]];
+//    }
     NSInteger updateSection = indexPath.section;
     if (updateSection == NSNotFound) {
         NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
@@ -41,9 +41,11 @@
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
     }
     else {
+        [self.tableView beginUpdates];
         NSMutableArray* arr = [self.tableSourceArray objectAtIndex:updateSection];
         [arr insertObject:doc atIndex:0];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:updateSection]] withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
     }
 }
 

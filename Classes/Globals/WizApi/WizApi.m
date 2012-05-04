@@ -45,7 +45,7 @@
 @synthesize delegate;
 -(int) listCount
 {
-	return 200;
+	return 50;
 }
 - (id) init
 {

@@ -168,7 +168,6 @@ bool CTempIndex::UpdateAbstract(const WIZABSTRACT &lpszAbstract, const char *typ
 {
     if(!m_db.IsOpened())
     {
-        printf("temp not open");
         return false;
     }
     

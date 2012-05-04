@@ -72,6 +72,7 @@
 	[self.dbDelegate updateDocuments:obj];
 }
 -(void) onDownloadAttachmentList:(id)retObject {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync attachment items"];
     NSArray* attachArr = [self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate attachmentVersion];
     [self.dbDelegate updateAttachments:attachArr];
@@ -90,6 +91,7 @@
 }
 -(void) onDownloadDocumentList: (id)retObject
 {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync document items"];
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[self.dbDelegate documentVersion];
 	[self.dbDelegate updateDocuments:obj];
@@ -104,6 +106,7 @@
 }
 - (void) onAllCategories: (id)retObject
 {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync category items"];
 	NSDictionary* obj = retObject;
 	//
 	// save values returned by getUserInfo into current blog
@@ -117,6 +120,7 @@
 }
 - (void) onPostTagList:(id)retObject
 {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync tag items"];
     //
     //clear
 //    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
@@ -124,6 +128,7 @@
 }
 -(void) onAllTags: (id)retObject
 {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync tag items"];
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate tagVersion];
     [self.dbDelegate updateTags:obj];
@@ -138,11 +143,13 @@
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec
 {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync deleted items"];
 	[self.dbDelegate clearDeletedGUIDs];
     [self callAllTags:[self.dbDelegate tagVersion]];
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
+    [[WizSyncManager shareManager] setSyncDescription:@"sync deleted items"];
     NSArray* arr =[ self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate deletedGUIDVersion];
 	int64_t newVer = 0;
@@ -186,6 +193,7 @@
         return NO;
     }
     busy = YES;
+    [[WizSyncManager shareManager] setSyncDescription:@"start sync"];
     return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
 }
 @end

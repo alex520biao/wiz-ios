@@ -16,6 +16,8 @@
 #import "DocumentListViewCell.h"
 #import "WizSyncManager.h"
 #import "DocumentViewCtrollerBase.h"
+
+
 NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     if (result > 0) {
@@ -140,15 +142,28 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 @end
 
+
+@interface WizTableViewController ()
+{
+    NSTimer* updateArrayTimer;
+}
+@property (nonatomic, retain) NSTimer* updateArrayTimer;
+@end
+
 @implementation WizTableViewController
 @synthesize kOrderIndex;
 @synthesize wizDataDelegate;
 @synthesize tableSourceArray;
+@synthesize updateArrayTimer;
+@synthesize needUpdateArray;
 
 - (void) dealloc
 {
     [tableSourceArray release];
     [wizDataDelegate release];
+    [updateArrayTimer invalidate];
+    [updateArrayTimer release];
+    [needUpdateArray release];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -200,7 +215,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     WizDocument* doc = [[self.tableSourceArray objectAtIndex:section] firstObject];
-    NSLog(@"korder is %d",self.kOrderIndex);
     switch (self.kOrderIndex) {
         case kOrderCreatedDate:
         case kOrderReverseCreatedDate:
@@ -262,7 +276,13 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     [[self.tableSourceArray objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:doc];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
 }
-
+- (void) didChangedSyncDescription:(NSString *)description
+{
+    if (nil != self.tableView.tableHeaderView) {
+        UILabel* label = (UILabel*)self.tableView.tableHeaderView;
+        label.text = description;
+    }
+}
 
 
 - (void)viewDidLoad
@@ -272,8 +292,12 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(reloadSelf)];
     self.navigationItem.rightBarButtonItem = item;
     self.tableView.frame = CGRectMake(0.0, 0.0, 200, 480);
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)];
+    self.tableView.tableHeaderView = label;
+    [label release];
     [item release];
     [self sortAllData];
+    [[WizSyncManager shareManager] setDisplayDelegate:self];
 }
 
 - (void)viewDidUnload
@@ -315,12 +339,15 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* CellIdentifier = @"DocumentCell";
+    NSDate* date1 = [NSDate date];
     DocumentListViewCell *cell = (DocumentListViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     cell.doc = doc;
+    NSDate* date2 = [NSDate date];
+    NSLog(@"prepare cell time is %f",[date2 timeIntervalSinceDate:date1]);
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -464,19 +491,19 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizDocument* doc = [WizDocument documentFromDb:documentGUID];
-    if (nil == doc) {
+    NSLog(@"time interval since now is %f",[[NSDate date] timeIntervalSinceDate:doc.dateModified]);
+
+    if (nil == doc || [[NSDate date] timeIntervalSinceDate:doc.dateModified] > 2592000 ) {
         return;
     }
-    NSIndexPath* indexPath = [self indexOfDocumentInTableSourceArray:documentGUID];
+    NSIndexPath* indexPath = [self indexOfDocumentInTableSourceArray:doc.guid];
     if (indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
-        //        [self reloadDocument:doc indexPath:indexPath];
-        return;
+        [self reloadDocument:doc indexPath:indexPath];
     }
     else {
         [self.wizDataDelegate insertDocument:doc indexPath:indexPath];
     }
 }
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -485,7 +512,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.needUpdateArray = [NSMutableArray array];
         self.kOrderIndex = kOrderReverseDate;
+    
     }
     return self;
 }
