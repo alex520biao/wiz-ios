@@ -7,15 +7,15 @@
 //
 
 #import "WizApi.h"
-
+#import "WizChangePasswordDelegate.h"
 @interface WizChangePassword : WizApi
 {
     BOOL busy;
-    id owner;
+    id <WizChangePasswordDelegate> changePasswordDelegate;
 }
 @property (readonly) BOOL busy;
-@property (nonatomic, retain) id owner;
+@property (nonatomic, retain) id <WizChangePasswordDelegate> changePasswordDelegate;
 - (void) onError:(id)retObject;
-- (BOOL) changeAccountPassword:(NSString*)password;
+- (BOOL) changeAccountPassword:(NSString*)accountUserId  oldPassword:(NSString*)oldPassword newPassword:(NSString*)newPassword;
 - (void) onChangePassword:(id)retObject;
 @end

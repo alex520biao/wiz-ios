@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#define WizErrorDomain  @"error.wiz.cn"
-
+#define WizErrorDomain      @"error.wiz.cn"
+#define NSParseErrorDomain  @"come.effigent.iphone.parseerror"
+#define WizNetWorkMaxAttempts     5
 enum WizErrorCode {
-    CodeOfTokenUnActiveError = 301
+    CodeOfTokenUnActiveError    = 301,
+    NSParseErrorCode            = -101
 };
 @interface WizGlobalError : NSObject
 - (NSError*) tokenUnActiveError;

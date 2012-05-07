@@ -3,17 +3,23 @@
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 #import "WizFileManager.h"
+
+
+#define NO_DATA     5211
+#define HAS_DATA    52211
 @interface WizAbstractCache()
 {
     NSMutableDictionary* data;
     NSMutableArray* needGenAbstractDocuments;
     NSString* currentDocument;
+    NSConditionLock* cacheConditon;
     BOOL isChangedUser;
 }
 @property (atomic, retain) NSMutableDictionary* data;
 @property (atomic, retain) NSMutableArray* needGenAbstractDocuments;
 @property (atomic) BOOL isChangedUser;
 @property (atomic, retain) NSString* currentDocument;
+@property (atomic, retain) NSConditionLock* cacheConditon;
 - (void) genAbstract;
 @end
 @implementation WizAbstractCache
@@ -21,6 +27,7 @@
 @synthesize needGenAbstractDocuments;
 @synthesize isChangedUser;
 @synthesize currentDocument;
+@synthesize cacheConditon;
 //single
 + (id) shareCache
 {
@@ -55,138 +62,68 @@
 }
 
 - (oneway void) release
-
 {
-    
     return;
-    
 }
 
 //over
 - (void) genAbstract
-
 {
-    
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     static WizDbManager* dbManager = nil;
-    
     @synchronized(dbManager)
-    
     {
-        
         if (nil == dbManager) {
-            
-            dbManager = [[[WizDbManager alloc] init] autorelease];
-            
+            dbManager = [[WizDbManager alloc] init];
         }
-        
-        while(1)
-            
-        {
-            
+        while (true) {
             if (self.isChangedUser) {
-                
-//                if ([dbManager isTempDbOpen]) {
-//                    
-//                    [dbManager closeTempDb];
-//                    
-//                }
-                
-                NSLog(@"documentDbpath is %@",[[WizFileManager shareManager] tempDbPath]);
-                
                 if ([dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]]) {
-                    
-                    NSLog(@"opened");
-                    
                     self.isChangedUser = NO;
-                    
                 }
-                
             }
-            
-            NSString* documentGuid = [self popNeedGenAbstrctDocument];
-            
+            NSLog(@"*******************gen abstract");
+            [self.cacheConditon lockWhenCondition:HAS_DATA];
+            NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
+            NSLog(@"self.needGenDocuments Count is %d",[self.needGenAbstractDocuments count]);
+            [self.needGenAbstractDocuments removeLastObject];
+            BOOL isImpty = [self.needGenAbstractDocuments count] == 0? YES:NO;
+            [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
             if(nil != documentGuid)
-                
             {
-                
                 WizAbstract* abstract = [dbManager abstractOfDocument:documentGuid];
-                
                 NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
-                
                 [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
-                
             }
-            
-            else {
-                
-                [NSThread sleepForTimeInterval:1];
-                
-            }
-            
         }
-        
     }
-    
+    [pool release];
 }
-
 //
-
 - (void) didChangedAccountUser
-
 {
-    
     self.isChangedUser = YES;
-    
 }
 
 - (id) init
-
 {
-    
     self = [super init];
-    
     if (self) {
-        
         self.data = [NSMutableDictionary dictionary];
-        
         self.needGenAbstractDocuments = [NSMutableArray array];
-        
         self.isChangedUser = YES;
-        
+        self.cacheConditon = [[[NSConditionLock alloc] initWithCondition:NO_DATA] autorelease];
         [NSThread detachNewThreadSelector:@selector(genAbstract) toTarget:self withObject:nil];
-        
         [WizNotificationCenter addObserverForChangeAccount:self selector:@selector(didChangedAccountUser)];
-        
     }
-    
     return self;
-    
 }
 
-- (NSString*) popNeedGenAbstrctDocument
 
-{
-    
-//    NSLog(@"pop needGenAbstractDocuments count is %d ",[self.needGenAbstractDocuments count]);
-    
-    NSString* guid =[self.needGenAbstractDocuments lastObject];
-    
-    //对当前使用的Guid进行加锁
-    
-    self.currentDocument = guid;
-    
-    [self.needGenAbstractDocuments removeLastObject];
-    
-    return self.currentDocument;
-    
-}
 
 - (void) postUpdateCacheMassage:(NSString*)documentGuid
-
 {
-    
     [WizNotificationCenter postMessageUpdateCache:documentGuid];
-    
 }
 
 - (void) didGenDocumentAbstract:(NSDictionary*)dic
@@ -201,37 +138,26 @@
     [self.data setObject:abstract forKey:documentguid];
     [self postUpdateCacheMassage:documentguid];
 }
-
 - (void) pushNeedGenAbstractDoument:(NSString*)documentGuid
 
 {
-    
+    [self.cacheConditon lock];
     [self.needGenAbstractDocuments addObject:documentGuid];
-    
+    [self.cacheConditon unlockWithCondition:HAS_DATA];
 }
 
 - (WizAbstract*) documentAbstractForIphone:(WizDocument*)document
-
 {
-    
     WizAbstract* abs = [self.data valueForKey:document.guid];
-    
     if (nil == abs && document.serverChanged != YES) {
-        
         [self pushNeedGenAbstractDoument:document.guid];
-        
     }
-    
     return abs;
-    
 }
 
 - (void) didReceivedMenoryWarning
-
 {
-    
     [self.data removeAllObjects];
-    
 }
 
 @end

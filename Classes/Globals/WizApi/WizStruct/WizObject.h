@@ -13,6 +13,6 @@
     NSString* guid;
     NSString* title;
 }
-@property (nonatomic, retain) NSString* guid;
+@property (atomic, retain) NSString* guid;
 @property (nonatomic, retain) NSString* title;
 @end

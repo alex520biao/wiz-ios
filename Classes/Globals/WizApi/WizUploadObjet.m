@@ -11,7 +11,6 @@
 
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizSync.h"
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizDocumentEdit.h"

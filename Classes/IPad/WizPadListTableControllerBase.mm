@@ -14,7 +14,6 @@
 #import "NSDate-Utilities.h"
 #import "DocumentListViewControllerBaseNew.h"
 #import "WizPadNotificationMessage.h"
-#import "WizSync.h"
 #import "WizNotification.h"
 #import "pinyin.h"
 #import <ifaddrs.h>

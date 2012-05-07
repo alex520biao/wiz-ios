@@ -46,7 +46,7 @@
 -(id) reportParserError
 {
 	NSDictionary *usrInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Parse Error. XML-RPC responsed.", NSLocalizedDescriptionKey, nil];
-	return [NSError errorWithDomain:@"come.effigent.iphone.parseerror" code:-101 userInfo:usrInfo] ;
+	return [NSError errorWithDomain:NSParseErrorDomain code:-101 userInfo:usrInfo] ;
 }
 
 

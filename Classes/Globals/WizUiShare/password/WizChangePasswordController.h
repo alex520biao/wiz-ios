@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizChangePasswordDelegate.h"
 @class WizInputView;
-@interface WizChangePasswordController : UIViewController <UIAlertViewDelegate>
+@interface WizChangePasswordController : UIViewController <UIAlertViewDelegate, WizChangePasswordDelegate>
 {
     WizInputView* oldPassword;
     WizInputView* passwordNew;

@@ -13,6 +13,7 @@
 #import "WizGlobals.h"
 #import "WizPadNotificationMessage.h"
 #import "WizPhoneNotificationMessage.h"
+#import "WizAccountManager.h"
 #define WaitAlertTag 1101
 #define SucceedTag 1201
 @implementation WizChangePasswordController
@@ -53,14 +54,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - View lifecycle
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
 - (void) cancel
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -77,27 +70,16 @@
         [self cancel];
     }
 }
-- (void) xmlrpcDone: (NSNotification*)nc
-{ 
-	NSDictionary* userInfo = [nc userInfo];
-    [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
-    self.waitAlert = nil;
-	NSString* method = [userInfo valueForKey:@"method"];
-//	if (method != nil && [method isEqualToString:SyncMethod_ChangeAccountPassword])
-//	{
-//		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-//		if (succeeded)
-//		{
-//            [WizSettings changeAccountPassword:self.accountUserId password:self.passwordNew.textInputField.text];
-//            [[WizGlobalData sharedData] removeAccountData:self.accountUserId];
-//            
-//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWizNote message:NSLocalizedString(@"You have successfully changed your password",nil) delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil, nil];
-//            alert.tag = SucceedTag;
-//            [alert show];
-//            [alert release];
-//            
-//		}
-//	}
+
+- (void) didChangedPasswordSucceed
+{
+    NSString* pwNewStr = self.passwordNew.textInputField.text;
+    [[WizAccountManager defaultManager] changeAccountPassword:self.accountUserId password:pwNewStr];
+}
+
+- (void) didChangedPasswordFaild
+{
+    
 }
 
 - (void) changePassword
@@ -130,12 +112,8 @@
         [self alertMessage:NSLocalizedString(@"New password should not be same as old password!", nil)];
         return;
     }
-    WizChangePassword* changePw = [[WizGlobalData sharedData] dataOfChangePassword:self.accountUserId];
-    [changePw changeAccountPassword:pwNewStr];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-//    [nc addObserver:self selector:@selector(xmlrpcDone:) name:[changePw notificationName:WizSyncXmlRpcDoneNotificationPrefix] object:nil];
-    
+    WizChangePassword* changePw = [[WizGlobalData sharedData] changePasswordData];
+    changePw.changePasswordDelegate = self;
     UIAlertView* waitAlert_ = [[UIAlertView alloc] initWithTitle:WizStrChangePassword message:NSLocalizedString(@"Please waiting ...", nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
     waitAlert_.tag = WaitAlertTag;
     self.waitAlert = waitAlert_;

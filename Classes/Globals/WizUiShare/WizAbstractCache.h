@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 @interface WizAbstractCache : NSObject
 + (id) shareCache;
-- (void) genDocumentAbstract:(NSString*)documentGuid    isUpdate:(BOOL)isUpdate;
 - (WizAbstract*) documentAbstractForIphone:(WizDocument*)document;
 - (void) didReceivedMenoryWarning;
-- (WizAbstract*) folderAbstractForIpad:(NSString*)folderKey     userID:(NSString*)userId;
 @end

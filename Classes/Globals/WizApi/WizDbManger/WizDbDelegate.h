@@ -38,8 +38,6 @@
 - (BOOL) deleteDocument:(NSString*)documentGUID;
 
 //document
-- (BOOL) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed;
-- (BOOL) setDocumentServerChanged:(NSString*)documentGUID changed:(BOOL)changed;
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID;
 - (BOOL) updateDocument:(NSDictionary*) doc;
 - (BOOL) updateDocuments:(NSArray *)documents;

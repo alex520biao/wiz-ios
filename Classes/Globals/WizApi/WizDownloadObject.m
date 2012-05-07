@@ -10,7 +10,6 @@
 
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
-#import "WizSync.h"
 #import "WizGlobalDictionaryKey.h"
 #import "Reachability.h"
 #import "WizNotification.h"
@@ -27,6 +26,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     NSString* objType;
     NSString* objGuid;
     NSFileHandle* fileHandle;
+    NSInteger attempts;
 }
 @property (nonatomic, retain) NSString* objType;
 @property (nonatomic, retain) NSString* objGuid;
@@ -47,14 +47,40 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     [objGuid release];
     [super dealloc];
 }
-
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        attempts = WizNetWorkMaxAttempts;
+    }
+    return self;
+}
 -(void) onError: (id)retObject
 {
 	busy = NO;
-    [super onError:retObject];
+    if (attempts > 0) {
+        attempts --;
+        if ([retObject isKindOfClass:[NSError class]]) {
+            NSError* error = (NSError*)retObject;
+            if ([error.domain isEqualToString:NSParseErrorDomain] && error.code == NSParseErrorCode) {
+                [self downloadObject];
+            }
+            else if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1001)
+            {
+                [self downloadObject];
+            }
+            else {
+                [super onError:retObject];
+            }
+        }
+    }
+    else {
+        [super onError:retObject];
+        attempts = WizNetWorkMaxAttempts;
+    }
 }
 
-- (void) downloadNext
+- (void)downloadNext
 {
     int64_t currentPos = [self.fileHandle offsetInFile];
     [self callDownloadObject:self.objGuid startPos:currentPos objType:self.objType partSize:DownloadPartSize];
@@ -85,11 +111,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
     else if ([self.objType isEqualToString:WizAttachmentKeyString])
     {
-        NSLog(@"download attachment %@ done",self.objGuid);
         [WizAttachment setAttachServerChanged:self.objGuid changed:NO];
     }
     //
     busy = NO;
+    attempts = WizNetWorkMaxAttempts;
     NSLog(@"download done!***************************");
     [WizNotificationCenter postMessageDownloadDone:self.objGuid];
 }

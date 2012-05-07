@@ -494,20 +494,10 @@
         {
             [WizNotificationCenter postMessageTokenUnactiveError];
         }
-        else if ([error.domain isEqualToString:WIZERRORDOMAIN] && [error.localizedDescription isEqualToString:WIZABORTNETERROR]) {
-            return;
-        }
-        else if (error.code == -101)
-        {
-            return;
-        }
         else {
             [WizGlobals reportError:retObject];
         }
-        
-		 
 	}
-    
 }
 -(void) cancel
 {

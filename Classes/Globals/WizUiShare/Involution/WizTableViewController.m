@@ -476,15 +476,18 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     {
         return;
     }
-    [[self.tableSourceArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
-    if ([[self.tableSourceArray objectAtIndex:docIndex.section] count] > 0)
-    {
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationRight];
+    if ([self.tableSourceArray count]> 0) {
+        if ([[self.tableSourceArray objectAtIndex:docIndex.section] count] > 0)
+        {
+            [[self.tableSourceArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationRight];
+        }
+        else {
+            [self.tableSourceArray removeObjectAtIndex:docIndex.section];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
-    else {
-        [self.tableSourceArray removeObjectAtIndex:docIndex.section];
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-    }
+    
 }
 
 - (void) updateDocument:(NSNotification*)nc
@@ -522,9 +525,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSArray* array = [self.tableView visibleCells];
-    for (DocumentListViewCell* each in array) {
-        [each prepareForAppear];
-    }
+//    NSArray* array = [self.tableView visibleCells];
+//    for (DocumentListViewCell* each in array) {
+//        [each prepareForAppear];
+//    }
 }
 @end

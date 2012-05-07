@@ -46,9 +46,6 @@
 #define DataTypeUpdateTagLocalchanged           @"local_changed"
 //
 #define DataTypeUpdateKbGuid                    @"kb_guid"
-@class WizDocument;
-@class WizAttachment;
-@class WizTag;
 @interface WizDbManager : NSObject <WizDbDelegate, WizSettingsDbDelegate,WizAbstractDbDelegate>
 + (id) shareDbManager;
 @end

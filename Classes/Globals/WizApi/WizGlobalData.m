@@ -7,7 +7,6 @@
 //
 
 #import "WizGlobalData.h"
-#import "WizSync.h"
 #import "WizCreateAccount.h"
 #import "WizVerifyAccount.h"
 
@@ -101,16 +100,6 @@ static WizGlobalData* g_data;
 	[dict setValue:data forKey:key];
 }
 
-- (WizSync *) syncData:(NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfSync];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizSync alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfSync data:data];
-	 [data release];  return data;
-}
 
 - (WizCreateAccount *) createAccountData
 {
@@ -135,19 +124,6 @@ static WizGlobalData* g_data;
     return data;
 }
 
-- (WizChangePassword*) dataOfChangePassword:(NSString *)userId
-{
-    id data = [self dataOfAccount:userId dataType: DataTypeOfChangePassword];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizChangePassword alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfChangePassword data:data];
-    [data release]; 
-    return data;
-}
-
-
 
 - (UIImage*) documentIconWithoutData
 {
@@ -159,28 +135,6 @@ static WizGlobalData* g_data;
 	[self setDataOfAccount:DataMainOfWiz dataType:DataIconForDocumentWithoutData data:data];
     return data;
 }
-
--(WizDownloadObject *) downloadObjectData:(NSString*) userId
-{
-	id data = [self dataOfAccount:userId dataType: DataTypeOfDownloadObject];
-	if (data != nil)
-		return data;
-	//
-	data = [[WizDownloadObject alloc] initWithAccount:userId password:@""];
-	[self setDataOfAccount:userId dataType:DataTypeOfDownloadObject data:data];
-	 [data release];  return data;
-}
-//- (void) stopSyncing
-//{
-//    for (int i = 0; i < [[WizSettings accounts] count]; i++) {
-//        NSString* userId = [WizSettings accountUserIdAtIndex:[WizSettings accounts] index:i];
-//        WizSync* sync = [self dataOfAccount:userId dataType:DataTypeOfSync];
-//        if (nil != sync) {
-//            [sync cancel];
-//        }
-//        
-//    }
-//}
 
 -(NSDictionary*) attributesForDocumentListName
 {
@@ -252,7 +206,17 @@ static WizGlobalData* g_data;
         [WizNotificationCenter removeObserver:each];
     }
 }
-
+- (WizChangePassword*) changePasswordData
+{
+    id data = [self dataOfAccount:WizGlobalAccount dataType:DataTypeOfChangePassword];
+    if (nil == data) {
+        data = [[WizChangePassword alloc] init];
+        [self setDataOfAccount:WizGlobalAccount dataType:DataTypeOfChangePassword data:data];
+        [data release];
+        return data;
+    }
+    return data;
+}
 - (WizSyncManager*) syncManger
 {
     id data = [self dataOfAccount:WizGlobalAccount dataType:DataTypeOfSyncManager];

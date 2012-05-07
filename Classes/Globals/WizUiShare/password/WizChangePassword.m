@@ -11,23 +11,19 @@
 @implementation WizChangePassword
 
 @synthesize busy;
-@synthesize owner;
 -(void) onError: (id)retObject
 {
-	[super onError:retObject];
-	if ([self.owner isKindOfClass:[WizChangePasswordController class]]) {
-        WizChangePasswordController* change = (WizChangePasswordController*)self.owner;
-        [change.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
-        change.waitAlert = nil;
-    }
 	busy = NO;
+    [self.changePasswordDelegate didChangedPasswordFaild];
+	[super onError:retObject];
 }
 - (void) onChangePassword:(id)retObject
 {
+    [self.changePasswordDelegate didChangedPasswordSucceed];
     busy = NO;
 }
-- (BOOL) changeAccountPassword:(NSString *)password
+- (BOOL) changeAccountPassword:(NSString *)accountUserId oldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword
 {
-    return [self callChangePassword:password];
+    return [self callChangePassword:accountUserId oldPassword:oldPassword newPassword:newPassword];
 }
 @end

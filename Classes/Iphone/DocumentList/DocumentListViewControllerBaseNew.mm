@@ -11,7 +11,6 @@
 #import "pinyin.h"
 #import "WizGlobals.h"
 #import "WizApi.h"
-#import "WizSync.h"
 #import "WizGlobalData.h"
 
 #import "WizGlobals.h"

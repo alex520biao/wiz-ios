@@ -16,7 +16,6 @@
 
 #import "WizCheckProtectPassword.h"
 #import "WizGlobalNotificationMessage.h"
-#import "WizSync.h"
 #import "NSDate-Utilities.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadNotificationMessage.h"

@@ -58,8 +58,8 @@
       </EnvironmentVariables>
       <AdditionalOptions>
          <AdditionalOption
-            key = "OBJC_PRINT_EXCEPTIONS"
-            value = "YES"
+            key = "MallocStackLogging"
+            value = ""
             isEnabled = "YES">
          </AdditionalOption>
          <AdditionalOption

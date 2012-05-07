@@ -14,8 +14,6 @@
 #import "WizPadNotificationMessage.h"
 #import "PadTagController.h"
 #import "NewNoteView.h"
-#import "WizSync.h"
-
 #import "WizGlobalData.h"
 #import "WizPadEditNoteController.h"
 #import "WizDictionaryMessage.h"

@@ -84,7 +84,6 @@
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
 		73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843714F8CC22001387F6 /* WizGlobalData.m */; };
 		73A7856514F8CC23001387F6 /* WizGlobals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843B14F8CC22001387F6 /* WizGlobals.mm */; };
-		73A7856914F8CC23001387F6 /* WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844314F8CC22001387F6 /* WizSync.m */; };
 		73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844D14F8CC22001387F6 /* WizUploadObjet.m */; };
 		73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7844F14F8CC22001387F6 /* WizVerifyAccount.m */; };
 		73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */; };
@@ -431,6 +430,7 @@
 		738DA46E14FC92850075BFC9 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		739BE7B0153E524100057601 /* NSArray+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+WizTools.h"; path = "WizTools/NSArray+WizTools.h"; sourceTree = "<group>"; };
 		739BE7B1153E524100057601 /* NSArray+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+WizTools.m"; path = "WizTools/NSArray+WizTools.m"; sourceTree = "<group>"; };
+		739FCA891557BD3E009C0E5F /* WizChangePasswordDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizChangePasswordDelegate.h; path = WizSyncManager/WizChangePasswordDelegate.h; sourceTree = "<group>"; };
 		73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		73A7841B14F8CC22001387F6 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
 		73A7841C14F8CC22001387F6 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -452,8 +452,6 @@
 		73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobalNotificationMessage.h; sourceTree = "<group>"; };
 		73A7843A14F8CC22001387F6 /* WizGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGlobals.h; sourceTree = "<group>"; };
 		73A7843B14F8CC22001387F6 /* WizGlobals.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizGlobals.mm; sourceTree = "<group>"; };
-		73A7844214F8CC22001387F6 /* WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSync.h; sourceTree = "<group>"; };
-		73A7844314F8CC22001387F6 /* WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSync.m; sourceTree = "<group>"; };
 		73A7844C14F8CC22001387F6 /* WizUploadObjet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizUploadObjet.h; sourceTree = "<group>"; };
 		73A7844D14F8CC22001387F6 /* WizUploadObjet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizUploadObjet.m; sourceTree = "<group>"; };
 		73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizVerifyAccount.h; sourceTree = "<group>"; };
@@ -464,8 +462,8 @@
 		73A7845514F8CC22001387F6 /* DocumentListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewCell.m; sourceTree = "<group>"; };
 		73A7845F14F8CC22001387F6 /* CommonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonString.h; sourceTree = "<group>"; };
 		73A7846014F8CC22001387F6 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonString.m; sourceTree = "<group>"; };
-		73A7846514F8CC22001387F6 /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePassword.h; sourceTree = "<group>"; };
-		73A7846614F8CC22001387F6 /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePassword.m; sourceTree = "<group>"; };
+		73A7846514F8CC22001387F6 /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizChangePassword.h; path = ../WizUiShare/password/WizChangePassword.h; sourceTree = "<group>"; };
+		73A7846614F8CC22001387F6 /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizChangePassword.m; path = ../WizUiShare/password/WizChangePassword.m; sourceTree = "<group>"; };
 		73A7846714F8CC22001387F6 /* WizChangePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePasswordController.h; sourceTree = "<group>"; };
 		73A7846814F8CC22001387F6 /* WizChangePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePasswordController.m; sourceTree = "<group>"; };
 		73A7846914F8CC22001387F6 /* ScrollTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollTableViewCell.h; sourceTree = "<group>"; };
@@ -920,6 +918,9 @@
 		4ACC39F5153FBDF8009D37DF /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				739FCA891557BD3E009C0E5F /* WizChangePasswordDelegate.h */,
+				73A7846514F8CC22001387F6 /* WizChangePassword.h */,
+				73A7846614F8CC22001387F6 /* WizChangePassword.m */,
 				73A7842514F8CC22001387F6 /* WizCreateAccount.h */,
 				73A7842614F8CC22001387F6 /* WizCreateAccount.m */,
 				73A7844E14F8CC22001387F6 /* WizVerifyAccount.h */,
@@ -1013,8 +1014,6 @@
 				735C1B95153C218100A80353 /* WizSyncManager.h */,
 				735C1B96153C218100A80353 /* WizSyncManager.m */,
 				732951691549343E00FA4FAA /* WizSyncDescriptionDelegate.h */,
-				73A7844214F8CC22001387F6 /* WizSync.h */,
-				73A7844314F8CC22001387F6 /* WizSync.m */,
 				73A7842314F8CC22001387F6 /* WizApi.h */,
 				73A7842414F8CC22001387F6 /* WizApi.m */,
 				73B46D14153E77230049556F /* WizSyncInfo.h */,
@@ -1222,8 +1221,6 @@
 		73A7846414F8CC22001387F6 /* password */ = {
 			isa = PBXGroup;
 			children = (
-				73A7846514F8CC22001387F6 /* WizChangePassword.h */,
-				73A7846614F8CC22001387F6 /* WizChangePassword.m */,
 				73A7846714F8CC22001387F6 /* WizChangePasswordController.h */,
 				73A7846814F8CC22001387F6 /* WizChangePasswordController.m */,
 			);
@@ -2021,7 +2018,6 @@
 				73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */,
 				73A7856414F8CC23001387F6 /* WizGlobalData.m in Sources */,
 				73A7856514F8CC23001387F6 /* WizGlobals.mm in Sources */,
-				73A7856914F8CC23001387F6 /* WizSync.m in Sources */,
 				73A7856E14F8CC23001387F6 /* WizUploadObjet.m in Sources */,
 				73A7856F14F8CC23001387F6 /* WizVerifyAccount.m in Sources */,
 				73A7857014F8CC23001387F6 /* DocumentInfoViewController.m in Sources */,

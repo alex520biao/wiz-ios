@@ -12,14 +12,6 @@
 #import "WizDocument.h"
 @implementation WizDocumentEdit
 @synthesize editDelegate;
-+ (void) setDocumentServerchangedToDb:(NSString*)documentGUID  changed:(BOOL)changed
-{
-    [[WizDbManager shareDbManager] setDocumentServerChanged:documentGUID changed:changed];
-}
-+ (void) setDocumentLocalChanged:(NSString*)documentGUID changed:(BOOL)changed
-{
-    [[WizDbManager shareDbManager] setDocumentLocalChanged:documentGUID changed:changed];
-}
 - (NSString*) photoHtmlString:(NSString*)photoName
 {
     return [NSString stringWithFormat:@"<img src=\"index_files/%@\" alt=\"%@\" >",photoName,photoName];

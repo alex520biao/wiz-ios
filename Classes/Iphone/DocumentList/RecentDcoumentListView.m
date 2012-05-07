@@ -14,7 +14,6 @@
 #import "NSDate-Utilities.h"
 #import "WizNotification.h"
 #import "WizNotification.h"
-#import "WizSync.h"
 #import "WizSyncManager.h"
 #import "WizDocument.h"
 #import "WizDbManager.h"
