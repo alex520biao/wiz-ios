@@ -148,36 +148,58 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     NSTimer* updateArrayTimer;
 }
 @property (nonatomic, retain) NSTimer* updateArrayTimer;
+- (void) showSyncButton;
 @end
 
 @implementation WizTableViewController
 @synthesize kOrderIndex;
-@synthesize wizDataDelegate;
 @synthesize tableSourceArray;
 @synthesize updateArrayTimer;
 @synthesize needUpdateArray;
 
+- (void) showActivity
+{
+    UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
+    [activity startAnimating];
+    UIBarButtonItem* refreshing = [[UIBarButtonItem alloc] initWithCustomView:activity];
+    refreshing.style = UIBarButtonItemStyleBordered;
+    [activity release];
+    self.navigationItem.rightBarButtonItem = refreshing;
+    [refreshing release];
+}
+- (void) reloadSelf
+{
+    [[WizSyncManager shareManager] startSyncInfo];
+    [self showActivity];
+}
+- (void) showSyncButton
+{
+    UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStyleBordered target:self action:@selector(reloadSelf)];
+    self.navigationItem.rightBarButtonItem = refresh;
+    [refresh release];
+    
+}
 - (void) dealloc
 {
     [tableSourceArray release];
-    [wizDataDelegate release];
     [updateArrayTimer invalidate];
     [updateArrayTimer release];
     [needUpdateArray release];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
-- (NSMutableArray*) reloadAllData
+- (void) reloadAllData
 {
-    return [NSMutableArray arrayWithArray:[self.wizDataDelegate reloadAllDocument]];
-}
-
-- (void) sortAllData
-{
-    NSMutableArray* sourceArray = [self reloadAllData];
+    NSMutableArray* sourceArray = [NSMutableArray arrayWithArray:[self reloadAllDocument]];
     [sourceArray sortDocuments:self.kOrderIndex];
     int count = 0;
     [self.tableSourceArray removeAllObjects];
+    
+    if ([sourceArray count] == 1) {
+        [self.tableSourceArray addObject:[NSMutableArray arrayWithObject:[sourceArray lastObject]]];
+        return;
+    }
+    
     for (int docIndx = 0; docIndx < [sourceArray count];) {
         @try {
             WizDocument* doc1 = [sourceArray objectAtIndex:docIndx];
@@ -265,12 +287,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         default:
             break;
     }
-    return @"ddddddddddddd";
+    return @"No Title";
 }
-- (void) reloadSelf
-{
-    [[WizSyncManager shareManager] startSyncInfo];
-}
+
 - (void) reloadDocument:(WizDocument*)doc  indexPath:(NSIndexPath*)indexPath
 {
     [[self.tableSourceArray objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:doc];
@@ -284,30 +303,26 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.kOrderIndex = kOrderReverseDate;
-    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(reloadSelf)];
-    self.navigationItem.rightBarButtonItem = item;
+    [self showSyncButton];
     self.tableView.frame = CGRectMake(0.0, 0.0, 200, 480);
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)];
     self.tableView.tableHeaderView = label;
     [label release];
-    [item release];
-    [self sortAllData];
-    [[WizSyncManager shareManager] setDisplayDelegate:self];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [WizNotificationCenter removeObserverWithKey:self name:MessageTypeOfNewDocument];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
-
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[WizSyncManager shareManager] setDisplayDelegate:self];
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -339,15 +354,12 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* CellIdentifier = @"DocumentCell";
-    NSDate* date1 = [NSDate date];
     DocumentListViewCell *cell = (DocumentListViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     cell.doc = doc;
-    NSDate* date2 = [NSDate date];
-    NSLog(@"prepare cell time is %f",[date2 timeIntervalSinceDate:date1]);
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -504,7 +516,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         [self reloadDocument:doc indexPath:indexPath];
     }
     else {
-        [self.wizDataDelegate insertDocument:doc indexPath:indexPath];
+        [self insertDocument:doc indexPath:indexPath];
     }
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -517,7 +529,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.needUpdateArray = [NSMutableArray array];
         self.kOrderIndex = kOrderReverseDate;
-    
     }
     return self;
 }
@@ -525,9 +536,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    NSArray* array = [self.tableView visibleCells];
-//    for (DocumentListViewCell* each in array) {
-//        [each prepareForAppear];
-//    }
+    NSArray* array = [self.tableView visibleCells];
+    for (DocumentListViewCell* each in array) {
+        [each prepareForAppear];
+    }
 }
 @end

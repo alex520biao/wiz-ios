@@ -21,7 +21,7 @@
 {
     [super onError:retObject];
 }
-- (BOOL) refresh
+- (BOOL) start
 {
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
     NSString* password  = [[WizAccountManager defaultManager] accountPasswordByUserId:accountUserId];

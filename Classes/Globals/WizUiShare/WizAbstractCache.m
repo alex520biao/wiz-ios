@@ -82,11 +82,8 @@
                     self.isChangedUser = NO;
                 }
             }
-            NSLog(@"*******************gen abstract");
             [self.cacheConditon lockWhenCondition:HAS_DATA];
             NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
-            NSLog(@"self.needGenDocuments Count is %d",[self.needGenAbstractDocuments count]);
-            [self.needGenAbstractDocuments removeLastObject];
             BOOL isImpty = [self.needGenAbstractDocuments count] == 0? YES:NO;
             [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
             if(nil != documentGuid)
@@ -94,6 +91,7 @@
                 WizAbstract* abstract = [dbManager abstractOfDocument:documentGuid];
                 NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
                 [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
+                [self.needGenAbstractDocuments removeLastObject];
             }
         }
     }

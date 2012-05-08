@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DocumentListViewControllerBaseNew.h"
 @interface WizPadListTableControllerBase : UITableViewController
 {
     NSMutableArray* tableArray;

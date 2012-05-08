@@ -17,9 +17,10 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    NSLog(@"view init");
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.wizDataDelegate = self;
+        NSLog(@"view init after super init");
     }
     return self;
 }
@@ -30,9 +31,9 @@
 
 - (void) insertDocument:(WizDocument*)doc indexPath:(NSIndexPath*)indexPath
 {
-//    if ([self documentsCount] > 100) {
-//        [self deleteDocument:[[[self.tableSourceArray lastObject]lastObject] guid]];
-//    }
+    if ([self documentsCount] > 100) {
+        [self deleteDocument:[[[self.tableSourceArray lastObject]lastObject] guid]];
+    }
     NSInteger updateSection = indexPath.section;
     if (updateSection == NSNotFound) {
         NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
@@ -60,11 +61,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    NSLog(@"viewdidload");
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
     self.title = WizStrRecentNotes;
     [item release];
+    [self reloadAllData];
 }
 
 - (void)viewDidUnload

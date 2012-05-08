@@ -9,7 +9,7 @@
 #import "WizGlobalError.h"
 
 @implementation WizGlobalError
-- (NSError*) tokenUnActiveError
++ (NSError*) tokenUnActiveError
 {
     return [NSError errorWithDomain:WizErrorDomain code:CodeOfTokenUnActiveError userInfo:nil];
 }

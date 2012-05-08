@@ -38,9 +38,7 @@
             newVer = ver;
         }
     }
-    //
     return newVer;
-
 }
 - (NSArray*) getArrayFromResponse:(id)retObject
 {
@@ -187,7 +185,7 @@
         [self callUploadDeletedGUIDs:[self.dbDelegate deletedGUIDsForUpload]];
     }
 }
-- (BOOL) startSync
+- (BOOL) start
 {
     if (self.busy) {
         return NO;
@@ -195,5 +193,10 @@
     busy = YES;
     [[WizSyncManager shareManager] setSyncDescription:@"start sync"];
     return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
+}
+- (void) onError:(id)retObject
+{
+    busy = NO;
+    [super onError:retObject];
 }
 @end

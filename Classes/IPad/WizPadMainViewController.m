@@ -18,7 +18,6 @@
 #import "WizPadEditNoteController.h"
 #import "WizDictionaryMessage.h"
 #import "UserSttingsViewController.h"
-#import "SearchResultViewController.h"
 #import "WizNotification.h"
 
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)

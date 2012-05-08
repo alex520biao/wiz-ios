@@ -8,16 +8,14 @@
 
 #import "TagsListTreeControllerNew.h"
 #import "TreeViewBaseController.h"
-
 #import "WizGlobalData.h"
 #import "LocationTreeNode.h"
 #import "LocationTreeViewCell.h"
-#import "FolderListView.h"
-#import "TagDocumentListView.h"
-#import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
-#import "CommonString.h"
 #import "WizDbManager.h"
+#import "PhTagListViewController.h"
+
+
 @implementation TagsListTreeControllerNew
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -169,8 +167,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizTag* tag =  [WizTag tagFromDb:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];;
-    TagDocumentListView* tagView = [[TagDocumentListView alloc] initWithStyle:UITableViewStylePlain];
-    tagView.tag = tag;
+    PhTagListViewController* tagView = [[PhTagListViewController alloc] initWithTagGuid:tag.guid];
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
 }

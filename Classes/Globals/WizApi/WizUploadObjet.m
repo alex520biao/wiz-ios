@@ -23,7 +23,6 @@
 
 @interface WizUploadObjet ()<WizUploadObjectDelegate>
 {
-    int         currentUploadIndex;
     int         sumUploadPartCount;
     NSString*   uploadObjMd5;
     NSString* currentUploadTempFilePath;
@@ -32,7 +31,6 @@
     NSFileHandle* uploadFildHandel;
     id          object;
 }
-@property                           int         currentUploadIndex;
 @property                           int         sumUploadPartCount;
 @property                           long        currentUploadPos;
 @property                           long        uploadFileSize;
@@ -48,7 +46,6 @@
 
 @implementation WizUploadObjet 
 @synthesize currentUploadTempFilePath;
-@synthesize currentUploadIndex;
 @synthesize sumUploadPartCount;
 @synthesize uploadObjMd5;
 @synthesize busy;
@@ -107,7 +104,7 @@
     [self setOffSetToPreviousPart];
     [self uploadNextPart];
 }
--(BOOL) uploadObjectData
+-(BOOL) start
 {
     NSString* zip = [[WizFileManager shareManager] createZipByGuid:self.objectGUID];
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
@@ -146,7 +143,6 @@
 {
     [[WizFileManager shareManager] deleteFile:self.currentUploadTempFilePath];
     self.sumUploadPartCount = -1;
-    self.currentUploadIndex = -1;
     self.currentUploadPos = -1;
     self.sumUploadPartCount = -1;
     self.currentUploadTempFilePath = nil;
@@ -176,7 +172,7 @@
     self.object = document;
     self.objectGUID = document.guid;
     self.objectType = WizDocumentKeyString;
-    return  [self uploadObjectData];
+    return  [self start];
 }
 - (BOOL) uploadAttachment:(WizAttachment*)attachment
 {
@@ -187,7 +183,7 @@
     self.object = attachment;
     self.objectGUID = attachment.guid;
     self.objectType = WizAttachmentKeyString;
-    return [self uploadObjectData];
+    return [self start];
 }
 - (void) onDocumentPostSimpleData:(id)retObject
 {
@@ -206,5 +202,4 @@
     busy = NO;
     [super onError:retObject];
 }
-@end
-
+@end  

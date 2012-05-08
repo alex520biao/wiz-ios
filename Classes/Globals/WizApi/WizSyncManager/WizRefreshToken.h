@@ -9,5 +9,4 @@
 #import "WizApi.h"
 
 @interface WizRefreshToken : WizApi
-- (BOOL) refresh;
 @end

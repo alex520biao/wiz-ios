@@ -72,6 +72,7 @@
 		7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F16815076FAB00668DA8 /* WizCheckAttachment.m */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
+		7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738611491558BD86005C710C /* PhTagListViewController.m */; };
 		738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */; };
 		738DA46F14FC92850075BFC9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 738DA46E14FC92850075BFC9 /* Reachability.m */; };
 		739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 739BE7B1153E524100057601 /* NSArray+WizTools.m */; };
@@ -121,11 +122,7 @@
 		73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */; };
 		73A785A014F8CC23001387F6 /* WizPadRegisterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B414F8CC22001387F6 /* WizPadRegisterController.m */; };
 		73A785A114F8CC23001387F6 /* WizSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B614F8CC22001387F6 /* WizSearchViewController.m */; };
-		73A785A214F8CC23001387F6 /* DocumentListViewControllerBaseNew.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A784BA14F8CC22001387F6 /* DocumentListViewControllerBaseNew.mm */; };
-		73A785A314F8CC23001387F6 /* FolderListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784BC14F8CC22001387F6 /* FolderListView.m */; };
 		73A785A414F8CC23001387F6 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784BE14F8CC22001387F6 /* PullRefreshTableViewController.m */; };
-		73A785A514F8CC23001387F6 /* RecentDcoumentListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C014F8CC22001387F6 /* RecentDcoumentListView.m */; };
-		73A785A614F8CC23001387F6 /* TagDocumentListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C214F8CC22001387F6 /* TagDocumentListView.m */; };
 		73A785A814F8CC23001387F6 /* DocumentViewCtrollerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */; };
 		73A785B614F8CC23001387F6 /* WizPhoneCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E214F8CC22001387F6 /* WizPhoneCreateAccountViewController.m */; };
 		73A785B714F8CC23001387F6 /* NewNoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784E514F8CC22001387F6 /* NewNoteView.m */; };
@@ -133,7 +130,6 @@
 		73A785B914F8CC23001387F6 /* NewWelcomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784EA14F8CC22001387F6 /* NewWelcomePage.m */; };
 		73A785BA14F8CC23001387F6 /* NewWelcomePage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784EB14F8CC22001387F6 /* NewWelcomePage.xib */; };
 		73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F014F8CC22001387F6 /* SearchHistoryView.m */; };
-		73A785BD14F8CC23001387F6 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F214F8CC22001387F6 /* SearchResultViewController.m */; };
 		73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F414F8CC22001387F6 /* SearchViewControllerIphone.m */; };
 		73A785BF14F8CC23001387F6 /* SearchWebView.js in Resources */ = {isa = PBXBuildFile; fileRef = 73A784F714F8CC22001387F6 /* SearchWebView.js */; };
 		73A785C014F8CC23001387F6 /* CloudReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784FB14F8CC22001387F6 /* CloudReview.m */; };
@@ -313,6 +309,9 @@
 		73ED4FF51546549100C0AD07 /* UIWebView+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 73ED4FF41546549100C0AD07 /* UIWebView+WizTools.m */; };
 		73EEF496153E650300481029 /* WizGlobalError.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EEF495153E650300481029 /* WizGlobalError.m */; };
 		73F208B215415BA900787DDF /* WizSyncDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F208B115415BA800787DDF /* WizSyncDescription.m */; };
+		73FA11CC1557D1CF008B5FDF /* PhFolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */; };
+		73FC9B3A1558C5CE00F1B243 /* PhSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FC9B391558C5CE00F1B243 /* PhSearchResultViewController.m */; };
+		73FC9B421558F57300F1B243 /* WizSyncSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FC9B411558F57300F1B243 /* WizSyncSearch.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -424,6 +423,8 @@
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
+		738611481558BD86005C710C /* PhTagListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhTagListViewController.h; path = Classes/Iphone/DocumentList/PhTagListViewController.h; sourceTree = SOURCE_ROOT; };
+		738611491558BD86005C710C /* PhTagListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhTagListViewController.m; path = Classes/Iphone/DocumentList/PhTagListViewController.m; sourceTree = SOURCE_ROOT; };
 		738B80A6155135300005FD33 /* WizEditItemBackgroudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditItemBackgroudView.h; sourceTree = "<group>"; };
 		738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditItemBackgroudView.m; sourceTree = "<group>"; };
 		738DA46D14FC92850075BFC9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -460,8 +461,8 @@
 		73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoViewController.m; sourceTree = "<group>"; };
 		73A7845414F8CC22001387F6 /* DocumentListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentListViewCell.h; sourceTree = "<group>"; };
 		73A7845514F8CC22001387F6 /* DocumentListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewCell.m; sourceTree = "<group>"; };
-		73A7845F14F8CC22001387F6 /* CommonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonString.h; sourceTree = "<group>"; };
-		73A7846014F8CC22001387F6 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonString.m; sourceTree = "<group>"; };
+		73A7845F14F8CC22001387F6 /* CommonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonString.h; path = ../WizUiShare/CommonString.h; sourceTree = "<group>"; };
+		73A7846014F8CC22001387F6 /* CommonString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonString.m; path = ../WizUiShare/CommonString.m; sourceTree = "<group>"; };
 		73A7846514F8CC22001387F6 /* WizChangePassword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizChangePassword.h; path = ../WizUiShare/password/WizChangePassword.h; sourceTree = "<group>"; };
 		73A7846614F8CC22001387F6 /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizChangePassword.m; path = ../WizUiShare/password/WizChangePassword.m; sourceTree = "<group>"; };
 		73A7846714F8CC22001387F6 /* WizChangePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePasswordController.h; sourceTree = "<group>"; };
@@ -527,16 +528,8 @@
 		73A784B414F8CC22001387F6 /* WizPadRegisterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadRegisterController.m; sourceTree = "<group>"; };
 		73A784B514F8CC22001387F6 /* WizSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSearchViewController.h; sourceTree = "<group>"; };
 		73A784B614F8CC22001387F6 /* WizSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSearchViewController.m; sourceTree = "<group>"; };
-		73A784B914F8CC22001387F6 /* DocumentListViewControllerBaseNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentListViewControllerBaseNew.h; sourceTree = "<group>"; };
-		73A784BA14F8CC22001387F6 /* DocumentListViewControllerBaseNew.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DocumentListViewControllerBaseNew.mm; sourceTree = "<group>"; };
-		73A784BB14F8CC22001387F6 /* FolderListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderListView.h; sourceTree = "<group>"; };
-		73A784BC14F8CC22001387F6 /* FolderListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderListView.m; sourceTree = "<group>"; };
 		73A784BD14F8CC22001387F6 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		73A784BE14F8CC22001387F6 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
-		73A784BF14F8CC22001387F6 /* RecentDcoumentListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentDcoumentListView.h; sourceTree = "<group>"; };
-		73A784C014F8CC22001387F6 /* RecentDcoumentListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentDcoumentListView.m; sourceTree = "<group>"; };
-		73A784C114F8CC22001387F6 /* TagDocumentListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagDocumentListView.h; sourceTree = "<group>"; };
-		73A784C214F8CC22001387F6 /* TagDocumentListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagDocumentListView.m; sourceTree = "<group>"; };
 		73A784C514F8CC22001387F6 /* DocumentViewCtrollerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewCtrollerBase.h; sourceTree = "<group>"; };
 		73A784C614F8CC22001387F6 /* DocumentViewCtrollerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewCtrollerBase.m; sourceTree = "<group>"; };
 		73A784E114F8CC22001387F6 /* WizPhoneCreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneCreateAccountViewController.h; sourceTree = "<group>"; };
@@ -550,8 +543,6 @@
 		73A784EB14F8CC22001387F6 /* NewWelcomePage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewWelcomePage.xib; sourceTree = "<group>"; };
 		73A784EF14F8CC22001387F6 /* SearchHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHistoryView.h; sourceTree = "<group>"; };
 		73A784F014F8CC22001387F6 /* SearchHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchHistoryView.m; sourceTree = "<group>"; };
-		73A784F114F8CC22001387F6 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
-		73A784F214F8CC22001387F6 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		73A784F314F8CC22001387F6 /* SearchViewControllerIphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewControllerIphone.h; sourceTree = "<group>"; };
 		73A784F414F8CC22001387F6 /* SearchViewControllerIphone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewControllerIphone.m; sourceTree = "<group>"; };
 		73A784F514F8CC22001387F6 /* WizPhoneNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneNotificationMessage.h; sourceTree = "<group>"; };
@@ -778,7 +769,14 @@
 		73EEF495153E650300481029 /* WizGlobalError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobalError.m; sourceTree = "<group>"; };
 		73F208B015415BA800787DDF /* WizSyncDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSyncDescription.h; path = WizSyncManager/WizSyncDescription.h; sourceTree = "<group>"; };
 		73F208B115415BA800787DDF /* WizSyncDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSyncDescription.m; path = WizSyncManager/WizSyncDescription.m; sourceTree = "<group>"; };
+		73FA11CA1557D1CF008B5FDF /* PhFolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhFolderListViewController.h; path = Classes/Iphone/DocumentList/PhFolderListViewController.h; sourceTree = SOURCE_ROOT; };
+		73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhFolderListViewController.m; path = Classes/Iphone/DocumentList/PhFolderListViewController.m; sourceTree = SOURCE_ROOT; };
 		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
+		73FC9B381558C5CE00F1B243 /* PhSearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhSearchResultViewController.h; path = Classes/Iphone/DocumentList/PhSearchResultViewController.h; sourceTree = SOURCE_ROOT; };
+		73FC9B391558C5CE00F1B243 /* PhSearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhSearchResultViewController.m; path = Classes/Iphone/DocumentList/PhSearchResultViewController.m; sourceTree = SOURCE_ROOT; };
+		73FC9B401558F57300F1B243 /* WizSyncSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncSearch.h; sourceTree = "<group>"; };
+		73FC9B411558F57300F1B243 /* WizSyncSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncSearch.m; sourceTree = "<group>"; };
+		73FC9B431558F6DE00F1B243 /* WizSyncSearchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncSearchDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1018,6 +1016,9 @@
 				73A7842414F8CC22001387F6 /* WizApi.m */,
 				73B46D14153E77230049556F /* WizSyncInfo.h */,
 				73B46D15153E77230049556F /* WizSyncInfo.m */,
+				73FC9B431558F6DE00F1B243 /* WizSyncSearchDelegate.h */,
+				73FC9B401558F57300F1B243 /* WizSyncSearch.h */,
+				73FC9B411558F57300F1B243 /* WizSyncSearch.m */,
 				73F208B015415BA800787DDF /* WizSyncDescription.h */,
 				73F208B115415BA800787DDF /* WizSyncDescription.m */,
 			);
@@ -1031,13 +1032,6 @@
 				736DEA541552843D00633B89 /* MBProgressHUD.m */,
 			);
 			path = MBProcessHUD;
-			sourceTree = "<group>";
-		};
-		737999A8150DB84B0029A967 /* Involution */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Involution;
 			sourceTree = "<group>";
 		};
 		7379A5BA14F4FE1B006593CD /* LunchImages */ = {
@@ -1086,6 +1080,8 @@
 		739BE7AF153E521400057601 /* WizTools */ = {
 			isa = PBXGroup;
 			children = (
+				73A7845F14F8CC22001387F6 /* CommonString.h */,
+				73A7846014F8CC22001387F6 /* CommonString.m */,
 				73A7843614F8CC22001387F6 /* WizGlobalData.h */,
 				73A7843714F8CC22001387F6 /* WizGlobalData.m */,
 				73A7843A14F8CC22001387F6 /* WizGlobals.h */,
@@ -1170,10 +1166,7 @@
 				738B80A2155134080005FD33 /* EidtNote */,
 				73A7847914F8CC22001387F6 /* WizEditNoteBase.h */,
 				73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */,
-				737999A8150DB84B0029A967 /* Involution */,
 				73A7845614F8CC22001387F6 /* attachmentView */,
-				73A7845F14F8CC22001387F6 /* CommonString.h */,
-				73A7846014F8CC22001387F6 /* CommonString.m */,
 				73A7846414F8CC22001387F6 /* password */,
 				73A7846914F8CC22001387F6 /* ScrollTableViewCell.h */,
 				73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */,
@@ -1281,16 +1274,8 @@
 			isa = PBXGroup;
 			children = (
 				73BB85201511F7D80032F99B /* TableList */,
-				73A784B914F8CC22001387F6 /* DocumentListViewControllerBaseNew.h */,
-				73A784BA14F8CC22001387F6 /* DocumentListViewControllerBaseNew.mm */,
-				73A784BB14F8CC22001387F6 /* FolderListView.h */,
-				73A784BC14F8CC22001387F6 /* FolderListView.m */,
 				73A784BD14F8CC22001387F6 /* PullRefreshTableViewController.h */,
 				73A784BE14F8CC22001387F6 /* PullRefreshTableViewController.m */,
-				73A784BF14F8CC22001387F6 /* RecentDcoumentListView.h */,
-				73A784C014F8CC22001387F6 /* RecentDcoumentListView.m */,
-				73A784C114F8CC22001387F6 /* TagDocumentListView.h */,
-				73A784C214F8CC22001387F6 /* TagDocumentListView.m */,
 			);
 			path = DocumentList;
 			sourceTree = "<group>";
@@ -1343,8 +1328,6 @@
 			children = (
 				73A784EF14F8CC22001387F6 /* SearchHistoryView.h */,
 				73A784F014F8CC22001387F6 /* SearchHistoryView.m */,
-				73A784F114F8CC22001387F6 /* SearchResultViewController.h */,
-				73A784F214F8CC22001387F6 /* SearchResultViewController.m */,
 				73A784F314F8CC22001387F6 /* SearchViewControllerIphone.h */,
 				73A784F414F8CC22001387F6 /* SearchViewControllerIphone.m */,
 			);
@@ -1714,6 +1697,12 @@
 				737999AA150DB84B0029A967 /* WizTableViewController.m */,
 				732951621548F8FC00FA4FAA /* PhRecentViewController.h */,
 				732951631548F8FC00FA4FAA /* PhRecentViewController.m */,
+				73FA11CA1557D1CF008B5FDF /* PhFolderListViewController.h */,
+				73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */,
+				738611481558BD86005C710C /* PhTagListViewController.h */,
+				738611491558BD86005C710C /* PhTagListViewController.m */,
+				73FC9B381558C5CE00F1B243 /* PhSearchResultViewController.h */,
+				73FC9B391558C5CE00F1B243 /* PhSearchResultViewController.m */,
 			);
 			name = TableList;
 			path = ../../Globals/WizUiShare/Involution;
@@ -2053,18 +2042,13 @@
 				73A7859E14F8CC23001387F6 /* WizPadMainViewController.m in Sources */,
 				73A785A014F8CC23001387F6 /* WizPadRegisterController.m in Sources */,
 				73A785A114F8CC23001387F6 /* WizSearchViewController.m in Sources */,
-				73A785A214F8CC23001387F6 /* DocumentListViewControllerBaseNew.mm in Sources */,
-				73A785A314F8CC23001387F6 /* FolderListView.m in Sources */,
 				73A785A414F8CC23001387F6 /* PullRefreshTableViewController.m in Sources */,
-				73A785A514F8CC23001387F6 /* RecentDcoumentListView.m in Sources */,
-				73A785A614F8CC23001387F6 /* TagDocumentListView.m in Sources */,
 				73A785A814F8CC23001387F6 /* DocumentViewCtrollerBase.m in Sources */,
 				73A785B614F8CC23001387F6 /* WizPhoneCreateAccountViewController.m in Sources */,
 				73A785B714F8CC23001387F6 /* NewNoteView.m in Sources */,
 				73A785B814F8CC23001387F6 /* VoiceRecognition.m in Sources */,
 				73A785B914F8CC23001387F6 /* NewWelcomePage.m in Sources */,
 				73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */,
-				73A785BD14F8CC23001387F6 /* SearchResultViewController.m in Sources */,
 				73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */,
 				73A785C014F8CC23001387F6 /* CloudReview.m in Sources */,
 				73A785C114F8CC23001387F6 /* ELCAlbumPickerController.m in Sources */,
@@ -2136,6 +2120,10 @@
 				73E5DB751550C7E800CC3562 /* WizString.m in Sources */,
 				738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */,
 				736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */,
+				73FA11CC1557D1CF008B5FDF /* PhFolderListViewController.m in Sources */,
+				7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */,
+				73FC9B3A1558C5CE00F1B243 /* PhSearchResultViewController.m in Sources */,
+				73FC9B421558F57300F1B243 /* WizSyncSearch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

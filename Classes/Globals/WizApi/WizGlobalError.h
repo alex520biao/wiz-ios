@@ -13,8 +13,9 @@
 #define WizNetWorkMaxAttempts     5
 enum WizErrorCode {
     CodeOfTokenUnActiveError    = 301,
-    NSParseErrorCode            = -101
+    NSParseErrorCode            = -101,
+    NSInvaildUrlErrorCode       = -1000
 };
 @interface WizGlobalError : NSObject
-- (NSError*) tokenUnActiveError;
++ (NSError*) tokenUnActiveError;
 @end

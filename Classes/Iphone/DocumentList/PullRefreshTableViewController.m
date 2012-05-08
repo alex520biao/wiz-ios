@@ -52,7 +52,6 @@
     UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStyleBordered target:self action:@selector(startLoading)];
     self.navigationItem.rightBarButtonItem = refresh;
     [refresh release];
-    
 }
 
 
@@ -138,13 +137,7 @@
     [refreshSpinner startAnimating];
     [UIView commitAnimations];
     // Refresh action!
-    UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
-    [activity startAnimating];
-    UIBarButtonItem* refreshing = [[UIBarButtonItem alloc] initWithCustomView:activity];
-    refreshing.style = UIBarButtonItemStyleBordered;
-    [activity release];
-    self.navigationItem.rightBarButtonItem = refreshing;
-    [refreshing release];
+
     
 }
 - (void)startLoading {

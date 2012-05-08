@@ -11,9 +11,11 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "CommonString.h"
-#import "SearchResultViewController.h"
 #import "SearchViewControllerIphone.h"
 #import "WizAccountManager.h"
+#import "PhSearchResultViewController.h"
+#import "WizFileManager.h"
+
 @implementation SearchHistoryView
 @synthesize history;
 @synthesize owner;
@@ -38,22 +40,18 @@
 }
 - (void) reloadData
 {
-//    NSString* objectPath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:@"SearchHistoryDir"];
-//    [WizGlobals ensurePathExists:objectPath];
-//    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"history.dat"];
-//    NSMutableArray* historyy = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
-//    self.history = historyy;
-//    [self.tableView reloadData];
+    NSString* fileNamePath = [[WizFileManager shareManager]searchHistoryFilePath];
+    NSMutableArray* historyy = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
+    self.history = historyy;
+    [self.tableView reloadData];
 }
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [self.history removeObjectAtIndex:indexPath.row];
-//    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-//    NSString* objectPath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:@"SearchHistoryDir"];
-//    [WizGlobals ensurePathExists:objectPath];
-//    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"history.dat"];
-//    [self.history writeToFile:fileNamePath atomically:NO];
+    [self.history removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+    NSString* fileNamePath = [[WizFileManager shareManager]searchHistoryFilePath];
+    [self.history writeToFile:fileNamePath atomically:NO];
 }
 
 - (void)viewDidLoad
@@ -148,26 +146,22 @@
     NSString* keywords = [[self.history objectAtIndex:indexPath.row] objectForKey:@"key_words"];
 	if (keywords == nil || [keywords length] == 0)
 		return;
-	//
-//	WizIndex* index = [WizIndex activeIndex];
-//	NSArray* arr = [index documentsByKey:keywords];
-//	//
-//	if (arr == nil || [arr count] == 0)
-//	{
-//		NSString* formatter = NSLocalizedString(@"Cannot find %@", nil);
-//		NSString* msg = [NSString stringWithFormat:formatter, keywords];
-//		//
-//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSearch message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-//		[alert show];
-//		[alert release];
-//		return;
-//	}
-    
-//    SearchResultViewController* searchResultView = [[SearchResultViewController alloc] initWithStyle:UITableViewStylePlain];
-//    searchResultView.searchResult = arr;
-//    SearchViewControllerIphone* parent = (SearchViewControllerIphone*)self.owner;
-//    [parent.navigationController pushViewController:searchResultView animated:YES];
-//    [searchResultView release];
+	NSArray* arr = [WizDocument documentsByKey:keywords];
+	
+	if (arr == nil || [arr count] == 0)
+	{
+		NSString* formatter = NSLocalizedString(@"Cannot find %@", nil);
+		NSString* msg = [NSString stringWithFormat:formatter, keywords];
+		
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSearch message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+		return;
+	}
+    PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:arr];
+    SearchViewControllerIphone* parent = (SearchViewControllerIphone*)self.owner;
+    [parent.navigationController pushViewController:searchResultView animated:YES];
+    [searchResultView release];
 }
 
 @end

@@ -63,11 +63,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         if ([retObject isKindOfClass:[NSError class]]) {
             NSError* error = (NSError*)retObject;
             if ([error.domain isEqualToString:NSParseErrorDomain] && error.code == NSParseErrorCode) {
-                [self downloadObject];
+                [self start];
             }
             else if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1001)
             {
-                [self downloadObject];
+                [self start];
             }
             else {
                 [super onError:retObject];
@@ -80,17 +80,18 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
 }
 
-- (void)downloadNext
+- (BOOL)downloadNext
 {
     int64_t currentPos = [self.fileHandle offsetInFile];
-    [self callDownloadObject:self.objGuid startPos:currentPos objType:self.objType partSize:DownloadPartSize];
+    return [self callDownloadObject:self.objGuid startPos:currentPos objType:self.objType partSize:DownloadPartSize];
 }
-- (void) downloadObject
+- (BOOL) start;
 {
     if (self.busy) {
-        return;
+        return NO;
     }
     busy = YES;
+    NSLog(@"download guid is %@",self.objGuid);
     NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.objGuid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
         [[WizFileManager shareManager]  deleteFile:fileNamePath];
@@ -99,7 +100,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     }
     self.fileHandle = [NSFileHandle fileHandleForWritingAtPath:fileNamePath];
     [self.fileHandle seekToFileOffset:0];
-    [self downloadNext];
+    return [self downloadNext];
 }
 
 - (void) downloadDone
@@ -149,22 +150,22 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         }
     }
 }
-- (void) downloadDocument:(NSString*)documentGUID
+- (BOOL) downloadDocument:(NSString*)documentGUID
 {
     if (self.busy) {
-        return ;
+        return NO;
     }
     self.objGuid = documentGUID;
     self.objType = WizDocumentKeyString;
-    return [self downloadObject];
+    return [self start];
 }
-- (void) downloadAttachment:(NSString*) attachmentGUID
+- (BOOL) downloadAttachment:(NSString*) attachmentGUID
 {
     if (self.busy) {
-        return ;
+        return NO;
     }
     self.objGuid = attachmentGUID;
     self.objType = WizAttachmentKeyString;
-    return [self downloadObject];
+    return [self start];
 }
 @end

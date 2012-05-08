@@ -115,7 +115,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 
 - (void) drawRect:(CGRect)rect
 {
-    NSDate* date1= [NSDate date];
     NSInteger leftBreakWidth = 10;
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
@@ -175,9 +174,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.imageView.image = [DocumentListViewCell documentNoDataImage];
     }
     CGContextRestoreGState(context);
-    
-    NSDate* date2 = [NSDate date];
-    NSLog(@"||||||||||||||||||||draw abstract spend time %f",[date2 timeIntervalSinceDate:date1]);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

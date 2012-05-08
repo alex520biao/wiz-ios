@@ -17,5 +17,4 @@
 }
 @property (readonly) BOOL busy;
 @property (nonatomic, retain) id<WizDbDelegate> dbDelegate;
-- (BOOL) startSync;
 @end

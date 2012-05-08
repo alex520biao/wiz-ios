@@ -12,7 +12,6 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "NSDate-Utilities.h"
-#import "DocumentListViewControllerBaseNew.h"
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
 #import "pinyin.h"

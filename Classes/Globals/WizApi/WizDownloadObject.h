@@ -16,6 +16,6 @@ extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
     BOOL busy;
 }
 @property (readonly) BOOL busy;
-- (void) downloadDocument:(NSString*)documentGUID;
-- (void) downloadAttachment:(NSString*)attachmentGUID;
+- (BOOL) downloadDocument:(NSString*)documentGUID;
+- (BOOL) downloadAttachment:(NSString*)attachmentGUID;
 @end

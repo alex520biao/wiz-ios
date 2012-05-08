@@ -29,4 +29,6 @@
 -(BOOL) deleteFile:(NSString*)fileName;
 - (NSString*) attachmentTempDirectory;
 - (NSString*)getAttachmentSourceFileName;
+//
+- (NSString*) searchHistoryFilePath;
 @end

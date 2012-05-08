@@ -55,6 +55,10 @@
     }
     return self;
 }
+- (BOOL) start
+{
+    return NO;
+}
 -(void) dealloc
 {
     [token release];
@@ -339,14 +343,13 @@
 }
 
 
--(BOOL) callDocumentsByKey:(NSString*)keywords attributes:(NSString*)attributes
+-(BOOL) callDocumentsByKey:(NSString*)keywords 
 {
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
 	[postParams setObject:keywords forKey:@"key"];
 	[postParams setObject:[NSNumber numberWithInt:200] forKey:@"count"];
 	[postParams setObject:[NSNumber numberWithInt:0] forKey:@"first"];
-	//[postParams setObject:attributes forKey:@"attributes"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByKey args:args];
 }
@@ -491,6 +494,10 @@
         NSError* error = (NSError*)retObject;
         NSLog(@"error is %@",error);
         if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
+        {
+            [WizNotificationCenter postMessageTokenUnactiveError];
+        }
+        else if (error.code == NSInvaildUrlErrorCode && [error.domain isEqualToString:NSURLErrorDomain])
         {
             [WizNotificationCenter postMessageTokenUnactiveError];
         }

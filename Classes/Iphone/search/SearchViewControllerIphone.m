@@ -11,9 +11,10 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "CommonString.h"
-#import "SearchResultViewController.h"
 #import "SearchHistoryView.h"
 #import "WizAccountManager.h"
+#import "WizFileManager.h"
+#import "PhSearchResultViewController.h"
 @implementation SearchViewControllerIphone
 @synthesize searchBar;
 @synthesize localSearchSwitch;
@@ -59,26 +60,24 @@
 
 - (void) addSearchHistory:(int)count
 {
-//    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-//	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-//    [formatter release];
-//    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
-//                         [NSNumber numberWithBool:self.localSearchSwitch.on], @"search_local",
-//                         self.currentKeyWords, @"key_words",
-//                         dateString, @"date",
-//                         [NSNumber numberWithInt:count], @"count",
-//                         nil,nil];
-//    NSString* objectPath = [WizIndex documentFilePath:[[WizAccountManager defaultManager] activeAccountUserId] documentGUID:@"SearchHistoryDir"];
-//    [WizGlobals ensurePathExists:objectPath];
-//    NSString* fileNamePath = [objectPath stringByAppendingPathComponent:@"history.dat"];
-//    NSMutableArray* history = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
-//    if (!history) {
-//        history = [NSMutableArray array];
-//    }
-//    [history insertObject:dic atIndex:0];
-//    [dic writeToFile:fileNamePath atomically:NO];
-//    [history writeToFile:fileNamePath atomically:YES];
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString* dateString = [formatter stringFromDate:[NSDate date]];
+    [formatter release];
+    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSNumber numberWithBool:self.localSearchSwitch.on], @"search_local",
+                         self.currentKeyWords, @"key_words",
+                         dateString, @"date",
+                         [NSNumber numberWithInt:count], @"count",
+                         nil,nil];
+    NSString* fileNamePath = [[WizFileManager shareManager] searchHistoryFilePath];
+    NSMutableArray* history = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
+    if (!history) {
+        history = [NSMutableArray array];
+    }
+    [history insertObject:dic atIndex:0];
+    [dic writeToFile:fileNamePath atomically:NO];
+    [history writeToFile:fileNamePath atomically:YES];
 }
 - (void) showSearchResult
 {
@@ -89,49 +88,43 @@
 	if (keywords == nil || [keywords length] == 0)
 		return;
 	//
-//	WizIndex* index = [WizIndex activeIndex];
-//	NSArray* arr = [index documentsByKey:keywords];
-//	//
-//	if (arr == nil || [arr count] == 0)
-//	{
-//		NSString* formatter = NSLocalizedString(@"Cannot find %@", nil);
-//		NSString* msg = [NSString stringWithFormat:formatter, keywords];
-//		//
-//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSearch message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-//		[alert show];
-//		[alert release];
-//        [self searchBarCancelButtonClicked:self.searchBar];
-//		return;
-//	}
-    
-//    [self addSearchHistory:[arr count]];
-//    SearchResultViewController* searchResultView = [[SearchResultViewController alloc] initWithStyle:UITableViewStylePlain];
-//    searchResultView.searchResult = arr;
-//    
-//
-//    
-//    [self.navigationController pushViewController:searchResultView animated:YES];
-//    [searchResultView release];
+	NSArray* arr = [WizDocument documentsByKey:keywords];
+	//
+	if (arr == nil || [arr count] == 0)
+	{
+		NSString* formatter = NSLocalizedString(@"Cannot find %@", nil);
+		NSString* msg = [NSString stringWithFormat:formatter, keywords];
+		//
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSearch message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+        [self searchBarCancelButtonClicked:self.searchBar];
+		return;
+	}
+    [self addSearchHistory:[arr count]];
+    PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:arr];
+    [self.navigationController pushViewController:searchResultView animated:YES];
+    [searchResultView release];
 }
 
 
 - (void) xmlrpcDone: (NSNotification*)nc
 {
-	NSDictionary* userInfo = [nc userInfo];
-	//
-	BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-	//
-	if (!succeeded)
-	{
-		if (self.waitAlertView)
-		{
-			[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-			self.waitAlertView = nil;
-		}
-		//
-	}
-	
-	NSString* method = [userInfo valueForKey:@"method"];
+//	NSDictionary* userInfo = [nc userInfo];
+//	//
+//	BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
+//	//
+//	if (!succeeded)
+//	{
+//		if (self.waitAlertView)
+//		{
+//			[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+//			self.waitAlertView = nil;
+//		}
+//		//
+//	}
+//	
+//	NSString* method = [userInfo valueForKey:@"method"];
 //	if (method != nil && [method isEqualToString:SyncMethod_DocumentsByKey])
 //	{
 //		if (succeeded)

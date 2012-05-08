@@ -53,39 +53,25 @@
 @property (nonatomic, retain) id<WizApiDelegate> delegate;
 -(BOOL) callClientLogin:(NSString*)accountUserId accountPassword:(NSString*)accountPassword;
 -(BOOL) callClientLogout;
-
 -(BOOL) callGetUserInfo;
-
 -(BOOL) callAllCategories;
 -(BOOL) callAllTags:(int64_t)version;
-
 -(BOOL) callPostTagList:(NSArray*)tagList;
-
 -(BOOL) callDownloadDocumentList:(int64_t)version;
-
 -(BOOL) callDownloadAttachmentList:(int64_t)version;
-
 -(BOOL) callDownloadDeletedList:(int64_t)version;
 -(BOOL) callDocumentsByCategory:(NSString*)location;
-
 -(BOOL) callDocumentsByTag:(NSString*)tagGUID;
-
--(BOOL) callDocumentsByKey:(NSString*)keywords attributes:(NSString*)attributes;
-
+-(BOOL) callDocumentsByKey:(NSString*)keywords ;
 -(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize;
-
 -(BOOL) callDownloadMobileData:(NSString*)documentGUID;
-
 -(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCount;
-
 -(BOOL) callUploadDeletedGUIDs:(NSArray*)deleteGuids;
-
 - (BOOL) callChangePassword:(NSString*)accountUserId  oldPassword:(NSString*)oldPassword newPassword:(NSString*)newPassword;
-
 -(BOOL) callCreateAccount:(NSString*)accountUserId  password:(NSString*)accountPassword;
 -(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5;
 -(BOOL) callAttachmentPostSimpleData:(WizAttachment*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5;
 -(void) onError: (id)retObject;
 -(void) cancel;
-
+- (BOOL) start;
 @end

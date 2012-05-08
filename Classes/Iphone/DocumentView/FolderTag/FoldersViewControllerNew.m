@@ -8,15 +8,15 @@
 
 #import "FoldersViewControllerNew.h"
 #import "TreeViewBaseController.h"
-
 #import "WizGlobalData.h"
 #import "LocationTreeNode.h"
 #import "LocationTreeViewCell.h"
-#import "FolderListView.h"
 #import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizTableViewController.h"
 #import "WizDbManager.h"
+#import "PhFolderListViewController.h"
+
 @implementation FoldersViewControllerNew
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -178,8 +178,7 @@
 {
     if (tableView == self.tableView) {
         LocationTreeNode* node = [self.displayNodes objectAtIndex:indexPath.row];
-        FolderListView* folder = [[FolderListView alloc] init];
-        folder.location = node.locationKey;
+        PhFolderListViewController* folder = [[PhFolderListViewController alloc] initWithFolder:node.locationKey];
         [self.navigationController pushViewController:folder animated:YES];
         [folder release];
     }

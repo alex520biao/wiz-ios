@@ -8,6 +8,6 @@
 
 #import "WizTableViewController.h"
 
-@interface PhRecentViewController : WizTableViewController <WizTableDataDelegate>
+@interface PhRecentViewController : WizTableViewController 
 
 @end

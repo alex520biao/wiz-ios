@@ -267,4 +267,9 @@ static WizFileManager* shareManager = nil;
     ret = [ret stringByReplacingOccurrencesOfString:@":" withString:@"-"];
     return ret;
 }
+
+- (NSString*) searchHistoryFilePath
+{
+    return [self documentFile:@"SearchHistoryDir" fileName:@"history.dat"];
+}
 @end

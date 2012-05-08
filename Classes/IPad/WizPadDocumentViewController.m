@@ -7,7 +7,6 @@
 //
 
 #import "WizPadDocumentViewController.h"
-#import "DocumentListViewControllerBaseNew.h"
 #import "WizUiTypeIndex.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
