@@ -19,10 +19,15 @@
 }
 - (void) onError:(id)retObject
 {
+    busy = NO;
     [super onError:retObject];
 }
 - (BOOL) start
 {
+    if (self.busy) {
+        return NO;
+    }
+    busy = YES;
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
     NSString* password  = [[WizAccountManager defaultManager] accountPasswordByUserId:accountUserId];
     return [self callClientLogin:accountUserId accountPassword:password];

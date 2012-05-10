@@ -16,15 +16,11 @@
 @property (nonatomic, retain) id<WizSyncDescriptionDelegate> displayDelegate;
 @property (retain) NSString* syncDescription;
 //upload
-- (BOOL) isUploadingDocument:(NSString*)documentGUID;
-- (BOOL) isUploadingAttachment:(NSString*)attachmentGUID;
-- (BOOL) uploadDocument:(NSString*)documentGUID;
-- (BOOL) uploadAttachment:(NSString*)attachmentGUID;
+- (BOOL) isUploadingWizObject:(WizObject*)wizobject;
+- (BOOL) uploadWizObject:(WizObject*)object;
 //download
-- (BOOL) isDownloadingDocument:(NSString*)documentGUID;
-- (BOOL) isDownloadingAttachment:(NSString*)attachmentGUID;
-- (void) downloadAttachment:(NSString*)attachmentGUID;
-- (void) downloadDocument:(NSString*)documentGUID;
+- (BOOL) isDownloadingWizobject:(WizObject*)object;
+- (void) downloadWizObject:(WizObject*)object;
 //
 - (BOOL) startSyncInfo;
 //

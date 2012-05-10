@@ -71,28 +71,25 @@
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     static WizDbManager* dbManager = nil;
-    @synchronized(dbManager)
-    {
-        if (nil == dbManager) {
-            dbManager = [[WizDbManager alloc] init];
+    if (nil == dbManager) {
+        dbManager = [[WizDbManager alloc] init];
+    }
+    while (true) {
+        if (self.isChangedUser) {
+            if ([dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]]) {
+                self.isChangedUser = NO;
+            }
         }
-        while (true) {
-            if (self.isChangedUser) {
-                if ([dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]]) {
-                    self.isChangedUser = NO;
-                }
-            }
-            [self.cacheConditon lockWhenCondition:HAS_DATA];
-            NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
-            BOOL isImpty = [self.needGenAbstractDocuments count] == 0? YES:NO;
-            [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
-            if(nil != documentGuid)
-            {
-                WizAbstract* abstract = [dbManager abstractOfDocument:documentGuid];
-                NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
-                [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
-                [self.needGenAbstractDocuments removeLastObject];
-            }
+        [self.cacheConditon lockWhenCondition:HAS_DATA];
+        NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
+        BOOL isImpty = [self.needGenAbstractDocuments count] == 0? YES:NO;
+        [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
+        if(nil != documentGuid)
+        {
+            WizAbstract* abstract = [dbManager abstractOfDocument:documentGuid];
+            NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
+            [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
+            [self.needGenAbstractDocuments removeLastObject];
         }
     }
     [pool release];

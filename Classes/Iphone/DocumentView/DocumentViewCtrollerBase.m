@@ -391,7 +391,10 @@
 {
     [super viewDidLoad];
     if (nil == self.downloadActivity) {
-        self.downloadActivity =[[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        
+        MBProgressHUD* hub =[[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        self.downloadActivity = hub;
+        [hub release];
         [self.view addSubview:self.downloadActivity];
         [self.view bringSubviewToFront:self.downloadActivity];  
         self.downloadActivity.delegate = self;  

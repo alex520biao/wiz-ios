@@ -15,6 +15,7 @@
 #import "WizAccountManager.h"
 #import "WizFileManager.h"
 #import "PhSearchResultViewController.h"
+#import "WizSyncSearch.h"
 @implementation SearchViewControllerIphone
 @synthesize searchBar;
 @synthesize localSearchSwitch;
@@ -179,26 +180,9 @@
 	}
 	else 
 	{
-//		WizDocumentsByKey* api = [[WizGlobalData sharedData] documentsByKeyData:self.accountUserId];
-//		if (api.busy)
-//			return;
-//		NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
-//		//
-//		NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//		[nc removeObserver:self];
-//		//
-//		[nc addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
-//		//
-//		UIAlertView* alert = nil;
-//		[WizGlobals showAlertView:WizStrSearch message:NSLocalizedString(@"Please wait while searching!", nil) delegate:self retView:&alert];
-//		[alert show];
-//		//
-//		self.waitAlertView = alert;
-//		//
-//		[alert release];
-//		//
-//		api.keywords = keywords;
-//		[api searchDocuments];
+        WizSyncSearch* api = [[WizSyncSearch alloc] init];
+        api.keyWord = keywords;
+        [api start];
 	}
     
 }

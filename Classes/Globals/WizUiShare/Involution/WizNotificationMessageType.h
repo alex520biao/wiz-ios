@@ -37,5 +37,8 @@
 #define MessageTypeOfLoginDone      @"MessageTypeOfLoginDone"
 #define UserInfoTypeOfLoginSucceed  @"UserInfoTypeOfLoginSucceed"
 //
+#define MessageTypeOfUpdateDocumentList @"MessageTypeOfUpdateDocumentList"
+
+//
 #define MessageTypeOfUpdateCache    @"MessageTypeOfUpdateCache"
 #define MessageTypeOfChangedUser    @"MessageTypeOfChangedUser"

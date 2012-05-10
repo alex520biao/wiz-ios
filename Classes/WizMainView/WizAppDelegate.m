@@ -60,7 +60,7 @@
 }
 - (void) initRootNavigation
 {
-    [WizGlobals toLog:@"dd"];
+
     [WizNotificationCenter removeObserver:self];
     UINavigationController* root = [[UINavigationController alloc] init];
     if ([WizGlobals WizDeviceIsPad])
@@ -71,7 +71,6 @@
     }
     else
     {
-        [[WizSyncManager shareManager] setDisplayDelegate:self];
         WizIphoneLoginViewController* login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewController" bundle:nil];
         [root pushViewController:login animated:NO];
         [login release];
@@ -101,8 +100,6 @@
     [self initRootNavigation];
     return YES;
 }
-
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 

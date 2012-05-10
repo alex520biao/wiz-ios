@@ -8,6 +8,7 @@
 
 #import "PhRecentViewController.h"
 #import "WizDbManager.h"
+#import "WizSyncManager.h"
 
 @interface PhRecentViewController ()
 
@@ -42,11 +43,9 @@
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
     }
     else {
-        [self.tableView beginUpdates];
         NSMutableArray* arr = [self.tableSourceArray objectAtIndex:updateSection];
         [arr insertObject:doc atIndex:0];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:updateSection]] withRowAnimation:UITableViewRowAnimationTop];
-        [self.tableView endUpdates];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:updateSection]] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -61,23 +60,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"viewdidload");
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
     self.title = WizStrRecentNotes;
     [item release];
-    [self reloadAllData];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
-
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 @end

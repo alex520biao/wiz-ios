@@ -13,8 +13,6 @@
 @interface WizSyncInfo :WizApi
 {
     id <WizDbDelegate> dbDelegate;
-    BOOL busy;
 }
-@property (readonly) BOOL busy;
 @property (nonatomic, retain) id<WizDbDelegate> dbDelegate;
 @end

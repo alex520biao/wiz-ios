@@ -20,16 +20,19 @@
 }
 - (void) onDocumentsByKey:(id)retObject
 {
+    busy = NO;
     NSArray* obj = retObject;
 	[[WizDbManager shareDbManager] updateDocuments:obj];
     [self.searchDelegate didSearchSucceed];
 }
 - (BOOL) start
 {
+    busy = YES;
     return [self callDocumentsByKey:self.keyWord];
 }
 - (void) onError:(id)retObject
 {
+    busy = NO;
     [self.searchDelegate didSearchFild];
     [super onError:retObject];
 }

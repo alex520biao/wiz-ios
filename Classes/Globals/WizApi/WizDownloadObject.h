@@ -12,10 +12,6 @@
 extern NSString* SyncMethod_DownloadProcessPartBeginWithGuid ;
 extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 
-@interface WizDownloadObject : WizApi {
-    BOOL busy;
-}
-@property (readonly) BOOL busy;
-- (BOOL) downloadDocument:(NSString*)documentGUID;
-- (BOOL) downloadAttachment:(NSString*)attachmentGUID;
+@interface WizDownloadObject : WizApi 
+- (BOOL) downloadWizObject:(WizObject*)wizObject;
 @end

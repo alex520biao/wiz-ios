@@ -16,6 +16,7 @@
 #import "DocumentListViewCell.h"
 #import "WizSyncManager.h"
 #import "DocumentViewCtrollerBase.h"
+#import "WizSettings.h"
 
 
 NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
@@ -141,8 +142,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
      }];
 }
 @end
-
-
 @interface WizTableViewController ()
 {
     NSTimer* updateArrayTimer;
@@ -150,13 +149,10 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 @property (nonatomic, retain) NSTimer* updateArrayTimer;
 - (void) showSyncButton;
 @end
-
 @implementation WizTableViewController
 @synthesize kOrderIndex;
 @synthesize tableSourceArray;
 @synthesize updateArrayTimer;
-@synthesize needUpdateArray;
-
 - (void) showActivity
 {
     UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
@@ -184,17 +180,16 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     [tableSourceArray release];
     [updateArrayTimer invalidate];
     [updateArrayTimer release];
-    [needUpdateArray release];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 - (void) reloadAllData
 {
+    self.kOrderIndex = [[WizSettings defaultSettings] userTablelistViewOption];
     NSMutableArray* sourceArray = [NSMutableArray arrayWithArray:[self reloadAllDocument]];
     [sourceArray sortDocuments:self.kOrderIndex];
     int count = 0;
     [self.tableSourceArray removeAllObjects];
-    
     if ([sourceArray count] == 1) {
         [self.tableSourceArray addObject:[NSMutableArray arrayWithObject:[sourceArray lastObject]]];
         return;
@@ -233,6 +228,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         @finally {
         }
     }
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -303,15 +299,16 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
 }
 
-- (void)viewDidLoad
+- (void) buildTableviewHeader
 {
-    [super viewDidLoad];
-    self.kOrderIndex = kOrderReverseDate;
-    [self showSyncButton];
-    self.tableView.frame = CGRectMake(0.0, 0.0, 200, 480);
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)];
     self.tableView.tableHeaderView = label;
     [label release];
+}
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self buildTableviewHeader];
 }
 
 - (void)viewDidUnload
@@ -478,9 +475,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) onDeleteDocument:(NSNotification*)nc
 {
     NSString* documentGUID = [WizNotificationCenter getDeleteDocumentGUIDFromNc:nc];
-    NSLog(@"documentGUID is %@",documentGUID);
     if (documentGUID == nil || [documentGUID isEqualToString:@""]) {
-        NSLog(@"nil");
         return;
     }
     NSIndexPath* docIndex = [self indexPathOfDocument:documentGUID];
@@ -506,10 +501,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
     WizDocument* doc = [WizDocument documentFromDb:documentGUID];
-    NSLog(@"time interval since now is %f",[[NSDate date] timeIntervalSinceDate:doc.dateModified]);
-
-    if (nil == doc || [[NSDate date] timeIntervalSinceDate:doc.dateModified] > 2592000 ) {
-        return;
+    if (nil == doc)
+    {
+        return ;
     }
     NSIndexPath* indexPath = [self indexOfDocumentInTableSourceArray:doc.guid];
     if (indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
@@ -523,16 +517,25 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.tableSourceArray = [NSMutableArray array];
-        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
-        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.needUpdateArray = [NSMutableArray array];
-        self.kOrderIndex = kOrderReverseDate;
+        
     }
     return self;
 }
-
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        self.tableSourceArray = [NSMutableArray array];
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [WizNotificationCenter addObserverForUpdateDocumentList:self selector:@selector(reloadAllData)];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.kOrderIndex = kOrderReverseDate;
+        [self showSyncButton];
+        [self reloadAllData];
+    }
+    return self;
+}
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

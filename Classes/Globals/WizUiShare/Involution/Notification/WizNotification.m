@@ -7,7 +7,6 @@
 //
 
 #import "WizNotification.h"
-
 #import "WizGlobalData.h"
 @implementation WizNotificationCenter
 
@@ -110,7 +109,6 @@
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];
 }
-//
 + (void) addObserverForUpdateDocument:(id) observer selector:(SEL)selector
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateDocument];
@@ -207,7 +205,6 @@
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfGuid notification:nc];
 }
-//
 + (void) addObserverForAccountOperation:(id)observer  selector:(SEL)selector
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfLoginDone];
@@ -228,7 +225,6 @@
     }
     return [ret boolValue];
 }
-//
 + (void) addObserverForUpdateCache:(id)observer  selector:(SEL)selector
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateCache];
@@ -241,8 +237,6 @@
 {
     [WizNotificationCenter postMessageWithName:MessageTypeOfUpdateCache userInfoObject:documentGuid userInfoKey:UserInfoTypeOfDocumentGUID];
 }
-
-//
 + (void) addObserverForChangeUser:(id)observer  selector:(SEL)selector
 {
     [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfChangedUser];
@@ -254,5 +248,21 @@
 + (void) postMessageChangedUser
 {
     [WizNotificationCenter postMessageWithName:MessageTypeOfChangedUser userInfoObject:nil userInfoKey:nil];
+}
+
+//
++ (void) postupdateDocumentListMessage
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfUpdateDocumentList userInfoObject:nil userInfoKey:nil];
+}
+
++ (void) addObserverForUpdateDocumentList:(id)observer selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfUpdateDocumentList];
+}
+
++ (void) removeObserverForUpdateDocumentList:(id)observer
+{
+    [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfUpdateDocumentList];
 }
 @end

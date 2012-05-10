@@ -229,7 +229,6 @@
     if (![self findAccount:userId]) {
         return;
     }
-    //
     NSMutableArray* arr = [NSMutableArray arrayWithArray:[self readSettings:KeyOfAccounts]];
     int i = 0;
     for (; i < [arr count] ; i++) {
@@ -239,7 +238,9 @@
             break;
         }
     }
+    [[WizFileManager shareManager] removeItemAtPath:[[WizFileManager shareManager] accountPath] error:nil];
     [arr removeObjectAtIndex:i];
+    [self logoutAccount];
     [self writeSettings:KeyOfAccounts value:arr];
 }
 @end

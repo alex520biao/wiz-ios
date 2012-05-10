@@ -12,7 +12,6 @@
 #import "WizSyncManager.h"
 
 @implementation WizSyncInfo
-@synthesize busy;
 @synthesize dbDelegate;
 
 - (void) dealloc
@@ -181,8 +180,7 @@
     }
     else {
         NSArray* array = [self.dbDelegate deletedGUIDsForUpload];
-        NSLog(@"%@",array);
-        [self callUploadDeletedGUIDs:[self.dbDelegate deletedGUIDsForUpload]];
+        [self callUploadDeletedGUIDs:array];
     }
 }
 - (BOOL) start
@@ -197,6 +195,14 @@
 - (void) onError:(id)retObject
 {
     busy = NO;
-    [super onError:retObject];
+    if (attempts) {
+        attempts--;
+        [super onError:retObject];
+    }
+    else {
+        attempts = WizNetWorkMaxAttempts;
+        [WizGlobals reportError:retObject];
+    }
+    
 }
 @end

@@ -654,7 +654,6 @@ static WizDbManager* shareDbManager = nil;
     if (data.nServerChanged == 0 || data.nLocalChanged!=0) {
         [self extractSummary:guid];
     }
-    [WizNotificationCenter postUpdateDocument:guid];
 	return ret;
 }
 - (BOOL) updateDocuments:(NSArray *)documents
@@ -672,6 +671,7 @@ static WizDbManager* shareDbManager = nil;
             
         }
     }
+    [WizNotificationCenter postupdateDocumentListMessage];
 	//
 	return YES;
 	
@@ -803,7 +803,6 @@ static WizDbManager* shareDbManager = nil;
 	NSString* guid = [tag valueForKey:DataTypeUpdateTagGuid];
 	NSString* parentGuid = [tag valueForKey:DataTypeUpdateTagParentGuid];
 	NSString* description = [tag valueForKey:DataTypeUpdateTagDescription];
-    NSNumber* version = [tag valueForKey:DataTypeUpdateTagVersion];
     NSDate* dtInfoModifed = [tag valueForKey:DataTypeUpdateTagDtInfoModifed];
     NSNumber* localChanged = [tag valueForKey:DataTypeUpdateTagLocalchanged];
 	
@@ -821,9 +820,6 @@ static WizDbManager* shareDbManager = nil;
     }
     if (nil == parentGuid) {
         parentGuid = @"";
-    }
-    if (nil == version) {
-        version = [NSNumber numberWithInt:0];
     }
 	WIZTAGDATA data;
 	data.strName = [name UTF8String];

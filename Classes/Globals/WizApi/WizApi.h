@@ -42,14 +42,17 @@
 	NSString* kbguid;
 	NSURL* accountURL;
 	NSURL* apiURL;
+    NSInteger attempts;
    XMLRPCConnection* connectionXmlrpc;
     id<WizApiDelegate> delegate;
+    BOOL busy;
 }
 @property (nonatomic, retain) NSURL* accountURL;
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* kbguid;
 @property (nonatomic, retain) NSURL* apiURL;
 @property (retain) XMLRPCConnection* connectionXmlrpc;
+@property (atomic, readonly) BOOL busy;
 @property (nonatomic, retain) id<WizApiDelegate> delegate;
 -(BOOL) callClientLogin:(NSString*)accountUserId accountPassword:(NSString*)accountPassword;
 -(BOOL) callClientLogout;
@@ -63,9 +66,8 @@
 -(BOOL) callDocumentsByCategory:(NSString*)location;
 -(BOOL) callDocumentsByTag:(NSString*)tagGUID;
 -(BOOL) callDocumentsByKey:(NSString*)keywords ;
--(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize;
--(BOOL) callDownloadMobileData:(NSString*)documentGUID;
--(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCount;
+-(BOOL) callDownloadObject:(WizObject*)object startPos:(int)startPos  partSize:(int)partSize;
+-(BOOL) callUploadObjectData:(WizObject*)object data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCounta;
 -(BOOL) callUploadDeletedGUIDs:(NSArray*)deleteGuids;
 - (BOOL) callChangePassword:(NSString*)accountUserId  oldPassword:(NSString*)oldPassword newPassword:(NSString*)newPassword;
 -(BOOL) callCreateAccount:(NSString*)accountUserId  password:(NSString*)accountPassword;

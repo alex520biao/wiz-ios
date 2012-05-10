@@ -72,4 +72,8 @@
 + (void) addObserverForChangeUser:(id)observer  selector:(SEL)selector;
 + (void) removeObserverForChangUser:(id)observer;
 + (void) postMessageChangedUser;
+//
++ (void) postupdateDocumentListMessage;
++ (void) addObserverForUpdateDocumentList:(id)observer selector:(SEL)selector;
++ (void) removeObserverForUpdateDocumentList:(id)observer;
 @end

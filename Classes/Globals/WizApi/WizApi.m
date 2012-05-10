@@ -10,30 +10,28 @@
 #import "WizGlobalDictionaryKey.h"
 #import "XMLRPCConnection.h"
 #import "XMLRPCRequest.h"
-
+#import "WizObject+WizSync.h"
 #import "WizNotification.h"
 #import "WizDocument.h"
 
 #define SyncMethod_ClientLogin                  @"accounts.clientLogin"
 #define SyncMethod_ClientLogout                 @"accounts.clientLogout"
 #define SyncMethod_CreateAccount                @"accounts.createAccount"
+#define SyncMethod_ChangeAccountPassword        @"accounts.changePassword"
 #define SyncMethod_GetAllCategories             @"category.getAll"
 #define SyncMethod_GetAllTags                   @"tag.getList"
+#define SyncMethod_PostTagList                  @"tag.postList"
+#define SyncMethod_DocumentsByKey               @"document.getSimpleListByKey"
 #define SyncMethod_DownloadDocumentList         @"document.getSimpleList"
 #define SyncMethod_DocumentsByCategory          @"document.getSimpleListByCategory"
 #define SyncMethod_DocumentsByTag               @"document.getSimpleListByTag"
-#define SyncMethod_DownloadMobileData           @"document.getMobileData"
-#define SyncMethod_UploadMobileData             @"document.postSimpleData"
+#define SyncMethod_DocumentPostSimpleData       @"document.postSimpleData"
 #define SyncMethod_DownloadDeletedList          @"deleted.getList"
 #define SyncMethod_UploadDeletedList            @"deleted.postList"
-#define SyncMethod_DocumentsByKey               @"document.getSimpleListByKey"
-#define SyncMethod_ChangeAccountPassword        @"accounts.changePassword"
 #define SyncMethod_DownloadObject               @"data.download"
 #define SyncMethod_UploadObject                 @"data.upload"
-#define SyncMethod_GetAttachmentList            @"attachment.getList"
-#define SyncMethod_PostTagList                  @"tag.postList"
-#define SyncMethod_DocumentPostSimpleData       @"document.postSimpleData"
 #define SyncMethod_AttachmentPostSimpleData     @"attachment.postSimpleData"
+#define SyncMethod_GetAttachmentList            @"attachment.getList"
 #define SyncMethod_GetUserInfo                  @"wiz.getInfo"
 
 @implementation WizApi
@@ -43,21 +41,23 @@
 @synthesize apiURL;
 @synthesize connectionXmlrpc;
 @synthesize delegate;
+@synthesize busy;
 -(int) listCount
 {
-	return 50;
+	return 200;
 }
 - (id) init
 {
     self = [super init];
     if (self) {
         self.delegate = self;
+        attempts = WizNetWorkMaxAttempts;
     }
     return self;
 }
 - (BOOL) start
 {
-    return NO;
+    return YES;
 }
 -(void) dealloc
 {
@@ -354,33 +354,25 @@
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByKey args:args];
 }
 
--(BOOL) callDownloadObject:(NSString *)objectGUID startPos:(int)startPos objType:(NSString*) objType  partSize:(int)partSize{
+-(BOOL) callDownloadObject:(WizObject*)object startPos:(int)startPos  partSize:(int)partSize{
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
-    [postParams setObject:objectGUID forKey:@"obj_guid"];
-    [postParams setObject:objType forKey:@"obj_type"];
+    [postParams setObject:object.guid forKey:@"obj_guid"];
+    [postParams setObject:[object objectType] forKey:@"obj_type"];
     [postParams setObject:[NSNumber numberWithInt:startPos] forKey:@"start_pos"];
     [postParams setObject:[NSNumber numberWithInt:partSize] forKey:@"part_size"];
     NSArray* args = [NSArray arrayWithObjects:postParams, nil];
     return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadObject args:args];
 }
 
--(BOOL) callDownloadMobileData:(NSString*)documentGUID
-{
-	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
-	[self addCommonParams:postParams];
-	[postParams setObject:documentGUID forKey:@"document_guid"];
-	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-	return [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadMobileData args:args];
-}
 
--(BOOL) callUploadObjectData:(NSString *)objectGUID objectType:(NSString *)objectType  data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCount
+-(BOOL) callUploadObjectData:(WizObject*)object data:(NSData*) data objectSize:(long)objectSize count:(int)count sumMD5:(NSString*) sumMD5  sumPartCount:(int)sumPartCount
 {
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams]; 
     [postParams setObject:[NSNumber numberWithLong:objectSize] forKey:@"obj_size"];
-    [postParams setObject:objectGUID forKey:@"obj_guid"];
-    [postParams setObject:objectType forKey:@"obj_type"];
+    [postParams setObject:object.guid forKey:@"obj_guid"];
+    [postParams setObject:[object objectType] forKey:@"obj_type"];
     [postParams setObject:sumMD5 forKey:@"obj_md5"];
     [postParams setObject:[NSNumber numberWithInt:sumPartCount] forKey:@"part_count"];
     [postParams setObject:data forKey:@"data"];
@@ -389,7 +381,6 @@
     [postParams setObject:localMd5 forKey:@"part_md5"];
     NSUInteger partSize=[data length];
     [postParams setObject:[NSNumber numberWithUnsignedInteger:partSize]   forKey:@"part_size"];
-
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadObject args:args];
@@ -500,6 +491,10 @@
         else if (error.code == NSInvaildUrlErrorCode && [error.domain isEqualToString:NSURLErrorDomain])
         {
             [WizNotificationCenter postMessageTokenUnactiveError];
+        }
+        else if (error.code == NSOvertimeErrorCode && [error.domain isEqualToString:NSURLErrorDomain])
+        {
+            [self start];
         }
         else {
             [WizGlobals reportError:retObject];

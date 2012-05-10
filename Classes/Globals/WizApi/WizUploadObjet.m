@@ -26,20 +26,16 @@
     int         sumUploadPartCount;
     NSString*   uploadObjMd5;
     NSString* currentUploadTempFilePath;
-    NSString*   objectGUID;
-    NSString*   objectType;
     NSFileHandle* uploadFildHandel;
-    id          object;
+    WizObject*     uploadObject;
 }
 @property                           int         sumUploadPartCount;
 @property                           long        currentUploadPos;
 @property                           long        uploadFileSize;
 @property       (nonatomic, retain) NSString*   uploadObjMd5;
-@property       (nonatomic, retain) NSString*   objectGUID;
-@property       (nonatomic, retain) NSString*   objectType;
 @property       (nonatomic, retain) NSFileHandle* uploadFildHandel;
 @property       (nonatomic, retain) NSString* currentUploadTempFilePath;
-@property       (nonatomic, retain) id          object;
+@property       (nonatomic, retain) WizObject* uploadObject;
 - (void) onUploadObjectSucceedAndCleanTemp;
 
 @end
@@ -48,21 +44,17 @@
 @synthesize currentUploadTempFilePath;
 @synthesize sumUploadPartCount;
 @synthesize uploadObjMd5;
-@synthesize busy;
-@synthesize objectGUID;
-@synthesize objectType;
 @synthesize uploadFildHandel;
-@synthesize object;
+@synthesize uploadObject;
 -(void) dealloc
 {
     if (nil != uploadFildHandel) {
         [uploadFildHandel closeFile];
         [uploadFildHandel release];
     }
-    [objectGUID release];
-    [objectType release];
     [uploadObjMd5 release];
-    [object release];
+    [uploadObject release];
+    [currentUploadTempFilePath release];
     [super dealloc];
 }
 
@@ -75,7 +67,7 @@
     }
     NSInteger currentPartCount =currentOffSet/UploadPartSize;
     NSData* data = [self.uploadFildHandel readDataOfLength:UploadPartSize];
-    return [self callUploadObjectData:self.objectGUID objectType:self.objectType data:data objectSize:self.uploadFileSize count:currentPartCount sumMD5:self.uploadObjMd5 sumPartCount:sumCount];
+    return [self callUploadObjectData:self.uploadObject data:data objectSize:self.uploadFileSize count:currentPartCount sumMD5:self.uploadObjMd5 sumPartCount:sumCount];
 }
 
 - (void) setOffSetToPreviousPart
@@ -106,7 +98,8 @@
 }
 -(BOOL) start
 {
-    NSString* zip = [[WizFileManager shareManager] createZipByGuid:self.objectGUID];
+    busy = YES;
+    NSString* zip = [[WizFileManager shareManager] createZipByGuid:self.uploadObject.guid];
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
     NSString* md5 = [WizGlobals fileMD5:zip];
     self.uploadObjMd5 = md5;
@@ -148,58 +141,50 @@
     self.currentUploadTempFilePath = nil;
     self.uploadFileSize = -1;
     [self.uploadFildHandel closeFile];
-    if ([self.objectType isEqualToString:WizDocumentKeyString]) {
-        [self callDocumentPostSimpleData:self.object  withZipMD5:self.uploadObjMd5];
+    if ([self.uploadObject isKindOfClass:[WizDocument class]]) {
+        [self callDocumentPostSimpleData:(WizDocument*)self.uploadObject  withZipMD5:self.uploadObjMd5];
     }
-    else if ([self.objectType isEqualToString:WizAttachmentKeyString])
+    else if ([self.uploadObject isKindOfClass:[WizAttachment class]])
     {
-        [self callAttachmentPostSimpleData:self.object dataMd5:self.uploadObjMd5 ziwMd5:self.uploadObjMd5];
+        [self callAttachmentPostSimpleData:(WizAttachment*)self.uploadObject dataMd5:self.uploadObjMd5 ziwMd5:self.uploadObjMd5];
     }
 }
 -(void) onUploadObjectSucceedAndCleanTemp
 {
-    self.objectType = nil;
+    self.uploadObject = nil;
     busy = NO;
-    [WizNotificationCenter postMessageUploadDone:self.objectGUID];
+    [WizNotificationCenter postMessageUploadDone:self.uploadObject.guid];
 }
 
-- (BOOL) uploadDocument:(WizDocument*)document
+- (BOOL) uploadWizObject:(WizObject *)wizobject
 {
     if (self.busy) {
         return NO;
     }
-    busy = YES;
-    self.object = document;
-    self.objectGUID = document.guid;
-    self.objectType = WizDocumentKeyString;
+    self.uploadObject = wizobject;
     return  [self start];
-}
-- (BOOL) uploadAttachment:(WizAttachment*)attachment
-{
-    if (self.busy) {
-        return NO;
-    }
-    busy = YES;
-    self.object = attachment;
-    self.objectGUID = attachment.guid;
-    self.objectType = WizAttachmentKeyString;
-    return [self start];
 }
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizDocument* eidt = [WizDocument documentFromDb:self.objectGUID];
+    WizDocument* eidt = (WizDocument*)self.uploadObject;
     eidt.localChanged = NO;
     [eidt saveInfo];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    [WizAttachment setAttachmentLocalChanged:self.objectGUID changed:NO];
+    [WizAttachment setAttachmentLocalChanged:self.uploadObject.guid changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 -(void) onError: (id)retObject
 {
     busy = NO;
-    [super onError:retObject];
+    if (attempts>0) {
+        [super onError:retObject];
+    }
+    else {
+        attempts = WizNetWorkMaxAttempts;
+        [WizGlobals reportError:retObject];
+    }
 }
 @end  

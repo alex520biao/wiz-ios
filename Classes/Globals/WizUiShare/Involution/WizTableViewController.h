@@ -15,11 +15,9 @@
     @private
     NSMutableArray* tableSourceArray;
     NSUInteger kOrderIndex;
-    NSMutableArray* needUpdateArray;
 }
-@property(retain, nonatomic) NSMutableArray* tableSourceArray;
-@property(retain, nonatomic) NSMutableArray* needUpdateArray;
-@property NSUInteger kOrderIndex;
+@property(retain, atomic) NSMutableArray* tableSourceArray;
+@property (atomic)NSUInteger kOrderIndex;
 - (NSArray*) reloadAllDocument;
 - (void) deleteDocument:(NSString*)documentGuid;
 - (void) insertDocument:(WizDocument*)doc indexPath:(NSIndexPath*)indexPath;

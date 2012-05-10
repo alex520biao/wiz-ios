@@ -9,6 +9,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
+#import "WizSettings.h"
+
+#import <mach/mach.h>
 
 #include "stdio.h"
 #import "pinyin.h"
@@ -359,7 +362,20 @@ static NSArray* excelArray;
     
     return excelArray;
 }
-
++(void) reportMemory
+{
+    struct task_basic_info info;
+    mach_msg_type_number_t size = sizeof(info);
+    kern_return_t kerr = task_info(mach_task_self(),
+                                   TASK_BASIC_INFO,
+                                   (task_info_t)&info,
+                                   &size);
+    if( kerr == KERN_SUCCESS ) {
+        NSLog(@"Memory in use (in Mb): %u Mb", info.resident_size/1024/1024);
+    } else {
+        NSLog(@"Error with task_info(): %s", mach_error_string(kerr));
+    }
+}
 + (BOOL) checkAttachmentTypeIsExcel:(NSString*)type
 {
     return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals excelArray]];
@@ -367,8 +383,12 @@ static NSArray* excelArray;
 + (NSURL*) wizServerUrl
 {
 //    return [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
-        return [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+//    NSString* url = [[WizSettings defaultSettings] wizServerUrl];
+//    NSLog(@"url %@",url);
+//    return [[[NSURL alloc] initWithString:url] autorelease];
+    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
 //    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
+//    return [[NSURL alloc] initWithString:@"http://110.75.189.20:8080/wiz/xmlrpc"];
 }
 +(NSString*) dateToLocalString: (NSDate*)date
 {

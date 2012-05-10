@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "WizApi.h"
-@class WizDocument;
-@class WizAttachment;
 @interface WizUploadObjet : WizApi
-{
-    BOOL        busy;
-}
-@property       (readonly)           BOOL        busy;
-- (BOOL) uploadDocument:(WizDocument*)document;
-- (BOOL) uploadAttachment:(WizAttachment*)attachment;
+- (BOOL) uploadWizObject:(WizObject*)wizobject;
 @end

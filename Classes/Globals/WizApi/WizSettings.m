@@ -9,6 +9,8 @@
 #import "WizSettings.h"
 #import "WizDbManager.h"
 
+#define WizServerUrlString  @"WizServerUrl"
+
 @implementation WizSettings
 @synthesize settingsDbDelegate;
 //single object
@@ -206,5 +208,9 @@ static WizSettings* defaultSettings = nil;
 - (NSString*) userPointsString
 {
     return [self.settingsDbDelegate userPointsString];
+}
+- (NSURL*) wizServerUrl
+{
+    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
 }
 @end

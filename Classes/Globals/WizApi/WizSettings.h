@@ -61,4 +61,6 @@
 - (BOOL) setUserPoints:(int64_t)ver;
 - (int64_t) userPoints;
 - (NSString*) userPointsString;
+//
+- (NSURL*) wizServerUrl;
 @end

@@ -53,7 +53,7 @@
         startLabel.textAlignment = UITextAlignmentLeft;
         self.label = startLabel;
         [self addSubview:startLabel];
-
+        [startLabel release];
     }
     return self;
 }

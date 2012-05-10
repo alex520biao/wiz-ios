@@ -14,7 +14,8 @@
 enum WizErrorCode {
     CodeOfTokenUnActiveError    = 301,
     NSParseErrorCode            = -101,
-    NSInvaildUrlErrorCode       = -1000
+    NSInvaildUrlErrorCode       = -1000,
+    NSOvertimeErrorCode         = -1001,
 };
 @interface WizGlobalError : NSObject
 + (NSError*) tokenUnActiveError;

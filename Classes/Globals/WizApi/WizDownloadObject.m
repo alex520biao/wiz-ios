@@ -23,35 +23,28 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 #define DownloadPartSize      256*1024
 @interface WizDownloadObject ()
 {
-    NSString* objType;
-    NSString* objGuid;
+    WizObject* object;
     NSFileHandle* fileHandle;
-    NSInteger attempts;
 }
-@property (nonatomic, retain) NSString* objType;
-@property (nonatomic, retain) NSString* objGuid;
+@property (nonatomic, retain) WizObject* object;
 @property (nonatomic, retain) NSFileHandle* fileHandle;
 @end
 
 @implementation WizDownloadObject
-@synthesize objGuid;
-@synthesize objType;
-@synthesize busy;
+@synthesize object;
 @synthesize fileHandle;
 -(void) dealloc {
     if (nil != fileHandle) {
         [fileHandle closeFile];
         [fileHandle release];
     }
-    [objType release];
-    [objGuid release];
+    [object release];
     [super dealloc];
 }
 - (id) init
 {
     self = [super init];
     if (self) {
-        attempts = WizNetWorkMaxAttempts;
     }
     return self;
 }
@@ -75,24 +68,19 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         }
     }
     else {
-        [super onError:retObject];
+        [WizGlobals reportError:retObject];
         attempts = WizNetWorkMaxAttempts;
     }
 }
-
 - (BOOL)downloadNext
 {
     int64_t currentPos = [self.fileHandle offsetInFile];
-    return [self callDownloadObject:self.objGuid startPos:currentPos objType:self.objType partSize:DownloadPartSize];
+    return [self callDownloadObject:self.object startPos:currentPos partSize:DownloadPartSize];
 }
 - (BOOL) start;
 {
-    if (self.busy) {
-        return NO;
-    }
     busy = YES;
-    NSLog(@"download guid is %@",self.objGuid);
-    NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.objGuid];
+    NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
         [[WizFileManager shareManager]  deleteFile:fileNamePath];
     if (![[NSFileManager defaultManager] createFileAtPath:fileNamePath contents:nil attributes:nil]) {
@@ -105,20 +93,20 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 - (void) downloadDone
 {
-    if ([self.objType isEqualToString:WizDocumentKeyString]) {
-        WizDocument* document = [WizDocument documentFromDb:self.objGuid];
+    if ([self.object isKindOfClass:[WizDocument class]]) {
+        WizDocument* document = (WizDocument*)self.object;
         document.serverChanged = NO;
         [document saveInfo];
     }
-    else if ([self.objType isEqualToString:WizAttachmentKeyString])
+    else if ([self.object isKindOfClass:[WizAttachment class]])
     {
-        [WizAttachment setAttachServerChanged:self.objGuid changed:NO];
+        [WizAttachment setAttachServerChanged:self.object.guid changed:NO];
     }
     //
     busy = NO;
     attempts = WizNetWorkMaxAttempts;
     NSLog(@"download done!***************************");
-    [WizNotificationCenter postMessageDownloadDone:self.objGuid];
+    [WizNotificationCenter postMessageDownloadDone:self.object.guid];
 }
 
 -(void) onDownloadObject:(id)retObject
@@ -145,27 +133,17 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
                 [self.fileHandle seekToFileOffset:0];
                 [self downloadNext];
             }
-            [[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.objGuid] objectGuid:self.objGuid];
+            [[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid] objectGuid:self.object.guid];
             [self downloadDone];
         }
     }
 }
-- (BOOL) downloadDocument:(NSString*)documentGUID
+- (BOOL) downloadWizObject:(WizObject*)wizObject
 {
     if (self.busy) {
         return NO;
     }
-    self.objGuid = documentGUID;
-    self.objType = WizDocumentKeyString;
-    return [self start];
-}
-- (BOOL) downloadAttachment:(NSString*) attachmentGUID
-{
-    if (self.busy) {
-        return NO;
-    }
-    self.objGuid = attachmentGUID;
-    self.objType = WizAttachmentKeyString;
+    self.object = wizObject;
     return [self start];
 }
 @end

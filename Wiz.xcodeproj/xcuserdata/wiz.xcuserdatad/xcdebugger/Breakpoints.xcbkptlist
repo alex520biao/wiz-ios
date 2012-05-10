@@ -34,37 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncManager.m"
-         timestampString = "358157682.731478"
+         timestampString = "358311240.312338"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "255"
-         endingLineNumber = "255"
-         landmarkName = "-refreshToken"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizUploadObjet.m"
-         timestampString = "358155891.096088"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "203"
-         endingLineNumber = "203"
-         landmarkName = "-onError:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizSyncManager.m"
-         timestampString = "358160059.923351"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "262"
-         endingLineNumber = "262"
+         startingLineNumber = "205"
+         endingLineNumber = "205"
          landmarkName = "-addSyncToken:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,51 +47,90 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncManager.m"
-         timestampString = "358157386.661192"
+         timestampString = "358311240.312338"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "217"
-         endingLineNumber = "217"
-         landmarkName = "-restartSync"
+         startingLineNumber = "212"
+         endingLineNumber = "212"
+         landmarkName = "-startUpload"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizDownloadObject.m"
-         timestampString = "358157474.148704"
+         filePath = "Classes/Globals/WizApi/WizSyncManager.m"
+         timestampString = "358311240.312338"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "85"
-         endingLineNumber = "85"
-         landmarkName = "-downloadNext"
+         startingLineNumber = "166"
+         endingLineNumber = "166"
+         landmarkName = "-didRefreshToken:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizDownloadObject.m"
-         timestampString = "358157988.688031"
+         filePath = "Classes/Globals/WizUiShare/Involution/WizTableViewController.m"
+         timestampString = "358309985.883209"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
-         landmarkName = "-start"
+         startingLineNumber = "487"
+         endingLineNumber = "487"
+         landmarkName = "-onDeleteDocument:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Iphone/DocumentList/PhRecentViewController.m"
+         timestampString = "358238777.905862"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "38"
+         endingLineNumber = "38"
+         landmarkName = "-insertDocument:indexPath:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizApi.m"
-         timestampString = "358159500.059116"
+         filePath = "Classes/Iphone/search/SearchViewControllerIphone.m"
+         timestampString = "358243706.747875"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "502"
-         endingLineNumber = "502"
-         landmarkName = "-onError:"
+         startingLineNumber = "185"
+         endingLineNumber = "185"
+         landmarkName = "-searchBarSearchButtonClicked:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/otherFrame/xml-rpc/XMLRPCRequest.m"
+         timestampString = "358244086.87215"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "139"
+         endingLineNumber = "139"
+         landmarkName = "-request"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizGlobals.mm"
+         timestampString = "358250716.248914"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
+         landmarkName = "+wizServerUrl"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
