@@ -18,4 +18,13 @@
     }
     [self addObject:object];
 }
+- (void) addWizObjectUnique:(WizObject*)objcet
+{
+    for (WizObject* each in self) {
+        if ([each.guid isEqualToString:objcet.guid]) {
+            return;
+        }
+    }
+    [self addObject:objcet];
+}
 @end

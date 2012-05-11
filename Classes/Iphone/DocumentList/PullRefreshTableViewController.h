@@ -46,7 +46,6 @@
     NSString *textPull;
     NSString *textRelease;
     NSString *textLoading;
-    
     UIBarButtonItem* startRefrshItem;
     UIBarButtonItem* refreshingItem;
 }

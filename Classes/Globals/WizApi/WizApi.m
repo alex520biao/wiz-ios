@@ -70,6 +70,7 @@
 
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	if (succeeded && ![ret isKindOfClass:[NSError class]])
 	{
 		if ([method isEqualToString:SyncMethod_ClientLogin])
@@ -182,6 +183,7 @@
 	//
 	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
 	//
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[request release];
 	//
     if(nil != self.connectionXmlrpc)

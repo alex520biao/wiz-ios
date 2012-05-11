@@ -7,7 +7,6 @@
 //
 
 #import "WizDownloadObject.h"
-
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizGlobalDictionaryKey.h"

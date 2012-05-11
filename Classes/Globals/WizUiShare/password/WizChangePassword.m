@@ -9,8 +9,6 @@
 #import "WizChangePassword.h"
 #import "WizChangePasswordController.h"
 @implementation WizChangePassword
-
-@synthesize busy;
 -(void) onError: (id)retObject
 {
 	busy = NO;

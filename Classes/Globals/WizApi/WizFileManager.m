@@ -235,38 +235,43 @@ static WizFileManager* shareManager = nil;
 {
     return [self objectFilePath:ATTACHMENTTEMPFLITER];
 }
-- (NSString*)getAttachmentSourceFileName
+- (NSString*) getAttachmentSourceFileName
 {
-    NSString* ret = @"";
-    NSString* dateString = [[NSDate date] stringSql];
-    NSString* objectPath = [self attachmentTempDirectory];
-    for (int i = 0;;i++) {
-        NSString* dateAppend = [NSString stringWithString:dateString];
-        if (i != 0) {
-            dateAppend = [dateString stringByAppendingFormat:@"%d",i];
-        }
-        ret = [objectPath stringByAppendingPathComponent:dateAppend];
-        
-        NSArray* fileExist = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
-        BOOL fileNotExist = YES;
-        for (NSString* each in fileExist) {
-            NSArray* nameArray = [each componentsSeparatedByString:@"."];
-            for (NSString* ea in nameArray) {
-                if ([ea isEqualToString:dateAppend]) {
-                    fileNotExist = NO;
-                }
-            }
-        }
-        if (fileNotExist) {
-            break;
-        }
-        else {
-            continue;
-        }
-    }
-    ret = [ret stringByReplacingOccurrencesOfString:@":" withString:@"-"];
-    return ret;
+     NSString* objectPath = [self attachmentTempDirectory];
+    return [objectPath stringByAppendingPathComponent:[WizGlobals genGUID]];
 }
+//- (NSString*)getAttachmentSourceFileName
+//{
+//    NSString* ret = @"";
+//    NSString* dateString = [[NSDate date] stringSql];
+//    NSString* objectPath = [self attachmentTempDirectory];
+//    for (int i = 0;;i++) {
+//        NSString* dateAppend = [NSString stringWithString:dateString];
+//        if (i != 0) {
+//            dateAppend = [dateString stringByAppendingFormat:@"%d",i];
+//        }
+//        ret = [objectPath stringByAppendingPathComponent:dateAppend];
+//        
+//        NSArray* fileExist = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:objectPath error:nil];
+//        BOOL fileNotExist = YES;
+//        for (NSString* each in fileExist) {
+//            NSArray* nameArray = [each componentsSeparatedByString:@"."];
+//            for (NSString* ea in nameArray) {
+//                if ([ea isEqualToString:dateAppend]) {
+//                    fileNotExist = NO;
+//                }
+//            }
+//        }
+//        if (fileNotExist) {
+//            break;
+//        }
+//        else {
+//            continue;
+//        }
+//    }
+//    ret = [ret stringByReplacingOccurrencesOfString:@":" withString:@"-"];
+//    return ret;
+//}
 
 - (NSString*) searchHistoryFilePath
 {

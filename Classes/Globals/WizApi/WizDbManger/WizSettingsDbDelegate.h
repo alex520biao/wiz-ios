@@ -54,4 +54,7 @@
 - (BOOL) setUserPoints:(int64_t)ver;
 - (int64_t) userPoints;
 - (NSString*) userPointsString;
+//
+- (BOOL) setAutomicSync:(BOOL)automicSync;
+- (BOOL) isAutomicSync;
 @end

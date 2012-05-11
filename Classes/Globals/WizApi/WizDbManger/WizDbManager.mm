@@ -40,7 +40,7 @@
 #define UserTablelistViewOption        @"UserTablelistViewOption"
 #define WizNoteAppVerSion              @"wizNoteAppVerSion"
 #define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
-
+#define AutomicSync                     @"AutomicSync"
 
 @interface WizDeletedGUID : NSObject
 {
@@ -576,8 +576,22 @@ static WizDbManager* shareDbManager = nil;
     return [self userInfo:UserPoints];
 }
 //
-
-
+- (BOOL) setAutomicSync:(BOOL)automicSync
+{
+    NSString* automic = [NSString stringWithFormat:@"%d",automicSync];
+    return [self setUserInfo:AutomicSync info:automic];
+}
+- (BOOL) isAutomicSync
+{
+    NSString* automic = [self userInfo:AutomicSync];
+    if (nil == automic || [automic isBlock]) {
+        [self setAutomicSync:YES];
+        return YES;
+    }
+    else {
+        return [automic boolValue];
+    }
+}
 
 
 

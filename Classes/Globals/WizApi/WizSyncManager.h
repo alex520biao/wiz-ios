@@ -26,4 +26,6 @@
 //
 - (void) resignActive;
 + (id) shareManager;
+//
+- (void) automicSyncData;
 @end

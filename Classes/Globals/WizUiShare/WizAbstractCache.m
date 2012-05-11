@@ -69,12 +69,12 @@
 //over
 - (void) genAbstract
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     static WizDbManager* dbManager = nil;
     if (nil == dbManager) {
         dbManager = [[WizDbManager alloc] init];
     }
     while (true) {
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         if (self.isChangedUser) {
             if ([dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]]) {
                 self.isChangedUser = NO;
@@ -91,8 +91,8 @@
             [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
             [self.needGenAbstractDocuments removeLastObject];
         }
+        [pool release];
     }
-    [pool release];
 }
 //
 - (void) didChangedAccountUser

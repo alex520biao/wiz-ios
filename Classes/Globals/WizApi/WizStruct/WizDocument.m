@@ -255,7 +255,13 @@ BOOL isReverseMask(NSInteger mask)
         self.dataMd5 = @"";
     }
     [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
-    return [[WizDbManager shareDbManager] updateDocument:doc];
+    if ([[WizDbManager shareDbManager] updateDocument:doc]) {
+        [WizNotificationCenter postUpdateDocument:self.guid];
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 - (void) upload
@@ -263,13 +269,19 @@ BOOL isReverseMask(NSInteger mask)
     if (!self.localChanged) {
         return;
     }
-    [[WizSyncManager shareManager] uploadDocument:self.guid];
+    [[WizSyncManager shareManager] uploadWizObject:self];
+    NSArray* attachments = [self attachments];
+    for (WizAttachment* attch in attachments) {
+        if (attch.localChanged) {
+            [[WizSyncManager shareManager] uploadWizObject:attch];
+        }
+    }
 }
 - (void) download
 {
     if (!self.serverChanged) {
         return;
     }
-    [[WizSyncManager shareManager] downloadDocument:self.guid];
+    [[WizSyncManager shareManager] downloadWizObject:self];
 }
 @end

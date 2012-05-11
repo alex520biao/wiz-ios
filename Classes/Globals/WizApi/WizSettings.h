@@ -63,4 +63,7 @@
 - (NSString*) userPointsString;
 //
 - (NSURL*) wizServerUrl;
+//
+- (BOOL) isAutomicSync;
+- (BOOL) setAutomicSync:(BOOL)automic;
 @end

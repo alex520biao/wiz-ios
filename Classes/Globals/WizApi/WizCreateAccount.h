@@ -18,13 +18,11 @@
 @end
 
 @interface WizCreateAccount : WizApi {
-	BOOL busy;
     NSString* accountUserId;
     NSString* accountPassword;
     id<WizCreateAccountDelegate> createAccountDelegate;
 }
 
-@property (readonly) BOOL busy;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSString* accountPassword;
 @property (nonatomic, retain) id<WizCreateAccountDelegate> createAccountDelegate;

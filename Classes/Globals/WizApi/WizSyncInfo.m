@@ -81,7 +81,7 @@
     else {
         NSArray* ups = [WizDocument documentForUpload];
         for (WizDocument* each in ups) {
-            [[WizSyncManager shareManager] uploadDocument:each.guid];
+            [[WizSyncManager shareManager] uploadWizObject:each];
         }
     }
     busy = NO;

@@ -1,5 +1,5 @@
 //
-//  Wizself.m
+//  WizSyncData.m
 //  Wiz
 //
 //  Created by 朝 董 on 12-5-10.
@@ -9,52 +9,52 @@
 #import "WizSyncData.h"
 #import "WizSettings.h"
 #import "WizDbManager.h"
-#define selfOfUploader      @"selfOfUploader"
-#define selfOfDownloader    @"selfOfDownloader"
-#define selfOfRefreshToken  @"selfOfRefreshToken"
-#define selfOfSyncInfo      @"selfOfSyncInfo"
+#define SyncDataOfUploader      @"SyncDataOfUploader"
+#define SyncDataOfDownloader    @"SyncDataOfDownloader"
+#define SyncDataOfRefreshToken  @"SyncDataOfRefreshToken"
+#define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
 
 @implementation NSMutableDictionary (Wizself)
 
 - (WizUploadObjet*) shareUploader
 {
-    id data = [self valueForKey:selfOfUploader];
+    id data = [self valueForKey:SyncDataOfUploader];
     if (nil == data || ![data isKindOfClass:[WizUploadObjet class]]) {
         data = [[WizUploadObjet alloc] init];
-        [self setObject:data forKey:selfOfUploader];
+        [self setObject:data forKey:SyncDataOfUploader];
         [data release];
     }
     return data;
 }
 - (WizDownloadObject*) shareDownloader
 {
-    id data = [self valueForKey:selfOfDownloader];
+    id data = [self valueForKey:SyncDataOfDownloader];
     if (nil == data || ![data isKindOfClass:[WizDownloadObject class]]) {
         data = [[WizDownloadObject alloc] init];
-        [self setObject:data forKey:selfOfDownloader];
+        [self setObject:data forKey:SyncDataOfDownloader];
         [data release];
     }
     return data;
 }
 - (WizRefreshToken*) shareRefreshTokener
 {
-    WizRefreshToken* data = [self valueForKey:selfOfRefreshToken];
+    WizRefreshToken* data = [self valueForKey:SyncDataOfRefreshToken];
     NSLog(@"refresh data %@",data);
     if (nil == nil || ![data isKindOfClass:[WizRefreshToken class]]) {
         data = [[WizRefreshToken alloc] init];
         [data setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];
-        [self setObject:data forKey:selfOfRefreshToken];
+        [self setObject:data forKey:SyncDataOfRefreshToken];
         [data release];
     }
     return data;
 }
 - (WizSyncInfo*) shareSyncInfo
 {
-    WizSyncInfo* data = [self valueForKey:selfOfSyncInfo];
+    WizSyncInfo* data = [self valueForKey:SyncDataOfSyncInfo];
     NSLog(@"SyncInfo data %@",data);
     if (nil == nil || ![data isKindOfClass:[WizSyncInfo class]]) {
         data = [[WizSyncInfo alloc] init];
-        [self setObject:data forKey:selfOfSyncInfo];
+        [self setObject:data forKey:SyncDataOfSyncInfo];
         [data setDbDelegate:[WizDbManager shareDbManager]];
         [data release];
     }
@@ -62,18 +62,18 @@
 }
 - (void) removeShareUploder
 {
-    [self removeObjectForKey:selfOfUploader];
+    [self removeObjectForKey:SyncDataOfUploader];
 }
 - (void) removeShareDownload
 {
-    [self removeObjectForKey:selfOfDownloader];
+    [self removeObjectForKey:SyncDataOfDownloader];
 }
 - (void) removeShareRefreshTokener
 {
-    [self removeObjectForKey:selfOfRefreshToken];
+    [self removeObjectForKey:SyncDataOfRefreshToken];
 }
 - (void) removeShareSyncInfo
 {
-    [self removeObjectForKey:selfOfSyncInfo];
+    [self removeObjectForKey:SyncDataOfSyncInfo];
 }
 @end

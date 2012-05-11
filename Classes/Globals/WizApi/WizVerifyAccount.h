@@ -15,7 +15,6 @@
 @end
 
 @interface WizVerifyAccount : WizApi {
-	BOOL busy;
     NSString* accountUserId;
     NSString* accountPassword;
     id<WizVerifyAccountDeletage> verifyDelegate;

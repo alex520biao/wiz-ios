@@ -11,6 +11,7 @@
 #import "WizNotification.h"
 #import "WizDbManager.h"
 #import "WizSyncData.h"
+#import "WizSettings.h"
 //
 #define ServerUrlFile           @"config.dat"
 //
@@ -63,9 +64,8 @@
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* kbGuid;
 - (void) refreshToken;
-- (void) downloadNext:(NSNotification*)nc;
-- (BOOL) uploadNext:(NSNotification*)nc;
 - (void) startDownload;
+- (BOOL) startUpload;
 @end
 @implementation WizSyncManager
 @synthesize serverUrl;
@@ -124,7 +124,13 @@ static WizSyncManager* shareManager;
 {
     self.serverUrl = [WizGlobals wizServerUrl];
 }
-
+- (void) automicSyncData
+{
+    NSLog(@"************start automic sync****************");
+    if ([[WizSettings defaultSettings] isAutomicSync]) {
+        [self startSyncInfo];
+    }
+}
 - (id) init
 {
     self = [super init];
@@ -134,11 +140,9 @@ static WizSyncManager* shareManager;
         uploadQueque = [[NSMutableArray alloc] init];
         downloadQueque = [[NSMutableArray alloc] init];
         errorQueque = [[NSMutableArray alloc] init];
-        restartTimer = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(restartSync) userInfo:nil repeats:YES];
-        [restartTimer retain];
         [WizNotificationCenter addObserverForTokenUnactiveError:self selector:@selector(refreshToken)];
-        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(uploadNext:)];
-        [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadNext:)];
+        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(startUpload)];
+        [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(startDownload)];
         isRefreshToken = NO;
         [self loadServerUrl];
         self.syncDescription = @"ddddd";
@@ -214,8 +218,8 @@ static WizSyncManager* shareManager;
     }
     [self addSyncToken:uploader];
     WizObject* obj = [uploadQueque objectAtIndex:0];
-    [uploadQueque removeObjectAtIndex:0];
     [uploader uploadWizObject:obj];
+    [uploadQueque removeObjectAtIndex:0];
     return YES;
 }
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject
@@ -224,7 +228,7 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) uploadWizObject:(WizObject*)object
 {
-    [uploadQueque addObject:object];
+    [uploadQueque addWizObjectUnique:object];
     return [self startUpload];
 }
 - (void) startDownload
@@ -248,7 +252,7 @@ static WizSyncManager* shareManager;
 }
 - (void) downloadWizObject:(WizObject*)object
 {
-    [downloadQueque addObject:object];
+    [downloadQueque addWizObjectUnique:object];
     [self startDownload];
 }
 //

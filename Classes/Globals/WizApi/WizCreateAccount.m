@@ -10,7 +10,6 @@
 
 
 @implementation WizCreateAccount
-@synthesize busy;
 @synthesize accountPassword;
 @synthesize accountUserId;
 @synthesize createAccountDelegate;

@@ -95,7 +95,7 @@
 }
 - (void) setupAccount
 {
-    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithNibName:@"UserSttingsViewController" bundle:nil ];
+    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped ];
     editAccountView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:editAccountView animated:YES];
     [editAccountView release];

@@ -139,9 +139,10 @@
         return NO;
     }
     if (![dbManager openTempDb:[fileManager tempDbPath]]) {
-        NSLog(@"temp db cant open");
         return NO;
     }
+    NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
+    [timer fire];
     return YES;
 }
 - (NSString*) activeAccountUserId

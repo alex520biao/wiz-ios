@@ -213,4 +213,13 @@ static WizSettings* defaultSettings = nil;
 {
     return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
 }
+//
+- (BOOL) setAutomicSync:(BOOL)automic
+{
+    return [self.settingsDbDelegate setAutomicSync:automic];
+}
+- (BOOL) isAutomicSync
+{
+    return [self.settingsDbDelegate isAutomicSync];
+}
 @end

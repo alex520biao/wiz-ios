@@ -8,7 +8,6 @@
 
 #import "WizVerifyAccount.h"
 @implementation WizVerifyAccount
-@synthesize busy;
 @synthesize accountPassword;
 @synthesize accountUserId;
 @synthesize verifyDelegate;

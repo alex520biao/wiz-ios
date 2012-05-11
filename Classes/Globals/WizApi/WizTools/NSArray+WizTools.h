@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class WizObject;
 @interface NSMutableArray (WizTools)
 - (void) addObjectUnique:(id)object;
+- (void) addWizObjectUnique:(WizObject*)objcet;
 @end
