@@ -279,9 +279,6 @@ BOOL isReverseMask(NSInteger mask)
 }
 - (void) download
 {
-    if (!self.serverChanged) {
-        return;
-    }
     [[WizSyncManager shareManager] downloadWizObject:self];
 }
 @end

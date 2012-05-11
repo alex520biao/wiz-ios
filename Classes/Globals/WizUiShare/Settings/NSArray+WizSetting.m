@@ -75,7 +75,11 @@
     }
     return 0;
 }
-
+- (NSString*) descriptionForWizSettingValue:(NSInteger)value
+{
+    NSInteger index = [self indexForWizSettingValue:value];
+    return [self wizSettingDescriptionAtIndex:index];
+}
 + (NSArray*) tableViewOptions
 {
     return [NSArray arrayWithObjects:

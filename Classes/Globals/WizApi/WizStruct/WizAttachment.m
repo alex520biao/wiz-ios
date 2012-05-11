@@ -85,7 +85,7 @@
     if (!self.localChanged) {
         return;
     }
-    [[WizSyncManager shareManager] uploadAttachment:self.guid];
+    [[WizSyncManager shareManager] uploadWizObject:self];
 }
 
 - (void) download
@@ -93,7 +93,7 @@
     if (!self.serverChanged) {
         return;
     }
-    [[WizSyncManager shareManager] downloadAttachment:self.guid];
+    [[WizSyncManager shareManager] downloadWizObject:self];
 }
 
 @end

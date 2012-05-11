@@ -13,6 +13,7 @@
 #import "NSDate+WizTools.h"
 #import "UIImage+WizTools.h"
 #import "UIWebView+WizTools.h"
+#import "NSIndexPath+WizTools.h"
 #define _DEBUG
 #ifdef _DEBUG
 #else

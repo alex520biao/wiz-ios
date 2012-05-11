@@ -318,6 +318,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if ([[WizSettings defaultSettings] userTablelistViewOption] != self.kOrderIndex) {
+        [self reloadAllData];
+    }
     [[WizSyncManager shareManager] setDisplayDelegate:self];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -517,7 +520,13 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     self = [super initWithStyle:style];
     if (self) {
-        
+        self.tableSourceArray = [NSMutableArray array];
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [WizNotificationCenter addObserverForUpdateDocumentList:self selector:@selector(reloadAllData)];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.kOrderIndex = -1;
+        [self showSyncButton];
     }
     return self;
 }
@@ -525,14 +534,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 {
     self = [super init];
     if (self) {
-        self.tableSourceArray = [NSMutableArray array];
-        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
-        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
-        [WizNotificationCenter addObserverForUpdateDocumentList:self selector:@selector(reloadAllData)];
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.kOrderIndex = kOrderReverseDate;
-        [self showSyncButton];
-        [self reloadAllData];
     }
     return self;
 }

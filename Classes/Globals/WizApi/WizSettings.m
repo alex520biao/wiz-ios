@@ -10,7 +10,9 @@
 #import "WizDbManager.h"
 
 #define WizServerUrlString  @"WizServerUrl"
-
+#define WizPasscode         @"WizPasscode"
+#define WizPasscodeEnable   @"WizPasscodeEnable"
+#define WizEraseDataEnable  @"WizEraseDataEnable"
 @implementation WizSettings
 @synthesize settingsDbDelegate;
 //single object
@@ -221,5 +223,37 @@ static WizSettings* defaultSettings = nil;
 - (BOOL) isAutomicSync
 {
     return [self.settingsDbDelegate isAutomicSync];
+}
+//
+- (void) setPasscode:(NSString*)passcode
+{
+    [[NSUserDefaults standardUserDefaults] setObject:passcode forKey:WizPasscode];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString*) passCode
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:WizPasscode];
+}
+
+- (void) setPasscodeEnable:(BOOL) enable
+{
+    [[NSUserDefaults standardUserDefaults] setBool:enable forKey:WizPasscodeEnable];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL) isPasscodeEnable
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:WizPasscodeEnable];
+}
+
+- (void) setEraseDataEnable:(BOOL)enable
+{
+    [[NSUserDefaults standardUserDefaults] setBool:enable forKey:WizEraseDataEnable];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (BOOL) isEraseDataEnable
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:WizEraseDataEnable];
 }
 @end

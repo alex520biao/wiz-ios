@@ -9,11 +9,11 @@
 #import "WizSwitchCell.h"
 
 @implementation WizSwitchCell
-@synthesize settingView;
+@synthesize valueSwitch;
 
 - (void) dealloc
 {
-    [settingView release];
+    [valueSwitch release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -21,11 +21,10 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        WizSettingSwitchView* set = [[WizSettingSwitchView alloc] init];
-        set.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-        [self.contentView addSubview:set];
-        self.settingView = set;
-        [set release];
+        UISwitch* sw = [[UISwitch alloc] initWithFrame:CGRectZero];
+        self.accessoryView = sw;
+        self.valueSwitch = sw;
+        [sw release];
     }
     return self;
 }

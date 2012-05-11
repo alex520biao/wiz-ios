@@ -21,12 +21,10 @@
 }
 - (id) initWithFolder:(NSString *)folder_
 {
-    NSLog(@"folder view init ");
     self = [super init];
     if (self) {
         self.folder = folder_;
     }
-    NSLog(@"folder view after super init ");
     return self;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -38,9 +36,7 @@
 }
 - (NSArray*) reloadAllDocument
 {
-    NSLog(@"location key is %@",self.folder);
     NSArray* ret = [WizDocument documentsByLocation:self.folder];
-    NSLog(@"ret is %d",[ret count]);
     if (nil == ret) {
         ret = [NSArray array];
     }
@@ -49,7 +45,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"folder viewdidload");
 }
 
 - (void)viewDidUnload

@@ -66,4 +66,11 @@
 //
 - (BOOL) isAutomicSync;
 - (BOOL) setAutomicSync:(BOOL)automic;
+//
+- (void) setPasscode:(NSString*)passcode;
+- (NSString*) passCode;
+- (void) setPasscodeEnable:(BOOL) enable;
+- (BOOL) isPasscodeEnable;
+- (void) setEraseDataEnable:(BOOL)enable;
+- (BOOL) isEraseDataEnable;
 @end

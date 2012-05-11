@@ -15,4 +15,5 @@
 - (NSString*) wizSettingDescriptionAtIndex:(NSUInteger)index;
 - (NSInteger) indexForWizSettingValue:(NSInteger)value;
 + (NSArray*) tableViewOptions;
+- (NSString*) descriptionForWizSettingValue:(NSInteger)value;
 @end

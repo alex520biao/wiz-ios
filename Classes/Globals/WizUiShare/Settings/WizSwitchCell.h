@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WizSettingSwitchView.h"
 
 @interface WizSwitchCell : UITableViewCell
 {
-    WizSettingSwitchView* settingView;
+    UISwitch* valueSwitch;
 }
-@property (nonatomic, retain) WizSettingSwitchView* settingView;
+@property (nonatomic, retain) UISwitch* valueSwitch;
 + (WizSwitchCell*) switchCell;
 @end

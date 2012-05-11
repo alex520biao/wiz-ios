@@ -82,4 +82,6 @@
 #define WizStrNoTitle                                    NSLocalizedString(@"No Title", nil)
 #define WizStrLoading                                   NSLocalizedString(@"Loading...",nil)
 
+#define WizStrAutomicSync                               NSLocalizedString(@"Automic Sync",nil)
+
 NSString* getTagDisplayName(NSString* tagName);

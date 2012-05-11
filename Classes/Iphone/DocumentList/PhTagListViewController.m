@@ -53,8 +53,11 @@
 
 - (NSArray*) reloadAllDocument
 {
-    NSLog(@"tag documents is %d",[[WizDocument documentsByTag:self.tagGuid] count]);
-    return [WizDocument documentsByTag:self.tagGuid];
+    NSArray* ret = [WizDocument documentsByTag:self.tagGuid];
+    if (nil == ret) {
+        ret = [NSArray array];
+    }
+    return ret;
 }
 
 - (void) viewWillAppear:(BOOL)animated
