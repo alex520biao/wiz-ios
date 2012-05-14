@@ -170,7 +170,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         self.imageView.image = abstractData.image;
     }
     else {
-        self.imageView.image = [DocumentListViewCell documentNoDataImage];
+        self.imageView.image = [[DocumentListViewCell documentNoDataImage] retain];
     }
 }
 //- (void) drawRect:(CGRect)rect

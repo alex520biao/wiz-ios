@@ -23,6 +23,8 @@
 #import "WizAccountManager.h"
 #import "WizSyncManager.h"
 #import "WizFileManager.h"
+#import "WizPasscodeViewController.h"
+#import "WizSettings.h"
 
 
 //#import "WizTestFlight.h"
@@ -104,31 +106,15 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
 
 }
-
-
-
-
-- (void) checkProtectPassword:(NSNotification*)nc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfProtectPasswordInputEnd object:nil];
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* password = [userInfo valueForKey:TypeOfProtectPassword];
-    NSString* protectPw = [[WizAccountManager defaultManager] accountProtectPassword];
-    if (![password isEqualToString:protectPw] ) {
-        [self accountProtect];
-    }
-}
 - (void) accountProtect
 {
-    WizCheckProtectPassword* check = [[WizCheckProtectPassword alloc] init];
-    check.willMakeSure = NO;
+    WizPasscodeViewController* check = [[WizPasscodeViewController alloc] init];
+    check.checkType = WizcheckPasscodeTypeOfCheck;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
-    nav.view.frame = CGRectMake(0.0, 0.0, 320, 480);
     nav.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.window.rootViewController presentModalViewController:nav animated:NO];
     [check release];
     [nav release];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkProtectPassword:) name:MessageOfProtectPasswordInputEnd object:nil];
 }
 - (void)applicationWillEnterForeground:(UIApplication *)application 
 {
@@ -139,8 +125,7 @@
     [[WizAbstractCache shareCache] didReceivedMenoryWarning];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    NSString* protectPw = [[WizAccountManager defaultManager] accountProtectPassword];
-    if (protectPw != nil && ![protectPw isEqualToString:@""]) {
+    if ([[WizSettings defaultSettings] isPasscodeEnable]) {
         [self accountProtect];
     }
 }

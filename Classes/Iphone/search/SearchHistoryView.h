@@ -7,12 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+
+@protocol WizSearchHistoryDelegate <NSObject>
+
+- (void) didSelectedSearchHistory:(NSString*)keyWords;
+
+@end
+
 @interface SearchHistoryView : UITableViewController
 {
     NSMutableArray* history;
-    id          owner;
+    id <WizSearchHistoryDelegate> historyDelegate;
 }
 @property (nonatomic, retain) NSMutableArray* history;
-@property (nonatomic, retain) id            owner;
+@property (nonatomic, assign) id <WizSearchHistoryDelegate> historyDelegate;
 - (void) reloadData;
 @end

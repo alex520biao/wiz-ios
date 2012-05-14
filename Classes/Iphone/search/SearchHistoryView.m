@@ -18,11 +18,11 @@
 
 @implementation SearchHistoryView
 @synthesize history;
-@synthesize owner;
+@synthesize historyDelegate;
 - (void) dealloc
 {
     [history release];
-    [owner release];
+    historyDelegate = nil;
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -146,22 +146,7 @@
     NSString* keywords = [[self.history objectAtIndex:indexPath.row] objectForKey:@"key_words"];
 	if (keywords == nil || [keywords length] == 0)
 		return;
-	NSArray* arr = [WizDocument documentsByKey:keywords];
-	
-	if (arr == nil || [arr count] == 0)
-	{
-		NSString* formatter = NSLocalizedString(@"Cannot find %@", nil);
-		NSString* msg = [NSString stringWithFormat:formatter, keywords];
-		
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSearch message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-		[alert show];
-		[alert release];
-		return;
-	}
-    PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:arr];
-    SearchViewControllerIphone* parent = (SearchViewControllerIphone*)self.owner;
-    [parent.navigationController pushViewController:searchResultView animated:YES];
-    [searchResultView release];
+    [self.historyDelegate didSelectedSearchHistory:keywords];
 }
 
 @end

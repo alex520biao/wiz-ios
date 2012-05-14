@@ -59,9 +59,9 @@
 {
     self = [super init];
     if (self) {
-        if ([WizGlobals WizDeviceVersion] < 5.0) {
-            self.navigationController.delegate = self;
-        }
+//        if ([WizGlobals WizDeviceVersion] < 5.0) {
+//            self.navigationController.delegate = self;
+//        }
         [WizNotificationCenter addObserverForIphoneSetupAccount:self selector:@selector(setupAccount)];
     }
     return self;

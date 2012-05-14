@@ -91,7 +91,7 @@
             [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
             [self.needGenAbstractDocuments removeLastObject];
         }
-        [pool release];
+        [pool drain];
     }
 }
 //
@@ -136,7 +136,7 @@
 - (void) pushNeedGenAbstractDoument:(NSString*)documentGuid
 
 {
-    [self.cacheConditon lock];
+//    [self.cacheConditon lock];
     [self.needGenAbstractDocuments addObject:documentGuid];
     [self.cacheConditon unlockWithCondition:HAS_DATA];
 }

@@ -118,29 +118,36 @@
         [self checkAgain];
         return;
     }
-    if ( WizCheckPasscodeTypeOfNew ==self.checkType ) {
-        NSLog(@"code is %@",code);
-        [set setPasscode:code];
-        [set setPasscodeEnable:YES];
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else 
-    {
-        NSString* oldPasscode = [[WizSettings defaultSettings] passCode];
-        NSLog(@"old is %@",oldPasscode);
-        if ([code isEqualToString:oldPasscode]) {
-            if (WizCheckPasscodeTypeOfClear == self.checkType) {
+    
+    switch (self.checkType) {
+        case WizCheckPasscodeTypeOfNew:
+            [set setPasscode:code];
+            [set setPasscodeEnable:YES];
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+            
+        case WizCheckPasscodeTypeOfClear:
+            if ([code isEqualToString:[set passCode]]) {
                 [set setPasscode:@""];
                 [set setPasscodeEnable:NO];
                 [self.navigationController popViewControllerAnimated:YES];
             }
             else {
-                [self.navigationController popViewControllerAnimated:YES];
+                [self checkAgain];
             }
-        }
-        else {
-            [self checkAgain];
-        }
+            break;
+        case WizcheckPasscodeTypeOfCheck:
+            if ([code isEqualToString:[set passCode]]) {
+                [self.navigationController dismissModalViewControllerAnimated:YES];
+            }
+            else {
+                [self checkAgain];
+            }
+            break;
+            
+        default:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
     }
 }
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

@@ -16,6 +16,24 @@
 #import "WizFileManager.h"
 #import "PhSearchResultViewController.h"
 #import "WizSyncSearch.h"
+@interface SearchViewControllerIphone()
+{
+    UISearchBar* searchBar;
+    UISwitch*    localSearchSwitch;
+    UILabel*    localSearchSwitchString;
+    UIImageView*     localsearchView;
+    UIAlertView* waitAlertView;
+    NSString* currentKeyWords;
+    SearchHistoryView* historyView;
+}
+@property (nonatomic, retain) UISearchBar* searchBar;
+@property (nonatomic, retain) UISwitch*    localSearchSwitch;
+@property (nonatomic, retain) UILabel*    localSearchSwitchString;
+@property (nonatomic, retain) UIImageView*      localsearchView;
+@property (nonatomic, retain) UIAlertView* waitAlertView;
+@property (nonatomic, retain) NSString* currentKeyWords;
+@property (nonatomic, retain) SearchHistoryView* historyView;
+@end
 @implementation SearchViewControllerIphone
 @synthesize searchBar;
 @synthesize localSearchSwitch;
@@ -27,6 +45,7 @@
 -(void) dealloc
 {
     [searchBar release];
+    searchBar = nil;
     [localSearchSwitch release];
     [localSearchSwitchString release];
     [localsearchView release];
@@ -41,7 +60,35 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        if (nil == self.searchBar) {
+            self.searchBar = [[[UISearchBar alloc] init] autorelease];
+            self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        }
+        if (nil == self.localsearchView) {
+            self.localsearchView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 50, 320, 40)] autorelease];
+            self.localsearchView.image = [UIImage imageNamed:@"searchBackgroud"];
+            self.localsearchView.userInteractionEnabled = YES;
+        }
+        if (nil == self.localSearchSwitch) {
+            self.localSearchSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(220, 5, 60, 40)] autorelease];
+            [self.localsearchView addSubview:self.localSearchSwitch];
+        }
+        
+        if (nil == self.localSearchSwitchString) {
+            self.localSearchSwitchString = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, 160, 40)] autorelease];
+            self.localSearchSwitchString.backgroundColor = [UIColor clearColor];
+            [self.localsearchView addSubview:self.localSearchSwitchString];
+        }
+        if (nil == self.historyView) {
+            self.historyView = [[[SearchHistoryView alloc] init] autorelease];
+            self.historyView.view.frame = CGRectMake(0.0, 0.0, 320, 327);
+            self.historyView.historyDelegate = self;
+            
+        }
+        self.title = WizStrSearch;
+        self.searchBar.delegate = self;
+        self.localSearchSwitchString.text = NSLocalizedString(@"Search local notes only" , nil);
+        self.localSearchSwitchString.adjustsFontSizeToFitWidth = YES;
     }
     return self;
 }
@@ -80,12 +127,8 @@
     [dic writeToFile:fileNamePath atomically:NO];
     [history writeToFile:fileNamePath atomically:YES];
 }
-- (void) showSearchResult
+- (void) didSearchKeywords:(NSString*)keywords
 {
-    
-    self.historyView.tableView.tableHeaderView = nil;
-    [self.searchBar setShowsCancelButton:NO animated:YES];
-    NSString* keywords = self.currentKeyWords;
 	if (keywords == nil || [keywords length] == 0)
 		return;
 	//
@@ -106,61 +149,19 @@
     PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:arr];
     [self.navigationController pushViewController:searchResultView animated:YES];
     [searchResultView release];
+
 }
-
-
-- (void) xmlrpcDone: (NSNotification*)nc
+- (void) didSelectedSearchHistory:(NSString *)keyWords
 {
-//	NSDictionary* userInfo = [nc userInfo];
-//	//
-//	BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-//	//
-//	if (!succeeded)
-//	{
-//		if (self.waitAlertView)
-//		{
-//			[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-//			self.waitAlertView = nil;
-//		}
-//		//
-//	}
-//	
-//	NSString* method = [userInfo valueForKey:@"method"];
-//	if (method != nil && [method isEqualToString:SyncMethod_DocumentsByKey])
-//	{
-//		if (succeeded)
-//		{
-//			if (self.waitAlertView)
-//			{
-//				[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-//				self.waitAlertView = nil;
-//			}
-//			//
-//			[self showSearchResult];
-//		}
-//		else 
-//		{
-//			NSError* error = [userInfo valueForKey:@"ret"];
-//			//
-//			NSString* msg = nil;
-//			if (error != nil)
-//			{
-//				msg = [NSString stringWithFormat:NSLocalizedString(@"Cannot sign in!\n%@", nil), [error localizedDescription]];
-//			}
-//			else 
-//			{
-//				msg = NSLocalizedString(@"Cannot sign in!\nUnknown error!", nil);
-//			}
-//			
-//			UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrError message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-//			
-//			[alert show];
-//			[alert release];
-//		}
-//	}
+    [self.searchBar resignFirstResponder];
+    [self didSearchKeywords:keyWords];
 }
-
-
+- (void) showSearchResult
+{
+    self.historyView.tableView.tableHeaderView = nil;
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self didSearchKeywords:self.currentKeyWords];
+}
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -207,38 +208,7 @@
 }
 - (void)viewDidLoad
 {
-    if (nil == self.searchBar) {
-        self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 50)] autorelease];
-        [self.view addSubview:self.searchBar];
-    }
-    if (nil == self.localsearchView) {
-        self.localsearchView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 50, 320, 40)] autorelease];
-        self.localsearchView.image = [UIImage imageNamed:@"searchBackgroud"];
-        self.localsearchView.userInteractionEnabled = YES;
-    }
-    if (nil == self.localSearchSwitch) {
-        self.localSearchSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(220, 5, 60, 40)] autorelease];
-        [self.localsearchView addSubview:self.localSearchSwitch];
-    }
-    
-    if (nil == self.localSearchSwitchString) {
-        self.localSearchSwitchString = [[[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, 160, 40)] autorelease];
-        self.localSearchSwitchString.backgroundColor = [UIColor clearColor];
-        [self.localsearchView addSubview:self.localSearchSwitchString];
-    }
-    if (nil == self.historyView) {
-        self.historyView = [[[SearchHistoryView alloc] init] autorelease];
-        self.historyView.view.frame = CGRectMake(0.0, 0.0, 320, 327);
-        self.historyView.owner = self;
-        UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 50, 320, 317)];
-        [view addSubview:self.historyView.view];
-        [self.view addSubview:view];
-        [view release];
-    }
-    self.title = WizStrSearch;
-    self.searchBar.delegate = self;
-    self.localSearchSwitchString.text = NSLocalizedString(@"Search local notes only" , nil);
-    self.localSearchSwitchString.adjustsFontSizeToFitWidth = YES;
+
     [super viewDidLoad];
 }
 
@@ -249,12 +219,15 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [self searchBarCancelButtonClicked:self.searchBar];
+    self.searchBar.frame = self.navigationController.navigationBar.frame;
+    self.view = self.historyView.view;
+    self.navigationItem.titleView = self.searchBar;
     [self.historyView reloadData];
     self.localSearchSwitch.on = YES;
     [super viewWillAppear:animated];
