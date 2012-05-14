@@ -9,7 +9,6 @@
 #import "WizDbManager.h"
 #import "index.h"
 #import "tempIndex.h"
-#import "WizDocumentEdit.h"
 #import "WizFileManager.h"
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
@@ -752,7 +751,7 @@ static WizDbManager* shareDbManager = nil;
 - (BOOL) deleteTag:(NSString*)tagGuid
 {
     NSArray* documents = [self documentsByTag:tagGuid];
-    for (WizDocumentEdit* eachDoc in documents) {
+    for (WizDocument* eachDoc in documents) {
         
         [eachDoc deleteTag:tagGuid];
     }

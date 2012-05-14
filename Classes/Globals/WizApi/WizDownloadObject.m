@@ -13,7 +13,6 @@
 #import "Reachability.h"
 #import "WizNotification.h"
 #import "WizFileManager.h"
-#import "WizDocumentEdit.h"
 #import "WizDbManager.h"
 
 NSString* SyncMethod_DownloadProcessPartBeginWithGuid = @"DownloadProcessPartBegin";

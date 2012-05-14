@@ -35,18 +35,28 @@
     if ([self documentsCount] > 100) {
         [self deleteDocument:[[[self.tableSourceArray lastObject]lastObject] guid]];
     }
-    NSInteger updateSection = indexPath.section;
-    if (updateSection == NSNotFound) {
-        NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
-        updateSection = 0;
-        [self.tableSourceArray insertObject:newArr atIndex:updateSection];
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+    @try {
+        NSInteger updateSection = indexPath.section;
+        if (updateSection == NSNotFound) {
+            NSMutableArray* newArr = [NSMutableArray arrayWithObject:doc];
+            updateSection = 0;
+            [self.tableSourceArray insertObject:newArr atIndex:updateSection];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:updateSection] withRowAnimation:UITableViewRowAnimationTop];
+        }
+        else {
+            NSMutableArray* arr = [self.tableSourceArray objectAtIndex:updateSection];
+            [arr insertObject:doc atIndex:0];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:updateSection]] withRowAnimation:UITableViewRowAnimationNone];
+        }
     }
-    else {
-        NSMutableArray* arr = [self.tableSourceArray objectAtIndex:updateSection];
-        [arr insertObject:doc atIndex:0];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:updateSection]] withRowAnimation:UITableViewRowAnimationNone];
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+        return;
     }
+    @finally {
+        return;
+    }
+
 }
 
 - (void) deleteDocument:(NSString *)documentGuid

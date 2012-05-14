@@ -27,9 +27,6 @@
 @implementation PickerViewController
 -(void) dealloc
 {
-    if ([WizGlobals WizDeviceVersion] < 5.0) {
-        self.navigationController.delegate = nil;
-    }
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -45,8 +42,7 @@
 -(void) newNote
 {
     NewNoteView* newNote= [[NewNoteView alloc]init];
-    WizDocumentEdit* doc = [[WizDocumentEdit alloc] init];
-    doc.editDelegate = newNote;
+    WizDocument* doc = [[WizDocument alloc] init];
     newNote.docEdit = doc;
     [doc release];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
@@ -59,9 +55,6 @@
 {
     self = [super init];
     if (self) {
-//        if ([WizGlobals WizDeviceVersion] < 5.0) {
-//            self.navigationController.delegate = self;
-//        }
         [WizNotificationCenter addObserverForIphoneSetupAccount:self selector:@selector(setupAccount)];
     }
     return self;
@@ -104,14 +97,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-//    RecentDcoumentListView* recent = [[RecentDcoumentListView alloc]init] ;
-//    UINavigationController* recentController = [[UINavigationController alloc]init];
-//    [recentController pushViewController:recent animated:NO];
-//    recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
-//    [recent release];
-
     PhRecentViewController* recent = [[PhRecentViewController alloc]init] ;
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
@@ -189,6 +174,9 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    if (self.selectedIndex == 2) {
+        [self setSelectedIndex:0];
+    }
 //    [self setSelectedIndex:0];
 }
 

@@ -13,6 +13,8 @@
 #import "WizFileManager.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
+#import "TagsListTreeControllerNew.h"
+
 BOOL isReverseMask(NSInteger mask)
 {
     if (mask %2 == 0) {
@@ -210,6 +212,16 @@ BOOL isReverseMask(NSInteger mask)
     return [[WizDbManager shareDbManager] attachmentsByDocumentGUID:self.guid];
 }
 
+- (BOOL) addFileToIndexFiles:(NSString*)sourcePath
+{
+    NSString* fileName = [sourcePath fileName];
+    NSString* indexFilesPath = [self documentIndexFilesPath];
+    NSString* toPath = [indexFilesPath stringByAppendingPathComponent:fileName];
+    if (![[WizFileManager shareManager] moveItemAtPath:sourcePath toPath:toPath error:nil]) {
+        return NO;
+    }
+    return YES;
+}
 - (BOOL) saveInfo
 {
     if (self.guid == nil || [self.guid isBlock]) {
@@ -221,6 +233,10 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:[NSNumber numberWithBool:self.localChanged] forKey:DataTypeUpdateDocumentLocalchanged];
     [doc setObject:[NSNumber numberWithBool:self.protected_] forKey:DataTypeUpdateDocumentProtected];
     [doc setObject:[NSNumber numberWithInt:self.attachmentCount] forKey:DataTypeUpdateDocumentAttachmentCount];
+    if (nil == self.type)
+    {
+        self.type = @"note";
+    }
     [doc setObject:self.type forKey:DataTypeUpdateDocumentType];
     if (nil == self.url) {
         self.url = @"";
@@ -280,5 +296,165 @@ BOOL isReverseMask(NSInteger mask)
 - (void) download
 {
     [[WizSyncManager shareManager] downloadWizObject:self];
+}
+
+
+- (NSString*) photoHtmlString:(NSString*)photoName
+{
+    return [NSString stringWithFormat:@"<img src=\"index_files/%@\" alt=\"%@\" >",photoName,photoName];
+}
+- (NSString*) audioHtmlString:(NSString*)audioName
+{
+    return [NSString stringWithFormat:@"<embed src=\"index_files/%@\" autostart=false>",audioName];
+}
+- (NSString*) titleHtmlString:(NSString*)_title
+{
+    return [NSString stringWithFormat:@"<title>%@</title>",_title];
+}
+- (NSString*) wizHtmlString:(NSString*)_title body:(NSString*)body  attachments:(NSArray*) attachments
+{
+    NSMutableString* tableContensString = [NSMutableString string];
+    [tableContensString appendString:@"<ul>"];
+    if (body) {
+        [tableContensString appendFormat:@"<li><p>%@</p></li>",body];
+    }
+    for (NSString* attachment in attachments) {
+        NSString* fileName = [attachment fileName];
+        NSString* attachmentType = [attachment fileType];
+        if ([WizGlobals checkAttachmentTypeIsImage:attachmentType]) {
+            [tableContensString appendFormat:@"<li>%@</li>",[self photoHtmlString:fileName]];
+        }
+        else if ([WizGlobals checkAttachmentTypeIsAudio:attachmentType])
+        {
+            [tableContensString appendFormat:@"<li>%@</li>",[self audioHtmlString:fileName]];
+        }
+        else {
+            [tableContensString appendFormat:@"Add %@",fileName];
+        }
+    }
+    [tableContensString appendString:@"</ul>"];
+    NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\"> \n\
+                      img{ \n\
+                      width:320px; \n\
+                      } \n\
+                      li{ \n\
+                      list-style-type : none; \n\
+                      margin:0; \n\
+                      padding:0;  \n\
+                      } \n\
+                      ul {\n\
+                      margin:0; \n\
+                      padding:0;  \n\
+                      }\n\
+                      body { \n\
+                      margin:0; \n\
+                      padding:0;  \n\
+                      }\n\
+                      </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
+    return html;
+}
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray
+{
+    if (self.serverChanged) {
+        return NO;
+    }
+    if (self.guid == nil || [self.guid isBlock]) {
+        self.guid = [WizGlobals genGUID];
+    }
+    NSString* body = @"";
+    BOOL hasPicture = NO;
+    BOOL hasAudio = NO;
+    for (NSString* sourcePath in documentsSourceArray) {
+        
+        NSString* fileName = [sourcePath fileName];
+        NSString* attachmentType = [sourcePath fileType];
+        if ([WizGlobals checkAttachmentTypeIsImage:attachmentType]) {
+            if (![self addFileToIndexFiles:sourcePath])
+            {
+                return NO;
+            }
+            body = [self photoHtmlString:fileName];
+            self.type = WizDocumentTypeImageKeyString;
+            hasPicture = YES;
+        }
+        else if ([WizGlobals checkAttachmentTypeIsAudio:attachmentType])
+        {
+            if (![self addFileToIndexFiles:sourcePath]) {
+                return NO;
+            }
+            body = [self audioHtmlString:fileName];
+            self.type = WizDocumentTypeAudioKeyString;
+            hasAudio = YES;
+        }
+        else if ([WizGlobals checkAttachmentTypeIsTxt:attachmentType])
+        {
+            NSError* error = nil;
+            body = [NSString stringWithContentsOfFile:sourcePath usedEncoding:nil error:&error];
+            if(error)
+            {
+                body = @"";
+            }
+        }
+        else {
+            WizAttachment* attachment = [[WizAttachment alloc] init];
+            attachment.documentGuid = self.guid;
+            [attachment saveData:sourcePath];
+            self.attachmentCount = 1;
+            [attachment release];
+            body = [NSString stringWithFormat:@"Add %@",fileName];
+        }
+    }
+
+    if (hasPicture && !hasAudio) {
+        self.type = WizDocumentTypeImageKeyString;
+        self.title = WizStrNewDocumentTitleImage;
+    }
+    else if (!hasPicture && hasAudio)
+    {
+        self.type = WizDocumentTypeAudioKeyString;
+        self.title = WizStrNewDocumentTitleAudio;
+    }
+    else {
+        self.type = WizDocumentTypeNoteKeyString;
+        if ([textBody firstLine]) {
+            self.title = [textBody firstLine];
+        }
+        else
+        {
+            self.title = WizStrNewDocumentTitleAudio;
+        }
+    }
+    
+    NSString* html = [self wizHtmlString:self.title body:textBody attachments:documentsSourceArray];
+    NSString* documentIndex = [self documentIndexFile];
+    [html writeToFile:documentIndex atomically:YES encoding:NSUTF16StringEncoding error:nil];
+    [html writeToFile:[self documentMobileFile] atomically:YES encoding:NSUTF16StringEncoding error:nil];
+    self.dataMd5 = [self localDataMd5];
+    self.localChanged = YES;
+    [self saveInfo];
+    return YES;
+}
+
+- (BOOL) deleteTag:(NSString*)tagGuid
+{
+    if (nil == self.tagGuids) {
+        return NO;
+    }
+    NSRange range = [self.tagGuids rangeOfString:tagGuid];
+    if (range.location == NSNotFound || range.length == NSNotFound)
+    {
+        return NO;
+    }
+    self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:range withString:@""];
+    if(range.location >= 1)
+    {
+        NSRange subRange = NSMakeRange(range.location-1, 1);
+        NSString* sepatatedStr = [self.tagGuids substringWithRange:subRange];
+        if([sepatatedStr isEqualToString:@"*"])
+        {
+            self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:subRange withString:@""];
+        }
+    }
+    return [self saveInfo];
 }
 @end

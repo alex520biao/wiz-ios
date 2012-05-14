@@ -84,4 +84,9 @@
 
 #define WizStrAutomicSync                               NSLocalizedString(@"Automic Sync",nil)
 
+//new document title
+#define WizStrNewDocumentTitleNoTitle                   NSLocalizedString(@"No Title",nil)
+#define WizStrNewDocumentTitleImage                     NSLocalizedString(@"No Title Photo",nil)
+#define WizStrNewDocumentTitleAudio                     NSLocalizedString(@"No Title Audio",nil)
+
 NSString* getTagDisplayName(NSString* tagName);

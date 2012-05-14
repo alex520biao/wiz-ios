@@ -13,7 +13,6 @@
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 #import "WizFileManager.h"
-#import "WizDocumentEdit.h"
 #define UploadPartSize  (256*1024)
 
 @protocol WizUploadObjectDelegate

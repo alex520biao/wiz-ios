@@ -62,7 +62,6 @@
 }
 - (void) initRootNavigation
 {
-
     [WizNotificationCenter removeObserver:self];
     UINavigationController* root = [[UINavigationController alloc] init];
     if ([WizGlobals WizDeviceIsPad])

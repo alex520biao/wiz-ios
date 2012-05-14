@@ -140,9 +140,8 @@
 - (void)editCurrentDocument
 {
     NewNoteView* newNote= [[NewNoteView alloc]init];
-    WizDocumentEdit* edit = [[WizDocumentEdit alloc] initFromWizDocument:self.doc];
+    WizDocument* edit = self.doc;
     newNote.docEdit = edit;
-    edit.editDelegate = newNote;
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];

@@ -43,7 +43,7 @@ static NSArray*  audioArray;
 static NSArray* textArray;
 static NSArray* imageArray;
 static NSArray* excelArray;
-
+static NSArray* htmlArray;
 
 
 + (float) WizDeviceVersion
@@ -341,11 +341,13 @@ static NSArray* excelArray;
 }
 + (NSArray*) docArray
 {
+    if (docArray == nil) {
         docArray = [NSArray arrayWithObjects:
                     @"doc",
                     @"docx",
                     nil];
-    
+        [docArray retain];
+    }
     return docArray;
 }
 + (BOOL) checkAttachmentTypeIsWord:(NSString*)type
@@ -353,6 +355,21 @@ static NSArray* excelArray;
     return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals docArray]];
 }
 
+ + (NSArray*) htmlArray
+{
+    if (htmlArray == nil) {
+        htmlArray = [NSArray arrayWithObjects:
+                     @"html",
+                     nil];
+        [htmlArray retain];
+    }
+    return htmlArray;
+}
+
++ (BOOL) checkAttachmentTypeIsHtml:(NSString *)attachmentType
+{
+    return [WizGlobals checkAttachmentTypeInTypeArray:attachmentType typeArray:[WizGlobals htmlArray]];
+}
 + (NSArray*) excelArray
 {
     excelArray = [NSArray arrayWithObjects:

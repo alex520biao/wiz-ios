@@ -47,7 +47,6 @@
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
-		7326AE9415452E1B00E531FB /* WizDocumentEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326AE9315452E1B00E531FB /* WizDocumentEdit.m */; };
 		732951641548F8FC00FA4FAA /* PhRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 732951631548F8FC00FA4FAA /* PhRecentViewController.m */; };
 		732A5FC515244BEC0056090E /* userIcons.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC315244BEC0056090E /* userIcons.png */; };
 		732A5FC615244BEC0056090E /* userIcons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732A5FC415244BEC0056090E /* userIcons@2x.png */; };
@@ -383,8 +382,6 @@
 		7321310F15454BD50077F77E /* WizAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstract.h; path = WizStruct/WizAbstract.h; sourceTree = "<group>"; };
 		7321311015454BD50077F77E /* WizAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAbstract.m; path = WizStruct/WizAbstract.m; sourceTree = "<group>"; };
 		73213113154572100077F77E /* WizSettingsDbDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizSettingsDbDelegate.h; path = WizDbManger/WizSettingsDbDelegate.h; sourceTree = "<group>"; };
-		7326AE9215452E1B00E531FB /* WizDocumentEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDocumentEdit.h; path = WizStruct/WizDocumentEdit.h; sourceTree = "<group>"; };
-		7326AE9315452E1B00E531FB /* WizDocumentEdit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDocumentEdit.m; path = WizStruct/WizDocumentEdit.m; sourceTree = "<group>"; };
 		732951621548F8FC00FA4FAA /* PhRecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhRecentViewController.h; path = Classes/Iphone/DocumentList/PhRecentViewController.h; sourceTree = SOURCE_ROOT; };
 		732951631548F8FC00FA4FAA /* PhRecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhRecentViewController.m; path = Classes/Iphone/DocumentList/PhRecentViewController.m; sourceTree = SOURCE_ROOT; };
 		732951691549343E00FA4FAA /* WizSyncDescriptionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSyncDescriptionDelegate.h; path = WizSyncManager/WizSyncDescriptionDelegate.h; sourceTree = "<group>"; };
@@ -927,8 +924,6 @@
 				73467DFA154506AE00ECF5F9 /* WizAttachment.m */,
 				73D455AD154508AB0003103F /* WizTag.h */,
 				73D455AE154508AB0003103F /* WizTag.m */,
-				7326AE9215452E1B00E531FB /* WizDocumentEdit.h */,
-				7326AE9315452E1B00E531FB /* WizDocumentEdit.m */,
 				7321310F15454BD50077F77E /* WizAbstract.h */,
 				7321311015454BD50077F77E /* WizAbstract.m */,
 				73A18BF1155B6EED00E1324C /* WizObject+WizSync.h */,
@@ -2172,7 +2167,6 @@
 				73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */,
 				73D455AF154508AB0003103F /* WizTag.m in Sources */,
 				73D455B81545130A0003103F /* NSString+WizString.m in Sources */,
-				7326AE9415452E1B00E531FB /* WizDocumentEdit.m in Sources */,
 				7321310E15454AD70077F77E /* WizSettings.m in Sources */,
 				7321311115454BD50077F77E /* WizAbstract.m in Sources */,
 				732BB3F715464936000DDCB4 /* NSDate+WizTools.m in Sources */,
@@ -2331,6 +2325,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlightSDK0.8.3\"",
+					"\"$(SRCROOT)/Classes/otherFrame/MT\"",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -2371,6 +2366,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlightSDK0.8.3\"",
+					"\"$(SRCROOT)/Classes/otherFrame/MT\"",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -2402,6 +2398,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -2438,6 +2435,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlight\"",
 					"\"$(SRCROOT)/Classes/otherFrame/TestFlightSDK0.8.3\"",
+					"\"$(SRCROOT)/Classes/otherFrame/MT\"",
 				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -2466,6 +2464,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -2490,6 +2489,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;

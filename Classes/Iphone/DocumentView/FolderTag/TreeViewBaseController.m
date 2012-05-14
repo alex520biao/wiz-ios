@@ -95,20 +95,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([WizGlobals WizDeviceVersion] < 5.0) {
-        
-        self.navigationController.delegate = self;
-    }
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    if ([WizGlobals WizDeviceVersion] < 5.0) {
-        self.navigationController.delegate = nil;
-    }
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

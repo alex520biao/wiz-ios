@@ -618,7 +618,10 @@
 {
     [self audioStopRecord];
     self.docEdit.title = self.titleTextFiled.text;
-    [self.docEdit saveWithData];
+    NSMutableArray* array = [NSMutableArray arrayWithCapacity:1];
+    [array addObjectsFromArray:self.picturesArray];
+    [array addObjectsFromArray:self.audiosArray];
+    [self.docEdit saveWithData:self.bodyTextField.text attachments:array];
     [self postSelectedMessageToPicker];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];

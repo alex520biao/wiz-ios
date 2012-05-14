@@ -489,12 +489,20 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     if ([self.tableSourceArray count]> 0) {
         if ([[self.tableSourceArray objectAtIndex:docIndex.section] count] > 0)
         {
-            [[self.tableSourceArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationRight];
+            @synchronized(self.tableSourceArray)
+            {
+                [[self.tableSourceArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationRight];
+            }
+            
         }
         else {
-            [self.tableSourceArray removeObjectAtIndex:docIndex.section];
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+            @synchronized(self.tableSourceArray)
+            {
+                [self.tableSourceArray removeObjectAtIndex:docIndex.section];
+                [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            
         }
     }
     
@@ -508,13 +516,22 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     {
         return ;
     }
-    NSIndexPath* indexPath = [self indexOfDocumentInTableSourceArray:doc.guid];
-    if (indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
-        [self reloadDocument:doc indexPath:indexPath];
+    @try {
+        NSIndexPath* indexPath = [self indexOfDocumentInTableSourceArray:doc.guid];
+        if (indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
+            [self reloadDocument:doc indexPath:indexPath];
+        }
+        else {
+            [self insertDocument:doc indexPath:indexPath];
+        }
     }
-    else {
-        [self insertDocument:doc indexPath:indexPath];
+    @catch (NSException *exception) {
+        return;
     }
+    @finally {
+        return;
+    }
+    
 }
 - (id)initWithStyle:(UITableViewStyle)style
 {

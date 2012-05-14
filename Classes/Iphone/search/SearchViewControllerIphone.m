@@ -127,7 +127,7 @@
     [dic writeToFile:fileNamePath atomically:NO];
     [history writeToFile:fileNamePath atomically:YES];
 }
-- (void) didSearchKeywords:(NSString*)keywords
+- (void) didSearchKeywords:(NSString*)keywords isNewSearch:(BOOL)isNewSearch
 {
 	if (keywords == nil || [keywords length] == 0)
 		return;
@@ -145,7 +145,9 @@
         [self searchBarCancelButtonClicked:self.searchBar];
 		return;
 	}
-    [self addSearchHistory:[arr count]];
+    if (isNewSearch) {
+        [self addSearchHistory:[arr count]];
+    }
     PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:arr];
     [self.navigationController pushViewController:searchResultView animated:YES];
     [searchResultView release];
@@ -154,13 +156,13 @@
 - (void) didSelectedSearchHistory:(NSString *)keyWords
 {
     [self.searchBar resignFirstResponder];
-    [self didSearchKeywords:keyWords];
+    [self didSearchKeywords:keyWords isNewSearch:NO];
 }
 - (void) showSearchResult
 {
     self.historyView.tableView.tableHeaderView = nil;
     [self.searchBar setShowsCancelButton:NO animated:YES];
-    [self didSearchKeywords:self.currentKeyWords];
+    [self didSearchKeywords:self.currentKeyWords isNewSearch:YES];
 }
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar

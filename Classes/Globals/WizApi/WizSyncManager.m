@@ -92,14 +92,22 @@ static WizSyncManager* shareManager;
 }
 - (void) setSyncDescription:(NSString *)_syncDescription
 {
+
+    
     if (syncDescription == _syncDescription) {
         return;
     }
-    [syncDescription release];
-    syncDescription =[_syncDescription retain];
-    if (nil != self.displayDelegate) {
-        [self.displayDelegate didChangedSyncDescription:syncDescription];
+    if (_syncDescription == nil) {
+        [syncDescription release];
+        [self.displayDelegate didChangedSyncDescription:@""];
+        return;
     }
+    else {
+        [syncDescription release];
+        syncDescription =[_syncDescription retain];
+        [self.displayDelegate didChangedSyncDescription:_syncDescription];
+    }
+    
 }
 + (id) shareManager
 {

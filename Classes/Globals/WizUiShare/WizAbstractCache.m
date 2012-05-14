@@ -136,7 +136,7 @@
 - (void) pushNeedGenAbstractDoument:(NSString*)documentGuid
 
 {
-//    [self.cacheConditon lock];
+    [self.cacheConditon lock];
     [self.needGenAbstractDocuments addObject:documentGuid];
     [self.cacheConditon unlockWithCondition:HAS_DATA];
 }

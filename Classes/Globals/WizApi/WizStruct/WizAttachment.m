@@ -41,6 +41,9 @@
     NSString* fileType = [filePath fileType];
     self.type = fileType;
     self.title = fileName;
+    if (![[WizFileManager shareManager] moveItemAtPath:filePath toPath:[self attachmentFilePath] error:nil]) {
+        return NO;
+    }
     NSMutableDictionary* attachment = [NSMutableDictionary dictionaryWithCapacity:14];
     if (nil == self.title || [self.title isBlock]) {
         self.title = WizStrNoTitle;
