@@ -7,6 +7,7 @@
 //
 
 #import "WizObject.h"
+#import "WizDbManager.h"
 
 @implementation WizObject
 @synthesize guid;
@@ -16,5 +17,13 @@
     [guid release];
     [title release];
     [super dealloc];
+}
++ (int) filecountWithChildOfLocation:(NSString*) location
+{
+    return [[WizDbManager shareDbManager] filecountWithChildOfLocation:location];
+}
++ (int) fileCountOfLocation:(NSString *)location
+{
+    return [[WizDbManager shareDbManager] fileCountOfLocation:location];
 }
 @end

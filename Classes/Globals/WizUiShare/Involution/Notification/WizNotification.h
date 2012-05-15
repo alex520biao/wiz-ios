@@ -76,4 +76,6 @@
 + (void) postupdateDocumentListMessage;
 + (void) addObserverForUpdateDocumentList:(id)observer selector:(SEL)selector;
 + (void) removeObserverForUpdateDocumentList:(id)observer;
+//
++ (void) postSimpleMessageWithName:(NSString*)messageName;
 @end

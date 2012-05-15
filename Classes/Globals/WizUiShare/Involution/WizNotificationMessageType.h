@@ -8,37 +8,40 @@
 
 #import <Foundation/Foundation.h>
 
-#define MessageTypeOfNewDocument @"MessageTypeOfNewDocument"
-#define MessageTypeOfDidSelectedAccount @"didAccountSelect"
-#define MessageTypeOfChangeAccount @"wizChangeAccountMessage"
-#define MessageTypeOfPadSendSelectedAccountMessage @"MessageTypeOfPadSendSelectedAccountMessage"
+#define MessageTypeOfNewDocument                    @"MessageTypeOfNewDocument"
+#define MessageTypeOfDidSelectedAccount             @"didAccountSelect"
+#define MessageTypeOfChangeAccount                  @"wizChangeAccountMessage"
+#define MessageTypeOfPadSendSelectedAccountMessage  @"MessageTypeOfPadSendSelectedAccountMessage"
 
-#define UserInfoTypeOfDocumentGUID @"MessageDataTypeOfDocumentGUID"
-#define MessageInfoOfDidSelectedAccountUserId @"accountUserId"
+#define UserInfoTypeOfDocumentGUID                  @"MessageDataTypeOfDocumentGUID"
+#define MessageInfoOfDidSelectedAccountUserId       @"accountUserId"
 
-#define MessageTypeOfIphoneSetupAccount     @"MessageTypeOfIphoneSetupAccount"
+#define MessageTypeOfIphoneSetupAccount             @"MessageTypeOfIphoneSetupAccount"
 //delete document
-#define MessageTypeOfDeleteDocument @"MessageTypeOfDeleteDocument"
-#define MessageTypeOfUpdateDocument @"MessageTypeOfUpdateDocument"
-#define MessageTypeOfUpdateFolder   @"MessageTypeOfUpdateFolder"
+#define MessageTypeOfDeleteDocument                 @"MessageTypeOfDeleteDocument"
+#define MessageTypeOfUpdateDocument                 @"MessageTypeOfUpdateDocument"
+#define MessageTypeOfUpdateFolder                   @"MessageTypeOfUpdateFolder"
 //
-#define UserInfoTypeOfFolder        @"UserInfoTypeOfFolder"
+#define UserInfoTypeOfFolder                        @"UserInfoTypeOfFolder"
 //
-#define MessageTypeOfUploadDone     @"MessageTypeOfUploadDone"
-#define UserInfoTypeOfGuid          @"UserInfoTypeOfGuid"
+#define MessageTypeOfUploadDone                     @"MessageTypeOfUploadDone"
+#define UserInfoTypeOfGuid                          @"UserInfoTypeOfGuid"
 //
-#define MessageTypeOfDownloadDone     @"MessageTypeOfDwonloadDone"
+#define MessageTypeOfDownloadDone                   @"MessageTypeOfDwonloadDone"
 //
-#define MessageTypeOfRefreshToken   @"MessageTypeOfRefreshToken"
-#define UserInfoTypeOfRefreshToken  @"UserInfoTypeOfRefreshToken"
+#define MessageTypeOfRefreshToken                   @"MessageTypeOfRefreshToken"
+#define UserInfoTypeOfRefreshToken                  @"UserInfoTypeOfRefreshToken"
 //
-#define MessageTypeOfTokenUnactive  @"MessageTypeOfTokenUnactive"
+#define MessageTypeOfTokenUnactive                  @"MessageTypeOfTokenUnactive"
 //
-#define MessageTypeOfLoginDone      @"MessageTypeOfLoginDone"
-#define UserInfoTypeOfLoginSucceed  @"UserInfoTypeOfLoginSucceed"
+#define MessageTypeOfLoginDone                      @"MessageTypeOfLoginDone"
+#define UserInfoTypeOfLoginSucceed                  @"UserInfoTypeOfLoginSucceed"
 //
-#define MessageTypeOfUpdateDocumentList @"MessageTypeOfUpdateDocumentList"
+#define MessageTypeOfUpdateDocumentList             @"MessageTypeOfUpdateDocumentList"
 
 //
-#define MessageTypeOfUpdateCache    @"MessageTypeOfUpdateCache"
-#define MessageTypeOfChangedUser    @"MessageTypeOfChangedUser"
+#define MessageTypeOfUpdateCache                    @"MessageTypeOfUpdateCache"
+#define MessageTypeOfChangedUser                    @"MessageTypeOfChangedUser"
+
+#define MessageTypeOfUpdateFolderTable              @"MessageTypeOfUpdateFolderTable"
+#define MessageTypeOfUpdateTagTable                 @"MessageTypeOfUpdateTagTable"

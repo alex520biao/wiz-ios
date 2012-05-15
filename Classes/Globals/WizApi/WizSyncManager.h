@@ -13,7 +13,7 @@
     NSString* syncDescription;
     id <WizSyncDescriptionDelegate> displayDelegate;
 }
-@property (nonatomic, retain) id<WizSyncDescriptionDelegate> displayDelegate;
+@property (nonatomic, assign) id<WizSyncDescriptionDelegate> displayDelegate;
 @property (retain) NSString* syncDescription;
 //upload
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject;
@@ -28,4 +28,5 @@
 + (id) shareManager;
 //
 - (void) automicSyncData;
+- (BOOL) isSyncing;
 @end

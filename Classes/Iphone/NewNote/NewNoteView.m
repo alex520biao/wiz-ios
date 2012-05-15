@@ -37,7 +37,7 @@
     UIButton* attachmentsTableviewEntryButton;
     UIView* addAttachmentView;
     UIView* addDocumentInfoView;
-    UIView* inputContentView;
+    UIScrollView* inputContentView;
     UIImageView* keyControl;
     VoiceRecognition* voiceInput;
     id firtResponser;
@@ -49,7 +49,7 @@
 @property (nonatomic, retain) UIImageView*      keyControl;
 @property (nonatomic, retain) UIView*           addAttachmentView;
 @property (nonatomic, retain) UIView*           addDocumentInfoView;
-@property (nonatomic, retain) UIView*           inputContentView;
+@property (nonatomic, retain) UIScrollView*           inputContentView;
 @property (nonatomic, retain) UIButton*         attachmentsTableviewEntryButton;
 @property (nonatomic, retain) VoiceRecognition* voiceInput;
 @property (nonatomic, retain) id                firtResponser;
@@ -91,7 +91,7 @@
 }
 - (void) attachmentAddDone
 {
-    NSInteger count = [self.picturesArray count] + [self.audiosArray count];
+    NSInteger count = [self.attachmentsArray count];
     NSString* displayString = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"Attachments", nil), count];
     [self.attachmentsTableviewEntryButton setTitle:displayString forState:UIControlStateNormal];
 }
@@ -141,7 +141,6 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
     [self.keyControl layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
-    [self.bodyTextField setFrame:CGRectMake(0.0, 31, self.view.frame.size.width, self.view.frame.size.height-30)];
     [self.keyControl setFrame:CGRectMake( 250, self.view.frame.size.height - 35, 50, 25)];
     [self.voiceInput setFrame:CGRectMake( 250, self.view.frame.size.height - 35, 50, 25)];
     self.voiceInput.hidden = YES;
@@ -154,6 +153,7 @@
 -(void) attachmentsViewSelect
 {
     WizPadCheckAttachments* checkAttachments = [[WizPadCheckAttachments alloc] init];
+    checkAttachments.source = self.attachmentsArray;
     [self.navigationController pushViewController:checkAttachments animated:YES];
     [checkAttachments release];
 }
@@ -272,7 +272,11 @@
     [self.view addSubview:self.addAttachmentView];
     [attachmentsTableEntry release];
 }
-
+- (void) resizeInputContentViewStartYAndHeight:(CGFloat)startY height:(CGFloat)height
+{
+        self.inputContentView.frame = CGRectMake(0.0, startY, self.view.frame.size.width, height);
+//    self.inputContentView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - startY);
+}
 - (void) addAttachemntsViewDisappear
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -280,8 +284,9 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
     self.addAttachmentView.frame = CGRectMake(0.0, -ATTACHMENTSVIEWHEIGH, self.view.frame.size.width, ATTACHMENTSVIEWHEIGH);
-    self.inputContentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 400);
+//    self.inputContentView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
     self.addAttachmentView.tag = HIDDENTTAG;
+    [self resizeInputContentViewStartYAndHeight:0 height:self.view.frame.size.height];
     [UIView commitAnimations];
 }
 
@@ -297,10 +302,10 @@
         self.addDocumentInfoView.tag = HIDDENTTAG;
     }
     self.addAttachmentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, ATTACHMENTSVIEWHEIGH);
-    self.inputContentView.frame = CGRectMake(0.0, ATTACHMENTSVIEWHEIGH, self.view.frame.size.width, self.view.frame.size.height - ATTACHMENTSVIEWHEIGH);
     [self.view bringSubviewToFront:addAttachmentView];
     [self keyHideOrShow];
     self.addAttachmentView.tag = NOHIDDENTTAG;
+    [self resizeInputContentViewStartYAndHeight:ATTACHMENTSVIEWHEIGH height:self.view.frame.size.height - ATTACHMENTSVIEWHEIGH];
     [UIView commitAnimations];
 }
 
@@ -323,7 +328,8 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.addAttachmentView cache:YES];
     [UIView setAnimationDuration:0.4];
     self.addDocumentInfoView.frame = CGRectMake(0.0, -INFOVIEWHEIGN, self.view.frame.size.width, INFOVIEWHEIGN-10);
-    self.inputContentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 400);
+//    self.inputContentView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 400);
+    [self resizeInputContentViewStartYAndHeight:0 height:self.view.frame.size.height];
     self.addDocumentInfoView.tag = HIDDENTTAG;
     [UIView commitAnimations];
 }
@@ -340,7 +346,8 @@
         self.addAttachmentView.tag = HIDDENTTAG;
     }
     self.addDocumentInfoView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, INFOVIEWHEIGN);
-    self.inputContentView.frame = CGRectMake(0.0, INFOVIEWHEIGN, self.view.frame.size.width, 250);
+//    self.inputContentView.frame = CGRectMake(0.0, INFOVIEWHEIGN, self.view.frame.size.width, 250);
+    [self resizeInputContentViewStartYAndHeight:INFOVIEWHEIGN height:self.view.frame.size.height-INFOVIEWHEIGN];
     [self.view bringSubviewToFront:addDocumentInfoView];
     [self keyHideOrShow];
     self.addDocumentInfoView.tag = NOHIDDENTTAG;
@@ -492,26 +499,34 @@
 
 - (void) buildInputContentView
 {
-    if (nil == self.inputContentView) {
-        self.inputContentView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 400)] autorelease];
-        self.inputContentView.backgroundColor = [UIColor whiteColor];
-    }
+    UIScrollView* scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 400)] ;
+    self.inputContentView = scroll;
+    scroll.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewContentModeBottom | UIViewAutoresizingFlexibleTopMargin;
+    inputContentView.contentSize = CGSizeMake(320, 480);
+    [scroll release];
+    self.inputContentView.backgroundColor = [UIColor whiteColor];
     //titile input
-    self.titleTextFiled = [[[UITextField alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 30)] autorelease];
+    self.inputView.autoresizesSubviews = YES;
+    self.inputContentView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
+    UITextField* text1 = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 30)];
+    self.titleTextFiled = text1;
+    [text1 release];
     self.titleTextFiled.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.titleTextFiled.placeholder = NSLocalizedString(@"Untitled", nil);
     self.titleTextFiled.delegate = self;
     [self.inputContentView addSubview:self.titleTextFiled];
+    self.titleTextFiled.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    CALayer* layer = [self.titleTextFiled layer];
+    layer.borderColor = [UIColor lightGrayColor].CGColor;
+    layer.borderWidth = 1;
     //body text input
-    UIView* breakLine = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 30, 480, 1)] autorelease];
-    breakLine.backgroundColor = [UIColor lightGrayColor];
-    [self.inputContentView addSubview:breakLine];
     UITextView* edit = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 31, 320, self.view.frame.size.height - 31)];
 	edit.returnKeyType = UIReturnKeyDefault;
 	[self.inputContentView addSubview:edit];
     edit.font = [UIFont systemFontOfSize:17];
 	self.bodyTextField = edit;
     self.bodyTextField.delegate = self;
+    self.bodyTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
 	[edit release];
     [self.view addSubview:self.inputContentView];
 }
@@ -618,10 +633,8 @@
 {
     [self audioStopRecord];
     self.docEdit.title = self.titleTextFiled.text;
-    NSMutableArray* array = [NSMutableArray arrayWithCapacity:1];
-    [array addObjectsFromArray:self.picturesArray];
-    [array addObjectsFromArray:self.audiosArray];
-    [self.docEdit saveWithData:self.bodyTextField.text attachments:array];
+    NSLog(@"title = %@",self.docEdit.title);
+    [self.docEdit saveWithData:self.bodyTextField.text attachments:self.attachmentsArray];
     [self postSelectedMessageToPicker];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
@@ -645,7 +658,7 @@
     [self audioStopRecord];
     if (self.titleTextFiled.text == nil || [self.titleTextFiled.text isEqualToString:@""]  ) {
         if ( self.bodyTextField.text == nil || [self.bodyTextField.text isEqualToString:@""]) {
-            if ([self.picturesArray count] == 0 || 0 == [self.audiosArray count]) {
+            if ([self.attachmentsArray count] == 0 ) {
                 [self postSelectedMessageToPicker];
                 [self.navigationController dismissModalViewControllerAnimated:YES];
                 return;
@@ -676,36 +689,38 @@
 }
 - (void) keyboardWillShow:(NSNotification*) nc
 {
+    [self addAttachemntsViewDisappear];
+    self.voiceInput.hidden = NO;
+    [self addDocumentInfoDisappear];
     NSDictionary* userInfo = [nc userInfo];
     CGSize kbSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
     CGFloat kbHeight = kbSize.height < kbSize.width?kbSize.height:kbSize.width;
-    self.bodyTextField.frame = CGRectMake(0.0,31,self.view.frame.size.width,self.view.frame.size.height - kbHeight - 70);
-    [self printRect:self.bodyTextField.frame];
+//    self.bodyTextField.frame = CGRectMake(0.0,31,self.view.frame.size.width,self.view.frame.size.height - kbHeight - 70);
+    [self resizeInputContentViewStartYAndHeight:0.0 height:self.view.frame.size.height - kbHeight - 50];
     [self.keyControl setFrame:CGRectMake( self.view.frame.size.width - 50, self.view.frame.size.height - kbHeight - 35, 50, 25)];
     [self.voiceInput setFrame:CGRectMake( self.view.frame.size.width - 100, self.view.frame.size.height - kbHeight - 35, 50, 25)];
     self.voiceInput.hidden = NO;
     self.keyControl.hidden = NO;
     [UIView commitAnimations];
-    
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-  
+    self.view.autoresizesSubviews = YES;
 }
-
+- (void) prepareForEdit:(NSString*)body attachments:(NSArray*)attachments
+{
+    self.bodyTextField.text = body;
+    [self.attachmentsArray addObjectsFromArray:attachments];
+}
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:TypeOfSelectedTag object:nil];
-    [nc removeObserver:self name:TypeOfUnSelectedTag object:nil];
-    
     if (self.addAttachmentView.tag == HIDDENTTAG) {
         [self addAttachmentsViewAnimation];
     }
@@ -716,8 +731,13 @@
     [self fitAttachmentItemFrame];
     [self printRect:self.view.frame];
     self.attachmentsTableviewEntryButton.frame = CGRectMake((self.view.frame.size.width - 300)/2, 74, 300, 20);
+    self.titleTextFiled.text = self.docEdit.title;
 }
-
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self attachmentAddDone];
+}
 - (void) viewWillDisappear:(BOOL)animated
 {
     if (self.addDocumentInfoView.tag == NOHIDDENTTAG)
@@ -756,22 +776,10 @@
     [self fitAttachmentItemFrame];
     self.addAttachmentView.frame = CGRectMake(self.addAttachmentView.frame.origin.x, self.addAttachmentView.frame.origin.y, self.view.frame.size.width, self.addAttachmentView.frame.size.height);
     self.addDocumentInfoView.frame = CGRectMake(self.addDocumentInfoView.frame.origin.x, self.addDocumentInfoView.frame.origin.y, self.view.frame.size.width, self.addDocumentInfoView.frame.size.height);
-    self.bodyTextField.frame = CGRectMake(0.0, 31, self.view.frame.size.width, self.bodyTextField.frame.size.height);
-    self.titleTextFiled.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.bodyTextField.frame.size.height);
     self.attachmentsTableviewEntryButton.frame = CGRectMake((self.view.frame.size.width - 300)/2, 74, 300, 20);
 }
-- (void) textFieldDidBeginEditing:(UITextField *)textField
+- (void) textFieldDidEndEditing:(UITextField *)textField
 {
-    [self addAttachemntsViewDisappear];
-    self.voiceInput.hidden = NO;
-    [self addDocumentInfoDisappear];
+    self.docEdit.title = textField.text;
 }
-- (void) textViewDidBeginEditing:(UITextView *)textView
-{
-    [self addAttachemntsViewDisappear];
-     self.voiceInput.hidden = NO;
-    [self addDocumentInfoDisappear];
-}
-
-
 @end

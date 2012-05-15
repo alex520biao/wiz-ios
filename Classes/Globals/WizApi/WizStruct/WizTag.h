@@ -25,4 +25,5 @@
 + (void) deleteTag:(NSString*)tagGuid;
 - (BOOL) save;
 + (NSArray*) allTags;
++ (NSInteger) fileCountOfTag:(NSString*)tagGuid;
 @end

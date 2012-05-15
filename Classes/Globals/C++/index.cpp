@@ -653,7 +653,7 @@ bool CIndex::GetRecentDocuments(CWizDocumentDataArray& arrayDocument)
 }
 bool CIndex::GetDocumentsForUpdate(CWizDocumentDataArray& arrayDocument)
 {
-	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT where LOCAL_CHANGED=1";
+	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT where LOCAL_CHANGED!=0";
 	//
 	return SQLToDocuments(sql.c_str(), arrayDocument);
 }
@@ -945,10 +945,9 @@ bool CIndex::SetAttachmentServerChanged(const char *lpszAttachmentGUID, bool cha
 
 
 
-bool CIndex::SetDocumentLocalChanged(const char* lpszDocumentGUID, bool changed)
+bool CIndex::SetDocumentLocalChanged(const char* lpszDocumentGUID, int changed)
 {
-	std::string strChanged = changed ? "1" : "0";
-	std::string sql = std::string("update WIZ_DOCUMENT set LOCAL_CHANGED=") + strChanged + " where DOCUMENT_GUID='" + lpszDocumentGUID + "'";
+	std::string sql = std::string("update WIZ_DOCUMENT set LOCAL_CHANGED=") + WizIntToStdString(changed) + " where DOCUMENT_GUID='" + lpszDocumentGUID + "'";
 	if (!m_db.IsOpened())
 		return false;
 	//
@@ -1331,32 +1330,55 @@ bool CIndex::fileCountInLocation(const char *lpszLocation, int &count)
 		TOLOG("Unknown exception while query deleted guid");
 		return false;
 	}
-
-    
 }
+
+bool CIndex::fileCountInTag(const char *lpszTagguid, int &count)
+{
+    std::string lpszSQL = std::string("select count(*) from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS = '") + lpszTagguid +("'");
+    try {
+		CppSQLite3Query query = m_db.execQuery(lpszSQL.c_str());
+		while (!query.eof())
+		{
+			count = query.getIntField(0);
+            query.nextRow();
+		}
+		return true;
+	}
+	catch (const CppSQLite3Exception& e)
+	{
+		TOLOG(e.errorMessage());
+		TOLOG(lpszSQL.c_str());
+		return false;
+	}
+	catch (...) {
+		TOLOG("Unknown exception while query deleted guid");
+		return false;
+	}
+}
+
 bool CIndex::fileCountWithChildInlocation(const char *lpszLocation, int &count)
 {
-        std::string lpszSQL = std::string("select count(*) from WIZ_DOCUMENT where DOCUMENT_LOCATION like '") + lpszLocation +("%'");
-        
-        try {
-                CppSQLite3Query query = m_db.execQuery(lpszSQL.c_str());
-                while (!query.eof())
-                    {
-                            count = query.getIntField(0);
-                            query.nextRow();
-                        }
-                return true;
-            }
-        catch (const CppSQLite3Exception& e)
+    std::string lpszSQL = std::string("select count(*) from WIZ_DOCUMENT where DOCUMENT_LOCATION like '") + lpszLocation +("%'");
+
+    try {
+        CppSQLite3Query query = m_db.execQuery(lpszSQL.c_str());
+        while (!query.eof())
         {
-                TOLOG(e.errorMessage());
-                TOLOG(lpszSQL.c_str());
-                return false;
-            }
-        catch (...) {
-                TOLOG("Unknown exception while query deleted guid");
-                return false;
-            }    
+            count = query.getIntField(0);
+            query.nextRow();
+        }
+        return true;
+    }
+    catch (const CppSQLite3Exception& e)
+    {
+        TOLOG(e.errorMessage());
+        TOLOG(lpszSQL.c_str());
+        return false;
+    }
+    catch (...) {
+        TOLOG("Unknown exception while query deleted guid");
+        return false;
+    }    
 }
 bool CIndex::ClearDeletedGUIDs()
 {

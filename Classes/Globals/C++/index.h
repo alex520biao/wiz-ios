@@ -134,7 +134,7 @@ public:
 	bool GetDocumentsForUpdate(CWizDocumentDataArray& arrayDocument);
 	//
     bool SetDocumentMD5(const char *lpszDocumentGUID, const char *lpszMD5);
-	bool SetDocumentLocalChanged(const char* lpszDocumentGUID, bool changed);
+	bool SetDocumentLocalChanged(const char* lpszDocumentGUID, int changed);
 	bool SetDocumentServerChanged(const char* lpszDocumentGUID, bool changed);
     bool SetDocumentAttachmentCount(const char* lpszDocumentGUID, const char* count);
     bool SetDocumentAttibute(const char* lpszDocumentGUID, const char* lpszDocumentAttibuteName, const char* lpszAttributeValue);
@@ -179,6 +179,7 @@ public:
     
     bool fileCountInLocation(const char* lpszLocation, int& count);
     bool fileCountWithChildInlocation(const char* lpszLocation, int& count);
+    bool fileCountInTag(const char* lpszTagguid, int& count);
     bool documentsWillDowload(int duration, CWizDocumentDataArray& array);
 };	
 

@@ -23,11 +23,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfUpdateFolderTable];
     }
     return self;
 }
-
+- (void) dealloc
+{
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -48,23 +52,22 @@
 
 - (void) removeBlockLocationNode:(LocationTreeNode*)node
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    if ([node hasChildren]) {
-//        NSArray* arr = [node.children copy];
-//        for (LocationTreeNode* each in arr) {
-//            [self removeBlockLocationNode:each];
-//        }
-//        if (![node hasChildren] && [index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"]) {
-//            [node.parentLocationNode removeChild:node];
-//        }
-//        [arr release];
-//    }
-//    else
-//    {
-//        if ([index fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"] ) {
-//            [node.parentLocationNode removeChild:node];
-//        }
-//    }
+    if ([node hasChildren]) {
+        NSArray* arr = [node.children copy];
+        for (LocationTreeNode* each in arr) {
+            [self removeBlockLocationNode:each];
+        }
+        if (![node hasChildren] && [WizObject fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"]) {
+            [node.parentLocationNode removeChild:node];
+        }
+        [arr release];
+    }
+    else
+    {
+        if ([WizObject fileCountOfLocation:node.locationKey]==0 && ![node.locationKey isEqualToString:@"/My Mobiles/"] ) {
+            [node.parentLocationNode removeChild:node];
+        }
+    }
 }
 
 - (void) makeSureParentExisted:(NSArray*)locationArray
@@ -144,17 +147,16 @@
     remind.textColor = [UIColor grayColor];
     [searchFooter addSubview:remind];
     [remind release];
-    
 }
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    NSString* current = [NSString stringWithFormat:@"%d",[[WizDbManager shareDbManager] fileCountOfLocation:cell.treeNode.locationKey]];
-    NSString* total = [NSString stringWithFormat:@"%d",[[WizDbManager shareDbManager] filecountWithChildOfLocation:cell.treeNode.locationKey]];
-    if (![current isEqualToString:total]) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@/%@",current,total];
+    NSInteger currentCount = [WizObject fileCountOfLocation:cell.treeNode.locationKey];
+    NSInteger totalCount = [WizObject filecountWithChildOfLocation:cell.treeNode.locationKey];
+    if (currentCount != totalCount) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d/%d",currentCount,totalCount];
     }
     else {
-        cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[[WizDbManager shareDbManager] fileCountOfLocation:cell.treeNode.locationKey]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),currentCount];
     }
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeFolder"];

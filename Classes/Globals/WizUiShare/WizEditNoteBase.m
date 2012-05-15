@@ -37,24 +37,14 @@
 @synthesize timer;
 @synthesize currentRecodingFilePath;
 @synthesize currentTime;
+@synthesize attachmentsArray;
 - (void) dealloc
 {
+    [attachmentsArray release];
     [currentRecodingFilePath release];
     [session release];
     [recorder release];
     [super dealloc];
-}
-- (NSArray*) documentPictures
-{
-    return self.picturesArray;
-}
-- (NSArray*) documentAudios
-{
-    return self.audiosArray;
-}
-- (NSString*) documentBody
-{
-    return @"";
 }
 - (void) attachmentAddDone
 {
@@ -64,8 +54,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.picturesArray = [NSMutableArray array];
-        self.audiosArray = [NSMutableArray array];
+        attachmentsArray = [[NSMutableArray array] retain];
     }
     return self;
 }
@@ -82,7 +71,7 @@
     [self.recorder stop];
     [self.timer invalidate];
     currentTime = 0.0f;
-    [self.audiosArray addObject:self.currentRecodingFilePath];
+    [self.attachmentsArray addObject:self.currentRecodingFilePath];
     [self attachmentAddDone];
 }
 
@@ -176,7 +165,7 @@
     [picker dismissModalViewControllerAnimated:YES];
     //2012-2-26 delete
     //    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
-    [self.picturesArray addObject:fileNamePath];
+    [self.attachmentsArray addObject:fileNamePath];
     [self attachmentAddDone];
 }
 
@@ -196,13 +185,14 @@
     [picker dismissModalViewControllerAnimated:YES];
 }
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    NSLog(@"image quality %lld",[[WizSettings defaultSettings] imageQualityValue]);
     for(NSDictionary* each in info)
     {
         UIImage* image = [each objectForKey:UIImagePickerControllerOriginalImage];
         image = [image compressedImage:[[WizSettings defaultSettings] imageQualityValue]];
         NSString* fileNamePath = [[[WizFileManager shareManager] getAttachmentSourceFileName] stringByAppendingString:@".jpg"];
         [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
-        [self.picturesArray addObject:fileNamePath];
+        [self.attachmentsArray addObject:fileNamePath];
     }
     [self attachmentAddDone];
     [self elcImagePickerControllerDidCancel:picker];

@@ -105,7 +105,7 @@ return self;
         self.dataMd5             = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
 		self.attachmentCount     = data.nAttachmentCount;
         self.serverChanged      = data.nServerChanged?YES:NO;
-        self.localChanged       = data.nLocalChanged?YES:NO;
+        self.localChanged       = data.nLocalChanged;
         self.protected_         = data.nProtected?YES:NO;
 	}
 	return self;
@@ -205,6 +205,21 @@ static WizDbManager* shareDbManager = nil;
 {
     return index.IsOpened();
 }
+- (void) setDocumentServerChanged:(NSString*)guid  changed:(NSInteger)changed
+{
+    index.SetDocumentLocalChanged([guid UTF8String], changed);
+}
+- (void) upgradeDb
+{
+    BOOL upgrade330 =  [[NSUserDefaults standardUserDefaults] boolForKey:@"upgrade330"];
+    if (!upgrade330) {
+        NSArray* documents = [WizDocument documentForUpload];
+        for (WizDocument* doc in documents) {
+            [self setDocumentServerChanged:doc.guid changed:WizEditDocumentTypeAllChanged];
+        }
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"upgrade330"];
+    }
+}
 - (void) initAccountSetting
 {
     //    [self versionUpdateSettings];
@@ -234,7 +249,9 @@ static WizDbManager* shareDbManager = nil;
             [self setImageQualityValue:750];
         }
     }
+    [self upgradeDb];
 }
+
 - (BOOL) openDb:(NSString*)dbFilePath
 {
     NSLog(@"dbFilePath is %@",dbFilePath);
@@ -598,11 +615,11 @@ static WizDbManager* shareDbManager = nil;
 //
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID
 {
-        WIZDOCUMENTDATA data;
-        if (!index.DocumentFromGUID([documentGUID UTF8String], data))
-            return nil;
-        WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
-        return [doc autorelease];
+    WIZDOCUMENTDATA data;
+    if (!index.DocumentFromGUID([documentGUID UTF8String], data))
+        return nil;
+    WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
+    return [doc autorelease];
 }
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID
 {
@@ -649,7 +666,7 @@ static WizDbManager* shareDbManager = nil;
         data.nLocalChanged = 0;
     }
     else {
-        data.nLocalChanged = [localChanged boolValue];
+        data.nLocalChanged = [localChanged intValue];
     }
     
     if (nil == serverChanged) {
@@ -684,7 +701,9 @@ static WizDbManager* shareDbManager = nil;
             
         }
     }
-    [WizNotificationCenter postupdateDocumentListMessage];
+    if ([documents count]) {
+        [WizNotificationCenter postupdateDocumentListMessage];
+    }
 	//
 	return YES;
 	
@@ -856,6 +875,9 @@ static WizDbManager* shareDbManager = nil;
 		}
 	}
 	//
+    if ([tags count]) {
+        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+    }
 	return YES;
 }
 
@@ -1248,9 +1270,10 @@ static WizDbManager* shareDbManager = nil;
     index.fileCountInLocation([location UTF8String], count);
     return count;
 }
-
 - (int) fileCountOfTag:(NSString *)tagGUID
 {
-    return [[self documentsByTag:tagGUID] count];
+    int count;
+    index.fileCountInTag([tagGUID UTF8String], count);
+    return count;
 }
 @end

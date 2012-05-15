@@ -12,5 +12,5 @@
 {
     id<WizFolderSelectDelegate> selectDelegate;
 }
-@property (nonatomic, retain) id<WizFolderSelectDelegate> selectDelegate;
+@property (nonatomic, assign) id<WizFolderSelectDelegate> selectDelegate;
 @end

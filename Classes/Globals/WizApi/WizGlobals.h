@@ -92,6 +92,7 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (NSString*) pinyinFirstLetter:(NSString *)string;
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (BOOL) checkAttachmentTypeIsHtml:(NSString *)attachmentType;
++ (UIImage*) attachmentNotationImage:(NSString*)type;
 @end
 
 

@@ -10,6 +10,7 @@
 #import "WizPadNotificationMessage.h"
 #import "WizFolderSelectDelegate.h"
 #import "WizDbManager.h"
+#import "WizNotification.h"
 @interface SelectFloderView ()
 {
     NSMutableArray* allFloders;
@@ -36,7 +37,6 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -46,7 +46,7 @@
     [allFloders release];
     [searchDisplayController release];
     [searchBar release];
-    [selectDelegate release];
+    selectDelegate = nil;
     [super dealloc];
 }
 - (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -282,6 +282,7 @@
     NSString* location = [NSString stringWithFormat:@"/%@/",self.searchBar.text];
     [self didSelectedFolder:location];
     [self.tableView reloadData];
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
 }
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {

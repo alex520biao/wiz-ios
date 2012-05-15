@@ -78,6 +78,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 - (BOOL) start;
 {
     busy = YES;
+    self.syncMessage = WizStrDownloadingNotes;
     NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
         [[WizFileManager shareManager]  deleteFile:fileNamePath];
@@ -104,6 +105,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     busy = NO;
     attempts = WizNetWorkMaxAttempts;
     NSLog(@"download done!***************************");
+    self.syncMessage = WizSyncEndMessage;
     [WizNotificationCenter postMessageDownloadDone:self.object.guid];
 }
 

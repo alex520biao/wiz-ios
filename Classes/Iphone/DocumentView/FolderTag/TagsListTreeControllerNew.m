@@ -22,41 +22,38 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfUpdateTagTable];
     }
     return self;
 }
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfTagViewVillReloadData object:nil];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 - (void) removeBlockLocationNode:(LocationTreeNode*)node
 {
-//    WizIndex* index = [WizIndex activeIndex];
-//    if ([node hasChildren]) {
-//        NSArray* arr = [node.children copy];
-//        for (LocationTreeNode* each in arr) {
-//            [self removeBlockLocationNode:each];
-//        }
-//        if (![node hasChildren] && ![index fileCountOfTag:node.locationKey]) {
-//            [node.parentLocationNode removeChild:node];
-//        }
-//        [arr release];
-//    }
-//    else
-//    {
-//        if (![index fileCountOfTag:node.locationKey]) {
-//            [node.parentLocationNode removeChild:node];
-//        }
-//    }
+    if ([node hasChildren]) {
+        NSArray* arr = [node.children copy];
+        for (LocationTreeNode* each in arr) {
+            [self removeBlockLocationNode:each];
+        }
+        if (![node hasChildren] && ![WizTag fileCountOfTag:node.locationKey]) {
+            [node.parentLocationNode removeChild:node];
+        }
+        [arr release];
+    }
+    else
+    {
+        if (![[WizDocument documentsByTag:node.locationKey] count]) {
+            [node.parentLocationNode removeChild:node];
+        }
+    }
 }
 
 
@@ -145,7 +142,7 @@
 
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[[WizDbManager shareDbManager ]fileCountOfTag:cell.treeNode.locationKey]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[WizTag fileCountOfTag:cell.treeNode.locationKey]];
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeTag"];
     }

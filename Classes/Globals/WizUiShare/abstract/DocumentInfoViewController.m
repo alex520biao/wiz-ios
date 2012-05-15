@@ -15,50 +15,18 @@
 #import "WizSelectTagViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizDbManager.h"
-@interface DocumentInfoCell : UITableViewCell {
-    UILabel* nameLabel;
-    UILabel* valueLabel;
-}
-@property (nonatomic, retain)     UILabel* nameLabel;
-@property (nonatomic, retain)    UILabel* valueLabel;
-@end
 
-
-
-@implementation DocumentInfoCell
-@synthesize nameLabel;
-@synthesize valueLabel;
-
-- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+@interface DocumentInfoViewController()
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.nameLabel= [[[UILabel alloc] initWithFrame:CGRectMake(14, 0.0, 70, 40)] autorelease];
-    [self addSubview:self.nameLabel];
-    self.nameLabel.textAlignment = UITextAlignmentLeft;
-    self.nameLabel.backgroundColor = [UIColor clearColor];
-    [self.nameLabel setFont:[UIFont systemFontOfSize:15.0]];
-    self.nameLabel.adjustsFontSizeToFitWidth = YES;
-    self.valueLabel = [[[UILabel alloc] initWithFrame:CGRectMake(64, 0.0, 240, 40)] autorelease];
-    [self addSubview:self.valueLabel];
-    valueLabel.textAlignment = UITextAlignmentRight;
-    valueLabel.backgroundColor = [UIColor clearColor];
-    valueLabel.textColor = [UIColor grayColor];
-    [valueLabel setFont:[UIFont systemFontOfSize:13.0]];
-    return self;
+    BOOL docChanged;
 }
 @end
 
 @implementation DocumentInfoViewController
 @synthesize doc;
-@synthesize accountUserId;
-@synthesize fontSlider;
-@synthesize documentTags;
-@synthesize documentFloder;
-@synthesize lastIndexPath;
 -(void) dealloc
 {
     [doc release];
-    [accountUserId release];
     [super dealloc];
     
 }
@@ -77,67 +45,46 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
-- (void) addTag:(NSNotification*)nc
-{
-    NSDictionary* dic = [nc userInfo];
-    WizTag* tag = [dic valueForKey:TypeOfTagKey];
-    [self.documentTags addObject:tag];
-}
 
-- (NSUInteger) tagIndexAtSlectedArray:(WizTag*)tag
-{
-    for (int i = 0; i < [self.documentTags count]; i++) {
-        if ([[[self.documentTags objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-- (void) removeTag:(NSNotification*)nc
-{
-    NSDictionary* dic = [nc userInfo];
-    WizTag* tag = [dic valueForKey:TypeOfTagKey];
-    [self.documentTags removeObjectAtIndex:[self tagIndexAtSlectedArray:tag]];
-}
 #pragma mark - View lifecycle
+- (void) didSelectedTags:(NSArray *)tags
+{
+    [self.doc setTagWithArray:tags];
+    docChanged = YES;
+}
+- (void) didSelectedFolderString:(NSString *)folderString
+{
+    self.doc.location = folderString;
+    docChanged = YES;
+}
+- (NSArray*) selectedTagsOld
+{
+    return [self.doc tagDatas];
+}
 -(void) tagViewSelect
 {
-    willReloadTagAndFoler = YES;
     WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    tagView.selectDelegate = self;
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
 }
-
-- (void) selectedFloder:(NSNotification*)nc
+- (NSString*) selectedFolderOld
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:TypeOfSelectedFolder object:nil];
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* foler = [userInfo valueForKey:TypeOfFolderKey];
-    self.documentFloder = [NSMutableString stringWithString:foler];
+    return self.doc.location;
 }
 -(void) floderViewSelected
 {
-    willReloadTagAndFoler = YES;
-    SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
+    SelectFloderView*  folderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
+    folderView.selectDelegate = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedFloder:) name:TypeOfSelectedFolder object:nil];
-    [self.navigationController pushViewController:floderView animated:YES];
-    [floderView release];
+    [self.navigationController pushViewController:folderView animated:YES];
+    [folderView release];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    willReloadTagAndFoler = NO;
     [self.tableView reloadData];
-    self.documentTags = [NSMutableArray arrayWithArray:[self.doc tagDatas]];
-    if (self.documentTags == nil) {
-        self.documentTags = [NSMutableArray array];
-    }
-    self.tableView.scrollEnabled = NO;
-    self.lastIndexPath = nil;
 }
 
 - (void)viewDidUnload
@@ -147,65 +94,28 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (self.documentFloder == nil) {
-        self.documentFloder = [[self.doc.location mutableCopy] autorelease];
-    }
-    if (self.documentTags == nil) {
-        self.documentTags = [[self.doc.tagGuids mutableCopy] autorelease];
-    }
-    if (![self.documentFloder isEqualToString: doc.location]) {
-//        [index setDocumentLocation:doc.guid location:self.documentFloder];
-//        [index setDocumentLocalChanged:doc.guid changed:YES];
-    }
-    if (nil !=self.lastIndexPath) {
-        [self.tableView beginUpdates];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.lastIndexPath ] withRowAnimation:UITableViewRowAnimationNone];
-        
-        [self.tableView endUpdates];
-    }
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (willReloadTagAndFoler) {
-        if (![WizGlobals WizDeviceIsPad]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
-        }
-        willReloadTagAndFoler = NO;
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    BOOL tagChanged = NO;
-    NSMutableString* tagGuids = [NSMutableString string];
-    for (WizTag* each in documentTags) {
-        [tagGuids appendFormat:@"%@*",each.guid];
-        if ([doc.tagGuids rangeOfString:each.guid].length == 0) {
-            tagChanged = YES;
-        }
-    }
-//    if ([documentTags count] != [[index tagsByDocumentGuid:self.doc.guid] count]) {
-//        tagChanged = YES;
-//    }
-//    if (tagChanged == YES) {
-//        if (nil == tagGuids || tagGuids.length <1) {
-//            return;
-//        }
-//        NSString* tags = [tagGuids substringToIndex:tagGuids.length-1];
-//
-//        [index setDocumentTags:self.doc.guid tags:tags];
-//        [index setDocumentLocalChanged:self.doc.guid changed:YES];
-//    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    if (docChanged) {
+        self.doc.localChanged = WizEditDocumentTypeInfoChanged;
+        [self.doc saveInfo];
+        docChanged = NO;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -240,57 +150,35 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    if (indexPath.row == 5) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        }
-        UILabel* name = [[UILabel alloc] initWithFrame:CGRectMake(14, 0.0, 90, 40)];
-        name.textAlignment = UITextAlignmentLeft;
-        name.backgroundColor = [UIColor clearColor];
-        name.text = NSLocalizedString(@"Font Size", nil);
-        [name setFont:[UIFont systemFontOfSize:15.0]];
-        name.adjustsFontSizeToFitWidth = YES;
-        self.fontSlider = [[[UISlider alloc] initWithFrame:CGRectMake(110, 0.0, 200, 40)] autorelease];
-
-        [fontSlider addTarget:self action:@selector(fontChanged) forControlEvents:UIControlEventValueChanged];
-        fontSlider.maximumValue =600;
-        fontSlider.minimumValue =60;
-        fontSlider.value =[[WizDbManager shareDbManager] webFontSize];
-        [cell addSubview:fontSlider];
-        [cell addSubview:name];
-        [name release];
-        return cell;
-    }
-    DocumentInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[DocumentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     if (0 == indexPath.row) {
-        cell.nameLabel.text = WizStrName;
-        cell.valueLabel.text = doc.title;
+        cell.textLabel.text = WizStrName;
+        cell.detailTextLabel.text = doc.title;
     }
     
     if (1 == indexPath.row) {
-        cell.nameLabel.text = WizStrTags;
+        cell.textLabel.text = WizStrTags;
         NSMutableString* tagNames = [NSMutableString string];
-        for (WizTag* each in self.documentTags) {
+        for (WizTag* each in [self.doc tagDatas]) {
             [tagNames appendFormat:@"|%@",getTagDisplayName(each.title)];
         }
-        cell.valueLabel.text = tagNames;
+        cell.detailTextLabel.text = tagNames;
     }
     else if (2 == indexPath.row) {
-        cell.nameLabel.text = WizStrFolders;
-        cell.valueLabel.text = [WizGlobals folderStringToLocal:self.documentFloder];
+        cell.textLabel.text = WizStrFolders;
+        cell.detailTextLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
     }
     
     else if (3 == indexPath.row) {
-        cell.nameLabel.text =  WizStrDateModified;
-        cell.valueLabel.text =[doc.dateModified stringLocal];
+        cell.textLabel.text =  WizStrDateModified;
+        cell.detailTextLabel.text =[doc.dateModified stringLocal];
     }
     else if (4 == indexPath.row) {
-        cell.nameLabel.text = WizStrDateCreated;
-        cell.valueLabel.text = [doc.dateCreated stringLocal];
+        cell.textLabel.text = WizStrDateCreated;
+        cell.detailTextLabel.text = [doc.dateCreated stringLocal];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -299,12 +187,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (1 == indexPath.row) {
-        self.lastIndexPath = indexPath;
         [self tagViewSelect];
     }
     else if ( 2 == indexPath.row)
     {
-        self.lastIndexPath = indexPath;
         [self floderViewSelected];
     }
 }

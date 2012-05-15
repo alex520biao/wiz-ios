@@ -7,22 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizFolderSelectDelegate.h"
+#import "WizSelectTagDelegate.h"
 @class WizDocument;
-@interface DocumentInfoViewController : UITableViewController
+@interface DocumentInfoViewController : UITableViewController <WizFolderSelectDelegate,WizSelectTagDelegate>
 {
     WizDocument* doc;
-    NSString* accountUserId;
-    UISlider* fontSlider;
-    NSMutableString* documentFloder;
-    NSMutableArray* documentTags;
-    NSIndexPath* lastIndexPath;
-    BOOL willReloadTagAndFoler;
 }
 @property (nonatomic, retain) WizDocument* doc;
-@property (nonatomic, retain)    NSString* accountUserId;
-@property (nonatomic, retain)  UISlider* fontSlider;
-
-@property (nonatomic, retain) NSMutableString* documentFloder;
-@property (nonatomic, retain) NSMutableArray* documentTags;
-@property (nonatomic, retain)    NSIndexPath* lastIndexPath;
 @end

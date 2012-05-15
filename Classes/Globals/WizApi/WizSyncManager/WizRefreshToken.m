@@ -40,6 +40,7 @@
         NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
         NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
         NSString* userType = [userInfo objectForKey:@"user_type"];
+        NSNumber* userLimit = [userInfo objectForKey:@""];
         WizSettings* defalutSettings = [WizSettings defaultSettings];
         [defalutSettings setUserPoints:[userPoints longLongValue]];
         [defalutSettings setUserLevel:[userLevel longLongValue]];

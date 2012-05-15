@@ -30,10 +30,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     else {
         return 0;
     }
-    
 }
-
-
 @interface WizDocument (WizTableViewControllerDocument)
 -(NSComparisonResult) compareDocument:(WizDocument*)doc mask:(WizTableOrder)mask;
 -(NSComparisonResult) compareToGroup:(WizDocument*)doc mask:(WizTableOrder)mask;
@@ -144,24 +141,31 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 @end
 @interface WizTableViewController ()
 {
-    NSTimer* updateArrayTimer;
+    UILabel* syncDesLabel;
 }
-@property (nonatomic, retain) NSTimer* updateArrayTimer;
+@property (nonatomic, retain) UILabel* syncDesLabel;
 - (void) showSyncButton;
 @end
 @implementation WizTableViewController
 @synthesize kOrderIndex;
 @synthesize tableSourceArray;
-@synthesize updateArrayTimer;
+@synthesize syncDesLabel;
++ (UIBarButtonItem*) syncBarButtonItem
+{
+    static UIBarButtonItem* share = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
+        [activity startAnimating];
+        share = [[UIBarButtonItem alloc] initWithCustomView:activity];
+        share.style = UIBarButtonItemStyleBordered;
+        [activity release];
+    });
+    return share;
+}
 - (void) showActivity
 {
-    UIActivityIndicatorView* activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
-    [activity startAnimating];
-    UIBarButtonItem* refreshing = [[UIBarButtonItem alloc] initWithCustomView:activity];
-    refreshing.style = UIBarButtonItemStyleBordered;
-    [activity release];
-    self.navigationItem.rightBarButtonItem = refreshing;
-    [refreshing release];
+    self.navigationItem.rightBarButtonItem = [WizTableViewController syncBarButtonItem];
 }
 - (void) reloadSelf
 {
@@ -178,8 +182,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) dealloc
 {
     [tableSourceArray release];
-    [updateArrayTimer invalidate];
-    [updateArrayTimer release];
+    [syncDesLabel release];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -293,22 +296,34 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 - (void) didChangedSyncDescription:(NSString *)description
 {
-    if (nil != self.tableView.tableHeaderView) {
-        UILabel* label = (UILabel*)self.tableView.tableHeaderView;
-        label.text = description;
+    if (description == nil || [description isBlock]) {
+        self.tableView.tableHeaderView = nil;
+        [self showSyncButton];
+        return;
+    }
+    if (self.tableView.tableHeaderView != nil) {
+        if (description == nil) {
+            self.tableView.tableHeaderView = nil;
+        }
+        else {
+            syncDesLabel.text = description;
+        }
     }
 }
-
-- (void) buildTableviewHeader
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)];
-    self.tableView.tableHeaderView = label;
-    [label release];
+    if ([[WizSyncManager shareManager] isSyncing]) {
+        self.tableView.tableHeaderView = syncDesLabel;
+        syncDesLabel.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 20);
+        syncDesLabel.text = [[WizSyncManager shareManager] syncDescription];
+    }
+    else {
+        self.tableView.tableHeaderView = nil;
+    }
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self buildTableviewHeader];
 }
 
 - (void)viewDidUnload
@@ -322,6 +337,11 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         [self reloadAllData];
     }
     [[WizSyncManager shareManager] setDisplayDelegate:self];
+}
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[WizSyncManager shareManager] setDisplayDelegate:nil];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -542,6 +562,9 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [WizNotificationCenter addObserverForUpdateDocumentList:self selector:@selector(reloadAllData)];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        syncDesLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        syncDesLabel.textAlignment = UITextAlignmentCenter;
+        syncDesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.kOrderIndex = -1;
         [self showSyncButton];
     }
@@ -557,6 +580,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     NSArray* array = [self.tableView visibleCells];
     for (DocumentListViewCell* each in array) {
         [each prepareForAppear];

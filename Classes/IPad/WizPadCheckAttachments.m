@@ -8,6 +8,7 @@
 
 #import "WizPadCheckAttachments.h"
 #import "WizPadNotificationMessage.h"
+#import "WizFileManager.h"
 @implementation WizPadCheckAttachments
 @synthesize source;
 
@@ -38,12 +39,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -99,17 +94,19 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    NSArray* dir = [[self.source objectAtIndex:indexPath.row] componentsSeparatedByString:@"/"];
-    cell.textLabel.text = [dir lastObject];
+    NSString* filePath = [self.source objectAtIndex:indexPath.row];
+    cell.imageView.image = [WizGlobals attachmentNotationImage:[filePath fileType]];
+    cell.textLabel.text = [filePath fileName];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[self.source objectAtIndex:indexPath.row] forKey:TypeOfAttachmentFilePath];
+        [[WizFileManager shareManager] removeItemAtPath:[self.source objectAtIndex:indexPath.row] error:nil];
         [self.source removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfDeleteAttachments object:nil userInfo:userInfo];
     }
 }
 

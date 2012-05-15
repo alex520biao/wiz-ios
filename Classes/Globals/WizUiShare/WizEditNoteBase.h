@@ -15,12 +15,10 @@
 {
     WizDocument* docEdit;
     float currentTime;
-    NSMutableArray* picturesArray;
-    NSMutableArray* audiosArray;
+    NSMutableArray* attachmentsArray;
 }
 @property (nonatomic, retain)  WizDocument* docEdit;
-@property (nonatomic, retain)  NSMutableArray* picturesArray;
-@property (nonatomic, retain)  NSMutableArray* audiosArray;
+@property (nonatomic, retain)  NSMutableArray* attachmentsArray;
 @property (readonly) float currentTime;
 - (void) audioStartRecode;
 - (void) audioStopRecord;

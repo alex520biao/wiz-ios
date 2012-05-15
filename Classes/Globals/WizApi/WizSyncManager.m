@@ -78,22 +78,32 @@ static WizSyncManager* shareManager;
 
 - (BOOL) isSyncing
 {
-    if ([errorQueque count] || [downloadQueque count] || [uploadQueque count]) {
-        return YES;
+    NSArray* allSyncData = [syncData allValues];
+    for (id each in allSyncData) {
+        if ([each isKindOfClass:[WizApi class]]) {
+            WizApi* api = (WizApi*)each;
+            if (api.busy) {
+                return YES;
+            }
+        }
     }
-    else {
-        self.syncDescription = @"";
-        return NO;
-    }
+    return NO;
 }
 - (NSString*) syncDescription
 {
+    NSArray* allSyncData = [syncData allValues];
+    for (id each in allSyncData) {
+        if ([each isKindOfClass:[WizApi class]]) {
+            WizApi* api = (WizApi*)each;
+            if (api.busy) {
+                return api.syncMessage;
+            }
+        }
+    }
     return syncDescription;
 }
 - (void) setSyncDescription:(NSString *)_syncDescription
 {
-
-    
     if (syncDescription == _syncDescription) {
         return;
     }
@@ -107,7 +117,6 @@ static WizSyncManager* shareManager;
         syncDescription =[_syncDescription retain];
         [self.displayDelegate didChangedSyncDescription:_syncDescription];
     }
-    
 }
 + (id) shareManager
 {
@@ -126,6 +135,7 @@ static WizSyncManager* shareManager;
     [errorQueque release];
     [syncData release];
     [restartTimer release];
+    displayDelegate = nil;
     [super dealloc];
 }
 - (void) loadServerUrl

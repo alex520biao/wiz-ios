@@ -17,7 +17,6 @@
         return nil;
     }
     NSRange range = NSMakeRange(0, 7);
-    NSLog(@"year and mounth is %@",[dateToLocalString substringWithRange:range]);
    return [dateToLocalString substringWithRange:range];
 }
 - (NSString*) stringLocal

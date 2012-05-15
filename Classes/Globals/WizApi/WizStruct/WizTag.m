@@ -15,6 +15,15 @@
 @synthesize namePath;
 @synthesize dateInfoModified;
 @synthesize localChanged;
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        guid = [[WizGlobals genGUID] retain];
+        localChanged = YES;
+    }
+    return self;
+}
 - (void) dealloc
 {
     [parentGUID release];
@@ -40,7 +49,7 @@
     [tag setObject:self.guid forKey:DataTypeUpdateTagGuid];
     [tag setObject:self.title forKey:DataTypeUpdateTagTitle];
     [tag setObject:self.description forKey:DataTypeUpdateTagDescription];
-    [tag setObject:[NSNumber numberWithInt:1] forKey:DataTypeUpdateTagLocalchanged];
+    [tag setObject:[NSNumber numberWithInt:self.localChanged] forKey:DataTypeUpdateTagLocalchanged];
     if (nil == self.dateInfoModified) {
         self.dateInfoModified = [NSDate date];
     }
@@ -60,5 +69,9 @@
 + (NSArray*) allTags
 {
     return [[WizDbManager shareDbManager] allTagsForTree];
+}
++ (NSInteger) fileCountOfTag:(NSString*)tagGuid
+{
+    return [[WizDbManager shareDbManager] fileCountOfTag:tagGuid];
 }
 @end

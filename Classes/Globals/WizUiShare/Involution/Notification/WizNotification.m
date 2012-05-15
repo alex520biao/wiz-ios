@@ -35,6 +35,10 @@
         [nc postNotificationName:messageName object:nil userInfo:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey]];
     }
 }
++ (void) postSimpleMessageWithName:(NSString*)messageName
+{
+    [WizNotificationCenter postMessageWithName:messageName userInfoObject:nil userInfoKey:nil];
+}
 + (id) getMessgeInfoForKey:(NSString*)key   notification:(NSNotification*)nc
 {
     NSDictionary* userInfo = [nc userInfo];

@@ -20,6 +20,8 @@
 #import "WizNotification.h"
 #import "WizSyncManager.h"
 #import "WizSettings.h"
+#import "WizFileManager.h"
+#import <UIKit/UIKit.h>
 
 #define NOSUPPOURTALERT 199
 
@@ -37,7 +39,7 @@
     MBProgressHUD* downloadActivity;
     BOOL isEdit;
 }
-@property (nonatomic, retain) IBOutlet UIWebView* web;
+@property (nonatomic, retain)  UIWebView* web;
 @property (nonatomic, retain)  UISearchBar* searchDocumentBar;
 @property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
 @property (nonatomic, retain)  MBProgressHUD* downloadActivity;
@@ -136,12 +138,16 @@
     [self.navigationController pushViewController:checkAttach animated:YES];
     [checkAttach release];
 }
-
+- (NSString*) oldBodyText
+{
+    return [self.web bodyText];
+}
 - (void)editCurrentDocument
 {
     NewNoteView* newNote= [[NewNoteView alloc]init];
     WizDocument* edit = self.doc;
     newNote.docEdit = edit;
+    [newNote prepareForEdit:[self.web bodyText] attachments:[self.doc existPhotoAndAudio]];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];
@@ -167,7 +173,7 @@
 {
 	BOOL b = [web containImages];
 	//
-	if (b || ![self.doc.type isEqualToString:@"note"])
+	if (b || ![self.doc.type isEqualToString:WizDocumentTypeNoteKeyString])
 	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote 
 														message:WizStrIfyouchoosetoeditthisdocument
@@ -319,7 +325,6 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.doc = [WizDocument documentFromDb:self.doc.guid];
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
         UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];

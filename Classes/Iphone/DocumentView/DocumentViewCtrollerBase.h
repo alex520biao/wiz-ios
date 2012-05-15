@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "WizEidtNoteSourceDelegate.h"
 @class WizDocument;
-@interface DocumentViewCtrollerBase : UIViewController <UIWebViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate,MBProgressHUDDelegate>
+@interface DocumentViewCtrollerBase : UIViewController <UIWebViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate,MBProgressHUDDelegate,WizEidtNoteSourceDelegate>
 {
     WizDocument* doc;
 }

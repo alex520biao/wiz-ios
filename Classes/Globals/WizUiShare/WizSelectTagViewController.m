@@ -12,6 +12,7 @@
 #import "WizPadNotificationMessage.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizGlobals.h"
+#import "WizNotification.h"
 
 @interface WizSelectTagViewController()
 {
@@ -38,7 +39,7 @@
 @synthesize selectDelegate;
 - (void) dealloc
 {
-    [selectDelegate release];
+    selectDelegate = nil;
     [searchedTags release];
     [searchDisplayController release];
     [searchBar release];
@@ -320,6 +321,7 @@
         [tag save];
         [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
         [tag release];
+        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
     }
     else
     {

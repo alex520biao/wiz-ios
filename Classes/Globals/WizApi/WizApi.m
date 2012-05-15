@@ -13,6 +13,7 @@
 #import "WizObject+WizSync.h"
 #import "WizNotification.h"
 #import "WizDocument.h"
+#import "WizSyncManager.h"
 
 #define SyncMethod_ClientLogin                  @"accounts.clientLogin"
 #define SyncMethod_ClientLogout                 @"accounts.clientLogout"
@@ -42,9 +43,10 @@
 @synthesize connectionXmlrpc;
 @synthesize delegate;
 @synthesize busy;
+@synthesize syncMessage;
 -(int) listCount
 {
-	return 200;
+	return 50;
 }
 - (id) init
 {
@@ -52,6 +54,7 @@
     if (self) {
         self.delegate = self;
         attempts = WizNetWorkMaxAttempts;
+        [self addObserver:self forKeyPath:@"syncMessage" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     }
     return self;
 }
@@ -59,15 +62,24 @@
 {
     return YES;
 }
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"syncMessage"]) {
+        NSString* newSyncDes = [change valueForKey:NSKeyValueChangeNewKey];
+        [[WizSyncManager shareManager] setSyncDescription:newSyncDes];
+    }
+    
+}
 -(void) dealloc
 {
     [token release];
     [kbguid release];
     [accountURL release];
     [apiURL release];
+    [syncMessage release];
+    [[WizSyncManager shareManager] removeObserver:self forKeyPath:@"syncMessage"];
 	[super dealloc];
 }
-
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -425,7 +437,7 @@
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_CreateAccount args:args];
 }
 
--(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5
+-(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5  isWithData:(BOOL)isWithData
 {
 	if (!doc)
 		return NO;
@@ -447,7 +459,7 @@
     [postParams setObject:zipMD5 forKey:@"document_zip_md5"];
     [postParams setObject:dateCreated forKey:@"dt_created"];
     
-    [postParams setObject:[NSNumber numberWithInt:1] forKey:@"with_document_data"];
+    [postParams setObject:[NSNumber numberWithInt:isWithData] forKey:@"with_document_data"];
     [postParams setObject:[NSNumber numberWithInt:doc.attachmentCount] forKey:@"document_attachment_count"];
     NSString* tags = [NSString stringWithString:doc.tagGuids];
     NSString* ss = [tags stringByReplacingOccurrencesOfString:@"*" withString:@";"];
@@ -485,7 +497,6 @@
 	{
         [WizGlobals toLog:[NSString stringWithFormat:@"%@",retObject]];
         NSError* error = (NSError*)retObject;
-        NSLog(@"error is %@",error);
         if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
         {
             [WizNotificationCenter postMessageTokenUnactiveError];
@@ -498,6 +509,10 @@
         {
             [self start];
         }
+        else if (error.code == NSURLErrorNetworkConnectionLost && [error.domain isEqualToString:NSURLErrorDomain])
+        {
+            [self cancel];
+        }
         else {
             [WizGlobals reportError:retObject];
         }
@@ -505,6 +520,7 @@
 }
 -(void) cancel
 {
+    busy = NO;
     if (self.connectionXmlrpc)
     {
         [self.connectionXmlrpc cancel];

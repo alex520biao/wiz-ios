@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#define WizSyncEndMessage   @""
+
 @class WizDocument;
 @class WizAttachment;
 
@@ -46,11 +49,13 @@
    XMLRPCConnection* connectionXmlrpc;
     id<WizApiDelegate> delegate;
     BOOL busy;
+    NSString* syncMessage;
 }
 @property (nonatomic, retain) NSURL* accountURL;
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* kbguid;
 @property (nonatomic, retain) NSURL* apiURL;
+@property (nonatomic, retain) NSString* syncMessage;
 @property (retain) XMLRPCConnection* connectionXmlrpc;
 @property (atomic, readonly) BOOL busy;
 @property (nonatomic, retain) id<WizApiDelegate> delegate;
@@ -71,7 +76,7 @@
 -(BOOL) callUploadDeletedGUIDs:(NSArray*)deleteGuids;
 - (BOOL) callChangePassword:(NSString*)accountUserId  oldPassword:(NSString*)oldPassword newPassword:(NSString*)newPassword;
 -(BOOL) callCreateAccount:(NSString*)accountUserId  password:(NSString*)accountPassword;
--(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5;
+-(BOOL) callDocumentPostSimpleData:(WizDocument*)doc withZipMD5:(NSString *)zipMD5 isWithData:(BOOL)isWithData;
 -(BOOL) callAttachmentPostSimpleData:(WizAttachment*)attach  dataMd5:(NSString*)dataMD5     ziwMd5:(NSString*)ziwMD5;
 -(void) onError: (id)retObject;
 -(void) cancel;

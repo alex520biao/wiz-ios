@@ -13,6 +13,7 @@
 #import "WizGlobalData.h"
 #import "WizNotification.h"
 #import "WizFileManager.h"
+#import "WizSyncManager.h"
 #define UploadPartSize  (256*1024)
 
 @protocol WizUploadObjectDelegate
@@ -95,9 +96,17 @@
     [self setOffSetToPreviousPart];
     [self uploadNextPart];
 }
+
 -(BOOL) start
 {
     busy = YES;
+    self.syncMessage = WizStrUploadingnotes;
+    if ([self.uploadObject isKindOfClass:[WizDocument class]]) {
+        WizDocument* doc = (WizDocument*)self.uploadObject;
+        if (doc.localChanged == WizEditDocumentTypeInfoChanged) {
+            return [self callDocumentPostSimpleData:doc withZipMD5:[doc localDataMd5] isWithData:NO];
+        }
+    }
     NSString* zip = [[WizFileManager shareManager] createZipByGuid:self.uploadObject.guid];
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:zip];
     NSString* md5 = [WizGlobals fileMD5:zip];
@@ -141,7 +150,7 @@
     self.uploadFileSize = -1;
     [self.uploadFildHandel closeFile];
     if ([self.uploadObject isKindOfClass:[WizDocument class]]) {
-        [self callDocumentPostSimpleData:(WizDocument*)self.uploadObject  withZipMD5:self.uploadObjMd5];
+        [self callDocumentPostSimpleData:(WizDocument*)self.uploadObject  withZipMD5:self.uploadObjMd5 isWithData:YES];
     }
     else if ([self.uploadObject isKindOfClass:[WizAttachment class]])
     {
@@ -152,6 +161,7 @@
 {
     self.uploadObject = nil;
     busy = NO;
+    self.syncMessage = WizSyncEndMessage;
     [WizNotificationCenter postMessageUploadDone:self.uploadObject.guid];
 }
 
@@ -166,7 +176,7 @@
 - (void) onDocumentPostSimpleData:(id)retObject
 {
     WizDocument* eidt = (WizDocument*)self.uploadObject;
-    eidt.localChanged = NO;
+    eidt.localChanged = WizEditDocumentTypeNoChanged;
     [eidt saveInfo];
     [self onUploadObjectSucceedAndCleanTemp];
 }

@@ -587,6 +587,33 @@ static NSArray* htmlArray;
 {
     return [NSNumber numberWithInt:507384718];
 }
++ (UIImage*) attachmentNotationImage:(NSString*)type
+{
+
+    if ([WizGlobals checkAttachmentTypeIsAudio:type]) {
+        return [UIImage imageNamed:@"icon_video_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsPPT:type])
+    {
+        return [UIImage imageNamed:@"icon_ppt_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsWord:type])
+    {
+        return [UIImage imageNamed:@"icon_word_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsExcel:type])
+    {
+        return [UIImage imageNamed:@"icon_excel_img"];
+    }
+    else if ([WizGlobals checkAttachmentTypeIsImage:type])
+    {
+        return [UIImage imageNamed:@"icon_image_img"];
+    }
+    else 
+    {
+        return [UIImage imageNamed:@"icon_file_img"];
+    }
+}
 @end
 
 

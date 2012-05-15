@@ -34,8 +34,20 @@ BOOL isReverseMask(NSInteger mask)
 @synthesize dataMd5;
 @synthesize protected_;
 @synthesize serverChanged;
-@synthesize localChanged;
+@dynamic  localChanged;
 @synthesize attachmentCount;
+
+- (WizEditDocumentType) localChanged
+{
+    return localChanged;
+}
+- (void) setLocalChanged:(WizEditDocumentType)localChanged_
+{
+    if (localChanged == WizEditDocumentTypeAllChanged && localChanged_ == WizEditDocumentTypeInfoChanged) {
+        return;
+    }
+    localChanged = localChanged_;
+}
 - (void) dealloc
 {
     [fileType release];
@@ -217,6 +229,9 @@ BOOL isReverseMask(NSInteger mask)
     NSString* fileName = [sourcePath fileName];
     NSString* indexFilesPath = [self documentIndexFilesPath];
     NSString* toPath = [indexFilesPath stringByAppendingPathComponent:fileName];
+    if ([[WizFileManager shareManager] fileExistsAtPath:toPath]) {
+        return YES;
+    }
     if (![[WizFileManager shareManager] moveItemAtPath:sourcePath toPath:toPath error:nil]) {
         return NO;
     }
@@ -230,7 +245,7 @@ BOOL isReverseMask(NSInteger mask)
     NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithCapacity:14];
     [doc setObject:self.guid forKey:DataTypeUpdateDocumentGUID];
     [doc setObject:[NSNumber numberWithBool:self.serverChanged] forKey:DataTypeUpdateDocumentServerChanged];
-    [doc setObject:[NSNumber numberWithBool:self.localChanged] forKey:DataTypeUpdateDocumentLocalchanged];
+    [doc setObject:[NSNumber numberWithInt:self.localChanged] forKey:DataTypeUpdateDocumentLocalchanged];
     [doc setObject:[NSNumber numberWithBool:self.protected_] forKey:DataTypeUpdateDocumentProtected];
     [doc setObject:[NSNumber numberWithInt:self.attachmentCount] forKey:DataTypeUpdateDocumentAttachmentCount];
     if (nil == self.type)
@@ -271,6 +286,7 @@ BOOL isReverseMask(NSInteger mask)
         self.dataMd5 = @"";
     }
     [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
+    NSLog(@"%@",doc);
     if ([[WizDbManager shareDbManager] updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;
@@ -365,7 +381,7 @@ BOOL isReverseMask(NSInteger mask)
     BOOL hasPicture = NO;
     BOOL hasAudio = NO;
     for (NSString* sourcePath in documentsSourceArray) {
-        
+        NSLog(@"sourcepath %@",sourcePath);
         NSString* fileName = [sourcePath fileName];
         NSString* attachmentType = [sourcePath fileType];
         if ([WizGlobals checkAttachmentTypeIsImage:attachmentType]) {
@@ -404,24 +420,34 @@ BOOL isReverseMask(NSInteger mask)
             body = [NSString stringWithFormat:@"Add %@",fileName];
         }
     }
-
     if (hasPicture && !hasAudio) {
         self.type = WizDocumentTypeImageKeyString;
-        self.title = WizStrNewDocumentTitleImage;
     }
     else if (!hasPicture && hasAudio)
     {
         self.type = WizDocumentTypeAudioKeyString;
-        self.title = WizStrNewDocumentTitleAudio;
     }
     else {
         self.type = WizDocumentTypeNoteKeyString;
-        if ([textBody firstLine]) {
-            self.title = [textBody firstLine];
+    }
+    
+    //
+    if (nil == self.title) {
+        if (hasPicture && !hasAudio) {
+            self.title = WizStrNewDocumentTitleImage;
         }
-        else
+        else if (!hasPicture && hasAudio)
         {
             self.title = WizStrNewDocumentTitleAudio;
+        }
+        else {
+            if ([textBody firstLine]) {
+                self.title = [textBody firstLine];
+            }
+            else
+            {
+                self.title = WizStrNewDocumentTitleAudio;
+            }
         }
     }
     
@@ -430,7 +456,7 @@ BOOL isReverseMask(NSInteger mask)
     [html writeToFile:documentIndex atomically:YES encoding:NSUTF16StringEncoding error:nil];
     [html writeToFile:[self documentMobileFile] atomically:YES encoding:NSUTF16StringEncoding error:nil];
     self.dataMd5 = [self localDataMd5];
-    self.localChanged = YES;
+    self.localChanged = WizEditDocumentTypeAllChanged;
     [self saveInfo];
     return YES;
 }
@@ -456,5 +482,29 @@ BOOL isReverseMask(NSInteger mask)
         }
     }
     return [self saveInfo];
+}
+
+- (void) setTagWithArray:(NSArray*)tags
+{
+    NSMutableString* tagsGuid_ = [NSMutableString stringWithCapacity:0];
+    for (WizTag* tag in tags) {
+        [tagsGuid_ appendFormat:@"%@*",tag.guid];
+    }
+    if (tagsGuid_.length >0) {
+        tagsGuid_ = [NSMutableString stringWithString:[tagsGuid_ substringToIndex:tagsGuid_.length -1]];
+    }
+    self.tagGuids = tagsGuid_;
+}
+- (NSArray*) existPhotoAndAudio
+{
+    NSArray* array = [[WizFileManager shareManager] contentsOfDirectoryAtPath:[self documentIndexFilesPath] error:nil];
+    NSMutableArray* ret = [NSMutableArray array];
+    for (NSString* each in array) {
+        NSString* attachmentType = [each fileType];
+        if ([WizGlobals checkAttachmentTypeIsImage:attachmentType] || [WizGlobals checkAttachmentTypeIsAudio:attachmentType]) {
+            [ret addObject:[[self documentIndexFilesPath] stringByAppendingPathComponent:each]];
+        }
+    }
+    return ret;
 }
 @end

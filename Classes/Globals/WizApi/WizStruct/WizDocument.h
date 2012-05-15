@@ -24,6 +24,14 @@ enum
      kOrderCreatedDate=5,
      kOrderReverseCreatedDate=6
 };
+typedef NSInteger WizEditDocumentType;
+enum
+{
+    WizEditDocumentTypeNoChanged = 0,
+    WizEditDocumentTypeInfoChanged = 1,
+    WizEditDocumentTypeAllChanged = 3,
+};
+
 @interface WizDocument : WizObject
 {
 	NSString* location;
@@ -36,8 +44,8 @@ enum
     NSString* dataMd5;
     BOOL protected_;
     BOOL serverChanged;
-    BOOL localChanged;
-	int attachmentCount;
+    WizEditDocumentType localChanged;
+	NSInteger attachmentCount;
 }
 @property (nonatomic, retain) NSString* location;
 @property (nonatomic, retain) NSString* url;
@@ -48,7 +56,7 @@ enum
 @property (nonatomic, retain) NSString* tagGuids;
 @property (nonatomic, retain) NSString* dataMd5;
 @property (assign) BOOL serverChanged;
-@property (assign) BOOL localChanged;
+@property (assign) WizEditDocumentType localChanged;
 @property (assign) BOOL protected_;
 @property int attachmentCount;
 - (NSComparisonResult) compareModifiedDate:(WizDocument*) doc;
@@ -57,7 +65,6 @@ enum
 - (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
 - (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
-
 - (BOOL) isNewWebnote;
 - (BOOL) isExistMobileViewFile;
 - (BOOL) isExistAbstractFile;
@@ -89,4 +96,6 @@ enum
 - (void) download;
 //
 - (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray;
+- (void) setTagWithArray:(NSArray*)tags;
+- (NSArray*) existPhotoAndAudio;
 @end

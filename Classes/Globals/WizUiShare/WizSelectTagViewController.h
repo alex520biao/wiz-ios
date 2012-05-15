@@ -7,13 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol WizSelectTagDelegate <NSObject>
-- (NSArray*) selectedTagsOld;
-- (void) didSelectedTags:(NSArray*)tags;
-@end
+#import "WizSelectTagDelegate.h"
 @interface WizSelectTagViewController : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate>
 {
     id<WizSelectTagDelegate> selectDelegate;
 }
-@property (nonatomic, retain) id<WizSelectTagDelegate> selectDelegate;
+@property (nonatomic, assign) id<WizSelectTagDelegate> selectDelegate;
 @end
