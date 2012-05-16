@@ -19,13 +19,28 @@
 #import "WizDocument.h"
 #import "WizDbManager.h"
 #import "WizTableViewController.h"
+#import "WizSettings.h"
 
 @implementation WizPadListTableControllerBase
 @synthesize isLandscape;
-@synthesize accountUserID;
 @synthesize kOrderIndex;
 @synthesize tableArray;
-
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
+    [WizNotificationCenter removeObserver:self];
+    [WizNotificationCenter removeObserverForDeleteDocument:self];
+    [tableArray release];
+    [super dealloc];
+}
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        kOrderIndex = [[WizSettings defaultSettings] userTablelistViewOption];
+    }
+    return self;
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -106,7 +121,6 @@
 {
     NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
     [self.tableArray removeAllObjects];
-    NSRange range = NSMakeRange(0, 7);
     if ([array count] == 1) {
         NSMutableArray* sectionArray = [NSMutableArray array];
         [sectionArray addObject:[array objectAtIndex:0]];
@@ -290,7 +304,6 @@
     {
         self.tableView.backgroundView = nil;
     }
-    self.kOrderIndex = [[WizDbManager shareDbManager] userTablelistViewOption];
     switch (self.kOrderIndex) {
         case kOrderDate:
             [self orderByDate];
@@ -434,8 +447,6 @@
     WizPadListCell *cell = (WizPadListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[WizPadListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accountUserId = self.accountUserID;
-        cell.owner = self;
     }
     NSUInteger documentsCount=0;
     if (self.isLandscape) {
@@ -549,23 +560,16 @@
     }
     [[self.tableArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
     if ([[self.tableArray objectAtIndex:docIndex.section] count] > 0)
-{
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-}
-else {
-    [self.tableArray removeObjectAtIndex:docIndex.section];
-    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-}
+    {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else {
+        [self.tableArray removeObjectAtIndex:docIndex.section];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
-    [WizNotificationCenter removeObserver:self];
-    [WizNotificationCenter removeObserverForDeleteDocument:self];
-    [accountUserID release];
-    [super dealloc];
-}
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

@@ -8,6 +8,5 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "WizSingleSelectDelegate.h"
-@interface UserSttingsViewController:UITableViewController <UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,MFMailComposeViewControllerDelegate,WizSingleSelectDelegate>
-
+@interface UserSttingsViewController:UITableViewController <UIAlertViewDelegate,MFMailComposeViewControllerDelegate,WizSingleSelectDelegate>
 @end

@@ -58,6 +58,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         firstLoad = YES;
+        [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
     }
     return self;
 }
@@ -84,19 +85,17 @@
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
     [self.navigationController pushViewController:pad animated:YES];
+    [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     [pad release];
 }
 
 - (void) selecteDefaultAccount
 {
-//    NSArray* accounts = [WizSettings accounts];
-//    if ([accounts count] > 0) {
-//        NSString* defaultUserId = [WizSettings activeAccountUserId];
-//        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-//            return;
-//        }
-//        [self didSelectedAccount:defaultUserId];
-//    }
+    NSString* defaultUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
+        return;
+    }
+    [self didSelectedAccount:defaultUserId];
 }
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -104,15 +103,13 @@
     [self setFrames:self.interfaceOrientation];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES];
-//    if ([[WizSettings accounts] count]) {
-//        if (firstLoad) {
-//            [self selecteDefaultAccount];
-//            firstLoad = NO;
-//        }
-//        else {
-//            [self loginViewAppear:nil];
-//        }
-//    }
+        if (firstLoad) {
+            [self selecteDefaultAccount];
+            firstLoad = NO;
+        }
+        else {
+            [self loginViewAppear:nil];
+    }
     
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -132,7 +129,6 @@
 {
     NSString* accountUserId = [WizNotificationCenter getDidSelectedAccountUserId:nc];
     [self didSelectedAccount:accountUserId];
-    
 }
 - (void)viewDidLoad
 {
@@ -142,7 +138,6 @@
     [self.loginButton setTitle:WizStrSignIn forState:UIControlStateNormal];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
     [self.registerButton setTitle:WizStrCreateAccount forState:UIControlStateNormal];
-    [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
 
 }
 

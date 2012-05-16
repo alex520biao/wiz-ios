@@ -45,3 +45,5 @@
 
 #define MessageTypeOfUpdateFolderTable              @"MessageTypeOfUpdateFolderTable"
 #define MessageTypeOfUpdateTagTable                 @"MessageTypeOfUpdateTagTable"
+//
+#define MessageTypeOfCacheDbUpdate                  @"MessageTypeOfCacheDbUpdate"

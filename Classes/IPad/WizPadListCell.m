@@ -10,14 +10,10 @@
 #import "WizPadDocumentAbstractView.h"
 
 @implementation WizPadListCell
-@synthesize accountUserId;
-@synthesize owner;
 @synthesize abstractArray;
 - (void) dealloc
 {
     [abstractArray release];
-    [owner release];
-    [accountUserId release];
     [super dealloc];
 }
 - (void) setDocuments:(NSArray*) arr
@@ -26,10 +22,7 @@
         
         WizDocument* doc = [arr objectAtIndex:i];
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
-        abst.accountUserId = self.accountUserId;
-        abst.owner = self.owner;
         [abst setDocument:doc];
-
         abst.alpha = 1.0f;
     }
     for (int i =[ arr count]; i < 4; i++) {

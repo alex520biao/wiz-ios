@@ -147,29 +147,30 @@ enum WizSettingKind {
 //    self.downloadDurationData = downloadDurationItems;
 //    self.downloadDurationRemind = downloadDurationRemind_;
 //}
-//- (void) logOutCurrentAccount
-//{
-//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//    WizAccountManager* manager = [WizAccountManager defaultManager];
-//    [manager logoutAccount];
-//    if ([WizGlobals WizDeviceIsPad]) {
-//        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-//        return;
-//    }
-//    else
-//    {
-//        [self.navigationController popToRootViewControllerAnimated:YES];
-//    }
-//}
-//- (void) buildNavItems
-//{
-//    UIBarButtonItem* logoutItem = [[UIBarButtonItem alloc] initWithTitle:WizStrLogOut style:UIBarButtonItemStyleDone target:self action:@selector(logOutCurrentAccount)];
-//    self.navigationItem.rightBarButtonItem = logoutItem;
-//    [logoutItem release];
-//}
+- (void) logOutCurrentAccount
+{
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    WizAccountManager* manager = [WizAccountManager defaultManager];
+    [manager logoutAccount];
+    if ([WizGlobals WizDeviceIsPad]) {
+        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+        return;
+    }
+    else
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+- (void) buildNavItems
+{
+    UIBarButtonItem* logoutItem = [[UIBarButtonItem alloc] initWithTitle:WizStrLogOut style:UIBarButtonItemStyleDone target:self action:@selector(logOutCurrentAccount)];
+    self.navigationItem.rightBarButtonItem = logoutItem;
+    [logoutItem release];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self buildNavItems];
 }
 
 - (void)viewDidUnload

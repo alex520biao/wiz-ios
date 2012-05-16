@@ -269,4 +269,9 @@
 {
     [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfUpdateDocumentList];
 }
+//
++ (void) postMessageCacheDbUpdate:(NSString*)guid
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfCacheDbUpdate userInfoObject:guid userInfoKey:UserInfoTypeOfDocumentGUID];
+}
 @end

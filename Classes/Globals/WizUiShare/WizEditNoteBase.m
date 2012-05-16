@@ -15,6 +15,8 @@
 #import "WizFileManager.h"
 #import "WizSettings.h"
 
+
+
 @interface WizEditNoteBase()
 {
     AVAudioRecorder *recorder;
@@ -71,7 +73,7 @@
     [self.recorder stop];
     [self.timer invalidate];
     currentTime = 0.0f;
-    [self.attachmentsArray addObject:self.currentRecodingFilePath];
+    [self.attachmentsArray addAttachmentBySourceFile:self.currentRecodingFilePath];
     [self attachmentAddDone];
 }
 
@@ -165,7 +167,7 @@
     [picker dismissModalViewControllerAnimated:YES];
     //2012-2-26 delete
     //    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
-    [self.attachmentsArray addObject:fileNamePath];
+    [self.attachmentsArray addAttachmentBySourceFile:fileNamePath];
     [self attachmentAddDone];
 }
 
@@ -192,7 +194,7 @@
         image = [image compressedImage:[[WizSettings defaultSettings] imageQualityValue]];
         NSString* fileNamePath = [[[WizFileManager shareManager] getAttachmentSourceFileName] stringByAppendingString:@".jpg"];
         [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
-        [self.attachmentsArray addObject:fileNamePath];
+        [self.attachmentsArray addAttachmentBySourceFile:fileNamePath];
     }
     [self attachmentAddDone];
     [self elcImagePickerControllerDidCancel:picker];

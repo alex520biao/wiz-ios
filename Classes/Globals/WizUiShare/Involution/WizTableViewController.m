@@ -150,6 +150,18 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 @synthesize kOrderIndex;
 @synthesize tableSourceArray;
 @synthesize syncDesLabel;
+- (NSArray*) reloadAllDocument
+{
+    return nil;
+}
+- (void) insertDocument:(WizDocument *)doc indexPath:(NSIndexPath *)indexPath
+{
+    
+}
+- (void) deleteDocument:(NSString *)documentGuid
+{
+    
+}
 + (UIBarButtonItem*) syncBarButtonItem
 {
     static UIBarButtonItem* share = nil;

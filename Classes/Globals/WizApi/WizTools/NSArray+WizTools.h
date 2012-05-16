@@ -11,4 +11,6 @@
 @interface NSMutableArray (WizTools)
 - (void) addObjectUnique:(id)object;
 - (void) addWizObjectUnique:(WizObject*)objcet;
+- (void) addAttachmentBySourceFile:(NSString*)source;
+- (NSArray*) attachmentTempSourceFile;
 @end

@@ -66,7 +66,7 @@
                               lineBreakMode:UILineBreakModeCharacterWrap];
     CGFloat requireWidth = requiredSize.width;
     if (requireWidth > width) {
-        if (nil == str || str.length <1) {
+        if (nil == str || str.length <=1) {
             return @"";
         }
         return [WizDecorate  nameToDisplay:[str substringToIndex:str.length-1 ] width:width];

@@ -100,6 +100,8 @@
         [self callDownloadDocumentList:newVer+1];
     }
     else {
+        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
+        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
         [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
     }
 }
@@ -114,7 +116,6 @@
 	//
 	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
 	//
-    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
 	[self.dbDelegate updateLocations:arrCategory];
     [self callDownloadDocumentList:[self.dbDelegate documentVersion]];
 }

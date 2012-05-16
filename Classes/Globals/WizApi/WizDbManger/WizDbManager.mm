@@ -629,7 +629,6 @@ static WizDbManager* shareDbManager = nil;
 - (BOOL) updateDocument:(NSDictionary*) doc
 {
 	NSString* guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
-    NSLog(@"guid is %@",guid);
 	NSString* title =[doc valueForKey:DataTypeUpdateDocumentTitle];
 	NSString* location = [doc valueForKey:DataTypeUpdateDocumentLocation];
 	NSString* dataMd5 = [doc valueForKey:DataTypeUpdateDocumentDataMd5];
@@ -875,9 +874,6 @@ static WizDbManager* shareDbManager = nil;
 		}
 	}
 	//
-    if ([tags count]) {
-        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
-    }
 	return YES;
 }
 

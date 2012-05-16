@@ -8,7 +8,3 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol WizEidtNoteSourceDelegate <NSObject>
-- (NSString*) oldBodyText;
-- (NSArray*) oldAttachmentsArray;
-@end

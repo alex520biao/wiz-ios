@@ -7,6 +7,7 @@
 //
 
 #import "WizVerifyAccount.h"
+#import "WizSettings.h"
 @implementation WizVerifyAccount
 @synthesize accountPassword;
 @synthesize accountUserId;
@@ -41,7 +42,7 @@
 	if (self.busy)
 		return NO;
 	busy = YES;
-    self.accountURL = [WizGlobals wizServerUrl];
+    self.accountURL = [[WizSettings defaultSettings] wizServerUrl];
 	return [self callClientLogin:self.accountUserId accountPassword:self.accountPassword];
 }
 

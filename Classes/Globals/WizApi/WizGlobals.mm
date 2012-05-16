@@ -403,8 +403,8 @@ static NSArray* htmlArray;
 //    NSString* url = [[WizSettings defaultSettings] wizServerUrl];
 //    NSLog(@"url %@",url);
 //    return [[[NSURL alloc] initWithString:url] autorelease];
-    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
-//    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
+//    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
+    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
 //    return [[NSURL alloc] initWithString:@"http://110.75.189.20:8080/wiz/xmlrpc"];
 }
 +(NSString*) dateToLocalString: (NSDate*)date

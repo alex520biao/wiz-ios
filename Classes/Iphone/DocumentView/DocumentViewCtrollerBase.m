@@ -147,7 +147,12 @@
     NewNoteView* newNote= [[NewNoteView alloc]init];
     WizDocument* edit = self.doc;
     newNote.docEdit = edit;
-    [newNote prepareForEdit:[self.web bodyText] attachments:[self.doc existPhotoAndAudio]];
+    NSMutableArray* array =[NSMutableArray array];
+    if ([self.doc.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.doc.type isEqualToString:WizDocumentTypeImageKeyString] || [self.doc.type isEqualToString:WizDocumentTypeNoteKeyString]) {
+       [array addObjectsFromArray:[self.doc existPhotoAndAudio]]; 
+    }
+    [array addObjectsFromArray:[self.doc attachments]];
+    [newNote prepareForEdit:[self.web bodyText] attachments:array];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];
@@ -190,8 +195,6 @@
 	}
 }
 
-
-
 - (void) downloadProcess:(NSNotification*) nc
 {
     return;
@@ -204,7 +207,6 @@
     [self.navigationController pushViewController:infoView animated:YES];
     [infoView release];
 }
-
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {

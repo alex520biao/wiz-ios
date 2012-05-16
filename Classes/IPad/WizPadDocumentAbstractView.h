@@ -11,18 +11,16 @@
 @class WizDocument;
 @interface WizPadDocumentAbstractView : UIView
 {
-    TTTAttributedLabel* abstractLabel;
     UILabel* nameLabel;
+    UILabel* timeLabel;
+    UILabel* detailLabel;
     UIImageView* abstractImageView;
-    NSString* accountUserId;
     WizDocument* doc;
-    id owner;
 }
-@property (nonatomic, retain) TTTAttributedLabel* abstractLabel;
-@property (nonatomic, retain) UILabel* nameLabel;
+@property (nonatomic, retain)     UILabel* nameLabel;
+@property (nonatomic, retain)  UILabel* timeLabel;
+@property (nonatomic, retain)  UILabel* detailLabel;
 @property (nonatomic, retain) UIImageView* abstractImageView;
-@property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) WizDocument* doc;
-@property (nonatomic, retain) id owner;
 - (void) setDocument:(WizDocument*) document;
 @end

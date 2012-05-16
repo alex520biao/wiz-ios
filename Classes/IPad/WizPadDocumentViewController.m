@@ -352,7 +352,6 @@
 
 - (void) documentsOrderedBtMonth:(NSArray*) array
 {
-    NSRange range = NSMakeRange(0, 7);
     if ([array count] == 1) {
         NSMutableArray* sectionArray = [NSMutableArray array];
         [sectionArray addObject:[array objectAtIndex:0]];
@@ -371,7 +370,7 @@
             WizDocument* doc2 = [array objectAtIndex:k+1];
             if(k == [array count] -2)
             {
-                if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+                if ([[doc1.dateModified stringYearAndMounth] isEqualToString:[doc2.dateModified stringYearAndMounth]]) {
                     [sectionArray addObject:doc1];
                     [sectionArray addObject:doc2];
                     [self.documentsArray addObject:sectionArray];
@@ -385,7 +384,7 @@
                 }
                 return;
             }
-            if ([[doc1.dateModified substringWithRange:range] isEqualToString:[doc2.dateModified substringWithRange:range]]) {
+            if ([[doc1.dateModified stringYearAndMounth] isEqualToString:[doc2.dateModified stringYearAndMounth]]) {
                 [sectionArray addObject:doc1];
             } else
             {
@@ -411,19 +410,17 @@
 
 - (void) checkDocumentDtail
 {
-//    [self dismissPoperview];
-//
-//    DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID];
-//    infoView.doc = doc;
-//    infoView.accountUserId = self.accountUserId;
-//    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:infoView] ;
-//    pop.popoverContentSize = CGSizeMake(320, 300);
-//    self.currentPopoverController = pop;
-//    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-//    [pop release];
-//    [infoView release];
+    [self dismissPoperview];
+
+    DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    WizDocument* doc = [WizDocument documentFromDb:self.selectedDocumentGUID];
+    infoView.doc = doc;
+    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:infoView] ;
+    pop.popoverContentSize = CGSizeMake(320, 300);
+    self.currentPopoverController = pop;
+    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [pop release];
+    [infoView release];
 }
 - (void) onEditDone
 {
@@ -432,7 +429,7 @@
 - (void) onEditCurrentDocument
 {
     WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
-    WizDocument* doc = [[[WizGlobalData sharedData] indexData:self.accountUserId] documentFromGUID:selectedDocumentGUID];
+    WizDocument* doc = [WizDocument documentFromDb:selectedDocumentGUID];
     NSMutableDictionary* data = [NSMutableDictionary dictionary];
     [data setObject:[self.webView bodyText] forKey:TypeOfDocumentBody];
     [data setObject:doc.title forKey:TypeOfDocumentTitle];
@@ -752,7 +749,7 @@
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     WizDocument* doc = [[self.documentsArray objectAtIndex:section] objectAtIndex:0];
-    NSDate* date = [doc.dateModified dateFromSqlTimeString];
+    NSDate* date = doc.dateModified ;
     return [date stringLocal];
 }
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

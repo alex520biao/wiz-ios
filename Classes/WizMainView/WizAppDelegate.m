@@ -141,53 +141,6 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void) application:(UIApplication *)application willChangeStatusBarFrame:(CGRect)newStatusBarFrame
-{
-//    
-//    if (newStatusBarFrame.origin.x == 0) {
-//        if (newStatusBarFrame.origin.y == 0) {
-//            if (newStatusBarFrame.size.width == 20) {
-//                // 0 0 20 480
-//                float rotateAngle = -M_PI/2;
-//                CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
-//                self.syncDescriptionWindow.frame = CGRectMake(0.0, 0.0, 20, 480);
-//                self.syncDescriptionWindow.textLabel.transform = transform;
-//            }
-//            else {
-//                // 0 0 320 20
-//                float rotateAngle = 0;
-//                CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
-//                self.syncDescriptionWindow.textLabel.transform = transform;
-//            }
-//        }
-//        else {
-//            //0 460 320 20
-//            float rotateAngle = M_PI/2;
-//            CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
-//            self.syncDescriptionWindow.textLabel.transform = transform;
-//        }
-//    }
-//    else {
-//        // 300 0 20 480
-//        float rotateAngle = M_PI/2;
-//        CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
-//        self.syncDescriptionWindow.textLabel.transform = transform;
-//    }
-////    if (newStatusBarFrame.origin.x != 0) {
-////        float rotateAngle = M_PI/2;
-////        CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
-////        self.syncDescriptionWindow.transform = transform;
-////        self.syncDescriptionWindow.frame = CGRectMake(newStatusBarFrame.origin.x - newStatusBarFrame.size.width/2-10, 0, newStatusBarFrame.size.width, newStatusBarFrame.size.height);
-////    }
-////    else
-////    {
-////        float rotateAngle = -M_PI/2;
-////        CGAffineTransform transform = CGAffineTransformMakeRotation(rotateAngle);
-////        self.syncDescriptionWindow.transform = transform;
-////        self.syncDescriptionWindow.frame = CGRectMake(newStatusBarFrame.origin.x - newStatusBarFrame.size.width/2-10, 0, newStatusBarFrame.size.width, newStatusBarFrame.size.height);
-////    }
-}
-
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
 
@@ -207,11 +160,13 @@
             [WizGlobals reportError:error];
             return NO;
         }
-//        NSString* documentGUID = [[index newDocumentWithOneAttachment:toUrl] autorelease];
-//        if (documentGUID == nil) {
-//            return NO;
-//        }
-//        [WizNotificationCenter postNewDocumentMessage:documentGUID];
+        WizDocument* doc = [[WizDocument alloc] init];
+        WizAttachment* attachment = [[WizAttachment alloc] init];
+        NSMutableArray* arr = [NSMutableArray array];
+        [arr addAttachmentBySourceFile:toFilePath];
+        [doc saveWithData:nil attachments:arr];
+        [attachment release];
+        [doc release];
         return YES;
     }
 return NO;

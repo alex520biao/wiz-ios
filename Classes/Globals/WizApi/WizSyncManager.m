@@ -140,7 +140,7 @@ static WizSyncManager* shareManager;
 }
 - (void) loadServerUrl
 {
-    self.serverUrl = [WizGlobals wizServerUrl];
+    self.serverUrl = [[WizSettings defaultSettings] wizServerUrl];
 }
 - (void) automicSyncData
 {
@@ -283,6 +283,16 @@ static WizSyncManager* shareManager;
 //
 - (void) resignActive
 {
+    for (WizApi* each in [syncData allValues]) {
+        WizApi* api = (WizApi*)each;
+        api.token = @"";
+        api.kbguid = @"";
+        if (api.busy) {
+            [api cancel];
+        }
+    }
+    self.token = @"";
+    self.kbGuid = @"";
     [downloadQueque removeAllObjects];
     [errorQueque removeAllObjects];
     [uploadQueque removeAllObjects];

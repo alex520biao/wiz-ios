@@ -9,6 +9,7 @@
 #import "WizPadCheckAttachments.h"
 #import "WizPadNotificationMessage.h"
 #import "WizFileManager.h"
+
 @implementation WizPadCheckAttachments
 @synthesize source;
 
@@ -94,17 +95,28 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    NSString* filePath = [self.source objectAtIndex:indexPath.row];
-    cell.imageView.image = [WizGlobals attachmentNotationImage:[filePath fileType]];
-    cell.textLabel.text = [filePath fileName];
+    WizAttachment* attach = [self.source objectAtIndex:indexPath.row];
+    if (attach.localChanged > 0) {
+        cell.textLabel.text = attach.title;
+        cell.imageView.image = [WizGlobals attachmentNotationImage:[attach.title fileType]];
+    }
+    else {
+        cell.textLabel.text = [attach.description fileName];
+        cell.imageView.image = [WizGlobals attachmentNotationImage:[attach.description fileType]];
+    }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:[self.source objectAtIndex:indexPath.row] forKey:TypeOfAttachmentFilePath];
-        [[WizFileManager shareManager] removeItemAtPath:[self.source objectAtIndex:indexPath.row] error:nil];
+        WizAttachment* attachment = [self.source objectAtIndex:indexPath.row];
+        if (WizAttachmentEditTypeTempChanged == attachment.localChanged) {
+            [[WizFileManager shareManager] removeItemAtPath:attachment.description error:nil];
+        }
+        else {
+            [WizAttachment deleteAttachment:attachment.guid];
+        }
         [self.source removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
     }
@@ -113,17 +125,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIWebView* webview = [[UIWebView alloc] init];
-    NSURL* url = [[NSURL alloc] initFileURLWithPath:[self.source objectAtIndex:indexPath.row]];
-    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-    [webview loadRequest:req];
-    [req release];
-    [url release];
-    UIViewController* contr = [[UIViewController alloc] init];
-    contr.view = webview;
-    [self.navigationController pushViewController:contr animated:YES];
-    [contr release];
-    [webview release];
+    WizAttachment* attachment = [self.source objectAtIndex:indexPath.row];
+    if (YES == attachment.serverChanged) {
+        return;
+    }
+    else {
+        NSString* sourceFile = @"";
+        if (attachment.localChanged < 0) {
+            sourceFile = attachment.description;
+        }
+        else {
+            sourceFile = [attachment attachmentFilePath];
+        }
+        UIWebView* webview = [[UIWebView alloc] init];
+        NSURL* url = [[NSURL alloc] initFileURLWithPath:sourceFile];
+        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+        [webview loadRequest:req];
+        [req release];
+        [url release];
+        UIViewController* contr = [[UIViewController alloc] init];
+        contr.view = webview;
+        [self.navigationController pushViewController:contr animated:YES];
+        [contr release];
+        [webview release];
+    }
+    
 }
 
 @end

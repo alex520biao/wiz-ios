@@ -98,4 +98,5 @@ enum
 - (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray;
 - (void) setTagWithArray:(NSArray*)tags;
 - (NSArray*) existPhotoAndAudio;
+- (BOOL) deleteTag:(NSString*)tagGuid;
 @end

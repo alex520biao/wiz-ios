@@ -27,4 +27,23 @@
     }
     [self addObject:objcet];
 }
+
+- (void) addAttachmentBySourceFile:(NSString *)source
+{
+    WizAttachment* attachm = [[WizAttachment alloc] init];
+    attachm.description = source;
+    attachm.localChanged = WizAttachmentEditTypeTempChanged;
+    [self addObject:attachm];
+    [attachm release];
+}
+- (NSArray*) attachmentTempSourceFile
+{
+    NSMutableArray* arr = [NSMutableArray array];
+    for (WizAttachment* each in self) {
+        if (WizAttachmentEditTypeTempChanged == each.localChanged) {
+            [arr addObject:each.description];
+        }
+    }
+    return arr;
+}
 @end

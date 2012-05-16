@@ -10,12 +10,10 @@
 @interface WizPadListTableControllerBase : UITableViewController
 {
     NSMutableArray* tableArray;
-    NSString* accountUserID;
     BOOL isLandscape;
     int kOrderIndex;
 }
 @property (nonatomic, retain) NSMutableArray* tableArray;
-@property (nonatomic, retain) NSString* accountUserID;
 @property int kOrderIndex;
 @property (assign) BOOL isLandscape;
 - (void) didSelectedDocument:(WizDocument*)doc;

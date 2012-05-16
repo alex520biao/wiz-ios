@@ -10,12 +10,8 @@
 #define PADABSTRACTVELLHEIGTH 300
 @interface WizPadListCell : UITableViewCell
 {
-    NSString* accountUserId;
     NSMutableArray* abstractArray;
-    id owner;
 }
-@property (nonatomic, retain) NSString* accountUserId;
-@property (nonatomic, retain) id owner;
 @property (nonatomic, retain) NSMutableArray* abstractArray;
 - (void) setDocuments:(NSArray*) arr;
 @end

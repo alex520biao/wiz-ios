@@ -133,7 +133,6 @@
 	[alert release];
 	WizVerifyAccount* api = [[WizGlobalData sharedData] verifyAccountData: accountIDString];
     api.verifyDelegate = self;
-
     api.accountUserId = accountIDString;
     api.accountPassword = accountPasswordString;
 	[api verifyAccount];

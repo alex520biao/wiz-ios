@@ -7,6 +7,7 @@
 //
 
 #import "WizCreateAccount.h"
+#import "WizSettings.h"
 
 
 @implementation WizCreateAccount
@@ -29,7 +30,7 @@
 	if (self.busy)
 		return NO;
 	busy = YES;
-    self.accountURL = [WizGlobals wizServerUrl];
+    self.accountURL = [[WizSettings defaultSettings] wizServerUrl];
 	return [self callCreateAccount:self.accountUserId password:self.accountPassword];
 }
 @end

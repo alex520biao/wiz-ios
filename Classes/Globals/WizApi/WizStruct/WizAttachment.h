@@ -8,6 +8,13 @@
 
 #import "WizObject.h"
 
+typedef NSInteger WizAttachmentEditType;
+enum {
+    WizAttachmentEditTypeTempChanged = -1,
+    WizAttachmentEditTypeNoChanged  = 0,
+    WizAttachmentEditTypeChanged    = 1,
+};
+
 @interface WizAttachment : WizObject
 {
     NSString* type;
@@ -16,7 +23,7 @@
     NSDate*     dateModified;
     NSString* documentGuid;
     BOOL      serverChanged;
-    BOOL      localChanged;
+    WizAttachmentEditType      localChanged;
 }
 @property (nonatomic, retain)     NSString* type;
 @property (nonatomic, retain)     NSString* dateMd5;
@@ -24,7 +31,7 @@
 @property (nonatomic, retain)     NSDate*     dateModified;
 @property (nonatomic, retain)     NSString* documentGuid;
 @property (assign) BOOL      serverChanged;
-@property (assign) BOOL      localChanged;
+@property (assign) WizAttachmentEditType      localChanged;
 - (NSString*) attachmentFilePath;
 - (BOOL) saveData:(NSString*)filePath;
 + (void) deleteAttachment:(NSString*)attachmentGuid;

@@ -15,6 +15,7 @@
 #import "WizSyncManager.h"
 #import "WizFileManager.h"
 #import "WizDbManager.h"
+#import "WizNotification.h"
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -223,6 +224,7 @@
     WizSyncManager* sync = [WizSyncManager shareManager];
     [sync resignActive];
     [self setDefalutAccount:@""];
+    [WizNotificationCenter postChangeAccountMessage];
 }
 
 -(void) removeAccount: (NSString*)userId

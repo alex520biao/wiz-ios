@@ -343,11 +343,18 @@
 
 	NSData *d = [NSPropertyListSerialization dataFromPropertyList:data  format:NSPropertyListXMLFormat_v1_0 errorDescription:NULL];
 	NSString *str =  [[[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding] autorelease];//[NSString stringWithUTF8String:[d bytes]];
-	NSRange r = [str rangeOfString:@"<data>"];
-	str = [str substringFromIndex:r.location+7];
-	r = [str rangeOfString:@"</data>"];
-	str = [str substringToIndex:r.location-1];
-	str = [NSString stringWithFormat:@"<value><base64>%@</base64></value>",str];
+    @try {
+        NSRange r = [str rangeOfString:@"<data>"];
+        str = [str substringFromIndex:r.location+7];
+        r = [str rangeOfString:@"</data>"];
+        str = [str substringToIndex:r.location-1];
+        str = [NSString stringWithFormat:@"<value><base64>%@</base64></value>",str];
+    }
+    @catch (NSException *exception) {
+        return [NSString stringWithFormat:@"<value><base64>%@</base64></value>",str];
+    }
+    @finally {
+    }
 	return str;
 }
 

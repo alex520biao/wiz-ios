@@ -334,9 +334,11 @@ BOOL isReverseMask(NSInteger mask)
     if (body) {
         [tableContensString appendFormat:@"<li><p>%@</p></li>",body];
     }
-    for (NSString* attachment in attachments) {
-        NSString* fileName = [attachment fileName];
-        NSString* attachmentType = [attachment fileType];
+    for (WizAttachment* attachment in attachments) {
+        NSString* source = attachment.description;
+        NSString* fileName = [source fileName];
+        NSString* attachmentType = [source fileType];
+        [self addFileToIndexFiles:source];
         if ([WizGlobals checkAttachmentTypeIsImage:attachmentType]) {
             [tableContensString appendFormat:@"<li>%@</li>",[self photoHtmlString:fileName]];
         }
@@ -380,26 +382,19 @@ BOOL isReverseMask(NSInteger mask)
     NSString* body = @"";
     BOOL hasPicture = NO;
     BOOL hasAudio = NO;
-    for (NSString* sourcePath in documentsSourceArray) {
-        NSLog(@"sourcepath %@",sourcePath);
-        NSString* fileName = [sourcePath fileName];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.localChanged < 0"];
+    NSArray* editAttacment = [documentsSourceArray filteredArrayUsingPredicate:predicate];
+    NSMutableArray* photoAndAudios = [NSMutableArray array];
+    for (WizAttachment* each in editAttacment) {
+        NSString* sourcePath = each.description;
         NSString* attachmentType = [sourcePath fileType];
         if ([WizGlobals checkAttachmentTypeIsImage:attachmentType]) {
-            if (![self addFileToIndexFiles:sourcePath])
-            {
-                return NO;
-            }
-            body = [self photoHtmlString:fileName];
-            self.type = WizDocumentTypeImageKeyString;
+            [photoAndAudios addObject:each];
             hasPicture = YES;
         }
         else if ([WizGlobals checkAttachmentTypeIsAudio:attachmentType])
         {
-            if (![self addFileToIndexFiles:sourcePath]) {
-                return NO;
-            }
-            body = [self audioHtmlString:fileName];
-            self.type = WizDocumentTypeAudioKeyString;
+            [photoAndAudios addObject:each];
             hasAudio = YES;
         }
         else if ([WizGlobals checkAttachmentTypeIsTxt:attachmentType])
@@ -412,14 +407,10 @@ BOOL isReverseMask(NSInteger mask)
             }
         }
         else {
-            WizAttachment* attachment = [[WizAttachment alloc] init];
-            attachment.documentGuid = self.guid;
-            [attachment saveData:sourcePath];
-            self.attachmentCount = 1;
-            [attachment release];
-            body = [NSString stringWithFormat:@"Add %@",fileName];
+            [each saveData:each.description];
         }
     }
+    self.attachmentCount = [documentsSourceArray count] - [photoAndAudios count];
     if (hasPicture && !hasAudio) {
         self.type = WizDocumentTypeImageKeyString;
     }
@@ -430,7 +421,6 @@ BOOL isReverseMask(NSInteger mask)
     else {
         self.type = WizDocumentTypeNoteKeyString;
     }
-    
     //
     if (nil == self.title) {
         if (hasPicture && !hasAudio) {
@@ -450,8 +440,7 @@ BOOL isReverseMask(NSInteger mask)
             }
         }
     }
-    
-    NSString* html = [self wizHtmlString:self.title body:textBody attachments:documentsSourceArray];
+    NSString* html = [self wizHtmlString:self.title body:textBody attachments:photoAndAudios];
     NSString* documentIndex = [self documentIndexFile];
     [html writeToFile:documentIndex atomically:YES encoding:NSUTF16StringEncoding error:nil];
     [html writeToFile:[self documentMobileFile] atomically:YES encoding:NSUTF16StringEncoding error:nil];
@@ -481,6 +470,7 @@ BOOL isReverseMask(NSInteger mask)
             self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:subRange withString:@""];
         }
     }
+    self.localChanged = WizEditDocumentTypeInfoChanged;
     return [self saveInfo];
 }
 
@@ -502,7 +492,7 @@ BOOL isReverseMask(NSInteger mask)
     for (NSString* each in array) {
         NSString* attachmentType = [each fileType];
         if ([WizGlobals checkAttachmentTypeIsImage:attachmentType] || [WizGlobals checkAttachmentTypeIsAudio:attachmentType]) {
-            [ret addObject:[[self documentIndexFilesPath] stringByAppendingPathComponent:each]];
+            [ret addAttachmentBySourceFile:[[self documentIndexFilesPath] stringByAppendingPathComponent:each]];
         }
     }
     return ret;

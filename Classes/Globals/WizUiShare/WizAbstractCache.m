@@ -14,12 +14,14 @@
     NSString* currentDocument;
     NSConditionLock* cacheConditon;
     BOOL isChangedUser;
+    NSThread* thread;
 }
 @property (atomic, retain) NSMutableDictionary* data;
 @property (atomic, retain) NSMutableArray* needGenAbstractDocuments;
 @property (atomic) BOOL isChangedUser;
 @property (atomic, retain) NSString* currentDocument;
 @property (atomic, retain) NSConditionLock* cacheConditon;
+@property (atomic, retain) NSThread* thread;
 - (void) genAbstract;
 @end
 @implementation WizAbstractCache
@@ -65,7 +67,6 @@
 {
     return;
 }
-
 //over
 - (void) genAbstract
 {
@@ -76,6 +77,9 @@
     while (true) {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         if (self.isChangedUser) {
+            if ([[[WizAccountManager defaultManager] activeAccountUserId] isBlock]) {
+                return;
+            }
             if ([dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]]) {
                 self.isChangedUser = NO;
             }
@@ -108,8 +112,10 @@
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.isChangedUser = YES;
         self.cacheConditon = [[[NSConditionLock alloc] initWithCondition:NO_DATA] autorelease];
-        [NSThread detachNewThreadSelector:@selector(genAbstract) toTarget:self withObject:nil];
+//        [NSThread detachNewThreadSelector:@selector(genAbstract) toTarget:self withObject:nil];
         [WizNotificationCenter addObserverForChangeAccount:self selector:@selector(didChangedAccountUser)];
+        thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
+        [thread start];
     }
     return self;
 }
