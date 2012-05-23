@@ -20,46 +20,53 @@
 #import "UserSttingsViewController.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
-#import "WizPadRecentViewController.h"
+#import "WizPadFoldersViewController.h"
+
+#import "WizPadTagsViewController.h"
 
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
+
+@interface WizPadMainViewController ()
+{
+    UISegmentedControl* mainSegment;
+    UIPopoverController* currentPoperController;
+    UILabel* refreshProcessLabel;
+    UIBarButtonItem* refreshItem;
+    UIBarButtonItem* stopRefreshItem;
+    BOOL syncWillStop;
+    UIButton* refreshButton;
+    //
+    NSArray* viewControllers;
+}
+@property (nonatomic, retain) UIPopoverController* currentPoperController;
+@end
+
 @implementation WizPadMainViewController
-@synthesize mainSegment;
-@synthesize accountUserId;
-@synthesize controllersArray;
-@synthesize selectedControllerIndex;
-@synthesize currentPoperController;
-@synthesize refreshProcessLabel;
-@synthesize refreshItem;
-@synthesize stopRefreshItem;
-@synthesize recentList;
-@synthesize tagList;
-@synthesize folderList;
-@synthesize syncWillStop;
-@synthesize refreshButton;
-@synthesize documentsList;
+
 
 - (void) dealloc
 {
-    [documentsList release];
-    documentsList = nil;
     [refreshButton release];
-    [tagList release];
-    [folderList release];
-    [recentList release];
     [refreshItem release];
     [stopRefreshItem release];
     [currentPoperController release];
-    [controllersArray release];
-    [accountUserId release];
     [mainSegment release];
+    //
+    [viewControllers release];
+    viewControllers = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        [nc removeObserver:self];
+        [nc addObserver:self selector:@selector(checkDocument:) name:TypeOfCheckDocument object:nil];
+        [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
+        [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
+        [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
     }
     return self;
 }
@@ -75,57 +82,10 @@
 #pragma mark - View lifecycle
 - (void) changeController:(id) sender
 {
-    int willSelectedControllerIndex = -2;
-    if ([sender isKindOfClass:[NSNumber class]]) {
-        willSelectedControllerIndex = 0;
-    }
-    else
-    {
-        if ([sender selectedSegmentIndex] == self.selectedControllerIndex) {
-            return;
-        }
-        else
-        {
-            willSelectedControllerIndex = [sender selectedSegmentIndex];
-        }
-    }
-    switch (willSelectedControllerIndex) {
-        case 2:
-            if (nil == self.tagList) {
-                self.tagList = [[[PadTagController alloc] init] autorelease];
-                self.tagList.accountUserId = self.accountUserId;
-                tagList.willToOrientation = self.interfaceOrientation;
-            }
-            self.view = tagList.view;
-            self.selectedControllerIndex = 2;
-            break;
-        case 1:
-            if (nil == self.folderList) {
-                self.folderList = [[[PadFoldersController alloc] init] autorelease];
-                self.folderList.accountUserId = accountUserId;
-                folderList.willToOrientation = self.interfaceOrientation;
-            }
-            self.view = folderList.view;
-
-            self.selectedControllerIndex = 1;
-            break;
-        case 0:
-//            if (nil == self.recentList) {
-//                self.recentList = [[[WizPadListTableControllerBase alloc] init] autorelease];
-//            }
-//            self.view = recentList.view;          
-//            self.selectedControllerIndex = 0;
-            if (nil == self.documentsList) {
-                documentsList = [[WizPadRecentViewController alloc] init];
-            }
-            self.view = documentsList.view;
-            self.selectedControllerIndex = 0;
-            break;
-        default:
-            break;
-    }
+    NSInteger selectedIndex = [sender selectedSegmentIndex];
+    UIViewController* controller = [viewControllers objectAtIndex:selectedIndex];
+    self.view = controller.view;
 }
-
 
 
 - (void) newNote
@@ -141,31 +101,7 @@
     [newNote release];
     [controller release];
 }
-- (void) changeTitle
-{
-    UIBarButtonItem* item = [self.toolbarItems objectAtIndex:2];
-    [item setTitle:@"dddd"];
-}
-- (void) stopSyncByUser
-{
-    
-}
-- (void) onSyncEnd
-{
-    self.refreshProcessLabel.text = @"";
-    [self.recentList reloadAllData];
-    
-}
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
 
-    }
-    else
-    {
-        
-    }
-}
 - (void) refreshAccout
 {
     WizSyncManager* syncMan = [WizSyncManager shareManager];
@@ -188,24 +124,10 @@
 {
     UIButton* btn = (UIButton*)sender;
     [btn removeTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
-//    [sender removeTarget:self action:@selector(refreshAccountBegin:)];
     [btn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(stopSyncByUser) forControlEvents:UIControlEventTouchUpInside];
-    self.refreshProcessLabel.text = NSLocalizedString(@"Start syncing", nil);
-
-    
     [self refreshAccout];
 }
-- (void) didChangedSortedOrder:(NSNotification*)nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSNumber* orderIndex = [userInfo valueForKey:TypeOfChangeSortedOrderIndex];
-    self.recentList.kOrderIndex = [orderIndex intValue];
-    [self.currentPoperController dismissPopoverAnimated:YES];
-    self.currentPoperController = nil;
-    [recentList reloadAllData];
-}
-
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     self.currentPoperController = nil;
@@ -247,14 +169,12 @@
     btn.frame = CGRectMake(0.0, 0.0, 44, 44);
     [btn addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* refreshItem_ = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    self.refreshButton = btn;
-    self.refreshItem = refreshItem_;
 
     
 
 
-    self.refreshProcessLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 44)] autorelease];
-    [self.refreshProcessLabel setFont:[UIFont systemFontOfSize:13]];
+    refreshProcessLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 44)];
+    [refreshProcessLabel setFont:[UIFont systemFontOfSize:13]];
     refreshProcessLabel.backgroundColor = [UIColor clearColor];
     refreshProcessLabel.textAlignment = UITextAlignmentRight;
     
@@ -301,24 +221,6 @@
 {
     
 }
-- (void) buildMainSegment
-{
-    self.controllersArray = [NSMutableArray array] ;
-    if (nil == self.mainSegment) {
-        NSArray* arr = [NSArray arrayWithObjects:
-                        WizStrRecentNotes,
-                        WizStrFolders,
-                        WizStrTags,
-                        nil];
-        UISegmentedControl* main = [[UISegmentedControl alloc] initWithItems:arr];
-        self.mainSegment = main;
-        [main release];
-    }
-    self.mainSegment.segmentedControlStyle = UISegmentedControlStyleBar;
-    [self.mainSegment addTarget:self action:@selector(changeController:) forControlEvents:UIControlEventValueChanged];
-    self.navigationItem.titleView = self.mainSegment;
-    [self changeController:[NSNumber numberWithInt:-1]];
-}
 
 - (void) willChangeUser
 {
@@ -332,21 +234,49 @@
     NSNumber* interface = [userInfo valueForKey:TypeOfViewInterface];
     [self willAnimateRotationToInterfaceOrientation:[interface intValue] duration:0.5];
 }
+- (void) checkDocument:(NSInteger)type keyWords:(NSString *)keyWords
+{
+    WizPadDocumentViewController* check = [[WizPadDocumentViewController alloc] init];
+    check.listType = type;
+    check.documentListKey = keyWords;
+    [self.navigationController pushViewController:check animated:YES];
+    [check release];
+}
+- (void) buildMainViewcontrollers
+{
+    WizPadListTableControllerBase* base= [[WizPadListTableControllerBase alloc] init];
+    WizPadFoldersViewController* folder = [[WizPadFoldersViewController alloc] init];
+    folder.checkDelegate = self;
+    WizPadTagsViewController *tag = [[WizPadTagsViewController alloc] init];
+    tag.checkDelegate = self;
+    NSArray* array = [NSArray arrayWithObjects:base,folder,tag, nil];
+    viewControllers = [array retain];
+    [base release];
+    [tag release];
+    [folder release];
+}
+- (void) buildMainSegment
+{
+    NSArray* arr = [NSArray arrayWithObjects:
+                    WizStrRecentNotes,
+                    WizStrFolders,
+                    WizStrTags,
+                    nil];
+    mainSegment = [[UISegmentedControl alloc] initWithItems:arr];
+    mainSegment.segmentedControlStyle = UISegmentedControlStyleBar;
+    [mainSegment addTarget:self action:@selector(changeController:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = mainSegment;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.selectedControllerIndex = -1;
+    [self buildMainViewcontrollers];
     [self buildMainSegment];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    [nc addObserver:self selector:@selector(checkDocument:) name:TypeOfCheckDocument object:nil];
-    [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
-    [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
-    [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
-    
     [self buildNavigationItems];
-    self.mainSegment.selectedSegmentIndex = 0;
+    [mainSegment setSelectedSegmentIndex:0];
+    UIViewController* controller = [viewControllers objectAtIndex:0];
+    self.view = controller.view;
 }
 
 - (void)viewDidUnload
@@ -355,23 +285,13 @@
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
 }
-- (void) viewDidAppear:(BOOL)animated
-{
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    if ([index isFirstLog] ) {
-//        [self refreshAccountBegin:self.refreshButton];
-//        [index setDownloadDocumentData:NO];
-//        [index setFirstLog:YES];
-//    }
-    [self buildToolBar];
-}
+
 - (void) checkDocument:(NSNotification*)nc
 {
     NSDictionary* userInfo = [nc userInfo];
     NSNumber* listType = [userInfo objectForKey:TypeOfCheckDocumentListType];
     NSString* listKey = [userInfo objectForKey:TypeOfCheckDocumentListKey];
     WizPadDocumentViewController* check = [[WizPadDocumentViewController alloc] init];
-    check.accountUserId = self.accountUserId;
     check.listType = [listType intValue];
     check.documentListKey = listKey;
     [self.navigationController pushViewController:check animated:YES];
@@ -385,14 +305,15 @@
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    if (nil != self.recentList) {
-        [recentList willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    for (UIViewController* each in viewControllers) {
+        [each willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }
-    if (nil != tagList) {
-        [tagList willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    }
-    if (nil != folderList) {
-        [folderList willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didAnimateFirstHalfOfRotationToInterfaceOrientation:fromInterfaceOrientation];
+    for (UIViewController* each in viewControllers) {
+        [each didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }
 }
 - (void) viewWillAppear:(BOOL)animated
@@ -400,8 +321,16 @@
     [self.navigationController setToolbarHidden:NO animated:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillAppear:animated];
-}    
-
+    UIViewController* controller = [viewControllers objectAtIndex:mainSegment.selectedSegmentIndex];
+    [controller viewWillAppear:animated];
+}
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    UIViewController* controller = [viewControllers objectAtIndex:mainSegment.selectedSegmentIndex];
+    [controller viewDidAppear:animated];
+    [self buildToolBar];
+}
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];

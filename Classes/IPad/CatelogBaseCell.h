@@ -8,12 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #define PADABSTRACTVELLHEIGTH 300
+
 @interface CatelogBaseCell : UITableViewCell
 {
-    NSString* accountUserId;
-    id owner;
 }
-@property (nonatomic, retain) NSString* accountUserId;
-@property (nonatomic, retain) id owner;
 - (void) setContent:(NSArray*) arr;
 @end

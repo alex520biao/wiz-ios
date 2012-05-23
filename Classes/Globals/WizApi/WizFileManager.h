@@ -21,6 +21,7 @@
 - (NSString*) documentFullFile:(NSString*)documentGUID;
 - (NSString*) documentIndexFilesPath:(NSString*)documentGUID;
 - (BOOL) removeObjectPath:(NSString*)guid;
+- (long long) folderTotalSizeAtPath:(NSString*) folderPath;
 //
 - (NSString*) downloadObjectTempFilePath:(NSString*)objGuid;
 - (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid;
@@ -31,4 +32,5 @@
 - (NSString*)getAttachmentSourceFileName;
 //
 - (NSString*) searchHistoryFilePath;
+- (NSInteger) activeAccountFolderSize;
 @end

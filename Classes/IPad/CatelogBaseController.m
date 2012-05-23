@@ -18,7 +18,6 @@
 @end
 
 @implementation CatelogBaseController
-@synthesize accountUserId;
 @synthesize willToOrientation;
 @synthesize dataArray;
 static NSDictionary* paragrahAttributeDic;
@@ -47,7 +46,6 @@ static NSDictionary* paragrahAttributeDic;
     
 }
 - (void) dealloc{
-    [accountUserId release];
     [dataArray release];
     [super dealloc];
 }
@@ -55,7 +53,6 @@ static NSDictionary* paragrahAttributeDic;
 {
     
 }
-
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -154,8 +151,6 @@ static NSDictionary* paragrahAttributeDic;
     CatelogBaseCell *cell = (CatelogBaseCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[CatelogBaseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accountUserId = self.accountUserId;
-        cell.owner = self;
 
     }
     NSInteger documentsCount =0;
@@ -180,8 +175,6 @@ static NSDictionary* paragrahAttributeDic;
     [self configureCellWithArray:cell array:cellArray];
     return cell;
 }
-
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

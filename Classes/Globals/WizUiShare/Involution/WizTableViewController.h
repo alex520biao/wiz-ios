@@ -9,18 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "WizNotification.h"
 #import "WizSyncDescriptionDelegate.h"
-
+#import "NSMutableArray+WizDocuments.h"
 @interface WizTableViewController : UITableViewController <WizSyncDescriptionDelegate>
 {
     @private
-    NSMutableArray* tableSourceArray;
+    WizDocumentsMutableArray* tableSourceArray;
     NSUInteger kOrderIndex;
 }
-@property(retain, atomic) NSMutableArray* tableSourceArray;
+@property(retain, atomic) WizDocumentsMutableArray* tableSourceArray;
 @property (atomic)NSUInteger kOrderIndex;
 - (NSArray*) reloadAllDocument;
-- (void) deleteDocument:(NSString*)documentGuid;
-- (void) insertDocument:(WizDocument*)doc indexPath:(NSIndexPath*)indexPath;
 - (NSInteger) documentsCount;
 - (void) reloadAllData;
 @end

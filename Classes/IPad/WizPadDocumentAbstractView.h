@@ -7,20 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TTTAttributedLabel.h"
-@class WizDocument;
+
+@protocol WizPadDocumentAbstractViewSelectedDelegate <NSObject>
+- (void) didSelectedDocument:(WizDocument*)doc;
+@end
 @interface WizPadDocumentAbstractView : UIView
 {
-    UILabel* nameLabel;
-    UILabel* timeLabel;
-    UILabel* detailLabel;
-    UIImageView* abstractImageView;
     WizDocument* doc;
+    id <WizPadDocumentAbstractViewSelectedDelegate> selectedDelegate;
 }
-@property (nonatomic, retain)     UILabel* nameLabel;
-@property (nonatomic, retain)  UILabel* timeLabel;
-@property (nonatomic, retain)  UILabel* detailLabel;
-@property (nonatomic, retain) UIImageView* abstractImageView;
+@property (assign) id <WizPadDocumentAbstractViewSelectedDelegate> selectedDelegate;
 @property (nonatomic, retain) WizDocument* doc;
-- (void) setDocument:(WizDocument*) document;
 @end

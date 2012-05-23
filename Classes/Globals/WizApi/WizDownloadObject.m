@@ -10,7 +10,6 @@
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "WizGlobalDictionaryKey.h"
-#import "Reachability.h"
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizDbManager.h"
@@ -45,6 +44,10 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     if (self) {
     }
     return self;
+}
+- (NSString*)currentDownloadObjectGuid
+{
+    return self.object.guid;
 }
 -(void) onError: (id)retObject
 {
@@ -107,6 +110,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     NSLog(@"download done!***************************");
     self.syncMessage = WizSyncEndMessage;
     [WizNotificationCenter postMessageDownloadDone:self.object.guid];
+    self.object = nil;
 }
 
 -(void) onDownloadObject:(id)retObject

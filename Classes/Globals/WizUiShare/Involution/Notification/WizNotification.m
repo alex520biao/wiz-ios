@@ -105,10 +105,16 @@
 {
     [WizNotificationCenter removeObserverWithKey:observer name:MessageTypeOfDeleteDocument];
 }
-+ (void) postDeleteDocumentMassage:(NSString*)documentGUID
++ (void) postDeleteDocumentMassage:(WizDocument*)doc
 {
-    [WizNotificationCenter postMessageWithName:MessageTypeOfDeleteDocument userInfoObject:documentGUID userInfoKey:UserInfoTypeOfDocumentGUID];
+    [WizNotificationCenter postMessageWithName:MessageTypeOfDeleteDocument userInfoObject:doc userInfoKey:UserInfoTypeOfWizDocumentObject];
 }
+
++ (WizDocument*) getWizDocumentFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfWizDocumentObject notification:nc];
+}
+
 + (NSString*) getDeleteDocumentGUIDFromNc:(NSNotification*)nc
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];

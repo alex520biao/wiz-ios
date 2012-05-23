@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizPadDocumentAbstractView.h"
 #define PADABSTRACTVELLHEIGTH 300
-@interface WizPadListCell : UITableViewCell
+
+@protocol WizPadCellSelectedDocumentDelegate <NSObject>
+- (void) didPadCellDidSelectedDocument:(WizDocument*)doc;
+@end
+
+@interface WizPadListCell : UITableViewCell <WizPadDocumentAbstractViewSelectedDelegate>
 {
-    NSMutableArray* abstractArray;
+    NSArray* documents;
+    id <WizPadCellSelectedDocumentDelegate> selectedDelegate;
 }
-@property (nonatomic, retain) NSMutableArray* abstractArray;
-- (void) setDocuments:(NSArray*) arr;
+@property (assign) id <WizPadCellSelectedDocumentDelegate> selectedDelegate;
+@property (nonatomic, retain) NSArray* documents;
 @end

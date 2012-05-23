@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface WizPadListTableControllerBase : UITableViewController
+#import "NSMutableArray+WizDocuments.h"
+#import "WizPadListCell.h"
+
+@interface WizPadListTableControllerBase : UITableViewController <WizPadCellSelectedDocumentDelegate>
 {
-    NSMutableArray* tableArray;
+    WizDocumentsMutableArray* tableArray;
     BOOL isLandscape;
     int kOrderIndex;
 }
-@property (nonatomic, retain) NSMutableArray* tableArray;
+@property (nonatomic, retain) WizDocumentsMutableArray* tableArray;
 @property int kOrderIndex;
 @property (assign) BOOL isLandscape;
 - (void) didSelectedDocument:(WizDocument*)doc;

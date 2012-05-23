@@ -63,8 +63,15 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+- (NSMutableArray*) selectedTags
+{
+    return [tags objectAtIndex:0];
+}
 
-
+- (NSMutableArray*) allTags
+{
+    return [tags objectAtIndex:1];
+}
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self.tableView reloadData];
@@ -111,19 +118,25 @@
     }
     NSArray* initSelectedTags = [self.selectDelegate selectedTagsOld];
     NSMutableArray* selectedTags = [NSMutableArray array];
-    if (initSelectedTags != nil) {
-        [selectedTags  addObjectsFromArray:initSelectedTags];
-    }
     [self.tags addObject:selectedTags];
-    NSLog(@"all tag count is %d",[[WizTag allTags] count]);
-    [self.tags addObject:[NSMutableArray arrayWithArray:[WizTag allTags]]];
+    NSMutableArray* allTags = [NSMutableArray arrayWithArray:[WizTag allTags]];
+    if (initSelectedTags != nil) {
+        for (WizTag* initTag in initSelectedTags) {
+            for (WizTag* existTag in allTags) {
+                if ([[initTag guid] isEqualToString:[existTag guid]]) {
+                    [selectedTags addObject:existTag];
+                }
+            }
+        }
+    }
+    [self.tags addObject:allTags];
     
 }
 
 - (NSUInteger) tagIndexAtAll:(WizTag*)tag
 {
-    for (int i=0 ; i < [[tags objectAtIndex:1] count]; i++) {
-        if ([[[[tags objectAtIndex:1] objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
+    for (int i=0 ; i < [[self allTags] count]; i++) {
+        if ([[[[self allTags] objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
             return i;
         }
     }
@@ -132,8 +145,8 @@
 - (NSUInteger) tagIndexAtSelected:(WizTag*)tag
 {
 
-    for (int i=0 ; i < [[tags objectAtIndex:0] count]; i++) {
-        if ([[[[tags objectAtIndex:0] objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
+    for (int i=0 ; i < [[self selectedTags] count]; i++) {
+        if ([[[[self selectedTags] objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
             return i;
         }
     }
@@ -199,10 +212,10 @@
     
     NSString* match = [NSString stringWithFormat:@"*%@*",self.searchBar.text];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"title like %@",match];
-    NSArray* nameIn = [[self.tags objectAtIndex:1] filteredArrayUsingPredicate:predicate];
+    NSArray* nameIn = [[self allTags] filteredArrayUsingPredicate:predicate];
     self.searchedTags = [NSMutableArray arrayWithArray:nameIn];
     NSPredicate* searchFullName = [NSPredicate predicateWithFormat:@"title = %@",self.searchBar.text];
-    NSArray* predicateArray = [[self.tags objectAtIndex:1] filteredArrayUsingPredicate:searchFullName];
+    NSArray* predicateArray = [[self allTags] filteredArrayUsingPredicate:searchFullName];
     if([predicateArray count]==0)
     {
         WizTag* tag =[[WizTag alloc]init];
@@ -293,41 +306,46 @@
 {
     NSUInteger indexOfSelected = [self tagIndexAtSelected:tag];
     [[tags objectAtIndex:0] removeObjectAtIndex:indexOfSelected];
+    [self.tableView beginUpdates];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexOfSelected inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+    [self.tableView endUpdates];
     [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
 }
 
 - (void) selectedTag:(WizTag*)tag
 {
-    if (![self checkTagIsSeleted:tag]) {
-        [[tags objectAtIndex:0] insertObject:tag atIndex:0];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
-    }
-    else
-    {
-        [self unselectedTag:tag];
-    }
+    [[tags objectAtIndex:0] insertObject:tag atIndex:0];
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationRight];
+    [self.tableView endUpdates];
     [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
 }
 - (void)searchTableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row ==0 && isNewTag) {
-        WizTag* tag = [[WizTag alloc] init];
-        tag.title = self.searchBar.text;
-        [self.searchedTags replaceObjectAtIndex:0 withObject:tag];
-        [[self.tags objectAtIndex:0] addObject:tag];
-        [[self.tags objectAtIndex:1] insertObject:tag atIndex:0];
-        self.isNewTag = NO;
+        WizTag* tag = [self.searchedTags objectAtIndex:0];
         [tag save];
-        [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
-        [tag release];
+        [self selectedTag:tag];
+        [[self allTags] insertObject:tag atIndex:0];
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
+        self.isNewTag = NO;
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
     }
     else
     {
-        [self selectedTag:[self.searchedTags objectAtIndex:indexPath.row]];
+        WizTag* tag = [self.searchedTags objectAtIndex:indexPath.row];
+        if (![self checkTagIsSeleted:tag]) {
+            [self selectedTag:tag];
+        }
+        else {
+            [self unselectedTag:tag];
+        }
     }
+    [self.searchDisplayController.searchResultsTableView beginUpdates];
     [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+    [self.searchDisplayController.searchResultsTableView endUpdates];
 }
 
 
@@ -340,7 +358,12 @@
                 [self unselectedTag:tag];
                 break;
             case 1:
-                [self selectedTag:tag];
+                if (![self checkTagIsSeleted:tag]) {
+                    [self selectedTag:tag];
+                }
+                else {
+                    [self unselectedTag:tag];
+                }
                 break;
             default:
                 break;

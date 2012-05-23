@@ -126,6 +126,7 @@ public:
     bool SqlToTags(const char* sql, CWizTagDataArray& array);
     bool TagFromGUID(const char* lpszGUID, WIZTAGDATA& data);
 	//
+    std::string GetTagAbstract(const char* lpaszTagGuid);
 	bool GetDocumentsByLocation(const char* lpszParentLocation, CWizDocumentDataArray& arrayDocument);
 	bool GetDocumentsByTag(const char* lpszTagGUID, CWizDocumentDataArray& arrayDocument);
 	bool GetDocumentsByKey(const char* lpszKeywords, CWizDocumentDataArray& arrayDocument);

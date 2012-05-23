@@ -16,6 +16,8 @@
 #define UserInfoTypeOfDocumentGUID                  @"MessageDataTypeOfDocumentGUID"
 #define MessageInfoOfDidSelectedAccountUserId       @"accountUserId"
 
+#define UserInfoTypeOfWizDocumentObject             @"UserInfoTypeOfWizDocumentObject"
+
 #define MessageTypeOfIphoneSetupAccount             @"MessageTypeOfIphoneSetupAccount"
 //delete document
 #define MessageTypeOfDeleteDocument                 @"MessageTypeOfDeleteDocument"

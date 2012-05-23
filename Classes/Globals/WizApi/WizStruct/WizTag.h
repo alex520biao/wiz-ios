@@ -26,4 +26,5 @@
 - (BOOL) save;
 + (NSArray*) allTags;
 + (NSInteger) fileCountOfTag:(NSString*)tagGuid;
+- (NSString*) tagAbstract;
 @end

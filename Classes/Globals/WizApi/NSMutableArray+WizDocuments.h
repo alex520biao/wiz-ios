@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#define WizNewSectionIndex      -1
+
 typedef NSMutableArray WizDocumentsMutableArray;
 @interface NSMutableArray (WizDocuments)
-
+- (void) sortDocumentByOrder:(NSInteger)indexOrder;
+- (NSIndexPath*) updateDocument:(WizDocument*)doc;
+- (NSIndexPath*) removeDocument:(WizDocument*)doc;
+- (NSIndexPath*) insertDocument:(WizDocument*)doc;
 @end

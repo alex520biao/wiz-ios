@@ -12,7 +12,6 @@
 @synthesize nameLabel;
 @synthesize documentsCountLabel;
 @synthesize abstractLabel;
-@synthesize owner;
 @synthesize keywords;
 @synthesize backGroud;
 - (void) dealloc
@@ -22,7 +21,6 @@
     [nameLabel release];
     [documentsCountLabel release];
     [abstractLabel release];
-    [owner release];
     [super dealloc];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view
@@ -35,7 +33,6 @@
 }
 - (void) didSelectedDocument
 {
-    [self.owner performSelector:@selector(didSelectedCatelog:) withObject:self.keywords];
 }
 
 - (id)initWithFrame:(CGRect)frame

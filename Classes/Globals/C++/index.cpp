@@ -671,6 +671,33 @@ bool CIndex::GetDocumentsByLocation(const char* lpszParentLocation, CWizDocument
 	return SQLToDocuments(sql.c_str(), arrayDocument);
 }
 
+std::string CIndex::GetTagAbstract(const char* lpaszTagGuid)
+{
+    std::string sql = std::string("select DOCUMENT_TITLE from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS=")+ WizStringToSQLString(lpaszTagGuid)+ " order by DT_MODIFIED limit 6";
+    if (!m_db.IsOpened())
+		return false;
+    try {
+		CppSQLite3Query query = m_db.execQuery(sql.c_str());
+        std::string ret;
+        int i = 0;
+		while (!query.eof())
+		{
+			ret = ret + WizIntToStdString(i++) +"  "+ query.getStringField(0) + ("\n");
+			query.nextRow();
+		}
+		return ret;
+	}
+	catch (const CppSQLite3Exception& e)
+	{
+		TOLOG(e.errorMessage());
+		return "";
+	}
+	catch (...) {
+		TOLOG("Unknown exception while close DB");
+		return "";
+	}
+
+}
 bool CIndex::GetDocumentsByTag(const char* lpszTagGUID, CWizDocumentDataArray& arrayDocument)
 {
 	std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS like '%" + lpszTagGUID + "%' order by DOCUMENT_TITLE";

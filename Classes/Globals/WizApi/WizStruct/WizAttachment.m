@@ -30,7 +30,21 @@
 - (NSString*) attachmentFilePath
 {
     NSString* attachmentPath = [[WizFileManager shareManager] objectFilePath:self.guid];
-    return  [attachmentPath stringByAppendingString:self.title];
+    NSArray* contents = [[WizFileManager shareManager] contentsOfDirectoryAtPath:attachmentPath error:nil];
+    for (NSString* name in contents) {
+        
+    }
+    return  [attachmentPath stringByAppendingPathComponent:self.title];
+}
+- (NSString*) localDataMd5
+{
+    NSString* dataFilePath = [self attachmentFilePath];
+    if (![[WizFileManager defaultManager] fileExistsAtPath:dataFilePath]) {
+        return @"";
+    }
+    NSString* fileMd5 = [WizGlobals fileMD5:dataFilePath];
+    [[WizFileManager shareManager] deleteFile:dataFilePath];
+    return fileMd5;
 }
 - (BOOL) saveData:(NSString*)filePath
 {

@@ -14,14 +14,17 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"SearchWebView" ofType:@"js"];
 	NSString *jsCode = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
     [self stringByEvaluatingJavaScriptFromString:jsCode];
-	
     NSString *startSearch = [NSString stringWithFormat:@"MyApp_HighlightAllOccurencesOfString('%@')",str];
     [self stringByEvaluatingJavaScriptFromString:startSearch];
-	
     NSString *result = [self stringByEvaluatingJavaScriptFromString:@"MyApp_SearchResultCount"];
     return [result integerValue];
 }
-
+- (void) loadIphoneReadScript
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"iphoneRead" ofType:@"js"];
+	NSString *jsCode = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
+    [self stringByEvaluatingJavaScriptFromString:jsCode];
+}
 - (void)removeAllHighlights
 {
     [self stringByEvaluatingJavaScriptFromString:@"MyApp_RemoveAllHighlights()"];

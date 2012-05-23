@@ -11,6 +11,7 @@
 #import "WizNotification.h"
 #import "WizDbManager.h"
 #import "WizSyncData.h"
+#import "Reachability.h"
 #import "WizSettings.h"
 //
 #define ServerUrlFile           @"config.dat"
@@ -145,8 +146,17 @@ static WizSyncManager* shareManager;
 - (void) automicSyncData
 {
     NSLog(@"************start automic sync****************");
-    if ([[WizSettings defaultSettings] isAutomicSync]) {
-        [self startSyncInfo];
+    WizSettings* settings = [WizSettings defaultSettings];
+    Reachability* reach = [[Reachability alloc] init];
+    if ([settings isAutomicSync]) {
+        if ([settings connectOnlyViaWifi]) {
+            if ([reach currentReachabilityStatus] == ReachableViaWiFi) {
+                 [self startSyncInfo];
+            }
+        }
+        else {
+             [self startSyncInfo];
+        }
     }
 }
 - (id) init
@@ -270,6 +280,10 @@ static WizSyncManager* shareManager;
 }
 - (void) downloadWizObject:(WizObject*)object
 {
+    WizDownloadObject* downloader = [syncData shareDownloader];
+    if (downloader.currentDownloadObjectGuid != nil && [downloader.currentDownloadObjectGuid isEqualToString:object.guid]) {
+        return;
+    }
     [downloadQueque addWizObjectUnique:object];
     [self startDownload];
 }

@@ -17,4 +17,5 @@
 @property (nonatomic, retain) NSString* title;
 + (int) filecountWithChildOfLocation:(NSString*) location;
 + (int) fileCountOfLocation:(NSString *)location;
++ (NSArray*) allLocationsForTree;
 @end

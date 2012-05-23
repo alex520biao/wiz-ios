@@ -112,7 +112,6 @@
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.isChangedUser = YES;
         self.cacheConditon = [[[NSConditionLock alloc] initWithCondition:NO_DATA] autorelease];
-//        [NSThread detachNewThreadSelector:@selector(genAbstract) toTarget:self withObject:nil];
         [WizNotificationCenter addObserverForChangeAccount:self selector:@selector(didChangedAccountUser)];
         thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
         [thread start];

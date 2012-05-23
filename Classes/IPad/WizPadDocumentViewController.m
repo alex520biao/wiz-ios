@@ -23,6 +23,9 @@
 #import "UIBadgeView.h"
 #import "WizCheckAttachments.h"
 #import "WizNotification.h"
+#import "NSMutableArray+WizDocuments.h"
+#import "WizSyncManager.h"
+#import "WizSettings.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -38,92 +41,65 @@
 
 #define HeadViewLandScapeZoomFrame CGRectMake(0.0, 0.0, 1024, 44)
 #define WebViewLandScapeZoomFrame CGRectMake(0.0, 45, 1024, 616)
-@interface UIWebView(WizUIWebView) 
+@interface WizPadDocumentViewController ()
+{
+    UIWebView* webView;
+    UIView* headerView;
+    UITableView* documentList;
+    
+    WizDocument* selectedDocument;
+    
+    WizDocumentsMutableArray* documentsArray;
+    WizTableOrder kOrderIndex;
 
-- (BOOL) containImages;
+    UILabel* documentNameLabel;
+    
+    UIBadgeView* attachmentCountBadge;
+    UIPopoverController* currentPopoverController;
+    UIButton* zoomOrShrinkButton;
+}
+@property (nonatomic,retain) UIButton* zoomOrShrinkButton;
+@property (nonatomic, retain)  UIWebView* webView;
+@property (nonatomic, retain) UIView* headerView;
+@property (nonatomic, retain) UITableView* documentList;
+
+
+@property (nonatomic, retain) WizDocumentsMutableArray* documentsArray;
+
+@property (nonatomic, retain) UILabel* documentNameLabel;
+@property (nonatomic, retain) WizDocument* selectedDocument;
+
+
+@property (nonatomic, retain)  UIPopoverController* currentPopoverController;
+@property (nonatomic, retain) UIBadgeView* attachmentCountBadge;
 
 @end
-
-@implementation UIWebView(WizUIWebView) 
-
-
-- (BOOL) containImages
-{
-	NSString* script = @"function containImages() { var images = document.images; return (images && images.length > 0) ? \"1\" : \"0\"; } containImages();";
-	//
-	NSString* ret = [self stringByEvaluatingJavaScriptFromString:script];
-	//
-	if (!ret)
-		return NO;
-	if ([ret isEqualToString:@"1"])
-		return YES;
-	if ([ret isEqualToString:@"0"])
-		return NO;
-	
-	//
-	return NO;
-}
-
-- (NSString*) bodyText
-{
-	//NSString* script = @"function getBodyText() { var body = document.body; if (!body) return ""; if (body.innerText) return body.innerText;  return body.innerHTML.replace(/\\&lt;br\\&gt;/gi,\"\\n\").replace(/(&lt;([^&gt;]+)&gt;)/gi, \"\"); } getBodyText();";
-	NSString* script = @"function getBodyText() { var body = document.body; if (!body) return ""; if (body.innerText) return body.innerText;  return \"\"; } getBodyText();";
-	//
-	NSMutableString* ret = [NSMutableString stringWithString: [self stringByEvaluatingJavaScriptFromString:script]];
-	if (!ret)
-		return @"";
-	//
-	/*
-     while ([ret rangeOfString:@"\n\n"].location != NSNotFound)
-     {
-     [ret replaceOccurrencesOfString:@"\n\n" withString:@"\n" options:0 range:NSMakeRange(0, [ret length])];
-     }
-     */
-	
-	//
-	return ret;
-}
-
-
-@end
-
 @implementation WizPadDocumentViewController
 @synthesize zoomOrShrinkButton;
 @synthesize webView;
 @synthesize documentList;
 @synthesize headerView;
-@synthesize accountUserId;
-@synthesize sourceArray;
 @synthesize listType;
 @synthesize documentListKey;
 @synthesize documentsArray;
 @synthesize documentNameLabel;
-@synthesize selectedDocumentGUID;
-@synthesize attachmentBarItem;
-@synthesize infoBarItem;
-@synthesize editBarItem;
-@synthesize searchItem;
+@synthesize selectedDocument;
 @synthesize currentPopoverController;
 @synthesize attachmentCountBadge;
 - (void) dealloc
 {
     [attachmentCountBadge release];
-    [attachmentBarItem release];
     [zoomOrShrinkButton release];
-    [infoBarItem release];
-    [editBarItem release];
-    [searchItem release];
-    [selectedDocumentGUID release];
+    [selectedDocument release];
     [documentNameLabel release];
     [documentsArray release];
-    self.listType = -1;
     [documentListKey release];
-    [sourceArray release];
-    [accountUserId release];
     [documentList release];
     [headerView release];
     [webView release];
+    kOrderIndex = -1;
     [currentPopoverController release];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 
 }
@@ -132,7 +108,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
+        self.documentsArray = [NSMutableArray array];
+        kOrderIndex = -1;
     }
     return self;
 }
@@ -300,8 +277,7 @@
 
 - (void) updateTheNavigationTitle
 {
-     NSString* title_ = [NSString stringWithFormat:@"%d/%d",[self indexOfDocument:self.selectedDocumentGUID],[self.sourceArray count]];
-    self.title = title_;
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -310,102 +286,46 @@
     [super viewWillAppear:animated];
     [self setViewsFrame];
     UILabel* count =(UILabel*)self.documentList.tableHeaderView;
-    count.text= [NSString stringWithFormat:NSLocalizedString(@"%d notes",nil),[self.sourceArray count]];
 
 }
-
+- (void) didLoadSourceArray
+{
+    
+}
 - (void) loadArraySource
 {
-//       switch (self.listType) {
-//        case TypeOfKey:
-//        {
-//            self.sourceArray = [NSMutableArray arrayWithArray:[index documentsByKey:self.documentListKey]];
+    [self.documentsArray removeAllObjects];
+    switch (self.listType) {
+        case TypeOfKey:
+        {
+            [self.documentsArray addObject:[NSMutableArray arrayWithArray:[WizDocument  documentsByKey:self.documentListKey]]];
 //            if (![self.sourceArray count]) {
 //                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@", nil),self.documentListKey]];
 //            }
-//            break;
-//        }
-//        case TypeOfLocation:
-//        {
-//            NSMutableArray* array = [[index documentsByLocation:self.documentListKey] mutableCopy];
-//            self.sourceArray = array;
-//            [array release];
-//            break;
-//        }
-//        case TypeOfTag:
-//        {
-//            NSMutableArray* array = [[index documentsByTag:self.documentListKey] mutableCopy];
-//            self.sourceArray = array;
-//            [array release];
-//            break;
-//        }
-//        default:
-//        {
-//            NSMutableArray* array = [[index recentDocuments] mutableCopy];
-//            self.sourceArray = array;
-//            self.selectedDocumentGUID = self.documentListKey;
-//            [array release];
-//            break;
-//        }  
-//    }
-}
-
-- (void) documentsOrderedBtMonth:(NSArray*) array
-{
-    if ([array count] == 1) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        [sectionArray addObject:[array objectAtIndex:0]];
-        [self.documentsArray addObject:sectionArray];
-        return;
-    }
-    if ([array count] == 0) {
-        return;
-    }
-    int docIndex = 0;
-    for (int i =0; i<12; i++) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        for(int k = docIndex; k <= [array count]-1; k++)
-        {
-            WizDocument* doc1 = [array objectAtIndex:k];
-            WizDocument* doc2 = [array objectAtIndex:k+1];
-            if(k == [array count] -2)
-            {
-                if ([[doc1.dateModified stringYearAndMounth] isEqualToString:[doc2.dateModified stringYearAndMounth]]) {
-                    [sectionArray addObject:doc1];
-                    [sectionArray addObject:doc2];
-                    [self.documentsArray addObject:sectionArray];
-                } else
-                {
-                    [sectionArray addObject:doc1];
-                    NSMutableArray* sectionArr = [NSMutableArray array];
-                    [sectionArr addObject:doc2];
-                    [self.documentsArray addObject:sectionArray];
-                    [self.documentsArray addObject:sectionArr];
-                }
-                return;
-            }
-            if ([[doc1.dateModified stringYearAndMounth] isEqualToString:[doc2.dateModified stringYearAndMounth]]) {
-                [sectionArray addObject:doc1];
-            } else
-            {
-                [sectionArray addObject:doc1];
-                [self.documentsArray addObject:sectionArray];
-                docIndex = k+1;
-                break;
-            }
-            
+            break;
         }
+        case TypeOfLocation:
+        {
+            NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByLocation:self.documentListKey]];
+            [self.documentsArray addObject:array];
+            break;
+        }
+        case TypeOfTag:
+        {
+            NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByTag:self.documentListKey]];
+            [self.documentsArray addObject:array];
+            break;
+        }
+        default:
+        {
+            NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument recentDocuments]];
+            [self.documentsArray addObject:array];
+            self.selectedDocument = [WizDocument documentFromDb:self.documentListKey];
+            break;
+        }  
     }
-
-}
-
-- (void) documentsOrderedByDate
-{
-    [self documentsOrderedBtMonth:self.sourceArray];
-}
-- (void) log
-{
-    
+    [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
+    [self.documentList reloadData];
 }
 
 - (void) checkDocumentDtail
@@ -413,12 +333,12 @@
     [self dismissPoperview];
 
     DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    WizDocument* doc = [WizDocument documentFromDb:self.selectedDocumentGUID];
+    WizDocument* doc = selectedDocument;
     infoView.doc = doc;
     UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:infoView] ;
     pop.popoverContentSize = CGSizeMake(320, 300);
     self.currentPopoverController = pop;
-    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [pop release];
     [infoView release];
 }
@@ -429,11 +349,8 @@
 - (void) onEditCurrentDocument
 {
     WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
-    WizDocument* doc = [WizDocument documentFromDb:selectedDocumentGUID];
     NSMutableDictionary* data = [NSMutableDictionary dictionary];
     [data setObject:[self.webView bodyText] forKey:TypeOfDocumentBody];
-    [data setObject:doc.title forKey:TypeOfDocumentTitle];
-    edit.documentGUID = selectedDocumentGUID;
     [edit prepareEditingData:data];
     
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
@@ -484,9 +401,6 @@
 {
     [self dismissPoperview];
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
-    checkAttach.documentGUID = [NSString stringWithString:selectedDocumentGUID];
-    checkAttach.accountUserId = accountUserId;
-    checkAttach.checkNav = self.navigationController;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:checkAttach];
     [checkAttach release];
     nav.contentSizeForViewInPopover = CGSizeMake(320, 500);
@@ -495,7 +409,7 @@
     pop.popoverContentSize = CGSizeMake(320, 500);
     [pop release];
     [nav release];
-    [currentPopoverController presentPopoverFromBarButtonItem:self.attachmentBarItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    [currentPopoverController presentPopoverFromBarButtonItem:self.attachmentBarItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 - (void) buildToolBar
 {
@@ -528,9 +442,6 @@
     NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit, attachment, detail, flex,nil];
    
     [self setToolbarItems:items];
-    self.editBarItem = edit;
-    self.infoBarItem = detail;
-    self.attachmentBarItem = attachment;
     [edit release];
     [attachment release];
     [detail release];
@@ -539,68 +450,48 @@
 }
 - (void) downloadDocumentDone:(NSNotification*)nc
 {
-//    NSDictionary* userInfo = [nc userInfo];
-//    NSDictionary* ret = [userInfo valueForKey:@"ret"];
-//    NSString* documentGUID = [ret valueForKey:@"document_guid"];
-//    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-//    NSIndexPath* indexPath = [self indexPathOfDocument:documentGUID];
-//    if (indexPath.section == NSNotFound) {
-//        return;
-//    }
-//    else {
-//        [self.documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//    }
-//    [downloadPool removeDownloadProcess:documentGUID type:[WizGlobals documentKeyString]];
-//    if ([documentGUID isEqualToString:selectedDocumentGUID]) {
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//        WizDocument* selectedDocument = [index documentFromGUID:selectedDocumentGUID];
-//        NSString* documentFileName = [index documentViewFilename:selectedDocument.guid];
-//        if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
-//        {
-//            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
-//                                                            message:WizStrThisversionofWizNotdoesnotsupportdecryption
-//                                                           delegate:self 
-//                                                  cancelButtonTitle:WizStrOK 
-//                                                  otherButtonTitles:nil];
-//            alert.tag = 100;
-//            [alert show];
-//            [alert release];
-//            return;
-//        }
-//        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-//        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
-//        [self.webView loadRequest:req];
-//        [req release];
-//        [url release];
-//    }
+    NSString* documentGUID = [WizNotificationCenter downloadGuidFromNc:nc];
+    NSLog(@"%@",documentGUID);
+    if ([documentGUID isEqualToString:self.selectedDocument.guid]) {
+        
+        NSString* documentFileName = [self.selectedDocument documentIndexFile];
+        if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
+                                                            message:WizStrThisversionofWizNotdoesnotsupportdecryption
+                                                           delegate:self 
+                                                  cancelButtonTitle:WizStrOK 
+                                                  otherButtonTitles:nil];
+            alert.tag = 100;
+            [alert show];
+            [alert release];
+            return;
+        }
+        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
+        [self.webView loadRequest:req];
+        [req release];
+        [url release];
+    }
 }
 - (void) downloadProcess:(NSNotification*) nc
 {
     
 }
-- (void) downloadDocument:(NSString*)guid
+- (void) downloadDocument:(WizDocument*)document
 {
-//    WizDownloadPool* downloadPool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-//    if ([downloadPool documentIsDownloading:guid]) {
-//        return;
-//    }
-//    if (![downloadPool checkCanProduceAProcess]) {
-//        return;
-//    }
-//    WizDownloadDocument* download = [downloadPool getDownloadProcess:guid type:[WizGlobals documentKeyString]];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDocumentDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ] object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProcess:) name:[download notificationName:WizGlobalSyncProcessInfo] object:nil];
-//    [download downloadDocument:guid];
+    WizSyncManager* share = [WizSyncManager shareManager];
+    [share downloadWizObject:document];
+    [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
 }
-- (void) checkDocument:(NSString*)guid
+- (void) checkDocument:(WizDocument*)document
 {
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    NSString* documentFileName = [index documentViewFilename:guid];
-//    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-//    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-//    [self.webView loadRequest:req];
-//    [req release];
-//    [url release];
+    NSString* documentFileName = [document documentIndexFile];
+    NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
+    NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
+    [self.webView loadRequest:req];
+    [req release];
+    [url release];
 }
 - (void) displayEncryInfo
 {
@@ -616,18 +507,23 @@
 }
 - (void) didSelectedDocument:(WizDocument*)doc
 {
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    self.selectedDocumentGUID = doc.guid;
-//    self.documentNameLabel.text = doc.title;
-//    [self.webView loadHTMLString:@"" baseURL:nil];
-//    NSUInteger attachmentsCount = [index attachmentCountOfDocument:selectedDocumentGUID];
-//    if (attachmentsCount > 0) {
-//        self.attachmentCountBadge.hidden = NO;
-//        self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
-//    }
-//    else {
-//        self.attachmentCountBadge.hidden = YES;
-//    }
+    self.selectedDocument = doc;
+    self.documentNameLabel.text = doc.title;
+    [self.webView loadHTMLString:@"" baseURL:nil];
+    NSUInteger attachmentsCount = doc.attachmentCount;
+    if (attachmentsCount > 0) {
+        self.attachmentCountBadge.hidden = NO;
+        self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+    }
+    else {
+        self.attachmentCountBadge.hidden = YES;
+    }
+    if (doc.serverChanged) {
+        [self downloadDocument:doc];
+    }
+    else {
+        [self checkDocument:doc];
+    }
 //    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
 //        if ([index documentServerChanged:doc.guid]) {
 //            [self downloadDocument:doc.guid];
@@ -652,7 +548,7 @@
 //        }
 //        
 //    }
-//    [self updateTheNavigationTitle];
+    [self updateTheNavigationTitle];
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -665,26 +561,8 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (nil != self.selectedDocumentGUID && ![selectedDocumentGUID isEqualToString:@""]) {
-        for (int i = 0; i < [self.documentsArray count]; i++) {
-            for (int j = 0; j < [[self.documentsArray objectAtIndex:i] count]; j++) {
-                WizDocument* doc = [[self.documentsArray objectAtIndex:i] objectAtIndex:j];
-                if ([doc.guid isEqualToString:selectedDocumentGUID]) {
-                    [self didSelectedDocument:[[self.documentsArray objectAtIndex:i] objectAtIndex:j] ];
-                    [self.documentList selectRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i] animated:YES scrollPosition:UITableViewScrollPositionTop];
-                }
-            }
-        }
-    }
-    else
-    {
-        if (self.documentsArray == nil || ![self.documentsArray count]) {
-            return;
-        }
-        WizDocument* doc = [[self.documentsArray objectAtIndex:0] objectAtIndex:0];
-        if (nil != doc) {
-            [self didSelectedDocument:doc];
-        }
+    if (kOrderIndex != [[WizSettings defaultSettings] userTablelistViewOption]) {
+        [self loadArraySource];
     }
 }
 - (void) viewDidLoad
@@ -708,10 +586,6 @@
     if (documentsArray == nil) {
         self.documentsArray = [NSMutableArray array] ;
     }
-
-    
-    [self loadArraySource];
-    [self documentsOrderedByDate];
     self.view.backgroundColor = [UIColor blackColor];
     [self buildToolBar];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPoperview) name:MessageOfCheckAttachment object:nil];
@@ -748,9 +622,7 @@
 
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    WizDocument* doc = [[self.documentsArray objectAtIndex:section] objectAtIndex:0];
-    NSDate* date = doc.dateModified ;
-    return [date stringLocal];
+    return [[self.documentsArray objectAtIndex:section] description];
 }
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {

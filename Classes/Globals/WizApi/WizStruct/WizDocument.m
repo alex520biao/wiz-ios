@@ -14,6 +14,7 @@
 #import "WizNotification.h"
 #import "WizSyncManager.h"
 #import "TagsListTreeControllerNew.h"
+#import "WizSettings.h"
 
 BOOL isReverseMask(NSInteger mask)
 {
@@ -62,38 +63,23 @@ BOOL isReverseMask(NSInteger mask)
 }
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc
 {
-    return [self.dateCreated isLaterThanDate:doc.dateCreated];
-}
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc
-{
-    return [self.dateCreated isEarlierThanDate:doc.dateCreated];
+    if (self.dateCreated == nil || doc.dateCreated == nil) {
+        return -1;
+    }
+    return [self.dateCreated compare:doc.dateCreated];
 }
 - (NSComparisonResult) compareModifiedDate:(WizDocument *)doc
 {
-    return [self.dateModified isLaterThanDate:doc.dateModified];
+    if (self.dateModified == nil || nil == doc.dateModified) {
+        return -1;
+    }
+    return [self.dateModified compare:doc.dateModified];
 }
-- (NSComparisonResult) compareReverseModifiedDate:(WizDocument *)doc
-{
-    return [self.dateModified isEarlierThanDate:doc.dateModified];
-}
-
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument *)doc
 {
     return [[WizGlobals pinyinFirstLetter:self.title] compare:[WizGlobals pinyinFirstLetter:doc.title]];
 }
 
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument *)doc
-{
-    NSComparisonResult ret = [[WizGlobals pinyinFirstLetter:self.title] compare:[WizGlobals pinyinFirstLetter:doc.title]];
-    if (ret == -1) {
-        return 1;
-    }
-    else if (ret == 1)
-    {
-        return -1;
-    }
-    return ret;
-}
 - (BOOL) isExistMobileViewFile
 {
     return [[WizFileManager shareManager] fileExistsAtPath:[self documentMobileFile]];
@@ -155,6 +141,18 @@ BOOL isReverseMask(NSInteger mask)
     WizFileManager* share = [WizFileManager shareManager];
     return [share documentFullFile:self.guid];
 }
+
+- (NSString*) documentWillLoadFile
+{
+    NSString* documentIndexFile = [self documentIndexFile];
+    NSString* documentMobileFile = [self documentMobileFile];
+    if ([[WizSettings defaultSettings] isMoblieView]) {
+        if ([[WizFileManager defaultManager] fileExistsAtPath:documentMobileFile]) {
+            return documentMobileFile;
+        }
+    }
+    return documentIndexFile;
+}
 //
 - (NSArray*) tagDatas
 {
@@ -209,13 +207,13 @@ BOOL isReverseMask(NSInteger mask)
     return [share documentFromGUID:_guid];
 }
 //
-+ (void) deleteDocument:(NSString*)documentGUID
++ (void) deleteDocument:(WizDocument*)document
 {
     WizFileManager* fileManager = [WizFileManager shareManager];
-    [fileManager removeObjectPath:documentGUID];
+    [fileManager removeObjectPath:document.guid];
     WizDbManager* db = [WizDbManager shareDbManager];
-    [db deleteDocument:documentGUID];
-    [WizNotificationCenter postDeleteDocumentMassage:documentGUID];
+    [db deleteDocument:document.guid];
+    [WizNotificationCenter postDeleteDocumentMassage:document];
 }
 //
 
@@ -351,24 +349,7 @@ BOOL isReverseMask(NSInteger mask)
         }
     }
     [tableContensString appendString:@"</ul>"];
-    NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\"> \n\
-                      img{ \n\
-                      width:320px; \n\
-                      } \n\
-                      li{ \n\
-                      list-style-type : none; \n\
-                      margin:0; \n\
-                      padding:0;  \n\
-                      } \n\
-                      ul {\n\
-                      margin:0; \n\
-                      padding:0;  \n\
-                      }\n\
-                      body { \n\
-                      margin:0; \n\
-                      padding:0;  \n\
-                      }\n\
-                      </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
+    NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">  </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
     return html;
 }
 - (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray
@@ -379,7 +360,6 @@ BOOL isReverseMask(NSInteger mask)
     if (self.guid == nil || [self.guid isBlock]) {
         self.guid = [WizGlobals genGUID];
     }
-    NSString* body = @"";
     BOOL hasPicture = NO;
     BOOL hasAudio = NO;
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.localChanged < 0"];
@@ -387,6 +367,7 @@ BOOL isReverseMask(NSInteger mask)
     NSMutableArray* photoAndAudios = [NSMutableArray array];
     for (WizAttachment* each in editAttacment) {
         NSString* sourcePath = each.description;
+        each.documentGuid = self.guid;
         NSString* attachmentType = [sourcePath fileType];
         if ([WizGlobals checkAttachmentTypeIsImage:attachmentType]) {
             [photoAndAudios addObject:each];
@@ -400,14 +381,15 @@ BOOL isReverseMask(NSInteger mask)
         else if ([WizGlobals checkAttachmentTypeIsTxt:attachmentType])
         {
             NSError* error = nil;
-            body = [NSString stringWithContentsOfFile:sourcePath usedEncoding:nil error:&error];
+            textBody = [NSString stringWithContentsOfFile:sourcePath usedEncoding:nil error:&error];
             if(error)
             {
-                body = @"";
+                textBody = @"";
             }
         }
         else {
             [each saveData:each.description];
+            textBody = [NSString stringWithFormat:@"Add by itouch"];
         }
     }
     self.attachmentCount = [documentsSourceArray count] - [photoAndAudios count];
@@ -496,5 +478,19 @@ BOOL isReverseMask(NSInteger mask)
         }
     }
     return ret;
+}
++ (NSArray*)documentsForCache
+{
+    WizDbManager* share = [WizDbManager shareDbManager];
+    NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
+    return [share documentsForCache:duration];
+}
+- (BOOL) isIosDocument
+{
+    if(nil == self.type)
+    {
+        return NO;
+    }
+    return [self.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.type isEqualToString:WizDocumentTypeImageKeyString] || [self.type isEqualToString:WizDocumentTypeNoteKeyString];
 }
 @end

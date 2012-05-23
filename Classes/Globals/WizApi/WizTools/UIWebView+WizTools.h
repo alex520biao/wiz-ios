@@ -13,4 +13,5 @@
 - (void)removeAllHighlights;
 - (BOOL) containImages;
 - (NSString*) bodyText;
+- (void) loadIphoneReadScript;
 @end

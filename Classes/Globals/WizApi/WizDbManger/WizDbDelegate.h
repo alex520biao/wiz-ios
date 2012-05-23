@@ -46,6 +46,7 @@
 - (NSArray*) documentsByKey: (NSString*)keywords;
 - (NSArray*) documentsByLocation: (NSString*)parentLocation;
 - (NSArray*) documentForUpload;
+- (NSArray*) documentsForCache:(NSInteger)duration;
 //tag
 - (NSArray*) allTagsForTree;
 - (BOOL) updateTag: (NSDictionary*) tag;
@@ -53,6 +54,7 @@
 - (NSArray*) tagsForUpload;
 - (int) fileCountOfTag:(NSString *)tagGUID;
 - (WizTag*) tagFromGuid:(NSString *)guid;
+- (NSString*) tagAbstractString:(NSString*)guid;
 //attachment
 -(NSArray*) attachmentsByDocumentGUID:(NSString*) documentGUID;
 - (BOOL) setAttachmentLocalChanged:(NSString *)attchmentGUID changed:(BOOL)changed;

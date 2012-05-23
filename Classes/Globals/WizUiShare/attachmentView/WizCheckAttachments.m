@@ -13,17 +13,32 @@
 #import "WizCheckAttachment.h"
 #import "WizPadNotificationMessage.h"
 #import "WizGlobals.h"
-
-@interface WizCheckAttachments ()
+#import "WizNotification.h"
+#import "WizSyncManager.h"
+#import "ATMHud.h"
+#import "ATMHudDelegate.h"
+@interface WizCheckAttachments () <ATMHudDelegate>
 {
+    NSMutableArray* attachments;
+    UIAlertView* waitAlert;
+    UINavigationController* checkNav;
+    NSIndexPath* lastIndexPath;
+    UIDocumentInteractionController* currentPreview;
     BOOL willCheckInWiz;
+    ATMHud* downloadActivity;
 }
+@property (nonatomic, retain) NSString* accountUserId;
+@property (nonatomic, retain) NSMutableArray* attachments;
+@property (nonatomic, retain) UIAlertView* waitAlert;
+@property (nonatomic, retain) UINavigationController* checkNav;
+@property (nonatomic, retain) NSIndexPath* lastIndexPath;
+@property (nonatomic, retain) UIDocumentInteractionController* currentPreview;
+- (void) downloadDone:(NSNotification*)nc;
 @end
 
 @implementation WizCheckAttachments
 
-@synthesize documentGUID;
-@synthesize accountUserId;
+@synthesize doc;
 @synthesize attachments;
 @synthesize waitAlert;
 @synthesize checkNav;
@@ -34,16 +49,21 @@
     [currentPreview release];
     [lastIndexPath release];
     [checkNav release];
-    [documentGUID release];
-    [accountUserId release];
+    [doc release];
     [attachments release];
     [waitAlert release];
+    [downloadActivity release];
+    downloadActivity = nil;
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
+        attachments = [[NSMutableArray alloc] init];
+        currentPreview = [[UIDocumentInteractionController alloc] init];
+        currentPreview.delegate = self;
+        downloadActivity = [[ATMHud alloc] initWithDelegate:self];
         // Custom initialization
     }
     return self;
@@ -57,17 +77,17 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void) userDidTapHud:(ATMHud *)_hud
+{
+    [_hud hide];
+}
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view addSubview:downloadActivity.view];
     self.lastIndexPath = nil;
-    self.currentPreview = [[[UIDocumentInteractionController alloc] init] autorelease];
-    self.currentPreview.delegate = self;
-    if (self.attachments == nil) {
-        self.attachments = [NSMutableArray array];
-    }
 }
 - (void)viewDidUnload
 {
@@ -78,10 +98,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    [super viewWillAppear:animated];
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    self.attachments = nil;
-//    self.attachments = [NSMutableArray arrayWithArray:[index attachmentsByDocumentGUID:self.documentGUID]];
+    [super viewWillAppear:animated];
+    self.attachments = [NSMutableArray arrayWithArray:[self.doc attachments]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -97,6 +115,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [WizNotificationCenter removeObserverForDownloadDone:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -140,40 +159,39 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     WizAttachment* attach = [self.attachments objectAtIndex:indexPath.row];
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
     if (attach.type == nil || [attach.type isEqualToString:@""]) {
         attach.type = @"noneType";
     }
-//    if ([index attachmentSeverChanged:attach.attachmentGuid]) {
-//        cell.detailTextLabel.text = NSLocalizedString(@"Tap to download", nil);
-//    }
-//    else 
-//    {
-//        cell.detailTextLabel.text = NSLocalizedString(@"Tap to view", nil);
-//    }
-//    if ([WizGlobals checkAttachmentTypeIsAudio:attach.attachmentType]) {
-//        cell.imageView.image = [UIImage imageNamed:@"icon_video_img"];
-//    }
-//    else  if ([WizGlobals checkAttachmentTypeIsPPT:attach.attachmentType])
-//    {
-//        cell.imageView.image = [UIImage imageNamed:@"icon_ppt_img"];
-//    }
-//    else  if ([WizGlobals checkAttachmentTypeIsWord:attach.attachmentType])
-//    {
-//        cell.imageView.image = [UIImage imageNamed:@"icon_word_img"];
-//    }
-//    else  if ([WizGlobals checkAttachmentTypeIsExcel:attach.attachmentType])
-//    {
-//        cell.imageView.image = [UIImage imageNamed:@"icon_excel_img"];
-//    }
-//    else if ([WizGlobals checkAttachmentTypeIsImage:attach.attachmentType])
-//    {
-//        cell.imageView.image = [UIImage imageNamed:@"icon_image_img"];
-//    }
-//    else 
-//    {
-//        cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
-//    }
+    if (attach.serverChanged) {
+        cell.detailTextLabel.text = NSLocalizedString(@"Tap to download", nil);
+    }
+    else 
+    {
+        cell.detailTextLabel.text = NSLocalizedString(@"Tap to view", nil);
+    }
+    if ([WizGlobals checkAttachmentTypeIsAudio:attach.type]) {
+        cell.imageView.image = [UIImage imageNamed:@"icon_video_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsPPT:attach.type])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_ppt_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsWord:attach.type])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_word_img"];
+    }
+    else  if ([WizGlobals checkAttachmentTypeIsExcel:attach.type])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_excel_img"];
+    }
+    else if ([WizGlobals checkAttachmentTypeIsImage:attach.type])
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_image_img"];
+    }
+    else 
+    {
+        cell.imageView.image = [UIImage imageNamed:@"icon_file_img"];
+    }
     cell.textLabel.text = attach.title;
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     return cell;
@@ -182,6 +200,7 @@
 {
     WizCheckAttachment* check = [[WizCheckAttachment alloc] initWithNibName:nil bundle:nil];;
     NSURL* url = [self getAttachmentFileURL:attachment];
+    NSLog(@"%@",url);
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     check.req = req;
     [req release];
@@ -205,40 +224,23 @@
 }
 -(void) checkAttachment:(WizAttachment*) attachment inWiz:(BOOL)inWiz
 {
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    if (![index attachmentSeverChanged:attachment.attachmentGuid]) {
-//        if (inWiz) {
-//            [self checkInWiz:attachment];
-//        }
-//        else {
-//            [self checkInOtherApp:attachment];
-//        }
-//        
-//    }
-//    else
-//    {
-//        willCheckInWiz = inWiz;
-//        WizDownloadPool* downloader = [[WizGlobalData sharedData] globalDownloadPool:self.accountUserId];
-//        if ([downloader attachmentIsDownloading:attachment.attachmentGuid]) {
-//            return;
-//        }
-//        else
-//        {
-//            if (![downloader checkCanProduceAProcess]) {
-//                return;
-//            }
-//            WizDownloadAttachment* download = [downloader getDownloadProcess:attachment.attachmentGuid type:[WizGlobals attachmentKeyString]];
-//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadDone:) name:[download notificationName:WizSyncXmlRpcDonlowadDoneNotificationPrefix ]object:nil];
-//            [download downloadAttachment:attachment.attachmentGuid];
-//            UIAlertView* alert = nil;
-//            [WizGlobals showAlertView:NSLocalizedString(@"Sync attachments", nil) 
-//                              message:NSLocalizedString(@"Please wait while downloading attachment...!", nil) 
-//                             delegate:self 
-//                              retView:&alert];
-//            self.waitAlert = alert;
-//            [alert show];
-//        }
-//            }
+    if (!attachment.serverChanged) {
+        if (inWiz) {
+            [self checkInWiz:attachment];
+        }
+        else {
+            [self checkInOtherApp:attachment];
+        }
+        
+    }
+    else
+    {
+        willCheckInWiz = inWiz;
+        [attachment download];
+        [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDone:)];
+        [downloadActivity show];
+        [downloadActivity setActivity:YES];
+    }
     
 }
 - (BOOL) checkAttachmentIsThere:(NSString*)attachmentGUID
@@ -251,19 +253,21 @@
     }
     return NO;
 }
+
 - (void) downloadDone:(NSNotification*)nc
 {
-    NSDictionary* userInfo = [nc userInfo];
-    NSDictionary* ret = [userInfo valueForKey:@"ret"];
-    NSString* attachmentGUID = [ret valueForKey:@"document_guid"];
-    if ([self checkAttachmentIsThere:attachmentGUID]) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSString* guid = [WizNotificationCenter downloadGuidFromNc:nc];
+    if (guid == nil) {
+        return;
+    }
+    WizAttachment* attachment = [self.attachments objectAtIndex:self.lastIndexPath.row];
+    if ([guid isEqualToString:attachment.guid]) {
+        attachment.serverChanged = NO;
+        [self checkAttachment:attachment inWiz:willCheckInWiz];
         [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
         self.waitAlert = nil;
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//        WizAttachment* attach = [index attachmentFromGUID:attachmentGUID];
-//        [self checkAttachment:attach inWiz:willCheckInWiz];
     }
+    [downloadActivity hide];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -36,6 +36,10 @@
 {
     return [[WizDbManager shareDbManager] tagFromGuid:guid];
 }
+- (NSString*) tagAbstract
+{
+    return [[WizDbManager shareDbManager] tagAbstractString:self.guid];
+}
 - (BOOL) save
 {
     if (nil == self.guid || [self.guid isBlock]) {

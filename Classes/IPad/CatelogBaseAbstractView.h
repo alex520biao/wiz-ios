@@ -15,12 +15,10 @@
     TTTAttributedLabel* abstractLabel;
     NSString* keywords;
     UIImageView* backGroud;
-    id owner;
 }
 @property (nonatomic, retain) UILabel* nameLabel;
 @property (nonatomic, retain) UILabel* documentsCountLabel;
 @property (nonatomic, retain) TTTAttributedLabel* abstractLabel;
-@property (nonatomic, retain) id owner;
 @property (nonatomic, retain) NSString* keywords;
 @property (nonatomic, retain) UIImageView* backGroud;
 @end

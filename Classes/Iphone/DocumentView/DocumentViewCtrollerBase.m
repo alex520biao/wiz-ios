@@ -7,7 +7,6 @@
 //
 
 #import "DocumentViewCtrollerBase.h"
-
 #import "NewNoteView.h"
 #import "TFHpple.h"
 #import "WizGlobals.h"
@@ -22,6 +21,7 @@
 #import "WizSettings.h"
 #import "WizFileManager.h"
 #import <UIKit/UIKit.h>
+#import "ATMHud.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -36,13 +36,13 @@
     UIBarItem* searchItem;
     UISearchBar* searchDocumentBar;
     UIAlertView* conNotDownloadAlert;
-    MBProgressHUD* downloadActivity;
+    ATMHud* downloadActivity;
     BOOL isEdit;
 }
 @property (nonatomic, retain)  UIWebView* web;
 @property (nonatomic, retain)  UISearchBar* searchDocumentBar;
 @property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
-@property (nonatomic, retain)  MBProgressHUD* downloadActivity;
+@property (nonatomic, retain)  ATMHud* downloadActivity;
 @property (assign) BOOL isEdit;
 @property (nonatomic, retain) NSString* fontWidth;
 - (void) downloadDocumentDone;
@@ -64,16 +64,16 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        UIWebView* webView = [[UIWebView alloc] init];
-        webView.delegate = self;
-        self.web = webView;
-        [webView release];
+        web = [[UIWebView alloc] init];
+        web.delegate = self;
+        downloadActivity = [[ATMHud alloc] initWithDelegate:self];
     }
     return self;
 }
 - (void) loadView
 {
     self.view = self.web;
+    self.web.frame = [[UIScreen mainScreen] bounds];
 }
 
 -(void) dealloc
@@ -102,13 +102,22 @@
 
 - (void) webViewDidStartLoad:(UIWebView *)webView
 {
-    [self.downloadActivity show:NO];
-    self.downloadActivity.hidden = YES;
+  
     
 }
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self changeWebViewWidth];
+    [self.downloadActivity hide];
+    [self setToolbarItemsEnable:YES];
+    NSString* url = self.doc.url;
+    NSString* type = self.doc.type;
+    if ([self.doc isIosDocument] || (url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+        [webView loadIphoneReadScript];
+    }
+    [self setDeviceWidth];
+    if ([[WizSettings defaultSettings] isMoblieView]) {
+        [self changeWebViewWidth];
+    }
 }
 - (void) setDeviceWidth
 {
@@ -129,12 +138,10 @@
 
 #pragma mark - View lifecycle
 
-
 - (void)viewAttachments
 {
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
-    checkAttach.documentGUID = self.doc.guid;
-    checkAttach.checkNav = self.navigationController;
+    checkAttach.doc = self.doc;
     [self.navigationController pushViewController:checkAttach animated:YES];
     [checkAttach release];
 }
@@ -172,6 +179,13 @@
 	{
 		[self editCurrentDocument];
 	}
+}
+
+- (void) setToolbarItemsEnable:(BOOL)enable
+{
+    for (UIBarButtonItem* each in self.toolbarItems) {
+        [each setEnabled:enable];
+    }
 }
 
 - (void) editDocument
@@ -230,49 +244,49 @@
 }
 - (void) downloadDocument
 {
-    [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone)];
+    [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
     [self.doc download];
     return;
 }
 - (void) checkDocument
 {
     self.web.scalesPageToFit = YES;
-    NSString* documentFileName = [self.doc documentIndexFile];
+    NSString* documentFileName = [self.doc documentWillLoadFile];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-    if ([[WizSettings defaultSettings] isMoblieView]) {
-        [self setDeviceWidth];
-        if (![self.doc isExistMobileViewFile]) {
-            NSString* documentType = self.doc.type;
-            if (documentType!=nil) {
-                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
-                    [self setZoomWidth];
-                }
-            }
-            else
-            {
-                NSString* url = self.doc.url;
-                if (url != nil && url.length > 4) {
-                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
-                        [self setZoomWidth];
-                    }
-                }
-            }
-            
-        }
-    }
-    else {
-        [self setZoomWidth];
-        NSString* url = self.doc.url;
-        NSString* type = self.doc.type;
-        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-            [self setDeviceWidth];
-        }
-        if ([type isEqualToString:@"webnote"]) {
-            if ([self.doc isNewWebnote]) {
-                [self setDeviceWidth];
-            }
-        }
-    }
+//    if ([[WizSettings defaultSettings] isMoblieView]) {
+//        [self setDeviceWidth];
+//        if (![self.doc isExistMobileViewFile]) {
+//            NSString* documentType = self.doc.type;
+//            if (documentType!=nil) {
+//                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
+//                    [self setZoomWidth];
+//                }
+//            }
+//            else
+//            {
+//                NSString* url = self.doc.url;
+//                if (url != nil && url.length > 4) {
+//                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
+//                        [self setZoomWidth];
+//                    }
+//                }
+//            }
+//            
+//        }
+//    }
+//    else {
+//        [self setZoomWidth];
+//        NSString* url = self.doc.url;
+//        NSString* type = self.doc.type;
+//        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+//            [self setDeviceWidth];
+//        }
+//        if ([type isEqualToString:@"webnote"]) {
+//            if ([self.doc isNewWebnote]) {
+//                [self setDeviceWidth];
+//            }
+//        }
+//    }
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageAllowed timeoutInterval:40.0f];
     [self.web loadRequest:req];
     [req release];
@@ -290,16 +304,19 @@
     [alert release];
     return;
 }
-- (void) downloadDocumentDone
+- (void) downloadDocumentDone:(NSNotification*)nc
 {
+    NSString* guid = [WizNotificationCenter downloadGuidFromNc:nc];
+    if (nil == guid || ![guid isEqualToString:self.doc.guid]) {
+        return;
+    }
+    self.doc.serverChanged = NO;
     [self checkDocument];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -316,7 +333,6 @@
     [WizNotificationCenter removeObserverForDownloadDone:self];
     [super viewWillDisappear:animated];
     [self.navigationController setToolbarHidden:YES];
-    
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -329,10 +345,12 @@
     [super viewWillAppear:animated];
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
+        UIBarButtonItem* itmes =  [self.toolbarItems objectAtIndex:1];
         UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
         count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
         [self.view addSubview:count];
         [count release];
+        [itmes.customView addSubview:count];
     }
     self.title = self.doc.title;
     if (self.isEdit) {
@@ -358,8 +376,7 @@
         }
     }
     [self.navigationController setToolbarHidden:NO animated:YES];
-    [self.tabBarItem setEnabled:NO];
-    
+    [self setToolbarItemsEnable:NO];
 }
 - (void) changeToolBarStatue:(UITapGestureRecognizer*)sender
 {
@@ -393,20 +410,15 @@
     [search release];
     [self setToolbarItems:array];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (nil == self.downloadActivity) {
-        
-        MBProgressHUD* hub =[[MBProgressHUD alloc] initWithView:self.navigationController.view];
-        self.downloadActivity = hub;
-        [hub release];
-        [self.view addSubview:self.downloadActivity];
-        [self.view bringSubviewToFront:self.downloadActivity];  
-        self.downloadActivity.delegate = self;  
-        self.downloadActivity.labelText = WizStrLoading;
-        [self.downloadActivity show:YES];
-    }
+    NSLog(@" %f",self.view.frame.size.width);
+    [self.view addSubview:self.downloadActivity.view];
+    [self.downloadActivity setCaption:WizStrLoading];
+    [self.downloadActivity setActivity:YES];
+    [self.downloadActivity show];
     [self buildToolBar];
 }
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

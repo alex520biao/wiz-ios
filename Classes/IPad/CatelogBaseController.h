@@ -22,11 +22,9 @@
 @interface CatelogBaseController : UITableViewController
 {
     NSMutableArray* dataArray;
-    NSString* accountUserId;
     UIInterfaceOrientation willToOrientation;
 }
 @property (nonatomic, retain) NSMutableArray* dataArray;
-@property (nonatomic ,retain)    NSString* accountUserId;
 @property UIInterfaceOrientation willToOrientation;
 - (void) reloadAllData;
 - (void) didSelectedCatelog:(NSString*)keywords;

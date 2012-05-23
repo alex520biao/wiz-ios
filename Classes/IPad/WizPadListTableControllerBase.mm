@@ -8,7 +8,6 @@
 
 #import "WizPadListTableControllerBase.h"
 #import "WizGlobalData.h"
-#import "WizPadListCell.h"
 #import "WizGlobals.h"
 #import "WizGlobalData.h"
 #import "NSDate-Utilities.h"
@@ -37,7 +36,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        kOrderIndex = [[WizSettings defaultSettings] userTablelistViewOption];
+        kOrderIndex = -1;
+        self.tableArray = [NSMutableArray array];
     }
     return self;
 }
@@ -48,237 +48,14 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
-- (NSIndexPath*) indexPathForDocument:(NSString*)documentGUID
-{
-    for (int arrIndex = 0; arrIndex < [self.tableArray count]; arrIndex++) {
-        NSArray* arr = [self.tableArray objectAtIndex:arrIndex];
-        for (int docIndex = 0;docIndex < [arr count]; docIndex++) {
-            WizDocument* doc = [arr objectAtIndex:docIndex];
-            if ([doc.guid isEqualToString:documentGUID]) {
-                return [NSIndexPath indexPathForRow:docIndex inSection:arrIndex];
-            }
-        }
-    }
-    return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
-}
 - (NSArray*) reloadDocuments
 {
     return [WizDocument recentDocuments];
 }
-- (void) orderByReverseDate
-{
-    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
-    [self.tableArray removeAllObjects];
-    NSMutableArray* today = [NSMutableArray array];
-    NSMutableArray* yestorday = [NSMutableArray array];
-    NSMutableArray* dateBeforeYestorday = [NSMutableArray array];
-    NSMutableArray* week = [NSMutableArray array];
-    NSMutableArray* mounth = [NSMutableArray array];
-    NSDate* todayDate = [NSDate date];
-    for(int k = 0; k <[ array count]; k++)
-    {
-        WizDocument* doc = [array objectAtIndex:k];
-        NSDate* date = doc.dateModified;
-        int daysBeforToday = [date daysBeforeDate:todayDate];
-        if ([date isToday] )
-        {
-            [today addObject:doc];
-        }
-        else if ([date isYesterday])
-        {
-            [yestorday addObject:doc];
-        }
-        else if ([[date dateByAddingDays:2] isToday] )
-        {
-            [dateBeforeYestorday addObject:doc];
-        }
-        else if(daysBeforToday <7 )
-        {
-            [week addObject:doc];
-        }
-        else{
-            [mounth addObject:doc];
-        }
-    }
-    if ([today count]) {
-        [self.tableArray addObject:today];
-    }
-    if ([yestorday count]) {
-        [self.tableArray addObject:yestorday];
-    }
-    if ([dateBeforeYestorday count]) {
-        [self.tableArray addObject:dateBeforeYestorday];
-    }
-    if ([week count]) {
-        [self.tableArray addObject:week];
-    }
-    if ([mounth count]) {
-        [self.tableArray addObject:mounth];
-    }
-    
-}
-- (void) orderByDate
-{
-    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
-    [self.tableArray removeAllObjects];
-    if ([array count] == 1) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        [sectionArray addObject:[array objectAtIndex:0]];
-        [self.tableArray addObject:sectionArray];
-        return;
-    }
-    if ([array count] == 0) {
-        return;
-    }
-    int docIndex = [array count]-1;
-    for (int i =0; i<12; i++) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        for(int k = docIndex; k >= 0; k--)
-        {
-            WizDocument* doc1 = [array objectAtIndex:k];
-            WizDocument* doc2 = [array objectAtIndex:k-1];
-            if(k == 1)
-            {
-                if ([doc1.dateModified isEqualToDate:doc2.dateModified]) {
-                    [sectionArray addObject:doc1];
-                    [sectionArray addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                } else
-                {
-                    [sectionArray addObject:doc1];
-                    NSMutableArray* sectionArr = [NSMutableArray array];
-                    [sectionArr addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                    [self.tableArray addObject:sectionArr];
-                }
-                return;
-            }
-            if ([doc1.dateModified isEqualToDate:doc2.dateModified]) {
-                [sectionArray addObject:doc1];
-            } else
-            {
-                [sectionArray addObject:doc1];
-                [self.tableArray addObject:sectionArray];
-                docIndex = k-1;
-                break;
-            }
-            
-        }
-    }
-}
-
-- (void) orderByFirstLetter
-{
-    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
-    if (kOrderFirstLetter == self.kOrderIndex) {
-        [array sortUsingSelector:@selector(compareWithFirstLetter:)];
-    }
-    else if (kOrderReverseFirstLetter == self.kOrderIndex)
-    {
-        [array sortUsingSelector:@selector(compareReverseWithFirstLetter:)];
-    }
-    [self.tableArray removeAllObjects];
-    if ([array count] == 1) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        [sectionArray addObject:[array objectAtIndex:0]];
-        [self.tableArray addObject:sectionArray];
-        return;
-    }
-    if ([array count] == 0) {
-        return;
-    }
-    int docIndex = 0;
-    for (int i =0; i<26; i++) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        for(int k = docIndex; k <[ array count] - 1; k++)
-        {
-            WizDocument* doc1 = [array objectAtIndex:k];
-            WizDocument* doc2 = [array objectAtIndex:k+1];
-            
-            if([doc1.title compare:doc2.title] == 0)
-            {
-                [sectionArray addObject:doc1];
-                if (k == [array count] - 2) {
-                    [sectionArray addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                    docIndex = k+1;
-                    break;
-                }
-            } else
-            {
-                [sectionArray addObject:doc1];
-                [self.tableArray addObject:sectionArray];
-                if (k == [array count] -2) {
-                    NSMutableArray* sectionTempArray = [NSMutableArray array];
-                    [sectionTempArray addObject:doc2];
-                    [self.tableArray addObject:sectionTempArray];
-                }
-                docIndex = k+1;
-                break;
-            }
-            
-        }
-    }
-}
-
-- (void) orderByCreateDate
-{
-    NSMutableArray* array = [NSMutableArray arrayWithArray:[self reloadDocuments]];
-    [self.tableArray removeAllObjects];
-    if (self.kOrderIndex == kOrderCreatedDate) {
-        [array sortUsingSelector:@selector(compareCreateDate:)];
-    }
-    else if (self.kOrderIndex == kOrderReverseCreatedDate) {
-        [array sortUsingSelector:@selector(compareReverseCreateDate:)];
-    }
-    if ([array count] == 1) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        [sectionArray addObject:[array objectAtIndex:0]];
-        [self.tableArray addObject:sectionArray];
-        return;
-    }
-    if ([array count] == 0) {
-        return;
-    }
-    int docIndex = [array count]-1;
-    for (int i =0; i<12; i++) {
-        NSMutableArray* sectionArray = [NSMutableArray array];
-        for(int k = docIndex; k >= 0; k--)
-        {
-            WizDocument* doc1 = [array objectAtIndex:k];
-            WizDocument* doc2 = [array objectAtIndex:k-1];
-            if(k == 1)
-            {
-                if ([[doc1.dateCreated stringYearAndMounth] isEqualToString:[doc2.dateCreated stringYearAndMounth]]) {
-                    [sectionArray addObject:doc1];
-                    [sectionArray addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                } else
-                {
-                    [sectionArray addObject:doc1];
-                    NSMutableArray* sectionArr = [NSMutableArray array];
-                    [sectionArr addObject:doc2];
-                    [self.tableArray addObject:sectionArray];
-                    [self.tableArray addObject:sectionArr];
-                }
-                return;
-            }
-            if ([[doc1.dateCreated stringYearAndMounth] isEqualToString:[doc2.dateCreated stringYearAndMounth]]) {
-                [sectionArray addObject:doc1];
-            } else
-            {
-                [sectionArray addObject:doc1];
-                [self.tableArray addObject:sectionArray];
-                docIndex = k-1;
-                break;
-            }
-            
-        }
-    }
-}
 - (void) reloadAllData
 {
-    if (![[self reloadDocuments] count]) {
+    NSArray* documents = [self reloadDocuments];
+    if (![documents count]) {
         UIView* back = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1024, 768)];
        UILabel* remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(414, 284, 200, 200)];;
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
@@ -303,43 +80,20 @@
     else
     {
         self.tableView.backgroundView = nil;
+        [self.tableArray removeAllObjects];
+        [self.tableArray addObject:[NSMutableArray arrayWithArray:documents]];
+        NSInteger order = [[WizSettings defaultSettings] userTablelistViewOption];
+        [self.tableArray sortDocumentByOrder:order];
+        [self.tableView reloadData];
+        self.kOrderIndex = order;
     }
-    switch (self.kOrderIndex) {
-        case kOrderDate:
-            [self orderByDate];
-            break;
-        case kOrderFirstLetter:
-            [self orderByFirstLetter];
-            break;
-        case kOrderReverseDate:
-            [self orderByReverseDate];
-            break;
-        case kOrderReverseFirstLetter:
-            [self orderByFirstLetter];
-        case kOrderCreatedDate:
-        case kOrderReverseCreatedDate:
-            [self orderByCreateDate];
-            break;
-        default:
-            break;
-    }
-}
-- (void) reloadTableView
-{
-    [self reloadAllData];
-    [self.tableView reloadData];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView.backgroundColor= [UIColor grayColor];
-    if (nil == self.tableArray) {
-        self.tableArray = [NSMutableArray array];
-    }
+    self.tableView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
     self.isLandscape = UIInterfaceOrientationIsLandscape((self.interfaceOrientation));
-    [self reloadAllData];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
 }
 
 - (void)viewDidUnload
@@ -350,14 +104,15 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-
     [super viewDidAppear:animated];
+    if ([[WizSettings defaultSettings] userTablelistViewOption] != self.kOrderIndex) {
+        [self reloadAllData];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -377,23 +132,10 @@
     [super didAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation];
 }
 #pragma mark - Table view data source
-//- (NSInteger) countOfLandscape
-//{
-//
-//}
-//- (NSInteger) countOfPortrait
-//{
-//    
-//}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.isLandscape) {
-        return [self.tableArray count];
-    }
-    else
-    {
-        return [self.tableArray count];
-    }
+    return [self.tableArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -441,12 +183,17 @@
 //        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 //    }
 }
+- (void) didPadCellDidSelectedDocument:(WizDocument *)doc
+{
+    [self didSelectedDocument:doc];
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"WizPadAbstractCell";
     WizPadListCell *cell = (WizPadListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[WizPadListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell.selectedDelegate = self;
     }
     NSUInteger documentsCount=0;
     if (self.isLandscape) {
@@ -467,11 +214,13 @@
         docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
     }
     cellArray = [sectionArray subarrayWithRange:docRange];
-    [cell setDocuments:cellArray];
+    cell.documents = cellArray;
     return cell;
 }
-
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [cell setNeedsDisplay];
+}
 
 #pragma mark - Table view delegate
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -480,57 +229,8 @@
 }
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (tableView == self.tableView) {
-        if(kOrderDate == self.kOrderIndex )
-        {
-            WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSString* sectionTitle = [doc.dateModified stringYearAndMounth];
-            return sectionTitle;
-        }
-        else if (kOrderCreatedDate == self.kOrderIndex || kOrderReverseCreatedDate == self.kOrderIndex) {
-            WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSString* sectionTitle = [doc.dateCreated stringYearAndMounth];
-            return sectionTitle;
-        }
-        else if (kOrderReverseDate == self.kOrderIndex)
-        {
-            WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSDate* date = doc.dateModified;
-            if ([date isToday]) {
-                return WizStrToday;
-            }
-            else if( [date isYesterday])
-            {
-                return WizStrYesterday;
-            }
-            else if ([[date dateByAddingDays:2] isToday])
-            {
-                return WizStrThedaybeforeyesterday;
-            }
-            else if ([date isThisWeek])
-            {
-                return WizStrOneWeek;
-            }
-            else 
-            {
-                return WizStrOneWeekAgo;
-            }
-            
-            
-        }
-        else if(kOrderFirstLetter == self.kOrderIndex || kOrderReverseFirstLetter == self.kOrderIndex)
-        {
-            WizDocument* doc = [[self.tableArray objectAtIndex:section] objectAtIndex:0];
-            NSString* firstLetter = [[NSString stringWithFormat:@"%c",pinyinFirstLetter([doc.title characterAtIndex:0])] uppercaseString];
-            return firstLetter;
-        } else
-            return nil;
-        
-    }
-    else
-    {
-        return nil;
-    }
+    NSArray* array = [self.tableArray objectAtIndex:section];
+    return [array description];
 }
 
 // interface  orientation
@@ -553,20 +253,19 @@
         NSLog(@"nil");
         return;
     }
-    NSIndexPath* docIndex = [self indexPathForDocument:documentGUID];
-    if (docIndex.section == NSNotFound)
-    {
-        return;
-    }
-    [[self.tableArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
-    if ([[self.tableArray objectAtIndex:docIndex.section] count] > 0)
-    {
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else {
-        [self.tableArray removeObjectAtIndex:docIndex.section];
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-    }
+//    if (docIndex.section == NSNotFound)
+//    {
+//        return;
+//    }
+//    [[self.tableArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
+//    if ([[self.tableArray objectAtIndex:docIndex.section] count] > 0)
+//    {
+//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+//    }
+//    else {
+//        [self.tableArray removeObjectAtIndex:docIndex.section];
+//        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
+//    }
 }
 
 

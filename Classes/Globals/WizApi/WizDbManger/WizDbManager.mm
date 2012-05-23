@@ -209,17 +209,7 @@ static WizDbManager* shareDbManager = nil;
 {
     index.SetDocumentLocalChanged([guid UTF8String], changed);
 }
-- (void) upgradeDb
-{
-    BOOL upgrade330 =  [[NSUserDefaults standardUserDefaults] boolForKey:@"upgrade330"];
-    if (!upgrade330) {
-        NSArray* documents = [WizDocument documentForUpload];
-        for (WizDocument* doc in documents) {
-            [self setDocumentServerChanged:doc.guid changed:WizEditDocumentTypeAllChanged];
-        }
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"upgrade330"];
-    }
-}
+
 - (void) initAccountSetting
 {
     //    [self versionUpdateSettings];
@@ -249,7 +239,6 @@ static WizDbManager* shareDbManager = nil;
             [self setImageQualityValue:750];
         }
     }
-    [self upgradeDb];
 }
 
 - (BOOL) openDb:(NSString*)dbFilePath
@@ -727,8 +716,7 @@ static WizDbManager* shareDbManager = nil;
 - (NSArray*) recentDocuments
 {
 	CWizDocumentDataArray arrayDocument;
-	index.GetRecentDocuments(arrayDocument);
-	return [self documentsFromWizDocumentDataArray: arrayDocument];
+	index.GetRecentDocuments(arrayDocument);	return [self documentsFromWizDocumentDataArray: arrayDocument];
 }
 - (NSArray*) documentsByTag: (NSString*)tagGUID
 {
@@ -755,6 +743,12 @@ static WizDbManager* shareDbManager = nil;
 	index.GetDocumentsForUpdate(arrayDocument);
 	//
 	return [self documentsFromWizDocumentDataArray: arrayDocument];	
+}
+- (NSArray*) documentsForCache:(NSInteger)duration
+{
+    CWizDocumentDataArray arrayDocument;
+    index.documentsWillDowload(duration, arrayDocument);
+    return [self documentsFromWizDocumentDataArray:arrayDocument];
 }
 //
 - (BOOL) addDeletedGUIDRecord: (NSString*)guid type:(NSString*)type
@@ -786,6 +780,12 @@ static WizDbManager* shareDbManager = nil;
 
 
 //tag
+- (NSString*) tagAbstractString:(NSString *)guid
+{
+    std::string data = index.GetTagAbstract([guid UTF8String]);
+    NSString* ret = [[NSString alloc]initWithBytes:data.data() length:data.length() encoding:NSUTF8StringEncoding];
+    return [ret autorelease];
+}
 - (NSArray*) allTagsForTree
 {
     CWizTagDataArray arrayTag;
@@ -877,6 +877,10 @@ static WizDbManager* shareDbManager = nil;
 	return YES;
 }
 
+//- (NSString*) tagAbstractString:(NSString*)tagGuid
+//{
+//    index.GetTagPostList(<#CWizTagDataArray &array#>)
+//}
 //
 -(NSArray*) attachmentsFormWizDocumentAttachmentArray:(const CWizDocumentAttachmentArray&) array
 {

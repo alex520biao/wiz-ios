@@ -7,37 +7,49 @@
 //
 
 #import "WizPadListCell.h"
-#import "WizPadDocumentAbstractView.h"
+
+@interface WizPadListCell()
+{
+    NSMutableArray* abstractArray;
+}
+@property (nonatomic, retain) NSMutableArray* abstractArray;
+@end
 
 @implementation WizPadListCell
 @synthesize abstractArray;
+@synthesize documents;
+@synthesize selectedDelegate;
 - (void) dealloc
 {
+    selectedDelegate = nil;
     [abstractArray release];
+    abstractArray = nil;
+    [documents release];
+    documents = nil;
     [super dealloc];
 }
-- (void) setDocuments:(NSArray*) arr
+
+- (void) drawRect:(CGRect)rect
 {
-    for (int i = 0; i < [arr count]; i++) {
+    for (int i = 0; i < [documents count]; i++) {
         
-        WizDocument* doc = [arr objectAtIndex:i];
+        WizDocument* doc = [documents objectAtIndex:i];
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
-        [abst setDocument:doc];
+        abst.doc = doc;
         abst.alpha = 1.0f;
+        [abst setNeedsDisplay];
     }
-    for (int i =[ arr count]; i < 4; i++) {
+    for (int i =[documents count]; i < 4; i++) {
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
         abst.alpha = 0.0f;
     }
 }
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.contentView.backgroundColor = [UIColor grayColor];
-        self.accessoryView.backgroundColor = [UIColor grayColor];
+        self.contentView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         self.backgroundColor = [UIColor grayColor];
         self.accessoryType = UITableViewCellAccessoryNone;
         self.abstractArray = [NSMutableArray arrayWithCapacity:4];
@@ -45,6 +57,7 @@
             WizPadDocumentAbstractView* abstractView = [[WizPadDocumentAbstractView alloc] initWithFrame:CGRectMake(35*(i+1)+205*i, 15, 205, PADABSTRACTVELLHEIGTH-50)];
             [self.contentView addSubview:abstractView];
             [self.abstractArray addObject:abstractView];
+            abstractView.selectedDelegate = self;
             [abstractView release];
         }
     }
@@ -57,5 +70,8 @@
 
     // Configure the view for the selected state
 }
-
+- (void) didSelectedDocument:(WizDocument *)doc
+{
+    [self.selectedDelegate didPadCellDidSelectedDocument:doc];
+}
 @end

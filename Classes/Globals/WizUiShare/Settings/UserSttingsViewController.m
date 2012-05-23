@@ -23,6 +23,7 @@
 #import "WizSettings.h"
 #import "WizSingleSelectViewController.h"
 #import "NSArray+WizSetting.h"
+#import "WizFileManager.h"
 
 #define ClearCacheTag          1201
 #define ChangePasswordTag 888
@@ -46,11 +47,13 @@ enum WizSettingKind {
     WizSwitchCell* connectViaWifiCell;
     WizSwitchCell* automicSyncCell;
     NSInteger      settingKind;
+    NSString* usedSpaceString;
 }
 @property (nonatomic, retain) WizSwitchCell* mobileViewCell;
 @property (nonatomic, retain) WizSwitchCell* protectCell;
 @property (nonatomic, retain) WizSwitchCell* connectViaWifiCell;
 @property (nonatomic, retain) WizSwitchCell* automicSyncCell;
+@property (atomic, retain) NSString* usedSpaceString;
 @end
 
 
@@ -59,12 +62,14 @@ enum WizSettingKind {
 @synthesize protectCell;
 @synthesize connectViaWifiCell;
 @synthesize automicSyncCell;
+@synthesize usedSpaceString;
 - (void) dealloc
 {
     [automicSyncCell release];
     [mobileViewCell release];
     [connectViaWifiCell release];
     [protectCell release];
+    [usedSpaceString release];
     [super dealloc];
 }
 - (void) setAutomicSync
@@ -108,6 +113,8 @@ enum WizSettingKind {
         self.protectCell = [WizSwitchCell switchCell];
         self.protectCell.textLabel.text = NSLocalizedString(@"Passcode Lock", nil);
         [self.protectCell.valueSwitch addTarget:self action:@selector(setPasscode) forControlEvents:UIControlEventValueChanged];
+        
+        self.usedSpaceString = @"";
         
     }
     return self;
@@ -171,6 +178,7 @@ enum WizSettingKind {
 {
     [super viewDidLoad];
     [self buildNavItems];
+
 }
 
 - (void)viewDidUnload
@@ -184,13 +192,19 @@ enum WizSettingKind {
     [self.tableView reloadData];
     
 }
-
+- (void) loadUserSpaceStirng
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    NSInteger usedSpace = [[WizFileManager shareManager] activeAccountFolderSize];
+    CGFloat mUsedSpace = (CGFloat)usedSpace/1024/1024;
+    NSString* str = [NSString stringWithFormat:@"Used %.2fM",mUsedSpace];
+    self.usedSpaceString =  NSLocalizedString(str, nil);
+    [pool drain];
+}
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    WizSettings* set = [WizSettings defaultSettings];
-//    [set setPasscode:@""];
-//    [set setPasscodeEnable:NO];
+    [self performSelectorInBackground:@selector(loadUserSpaceStirng) withObject:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -221,7 +235,7 @@ enum WizSettingKind {
 {
     switch (section) {
         case 0:
-                return 6;
+                return 5;
         case 1  :
             return 2;
         case 2:
@@ -294,17 +308,10 @@ enum WizSettingKind {
     }
     else if ( [indexPath isEqualToSectionAndRow:0 row:3])
     {
-        cell.textLabel.text = NSLocalizedString(@"Traffic Usage", nil);
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@/%@",[defaultSettings userTrafficUsageString],[defaultSettings userTrafficLimitString]];
-        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    else if ( [indexPath isEqualToSectionAndRow:0 row:4])
-    {
         cell.textLabel.text = WizStrChangePassword;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
-    else if ([indexPath isEqualToSectionAndRow:0 row:5])
+    else if ([indexPath isEqualToSectionAndRow:0 row:4])
     {
         cell.textLabel.text = NSLocalizedString(@"Remove account", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -332,6 +339,7 @@ enum WizSettingKind {
     else if ([indexPath isEqualToSectionAndRow:3 row:1])
     {
         cell.textLabel.text = NSLocalizedString(@"Clear cache",nil);
+        cell.detailTextLabel.text = usedSpaceString;
     }
     else if ([indexPath isEqualToSectionAndRow:4 row:0])
     {
@@ -353,10 +361,7 @@ enum WizSettingKind {
         cell.textLabel.text =WizStrRateWizNote;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
-   
-    
     //
-    
     else if ([indexPath isEqualToSectionAndRow:1 row:1]) {
         self.mobileViewCell.valueSwitch.on = [defaultSettings isMoblieView];
     }
@@ -469,6 +474,10 @@ enum WizSettingKind {
     [changepw release];
 
 }
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissModalViewControllerAnimated:YES];
+}
 - (void) sendFeedback
 {
     if ([MFMailComposeViewController canSendMail]) {
@@ -542,10 +551,10 @@ enum WizSettingKind {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath isEqualToSectionAndRow:0 row:4]) {
+    if ([indexPath isEqualToSectionAndRow:0 row:3]) {
         [self changeUserPassword];
     }
-    else if ([indexPath isEqualToSectionAndRow:0 row:5]) {
+    else if ([indexPath isEqualToSectionAndRow:0 row:4]) {
         [self removeAccount];
     }
     else if ([indexPath isEqualToSectionAndRow:1 row:0]) {

@@ -1,19 +1,19 @@
 //
-//  WizPhoneCreateAccountViewController.m
+//  WizRegisterViewController.m
 //  Wiz
 //
 //  Created by wiz on 12-2-19.
 //  Copyright 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "WizPhoneCreateAccountViewController.h"
+#import "WizRegisterViewController.h"
 #import "WizCreateAccount.h"
 #import "WizGlobalData.h"
 #import "WizInputView.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
 
-@interface WizPhoneCreateAccountViewController()
+@interface WizRegisterViewController()
 {
     WizInputView* idInputView;
     WizInputView* passwordInputView;
@@ -28,7 +28,7 @@
 @property (nonatomic, retain)    UIButton* registerButton;
 @end
 
-@implementation WizPhoneCreateAccountViewController
+@implementation WizRegisterViewController
 
 @synthesize idInputView;
 @synthesize passwordInputView;
@@ -65,7 +65,7 @@
     if ([self.passwordInputView.textInputField isFirstResponder]) {
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationDuration:0.25];
         self.view.frame = CGRectMake(0.0, -60, 320, 480);
         [UIView commitAnimations];
         
@@ -74,7 +74,7 @@
     {
         [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationDuration:0.25];
         self.view.frame = CGRectMake(0.0, -120, 320, 480);
         [UIView commitAnimations];
     }
@@ -83,7 +83,7 @@
 {
     [UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDuration:0.25];
     self.view.frame = CGRectMake(0.0, 0.0, 320, 480);
     [UIView commitAnimations];
 }
@@ -174,7 +174,7 @@
     logButton.titleLabel.textAlignment = UITextAlignmentCenter;
     [self.view addSubview:logButton];
     [logButton addTarget:self action:@selector(createAccount) forControlEvents:UIControlEventTouchUpInside];
-    [logButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud1"] forState:UIControlStateNormal];
+    [logButton setBackgroundImage:[UIImage imageNamed:@"loginButtonBackgroud"] forState:UIControlStateNormal];
 }
 - (void)viewDidLoad
 {

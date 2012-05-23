@@ -28,8 +28,8 @@ typedef NSInteger WizEditDocumentType;
 enum
 {
     WizEditDocumentTypeNoChanged = 0,
-    WizEditDocumentTypeInfoChanged = 1,
-    WizEditDocumentTypeAllChanged = 3,
+    WizEditDocumentTypeInfoChanged = 2,
+    WizEditDocumentTypeAllChanged = 1,
 };
 
 @interface WizDocument : WizObject
@@ -75,6 +75,7 @@ enum
 - (NSString*) documentMobileFile;
 - (NSString*) documentAbstractFile;
 - (NSString*) documentFullFile;
+- (NSString*) documentWillLoadFile;
 - (BOOL) addFileToIndexFiles:(NSString*)sourcePath;
 //
 + (NSArray*) recentDocuments;
@@ -87,7 +88,7 @@ enum
 //
 - (NSString*) localDataMd5;
 - (NSArray*) tagDatas;
-+ (void) deleteDocument:(NSString*)documentGUID;
++ (void) deleteDocument:(WizDocument*)document;
 - (NSArray*) attachments;
 
 //
@@ -99,4 +100,7 @@ enum
 - (void) setTagWithArray:(NSArray*)tags;
 - (NSArray*) existPhotoAndAudio;
 - (BOOL) deleteTag:(NSString*)tagGuid;
+//
++ (NSArray*)documentsForCache;
+- (BOOL) isIosDocument;
 @end

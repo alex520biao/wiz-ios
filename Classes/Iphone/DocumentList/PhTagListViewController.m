@@ -62,7 +62,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [self reloadAllData];
     [super viewWillAppear:animated];
     
 }

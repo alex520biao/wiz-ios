@@ -11,7 +11,6 @@
 #import "WizGlobals.h"
 #import "WizIphoneLoginViewController.h"
 #import "WizPadLoginViewController.h"
-#import "WizPadMainViewController.h"
 #import "UIView-TagExtensions.h"
 
 #import "WizCheckProtectPassword.h"
@@ -27,10 +26,6 @@
 #import "WizSettings.h"
 
 
-//#import "WizTestFlight.h"
-#ifdef WIZTESTFLIGHTDEBUG
-//#import "TestFlight.h"
-#endif
 #define WizAbs(x) x>0?x:-x
 @interface WizAppDelegate()
 {
@@ -50,16 +45,6 @@
 }
 #pragma mark -
 #pragma mark Application lifecycle
-- (void) didChangedSyncDescription:(NSString *)description
-{
-//    if (description == nil || [description isBlock]) {
-//        self.window.frame = CGRectMake(0.0, 0.0, 320, 480);
-//    }
-//    else {
-//        self.window.frame = CGRectMake(0.0, 40, 320, 440);
-//        self.syncLabel.text = description;
-//    }
-}
 - (void) initRootNavigation
 {
     [WizNotificationCenter removeObserver:self];
@@ -81,23 +66,7 @@
     [self.window makeKeyAndVisible];
 }
 
-- (void) encryptPasswordV320
-{
-//    NSArray* arr = [[NSArray alloc] initWithArray:[WizSettings accounts]];
-//    for (int i = 0; i < [arr count]; i++) {
-//        NSString* account = [WizSettings accountUserIdAtIndex:arr index:i];
-//        NSString* password = [WizSettings accountPasswordAtIndex:arr index:i];
-//        NSLog(@"account %@ password %@",account, password);
-//        if (![WizGlobals checkPasswordIsEncrypt:password])
-//        {
-//            NSLog(@"change");
-//            [WizSettings changeAccountPassword:account password:password];
-//        }
-//    }
-//    [arr release];
-}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self encryptPasswordV320];
     [self initRootNavigation];
     return YES;
 }
@@ -129,12 +98,9 @@
     }
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-//    [WizSettings setLastActiveTime];
-//    [[WizGlobalData sharedData] stopSyncing];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	[WizGlobalData deleteShareData];
 }
 
 
@@ -150,9 +116,8 @@
     }
     if (url != nil && [url isFileURL]) {
         NSString* filePath = [url path];
-        NSArray* breakFilePath = [filePath componentsSeparatedByString:@"/"];
-        NSString* fileName = [breakFilePath lastObject];
-        NSString* tempFilePath =[[WizFileManager shareManager] getAttachmentSourceFileName];
+        NSString* fileName = [filePath fileName];
+        NSString* tempFilePath =[[WizFileManager shareManager] attachmentTempDirectory];
         NSString* toFilePath = [tempFilePath stringByAppendingPathComponent:fileName];
         NSURL* toUrl = [NSURL fileURLWithPath:toFilePath];
         NSError* error = nil;
@@ -161,15 +126,14 @@
             return NO;
         }
         WizDocument* doc = [[WizDocument alloc] init];
-        WizAttachment* attachment = [[WizAttachment alloc] init];
+        doc.title = fileName;
         NSMutableArray* arr = [NSMutableArray array];
         [arr addAttachmentBySourceFile:toFilePath];
         [doc saveWithData:nil attachments:arr];
-        [attachment release];
         [doc release];
         return YES;
     }
-return NO;
+    return NO;
 }
 
 @end

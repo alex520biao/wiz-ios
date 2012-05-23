@@ -10,7 +10,6 @@
 #import "WizGlobalData.h"
 #import "WizPadNotificationMessage.h"
 #import "WizUiTypeIndex.h"
-#import "CatelogTagCell.h"
 #import "TTTAttributedLabel.h"
 @implementation PadTagController
 
@@ -24,10 +23,9 @@
 }
 - (void) configureCellWithArray:(UITableViewCell *)cell array:(NSArray *)array
 {
-    NSMutableArray* decorateArray = [NSMutableArray array];
-    for (WizTag* eachTag in array) {
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//        NSArray* documents = [index documentsByTag:eachTag.guid];
+//    NSMutableArray* decorateArray = [NSMutableArray array];
+//    for (WizTag* eachTag in array) {
+//        NSArray* documents = [WizDocument documentsByTag:eachTag.guid];
 //        WizPadCatelogData* data = [[WizPadCatelogData alloc] init];
 //        data.name = eachTag.title;
 //        data.count = [NSString stringWithFormat:@"%d %@",[documents count],WizStrNotes];
@@ -47,9 +45,9 @@
 //        [attibuteString release];
 //        [decorateArray addObject:data];
 //        [data release];
-    }
-    CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
-    [cateCell setContent:decorateArray];
+//    }
+//    CatelogBaseCell* cateCell = (CatelogBaseCell*)cell;
+//    [cateCell setContent:decorateArray];
 }
 - (void) reloadTableView
 {
@@ -74,18 +72,17 @@
 
 - (void) reloadAllData
 {
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//    NSArray* tags = [index allTagsForTree];
-//    NSMutableArray* arr = [NSMutableArray arrayWithArray:tags];
-//    [self.dataArray removeAllObjects];
-//    if (self.dataArray == nil) {
-//        self.dataArray = [NSMutableArray array];
-//    }
-//    for (WizTag* eachTag in arr) {
-//        if ([index fileCountOfTag:eachTag.guid] != 0) {
-//            [self.dataArray addObject:eachTag];
-//        }
-//    }
+    NSArray* tags = [WizTag allTags];
+    NSMutableArray* arr = [NSMutableArray arrayWithArray:tags];
+    [self.dataArray removeAllObjects];
+    if (self.dataArray == nil) {
+        self.dataArray = [NSMutableArray array];
+    }
+    for (WizTag* eachTag in arr) {
+        if ([WizTag fileCountOfTag:eachTag.guid] != 0) {
+            [self.dataArray addObject:eachTag];
+        }
+    }
 }
 
 - (void) didSelectedCatelog:(NSString *)keywords
@@ -97,38 +94,35 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    CatelogTagCell *cell = (CatelogTagCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[CatelogTagCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accountUserId = self.accountUserId;
-        cell.owner = self;
-        
-    }
-    NSInteger documentsCount =0;
-    if (UIInterfaceOrientationIsLandscape(self.willToOrientation)) {
-        documentsCount = 4;
-    }
-    else
-    {
-        documentsCount = 3;
-    }
-    NSUInteger needLength = documentsCount*(indexPath.row+1);
-    NSLog(@"needLength is %d",needLength);
-    NSLog(@"dataArray count is %d",[self.dataArray count]);
-    NSArray* cellArray=nil;
-    NSRange docRange;
-    if ([self.dataArray count] < needLength) {
-        docRange =  NSMakeRange(documentsCount*indexPath.row, [self.dataArray count]-documentsCount*indexPath.row);
-    }
-    else {
-        docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
-    }
-    
-    NSLog(@"range is %d %d",docRange.location, docRange.length);
-    cellArray = [self.dataArray subarrayWithRange:docRange];
-    NSLog(@"cell array %d",[cellArray count]);
-    [self configureCellWithArray:cell array:cellArray];
-    return cell;
+//    CatelogTagCell *cell = (CatelogTagCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (cell == nil) {
+//        cell = [[[CatelogTagCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+//    }
+//    NSInteger documentsCount =0;
+//    if (UIInterfaceOrientationIsLandscape(self.willToOrientation)) {
+//        documentsCount = 4;
+//    }
+//    else
+//    {
+//        documentsCount = 3;
+//    }
+//    NSUInteger needLength = documentsCount*(indexPath.row+1);
+//    NSLog(@"needLength is %d",needLength);
+//    NSLog(@"dataArray count is %d",[self.dataArray count]);
+//    NSArray* cellArray=nil;
+//    NSRange docRange;
+//    if ([self.dataArray count] < needLength) {
+//        docRange =  NSMakeRange(documentsCount*indexPath.row, [self.dataArray count]-documentsCount*indexPath.row);
+//    }
+//    else {
+//        docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
+//    }
+//    
+//    NSLog(@"range is %d %d",docRange.location, docRange.length);
+//    cellArray = [self.dataArray subarrayWithRange:docRange];
+//    NSLog(@"cell array %d",[cellArray count]);
+//    [self configureCellWithArray:cell array:cellArray];
+//    return cell;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

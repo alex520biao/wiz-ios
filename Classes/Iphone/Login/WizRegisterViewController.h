@@ -1,5 +1,5 @@
 //
-//  WizPhoneCreateAccountViewController.h
+//  WizRegisterViewController.h
 //  Wiz
 //
 //  Created by wiz on 12-2-19.
@@ -8,5 +8,5 @@
 
 #import <UIKit/UIKit.h>
 #import "WizCreateAccount.h"
-@interface WizPhoneCreateAccountViewController : UIViewController <UITextFieldDelegate,WizCreateAccountDelegate>
+@interface WizRegisterViewController : UIViewController <UITextFieldDelegate,WizCreateAccountDelegate>
 @end

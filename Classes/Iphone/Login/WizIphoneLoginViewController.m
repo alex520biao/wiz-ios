@@ -7,7 +7,7 @@
 //
 
 #import "WizIphoneLoginViewController.h"
-#import "WizPhoneCreateAccountViewController.h"
+#import "WizRegisterViewController.h"
 #import "WizAddAcountViewController.h"
 #import "WizNotification.h"
 
@@ -59,7 +59,7 @@
 
 - (IBAction)registerAccount:(id)sender
 {
-    WizPhoneCreateAccountViewController *createAccountView = [[WizPhoneCreateAccountViewController alloc] init];
+    WizRegisterViewController *createAccountView = [[WizRegisterViewController alloc] init];
     [self.navigationController pushViewController:createAccountView animated:YES];
     [createAccountView release];
 }

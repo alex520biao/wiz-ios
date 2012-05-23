@@ -26,4 +26,8 @@
 {
     return [[WizDbManager shareDbManager] fileCountOfLocation:location];
 }
++ (NSArray*) allLocationsForTree
+{
+    return [[WizDbManager shareDbManager] allLocationsForTree];
+}
 @end

@@ -82,7 +82,11 @@
     else {
         NSArray* ups = [WizDocument documentForUpload];
         for (WizDocument* each in ups) {
-            [[WizSyncManager shareManager] uploadWizObject:each];
+            [each upload];
+        }
+        NSArray* documents = [WizDocument documentsForCache];
+        for (WizDocument * each in documents) {
+            [each download];
         }
     }
     busy = NO;
@@ -170,7 +174,11 @@
 		//
 		if ([type isEqualToString:@"document"])
 		{
-            [WizDocument deleteDocument:guid];
+            WizDocument* doc = [WizDocument documentFromDb:guid];
+            if (nil == doc) {
+                continue;
+            }
+            [WizDocument deleteDocument:doc];
 		}
 		else if ([type isEqualToString:@"tag"])
 		{

@@ -23,9 +23,11 @@
 + (void) addObserverForNewDocument:(id) observer selector:(SEL)selector;
 + (void) addObserverForIphoneSetupAccount:(id)observer  selector:(SEL)selector;
 + (void) postIphoneSetupAccount;
+//
 + (void) addObserverForDeleteDocument:(id) observer selector:(SEL)selector;
 + (void) removeObserverForDeleteDocument:(id)observer;
-+ (void) postDeleteDocumentMassage:(NSString*)documentGUID;
++ (WizDocument*) getWizDocumentFromNc:(NSNotification*)nc;
++ (void) postDeleteDocumentMassage:(WizDocument*)document;
 + (NSString*) getDeleteDocumentGUIDFromNc:(NSNotification*)nc;
 //
 + (void) addObserverForUpdateDocument:(id) observer selector:(SEL)selector;

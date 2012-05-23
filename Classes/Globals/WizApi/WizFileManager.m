@@ -235,9 +235,27 @@ static WizFileManager* shareManager = nil;
 {
     return [self objectFilePath:ATTACHMENTTEMPFLITER];
 }
+- (long long) fileSizeAtPath:(NSString*) filePath{
+    if ([self fileExistsAtPath:filePath]){
+        return [[self attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+}
+- (long long) folderTotalSizeAtPath:(NSString*) folderPath{
+    if (![self fileExistsAtPath:folderPath]) return 0;
+    NSEnumerator *childFilesEnumerator = [[self subpathsAtPath:folderPath] objectEnumerator];
+    NSString* fileName;
+    long long folderSize = 0;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil){
+        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+        }
+    return folderSize;
+}
 - (NSString*) getAttachmentSourceFileName
 {
      NSString* objectPath = [self attachmentTempDirectory];
+    [[WizFileManager shareManager] ensurePathExists:objectPath];
     return [objectPath stringByAppendingPathComponent:[WizGlobals genGUID]];
 }
 //- (NSString*)getAttachmentSourceFileName
@@ -272,7 +290,11 @@ static WizFileManager* shareManager = nil;
 //    ret = [ret stringByReplacingOccurrencesOfString:@":" withString:@"-"];
 //    return ret;
 //}
-
+- (NSInteger) activeAccountFolderSize
+{
+    NSString* path = [self accountPath];
+    return [self folderTotalSizeAtPath:path];
+}
 - (NSString*) searchHistoryFilePath
 {
     return [self documentFile:@"SearchHistoryDir" fileName:@"history.dat"];
