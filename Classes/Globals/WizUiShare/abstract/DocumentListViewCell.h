@@ -17,10 +17,10 @@ extern int CELLHEIGHTWITHOUTABSTRACT;
 {
     WizDocument* doc;
     WizAbstract* abstractData;
-    UIActivityIndicatorView* downloadIndicator;
+    BOOL showDownloadIndicator;
 }
 @property (nonatomic, retain) WizAbstract* abstractData;
 @property (nonatomic, retain) WizDocument* doc;
-@property (nonatomic, retain) UIActivityIndicatorView* downloadIndicator;
+@property (nonatomic, assign) BOOL showDownloadIndicator;
 - (void) prepareForAppear;
 @end

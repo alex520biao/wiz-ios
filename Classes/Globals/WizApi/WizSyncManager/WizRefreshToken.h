@@ -7,6 +7,11 @@
 //
 
 #import "WizApi.h"
+#import "WizRefreshDelegate.h"
 
 @interface WizRefreshToken : WizApi
+{
+    id <WizRefreshDelegate> refreshDelegate;
+}
+@property (nonatomic, assign) id <WizRefreshDelegate> refreshDelegate;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "WizPadFoldersViewController.h"
-#import "WizTagCatelogView.h"
+#import "WizFolderCatelogView.h"
 #import "WizUiTypeIndex.h"
 @interface WizPadFoldersViewController ()
 
@@ -26,11 +26,11 @@
 
 - (NSArray*) catelogDataSourceArray
 {
-    NSArray* tags = [WizTag allTags];
+    NSArray* locationKeys = [WizObject allLocationsForTree];
     NSMutableArray* arr = [NSMutableArray array];
-    for (WizTag* eachTag in tags) {
-        if ([WizTag fileCountOfTag:eachTag.guid] != 0) {
-            [arr addObject:eachTag];
+    for (NSString* each in locationKeys) {
+        if ([WizObject fileCountOfLocation:each] != 0) {
+            [arr addObject:each];
         }
     }
     return arr;
@@ -48,21 +48,20 @@
 
 - (void) didSelectedCateLogViewForKey:(id)keyWords
 {
-    WizTag* tag = (WizTag*)keyWords;
-    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfTag keyWords:tag.guid];
+    NSString* folder = (NSString*)keyWords;
+    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfFolder keyWords:folder];
 }
 
 - (void) setContentForCatelogView:(id)content catelogView:(CatelogView *)view
 {
-    WizTag* tag = (WizTag*)content;
-    WizTagCatelogView* tagView = (WizTagCatelogView*)view;
-    tagView.wizTag = tag;
+    NSString* folder = (NSString*)content;
+    WizFolderCatelogView* tagView = (WizFolderCatelogView*)view;
+    tagView.folderKey = folder;
     [tagView setNeedsDisplay];
 }
 - (CatelogView*) catelogViewForTableView:(UITableView *)tableView
 {
-    WizTagCatelogView* cateLog = [[WizTagCatelogView alloc] init];
+    WizFolderCatelogView* cateLog = [[WizFolderCatelogView alloc] init];
     return [cateLog autorelease];
 }
-
 @end

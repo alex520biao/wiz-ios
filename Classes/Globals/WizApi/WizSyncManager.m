@@ -32,27 +32,17 @@
 #define KeyOfServerUrl          @"KeyOfServerUrl"
 #define KeyOfApiUrl             @"KeyOfApiUrl"
 
-@interface NSMutableArray (WizSyncData)
-- (BOOL) hasWizObject:(WizObject*)obj;
-@end
 
-@implementation NSMutableArray (WizSyncData)
-- (BOOL) hasWizObject:(WizObject *)obj
-{
-    for (WizObject* each in self) {
-        if ([each.guid isEqualToString:obj.guid]) {
-            return YES;
-        }
-    }
-    return  NO;
-}
-@end
 @interface WizSyncManager ()
 {
-    NSMutableArray* downloadQueque;
-    NSMutableArray* uploadQueque;
     NSMutableArray* errorQueque;
     NSMutableDictionary* syncData;
+    
+    WizDownloadObject* downloader;
+    WizUploadObjet* uploader;
+    WizSyncInfo*    syncInfoer;
+    WizRefreshToken* refresher;
+    
     NSTimer* restartTimer;
     BOOL isRefreshToken;
     NSURL* serverUrl;
@@ -65,7 +55,6 @@
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* kbGuid;
 - (void) refreshToken;
-- (void) startDownload;
 - (BOOL) startUpload;
 @end
 @implementation WizSyncManager
@@ -131,12 +120,15 @@ static WizSyncManager* shareManager;
 }
 - (void) dealloc
 {
-    [downloadQueque release];
-    [uploadQueque release];
     [errorQueque release];
     [syncData release];
     [restartTimer release];
     displayDelegate = nil;
+    
+    downloader = nil;
+    uploader = nil;
+    refresher = nil;
+    syncInfoer = nil;
     [super dealloc];
 }
 - (void) loadServerUrl
@@ -165,12 +157,17 @@ static WizSyncManager* shareManager;
     if (self) {
         
         syncData = [[NSMutableDictionary alloc] init];
-        uploadQueque = [[NSMutableArray alloc] init];
-        downloadQueque = [[NSMutableArray alloc] init];
+        
+        downloader = [syncData shareDownloader];
+        uploader = [syncData shareUploader];
+        refresher = [syncData shareRefreshTokener];
+        syncInfoer = [syncData shareSyncInfo];
+        //
         errorQueque = [[NSMutableArray alloc] init];
+        
+        self.token = WizStrName;
+        self.kbGuid = WizStrName;
         [WizNotificationCenter addObserverForTokenUnactiveError:self selector:@selector(refreshToken)];
-        [WizNotificationCenter addObserverForUploadDone:self selector:@selector(startUpload)];
-        [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(startDownload)];
         isRefreshToken = NO;
         [self loadServerUrl];
         self.syncDescription = @"ddddd";
@@ -182,21 +179,25 @@ static WizSyncManager* shareManager;
 {
     NSLog(@"error api count is %d",[errorQueque count]);
     for (WizApi* each in errorQueque) {
+        if ([each isKindOfClass:[WizRefreshToken class]]) {
+            continue;
+        }
+        if (each.busy) {
+            continue;
+        }
         [self addSyncToken:each];
+        NSLog(@"%@",each);
         [each start];
     }
     [errorQueque removeAllObjects];
 }
 
-- (void) didRefreshToken:(NSNotification*)nc
+- (void) didRefreshToken:(NSDictionary *)dic
 {
-    [WizNotificationCenter removeObserverForRefreshToken:self];
-    [syncData removeObjectForKey:SyncDataOfRefreshToken];
     isRefreshToken = NO;
-    NSDictionary* keys = [WizNotificationCenter getRefreshTokenDicFromNc:nc];
-    NSString* _token = [keys valueForKey:@"token"];
-    NSString* _kbGuid = [keys valueForKey:@"kb_guid"];
-    NSURL* urlAPI = [[NSURL alloc] initWithString:[keys valueForKey:@"kapi_url"]];
+    NSString* _token = [dic valueForKey:@"token"];
+    NSString* _kbGuid = [dic valueForKey:@"kb_guid"];
+    NSURL* urlAPI = [[NSURL alloc] initWithString:[dic valueForKey:@"kapi_url"]];
     self.token = _token;
     self.apiUrl = urlAPI;
     [urlAPI release];
@@ -211,20 +212,24 @@ static WizSyncManager* shareManager;
         if ([each isKindOfClass:[WizRefreshToken class]]) {
             continue;
         }
-        if ([each isKindOfClass:[WizApi class]]) {
-            [errorQueque addObjectUnique:each];        }
+        if ([each isKindOfClass:[WizApi class]])
+        {
+            WizApi* api = (WizApi*)each;
+            if (!api.busy) {
+                [errorQueque addObjectUnique:each];
+            }
+        }
     }
 }
 - (void) refreshToken
 {
-    WizRefreshToken* re = [syncData shareRefreshTokener];
+    [self pauseAllSync];
     if (isRefreshToken) {
         return;
     }
     isRefreshToken = YES;
-    [WizNotificationCenter addObserverForRefreshToken:self selector:@selector(didRefreshToken:)];
-    [self pauseAllSync];
-    [re start];
+    refresher.refreshDelegate = self;
+    [refresher start];
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
@@ -233,82 +238,47 @@ static WizSyncManager* shareManager;
     api.apiURL = self.apiUrl;
     return YES;
 }
-- (BOOL) startUpload
-{
-    [self isSyncing];
-    WizUploadObjet* uploader = [syncData shareUploader];
-    if (uploader.busy) {
-        return NO;
-    }
-    if ([uploadQueque count] == 0) {
-        [syncData removeObjectForKey:SyncDataOfUploader];
-        return YES;
-    }
-    [self addSyncToken:uploader];
-    WizObject* obj = [uploadQueque objectAtIndex:0];
-    [uploader uploadWizObject:obj];
-    [uploadQueque removeObjectAtIndex:0];
-    return YES;
-}
+
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject
 {
-    return [uploadQueque hasWizObject:wizobject];
+    return [uploader isUploadWizObject:wizobject];
 }
 - (BOOL) uploadWizObject:(WizObject*)object
 {
-    [uploadQueque addWizObjectUnique:object];
-    return [self startUpload];
+    [self addSyncToken:uploader];
+    return [uploader uploadWizObject:object];
 }
-- (void) startDownload
-{
-    WizDownloadObject* downloader = [syncData shareDownloader];
-    if (downloader.busy) {
-        return ;
-    }
-    [self addSyncToken:downloader];
-    if ([downloadQueque count] == 0) {
-        [syncData removeObjectForKey:SyncDataOfDownloader];
-        return ;
-    }
-    WizObject* object = [downloadQueque lastObject];
-    [downloader downloadWizObject:object];
-    [downloadQueque removeObjectAtIndex:0];
-}
+
 - (BOOL) isDownloadingWizobject:(WizObject*)object
 {
-    return [downloadQueque hasWizObject:object];
+    return [downloader isDownloadWizObject:object];
 }
 - (void) downloadWizObject:(WizObject*)object
 {
-    WizDownloadObject* downloader = [syncData shareDownloader];
-    if (downloader.currentDownloadObjectGuid != nil && [downloader.currentDownloadObjectGuid isEqualToString:object.guid]) {
-        return;
-    }
-    [downloadQueque addWizObjectUnique:object];
-    [self startDownload];
+    [self addSyncToken:downloader];
+    [downloader downloadWizObject:object];
 }
 //
 - (BOOL) startSyncInfo
 {
-    WizSyncInfo* syncInfo = [syncData shareSyncInfo];
-    [self addSyncToken:syncInfo];
-    return [syncInfo start];
+    [self addSyncToken:syncInfoer];
+    return [syncInfoer start];
 }
 //
+
+- (void) stopSync
+{
+    [uploader stopUpload];
+    [downloader stopDownload];
+    [syncInfoer cancel];
+    [refresher cancel];
+    [errorQueque removeAllObjects];
+}
+
 - (void) resignActive
 {
-    for (WizApi* each in [syncData allValues]) {
-        WizApi* api = (WizApi*)each;
-        api.token = @"";
-        api.kbguid = @"";
-        if (api.busy) {
-            [api cancel];
-        }
-    }
     self.token = @"";
     self.kbGuid = @"";
-    [downloadQueque removeAllObjects];
-    [errorQueque removeAllObjects];
-    [uploadQueque removeAllObjects];
+    [self stopSync];
 }
 @end

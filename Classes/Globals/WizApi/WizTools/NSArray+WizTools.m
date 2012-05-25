@@ -7,8 +7,17 @@
 //
 
 #import "NSArray+WizTools.h"
-
 @implementation NSMutableArray (WizTools)
+- (BOOL) hasWizObject:(WizObject *)obj
+{
+    for (WizObject* each in self) {
+        if ([each.guid isEqualToString:obj.guid]) {
+            return YES;
+        }
+    }
+    return  NO;
+}
+
 - (void) addObjectUnique:(id)object
 {
     for (id each in self) {

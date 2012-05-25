@@ -278,8 +278,14 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     NSIndexPath* indexPath = [self indexPathOfWizDocument:doc];
     if(indexPath.row != NSNotFound && indexPath.section != NSNotFound)
     {
-        [[self objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-        return indexPath;
+        if ([[self objectAtIndex:indexPath.section] count] == 1) {
+            [self removeObjectAtIndex:indexPath.section];
+            return [NSIndexPath indexPathForRow:WizDeletedSectionIndex inSection:indexPath.section];
+        }
+        else {
+            [[self objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+            return indexPath;
+        }
     }
     return nil;
 }

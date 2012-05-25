@@ -9,13 +9,11 @@
 #ifndef Wiz_WizUiTypeIndex_h
 #define Wiz_WizUiTypeIndex_h
     
-enum WizPadCheckDocumentSourceType {
-    WizPadCheckDocumentSourceTypeOfRectent = 1,
-    WizPadCheckDocumentSourceTypeOfTag = 2,
-    WizPadCheckDocumentSourceTypeOfFolder = 3
-    };
-#define TypeOfLocation  1
-#define TypeOfTag       2
-#define TypeOfKey       3
-
+enum WizPadCheckDocumentSourceType
+{
+    WizPadCheckDocumentSourceTypeOfRecent   = 1,
+    WizPadCheckDocumentSourceTypeOfTag      = 2,
+    WizPadCheckDocumentSourceTypeOfFolder   = 3,
+    WizPadCheckDocumentSourceTypeOfSearch   = 4
+};
 #endif

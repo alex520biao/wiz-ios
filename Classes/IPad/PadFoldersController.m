@@ -79,7 +79,7 @@
 }
 - (void) didSelectedCatelog:(NSString *)keywords
 {
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:TypeOfLocation], TypeOfCheckDocumentListType, keywords, TypeOfCheckDocumentListKey, nil];
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:WizPadCheckDocumentSourceTypeOfRecent], TypeOfCheckDocumentListType, keywords, TypeOfCheckDocumentListKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfCheckDocument object:nil userInfo:userInfo];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

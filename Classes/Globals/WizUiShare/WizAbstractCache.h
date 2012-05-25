@@ -11,4 +11,6 @@
 + (id) shareCache;
 - (WizAbstract*) documentAbstractForIphone:(WizDocument*)document;
 - (void) didReceivedMenoryWarning;
+- (NSString*) getFolderAbstract:(NSString*)key;
+- (NSString*) getTagAbstract:(NSString*)tagGuid;
 @end

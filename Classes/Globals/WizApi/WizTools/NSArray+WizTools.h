@@ -13,4 +13,5 @@
 - (void) addWizObjectUnique:(WizObject*)objcet;
 - (void) addAttachmentBySourceFile:(NSString*)source;
 - (NSArray*) attachmentTempSourceFile;
+- (BOOL) hasWizObject:(WizObject*)obj;
 @end

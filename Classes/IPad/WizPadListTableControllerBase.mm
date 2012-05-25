@@ -19,17 +19,19 @@
 #import "WizDbManager.h"
 #import "WizTableViewController.h"
 #import "WizSettings.h"
+#import "WizUiTypeIndex.h"
 
 @implementation WizPadListTableControllerBase
 @synthesize isLandscape;
 @synthesize kOrderIndex;
 @synthesize tableArray;
+@synthesize checkDocumentDelegate;
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
     [WizNotificationCenter removeObserver:self];
-    [WizNotificationCenter removeObserverForDeleteDocument:self];
     [tableArray release];
+    checkDocumentDelegate = nil;
     [super dealloc];
 }
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -158,30 +160,36 @@
 }
 - (void) didSelectedDocument:(WizDocument*)doc
 {
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
-    [userInfo setObject:doc.guid forKey:TypeOfCheckDocumentListKey];
-    [userInfo setObject:[NSNumber numberWithInt:-1] forKey:TypeOfCheckDocumentListType];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfCheckDocument object:nil userInfo:userInfo];
+    [self.checkDocumentDelegate checkDocument:WizPadCheckDocumentSourceTypeOfRecent keyWords:doc.guid];
 }
-- (void)onAddNewDocument:(NSNotification*)nc
+- (void)updateDocument:(NSNotification*)nc
 {
-//    self.tableView.backgroundView = nil;
-//    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserID];
-//    WizDocument* doc = [index documentFromGUID:documentGUID];
-//    if (doc == nil) {
-//        return;
-//    }
-//    if([self.tableArray count] >0)
-//    {
-//        [[self.tableArray objectAtIndex:0] insertObject:doc atIndex:0];
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-//    }
-//    else {
-//        NSMutableArray* array = [NSMutableArray arrayWithObject:doc];
-//        [self.tableArray addObject:array];
-//        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-//    }
+    NSString* documentGUID = [WizNotificationCenter getDocumentGUIDFromNc:nc];
+    if (documentGUID == nil) {
+        return;
+    }
+    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
+    if (doc == nil) {
+        return;
+    }
+    NSIndexPath* updatePath = [self.tableArray updateDocument:doc];
+    if (updatePath != nil) {
+        return;
+    }
+    NSIndexPath* indexPath = [self.tableArray insertDocument:doc];
+    
+    if (nil != indexPath) {
+        if (WizNewSectionIndex == indexPath.section) {
+            [self.tableView beginUpdates];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+        }
+        else {
+            [self.tableView beginUpdates];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+        }
+    }
 }
 - (void) didPadCellDidSelectedDocument:(WizDocument *)doc
 {
@@ -247,25 +255,25 @@
 }
 - (void) onDeleteDocument:(NSNotification*)nc
 {
-    NSString* documentGUID = [WizNotificationCenter getDeleteDocumentGUIDFromNc:nc];
-    NSLog(@"documentGUID is %@",documentGUID);
-    if (documentGUID == nil || [documentGUID isEqualToString:@""]) {
+    WizDocument* doc = [WizNotificationCenter getWizDocumentFromNc:nc];
+    if (nil == doc)
+    {
         NSLog(@"nil");
         return;
     }
-//    if (docIndex.section == NSNotFound)
-//    {
-//        return;
-//    }
-//    [[self.tableArray objectAtIndex:docIndex.section] removeObjectAtIndex:docIndex.row];
-//    if ([[self.tableArray objectAtIndex:docIndex.section] count] > 0)
-//    {
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-//    }
-//    else {
-//        [self.tableArray removeObjectAtIndex:docIndex.section];
-//        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationFade];
-//    }
+    NSIndexPath* indexPath = [self.tableArray removeDocument:doc];
+    if (nil != indexPath) {
+        if (WizDeletedSectionIndex == indexPath.row) {
+            [self.tableView beginUpdates];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+        }
+        else {
+            [self.tableView beginUpdates];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView endUpdates];
+        }
+    }
 }
 
 
@@ -282,9 +290,9 @@
 {
     self = [super init];
     if (self) {
-        [WizNotificationCenter addObserverForNewDocument:self selector:@selector(onAddNewDocument:)];
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:MessageOfChangeDocumentListOrderMethod object:nil];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfPadTableViewListChangedOrder];
         NSMutableArray* arr = [NSMutableArray arrayWithCapacity:0];
         self.tableArray = [NSMutableArray array];
         [self.tableArray addObject:arr];

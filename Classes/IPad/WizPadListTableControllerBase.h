@@ -9,13 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "NSMutableArray+WizDocuments.h"
 #import "WizPadListCell.h"
+#import "WizPadViewDocumentDelegate.h"
 
 @interface WizPadListTableControllerBase : UITableViewController <WizPadCellSelectedDocumentDelegate>
 {
     WizDocumentsMutableArray* tableArray;
     BOOL isLandscape;
     int kOrderIndex;
+    
+    id <WizPadViewDocumentDelegate> checkDocumentDelegate;
 }
+@property (nonatomic, assign) id <WizPadViewDocumentDelegate> checkDocumentDelegate;
 @property (nonatomic, retain) WizDocumentsMutableArray* tableArray;
 @property int kOrderIndex;
 @property (assign) BOOL isLandscape;

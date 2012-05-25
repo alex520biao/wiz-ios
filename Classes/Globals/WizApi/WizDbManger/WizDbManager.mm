@@ -1230,6 +1230,12 @@ static WizDbManager* shareDbManager = nil;
     }
 }
 //folder
+- (NSString*) folderAbstractString:(NSString *)folderKey
+{
+    std::string data = index.GetFolderAbstractString([folderKey UTF8String]);
+    NSString* ret = [[NSString alloc]initWithBytes:data.data() length:data.length() encoding:NSUTF8StringEncoding];
+    return [ret autorelease];
+}
 - (NSArray*) allLocationsForTree
 {
     CWizStdStringArray arrayLocation;

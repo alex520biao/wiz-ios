@@ -21,7 +21,6 @@
 {
     NSMutableArray* attachments;
     UIAlertView* waitAlert;
-    UINavigationController* checkNav;
     NSIndexPath* lastIndexPath;
     UIDocumentInteractionController* currentPreview;
     BOOL willCheckInWiz;
@@ -30,7 +29,6 @@
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSMutableArray* attachments;
 @property (nonatomic, retain) UIAlertView* waitAlert;
-@property (nonatomic, retain) UINavigationController* checkNav;
 @property (nonatomic, retain) NSIndexPath* lastIndexPath;
 @property (nonatomic, retain) UIDocumentInteractionController* currentPreview;
 - (void) downloadDone:(NSNotification*)nc;
@@ -41,14 +39,13 @@
 @synthesize doc;
 @synthesize attachments;
 @synthesize waitAlert;
-@synthesize checkNav;
 @synthesize lastIndexPath;
 @synthesize currentPreview;
+@synthesize checkAttachmentDelegate;
 - (void) dealloc
 {
     [currentPreview release];
     [lastIndexPath release];
-    [checkNav release];
     [doc release];
     [attachments release];
     [waitAlert release];
@@ -198,6 +195,7 @@
 }
 - (void) checkInWiz:(WizAttachment*)attachment
 {
+
     WizCheckAttachment* check = [[WizCheckAttachment alloc] initWithNibName:nil bundle:nil];;
     NSURL* url = [self getAttachmentFileURL:attachment];
     NSLog(@"%@",url);
@@ -205,8 +203,7 @@
     check.req = req;
     [req release];
     if ([WizGlobals WizDeviceIsPad]) {
-        [self.checkNav pushViewController:check animated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfCheckAttachment object:nil userInfo:nil];
+        [self.checkAttachmentDelegate didPushCheckAttachmentViewController:check];
     }
     else {
         [self.navigationController pushViewController:check animated:YES];
@@ -281,12 +278,4 @@
     self.lastIndexPath = indexPath;
     [self checkAttachment:attch inWiz:NO];
 }
-- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    if (nil != self.checkNav) {
-        [self.checkNav willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    }
-}
-
 @end

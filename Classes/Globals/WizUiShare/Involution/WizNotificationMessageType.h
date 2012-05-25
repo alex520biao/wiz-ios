@@ -49,3 +49,5 @@
 #define MessageTypeOfUpdateTagTable                 @"MessageTypeOfUpdateTagTable"
 //
 #define MessageTypeOfCacheDbUpdate                  @"MessageTypeOfCacheDbUpdate"
+//
+#define MessageTypeOfPadTableViewListChangedOrder   @"MessageTypeOfPadTableViewListChangedOrder"

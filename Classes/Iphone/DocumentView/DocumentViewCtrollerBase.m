@@ -87,6 +87,7 @@
     [searchDocumentBar release];
     [conNotDownloadAlert release];
     [downloadActivity release];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 
@@ -111,22 +112,24 @@
     [self setToolbarItemsEnable:YES];
     NSString* url = self.doc.url;
     NSString* type = self.doc.type;
-    if ([self.doc isIosDocument] || (url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-        [webView loadIphoneReadScript];
-    }
-    [self setDeviceWidth];
     if ([[WizSettings defaultSettings] isMoblieView]) {
-        [self changeWebViewWidth];
+        [self setDeviceWidth];
+    }
+    else {
+        [self setZoomWidth];
+    }
+    if ([self.doc isIosDocument] || (url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+        [webView loadIphoneReadScript:self.fontWidth];
     }
 }
 - (void) setDeviceWidth
 {
-    self.fontWidth = @"device-width";
+    self.fontWidth = @"320px";
 }
 
 - (void) setZoomWidth
 {
-    self.fontWidth = @"768";
+    self.fontWidth = @"768px";
 }
 - (void)didReceiveMemoryWarning
 {

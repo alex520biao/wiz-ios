@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizPadCheckAttachmentDelegate.h"
 
 @interface WizCheckAttachments : UITableViewController <UIAlertViewDelegate,UIDocumentInteractionControllerDelegate>
 {
     WizDocument* doc;
+    // pad
+    id <WizPadCheckAttachmentDelegate> checkAttachmentDelegate;
+    
 }
 @property (nonatomic, retain) WizDocument* doc;
+@property (nonatomic, assign)    id <WizPadCheckAttachmentDelegate> checkAttachmentDelegate;
 - (void) downloadDone:(NSNotification*)nc;
 @end

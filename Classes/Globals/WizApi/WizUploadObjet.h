@@ -10,4 +10,6 @@
 #import "WizApi.h"
 @interface WizUploadObjet : WizApi
 - (BOOL) uploadWizObject:(WizObject*)wizobject;
+- (BOOL) isUploadWizObject:(WizObject*)object;
+- (void) stopUpload;
 @end

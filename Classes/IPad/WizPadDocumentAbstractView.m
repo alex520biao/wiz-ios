@@ -45,6 +45,7 @@
     detailLabel = nil;
     [abstractImageView release];
     abstractImageView = nil;
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view

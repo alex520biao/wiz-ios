@@ -30,4 +30,17 @@
 {
     return [[WizDbManager shareDbManager] allLocationsForTree];
 }
+
++ (NSString*) folderAbstract:(NSString*)folderKey
+{
+    return [[WizDbManager shareDbManager] folderAbstractString:folderKey];
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        guid = [[WizGlobals genGUID] retain];
+    }
+    return self;
+}
 @end

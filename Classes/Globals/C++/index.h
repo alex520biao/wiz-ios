@@ -127,6 +127,7 @@ public:
     bool TagFromGUID(const char* lpszGUID, WIZTAGDATA& data);
 	//
     std::string GetTagAbstract(const char* lpaszTagGuid);
+    std::string GetFolderAbstractString(const char* lpszFolderKey);
 	bool GetDocumentsByLocation(const char* lpszParentLocation, CWizDocumentDataArray& arrayDocument);
 	bool GetDocumentsByTag(const char* lpszTagGUID, CWizDocumentDataArray& arrayDocument);
 	bool GetDocumentsByKey(const char* lpszKeywords, CWizDocumentDataArray& arrayDocument);

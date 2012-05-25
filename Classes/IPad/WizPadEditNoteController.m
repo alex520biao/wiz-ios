@@ -30,26 +30,31 @@
 #define backgroudScrollViewPotraitFrame CGRectMake(0.0,0.0,768,1024)
 
 
+@interface WizPadEditNoteController ()
+{
+    UITextView* bodyInputTextView;
+    UITextField* titleInputTextField;
+    UITextField* tagTextField;
+    UITextField* folderTextField;
+    UIScrollView* backgroudScrollView;
+    CGFloat  bodyInputViewHeigth;
+    UIPopoverController* currentPopoverController;
+    UIImageView* timerView;
+    BOOL isNewDocument;
+    UIBadgeView* attachmentsCountView;
+}
+
+@property (nonatomic, retain) UIPopoverController* currentPopoverController;
+@end
+
+
 @implementation WizPadEditNoteController
-@synthesize bodyInputTextView;
-@synthesize titleInputTextField;
-@synthesize tagTextField;
-@synthesize folderTextField;
-@synthesize backgroudScrollView;
-@synthesize bodyInputViewHeigth;
 @synthesize currentPopoverController;
-@synthesize documentFloder;
-@synthesize selectedTags;
-@synthesize documentGUID;
-@synthesize timerView;
-@synthesize attachmentsCountView;
-@synthesize isNewDocument;
+
 - (void) dealloc
 {
+    [WizNotificationCenter removeObserver:self];
     [timerView release];
-    [documentGUID release];
-    [selectedTags release];
-    [documentFloder release];
     [currentPopoverController release];
     [bodyInputTextView release];
     [titleInputTextField release];
@@ -62,61 +67,46 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAttachments:) name:MessageOfDeleteAttachments object:nil];
+        [self buildView];
     }
     return self;
 }
 - (void) displayAttachmentsCount
 {
+    [attachmentsCountView setBadgeString:[NSString stringWithFormat:@"%d",[self.attachmentsArray count]]];
 }
 - (void)didReceiveMemoryWarning
 {
-
     [super didReceiveMemoryWarning];
-
 }
-- (CGFloat) stringDisplayLength:(NSString*)string :(CGFloat)fontSize
+- (void) didSelectedFolderString:(NSString *)folderString
 {
-    CGSize boundingSize = CGSizeMake(320.0f, CGFLOAT_MAX);
-    CGSize requiredSize = [string sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:boundingSize
-                                        lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat requiredHeight = requiredSize.height;
-    return requiredHeight;
+    folderTextField.text = folderString;
+    self.docEdit.location = folderString;
 }
-
-- (void) addDisplayTagName:(NSString*)tagName
+- (NSString*) selectedFolderOld
 {
-    UIFont* font = [UIFont systemFontOfSize:25];
-    UIBadgeView* tagLabel = [[UIBadgeView alloc] initWithFrame:CGRectMake(self.tagTextField.leftView.frame.size.width+10, 0.0, [tagName sizeWithFont:font].width+10, 44)];
-    tagLabel.badgeString = tagName;
-    [self.tagTextField.leftView addSubview:tagLabel];
-    CGRect tagFrame = self.tagTextField.leftView.frame;
-    self.tagTextField.leftView.frame = CGRectMake(tagFrame.origin.x, tagFrame.origin.y, tagFrame.size.width + [tagName sizeWithFont:font].width +10, 44);
-    [self.tagTextField.leftView addSubview:tagLabel];
-    [tagLabel release];
+    return self.docEdit.location;
 }
-
-- (void) folderChanged:(NSNotification*)nc
+- (void) popverViewController:(UIViewController*)contentViewController  fromRect:(CGRect)rect   permittedArrowDirections:(UIPopoverArrowDirection)direction
 {
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* folder = [userInfo valueForKey:TypeOfFolderKey];
-    self.documentFloder = [NSMutableString stringWithString:folder];
-    self.folderTextField.text = [WizGlobals folderStringToLocal:folder];
+    if (nil != self.currentPopoverController) {
+        [self.currentPopoverController dismissPopoverAnimated:YES];
+        self.currentPopoverController = nil;
+    }
+    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:contentViewController];
+    self.currentPopoverController = pop;
+    [pop release];
+    [self.currentPopoverController presentPopoverFromRect:rect inView:backgroudScrollView permittedArrowDirections:direction animated:YES ];
 }
 - (void) folderViewSelected:(id)sender
 {
     SelectFloderView*  floderView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
-    if (self.currentPopoverController != nil) {
-        [self.currentPopoverController dismissPopoverAnimated:YES];
-    }
-    UINavigationController* folder = [[UINavigationController alloc] initWithRootViewController:floderView];
-    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:folder];
-    [folder release];
-    self.currentPopoverController = pop;
-    [pop release];
-    self.currentPopoverController.delegate = self;
-    [self.currentPopoverController presentPopoverFromRect:CGRectMake(750, 0.0, 320, self.backgroudScrollView.contentOffset.y+132) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(folderChanged:) name:TypeOfSelectedFolder object:nil];
+    floderView.selectDelegate = self;
+    [self popverViewController:floderView fromRect:CGRectMake(750, 0.0, 320, backgroudScrollView.contentOffset.y+132) permittedArrowDirections:UIPopoverArrowDirectionRight];
     [floderView release];
 }
 
@@ -124,94 +114,33 @@
 {
     return [NSString stringWithFormat:@"%@%@%@%@",@"\"",tagName,@"\"",@","];
 }
-
-- (void) addTagToDocument:(WizTag*)tag
+- (void) didSelectedTags:(NSArray *)tags
 {
-    NSString* text = nil;
-    if (nil == self.tagTextField.text) {
-        text = @"";
-    }
-    else
-    {
-        text = self.tagTextField.text;
-    }
-//    [self addDisplayTagName:[tag name]];
-    self.tagTextField.text = [text stringByAppendingFormat:@"%@",[self displayTagName:getTagDisplayName([tag name])]];;
+    tagTextField.text= [NSString stringWithFormat:@"%@",tags];
+    [self.docEdit setTagWithArray:tags];
 }
-- (void) addTag:(NSNotification*)nc
+- (NSArray*) selectedTagsOld
 {
-    NSDictionary* dic = [nc userInfo];
-    WizTag* tag = [dic valueForKey:TypeOfTagKey];
-    [self.selectedTags addObject:tag];
-    [self addTagToDocument:tag];
-}
-
-- (NSUInteger) tagIndexAtSlectedArray:(WizTag*)tag
-{
-    for (int i = 0; i < [self.selectedTags count]; i++) {
-        if ([[[self.selectedTags objectAtIndex:i] guid] isEqualToString:[tag guid]]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-- (void) removeTag:(NSNotification*)nc
-{
-    NSDictionary* dic = [nc userInfo];
-    WizTag* tag = [dic valueForKey:TypeOfTagKey];
-    NSRange range = [self.tagTextField.text rangeOfString:[NSString stringWithFormat:@"%@",[self displayTagName:[tag name]]]] ;
-    NSMutableString* text = [NSMutableString stringWithString:self.tagTextField.text];
-    if (range.length + range.location > text.length) {
-        return;
-    }
-    [self.selectedTags removeObjectAtIndex:[self tagIndexAtSlectedArray:tag]];
-    [text deleteCharactersInRange:range];
-    self.tagTextField.text = text;
-}
-- (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-{
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    if ([popoverController.contentViewController isKindOfClass:[WizSelectTagViewController class]]) {
-
-        [nc removeObserver:self name:TypeOfUnSelectedTag object:nil];
-        [nc removeObserver:self name:TypeOfSelectedTag object:nil];
-    }
-    if ([popoverController.contentViewController isKindOfClass:[SelectFloderView class]]) {
-        [nc removeObserver:self name:TypeOfSelectedFolder object:nil];
-    }
-    if ([popoverController.contentViewController isKindOfClass:[ELCImagePickerController class]]) {
-
-    }
-    self.currentPopoverController = nil;
+    return [self.docEdit tagDatas];
 }
 - (void) tagViewSelected
 {
     WizSelectTagViewController* tagView = [[WizSelectTagViewController alloc]initWithStyle:UITableViewStyleGrouped];
-    if (nil != self.currentPopoverController) {
-        [self.currentPopoverController dismissPopoverAnimated:YES];
-    }
-    
-    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:tagView];
-    self.currentPopoverController = pop;
-    [pop release];
-    self.currentPopoverController.delegate = self;
-    [self.currentPopoverController presentPopoverFromRect:CGRectMake(750, 0.0, 320, self.backgroudScrollView.contentOffset.y+220) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addTag:) name:TypeOfSelectedTag object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeTag:) name:TypeOfUnSelectedTag object:nil];
+    tagView.selectDelegate = self;
+    [self popverViewController:tagView fromRect:CGRectMake(750, 0.0, 320, backgroudScrollView.contentOffset.y+220) permittedArrowDirections:UIPopoverArrowDirectionRight];
     [tagView release];
 }
 
 - (void) setBackgroudScrollViewFrame:(UIInterfaceOrientation)interface
 {
     if (UIInterfaceOrientationIsLandscape(interface)) {
-        self.backgroudScrollView.frame = backgroudScrollViewLandscapeFrame;
-        self.backgroudScrollView.contentSize = CGSizeMake(1024, 1024);
+        backgroudScrollView.frame = backgroudScrollViewLandscapeFrame;
+        backgroudScrollView.contentSize = CGSizeMake(1024, 1024);
     }
     else
     {
-        self.backgroudScrollView.frame = backgroudScrollViewPotraitFrame;
-        self.backgroudScrollView.contentSize = CGSizeMake(768, 1324);
+        backgroudScrollView.frame = backgroudScrollViewPotraitFrame;
+        backgroudScrollView.contentSize = CGSizeMake(768, 1324);
     }
 }
 
@@ -219,70 +148,62 @@
 {
     UIFont* font = [UIFont systemFontOfSize:17];
     
-    UITextView* body = [[UITextView alloc] initWithFrame:bodyInputTextViewFrame];
-    [self.backgroudScrollView addSubview:body];
-    self.bodyInputTextView = body;
-    body.font = font;
-    [body setContentMode:UIViewContentModeBottom];
-    [body release];
+    bodyInputTextView = [[UITextView alloc] initWithFrame:bodyInputTextViewFrame];
+    [backgroudScrollView addSubview:bodyInputTextView];
+    bodyInputTextView.font = font;
+    [bodyInputTextView setContentMode:UIViewContentModeBottom];
     
-    UITextField* title = [[UITextField alloc] initWithFrame:titleInputTextFieldFrame];
-    [self.backgroudScrollView addSubview:title];
-    self.titleInputTextField = title;
-    title.backgroundColor = [UIColor whiteColor];
+    titleInputTextField = [[UITextField alloc] initWithFrame:titleInputTextFieldFrame];
+    [backgroudScrollView addSubview:titleInputTextField];
+    titleInputTextField.backgroundColor = [UIColor whiteColor];
     NSString* titleRemindText = [NSString stringWithFormat:@"%@:",WizStrTitle];
     UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0.0, [titleRemindText sizeWithFont:font].width +10, 44)];
     titleLabel.text = titleRemindText;
     titleLabel.textAlignment = UITextAlignmentCenter;
     titleLabel.font = font;
-    title.leftView = titleLabel;
+    titleInputTextField.leftView = titleLabel;
     titleLabel.textColor= [UIColor grayColor];
     [titleLabel release];
-    title.leftViewMode = UITextFieldViewModeAlways;
-    title.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [title release];
+    titleInputTextField.leftViewMode = UITextFieldViewModeAlways;
+    titleInputTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
-    UITextField* tag = [[UITextField alloc] initWithFrame:tagLabelFrame];
-    tag.delegate = self;
-    [self.backgroudScrollView addSubview:tag];
-    self.tagTextField = tag;
+    tagTextField = [[UITextField alloc] initWithFrame:tagLabelFrame];
+    tagTextField.delegate = self;
+    [backgroudScrollView addSubview:tagTextField];
     NSString* tagRemindText = [NSString stringWithFormat:@"%@:",WizStrTags];
     UILabel* tagLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, [tagRemindText sizeWithFont:font].width + 10, 44)];
-    tag.leftViewMode = UITextFieldViewModeAlways;
-    tag.leftView = tagLabel;
-    tag.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    tagTextField.leftViewMode = UITextFieldViewModeAlways;
+    tagTextField.leftView = tagLabel;
+    tagTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     tagLabel.font = font;
     tagLabel.textAlignment = UITextAlignmentCenter;
     tagLabel.text = tagRemindText;
-    [tag setBackgroundColor:[UIColor whiteColor]];
+    [tagTextField setBackgroundColor:[UIColor whiteColor]];
     tagLabel.textColor = [UIColor grayColor];
     UIButton* tagButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     [tagButton addTarget:self action:@selector(tagViewSelected) forControlEvents:UIControlEventTouchUpInside];
-    tag.rightViewMode = UITextFieldViewModeAlways;
-    tag.rightView = tagButton;
-    [tag release];
+    tagTextField.rightViewMode = UITextFieldViewModeAlways;
+    tagTextField.rightView = tagButton;
     [tagLabel release];
 
     
-    UITextField* folder = [[UITextField alloc] initWithFrame:folderLabelFrame];
-    [self.backgroudScrollView addSubview:folder];
-    folder.delegate = self;
-    self.folderTextField = folder;
+    folderTextField = [[UITextField alloc] initWithFrame:folderLabelFrame];
+    [backgroudScrollView addSubview:folderTextField];
+    folderTextField.delegate = self;
     NSString* folderRemindText = [NSString stringWithFormat:@"%@:",WizStrFolders];
     UILabel* folderLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, [folderRemindText sizeWithFont:font].width+10, 44)];
-    folder.leftView = folderLabel;
-    folder.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    folder.leftViewMode = UITextFieldViewModeAlways;
+    folderTextField.leftView = folderLabel;
+    folderTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    folderTextField.leftViewMode = UITextFieldViewModeAlways;
     folderLabel.textColor = [UIColor grayColor];
     folderLabel.text = folderRemindText;
     folderLabel.font = font;
     folderLabel.textAlignment = UITextAlignmentCenter;
-    folder.backgroundColor = [UIColor whiteColor];
+    folderTextField.backgroundColor = [UIColor whiteColor];
     UIButton* folderButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     [folderButton addTarget:self action:@selector(folderViewSelected:) forControlEvents:UIControlEventTouchUpInside];
-    folder.rightView = folderButton;
-    folder.rightViewMode = UITextFieldViewModeAlways;
-    [folder release];
+    folderTextField.rightView = folderButton;
+    folderTextField.rightViewMode = UITextFieldViewModeAlways;
     [folderLabel release];
 
     
@@ -291,19 +212,19 @@
 {
     [super viewWillAppear:animated];
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        self.bodyInputTextView.frame = bodyInputTextViewFrame;
+        bodyInputTextView.frame = bodyInputTextViewFrame;
     }
     else
     {
-        self.bodyInputTextView.frame = bodyInputTextViewPotraitFrame;
+        bodyInputTextView.frame = bodyInputTextViewPotraitFrame;
     }
-    self.bodyInputViewHeigth = bodyInputTextView.frame.size.height;
+    bodyInputViewHeigth = bodyInputTextView.frame.size.height;
     [self displayAttachmentsCount];
 }
 - (void) keyboardWillShow:(NSNotification*)nc
 {
     BOOL selfViewIsFirstResponser = NO;
-    for (UIView* each in  self.backgroudScrollView.subviews) {
+    for (UIView* each in  backgroudScrollView.subviews) {
         if ([each isFirstResponder]) {
             selfViewIsFirstResponser = YES;
         }
@@ -316,15 +237,15 @@
     CGFloat width = kbSize.width > kbSize.height?kbSize.height:kbSize.width;
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.bodyInputTextView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:bodyInputTextView cache:YES];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    self.bodyInputTextView.frame = CGRectMake(0.0, 135, 768, self.bodyInputTextView.frame.size.height-width+self.backgroudScrollView.contentOffset.y);
+    bodyInputTextView.frame = CGRectMake(0.0, 135, 768, bodyInputTextView.frame.size.height-width+backgroudScrollView.contentOffset.y);
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        self.bodyInputViewHeigth = bodyInputTextViewFrame.size.height-width;
+        bodyInputViewHeigth = bodyInputTextViewFrame.size.height-width;
     }
     else
     {
-        self.bodyInputViewHeigth = bodyInputTextViewPotraitFrame.size.height-width;
+        bodyInputViewHeigth = bodyInputTextViewPotraitFrame.size.height-width;
     }
     [UIView setAnimationDuration:0.5];
     [UIView commitAnimations];
@@ -338,11 +259,11 @@
     CGSize kbSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     CGFloat width = kbSize.width > kbSize.height?kbSize.height:kbSize.width;
     [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.bodyInputTextView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:bodyInputTextView cache:YES];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    self.bodyInputTextView.frame = CGRectMake(0.0, 135, self.bodyInputTextView.frame.size.width, self.bodyInputTextView.frame.size.height+width);
-    self.bodyInputViewHeigth = self.bodyInputTextView.frame.size.height;
-    self.bodyInputViewHeigth = bodyInputTextView.frame.size.height;
+    bodyInputTextView.frame = CGRectMake(0.0, 135, bodyInputTextView.frame.size.width, bodyInputTextView.frame.size.height+width);
+    bodyInputViewHeigth = bodyInputTextView.frame.size.height;
+    bodyInputViewHeigth = bodyInputTextView.frame.size.height;
     [UIView setAnimationDuration:1.0];
     [UIView commitAnimations];
 
@@ -360,7 +281,7 @@
 
 - (void) cancelSave
 {
-        [self audioStopRecord];
+    [self audioStopRecord];
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
@@ -368,67 +289,16 @@
 
 - (void) saveDocument
 {
-//    if (self.recorder!= nil && [self.recorder isRecording])
-//    {
-//        [self audioStopRecord];
-//    }
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//
-//    NSString* tagGuids = [NSMutableString string];
-//    if ([self.selectedTags count]) {
-//        for (int i = 0; i <[self.selectedTags count]-1; i++) {
-//            WizTag* tag = [self.selectedTags objectAtIndex:i];
-//            tagGuids = [tagGuids stringByAppendingFormat:@"%@*",[tag guid]];
-//        }
-//        tagGuids = [tagGuids stringByAppendingFormat:@"%@",[[self.selectedTags lastObject] guid]];
-//    }
-//    NSMutableArray* attachmentsGuid = [NSMutableArray array];
-//    if ([self.attachmentSourcePath count]) {
-//        for (NSString* each in self.attachmentSourcePath) {
-//            NSArray* dir = [each componentsSeparatedByString:@"/"];
-//            NSString* pathDir = [dir objectAtIndex:[dir count] -2];
-//            if (![pathDir isEqualToString:ATTACHMENTTEMPFLITER]) {
-//                [attachmentsGuid addObject:pathDir];
-//                continue;
-//            }
-//            NSString* newAttachmentGuid = [[index newAttachment:each documentGUID:self.documentGUID] autorelease];
-//            [attachmentsGuid addObject:newAttachmentGuid];
-//        }
-//    }
-//    NSMutableDictionary* documentData = [NSMutableDictionary dictionary];
-//
-//    if (nil == self.titleInputTextField.text) {
-//        self.titleInputTextField.text = @"";
-//    }
-//    
-//    if (nil == self.bodyInputTextView.text) {
-//        self.bodyInputTextView.text = @"";
-//    }
-//    [documentData setObject:self.documentGUID forKey:TypeOfDocumentGUID];
-//    [documentData setObject:self.documentFloder forKey:TypeOfDocumentLocation];
-//    [documentData setObject:self.bodyInputTextView.text forKey:TypeOfDocumentBody];
-//    [documentData setObject:attachmentsGuid forKey:TypeOfAttachmentGuids];
-//    [documentData setObject:self.titleInputTextField.text forKey:TypeOfDocumentTitle];
-//    [documentData setObject:tagGuids forKey:TypeOfDocumentTags];
-//    if (isNewDocument) {
-//        [index  newNoteWithGuidAndData:documentData];
-//        [WizNotificationCenter postNewDocumentMessage:self.documentGUID];
-//    }
-//    else
-//    {
-//        [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfEditDocumentDone object:nil userInfo:nil];
-//        [index editDocumentWithGuidAndData:documentData];
-//    }
-//    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-//    [nc postNotificationName:MessageOfPadTagWillReload object:nil userInfo:nil];
-//    [nc postNotificationName:MessageOfPadFolderWillReload object:nil userInfo:nil];
-//    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self audioStopRecord];
+    self.docEdit.title = titleInputTextField.text;
+    [self.docEdit saveWithData:bodyInputTextView.text attachments:self.attachmentsArray];
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (float) updateTime
 {
     float time = [super updateTime];
-    for (UIView* each in self.timerView.subviews) {
+    for (UIView* each in timerView.subviews) {
         if ([each isKindOfClass:[UILabel class]]) {
             UILabel* timeLabel = (UILabel*)each;
             timeLabel.text = [WizGlobals timerStringFromTimerInver:time];
@@ -448,29 +318,6 @@
     [save release];
 }
 
-- (void) addPhotoAttachment
-{
-    if (nil != self.currentPopoverController) {
-        [self.currentPopoverController dismissPopoverAnimated:YES];
-    }
-    
-    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];
-	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
-    [albumController setParent:elcPicker];
-	[elcPicker setDelegate:self];
-    [albumController release];
-    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:elcPicker];
-    self.currentPopoverController = pop;
-    [pop release];
-    [elcPicker release];
-    self.currentPopoverController.delegate = self;
-    [self.currentPopoverController presentPopoverFromRect:CGRectMake(428, 0.0, 180, 0.0) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
-- (void) addNewPhotoAttachment
-{
-    UIImagePickerController* newPhoto = [self takePhotoViewSelcevted];
-    [self presentModalViewController:newPhoto animated:YES];
-}
 - (void) stopRecorder:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
@@ -479,11 +326,11 @@
     [btn addTarget:self action:@selector(startRecorder:) forControlEvents:UIControlEventTouchUpInside];
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.timerView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:timerView cache:YES];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:1.0];
-    self.timerView.alpha = 0.0;
-    for (UIView* each in self.timerView.subviews) {
+    timerView.alpha = 0.0;
+    for (UIView* each in timerView.subviews) {
         if ([each isKindOfClass:[UILabel class]]) {
             UILabel* timeLabel =(UILabel*)each;
             [timeLabel setText:@"00:00"];
@@ -500,30 +347,43 @@
     [btn addTarget:self action:@selector(stopRecorder:) forControlEvents:UIControlEventTouchUpInside];
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.timerView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:timerView cache:YES];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:1.0];
-    self.timerView.alpha = 1.0;
+    timerView.alpha = 1.0;
     [UIView commitAnimations];
     [self audioStartRecode];
 }
-
+- (void) attachmentAddDone
+{
+    [self displayAttachmentsCount];
+}
 - (void) checkAttachments:(id)sender
 {
-    if (nil != self.currentPopoverController) {
-        [self.currentPopoverController dismissPopoverAnimated:YES];
-    }
     WizPadCheckAttachments* checkAttachments = [[WizPadCheckAttachments alloc] init];
+    checkAttachments.source = self.attachmentsArray;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:checkAttachments];
     [checkAttachments release];
-    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:nav];
+    [self popverViewController:nav fromRect:CGRectMake(630, 0.0, 0.1, 10) permittedArrowDirections:UIPopoverArrowDirectionUp];
+    [currentPopoverController setContentViewController:nav animated:YES];
     [nav release];
-    self.currentPopoverController = pop;
-    [pop release];
-    self.currentPopoverController.delegate = self; 
-    [self.currentPopoverController presentPopoverFromRect:CGRectMake(630, 0.0, 0.1, 10) inView:self.backgroudScrollView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
-
+- (void) prepareForEdit:(NSString*)body attachments:(NSArray*)attachments
+{
+    bodyInputTextView.text = body;
+    [self.attachmentsArray addObjectsFromArray:attachments];
+}
+- (BOOL) selectePhotos
+{
+    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];
+	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
+    [albumController setParent:elcPicker];
+	[elcPicker setDelegate:self];
+    [albumController release];
+    [self popverViewController:elcPicker fromRect:CGRectMake(630, 0.0, 0.1, 10) permittedArrowDirections:UIPopoverArrowDirectionUp];
+    [currentPopoverController setContentViewController:elcPicker animated:YES];
+    return YES;
+}
 - (void) buildNavigtionTitleView
 {
     UIView* titleView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 678, 44)];
@@ -534,33 +394,29 @@
     [recorder addTarget:self action:@selector(startRecorder:) forControlEvents:UIControlEventTouchUpInside];
     [titleView addSubview:recorder];
     
-    UIImageView* recorderBack = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recorderTimeBack"]];
-    recorderBack.frame = CGRectMake(300, 7, 80, 30);
+    timerView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recorderTimeBack"]];
+    timerView.frame = CGRectMake(300, 7, 80, 30);
     UILabel* timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 80, 30)];
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.text = @"00:00";
-    [recorderBack addSubview:timeLabel];
+    [timerView addSubview:timeLabel];
     timeLabel.textAlignment = UITextAlignmentCenter;
     [timeLabel release];
-    self.timerView = recorderBack;
-    recorderBack.alpha = 0.0;
-    [titleView addSubview:recorderBack];
-    [recorderBack release];
+    timerView.alpha = 0.0;
+    [titleView addSubview:timerView];
     
     UIButton* selectPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
     [selectPhoto setImage:[UIImage imageNamed:@"attachSelectPhotoPad"] forState:UIControlStateNormal];
     selectPhoto.frame = CGRectMake(470, 7, 30, 30);
-    [selectPhoto addTarget:self action:@selector(addPhotoAttachment) forControlEvents:UIControlEventTouchUpInside];
+    [selectPhoto addTarget:self action:@selector(selectePhotos) forControlEvents:UIControlEventTouchUpInside];
     [titleView addSubview:selectPhoto];
     
     UIButton* attachmentsCheck = [UIButton buttonWithType:UIButtonTypeCustom];
     [attachmentsCheck setImage:[UIImage imageNamed:@"newNoteAttachG"] forState:UIControlStateNormal];
     [titleView addSubview:attachmentsCheck];
-    UIBadgeView* attachmentsCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(25, -5, 20, 20)];
-    [attachmentsCheck addSubview:attachmentsCount];
+    attachmentsCountView = [[UIBadgeView alloc] initWithFrame:CGRectMake(25, -5, 20, 20)];
+    [attachmentsCheck addSubview:attachmentsCountView];
     [attachmentsCheck addTarget:self action:@selector(checkAttachments:) forControlEvents:UIControlEventTouchUpInside];
-    self.attachmentsCountView = attachmentsCount;
-    [attachmentsCount release];
     
     if ( [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
@@ -568,19 +424,19 @@
         UIButton* takePhoto = [UIButton buttonWithType:UIButtonTypeCustom];
         [takePhoto setImage:[UIImage imageNamed:@"attachTakePhotoPad"] forState:UIControlStateNormal];
         takePhoto.frame = CGRectMake(480, 7, 30, 30);
-        [takePhoto addTarget:self action:@selector(addNewPhotoAttachment) forControlEvents:UIControlEventTouchUpInside];
+        [takePhoto addTarget:self action:@selector(takePhoto) forControlEvents:UIControlEventTouchUpInside];
         [titleView addSubview:takePhoto];
         
         selectPhoto.frame = CGRectMake(400, 7, 30, 30);
         recorder.frame = CGRectMake(320, 7, 30, 30);
-        recorderBack.frame = CGRectMake(220, 7, 80, 30);
+        timerView.frame = CGRectMake(220, 7, 80, 30);
     }
     else
     {
         attachmentsCheck.frame = CGRectMake(560, 7, 30, 30);
         selectPhoto.frame = CGRectMake(480, 7, 30, 30);
         recorder.frame = CGRectMake(400, 7, 30, 30);
-        recorderBack.frame = CGRectMake(300, 7, 80, 30);
+        timerView.frame = CGRectMake(300, 7, 80, 30);
     }
     self.navigationItem.titleView = titleView;
     [titleView release];
@@ -588,126 +444,33 @@
 - (void) buildView
 {
     self.view.backgroundColor = [UIColor lightGrayColor];
-    UIScrollView* scrollView = [[UIScrollView alloc] init];
-    [self.view addSubview:scrollView];
-    self.backgroudScrollView = scrollView;
-    self.backgroudScrollView.delegate = self;
-    [scrollView release];
+    backgroudScrollView = [[UIScrollView alloc] init];
+    [self.view addSubview:backgroudScrollView];
+    backgroudScrollView.delegate = self;
     [self setBackgroudScrollViewFrame:self.interfaceOrientation];
     [self buildInputView];
     [self buildNavigationItems];
     [self buildNavigtionTitleView];
 }
-//- (BOOL) checkIsAttachmen:(NSString*)name
-//{
-//    
-//}
-- (void) prepareEditingData:(NSDictionary*)data
-{
-    [self buildView];
-    self.isNewDocument = NO;
-    WizDocument* document = [WizDocument documentForUpload:self.documentGUID];
-    NSString* documentTitle = [data valueForKey:TypeOfDocumentTitle];
-    NSString* documentBody = [data valueForKey:TypeOfDocumentBody];
-    self.titleInputTextField.text = documentTitle;
-    self.bodyInputTextView.text = documentBody;
-//    self.selectedTags = [NSMutableArray arrayWithArray:[index tagsByDocumentGuid:self.documentGUID]];
-    self.documentFloder = [NSMutableString stringWithString:document.location];
-    for (WizTag* each in self.selectedTags) {
-        if (nil == each) {
-            continue;
-        }
-        [self addTagToDocument:each];
-    }
-    
-//    NSString* documentPath = [WizIndex documentFilePath:self.accountUserId documentGUID:documentGUID];
-//    NSString* indexFiles = [documentPath stringByAppendingPathComponent:@"index_files"];
-//    NSArray* attachmentsFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:indexFiles error:nil];
-//    for (NSString* eachFile in attachmentsFiles) {
-//        NSArray* sepre = [eachFile componentsSeparatedByString:@"."];
-//        if ([self checkIsAttachmen:[sepre objectAtIndex:0]]) {
-//            
-//        }
-//    }
-//    NSArray* attachments = [index attachmentsByDocumentGUID:self.documentGUID];
-//    for (WizAttachment* eachAttach in attachments) {
-//        NSString* filePath = [[WizIndex documentFilePath:self.accountUserId documentGUID:eachAttach.attachmentGuid] stringByAppendingPathComponent:eachAttach.attachmentName];
-//        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-//            [self.attachmentSourcePath addObject:filePath];
-//        }
-//
-//    }
-    self.folderTextField.text = [WizGlobals folderStringToLocal:self.documentFloder];
-}
-- (void) prepareNewDocumentData:(NSDictionary*)data
-{
-    [self buildView];
-    self.isNewDocument = YES;
-    self.documentGUID = [WizGlobals genGUID];
-    if (nil == self.selectedTags ) {
-        self.selectedTags = [NSMutableArray array];
-    }
-    if (nil == self.documentFloder) {
-        self.documentFloder = [NSMutableString string];
-    }
-    
-    NSString* tagGuid = [data valueForKey:TypeOfSelectedTag];
-    if (nil != tagGuid) {
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//        WizTag* tag = [index tagFromGuid:tagGuid];
-//        [self.selectedTags addObject:tag];
-//        [self addTagToDocument:tag];
-    }
-    NSString* documentFolderString = [data valueForKey:TypeOfSelectedFolder];
-    if (nil != documentFolderString && ![documentFolderString isEqualToString:@""]) {
-        self.documentFloder = [NSMutableString stringWithString:documentFolderString];
-        self.folderTextField.text = [WizGlobals folderStringToLocal:self.documentFloder];
-    }
-}
 
-- (void) deleteAttachments:(NSNotification*)nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSString* attachmentFilePath = [userInfo valueForKey:TypeOfAttachmentFilePath];
-    NSArray* dir = [attachmentFilePath componentsSeparatedByString:@"/"];
-    NSString* cDir = [dir objectAtIndex:[dir count]-2];
-    NSString* fileName = [dir lastObject];
-    if (![cDir isEqualToString:ATTACHMENTTEMPFLITER]) {
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//        NSString* documentFilePath = [WizIndex documentFilePath:self.accountUserId documentGUID:self.documentGUID];
-//        NSString* filesPath = [documentFilePath stringByAppendingPathComponent:@"index_files"];
-//        NSString* filePath = [filesPath stringByAppendingPathComponent:fileName];
-//        NSFileManager* fileManager = [NSFileManager defaultManager];
-//        NSError* error = [[NSError alloc]init];
-//        if(![fileManager removeItemAtPath:filePath error:&error])
-//        {
-//            NSLog(@"remove error");
-//        }
-//        [error release];
-//        WizAttachment* attach = [index attachmentFromGUID:cDir];
-//        [index deleteAttachment:attach.attachmentGuid];
-    }
-    [self displayAttachmentsCount];
-}
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.bodyInputTextView becomeFirstResponder];
+    [bodyInputTextView becomeFirstResponder];
+    if (nil == self.docEdit) {
+        WizDocument* doc = [[WizDocument alloc] init];
+        self.docEdit = doc;
+        [doc release];
+    }
 }
-- (void) viewDidLoad      
+- (void) viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAttachments:) name:MessageOfDeleteAttachments object:nil];
-
 }
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
-    [WizNotificationCenter removeObserver:self];
-    [WizNotificationCenter removeObserverForDeleteDocument:self];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -720,29 +483,26 @@
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self setBackgroudScrollViewFrame:toInterfaceOrientation];
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        self.bodyInputTextView.frame = bodyInputTextViewFrame;
+        bodyInputTextView.frame = bodyInputTextViewFrame;
     }
     else
     {
-        self.bodyInputTextView.frame = bodyInputTextViewPotraitFrame;
+        bodyInputTextView.frame = bodyInputTextViewPotraitFrame;
     }
-    self.bodyInputViewHeigth = bodyInputTextView.frame.size.height;
-
+    bodyInputViewHeigth = bodyInputTextView.frame.size.height;
 }
 // scroll delegate
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGPoint offset = scrollView.contentOffset;
-    CGRect frame = self.bodyInputTextView.frame;
-    self.bodyInputTextView.frame = CGRectMake(0.0, 135, frame.size.width, self.bodyInputViewHeigth+offset.y);
-    
+    CGRect frame = bodyInputTextView.frame;
+    bodyInputTextView.frame = CGRectMake(0.0, 135, frame.size.width, bodyInputViewHeigth+offset.y);
 }
 // textFieldDelegate
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField == self.folderTextField || textField == self.tagTextField) {
+    if (textField == folderTextField || textField == tagTextField) {
         [textField resignFirstResponder];
     }
-    
 }
 @end

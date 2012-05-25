@@ -156,7 +156,6 @@
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-
 }
 #pragma mark - Table view data source
 
@@ -241,9 +240,17 @@
     }
     NSIndexPath* docIndex = [self.tableSourceArray removeDocument:document];
     if (docIndex != nil) {
-        [self.tableView beginUpdates];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
-        [self.tableView endUpdates];
+        if (docIndex.row == WizDeletedSectionIndex) {
+            [self.tableView beginUpdates];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        else {
+            [self.tableView beginUpdates];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        
     }
 }
 

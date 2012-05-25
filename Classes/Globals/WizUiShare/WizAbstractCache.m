@@ -10,12 +10,14 @@
 @interface WizAbstractCache()
 {
     NSMutableDictionary* data;
+    NSMutableDictionary* folderTagData;
     NSMutableArray* needGenAbstractDocuments;
     NSString* currentDocument;
     NSConditionLock* cacheConditon;
     BOOL isChangedUser;
     NSThread* thread;
 }
+@property (atomic, retain) NSMutableDictionary* folderTagData;
 @property (atomic, retain) NSMutableDictionary* data;
 @property (atomic, retain) NSMutableArray* needGenAbstractDocuments;
 @property (atomic) BOOL isChangedUser;
@@ -26,6 +28,7 @@
 @end
 @implementation WizAbstractCache
 @synthesize data;
+@synthesize folderTagData;
 @synthesize needGenAbstractDocuments;
 @synthesize isChangedUser;
 @synthesize currentDocument;
@@ -102,12 +105,52 @@
 - (void) didChangedAccountUser
 {
     self.isChangedUser = YES;
+    [NSThread detachNewThreadSelector:@selector(genFoldersAndTagsAbstract) toTarget:self withObject:nil];
+}
+- (NSString*) getFolderAbstract:(NSString*)key
+{
+    return [self.folderTagData objectForKey:key];
+}
+- (NSString*) getTagAbstract:(NSString*)tagGuid
+{
+    return [self.folderTagData objectForKey:tagGuid];
+}
+- (void) genFoldersAndTagsAbstract
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    
+    WizDbManager* dbManager = [[WizDbManager alloc] init];
+    [dbManager openDb:[[WizFileManager shareManager] dbPath]];
+    NSArray* allLocations = [dbManager allLocationsForTree];
+    for (NSString* folderKey in allLocations) {
+        NSString* abstract = [dbManager folderAbstractString:folderKey];
+        if (abstract != nil) {
+            [self.folderTagData setObject:abstract forKey:folderKey];
+        }
+        else {
+            [self.folderTagData setObject:@"" forKey:folderKey];
+        }
+    }
+    
+    NSArray* allTags = [dbManager allTagsForTree];
+    for (WizTag* tag in allTags) {
+        NSString* abstract = [dbManager tagAbstractString:tag.guid];
+        if (nil != abstract) {
+            [self.folderTagData setObject:abstract forKey:tag.guid];
+        }
+        else {
+            [self.folderTagData setObject:@"" forKey:tag.guid];
+        }
+    }
+    
+    [pool release];
 }
 
 - (id) init
 {
     self = [super init];
     if (self) {
+        self.folderTagData = [NSMutableDictionary dictionary];
         self.data = [NSMutableDictionary dictionary];
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.isChangedUser = YES;
@@ -115,6 +158,8 @@
         [WizNotificationCenter addObserverForChangeAccount:self selector:@selector(didChangedAccountUser)];
         thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
         [thread start];
+        
+        [NSThread detachNewThreadSelector:@selector(genFoldersAndTagsAbstract) toTarget:self withObject:nil];
     }
     return self;
 }

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizPadCheckAttachmentDelegate.h"
 @class UIBadgeView;
-@interface WizPadDocumentViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate>
+@interface WizPadDocumentViewController : UIViewController <WizPadCheckAttachmentDelegate,UIWebViewDelegate,UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate>
 {
     NSUInteger listType;
     NSString* documentListKey;

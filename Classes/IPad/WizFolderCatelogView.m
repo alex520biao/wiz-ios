@@ -1,50 +1,45 @@
 //
-//  WizTagCatelogView.m
+//  WizFolderCatelogView.m
 //  Wiz
 //
-//  Created by 朝 董 on 12-5-22.
+//  Created by 朝 董 on 12-5-23.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "WizTagCatelogView.h"
+#import "WizFolderCatelogView.h"
 #import "WizAbstractCache.h"
 
-@implementation WizTagCatelogView
-
-@synthesize wizTag;
-
+@implementation WizFolderCatelogView
+@synthesize folderKey;
 - (void) dealloc
 {
-    [wizTag release];
-    wizTag = nil;
+    [folderKey release];
+    folderKey = nil;
     [super dealloc];
 }
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        backGroudImageView.image = [UIImage imageNamed:@"folderBackgroud"];
     }
     return self;
 }
 
 - (void) didSelectedCateLogView
 {
-    [self.selectedDelegate didSelectedCatelogForKey:self.wizTag];
+    [self.selectedDelegate didSelectedCatelogForKey:self.folderKey];
 }
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    if (nil == self.wizTag) {
+    if (nil == self.folderKey) {
         return;
     }
-    nameLabel.text = self.wizTag.title;
-    backGroudImageView.image = [UIImage imageNamed:@"tagBackgroud"];
-    NSInteger count =  [WizTag fileCountOfTag:self.wizTag.guid];
+    nameLabel.text = self.folderKey;
+    NSInteger count =  [WizObject fileCountOfLocation:self.folderKey];
     documentsCountLabel.text = [NSString stringWithFormat:@"%d %@",count,WizStrNotes];
-    detailLabel.text = [[WizAbstractCache shareCache] getTagAbstract:self.wizTag.guid];
+    detailLabel.text = [[WizAbstractCache shareCache] getFolderAbstract:self.folderKey];
 }
-
 @end

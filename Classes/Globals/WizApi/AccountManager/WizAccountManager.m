@@ -144,6 +144,7 @@
     }
     NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
     [timer fire];
+    [WizNotificationCenter postChangeAccountMessage];
     return YES;
 }
 - (NSString*) activeAccountUserId
@@ -224,7 +225,6 @@
     WizSyncManager* sync = [WizSyncManager shareManager];
     [sync resignActive];
     [self setDefalutAccount:@""];
-    [WizNotificationCenter postChangeAccountMessage];
 }
 
 -(void) removeAccount: (NSString*)userId

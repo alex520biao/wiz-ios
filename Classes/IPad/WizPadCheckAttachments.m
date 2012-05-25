@@ -138,6 +138,7 @@
             sourceFile = [attachment attachmentFilePath];
         }
         UIWebView* webview = [[UIWebView alloc] init];
+        webview.scalesPageToFit = YES;
         NSURL* url = [[NSURL alloc] initFileURLWithPath:sourceFile];
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
         [webview loadRequest:req];

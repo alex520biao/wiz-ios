@@ -24,12 +24,21 @@
     checkDelegate = nil;
     [super dealloc];
 }
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        
+    }
+    return self;
+}
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         dataArray = [[NSMutableArray alloc] init];
         self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return self;
 }

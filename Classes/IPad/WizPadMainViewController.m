@@ -63,7 +63,6 @@
     if (self) {
         NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
         [nc removeObserver:self];
-        [nc addObserver:self selector:@selector(checkDocument:) name:TypeOfCheckDocument object:nil];
         [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
         [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
         [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
@@ -92,8 +91,6 @@
 {
     
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
-    NSMutableDictionary* data = [NSMutableDictionary dictionary];
-    [newNote prepareNewDocumentData:data];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
@@ -144,7 +141,7 @@
     if (nil != self.currentPoperController) {
         [currentPoperController dismissPopoverAnimated:YES];
     }
-    UserSttingsViewController* settings = [[UserSttingsViewController alloc] init];
+    UserSttingsViewController* settings = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:settings];
     [settings release];
     UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:controller];
@@ -213,7 +210,7 @@
 {
     NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
     [userInfo setObject:searchBar.text forKey:TypeOfCheckDocumentListKey];
-    [userInfo setObject:[NSNumber numberWithInt:TypeOfKey] forKey:TypeOfCheckDocumentListType];
+    [userInfo setObject:[NSNumber numberWithInt:WizPadCheckDocumentSourceTypeOfRecent] forKey:TypeOfCheckDocumentListType];
     [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfCheckDocument object:nil userInfo:userInfo];
 }
 
@@ -245,6 +242,7 @@
 - (void) buildMainViewcontrollers
 {
     WizPadListTableControllerBase* base= [[WizPadListTableControllerBase alloc] init];
+    base.checkDocumentDelegate = self;
     WizPadFoldersViewController* folder = [[WizPadFoldersViewController alloc] init];
     folder.checkDelegate = self;
     WizPadTagsViewController *tag = [[WizPadTagsViewController alloc] init];
@@ -284,18 +282,6 @@
     [super viewDidUnload];
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
-}
-
-- (void) checkDocument:(NSNotification*)nc
-{
-    NSDictionary* userInfo = [nc userInfo];
-    NSNumber* listType = [userInfo objectForKey:TypeOfCheckDocumentListType];
-    NSString* listKey = [userInfo objectForKey:TypeOfCheckDocumentListKey];
-    WizPadDocumentViewController* check = [[WizPadDocumentViewController alloc] init];
-    check.listType = [listType intValue];
-    check.documentListKey = listKey;
-    [self.navigationController pushViewController:check animated:YES];
-    [check release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

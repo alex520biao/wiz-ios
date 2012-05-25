@@ -14,7 +14,7 @@
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizSyncManager.h"
-#define UploadPartSize  (256*1024)
+#define UploadPartSize  (262144)
 
 @protocol WizUploadObjectDelegate
 @optional
@@ -23,29 +23,33 @@
 
 @interface WizUploadObjet ()<WizUploadObjectDelegate>
 {
-    int         sumUploadPartCount;
-    NSString*   uploadObjMd5;
-    NSString* currentUploadTempFilePath;
-    NSFileHandle* uploadFildHandel;
-    WizObject*     uploadObject;
+    NSInteger       sumUploadPartCount;
+    NSString*       uploadObjMd5;
+    NSString*       currentUploadTempFilePath;
+    NSFileHandle*   uploadFildHandel;
+    WizObject*      uploadObject;
+    NSInteger       uploadFileSize;
+    
+    NSMutableArray* uploadQueque;
 }
-@property                           int         sumUploadPartCount;
-@property                           long        currentUploadPos;
-@property                           long        uploadFileSize;
+@property                           NSInteger         sumUploadPartCount;
+@property                           NSInteger           uploadFileSize;
 @property       (nonatomic, retain) NSString*   uploadObjMd5;
 @property       (nonatomic, retain) NSFileHandle* uploadFildHandel;
 @property       (nonatomic, retain) NSString* currentUploadTempFilePath;
 @property       (nonatomic, retain) WizObject* uploadObject;
+@property       (nonatomic, retain) NSMutableArray* uploadQueque;
 - (void) onUploadObjectSucceedAndCleanTemp;
-
+- (BOOL) startUpload;
 @end
-
-@implementation WizUploadObjet 
+@implementation WizUploadObjet
 @synthesize currentUploadTempFilePath;
 @synthesize sumUploadPartCount;
 @synthesize uploadObjMd5;
 @synthesize uploadFildHandel;
 @synthesize uploadObject;
+@synthesize uploadQueque;
+@synthesize uploadFileSize;
 -(void) dealloc
 {
     if (nil != uploadFildHandel) {
@@ -55,31 +59,35 @@
     [uploadObjMd5 release];
     [uploadObject release];
     [currentUploadTempFilePath release];
+    [uploadQueque release];
+    uploadQueque = nil;
     [super dealloc];
+}
+
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        uploadQueque = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (BOOL) uploadNextPart
 {
     NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
-    NSInteger sumCount = self.uploadFileSize/UploadPartSize;
-    if (self.uploadFileSize%UploadPartSize >0) {
-        sumCount++;
-    }
     NSInteger currentPartCount =currentOffSet/UploadPartSize;
+    NSLog(@"current count is %d",currentPartCount);
     NSData* data = [self.uploadFildHandel readDataOfLength:UploadPartSize];
-    return [self callUploadObjectData:self.uploadObject data:data objectSize:self.uploadFileSize count:currentPartCount sumMD5:self.uploadObjMd5 sumPartCount:sumCount];
+    return [self callUploadObjectData:self.uploadObject data:data objectSize:self.uploadFileSize count:currentPartCount sumMD5:self.uploadObjMd5 sumPartCount:self.sumUploadPartCount];
 }
 
 - (void) setOffSetToPreviousPart
 {
     NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
-    NSInteger sumCount = self.uploadFileSize/UploadPartSize;
-    if (self.uploadFileSize%UploadPartSize >0) {
-        sumCount++;
-    }
     NSInteger currentPartCount =currentOffSet/UploadPartSize;
     if (self.uploadFileSize/UploadPartSize >0) {
-        if (sumCount >1 || currentPartCount >0) {
+        if (self.sumUploadPartCount >1 || currentPartCount >0) {
             [self.uploadFildHandel seekToFileOffset:(currentPartCount-1)*UploadPartSize];
         }
         else {
@@ -100,6 +108,10 @@
 -(BOOL) start
 {
     busy = YES;
+    if (nil == self.uploadObject) {
+        busy = NO;
+        return NO;
+    }
     self.syncMessage = WizStrUploadingnotes;
     if ([self.uploadObject isKindOfClass:[WizDocument class]]) {
         WizDocument* doc = (WizDocument*)self.uploadObject;
@@ -118,10 +130,12 @@
     {
         self.sumUploadPartCount++;
     }
+    NSLog(@"upload sum count is %@ %d",self.uploadObject.guid,self.sumUploadPartCount);
     [self.uploadFildHandel seekToFileOffset:0];
     self.currentUploadTempFilePath = zip;
     return [self uploadNextPart];
 }
+
 
 -(void) onUploadObjectData:(id)retObject
 {
@@ -132,10 +146,12 @@
     }
     else {
         NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
-        if (currentOffSet == self.uploadFileSize) {
+        if (currentOffSet == self.uploadFileSize)
+        {
             [self onUploadObjectDataDone];
         }
-        else {
+        else
+        {
             [self uploadNextPart];
         }
     }
@@ -144,7 +160,6 @@
 {
     [[WizFileManager shareManager] deleteFile:self.currentUploadTempFilePath];
     self.sumUploadPartCount = -1;
-    self.currentUploadPos = -1;
     self.sumUploadPartCount = -1;
     self.currentUploadTempFilePath = nil;
     self.uploadFileSize = -1;
@@ -157,22 +172,8 @@
         [self callAttachmentPostSimpleData:(WizAttachment*)self.uploadObject dataMd5:self.uploadObjMd5 ziwMd5:self.uploadObjMd5];
     }
 }
--(void) onUploadObjectSucceedAndCleanTemp
-{
-    self.uploadObject = nil;
-    busy = NO;
-    self.syncMessage = WizSyncEndMessage;
-    [WizNotificationCenter postMessageUploadDone:self.uploadObject.guid];
-}
 
-- (BOOL) uploadWizObject:(WizObject *)wizobject
-{
-    if (self.busy) {
-        return NO;
-    }
-    self.uploadObject = wizobject;
-    return  [self start];
-}
+
 - (void) onDocumentPostSimpleData:(id)retObject
 {
     WizDocument* eidt = (WizDocument*)self.uploadObject;
@@ -195,5 +196,55 @@
         attempts = WizNetWorkMaxAttempts;
         [WizGlobals reportError:retObject];
     }
+}
+//
+-(void) onUploadObjectSucceedAndCleanTemp
+{
+    self.uploadObject = nil;
+    busy = NO;
+    self.syncMessage = WizSyncEndMessage;
+    [self startUpload];
+}
+
+- (BOOL) isUploadWizObject:(WizObject*)object
+{
+    if (nil != self.uploadObject) {
+        if ([self.uploadObject.guid isEqualToString:object.guid]) {
+            return YES;
+        }
+    }
+    if ([uploadQueque hasWizObject:object]) {
+        return YES;
+    }
+    return NO;
+}
+- (BOOL) startUpload
+{
+    if (self.busy) {
+        return NO;
+    }
+    if (0 == [uploadQueque count])
+    {
+        return NO;
+    }
+    self.uploadObject = [uploadQueque objectAtIndex:0];
+    [uploadQueque removeObjectAtIndex:0];
+    return [self start];
+}
+
+- (BOOL) uploadWizObject:(WizObject *)wizobject
+{
+    if ([self isUploadWizObject:wizobject]) {
+        return YES;
+    }
+    [uploadQueque addWizObjectUnique:wizobject];
+    NSLog(@"uploadQueue count is %d",[uploadQueque count]);
+    return  [self startUpload];
+}
+- (void) stopUpload
+{
+    [self cancel];
+    [uploadQueque removeAllObjects];
+    [self onUploadObjectSucceedAndCleanTemp];
 }
 @end  

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "WizNotificationMessageType.h"
 @interface WizNotificationCenter : NSObject
+//
++ (void) postMessageWithName:(NSString*)messageName userInfoObject:(id)infoObject userInfoKey:(NSString*)infoKey;
+//
 +(void) addObserverWithKey:(id)observer selector:(SEL)selector  name:(NSString*)name;
 + (void) removeObserverWithKey:(id) observer name:(NSString*)name;
 + (void) postNewDocumentMessage:(NSString*)documentGUID;

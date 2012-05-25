@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define WizNewSectionIndex      -1
+#define WizDeletedSectionIndex  -2
 
 typedef NSMutableArray WizDocumentsMutableArray;
 @interface NSMutableArray (WizDocuments)

@@ -13,8 +13,10 @@
 #import "WizAccountManager.h"
 
 @implementation WizRefreshToken
+@synthesize refreshDelegate;
 - (void) dealloc
 {
+    refreshDelegate = nil;
     [super dealloc];
 }
 - (void) onError:(id)retObject
@@ -40,13 +42,13 @@
         NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
         NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
         NSString* userType = [userInfo objectForKey:@"user_type"];
-        NSNumber* userLimit = [userInfo objectForKey:@""];
         WizSettings* defalutSettings = [WizSettings defaultSettings];
         [defalutSettings setUserPoints:[userPoints longLongValue]];
         [defalutSettings setUserLevel:[userLevel longLongValue]];
         [defalutSettings setUserLevelName:userLevelName];
         [defalutSettings setUserType:userType];
-        [WizNotificationCenter postMessageRefreshToken:retObject];
+        [self.refreshDelegate didRefreshToken:retObject];
     }
+    busy = NO;
 }
 @end

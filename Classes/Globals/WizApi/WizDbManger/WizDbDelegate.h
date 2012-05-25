@@ -71,4 +71,5 @@
 - (NSArray*) allLocationsForTree;
 - (int) fileCountOfLocation:(NSString *)location;
 - (int) filecountWithChildOfLocation:(NSString*) location;
+- (NSString*) folderAbstractString:(NSString*)folderKey;
 @end

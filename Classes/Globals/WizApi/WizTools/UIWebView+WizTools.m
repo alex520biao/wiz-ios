@@ -19,11 +19,14 @@
     NSString *result = [self stringByEvaluatingJavaScriptFromString:@"MyApp_SearchResultCount"];
     return [result integerValue];
 }
-- (void) loadIphoneReadScript
+- (void) loadIphoneReadScript:(NSString*)width;
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"iphoneRead" ofType:@"js"];
 	NSString *jsCode = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
     [self stringByEvaluatingJavaScriptFromString:jsCode];
+    NSString* js = [NSString stringWithFormat:@"ReadCurrentPage('%@')",width];
+//    NSString* js = @"ReadCurrentPage('device-width')";
+    [self stringByEvaluatingJavaScriptFromString:js];
 }
 - (void)removeAllHighlights
 {

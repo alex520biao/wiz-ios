@@ -510,6 +510,9 @@ enum WizSettingKind {
             break;
         case WizSetTableOption:
             [[WizSettings defaultSettings] setUserTableListViewOption:[[NSArray tableViewOptions] wizSettingValueAtIndex:index]];
+            if ([WizGlobals WizDeviceIsPad]) {
+                [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
+            }
         case WizSetImageQulityCode:
             [[WizSettings defaultSettings] setImageQualityValue:[[NSArray imageQulityArray] wizSettingValueAtIndex:index]];
         default:

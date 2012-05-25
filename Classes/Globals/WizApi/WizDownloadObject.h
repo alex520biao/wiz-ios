@@ -15,4 +15,6 @@ extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 @interface WizDownloadObject : WizApi 
 - (BOOL) downloadWizObject:(WizObject*)wizObject;
 - (NSString*)currentDownloadObjectGuid;
+- (BOOL) isDownloadWizObject:(WizObject*)wizObject;
+- (void) stopDownload;
 @end

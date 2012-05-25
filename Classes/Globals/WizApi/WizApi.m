@@ -371,6 +371,13 @@
 -(BOOL) callDownloadObject:(WizObject*)object startPos:(int)startPos  partSize:(int)partSize{
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
+    if (object.guid == nil) {
+        NSDictionary* dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"download guid is nill",NSLocalizedDescriptionKey,nil];
+        NSError* error = [NSError errorWithDomain:WizErrorDomain code:WizGuidIsNilErrorCode userInfo:dictionary];
+        [self onError:error];
+        [dictionary release];
+        return NO;
+    }
     [postParams setObject:object.guid forKey:@"obj_guid"];
     [postParams setObject:[object objectType] forKey:@"obj_type"];
     [postParams setObject:[NSNumber numberWithInt:startPos] forKey:@"start_pos"];

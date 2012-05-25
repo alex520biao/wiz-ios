@@ -26,17 +26,17 @@
 #import "NSMutableArray+WizDocuments.h"
 #import "WizSyncManager.h"
 #import "WizSettings.h"
+#import "ATMHud.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
 #define TableLandscapeFrame CGRectMake(0.0, 0.0, 320, 660)
-#define ToolbarLandscapeFrame CGRectMake(0.0, 660, 1024, 44)
-#define WebViewLandscapeFrame CGRectMake(321, 45, 703, 616)
-#define HeadViewLandScapeFrame CGRectMake(321, 0.0, 703, 44)
+#define WebViewLandscapeFrame CGRectMake(320, 45, 704, 620)
+#define HeadViewLandScapeFrame CGRectMake(320, 0.0, 704, 45)
+//
 #define TablePortraitFrame   CGRectMake(0.0, 0.0, 0.0, 0.0)
-#define HeadViewPortraitFrame     CGRectMake(0.0, 0.0, 768, 44)
-#define WebViewPortraitFrame     CGRectMake(0.0, 45, 768, 979)
-#define ToolbarPortraitFrame     CGRectMake(0.0, 916, 768, 44)
+#define HeadViewPortraitFrame     CGRectMake(0.0, 0.0, 768, 45)
+#define WebViewPortraitFrame     CGRectMake(0.0, 45, 768, 980)
 
 
 #define HeadViewLandScapeZoomFrame CGRectMake(0.0, 0.0, 1024, 44)
@@ -46,48 +46,37 @@
     UIWebView* webView;
     UIView* headerView;
     UITableView* documentList;
-    
     WizDocument* selectedDocument;
-    
     WizDocumentsMutableArray* documentsArray;
     WizTableOrder kOrderIndex;
-
     UILabel* documentNameLabel;
-    
     UIBadgeView* attachmentCountBadge;
     UIPopoverController* currentPopoverController;
     UIButton* zoomOrShrinkButton;
+    
+    UIBarButtonItem* editItem;
+    UIBarButtonItem* newNoteItem;
+    UIBarButtonItem* detailItem;
+    UIBarButtonItem* attachmentsItem;
 }
-@property (nonatomic,retain) UIButton* zoomOrShrinkButton;
-@property (nonatomic, retain)  UIWebView* webView;
-@property (nonatomic, retain) UIView* headerView;
-@property (nonatomic, retain) UITableView* documentList;
-
-
 @property (nonatomic, retain) WizDocumentsMutableArray* documentsArray;
-
-@property (nonatomic, retain) UILabel* documentNameLabel;
 @property (nonatomic, retain) WizDocument* selectedDocument;
-
-
 @property (nonatomic, retain)  UIPopoverController* currentPopoverController;
-@property (nonatomic, retain) UIBadgeView* attachmentCountBadge;
-
 @end
 @implementation WizPadDocumentViewController
-@synthesize zoomOrShrinkButton;
-@synthesize webView;
-@synthesize documentList;
-@synthesize headerView;
 @synthesize listType;
 @synthesize documentListKey;
 @synthesize documentsArray;
-@synthesize documentNameLabel;
 @synthesize selectedDocument;
 @synthesize currentPopoverController;
-@synthesize attachmentCountBadge;
 - (void) dealloc
 {
+    //
+    editItem = nil;
+    newNoteItem = nil;
+    detailItem = nil;
+    attachmentsItem = nil;
+    //
     [attachmentCountBadge release];
     [zoomOrShrinkButton release];
     [selectedDocument release];
@@ -104,15 +93,45 @@
 
 }
 
+
+- (void) webViewDidFinishLoad:(UIWebView *)webView
+{
+    
+}
+
+- (void) onDeleteDocument:(NSNotification*)nc
+{
+    WizDocument* document = [WizNotificationCenter getWizDocumentFromNc:nc];
+    if (document == nil) {
+        return;
+    }
+    NSIndexPath* docIndex = [self.documentsArray removeDocument:document];
+    if (docIndex != nil) {
+        if (docIndex.row == WizDeletedSectionIndex) {
+            [documentList beginUpdates];
+            [documentList deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationTop];
+            [documentList endUpdates];
+        }
+        else {
+            [documentList beginUpdates];
+            [documentList deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
+            [documentList endUpdates];
+        }
+        
+    }
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.documentsArray = [NSMutableArray array];
         kOrderIndex = -1;
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
     }
     return self;
 }
+
 - (void) dismissPoperview
 {
     if (nil != self.currentPopoverController) {
@@ -129,15 +148,6 @@
 - (void) newNote
 {
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
-    NSMutableDictionary* data = [NSMutableDictionary dictionary];
-    if (TypeOfLocation == self.listType) {
-        [data setObject:self.documentListKey forKey:TypeOfSelectedFolder];
-    }
-    else if ( TypeOfTag == self.listType)
-    {
-        [data setObject:self.documentListKey forKey:TypeOfSelectedTag];
-    }
-    [newNote prepareNewDocumentData:data];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
@@ -164,19 +174,19 @@
 - (void) setViewsFrame
 {
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        self.documentList.frame = TableLandscapeFrame;
-        self.webView.frame = WebViewLandscapeFrame;
-        self.headerView.frame = HeadViewLandScapeFrame;
-        self.documentNameLabel.frame = CGRectMake(44, 0.0, 680, 44);
-        self.zoomOrShrinkButton.hidden = NO;
+        documentList.frame = TableLandscapeFrame;
+        webView.frame = WebViewLandscapeFrame;
+        headerView.frame = HeadViewLandScapeFrame;
+        documentNameLabel.frame = CGRectMake(44, 0.0, 680, 44);
+        zoomOrShrinkButton.hidden = NO;
     }
     else
     {
-        self.documentNameLabel.frame = CGRectMake(5.0, 0.0, 768, 44);
-        self.zoomOrShrinkButton.hidden = YES;
-        self.documentList.frame = TablePortraitFrame;
-        self.webView.frame = WebViewPortraitFrame;
-        self.headerView.frame = HeadViewPortraitFrame;
+        documentNameLabel.frame = CGRectMake(5.0, 0.0, 768, 44);
+        zoomOrShrinkButton.hidden = YES;
+        documentList.frame = TablePortraitFrame;
+        webView.frame = WebViewPortraitFrame;
+        headerView.frame = HeadViewPortraitFrame;
     }
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         [self dismissPoperview];
@@ -193,59 +203,55 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.webView cache:YES];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.headerView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:webView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:headerView cache:YES];
     [UIView setAnimationDuration:0.3];
-    self.headerView.frame = HeadViewLandScapeFrame;
-    self.webView.frame = WebViewLandscapeFrame;
-    self.documentList.frame = TableLandscapeFrame;
+    headerView.frame = HeadViewLandScapeFrame;
+    webView.frame = WebViewLandscapeFrame;
+    documentList.frame = TableLandscapeFrame;
     [UIView commitAnimations];
-    [self.zoomOrShrinkButton setImage:[UIImage imageNamed:@"zoom"] forState:UIControlStateNormal];
-    [self.zoomOrShrinkButton removeTarget:self action:@selector(shrinkDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
-    [self.zoomOrShrinkButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
+    [zoomOrShrinkButton setImage:[UIImage imageNamed:@"zoom"] forState:UIControlStateNormal];
+    [zoomOrShrinkButton removeTarget:self action:@selector(shrinkDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
+    [zoomOrShrinkButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void) zoomDocumentWebView
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.webView cache:YES];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.headerView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:webView cache:YES];
+    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:headerView cache:YES];
     [UIView setAnimationDuration:0.3];
-    self.headerView.frame = HeadViewLandScapeZoomFrame;
-    self.webView.frame = WebViewLandScapeZoomFrame;
-    self.documentList.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);
+    headerView.frame = HeadViewLandScapeZoomFrame;
+    webView.frame = WebViewLandScapeZoomFrame;
+    documentList.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);
     [UIView commitAnimations];
-    [self.zoomOrShrinkButton setImage:[UIImage imageNamed:@"shrink"] forState:UIControlStateNormal];
-    [self.zoomOrShrinkButton removeTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
-    [self.zoomOrShrinkButton addTarget:self action:@selector(shrinkDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
+    [zoomOrShrinkButton setImage:[UIImage imageNamed:@"shrink"] forState:UIControlStateNormal];
+    [zoomOrShrinkButton removeTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
+    [zoomOrShrinkButton addTarget:self action:@selector(shrinkDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
 }
 - (void) buildHeaderView
 {
-    UIView* headerView_ = [[UIView alloc] init];
-    self.headerView = headerView_;
-    headerView_.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:headerView_];
-    [headerView_ release];
-    
-    
-    UIButton* zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    zoomButton.frame = CGRectMake(0.0, 0.0, 44, 44);
-    [self.headerView addSubview:zoomButton];
-    [zoomButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
-    [zoomButton setImage:[UIImage imageNamed:@"zoom"] forState:UIControlStateNormal];
-    self.zoomOrShrinkButton = zoomButton;
-    UILabel* namelabel_ = [[UILabel alloc] initWithFrame:CGRectMake(44, 0.0, 680, 44)];
-    [self.headerView addSubview:namelabel_];
-    self.documentNameLabel = namelabel_;
-    [namelabel_ release];
+    headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:headerView];
+    //
+    zoomOrShrinkButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    zoomOrShrinkButton.frame = CGRectMake(0.0, 0.0, 44, 44);
+    [headerView addSubview:zoomOrShrinkButton];
+    [zoomOrShrinkButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
+    [zoomOrShrinkButton setImage:[UIImage imageNamed:@"zoom"] forState:UIControlStateNormal];
+    documentNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 0.0, 680, 44)];
+    [headerView addSubview:documentNameLabel];
     UILabel* countLabel = [[UILabel  alloc] initWithFrame:CGRectMake(0.0, 5, 230, 20)];
     countLabel.textAlignment = UITextAlignmentCenter;
     countLabel.textColor = [UIColor grayColor];
-    self.documentList.tableHeaderView = countLabel;
+    documentList.tableHeaderView = countLabel;
     [countLabel release];
-    
+    //
+    [WizGlobals decorateViewWithShadowAndBorder:headerView];
 }
+//
 - (NSIndexPath*) indexPathOfDocument:(NSString*)docuemtGUID
 {
     for (int i = 0; i < [self.documentsArray count]; i++) {
@@ -275,42 +281,33 @@
     return -1;
 }
 
-- (void) updateTheNavigationTitle
-{
-    
-}
-
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
     [self setViewsFrame];
-    UILabel* count =(UILabel*)self.documentList.tableHeaderView;
+    UILabel* count =(UILabel*)documentList.tableHeaderView;
 
-}
-- (void) didLoadSourceArray
-{
-    
 }
 - (void) loadArraySource
 {
     [self.documentsArray removeAllObjects];
     switch (self.listType) {
-        case TypeOfKey:
+        case WizPadCheckDocumentSourceTypeOfRecent:
         {
-            [self.documentsArray addObject:[NSMutableArray arrayWithArray:[WizDocument  documentsByKey:self.documentListKey]]];
+            [self.documentsArray addObject:[NSMutableArray arrayWithArray:[WizDocument recentDocuments]]];
 //            if (![self.sourceArray count]) {
 //                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@", nil),self.documentListKey]];
 //            }
             break;
         }
-        case TypeOfLocation:
+        case WizPadCheckDocumentSourceTypeOfFolder:
         {
             NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByLocation:self.documentListKey]];
             [self.documentsArray addObject:array];
             break;
         }
-        case TypeOfTag:
+        case WizPadCheckDocumentSourceTypeOfTag:
         {
             NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByTag:self.documentListKey]];
             [self.documentsArray addObject:array];
@@ -325,40 +322,40 @@
         }  
     }
     [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
-    [self.documentList reloadData];
+    [documentList reloadData];
 }
 
 - (void) checkDocumentDtail
 {
     [self dismissPoperview];
-
     DocumentInfoViewController* infoView = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
     WizDocument* doc = selectedDocument;
     infoView.doc = doc;
     UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:infoView] ;
     pop.popoverContentSize = CGSizeMake(320, 300);
     self.currentPopoverController = pop;
-//    [currentPopoverController presentPopoverFromBarButtonItem:self.infoBarItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [currentPopoverController presentPopoverFromBarButtonItem:detailItem  permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [pop release];
     [infoView release];
 }
 - (void) onEditDone
 {
-    [self.webView reload];
+    [webView reload];
 }
 - (void) onEditCurrentDocument
 {
     WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
-    NSMutableDictionary* data = [NSMutableDictionary dictionary];
-    [data setObject:[self.webView bodyText] forKey:TypeOfDocumentBody];
-    [edit prepareEditingData:data];
-    
+    edit.docEdit = self.selectedDocument;
+    NSMutableArray* array = [NSMutableArray arrayWithCapacity:2];
+    if ([self.selectedDocument.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeImageKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeNoteKeyString]) {
+        [array addObjectsFromArray:[self.selectedDocument existPhotoAndAudio]];
+    }
+    [edit prepareForEdit:[webView bodyText] attachments:array];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
     [edit release];
     nav.modalPresentationStyle = UIModalPresentationPageSheet;
     [self.navigationController presentModalViewController:nav animated:YES];
     [nav release];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEditDone) name:MessageOfEditDocumentDone object:nil];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -374,33 +371,34 @@
 
 - (IBAction) editCurrentDocument: (id)sender
 {
-//    BOOL b = [self.webView containImages];
-//    WizIndex* index = [[WizGlobalData sharedData] indexData:accountUserId];
-//    WizDocument* doc = [index documentFromGUID:self.selectedDocumentGUID]; 
-//    if (b || ![doc.type isEqualToString:@"note"])
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
-//                                                        message:WizStrIfyouchoosetoeditthisdocument 
-//                                                       delegate:self 
-//                                              cancelButtonTitle:nil 
-//                                              otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
-//        alert.delegate = self;
-//        alert.tag = EditTag;
-//        [alert show];
-//        [alert release];
-//    }
-//    else 
-//    {
-//        [self onEditCurrentDocument];
-//    }
-
-
+    BOOL b = [webView containImages];
+    if (b || ![self.selectedDocument.type isEqualToString:@"note"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
+                                                        message:WizStrIfyouchoosetoeditthisdocument 
+                                                       delegate:self
+                                              cancelButtonTitle:nil 
+                                              otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
+        alert.delegate = self;
+        alert.tag = EditTag;
+        [alert show];
+        [alert release];
+    }
+    else 
+    {
+        [self onEditCurrentDocument];
+    }
 }
-
+- (void) didPushCheckAttachmentViewController:(UIViewController *)attachement
+{
+    [self.navigationController pushViewController:attachement animated:YES];
+}
 - (void) checkAttachment
 {
     [self dismissPoperview];
     WizCheckAttachments* checkAttach = [[WizCheckAttachments alloc] init];
+    checkAttach.checkAttachmentDelegate = self;
+    checkAttach.doc = self.selectedDocument;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:checkAttach];
     [checkAttach release];
     nav.contentSizeForViewInPopover = CGSizeMake(320, 500);
@@ -409,7 +407,7 @@
     pop.popoverContentSize = CGSizeMake(320, 500);
     [pop release];
     [nav release];
-//    [currentPopoverController presentPopoverFromBarButtonItem:self.attachmentBarItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [currentPopoverController presentPopoverFromBarButtonItem:attachmentsItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 - (void) buildToolBar
 {
@@ -420,13 +418,11 @@
     UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
     edit.width = 80;
 
-    UIBadgeView* attachCount = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 60, 20)];
-    self.attachmentCountBadge = attachCount;
-    [attachCount release];
+    attachmentCountBadge = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 60, 20)];
     UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
     attach.frame = CGRectMake(0.0, 0.0, 44, 44);
     [attach setImage:[UIImage imageNamed:@"newNoteAttach_gray"] forState:UIControlStateNormal];
-    [attach addSubview:self.attachmentCountBadge];
+    [attach addSubview:attachmentCountBadge];
     [attach addTarget:self action:@selector(checkAttachment) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* attachment = [[UIBarButtonItem alloc]initWithCustomView:attach];
     attachment.width = 80;
@@ -442,6 +438,12 @@
     NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit, attachment, detail, flex,nil];
    
     [self setToolbarItems:items];
+    //
+    newNoteItem = newNote;
+    editItem = edit;
+    attachmentsItem = attachment;
+    detailItem = detail;
+    //
     [edit release];
     [attachment release];
     [detail release];
@@ -452,6 +454,12 @@
 {
     NSString* documentGUID = [WizNotificationCenter downloadGuidFromNc:nc];
     NSLog(@"%@",documentGUID);
+    NSArray* visibleCells = [documentList visibleCells];
+    for (DocumentListViewCell* each in visibleCells) {
+        if ([each.doc.guid isEqualToString:documentGUID]) {
+            [each prepareForAppear];
+        }
+    }
     if ([documentGUID isEqualToString:self.selectedDocument.guid]) {
         
         NSString* documentFileName = [self.selectedDocument documentIndexFile];
@@ -469,27 +477,22 @@
         }
         NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
-        [self.webView loadRequest:req];
+        [webView loadRequest:req];
         [req release];
         [url release];
     }
-}
-- (void) downloadProcess:(NSNotification*) nc
-{
-    
 }
 - (void) downloadDocument:(WizDocument*)document
 {
     WizSyncManager* share = [WizSyncManager shareManager];
     [share downloadWizObject:document];
-    [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
 }
 - (void) checkDocument:(WizDocument*)document
 {
     NSString* documentFileName = [document documentIndexFile];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
-    [self.webView loadRequest:req];
+    [webView loadRequest:req];
     [req release];
     [url release];
 }
@@ -508,15 +511,15 @@
 - (void) didSelectedDocument:(WizDocument*)doc
 {
     self.selectedDocument = doc;
-    self.documentNameLabel.text = doc.title;
-    [self.webView loadHTMLString:@"" baseURL:nil];
+    documentNameLabel.text = doc.title;
+    [webView loadHTMLString:@"" baseURL:nil];
     NSUInteger attachmentsCount = doc.attachmentCount;
     if (attachmentsCount > 0) {
-        self.attachmentCountBadge.hidden = NO;
-        self.attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+        attachmentCountBadge.hidden = NO;
+        attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
     }
     else {
-        self.attachmentCountBadge.hidden = YES;
+        attachmentCountBadge.hidden = YES;
     }
     if (doc.serverChanged) {
         [self downloadDocument:doc];
@@ -548,14 +551,13 @@
 //        }
 //        
 //    }
-    [self updateTheNavigationTitle];
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [self didSelectedDocument:doc];
-    [self.documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    [self.documentList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [documentList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -565,28 +567,39 @@
         [self loadArraySource];
     }
 }
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self dismissPoperview];
+}
+
+- (void) buildWebView
+{
+    webView = [[UIWebView alloc] init];
+    webView.userInteractionEnabled = YES;
+    webView.multipleTouchEnabled = YES;
+    webView.scalesPageToFit = YES;
+    webView.dataDetectorTypes = UIDataDetectorTypeAll;
+    webView.delegate = self;
+    [self.view addSubview:webView];
+    [WizGlobals decorateViewWithShadowAndBorder:webView];
+}
+
+- (void) buildDocumentTable
+{
+    documentList = [[UITableView alloc] init];
+    [self.view addSubview:documentList];
+    documentList.dataSource = self;
+    documentList.delegate = self;
+    
+    [WizGlobals decorateViewWithShadowAndBorder:documentList];
+}
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    UITableView* tableViw = [[UITableView alloc] init];
-    self.documentList = tableViw;
-    [self.view addSubview:self.documentList];
-    self.documentList.dataSource = self;
-    self.documentList.delegate = self;
-    [tableViw release];
+    [self buildDocumentTable];
     [self buildHeaderView];
-    UIWebView* webView_ = [[UIWebView alloc] init];
-    self.webView = webView_;
-    webView_.userInteractionEnabled = YES;
-    webView_.multipleTouchEnabled = YES;
-    webView_.scalesPageToFit = YES;
-    webView_.dataDetectorTypes = UIDataDetectorTypeAll;
-    [self.view addSubview:webView_];
-    [webView_ release];
-    if (documentsArray == nil) {
-        self.documentsArray = [NSMutableArray array] ;
-    }
-    self.view.backgroundColor = [UIColor blackColor];
+    [self buildWebView];
     [self buildToolBar];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPoperview) name:MessageOfCheckAttachment object:nil];
 }
@@ -645,10 +658,12 @@
         cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     cell.doc = doc;
+    if ([[WizSyncManager shareManager] isDownloadingWizobject:doc]) {
+        [cell setShowDownloadIndicator:YES];
+    }
     [cell performSelectorOnMainThread:@selector(prepareForAppear) withObject:nil waitUntilDone:YES];
     return cell;
 }
-
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 90;
@@ -662,25 +677,14 @@
     [sectionView addSubview:label];
     label.backgroundColor = [UIColor clearColor];
     [label release];
-    label.text = [self tableView:self.documentList titleForHeaderInSection:section];
+    label.text = [self tableView:documentList titleForHeaderInSection:section];
     return sectionView;
 }
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//        WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//        [index deleteDocument:doc.guid];
-//        [index addDeletedGUIDRecord:doc.guid type:[WizGlobals documentKeyString]];
-//        [WizNotificationCenter postDeleteDocumentMassage:doc.guid];
-//        if ([[documentsArray objectAtIndex:indexPath.section] count] == 1) {
-//            [documentsArray removeObjectAtIndex:indexPath.section];
-//            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationTop];
-//        }
-//        else {
-//            [[documentsArray objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-//            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
-//        }
+        WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        [WizDocument deleteDocument:doc];
     }
 }
 @end

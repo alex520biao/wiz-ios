@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "WizSyncDescriptionDelegate.h"
-@interface WizSyncManager : NSObject
+#import "WizRefreshDelegate.h"
+@interface WizSyncManager : NSObject <WizRefreshDelegate>
 {
     NSString* syncDescription;
     id <WizSyncDescriptionDelegate> displayDelegate;
@@ -29,4 +30,5 @@
 //
 - (void) automicSyncData;
 - (BOOL) isSyncing;
+- (void) stopSync;
 @end

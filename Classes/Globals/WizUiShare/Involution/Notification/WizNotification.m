@@ -280,4 +280,5 @@
 {
     [WizNotificationCenter postMessageWithName:MessageTypeOfCacheDbUpdate userInfoObject:guid userInfoKey:UserInfoTypeOfDocumentGUID];
 }
+//
 @end

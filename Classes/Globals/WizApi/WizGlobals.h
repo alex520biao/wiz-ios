@@ -93,6 +93,8 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (NSString*) timerStringFromTimerInver:(NSTimeInterval) ftime;
 + (BOOL) checkAttachmentTypeIsHtml:(NSString *)attachmentType;
 + (UIImage*) attachmentNotationImage:(NSString*)type;
+//
++ (void) decorateViewWithShadowAndBorder:(UIView*)view;
 @end
 
 

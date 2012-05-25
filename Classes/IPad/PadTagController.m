@@ -87,7 +87,7 @@
 
 - (void) didSelectedCatelog:(NSString *)keywords
 {
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:TypeOfTag], TypeOfCheckDocumentListType, keywords, TypeOfCheckDocumentListKey, nil];
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:WizPadCheckDocumentSourceTypeOfTag], TypeOfCheckDocumentListType, keywords, TypeOfCheckDocumentListKey, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfCheckDocument object:nil userInfo:userInfo];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

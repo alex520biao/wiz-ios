@@ -77,6 +77,18 @@ static NSArray* htmlArray;
     }
     return  output;
 }
++ (void) decorateViewWithShadowAndBorder:(UIView*)view
+{
+    CALayer* layer = [view layer];
+    layer.borderColor = [UIColor grayColor].CGColor;
+    layer.borderWidth = 0.5f;
+    layer.shadowColor = [UIColor grayColor].CGColor;
+    layer.shadowOffset = CGSizeMake(2, 2);
+    layer.shadowOpacity = 0.5;
+    layer.shadowRadius = 2;
+    layer.cornerRadius = 5;
+
+}
 + (UIView*) noNotesRemindFor:(NSString*)string
 {
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 480)];
