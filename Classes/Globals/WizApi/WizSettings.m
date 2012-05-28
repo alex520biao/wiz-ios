@@ -257,4 +257,15 @@ static WizSettings* defaultSettings = nil;
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:WizEraseDataEnable];
 }
+//
+- (BOOL) setLastSynchronizedDate:(NSDate*)lastDate
+{
+    return [self.settingsDbDelegate setLastSynchronizedDate:lastDate];
+}
+
+- (NSDate*) lastSynchronizeDate
+{
+    return [self.settingsDbDelegate lastSynchronizedDate];
+}
+
 @end

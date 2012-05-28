@@ -131,13 +131,16 @@
     }
     NSString* key = [[self.history objectAtIndex:indexPath.row] objectForKey:@"key_words"];
     NSNumber* count = [[self.history objectAtIndex:indexPath.row] objectForKey:@"count"];
+    
+    NSString* date = [[self.history objectAtIndex:indexPath.row] objectForKey:@"date"];
     cell.textLabel.text = key;
     if (count == nil) {
         count = [NSNumber numberWithInt:0];
     }
     NSString* detailString = [NSString stringWithFormat:NSLocalizedString(@"find %d notes", nil),[count intValue]];
-    cell.detailTextLabel.text = detailString;
-    cell.imageView.image = [UIImage imageNamed:@"searchIcon"];
+    NSString* displayStr = [NSString stringWithFormat:@"%@  %@",date,detailString];
+    cell.detailTextLabel.text = displayStr;
+    cell.imageView.image = [UIImage imageNamed:@"barItemSearch"];
     return cell;
 }
 

@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol WizPadViewDocumentDelegate <NSObject>
-- (void) checkDocument:(NSInteger)type  keyWords:(NSString*)keyWords;
+- (void) checkDocument:(NSInteger)type  keyWords:(NSString*)keyWords sourceArray:(NSMutableArray*)sourceArray;
 @end

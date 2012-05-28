@@ -16,6 +16,7 @@
 #import "WizFileManager.h"
 #import "PhSearchResultViewController.h"
 #import "WizSyncSearch.h"
+#import "WizSyncManager.h"
 @interface SearchViewControllerIphone()
 {
     UISearchBar* searchBar;
@@ -108,14 +109,10 @@
 
 - (void) addSearchHistory:(int)count
 {
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString* dateString = [formatter stringFromDate:[NSDate date]];
-    [formatter release];
     NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          [NSNumber numberWithBool:self.localSearchSwitch.on], @"search_local",
                          self.currentKeyWords, @"key_words",
-                         dateString, @"date",
+                         [[NSDate date] stringSql] , @"date",
                          [NSNumber numberWithInt:count], @"count",
                          nil,nil];
     NSString* fileNamePath = [[WizFileManager shareManager] searchHistoryFilePath];
@@ -165,6 +162,15 @@
     [self didSearchKeywords:self.currentKeyWords isNewSearch:YES];
 }
 
+- (void) didSearchFild
+{
+    
+}
+
+- (void) didSearchSucceed
+{
+    NSLog(@"search succedd");
+}
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     self.currentKeyWords = self.searchBar.text;
@@ -183,9 +189,7 @@
 	}
 	else 
 	{
-        WizSyncSearch* api = [[WizSyncSearch alloc] init];
-        api.keyWord = keywords;
-        [api start];
+        [[WizSyncManager shareManager] searchKeywords:keywords searchDelegate:self];
 	}
     
 }

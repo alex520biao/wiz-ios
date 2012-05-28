@@ -9,20 +9,17 @@
 #import "WizPadMainViewController.h"
 #import "WizPadListTableControllerBase.h"
 #import "WizPadDocumentViewController.h"
-#import "PadFoldersController.h"
 #import "WizUiTypeIndex.h"
 #import "WizPadNotificationMessage.h"
-#import "PadTagController.h"
 #import "NewNoteView.h"
-#import "WizGlobalData.h"
 #import "WizPadEditNoteController.h"
 #import "WizDictionaryMessage.h"
 #import "UserSttingsViewController.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
 #import "WizPadFoldersViewController.h"
-
 #import "WizPadTagsViewController.h"
+#import "WizFileManager.h"
 
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
 
@@ -30,13 +27,9 @@
 {
     UISegmentedControl* mainSegment;
     UIPopoverController* currentPoperController;
-    UILabel* refreshProcessLabel;
-    UIBarButtonItem* refreshItem;
-    UIBarButtonItem* stopRefreshItem;
-    BOOL syncWillStop;
-    UIButton* refreshButton;
-    //
     NSArray* viewControllers;
+    
+    UIActivityIndicatorView* activityIndicator;
 }
 @property (nonatomic, retain) UIPopoverController* currentPoperController;
 @end
@@ -46,12 +39,10 @@
 
 - (void) dealloc
 {
-    [refreshButton release];
-    [refreshItem release];
-    [stopRefreshItem release];
     [currentPoperController release];
     [mainSegment release];
     //
+    activityIndicator = nil;
     [viewControllers release];
     viewControllers = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -86,7 +77,19 @@
     self.view = controller.view;
 }
 
-
+- (void) popoverController:(UIViewController*)controller fromBarButtonItem:(UIBarButtonItem*)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirection
+{
+    if (self.currentPoperController != nil) {
+        [self.currentPoperController dismissPopoverAnimated:YES];
+        self.currentPoperController = nil;
+    }
+    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:controller];
+    pop.delegate = self;
+    self.currentPoperController = pop;
+    pop.popoverContentSize = CGSizeMake(320, 600);
+    [pop presentPopoverFromBarButtonItem:item permittedArrowDirections:arrowDirection animated:YES];
+    [pop release];
+}
 - (void) newNote
 {
     
@@ -130,57 +133,25 @@
     self.currentPoperController = nil;
 }
 
-- (void) popoverControllerWillDismiss
-{
-    [self.currentPoperController dismissPopoverAnimated:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfPoperviewDismiss object:nil];
-}
-
 - (void) setAccountSettings:(id)sender
 {
-    if (nil != self.currentPoperController) {
-        [currentPoperController dismissPopoverAnimated:YES];
-    }
     UserSttingsViewController* settings = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:settings];
+    [self popoverController:controller fromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionUp];
     [settings release];
-    UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:controller];
     [controller release];
-    self.currentPoperController = pop;
-    [pop release];
-    self.currentPoperController.delegate = self;
-    self.currentPoperController.popoverContentSize = CGSizeMake(320, 600);
-    [self.currentPoperController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popoverControllerWillDismiss) name:MessageOfPoperviewDismiss object:nil];
 }
 - (void) buildToolBar
 {
-
-    
     UIBarButtonItem* flexSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
-    
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setImage:[UIImage imageNamed:@"sync_gray"] forState:UIControlStateNormal];
-    btn.frame = CGRectMake(0.0, 0.0, 44, 44);
-    [btn addTarget:self action:@selector(refreshAccountBegin:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* refreshItem_ = [[UIBarButtonItem alloc] initWithCustomView:btn];
-
-    
-
-
-    refreshProcessLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 44)];
-    [refreshProcessLabel setFont:[UIFont systemFontOfSize:13]];
-    refreshProcessLabel.backgroundColor = [UIColor clearColor];
-    refreshProcessLabel.textAlignment = UITextAlignmentRight;
-    
-     UIBarButtonItem* refreshItemInfo = [[UIBarButtonItem alloc] initWithCustomView:refreshProcessLabel];
-    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,refreshItemInfo,refreshItem, nil];
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIBarButtonItem* refreshItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+    NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem,refreshItem, nil];
     [self setToolbarItems:arr];
-    [refreshItem_ release];
-    [refreshItemInfo release];
     [newNoteItem release];
+    [refreshItem release];
     [flexSpaceItem release];
 }
 
@@ -189,7 +160,6 @@
     UIBarButtonItem* settingItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting1"] style:UIBarButtonItemStyleBordered target:self action:@selector(setAccountSettings:)];
     self.navigationItem.leftBarButtonItem = settingItem;
     [settingItem release];
-    
     UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 44)];
     searchBar.showsCancelButton = YES;
     UIBarButtonItem* searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBar];
@@ -197,21 +167,47 @@
     self.navigationItem.rightBarButtonItem = searchItem;
     [searchItem release];
 }
-
+- (void) addSearchHistory:(NSString*)keyWords  count:(NSInteger)count
+{
+    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSNumber numberWithBool:YES], @"search_local",
+                         keyWords, @"key_words",
+                         [[NSDate date] stringSql] , @"date",
+                         [NSNumber numberWithInt:count], @"count",
+                         nil,nil];
+    NSString* fileNamePath = [[WizFileManager shareManager] searchHistoryFilePath];
+    NSMutableArray* history = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
+    if (!history) {
+        history = [NSMutableArray array];
+    }
+    [history insertObject:dic atIndex:0];
+    [dic writeToFile:fileNamePath atomically:NO];
+    [history writeToFile:fileNamePath atomically:YES];
+}
+- (void) didSelectedSearchHistory:(NSString *)keyWords
+{
+    [self checkDocument:WizPadCheckDocumentSourceTypeOfSearch keyWords:keyWords sourceArray:nil];
+}
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+    SearchHistoryView* historyController = [[SearchHistoryView alloc] init];
+    historyController.historyDelegate = self;
+    [self popoverController:historyController fromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionUp];
 }
 - (void) searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-  
+    if (self.currentPoperController != nil) {
+        [self.currentPoperController dismissPopoverAnimated:YES];
+        self.currentPoperController = nil;
+    }
 }
 
 -  (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
-    [userInfo setObject:searchBar.text forKey:TypeOfCheckDocumentListKey];
-    [userInfo setObject:[NSNumber numberWithInt:WizPadCheckDocumentSourceTypeOfRecent] forKey:TypeOfCheckDocumentListType];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TypeOfCheckDocument object:nil userInfo:userInfo];
+    NSArray* documents = [WizDocument documentsByKey:searchBar.text];
+    [self addSearchHistory:searchBar.text count:[documents count]];
+    [self checkDocument:WizPadCheckDocumentSourceTypeOfSearch keyWords:searchBar.text sourceArray:nil];
+    searchBar.text = @"";
 }
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -231,11 +227,22 @@
     NSNumber* interface = [userInfo valueForKey:TypeOfViewInterface];
     [self willAnimateRotationToInterfaceOrientation:[interface intValue] duration:0.5];
 }
-- (void) checkDocument:(NSInteger)type keyWords:(NSString *)keyWords
+- (void) checkDocument:(NSInteger)type keyWords:(NSString *)keyWords sourceArray:(NSMutableArray *)sourceArray
 {
     WizPadDocumentViewController* check = [[WizPadDocumentViewController alloc] init];
     check.listType = type;
     check.documentListKey = keyWords;
+    if (WizPadCheckDocumentSourceTypeOfRecent == type) {
+        NSMutableArray* source = [[NSMutableArray alloc] init];
+        for (NSMutableArray* each in sourceArray) {
+            NSMutableArray* array = [NSMutableArray arrayWithArray:each];
+            [source addObject:array];
+        }
+        check.documentsArray = source;
+        NSLog(@"init sourceArray%@",source);
+        NSLog(@"sourceArray %@",sourceArray);
+        [source release];
+    }
     [self.navigationController pushViewController:check animated:YES];
     [check release];
 }

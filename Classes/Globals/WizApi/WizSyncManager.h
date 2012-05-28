@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "WizSyncDescriptionDelegate.h"
 #import "WizRefreshDelegate.h"
-@interface WizSyncManager : NSObject <WizRefreshDelegate>
+#import "WizSyncSearchDelegate.h"
+#import "WizApiManagerDelegate.h"
+
+@interface WizSyncManager : NSObject <WizRefreshDelegate,WizApiManagerDelegate>
 {
     NSString* syncDescription;
     id <WizSyncDescriptionDelegate> displayDelegate;
@@ -31,4 +34,6 @@
 - (void) automicSyncData;
 - (BOOL) isSyncing;
 - (void) stopSync;
+//
+- (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate;
 @end

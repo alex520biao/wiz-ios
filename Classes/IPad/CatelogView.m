@@ -32,10 +32,10 @@
         tap.numberOfTouchesRequired =1;
         [self addGestureRecognizer:tap];
         self.userInteractionEnabled = YES;
-        backGroudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0 , width, height-50)];
+        backGroudImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0,0.0 , width, height-60)];
         [self addSubview:backGroudImageView];
         
-        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0,height - 70 , width, 40)];
+        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0,height - 75 , width, 40)];
         nameLabel.numberOfLines = 0;
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textAlignment = UITextAlignmentCenter;
@@ -43,7 +43,7 @@
         [self addSubview:nameLabel];
 
         
-        documentsCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0,height - 30 , width, 20)];
+        documentsCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0,height - 35 , width, 20)];
         documentsCountLabel.backgroundColor = [UIColor clearColor];
         documentsCountLabel.textAlignment = UITextAlignmentCenter;
         documentsCountLabel.textColor = [UIColor lightGrayColor];
@@ -51,6 +51,9 @@
         
         detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 38, 140, 160)];
         detailLabel.numberOfLines = 0;
+        detailLabel.backgroundColor = [UIColor clearColor];
+        detailLabel.textColor = [UIColor grayColor];
+        detailLabel.font = [UIFont systemFontOfSize:13];
         [self addSubview:detailLabel];
         
         self.backgroundColor = [UIColor clearColor];

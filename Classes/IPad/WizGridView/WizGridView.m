@@ -50,6 +50,7 @@
 //        scrollContentHeight = self.gridSectionViewHeight + numberOfSection*(self.gridViewCellSize.height + self.gridViewCellBreakSpace);
 //    }
 //    self.contentSize = CGSizeMake(self.frame.size.width, <#CGFloat height#>)
+    return 9;
 }
 
 - (void) loadNeedDisplayItems

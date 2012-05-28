@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "WizApiManagerDelegate.h"
 #define WizSyncEndMessage   @""
 
 @class WizDocument;
@@ -46,10 +46,12 @@
 	NSURL* accountURL;
 	NSURL* apiURL;
     NSInteger attempts;
-   XMLRPCConnection* connectionXmlrpc;
+    XMLRPCConnection* connectionXmlrpc;
     id<WizApiDelegate> delegate;
     BOOL busy;
     NSString* syncMessage;
+    
+    id <WizApiManagerDelegate> apiManagerDelegate;
 }
 @property (nonatomic, retain) NSURL* accountURL;
 @property (nonatomic, retain) NSString* token;
@@ -58,7 +60,9 @@
 @property (nonatomic, retain) NSString* syncMessage;
 @property (retain) XMLRPCConnection* connectionXmlrpc;
 @property (atomic, readonly) BOOL busy;
-@property (nonatomic, retain) id<WizApiDelegate> delegate;
+@property (nonatomic, assign) id<WizApiDelegate> delegate;
+@property (nonatomic, assign) id <WizApiManagerDelegate> apiManagerDelegate;
+
 -(BOOL) callClientLogin:(NSString*)accountUserId accountPassword:(NSString*)accountPassword;
 -(BOOL) callClientLogout;
 -(BOOL) callGetUserInfo;

@@ -120,7 +120,12 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     NSString* guid = [NSString stringWithString:self.object.guid];
     self.object = nil;
     [WizNotificationCenter postMessageDownloadDone:guid];
-    [self startDownload];
+    if ([downloadQueque count]) {
+        [self startDownload];
+    }
+    else {
+        [self.apiManagerDelegate didApiSyncDone:self];
+    }
 }
 - (BOOL) isDownloadWizObject:(WizObject*)wizObject
 {

@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "WizPadCheckAttachmentDelegate.h"
 @class UIBadgeView;
+
 @interface WizPadDocumentViewController : UIViewController <WizPadCheckAttachmentDelegate,UIWebViewDelegate,UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate>
 {
     NSUInteger listType;
     NSString* documentListKey;
+    NSMutableArray* documentsArray;
 }
 @property  NSUInteger listType;
 @property (nonatomic, retain) NSString* documentListKey;
+@property (nonatomic, retain) NSMutableArray* documentsArray;
 - (void) shrinkDocumentWebView;
 - (void) zoomDocumentWebView;
 @end

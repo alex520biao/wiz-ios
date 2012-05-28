@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizCreateAccount.h"
 @class WizInputView;
-@interface WizPadRegisterController : UIViewController
+@interface WizPadRegisterController : UIViewController <WizCreateAccountDelegate>
 {
     WizInputView* accountEmail;
     WizInputView* accountPassword;

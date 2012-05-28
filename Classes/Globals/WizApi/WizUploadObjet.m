@@ -203,7 +203,12 @@
     self.uploadObject = nil;
     busy = NO;
     self.syncMessage = WizSyncEndMessage;
-    [self startUpload];
+    if ([uploadQueque count]) {
+        [self startUpload];
+    }
+    else {
+        [self.apiManagerDelegate didApiSyncDone:self];
+    }
 }
 
 - (BOOL) isUploadWizObject:(WizObject*)object

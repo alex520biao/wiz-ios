@@ -60,11 +60,8 @@ enum
 @property (assign) BOOL protected_;
 @property int attachmentCount;
 - (NSComparisonResult) compareModifiedDate:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseModifiedDate:(WizDocument*) doc;
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
-- (NSComparisonResult) compareReverseWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
-- (NSComparisonResult) compareReverseCreateDate:(WizDocument*)doc;
 - (BOOL) isNewWebnote;
 - (BOOL) isExistMobileViewFile;
 - (BOOL) isExistAbstractFile;

@@ -40,6 +40,7 @@
 #define WizNoteAppVerSion              @"wizNoteAppVerSion"
 #define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
 #define AutomicSync                     @"AutomicSync"
+#define LastSynchronizedDate            @"LastSynchronizedDate"
 
 @interface WizDeletedGUID : NSObject
 {
@@ -380,6 +381,22 @@ static WizDbManager* shareDbManager = nil;
 {
     NSString* wifiStr = [NSString stringWithFormat:@"%d",wifi?1:0];
     return [self setUserInfo:ConnectServerOnlyByWif info:wifiStr];
+}
+//
+
+- (BOOL) setLastSynchronizedDate:(NSDate*)date
+{
+    NSString* dateStr = [date stringSql];
+    return [self setUserInfo:LastSynchronizedDate info:dateStr];
+}
+
+- (NSDate*) lastSynchronizedDate
+{
+    NSString* dataStr = [self userInfo:LastSynchronizedDate];
+    if (nil == dataStr || [dataStr isBlock]) {
+        return [NSDate date];
+    }
+    return [dataStr dateFromSqlTimeString];
 }
 //
 -(BOOL) setUserTableListViewOption:(int64_t)option

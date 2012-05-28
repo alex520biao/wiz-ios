@@ -14,6 +14,7 @@
 #import "WizGlobals.h"
 
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 @implementation WizPadRegisterController
 @synthesize accountEmail;
 @synthesize accountPassword;
@@ -48,34 +49,19 @@
 {
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
-- (void) xmlrpcDone: (NSNotification*)nc
+- (void) didCreateAccountSucceed
 {
-	if (self.waitAlertView)
-	{
-		[self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-		self.waitAlertView = nil;
-	}
-	//
     NSString* emailString = self.accountEmail.textInputField.text;
     NSString* passwordString = self.accountPassword.textInputField.text;
-	NSDictionary* userInfo = [nc userInfo];
-	//
-	NSString* method = [userInfo valueForKey:@"method"];
-//	if (method != nil && [method isEqualToString:@"accounts.createAccount"])
-//	{
-//		BOOL succeeded = [[userInfo valueForKey:@"succeeded"] boolValue];
-//		if (succeeded)
-//		{
-//			[WizSettings addAccount:emailString password:passwordString];
-//            [self.navigationController dismissModalViewControllerAnimated:NO];
-//            [WizNotificationCenter postPadSelectedAccountMessge:emailString];
-//		}
-//		else {
-//            // null
-//		}
-//	}
+    [self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    [[WizAccountManager defaultManager] addAccount:emailString password:passwordString];
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    [WizNotificationCenter postPadSelectedAccountMessge:emailString];
 }
-
+- (void) didCreateAccountFaild
+{
+    [self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+}
 - (IBAction) registerAccount: (id)sender
 {
 	NSString* error = WizStrError;
@@ -110,36 +96,16 @@
 		[alert release];
 		return;
 	}
-//	//
-//	if (-1 != [WizSettings findAccount:emailString])
-//	{
-//		NSString* msg = [NSString stringWithFormat:WizStrAccounthasalreadyexists, emailString];
-//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:error message:msg delegate:self cancelButtonTitle:WizStrOK otherButtonTitles:nil];
-//		[alert show];
-//		[alert release];
-//		return;
-//	}
-	//
-	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-	//
-	[nc removeObserver:self];
-	//
-//	WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData: emailString];
-//	//
-//	NSString* notificationName = [api notificationName:WizSyncXmlRpcDoneNotificationPrefix];
-//	//
-//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xmlrpcDone:) name:notificationName object:nil];
-//	//
 	UIAlertView* alert = nil;
 	[WizGlobals showAlertView:WizStrCreateAccount message:WizStrPleasewaitwhilecreattingaccount delegate:self retView:&alert];
 	[alert show];
 	//
 	self.waitAlertView = alert;
-	//
-//	[alert release];
-//	//
-//	api.accountPassword = passwordString;
-//	[api createAccount];
+    WizCreateAccount* api = [[WizGlobalData sharedData] createAccountData];
+    api.accountUserId = emailString;
+    api.accountPassword = passwordString;
+    api.createAccountDelegate = self;
+	[api createAccount];
 }
 
 

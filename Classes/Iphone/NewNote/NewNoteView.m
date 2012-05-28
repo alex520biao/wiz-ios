@@ -636,8 +636,6 @@
     NSLog(@"title = %@",self.docEdit.title);
     [self.docEdit saveWithData:self.bodyTextField.text attachments:self.attachmentsArray];
     [self postSelectedMessageToPicker];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfTagViewVillReloadData object:nil userInfo:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfFolderViewVillReloadData object:nil userInfo:nil];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 

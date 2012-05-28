@@ -10,6 +10,7 @@
 #define PADABSTRACTVELLHEIGTH 300
 #import "CatelogView.h"
 @protocol WizCatelogCellViewDeleage <NSObject>
+@optional
 - (CatelogView*) catelogViewForTableView:(UITableView*)tableView;
 - (void) didSelectedCateLogViewForKey:(id)keyWords;
 - (void) setContentForCatelogView:(id)content  catelogView:(CatelogView*)view;

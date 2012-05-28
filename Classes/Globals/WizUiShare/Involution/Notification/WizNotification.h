@@ -56,9 +56,6 @@
 + (void) postMessageRefreshToken:(NSDictionary*)dic;
 + (NSDictionary*) getRefreshTokenDicFromNc:(NSNotification*)nc;
 //
-+ (void) addObserverForTokenUnactiveError:(id)observer  selector:(SEL)selector;
-+ (void) removeObserverForTokenUnactiveError:(id)observer;
-+ (void) postMessageTokenUnactiveError;
 //
 + (void) addObserverForDownloadDone:(id)observer  selector:(SEL)selector;
 + (void) removeObserverForDownloadDone:(id)observer;

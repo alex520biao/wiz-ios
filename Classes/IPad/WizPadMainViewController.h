@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "WizPadViewDocumentDelegate.h"
-@interface WizPadMainViewController : UIViewController <UIPopoverControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIAlertViewDelegate,WizPadViewDocumentDelegate>
-- (void) checkDocument:(NSNotification*)nc;
+#import "SearchHistoryView.h"
+
+@interface WizPadMainViewController : UIViewController <UIPopoverControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIAlertViewDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
 - (void) refreshAccountBegin:(id) sender;
 @end

@@ -95,7 +95,7 @@
     }
     if (self.delegate)
     {
-        NSError* error= [NSError errorWithDomain:@"User canceled" code:10000 userInfo:nil];
+        NSError* error= [NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil];
         [self.delegate xmlrpcDone: self isSucceeded: NO retObject:error forMethod: [self.request method]];
         
     }

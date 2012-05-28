@@ -12,6 +12,7 @@
 @implementation WizSyncSearch
 @synthesize keyWord;
 @synthesize searchDelegate;
+@synthesize isSearching;
 - (void) dealloc
 {
     [keyWord release];
@@ -24,16 +25,25 @@
     NSArray* obj = retObject;
 	[[WizDbManager shareDbManager] updateDocuments:obj];
     [self.searchDelegate didSearchSucceed];
+    isSearching = NO;
+    self.searchDelegate = nil;
+    [self.apiManagerDelegate didApiSyncDone:self];
 }
 - (BOOL) start
 {
     busy = YES;
+    isSearching = YES;
     return [self callDocumentsByKey:self.keyWord];
 }
 - (void) onError:(id)retObject
 {
     busy = NO;
-    [self.searchDelegate didSearchFild];
+    NSError* error = (NSError*)retObject;
+    if (error.code != CodeOfTokenUnActiveError) {
+        isSearching = NO;
+        [self.searchDelegate didSearchFild];
+        self.searchDelegate = nil;
+    }
     [super onError:retObject];
 }
 @end

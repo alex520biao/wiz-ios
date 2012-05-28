@@ -45,7 +45,6 @@
 @property (nonatomic, retain)  ATMHud* downloadActivity;
 @property (assign) BOOL isEdit;
 @property (nonatomic, retain) NSString* fontWidth;
-- (void) downloadDocumentDone;
 -(void)editDocument;
 -(void)viewAttachments;
 -(void)viewDocumentInfo;

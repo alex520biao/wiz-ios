@@ -28,7 +28,6 @@
 }
 - (void) dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfTagViewVillReloadData object:nil];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -61,7 +60,6 @@
 - (void) reloadAllData
 {
     NSArray* tagArray = [[WizDbManager shareDbManager] allTagsForTree];
-    NSLog(@"tagArray count is %d",[tagArray count]);
     tree = [[LocationTreeNode alloc]init] ;
     tree.deep = 0;
     tree.title = @"/";
@@ -116,7 +114,6 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfTagViewVillReloadData object:nil];
     [self reloadAllData];
     self.closedImage = [UIImage imageNamed:@"treePlus"];
     self.expandImage = [UIImage imageNamed:@"treeCut"];

@@ -9,11 +9,20 @@
 #import "WizPadTagsViewController.h"
 #import "WizTagCatelogView.h"
 #import "WizUiTypeIndex.h"
+#import "WizNotification.h"
 @implementation WizPadTagsViewController
+
+- (void) dealloc
+{
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfUpdateTagTable];
     }
     return self;
 }
@@ -42,7 +51,7 @@
 - (void) didSelectedCateLogViewForKey:(id)keyWords
 {
     WizTag* tag = (WizTag*)keyWords;
-    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfTag keyWords:tag.guid];
+    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfTag keyWords:tag.guid sourceArray:nil];
 }
 
 - (void) setContentForCatelogView:(id)content catelogView:(CatelogView *)view

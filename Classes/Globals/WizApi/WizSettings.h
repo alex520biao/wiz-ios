@@ -73,4 +73,7 @@
 - (BOOL) isPasscodeEnable;
 - (void) setEraseDataEnable:(BOOL)enable;
 - (BOOL) isEraseDataEnable;
+//
+- (BOOL) setLastSynchronizedDate:(NSDate*)lastDate;
+- (NSDate*) lastSynchronizeDate;
 @end

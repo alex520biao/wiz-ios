@@ -16,6 +16,7 @@
 #include "stdio.h"
 #import "pinyin.h"
 #import "WizFileManager.h"
+#import "WizSyncSearch.h"
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 #define MD5PART 10*1024
 
@@ -409,6 +410,7 @@ static NSArray* htmlArray;
 {
     return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals excelArray]];
 }
+
 + (NSURL*) wizServerUrl
 {
 //    return [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];

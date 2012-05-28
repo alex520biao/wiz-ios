@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SearchHistoryView.h"
-@class SearchHistoryView;
-@interface SearchViewControllerIphone : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate,WizSearchHistoryDelegate>
+#import "WizSyncSearchDelegate.h"
+@interface SearchViewControllerIphone : UIViewController <WizSyncSearchDelegate,UISearchBarDelegate, UISearchDisplayDelegate,WizSearchHistoryDelegate>
 
 @end

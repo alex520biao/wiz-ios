@@ -15,18 +15,24 @@ static CloudReview* _sharedReview = nil;
     @synchronized([CloudReview class])  
     {  
         if (!_sharedReview)  
-            [[self alloc] init];  
+            _sharedReview = [[CloudReview alloc] init];
         
         return _sharedReview;  
     }  
-    
-    return nil;  
-}  
-+(id)alloc  
+}
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
++(id)alloc
 {  
-    @synchronized([CloudReview class])  
+    @synchronized([CloudReview class])
     {  
-        NSAssert(_sharedReview == nil, @"Attempted to allocate a second instance of a singleton.");  
+        NSAssert(_sharedReview == nil, @"Attempted to allocate a second instance of a singleton.");
         _sharedReview = [super alloc];  
         return _sharedReview;  
     }  

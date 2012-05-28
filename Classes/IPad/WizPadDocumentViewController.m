@@ -46,8 +46,10 @@
     UIWebView* webView;
     UIView* headerView;
     UITableView* documentList;
+    UITableView* potraitTableView;
+    //
     WizDocument* selectedDocument;
-    WizDocumentsMutableArray* documentsArray;
+    
     WizTableOrder kOrderIndex;
     UILabel* documentNameLabel;
     UIBadgeView* attachmentCountBadge;
@@ -59,7 +61,7 @@
     UIBarButtonItem* detailItem;
     UIBarButtonItem* attachmentsItem;
 }
-@property (nonatomic, retain) WizDocumentsMutableArray* documentsArray;
+
 @property (nonatomic, retain) WizDocument* selectedDocument;
 @property (nonatomic, retain)  UIPopoverController* currentPopoverController;
 @end
@@ -76,6 +78,9 @@
     newNoteItem = nil;
     detailItem = nil;
     attachmentsItem = nil;
+    //
+    [potraitTableView release];
+    potraitTableView = nil;
     //
     [attachmentCountBadge release];
     [zoomOrShrinkButton release];
@@ -105,17 +110,29 @@
     if (document == nil) {
         return;
     }
+    NSLog(@"document title delete%@",document.title);
+    NSLog(@"%d",[[self.documentsArray objectAtIndex:0] count]);
     NSIndexPath* docIndex = [self.documentsArray removeDocument:document];
+    NSLog(@"docindex %@",docIndex);
     if (docIndex != nil) {
-        if (docIndex.row == WizDeletedSectionIndex) {
+        if (docIndex.row == WizDeletedSectionIndex)
+        {
             [documentList beginUpdates];
             [documentList deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationTop];
             [documentList endUpdates];
+            
+            [potraitTableView beginUpdates];
+            [potraitTableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationTop];
+            [potraitTableView endUpdates];
         }
         else {
             [documentList beginUpdates];
             [documentList deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
             [documentList endUpdates];
+//            
+            [potraitTableView beginUpdates];
+            [potraitTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
+            [potraitTableView endUpdates];
         }
         
     }
@@ -158,18 +175,13 @@
 - (void) popTheDocumentList
 {
     [self dismissPoperview];
-    UITableView* tableViw = [[UITableView alloc] init];
-    tableViw.dataSource = self;
-    tableViw.delegate = self;
     UIViewController* con = [[UIViewController alloc] init];
-    con.view = tableViw;
+    con.view = potraitTableView;
     UIPopoverController* pop = [[UIPopoverController alloc] initWithContentViewController:con];
     [pop presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     self.currentPopoverController = pop;
-    [tableViw release];
     [pop release];
     [con release];
-    
 }
 - (void) setViewsFrame
 {
@@ -251,77 +263,60 @@
     //
     [WizGlobals decorateViewWithShadowAndBorder:headerView];
 }
-//
-- (NSIndexPath*) indexPathOfDocument:(NSString*)docuemtGUID
-{
-    for (int i = 0; i < [self.documentsArray count]; i++) {
-        NSArray* arr = [documentsArray objectAtIndex:i];
-        for (int docIndex =0; docIndex < [arr count]; docIndex++) {
-            WizDocument* doc = [arr objectAtIndex:docIndex];
-            if ([doc.guid isEqualToString:docuemtGUID]) {
-                return [NSIndexPath indexPathForRow:docIndex inSection:i];
-            }
-        }
-    }
-    return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
-}
-- (NSUInteger) indexOfDocument:(NSString*)guid
-{
-    NSInteger index = 0;
-    for (int i = 0; i < [self.documentsArray count]; i++) {
-        NSArray* arr = [documentsArray objectAtIndex:i];
-        for (WizDocument* each in arr) {
-            index++;
-            if ([each.guid isEqualToString:guid]) {
-                return index;
-            }
-        }
-    }
-    
-    return -1;
-}
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
     [self setViewsFrame];
-    UILabel* count =(UILabel*)documentList.tableHeaderView;
 
 }
 - (void) loadArraySource
 {
-    [self.documentsArray removeAllObjects];
     switch (self.listType) {
         case WizPadCheckDocumentSourceTypeOfRecent:
         {
-            [self.documentsArray addObject:[NSMutableArray arrayWithArray:[WizDocument recentDocuments]]];
-//            if (![self.sourceArray count]) {
-//                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Cannot find %@", nil),self.documentListKey]];
-//            }
+            if ([self.documentsArray count] == 0) {
+                NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument recentDocuments]];
+                [self.documentsArray addObject:array];
+                [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
+            }
             break;
         }
         case WizPadCheckDocumentSourceTypeOfFolder:
         {
+            [self.documentsArray removeAllObjects];
             NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByLocation:self.documentListKey]];
             [self.documentsArray addObject:array];
+            [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
             break;
         }
         case WizPadCheckDocumentSourceTypeOfTag:
         {
+            [self.documentsArray removeAllObjects];
             NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByTag:self.documentListKey]];
             [self.documentsArray addObject:array];
+            [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
+            break;
+        }
+        case WizPadCheckDocumentSourceTypeOfSearch:
+        {
+            [self.documentsArray removeAllObjects];
+            NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument documentsByKey:self.documentListKey]];
+            [self.documentsArray addObject:array];
+            [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
             break;
         }
         default:
         {
+            [self.documentsArray removeAllObjects];
             NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument recentDocuments]];
             [self.documentsArray addObject:array];
             self.selectedDocument = [WizDocument documentFromDb:self.documentListKey];
+            [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
             break;
         }  
     }
-    [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
     [documentList reloadData];
 }
 
@@ -527,36 +522,15 @@
     else {
         [self checkDocument:doc];
     }
-//    if (![[NSFileManager defaultManager] fileExistsAtPath:[index updateObjectDateTempFilePath:doc.guid]]) {
-//        if ([index documentServerChanged:doc.guid]) {
-//            [self downloadDocument:doc.guid];
-//        }
-//        else {
-//            WizIndex* index = [[WizGlobalData sharedData] indexData:self.accountUserId];
-//            NSString* documentFileName = [index documentViewFilename:doc.guid];
-//            if ([[NSFileManager defaultManager] fileExistsAtPath:documentFileName]) {
-//                [self checkDocument:doc.guid];
-//            }
-//            else {
-//                [self downloadDocument:doc.guid];
-//            }
-//        }
-//    }
-//    else {
-//        if (![WizGlobals checkFileIsEncry:[index updateObjectDateTempFilePath:doc.guid]]) {
-//            [self downloadDocument:doc.guid];
-//        }
-//        else {
-//           [self displayEncryInfo]; 
-//        }
-//        
-//    }
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [documentList scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     [self didSelectedDocument:doc];
+    [documentList beginUpdates];
     [documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [documentList endUpdates];
     [documentList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     
 }
@@ -565,6 +539,23 @@
     [super viewDidAppear:animated];
     if (kOrderIndex != [[WizSettings defaultSettings] userTablelistViewOption]) {
         [self loadArraySource];
+    }
+    
+    if (WizPadCheckDocumentSourceTypeOfRecent == self.listType) {
+        WizDocument* document = [WizDocument documentFromDb:self.documentListKey];
+        if (document != nil) {
+            NSIndexPath* indexPath = [self.documentsArray indexPathOfWizDocument:document];
+            if (indexPath != nil && indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
+                [self tableView:documentList didSelectRowAtIndexPath:indexPath];
+            }
+        }
+    }
+    else {
+        if ([self.documentsArray count] >0) {
+            if ([[self.documentsArray objectAtIndex:0] count] > 0) {
+                [self tableView:documentList didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+            }
+        }
     }
 }
 - (void) viewDidDisappear:(BOOL)animated
@@ -592,6 +583,10 @@
     documentList.dataSource = self;
     documentList.delegate = self;
     
+    potraitTableView = [[UITableView alloc] init];
+    potraitTableView.dataSource = self;
+    potraitTableView.delegate = self;
+    
     [WizGlobals decorateViewWithShadowAndBorder:documentList];
 }
 - (void) viewDidLoad
@@ -618,7 +613,6 @@
 {
 
     [self setViewsFrame];
-
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfViewWillOrientent object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:toInterfaceOrientation] forKey:TypeOfViewInterface]];
 }
@@ -684,7 +678,10 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        NSLog(@"document title %@",doc.title);
         [WizDocument deleteDocument:doc];
+        NSLog(@"document title %@",doc.title);
+        NSLog(@"ddd");
     }
 }
 @end

@@ -20,6 +20,14 @@
 #import "WizTableViewController.h"
 #import "WizSettings.h"
 #import "WizUiTypeIndex.h"
+#import "WizSyncManager.h"
+
+@interface WizPadListTableControllerBase ()
+{
+    UILabel* userRemindLabel;
+    UIActivityIndicatorView* syncIndicator;
+}
+@end
 
 @implementation WizPadListTableControllerBase
 @synthesize isLandscape;
@@ -32,14 +40,37 @@
     [WizNotificationCenter removeObserver:self];
     [tableArray release];
     checkDocumentDelegate = nil;
+    
+    [userRemindLabel release];
+    userRemindLabel = nil;
+    
+    [syncIndicator release];
+    syncIndicator = nil;
+    
     [super dealloc];
 }
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfPadTableViewListChangedOrder];
+        NSMutableArray* arr = [NSMutableArray arrayWithCapacity:0];
+        self.tableArray = [NSMutableArray array];
+        [self.tableArray addObject:arr];
         kOrderIndex = -1;
         self.tableArray = [NSMutableArray array];
+        userRemindLabel = [[UILabel alloc] init];
+        syncIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 30, 30)];
+        userRemindLabel.backgroundColor = [UIColor clearColor];;
+        userRemindLabel.textAlignment = UITextAlignmentCenter;
+        userRemindLabel.userInteractionEnabled = NO;
+        userRemindLabel.numberOfLines = 0;
+
+        userRemindLabel.textColor = [UIColor lightTextColor];
+        userRemindLabel.font= [UIFont systemFontOfSize:35];
     }
     return self;
 }
@@ -54,30 +85,33 @@
 {
     return [WizDocument recentDocuments];
 }
+
+- (void) didChangedSyncDescription:(NSString *)description
+{
+    userRemindLabel.text = WizStrLoading;
+    if (description == nil || [description  isBlock]) {
+        userRemindLabel.text = NSLocalizedString(@"You don't have any notes.\n Tap new note to get started!", nil);
+    }
+}
+
 - (void) reloadAllData
 {
     NSArray* documents = [self reloadDocuments];
     if (![documents count]) {
-        UIView* back = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1024, 768)];
-       UILabel* remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(414, 284, 200, 200)];;
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-        {
-           remindLabel.frame = CGRectMake(314, 184, 400, 200);
+        UIView* back =  [[UIView alloc] initWithFrame:self.view.frame];
+        NSLog(@"size is %f %f",back.frame.size.width,back.frame.size.height);
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            userRemindLabel.frame = CGRectMake(312, 184, 400, 400);
         }
-        else
-        {
-           remindLabel.frame = CGRectMake(184, 314, 400, 200);
+        else {
+            userRemindLabel.frame = CGRectMake(184, 312, 400, 400);
         }
-        [back addSubview:remindLabel];
-        remindLabel.numberOfLines = 0;
-        remindLabel.text = NSLocalizedString(@"You don't have any notes.\n Tap new note to get started!", nil);
-        remindLabel.textAlignment = UITextAlignmentCenter;
-        remindLabel.textColor = [UIColor lightTextColor];
-        remindLabel.font= [UIFont systemFontOfSize:35];
-        remindLabel.backgroundColor = [UIColor clearColor];;
+        userRemindLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [back addSubview:userRemindLabel];
+        userRemindLabel.text = NSLocalizedString(@"You don't have any notes.\n Tap new note to get started!", nil);
         self.tableView.backgroundView = back;
         [back release];
-        [remindLabel release];
+        [[WizSyncManager shareManager] setDisplayDelegate:self];
     }
     else
     {
@@ -156,11 +190,10 @@
     else {
         return [[self.tableArray objectAtIndex:section] count]/count  ;
     }
-
 }
 - (void) didSelectedDocument:(WizDocument*)doc
 {
-    [self.checkDocumentDelegate checkDocument:WizPadCheckDocumentSourceTypeOfRecent keyWords:doc.guid];
+    [self.checkDocumentDelegate checkDocument:WizPadCheckDocumentSourceTypeOfRecent keyWords:doc.guid sourceArray:self.tableArray];
 }
 - (void)updateDocument:(NSNotification*)nc
 {
@@ -290,12 +323,7 @@
 {
     self = [super init];
     if (self) {
-        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
-        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
-        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfPadTableViewListChangedOrder];
-        NSMutableArray* arr = [NSMutableArray arrayWithCapacity:0];
-        self.tableArray = [NSMutableArray array];
-        [self.tableArray addObject:arr];
+        
     }
     return self;
 }

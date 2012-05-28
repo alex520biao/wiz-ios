@@ -142,8 +142,8 @@
             [self.folderTagData setObject:@"" forKey:tag.guid];
         }
     }
-    
-    [pool release];
+    [dbManager release];
+    [pool drain];
 }
 
 - (id) init

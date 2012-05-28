@@ -15,6 +15,8 @@
     NSString* passcode;
     NSInteger checkCount;
     UILabel* remindLabel;
+    
+    UIImageView* dilogTileImageView;
 }
 @property (nonatomic, retain) NSString* passcode;
 @end
@@ -30,14 +32,48 @@
     codeViewArray = nil;
     [remindLabel release];
     remindLabel = nil;
+    
+    [dilogTileImageView release];
+    dilogTileImageView = nil;
+    
     [super dealloc];
+}
+- (void) makeViewFrameFit
+{
+    CGFloat codeViewWidth = 0;
+    CGFloat startY=60;
+
+    
+    if ([WizGlobals WizDeviceIsPad] && WizcheckPasscodeTypeOfCheck == self.checkType) {
+        codeViewWidth = 100;
+        dilogTileImageView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.width/320*40);
+        
+        startY = self.view.frame.size.width/320*40 + 30;
+    }
+    else
+    {
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            dilogTileImageView.frame = CGRectMake(0.0, 0.0,0.0,0.0);
+            startY = 10;
+        }
+        else {
+            startY  = 80;
+            dilogTileImageView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.width/320*40);
+        }
+        codeViewWidth = 60;
+    }
+    CGFloat startX = (self.view.frame.size.width -4*codeViewWidth)/5;
+    for (int i = 0; i < [codeViewArray count]; i++) {
+        UIView* each = [codeViewArray objectAtIndex:i];
+        each.frame = CGRectMake(startX + (codeViewWidth + startX)*i, startY, codeViewWidth, codeViewWidth);
+    }
+    remindLabel.frame = CGRectMake(0.0, startY + codeViewWidth+10, self.view.frame.size.width, 20);
 }
 - (void) buildPasscodeView
 {
     NSMutableArray* array = [NSMutableArray arrayWithCapacity:4];
     for (int i = 0 ; i < 4; i ++) {
         UIImageView* view = [[UIImageView alloc] init];
-        view.frame = CGRectMake(15+80*i, 80, 50, 50);
         [self.view addSubview:view];
         view.image = [UIImage imageNamed:@"box_empty"];
         [array addObject:view];
@@ -57,10 +93,9 @@
         [self.view addSubview:text];
         [text release];
         
-        UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title1"]];
-        imageView.frame = CGRectMake(0.0, 0.0, 320, 40);
-        [self.view addSubview:imageView];
-        [imageView release];
+        dilogTileImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dialog_title1"]];
+        dilogTileImageView.frame = CGRectMake(0.0, 0.0, 320, 40);
+        [self.view addSubview:dilogTileImageView];
         
         remindLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 150, 320, 40)];
         remindLabel.textAlignment = UITextAlignmentCenter;
@@ -104,6 +139,8 @@
     [super viewWillAppear:animated];
     [self initCheckCout];
     [passcodeInputField becomeFirstResponder];
+    [self makeViewFrameFit];
+    self.view.backgroundColor = [UIColor colorWithRed:215.0/255.0 green:215.0/255.0 blue:215.0/255.0 alpha:1.0];
 }
 - (void) checkAgain
 {
@@ -194,9 +231,14 @@
     [super viewDidUnload];
 }
 
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self makeViewFrameFit];
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 @end

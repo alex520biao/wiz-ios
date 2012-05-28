@@ -9,16 +9,23 @@
 #import "WizPadFoldersViewController.h"
 #import "WizFolderCatelogView.h"
 #import "WizUiTypeIndex.h"
+#import "WizNotification.h"
 @interface WizPadFoldersViewController ()
 
 @end
 
 @implementation WizPadFoldersViewController
 
+- (void) dealloc
+{
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfUpdateFolderTable];
         // Custom initialization
     }
     return self;
@@ -49,7 +56,7 @@
 - (void) didSelectedCateLogViewForKey:(id)keyWords
 {
     NSString* folder = (NSString*)keyWords;
-    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfFolder keyWords:folder];
+    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfFolder keyWords:folder sourceArray:nil];
 }
 
 - (void) setContentForCatelogView:(id)content catelogView:(CatelogView *)view

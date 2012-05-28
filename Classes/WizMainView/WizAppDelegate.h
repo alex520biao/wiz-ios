@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WizSyncDescriptionDelegate.h"
-@class UINavigationController;
 @interface WizAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 }

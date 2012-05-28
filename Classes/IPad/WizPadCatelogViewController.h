@@ -16,4 +16,5 @@
 }
 @property (nonatomic, assign)  id <WizPadViewDocumentDelegate> checkDelegate;
 - (NSArray*) catelogDataSourceArray;
+- (void) reloadAllData;
 @end

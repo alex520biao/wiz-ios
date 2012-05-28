@@ -57,4 +57,7 @@
 //
 - (BOOL) setAutomicSync:(BOOL)automicSync;
 - (BOOL) isAutomicSync;
+//
+- (BOOL) setLastSynchronizedDate:(NSDate*)date;
+- (NSDate*) lastSynchronizedDate;
 @end

@@ -44,6 +44,7 @@
 @synthesize delegate;
 @synthesize busy;
 @synthesize syncMessage;
+@synthesize apiManagerDelegate;
 -(int) listCount
 {
 	return 50;
@@ -77,6 +78,8 @@
     [accountURL release];
     [apiURL release];
     [syncMessage release];
+    delegate = nil;
+    apiManagerDelegate = nil;
     [[WizSyncManager shareManager] removeObserver:self forKeyPath:@"syncMessage"];
 	[super dealloc];
 }
@@ -506,11 +509,11 @@
         NSError* error = (NSError*)retObject;
         if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
         {
-            [WizNotificationCenter postMessageTokenUnactiveError];
+            [self.apiManagerDelegate didApiSyncError:self error:error];
         }
         else if (error.code == NSInvaildUrlErrorCode && [error.domain isEqualToString:NSURLErrorDomain])
         {
-            [WizNotificationCenter postMessageTokenUnactiveError];
+            [self.apiManagerDelegate didApiSyncError:self error:[WizGlobalError tokenUnActiveError]];
         }
         else if (error.code == NSOvertimeErrorCode && [error.domain isEqualToString:NSURLErrorDomain])
         {
@@ -520,6 +523,9 @@
         {
             [self cancel];
         }
+        else if (error.code == NSUserCancelError && [error.domain isEqualToString:WizErrorDomain]) {
+            return;
+        }
         else {
             [WizGlobals reportError:retObject];
         }
@@ -528,6 +534,7 @@
 -(void) cancel
 {
     busy = NO;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     if (self.connectionXmlrpc)
     {
         [self.connectionXmlrpc cancel];

@@ -49,8 +49,11 @@
 }
 - (void) reloadAllData
 {
+    self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [dataArray removeAllObjects];
     [dataArray addObjectsFromArray:[self catelogDataSourceArray]];
+    [self.tableView reloadData];
 }
 - (void)viewDidLoad
 {

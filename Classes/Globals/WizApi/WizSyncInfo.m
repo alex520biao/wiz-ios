@@ -11,6 +11,7 @@
 #import "WizGlobalData.h"
 #import "WizSyncManager.h"
 #import "WizNotification.h"
+#import "WizSettings.h"
 
 @implementation WizSyncInfo
 @synthesize dbDelegate;
@@ -91,6 +92,8 @@
     }
     busy = NO;
     self.syncMessage = WizSyncEndMessage;
+    [self.apiManagerDelegate didApiSyncDone:self];
+    [[WizSettings defaultSettings] setLastSynchronizedDate:[NSDate date]];
 }
 -(void) onDownloadDocumentList: (id)retObject
 {
@@ -106,6 +109,7 @@
     else {
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+        [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
         [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
     }
 }

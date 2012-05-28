@@ -79,7 +79,7 @@
     WizPasscodeViewController* check = [[WizPasscodeViewController alloc] init];
     check.checkType = WizcheckPasscodeTypeOfCheck;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:check];
-    nav.modalPresentationStyle = UIModalPresentationFormSheet;
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.window.rootViewController presentModalViewController:nav animated:NO];
     [check release];
     [nav release];

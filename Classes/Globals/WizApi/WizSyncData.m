@@ -9,10 +9,12 @@
 #import "WizSyncData.h"
 #import "WizSettings.h"
 #import "WizDbManager.h"
+#import "WizSyncSearch.h"
 #define SyncDataOfUploader      @"SyncDataOfUploader"
 #define SyncDataOfDownloader    @"SyncDataOfDownloader"
 #define SyncDataOfRefreshToken  @"SyncDataOfRefreshToken"
 #define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
+#define SyncDataOfSyncSearch    @"SyncDataOfSyncSearch"
 
 @implementation NSMutableDictionary (Wizself)
 
@@ -44,6 +46,17 @@
         data = [[WizRefreshToken alloc] init];
         [data setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];
         [self setObject:data forKey:SyncDataOfRefreshToken];
+        [data release];
+    }
+    return data;
+}
+- (WizSyncSearch*) shareSearch
+{
+    WizSyncSearch* data = [self valueForKey:SyncDataOfSyncSearch];
+    NSLog(@"SyncInfo data %@",data);
+    if (nil == nil || ![data isKindOfClass:[WizSyncSearch class]]) {
+        data = [[WizSyncSearch alloc] init];
+        [self setObject:data forKey:SyncDataOfSyncSearch];
         [data release];
     }
     return data;

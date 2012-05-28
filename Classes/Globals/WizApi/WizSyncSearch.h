@@ -12,7 +12,9 @@
 {
     NSString* keyWord;
     id<WizSyncSearchDelegate> searchDelegate;
+    BOOL isSearching;
 }
 @property (nonatomic, retain) NSString* keyWord;
 @property (nonatomic, retain) id<WizSyncSearchDelegate> searchDelegate;
+@property (readonly) BOOL isSearching;
 @end

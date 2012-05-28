@@ -192,7 +192,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         abstractImageView.image = abstractData.image;
     }
     else {
-        abstractImageView.image = [[DocumentListViewCell documentNoDataImage] retain];
+        abstractImageView.image = [DocumentListViewCell documentNoDataImage];
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

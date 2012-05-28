@@ -12,12 +12,14 @@
 #import "WizDownloadObject.h"
 #import "WizSyncInfo.h"
 
+@class WizSyncSearch;
 
 @interface NSMutableDictionary (WizSyncData)
 - (WizUploadObjet*) shareUploader;
 - (WizDownloadObject*) shareDownloader;
 - (WizRefreshToken*) shareRefreshTokener;
 - (WizSyncInfo*) shareSyncInfo;
+- (WizSyncSearch*) shareSearch;
 - (void) removeShareUploder;
 - (void) removeShareDownload;
 - (void) removeShareRefreshTokener;
