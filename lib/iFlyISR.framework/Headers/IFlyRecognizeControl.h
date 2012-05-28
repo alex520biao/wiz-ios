@@ -1,9 +1,10 @@
 //
 //  IFlyRecognizeControl.h
 //
-//  Description: 语言识别控件
+//  Description: 语音识别控件
 //
 //  Created by 陈阳 on 11-2-23.
+//  E_mail: yangchen@iflytek.com
 //  Copyright 2011 iFLYTEK. All rights reserved.
 //
 //	Important History:

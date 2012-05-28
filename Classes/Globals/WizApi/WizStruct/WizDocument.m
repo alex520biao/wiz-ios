@@ -422,6 +422,11 @@ BOOL isReverseMask(NSInteger mask)
             }
         }
     }
+    MKPlacemark* placeMark = [[WizSettings defaultSettings] getCurrentPlaceMark];
+    NSLog(@"location %@",placeMark);
+    if (nil != placeMark) {
+        self.title = [self.title stringByAppendingString:placeMark.description];
+    }
     NSString* html = [self wizHtmlString:self.title body:textBody attachments:photoAndAudios];
     NSString* documentIndex = [self documentIndexFile];
     [html writeToFile:documentIndex atomically:YES encoding:NSUTF16StringEncoding error:nil];

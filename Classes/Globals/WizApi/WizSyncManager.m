@@ -268,6 +268,10 @@ static WizSyncManager* shareManager;
     }
 }
 
+- (void) didChangedSyncDescriptorMessage:(NSString *)descriptorMessage
+{
+    
+}
 //
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject
 {

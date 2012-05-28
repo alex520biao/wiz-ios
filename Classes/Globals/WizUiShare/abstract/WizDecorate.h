@@ -8,12 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
-#import "TTTAttributedLabel.h"
 @interface WizDecorate : NSObject
 
 + (UIFont*) nameFont;
-+ (NSDictionary*) getDetailAttributes;
-+ (NSDictionary*) getNameAttributes;
-+ (NSDictionary*) getTimeAttributes;
 + (NSString*) nameToDisplay:(NSString*)str   width:(CGFloat)width;
 @end

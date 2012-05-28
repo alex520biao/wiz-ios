@@ -23,11 +23,14 @@
 	AVAudioSession *session;
     NSTimer* timer;
     NSMutableString* currentRecodingFilePath;
-
+    
+    
+    
 }
 @property (retain) AVAudioRecorder* recorder;
 @property (retain) AVAudioSession* session;
 @property (retain) NSTimer* timer;
+
 @property (nonatomic, retain)  NSMutableString* currentRecodingFilePath;
 
 @end

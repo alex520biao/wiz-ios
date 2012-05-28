@@ -25,6 +25,9 @@
 
 #define NOSUPPOURTALERT 199
 
+#define AttachmentCountBadgeViewLandscapeFrame CGRectMake(175  ,0.0 , 20, 20)
+#define AttachmentCountBadgeViewPotraitFrame    CGRectMake(125  , 0.0 , 20, 20)
+
 @interface DocumentViewCtrollerBase()
 {
     NSString* fontWidth;
@@ -37,6 +40,8 @@
     UISearchBar* searchDocumentBar;
     UIAlertView* conNotDownloadAlert;
     ATMHud* downloadActivity;
+    
+    UIBadgeView* attachmentCountBadgeView;
     BOOL isEdit;
 }
 @property (nonatomic, retain)  UIWebView* web;
@@ -66,6 +71,8 @@
         web = [[UIWebView alloc] init];
         web.delegate = self;
         downloadActivity = [[ATMHud alloc] initWithDelegate:self];
+        
+        attachmentCountBadgeView = [[UIBadgeView alloc] init];
     }
     return self;
 }
@@ -86,6 +93,8 @@
     [searchDocumentBar release];
     [conNotDownloadAlert release];
     [downloadActivity release];
+    [attachmentCountBadgeView release];
+    
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -105,21 +114,42 @@
   
     
 }
+
+- (void) loadReadJs
+{
+    NSString* url = self.doc.url;
+    NSString* type = self.doc.type;
+    NSString* width = nil;
+    
+    [self.navigationController.toolbar bringSubviewToFront:attachmentCountBadgeView];
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        width = UIWebViewWidthForIphoneLandscape;
+        attachmentCountBadgeView.frame = AttachmentCountBadgeViewLandscapeFrame;
+    }
+    else {
+        width = UIWebViewWidthForIphonePotrait;
+        attachmentCountBadgeView.frame = AttachmentCountBadgeViewPotraitFrame;
+    }
+    
+    if ([[WizSettings defaultSettings] isMoblieView])
+    {
+        [web setCurrentPageWidth:width];
+    }else {
+        if ([self.doc isIosDocument] || (url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+            [web setCurrentPageWidth:width];
+        }
+    }
+    if ([self.doc isIosDocument]) {
+        [web setTableAndImageWidth:width];
+    }
+}
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
     [self.downloadActivity hide];
+    [webView loadReadJavaScript];
+    [self loadReadJs];
     [self setToolbarItemsEnable:YES];
-    NSString* url = self.doc.url;
-    NSString* type = self.doc.type;
-    if ([[WizSettings defaultSettings] isMoblieView]) {
-        [self setDeviceWidth];
-    }
-    else {
-        [self setZoomWidth];
-    }
-    if ([self.doc isIosDocument] || (url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-        [webView loadIphoneReadScript:self.fontWidth];
-    }
+    
 }
 - (void) setDeviceWidth
 {
@@ -347,12 +377,11 @@
     [super viewWillAppear:animated];
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
-        UIBarButtonItem* itmes =  [self.toolbarItems objectAtIndex:1];
-        UIBadgeView* count = [[UIBadgeView alloc] initWithFrame:CGRectMake(125  , 370, 20, 20)];
-        count.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
-        [self.view addSubview:count];
-        [count release];
-        [itmes.customView addSubview:count];
+        attachmentCountBadgeView.frame = AttachmentCountBadgeViewPotraitFrame;
+        attachmentCountBadgeView.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+    }
+    else {
+        attachmentCountBadgeView.hidden = YES;
     }
     self.title = self.doc.title;
     if (self.isEdit) {
@@ -378,6 +407,7 @@
         }
     }
     [self.navigationController setToolbarHidden:NO animated:YES];
+    [self.navigationController.toolbar addSubview:attachmentCountBadgeView];
     [self setToolbarItemsEnable:NO];
 }
 - (void) changeToolBarStatue:(UITapGestureRecognizer*)sender
@@ -411,6 +441,8 @@
     [attachment release];
     [search release];
     [self setToolbarItems:array];
+    
+    [self.view addSubview:attachmentCountBadgeView];
 }
 
 - (void)viewDidLoad
@@ -434,5 +466,12 @@
 {
     return NO;
 }
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self loadReadJs];
+}
+
 @end
 

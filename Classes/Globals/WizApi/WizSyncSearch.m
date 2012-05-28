@@ -39,7 +39,7 @@
 {
     busy = NO;
     NSError* error = (NSError*)retObject;
-    if (error.code != CodeOfTokenUnActiveError) {
+    if (error.code != CodeOfTokenUnActiveError && error.code != NSInvaildUrlErrorCode) {
         isSearching = NO;
         [self.searchDelegate didSearchFild];
         self.searchDelegate = nil;

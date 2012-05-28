@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#define UIWebViewWidthForIphoneLandscape    @"480px"
+#define UIWebViewWidthForIphonePotrait      @"320px"
+
 @interface UIWebView (WizTools)
 - (NSInteger)highlightAllOccurencesOfString:(NSString*)str;
 - (void)removeAllHighlights;
 - (BOOL) containImages;
 - (NSString*) bodyText;
-- (void) loadIphoneReadScript:(NSString*)width;
+- (void) loadReadJavaScript;
+- (void) setTableAndImageWidth:(NSString*)width;
+- (void) setCurrentPageWidth:(NSString*)width;
 @end

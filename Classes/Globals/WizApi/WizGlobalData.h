@@ -22,8 +22,6 @@
 - (void) removeShareObjectData:(NSString*) dataType   userId:(NSString*) userId;
 - (UIImage*) documentIconWithoutData;
 - (void) removeAccountData:(NSString*)userId;
-- (NSDictionary*) attributesForDocumentListName;
-- (NSDictionary*) attributesForAbstractViewParagraphPad;
 - (NSNotificationCenter*) wizNotificationCenter;
 + (WizGlobalData*) sharedData;
 + (void) deleteShareData;

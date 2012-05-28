@@ -18,8 +18,6 @@
 		448E16531475037500E1D10A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448E16521475037500E1D10A /* AVFoundation.framework */; };
 		4490D61F14824B990091E3C0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4490D61E14824B990091E3C0 /* AssetsLibrary.framework */; };
 		4495588A148614130014072A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44955889148614120014072A /* QuartzCore.framework */; };
-		4495D51114BAA5930045F1EA /* iFlyISR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D50F14BAA5930045F1EA /* iFlyISR.framework */; };
-		4495D51214BAA5930045F1EA /* iFlyTTS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D51014BAA5930045F1EA /* iFlyTTS.framework */; };
 		4495D51F14BAB5600045F1EA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D51E14BAB5600045F1EA /* AudioToolbox.framework */; };
 		4495D52114BAB5870045F1EA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52014BAB5870045F1EA /* CFNetwork.framework */; };
 		4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */; };
@@ -57,6 +55,7 @@
 		732CFFA4155CEE5300F9F779 /* box_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732CFFA0155CEE5300F9F779 /* box_empty@2x.png */; };
 		732CFFA5155CEE5300F9F779 /* box_filled.png in Resources */ = {isa = PBXBuildFile; fileRef = 732CFFA1155CEE5300F9F779 /* box_filled.png */; };
 		732CFFA6155CEE5300F9F779 /* box_filled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732CFFA2155CEE5300F9F779 /* box_filled@2x.png */; };
+		7330E60A15737B7F003A14BC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7330E60915737B7E003A14BC /* CoreLocation.framework */; };
 		7339C824156CE95700F93D6F /* downloadIndicator1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7339C820156CE95700F93D6F /* downloadIndicator1.png */; };
 		7339C825156CE95700F93D6F /* downloadIndicator2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7339C821156CE95700F93D6F /* downloadIndicator2.png */; };
 		7339C826156CE95700F93D6F /* downloadIndicator3.png in Resources */ = {isa = PBXBuildFile; fileRef = 7339C822156CE95700F93D6F /* downloadIndicator3.png */; };
@@ -76,6 +75,7 @@
 		736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DEA541552843D00633B89 /* MBProgressHUD.m */; };
 		736EBAAB1544F76A00D97ACB /* WizDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 736EBAAA1544F76A00D97ACB /* WizDocument.m */; };
 		737675BB156645470061FFCF /* WizGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 737675BA156645470061FFCF /* WizGridView.m */; };
+		7376C069157381A900DE74D3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7376C068157381A900DE74D3 /* MapKit.framework */; };
 		737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AA150DB84B0029A967 /* WizTableViewController.m */; };
 		737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B530C151EEA1200CE3656 /* WizIphoneLoginViewController.m */; };
 		737B5311151EED5800CE3656 /* WizIphoneLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 737B5313151EED5800CE3656 /* WizIphoneLoginViewController.xib */; };
@@ -87,12 +87,19 @@
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
 		7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738611491558BD86005C710C /* PhTagListViewController.m */; };
 		738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */; };
-		738DA46F14FC92850075BFC9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 738DA46E14FC92850075BFC9 /* Reachability.m */; };
 		739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 739BE7B1153E524100057601 /* NSArray+WizTools.m */; };
 		739DF1DF155BC35900863D5F /* WizSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1DE155BC35900863D5F /* WizSwitchCell.m */; };
 		739DF1E2155BC5CC00863D5F /* WizSingleSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1E1155BC5CC00863D5F /* WizSingleSelectViewController.m */; };
 		739DF1E6155BD89D00863D5F /* NSArray+WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1E5155BD89D00863D5F /* NSArray+WizSetting.m */; };
 		73A18BF3155B6EED00E1324C /* WizObject+WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */; };
+		73A4295F157388AE00479A42 /* iFlyISR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A4294E157388AE00479A42 /* iFlyISR.framework */; };
+		73A42960157388AE00479A42 /* iFlyTTS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A4294F157388AE00479A42 /* iFlyTTS.framework */; };
+		73A42961157388AE00479A42 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42953157388AE00479A42 /* NSObject+SBJSON.m */; };
+		73A42962157388AE00479A42 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42955157388AE00479A42 /* NSString+SBJSON.m */; };
+		73A42963157388AE00479A42 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42957157388AE00479A42 /* SBJsonBase.m */; };
+		73A42964157388AE00479A42 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42959157388AE00479A42 /* SBJsonParser.m */; };
+		73A42965157388AE00479A42 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295B157388AE00479A42 /* SBJsonWriter.m */; };
+		73A42966157388AE00479A42 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295E157388AE00479A42 /* Reachability.m */; };
 		73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */; };
 		73A7855814F8CC23001387F6 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841C14F8CC22001387F6 /* index.cpp */; };
 		73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841E14F8CC22001387F6 /* tempIndex.cpp */; };
@@ -163,7 +170,6 @@
 		73A785D314F8CC23001387F6 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852414F8CC22001387F6 /* TFHpple.m */; };
 		73A785D414F8CC23001387F6 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852614F8CC22001387F6 /* TFHppleElement.m */; };
 		73A785D514F8CC23001387F6 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852814F8CC22001387F6 /* XPathQuery.m */; };
-		73A785D614F8CC23001387F6 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852B14F8CC22001387F6 /* TTTAttributedLabel.m */; };
 		73A785D714F8CC23001387F6 /* UIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7852E14F8CC22001387F6 /* UIBadgeView.m */; };
 		73A785D814F8CC23001387F6 /* UIView-TagExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7853114F8CC23001387F6 /* UIView-TagExtensions.m */; };
 		73A785D914F8CC23001387F6 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7853414F8CC23001387F6 /* GDataXMLNode.m */; };
@@ -357,8 +363,6 @@
 		448E16521475037500E1D10A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		4490D61E14824B990091E3C0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		44955889148614120014072A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		4495D50F14BAA5930045F1EA /* iFlyISR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyISR.framework; sourceTree = "<group>"; };
-		4495D51014BAA5930045F1EA /* iFlyTTS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyTTS.framework; sourceTree = "<group>"; };
 		4495D51E14BAB5600045F1EA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		4495D52014BAB5870045F1EA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -417,6 +421,7 @@
 		732CFFA2155CEE5300F9F779 /* box_filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "box_filled@2x.png"; sourceTree = "<group>"; };
 		732FE31C154A423B0047B665 /* WizAbstractDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstractDbDelegate.h; path = WizDbManger/WizAbstractDbDelegate.h; sourceTree = "<group>"; };
 		7330E608157352F6003A14BC /* WizApiManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiManagerDelegate.h; sourceTree = "<group>"; };
+		7330E60915737B7E003A14BC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		73350364156F3C6F00FECA49 /* WizRefreshDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizRefreshDelegate.h; sourceTree = "<group>"; };
 		7339C820156CE95700F93D6F /* downloadIndicator1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadIndicator1.png; sourceTree = "<group>"; };
 		7339C821156CE95700F93D6F /* downloadIndicator2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadIndicator2.png; sourceTree = "<group>"; };
@@ -455,6 +460,7 @@
 		73728D2F156B98B700FA41AA /* WizPadViewDocumentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadViewDocumentDelegate.h; sourceTree = "<group>"; };
 		737675B9156645470061FFCF /* WizGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGridView.h; path = WizGridView/WizGridView.h; sourceTree = "<group>"; };
 		737675BA156645470061FFCF /* WizGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGridView.m; path = WizGridView/WizGridView.m; sourceTree = "<group>"; };
+		7376C068157381A900DE74D3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		737999A9150DB84B0029A967 /* WizTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewController.h; sourceTree = "<group>"; };
 		737999AA150DB84B0029A967 /* WizTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewController.m; sourceTree = "<group>"; };
 		737B530B151EEA1200CE3656 /* WizIphoneLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizIphoneLoginViewController.h; sourceTree = "<group>"; };
@@ -475,8 +481,6 @@
 		738B80A6155135300005FD33 /* WizEditItemBackgroudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditItemBackgroudView.h; sourceTree = "<group>"; };
 		738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditItemBackgroudView.m; sourceTree = "<group>"; };
 		738CD277156E23560001617D /* WizPadCheckAttachmentDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachmentDelegate.h; sourceTree = "<group>"; };
-		738DA46D14FC92850075BFC9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		738DA46E14FC92850075BFC9 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		739BE7B0153E524100057601 /* NSArray+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+WizTools.h"; path = "WizTools/NSArray+WizTools.h"; sourceTree = "<group>"; };
 		739BE7B1153E524100057601 /* NSArray+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+WizTools.m"; path = "WizTools/NSArray+WizTools.m"; sourceTree = "<group>"; };
 		739DF1DD155BC35900863D5F /* WizSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSwitchCell.h; sourceTree = "<group>"; };
@@ -489,6 +493,21 @@
 		739FCA891557BD3E009C0E5F /* WizChangePasswordDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizChangePasswordDelegate.h; path = WizSyncManager/WizChangePasswordDelegate.h; sourceTree = "<group>"; };
 		73A18BF1155B6EED00E1324C /* WizObject+WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WizObject+WizSync.h"; sourceTree = "<group>"; };
 		73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WizObject+WizSync.m"; sourceTree = "<group>"; };
+		73A4294E157388AE00479A42 /* iFlyISR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyISR.framework; sourceTree = "<group>"; };
+		73A4294F157388AE00479A42 /* iFlyTTS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyTTS.framework; sourceTree = "<group>"; };
+		73A42951157388AE00479A42 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		73A42952157388AE00479A42 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		73A42953157388AE00479A42 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		73A42954157388AE00479A42 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		73A42955157388AE00479A42 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		73A42956157388AE00479A42 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		73A42957157388AE00479A42 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		73A42958157388AE00479A42 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		73A42959157388AE00479A42 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		73A4295A157388AE00479A42 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		73A4295B157388AE00479A42 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		73A4295D157388AE00479A42 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		73A4295E157388AE00479A42 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
 		73A7841B14F8CC22001387F6 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
 		73A7841C14F8CC22001387F6 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -630,8 +649,6 @@
 		73A7852614F8CC22001387F6 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
 		73A7852714F8CC22001387F6 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		73A7852814F8CC22001387F6 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
-		73A7852A14F8CC22001387F6 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
-		73A7852B14F8CC22001387F6 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		73A7852D14F8CC22001387F6 /* UIBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBadgeView.h; sourceTree = "<group>"; };
 		73A7852E14F8CC22001387F6 /* UIBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBadgeView.m; sourceTree = "<group>"; };
 		73A7853014F8CC23001387F6 /* UIView-TagExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView-TagExtensions.h"; sourceTree = "<group>"; };
@@ -863,13 +880,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7376C069157381A900DE74D3 /* MapKit.framework in Frameworks */,
+				7330E60A15737B7F003A14BC /* CoreLocation.framework in Frameworks */,
 				4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */,
 				73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */,
 				4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */,
 				4495D52114BAB5870045F1EA /* CFNetwork.framework in Frameworks */,
 				4495D51F14BAB5600045F1EA /* AudioToolbox.framework in Frameworks */,
-				4495D51114BAA5930045F1EA /* iFlyISR.framework in Frameworks */,
-				4495D51214BAA5930045F1EA /* iFlyTTS.framework in Frameworks */,
 				4488C0E114AC5C17001C162D /* libicucore.dylib in Frameworks */,
 				4495588A148614130014072A /* QuartzCore.framework in Frameworks */,
 				442D1E8A1484D2AB00DC7221 /* libz.1.2.5.dylib in Frameworks */,
@@ -880,6 +897,8 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				3072578E132496BB009DA753 /* libxml2.dylib in Frameworks */,
 				30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */,
+				73A4295F157388AE00479A42 /* iFlyISR.framework in Frameworks */,
+				73A42960157388AE00479A42 /* iFlyTTS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,6 +916,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				7376C068157381A900DE74D3 /* MapKit.framework */,
 				73A7840714F8CC22001387F6 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -936,12 +956,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73A4294D157388AE00479A42 /* lib */,
+				7330E60915737B7E003A14BC /* CoreLocation.framework */,
 				73CAAA1C14EA388500D5FF9B /* MessageUI.framework */,
 				4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */,
 				4495D52014BAB5870045F1EA /* CFNetwork.framework */,
 				4495D51E14BAB5600045F1EA /* AudioToolbox.framework */,
-				4495D50F14BAA5930045F1EA /* iFlyISR.framework */,
-				4495D51014BAA5930045F1EA /* iFlyTTS.framework */,
 				4497AA7114B1971D002A2E4A /* CoreText.framework */,
 				4488C0E014AC5C17001C162D /* libicucore.dylib */,
 				44955889148614120014072A /* QuartzCore.framework */,
@@ -1176,15 +1196,6 @@
 			name = EidtNote;
 			sourceTree = "<group>";
 		};
-		738DA46C14FC92850075BFC9 /* NetworkDetect */ = {
-			isa = PBXGroup;
-			children = (
-				738DA46D14FC92850075BFC9 /* Reachability.h */,
-				738DA46E14FC92850075BFC9 /* Reachability.m */,
-			);
-			path = NetworkDetect;
-			sourceTree = "<group>";
-		};
 		739BE7AF153E521400057601 /* WizTools */ = {
 			isa = PBXGroup;
 			children = (
@@ -1218,6 +1229,44 @@
 				73E9C58F1563B0ED00CA6F91 /* NSMutableArray+WizDocuments.m */,
 			);
 			name = WizTools;
+			sourceTree = "<group>";
+		};
+		73A4294D157388AE00479A42 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				73A4294E157388AE00479A42 /* iFlyISR.framework */,
+				73A4294F157388AE00479A42 /* iFlyTTS.framework */,
+				73A42950157388AE00479A42 /* JSON */,
+				73A4295C157388AE00479A42 /* Reachability */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		73A42950157388AE00479A42 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				73A42951157388AE00479A42 /* JSON.h */,
+				73A42952157388AE00479A42 /* NSObject+SBJSON.h */,
+				73A42953157388AE00479A42 /* NSObject+SBJSON.m */,
+				73A42954157388AE00479A42 /* NSString+SBJSON.h */,
+				73A42955157388AE00479A42 /* NSString+SBJSON.m */,
+				73A42956157388AE00479A42 /* SBJsonBase.h */,
+				73A42957157388AE00479A42 /* SBJsonBase.m */,
+				73A42958157388AE00479A42 /* SBJsonParser.h */,
+				73A42959157388AE00479A42 /* SBJsonParser.m */,
+				73A4295A157388AE00479A42 /* SBJsonWriter.h */,
+				73A4295B157388AE00479A42 /* SBJsonWriter.m */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		73A4295C157388AE00479A42 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				73A4295D157388AE00479A42 /* Reachability.h */,
+				73A4295E157388AE00479A42 /* Reachability.m */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		73A7840714F8CC22001387F6 /* Classes */ = {
@@ -1481,14 +1530,12 @@
 			children = (
 				73C0A40F156A39B2002EDFE4 /* ATMHud */,
 				736DEA521552843D00633B89 /* MBProcessHUD */,
-				738DA46C14FC92850075BFC9 /* NetworkDetect */,
 				73A784F914F8CC22001387F6 /* CloudReview */,
 				73A784FC14F8CC22001387F6 /* ElcMutilSeleted */,
 				73A7850B14F8CC22001387F6 /* minizip */,
 				73A7851714F8CC22001387F6 /* NSDateAddtion */,
 				73A7851C14F8CC22001387F6 /* Pinyin */,
 				73A7852214F8CC22001387F6 /* TFHpple */,
-				73A7852914F8CC22001387F6 /* TTTAttributeLabel */,
 				73A7852C14F8CC22001387F6 /* UIbadge */,
 				73A7852F14F8CC23001387F6 /* UIViewTag */,
 				73A7853214F8CC23001387F6 /* xml-rpc */,
@@ -1575,15 +1622,6 @@
 				73A7852814F8CC22001387F6 /* XPathQuery.m */,
 			);
 			path = TFHpple;
-			sourceTree = "<group>";
-		};
-		73A7852914F8CC22001387F6 /* TTTAttributeLabel */ = {
-			isa = PBXGroup;
-			children = (
-				73A7852A14F8CC22001387F6 /* TTTAttributedLabel.h */,
-				73A7852B14F8CC22001387F6 /* TTTAttributedLabel.m */,
-			);
-			path = TTTAttributeLabel;
 			sourceTree = "<group>";
 		};
 		73A7852C14F8CC22001387F6 /* UIbadge */ = {
@@ -2251,7 +2289,6 @@
 				73A785D314F8CC23001387F6 /* TFHpple.m in Sources */,
 				73A785D414F8CC23001387F6 /* TFHppleElement.m in Sources */,
 				73A785D514F8CC23001387F6 /* XPathQuery.m in Sources */,
-				73A785D614F8CC23001387F6 /* TTTAttributedLabel.m in Sources */,
 				73A785D714F8CC23001387F6 /* UIBadgeView.m in Sources */,
 				73A785D814F8CC23001387F6 /* UIView-TagExtensions.m in Sources */,
 				73A785D914F8CC23001387F6 /* GDataXMLNode.m in Sources */,
@@ -2265,7 +2302,6 @@
 				73A785E414F8CC23001387F6 /* WizAppDelegate.m in Sources */,
 				73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */,
 				73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */,
-				738DA46F14FC92850075BFC9 /* Reachability.m in Sources */,
 				734CA13B1504597D002549CB /* FoldersViewControllerNew.m in Sources */,
 				734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */,
 				734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */,
@@ -2331,6 +2367,12 @@
 				73EDCC41156C81680077F224 /* WizPadCatelogViewController.m in Sources */,
 				73FBB846156C863A008FC4BC /* WizPadFoldersViewController.m in Sources */,
 				73FBB851156C888E008FC4BC /* WizFolderCatelogView.m in Sources */,
+				73A42961157388AE00479A42 /* NSObject+SBJSON.m in Sources */,
+				73A42962157388AE00479A42 /* NSString+SBJSON.m in Sources */,
+				73A42963157388AE00479A42 /* SBJsonBase.m in Sources */,
+				73A42964157388AE00479A42 /* SBJsonParser.m in Sources */,
+				73A42965157388AE00479A42 /* SBJsonWriter.m in Sources */,
+				73A42966157388AE00479A42 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2454,6 +2496,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = automatic;
@@ -2492,6 +2535,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2556,6 +2600,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/lib\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

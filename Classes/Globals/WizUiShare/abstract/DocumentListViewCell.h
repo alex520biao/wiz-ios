@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #define PadPortraitCellHeight 300
 #define PadPortraitCellWidth 190
-@class TTTAttributedLabel;
 extern int CELLHEIGHTWITHABSTRACT;
 extern int CELLHEIGHTWITHOUTABSTRACT;
 @class WizDocument;

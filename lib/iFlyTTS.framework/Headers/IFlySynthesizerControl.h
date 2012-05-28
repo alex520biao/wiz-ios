@@ -27,6 +27,11 @@
 */
 - (void)onSynthesizerEnd:(IFlySynthesizerControl *)iFlySynthesizerControl theError:(SpeechError) error;
 
+//xlhou add 20120305
+- (void)onSynthesizerBufferProgress:(float)bufferProgress;
+
+- (void)onSynthesizerPlayProgress:(float)playProgress;
+
 @end
 
 @interface IFlySynthesizerControl : UIView 
@@ -41,12 +46,12 @@
 @property(assign)id<IFlySynthesizerControlDelegate> delegate;
 
 /*
-	@function	initWithFrame
+	@function	initWithOrigin
 	@abstract	初始化
 	@discussion	
 	@param		initParam:appID－使用令牌，需要到科大讯飞云网站上申请
 */
-- (id)initWithFrame:(CGRect)frame theInitParam:(NSString *)initParam;
+- (id)initWithOrigin:(CGPoint)origin theInitParam:(NSString *)initParam;
 
 /*
 	@function	setText
@@ -92,7 +97,7 @@
 	 @function	setSpeed
 	 @abstract	设置语速
 	 @discussion	
-	 @param		param 范围:0-100,默认50
+	 @param		param 范围:0-10,默认5
 */
 - (void)setSpeed:(unsigned int)speed;
 

@@ -45,6 +45,8 @@
  
 */
 
+#ifndef	REACHABILITY
+#define	REACHABILITY
 
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -85,4 +87,5 @@ typedef enum {
 - (BOOL) connectionRequired;
 @end
 
+#endif
 

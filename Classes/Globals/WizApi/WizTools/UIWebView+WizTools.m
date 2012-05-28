@@ -28,6 +28,25 @@
 //    NSString* js = @"ReadCurrentPage('device-width')";
     [self stringByEvaluatingJavaScriptFromString:js];
 }
+
+- (void) loadReadJavaScript
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"iphoneRead" ofType:@"js"];
+	NSString *jsCode = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
+    [self stringByEvaluatingJavaScriptFromString:jsCode];
+}
+
+- (void) setTableAndImageWidth:(NSString*)width
+{
+    NSString* js = [NSString stringWithFormat:@"SetCurrentPageTableAndImageWidth('%@')",width];
+    [self stringByEvaluatingJavaScriptFromString:js];
+}
+
+- (void) setCurrentPageWidth:(NSString*)width
+{
+    NSString* js = [NSString stringWithFormat:@"SetCurrentPageWidth('%@')",width];
+    [self stringByEvaluatingJavaScriptFromString:js];
+}
 - (void)removeAllHighlights
 {
     [self stringByEvaluatingJavaScriptFromString:@"MyApp_RemoveAllHighlights()"];
