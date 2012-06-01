@@ -80,6 +80,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
                 return;
             }
         }
+        [downloadQueque removeAllObjects];
         [WizGlobals reportError:retObject];
         attempts = WizNetWorkMaxAttempts;
     }

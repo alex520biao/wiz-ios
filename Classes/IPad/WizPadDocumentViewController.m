@@ -111,6 +111,7 @@
     NSString* url = self.selectedDocument.url;
     NSString* type = self.selectedDocument.type;
     NSString* width = [NSString stringWithFormat:@"%dpx",self.readWidth];
+    NSLog(@"width is %@",width);
     if ([[WizSettings defaultSettings] isMoblieView])
     {
         [webView setCurrentPageWidth:width];
@@ -319,7 +320,6 @@
 - (void) setViewsFrame
 {
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        self.readWidth = 1024;
         documentList.frame = TableLandscapeFrame;
         webView.frame = WebViewLandscapeFrame;
         headerView.frame = HeadViewLandScapeFrame;
@@ -328,14 +328,13 @@
     }
     else
     {
-        self.readWidth = 704;
         documentNameLabel.frame = CGRectMake(5.0, 0.0, 768, 44);
         zoomOrShrinkButton.hidden = YES;
         documentList.frame = TablePortraitFrame;
         webView.frame = WebViewPortraitFrame;
         headerView.frame = HeadViewPortraitFrame;
     }
-    [self loadReadJs];
+
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         [self dismissPoperview];
         self.navigationItem.rightBarButtonItem = nil;
@@ -592,32 +591,29 @@
 - (void) downloadDocumentDone:(NSNotification*)nc
 {
     NSString* documentGUID = [WizNotificationCenter downloadGuidFromNc:nc];
-    NSArray* visibleCells = [documentList visibleCells];
-    for (DocumentListViewCell* each in visibleCells) {
-        if ([each.doc.guid isEqualToString:documentGUID]) {
-            [each prepareForAppear];
+    WizDocument* document = [WizDocument documentFromDb:documentGUID];
+    if (nil == document) {
+        return;
+    }
+     document.serverChanged = NO;
+    NSIndexPath* index = [self.documentsArray updateDocument:document];
+    if (nil != index) {
+        [documentList beginUpdates];
+        [documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationFade];
+        [documentList endUpdates];
+        if (!UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+            if (nil != potraitTableView) {
+                [potraitTableView beginUpdates];
+                [potraitTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationFade];
+                [potraitTableView endUpdates];
+            }
         }
     }
+    else {
+        return;
+    }
     if ([documentGUID isEqualToString:self.selectedDocument.guid]) {
-        
-        NSString* documentFileName = [self.selectedDocument documentIndexFile];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:documentFileName])
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrWarning
-                                                            message:WizStrThisversionofWizNotdoesnotsupportdecryption
-                                                           delegate:self 
-                                                  cancelButtonTitle:WizStrOK 
-                                                  otherButtonTitles:nil];
-            alert.tag = 100;
-            [alert show];
-            [alert release];
-            return;
-        }
-        NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-        NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:40.0f];
-        [webView loadRequest:req];
-        [req release];
-        [url release];
+        [self checkDocument:document];
     }
 }
 - (void) downloadDocument:(WizDocument*)document
@@ -673,12 +669,12 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    [documentList scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     [self didSelectedDocument:doc];
-    [documentList beginUpdates];
-    [documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    [documentList endUpdates];
-    [documentList selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [tableView beginUpdates];
+    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [tableView endUpdates];
+    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -755,7 +751,17 @@
 {
 	return YES;
 }
-
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+        self.readWidth = 768;
+    }
+    else {
+        self.readWidth = 704;
+    }
+    [self loadReadJs];
+}
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 

@@ -9,7 +9,7 @@
 #import "WizApi.h"
 #import "WizRefreshDelegate.h"
 
-@interface WizRefreshToken : WizApi
+@interface WizRefreshToken : WizApi <UIAlertViewDelegate>
 {
     id <WizRefreshDelegate> refreshDelegate;
 }

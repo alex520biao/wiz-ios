@@ -533,6 +533,14 @@
             NSLog(@"canced ---------------------");
             return;
         }
+        else if (error.code == NSURLErrorNetworkConnectionLost && [error.domain isEqualToString:NSURLErrorDomain])
+        {
+            [self.apiManagerDelegate didChangedStatue:self statue:WizSyncStatueError];
+        }
+        else if (error.code == NSURLErrorNotConnectedToInternet && [error.domain isEqualToString:NSURLErrorDomain])
+        {
+            [self.apiManagerDelegate didChangedStatue:self statue:WizSyncStatueError];
+        }
         else {
             [WizGlobals reportError:retObject];
         }

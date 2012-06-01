@@ -51,3 +51,4 @@
 #define MessageTypeOfCacheDbUpdate                  @"MessageTypeOfCacheDbUpdate"
 //
 #define MessageTypeOfPadTableViewListChangedOrder   @"MessageTypeOfPadTableViewListChangedOrder"
+#define MessageTypeOfPadSyncInfoEnd                 @"MessageTypeOfPadSyncInfoEnd"

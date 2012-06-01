@@ -217,7 +217,7 @@ static WizSyncManager* shareManager;
     api.token = self.token;
     api.kbguid = self.kbGuid;
     api.apiURL = self.apiUrl;
-    [workQueque addObject:api];
+    [workQueque addObjectUnique:api];
     return YES;
 }
 - (void) didChangedStatue:(WizApi *)api statue:(NSInteger)statue
@@ -225,7 +225,10 @@ static WizSyncManager* shareManager;
     if (statue == WizSyncStatueEndSyncInfo) {
         [self.displayDelegate didChangedSyncDescription:nil];
     }
-    
+    else if (statue == WizSyncStatueError) {
+        [self stopSync];
+        [self.displayDelegate didChangedSyncDescription:nil];
+    }
 }
 - (void) didApiSyncDone:(WizApi *)api
 {

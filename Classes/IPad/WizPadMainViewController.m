@@ -70,6 +70,7 @@
         
         [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadFolderTable) name:MessageTypeOfUpdateFolderTable];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadTagTable) name:MessageTypeOfUpdateTagTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(newNoteWillDisappear) name:MessageTypeOfPadSyncInfoEnd];
     }
     return self;
 }

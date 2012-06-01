@@ -13,7 +13,7 @@
 
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 @class ELCImagePickerController;
-@interface WizEditNoteBase : UIViewController<CLLocationManagerDelegate,MKReverseGeocoderDelegate, AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>
+@interface WizEditNoteBase : UIViewController<AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>
 {
     WizDocument* docEdit;
     float currentTime;

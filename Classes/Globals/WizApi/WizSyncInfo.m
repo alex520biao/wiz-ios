@@ -116,6 +116,7 @@
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
         [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
+        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfPadSyncInfoEnd];
         [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
         [self didChangeSyncStatue:WizSyncStatueDownloadAttachmentList];
     }

@@ -19,12 +19,42 @@
     refreshDelegate = nil;
     [super dealloc];
 }
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        for (UIView* each in [alertView subviews]) {
+            if ([each isKindOfClass:[UITextField class]]) {
+                NSString* password = ((UITextField*)each).text;
+                WizAccountManager* accountManager = [WizAccountManager defaultManager];
+                NSString* userId = [accountManager activeAccountUserId];
+                [accountManager changeAccountPassword:userId password:password];
+                [self start];
+            }
+        }
+    }
+}
 - (void) onError:(id)retObject
 {
     busy = NO;
     NSError* error = (NSError*)retObject;
     if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain]) {
         
+        UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)
+                                            message:@"\n\n" 
+                                           delegate:nil 
+                                  cancelButtonTitle:WizStrCancel 
+                                  otherButtonTitles:WizStrOK, nil];
+        prompt.tag = 10001;
+        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)]; 
+        textField.secureTextEntry = YES;
+        [textField setBackgroundColor:[UIColor whiteColor]];
+        [textField setPlaceholder:WizStrPassword];
+        [prompt addSubview:textField];
+        [textField release];
+        [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
+        prompt.delegate = self;
+        [prompt show];
+        return;
     }
     [super onError:retObject];
 }
@@ -36,6 +66,7 @@
     busy = YES;
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
     NSString* password  = [[WizAccountManager defaultManager] accountPasswordByUserId:accountUserId];
+    NSLog(@"%@",password);
     return [self callClientLogin:accountUserId accountPassword:password];
 }
 -(void) onClientLogin: (id)retObject

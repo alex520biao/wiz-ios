@@ -92,6 +92,13 @@
     if (description == nil || [description  isBlock]) {
         userRemindLabel.text = NSLocalizedString(@"You don't have any notes.\n Tap new note to get started!", nil);
     }
+    else {
+        if ([self.tableArray count] > 0) {
+            if ([[self.tableArray objectAtIndex:0] count] >0) {
+                self.tableView.backgroundView = nil;
+            }
+        }
+    }
 }
 
 - (void) reloadAllData

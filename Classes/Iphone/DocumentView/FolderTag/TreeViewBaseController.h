@@ -31,9 +31,7 @@
 @property(nonatomic,retain) LocationTreeNode* tree;
 @property(nonatomic,retain) UIImage* expandImage;
 @property(nonatomic,retain) UIImage* closedImage;
-
 -(void)onExpand:(LocationTreeNode*)node;
 -(void) setNodeRow;
-- (void) reloadAllData;
 - (void) willReloadAllData;
 @end
