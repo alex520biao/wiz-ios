@@ -14,6 +14,7 @@
 #import "UIImage+WizTools.h"
 #import "UIWebView+WizTools.h"
 #import "NSIndexPath+WizTools.h"
+#import "NSMutableDictionary+WizDocument.h"
 #define _DEBUG
 #ifdef _DEBUG
 #else

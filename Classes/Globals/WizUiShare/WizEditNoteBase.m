@@ -23,14 +23,11 @@
 	AVAudioSession *session;
     NSTimer* timer;
     NSMutableString* currentRecodingFilePath;
-    
-    
-    
+//    CLLocationManager* locationManager;
 }
 @property (retain) AVAudioRecorder* recorder;
 @property (retain) AVAudioSession* session;
 @property (retain) NSTimer* timer;
-
 @property (nonatomic, retain)  NSMutableString* currentRecodingFilePath;
 
 @end
@@ -45,6 +42,8 @@
 @synthesize attachmentsArray;
 - (void) dealloc
 {
+//    [locationManager release];
+//    locationManager = nil;
     [attachmentsArray release];
     [currentRecodingFilePath release];
     [session release];
@@ -60,6 +59,13 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         attachmentsArray = [[NSMutableArray array] retain];
+//        locationManager = [[CLLocationManager alloc] init];
+//        if ([locationManager locationServicesEnabled]) {
+//            locationManager.delegate = self;
+//            locationManager.distanceFilter = 200;
+//            locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//            [locationManager startUpdatingLocation];
+//        }
     }
     return self;
 }
@@ -219,4 +225,39 @@
 {
     [super viewDidLoad];
 }
+
+
+//- (void)startedReverseGeoderWithLatitude:(double)latitude longitude:(double)longitude{
+//    CLLocationCoordinate2D coordinate2D;
+//    coordinate2D.longitude = longitude;
+//    coordinate2D.latitude = latitude;
+//    MKReverseGeocoder *geoCoder = [[MKReverseGeocoder alloc] initWithCoordinate:coordinate2D];
+//    geoCoder.delegate = self;
+//    [geoCoder start];
+//}
+//- (void) reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
+//{
+//    self.docEdit.gpsCountry = placemark.country;
+//    self.docEdit.gpsAddress = placemark.thoroughfare;
+//    self.docEdit.gpsLevel1 = placemark.administrativeArea;
+//    self.docEdit.gpsLevel2 = placemark.subAdministrativeArea;
+//    self.docEdit.gpsLevel3 = placemark.locality;
+//    self.docEdit.gpsDescription = placemark.description;
+//}
+//- (void) reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
+//{
+//    NSLog(@"failed %@",error);
+//}
+//- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+//{
+//    [manager stopUpdatingLocation];
+//    CLLocationDistance l = newLocation.coordinate.latitude;//得到经度
+//    CLLocationDistance v = newLocation.coordinate.longitude;//得到纬度
+//    self.docEdit.gpsLongtitude = newLocation.coordinate.longitude;
+//    self.docEdit.gpsLatitude = newLocation.coordinate.latitude;
+//    NSLog(@"%f",self.docEdit.gpsLatitude);
+//    self.docEdit.gpsAltitude = newLocation.altitude;
+//    [self startedReverseGeoderWithLatitude: l longitude: v];
+//}
+
 @end

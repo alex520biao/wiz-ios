@@ -30,7 +30,6 @@
 
 #define MessageOfDeleteAttachments          @"MessageOfDeleteAttachments"
 
-#define MessageOfPadChangeUser              @"MessageOfPadChangeUser"
 #define MessageOfPadLoginViewChangeUser     @"MessageOfPadLoginViewChangeUser"
 #define MessageOfPadRemoveUser              @"MessageOfPadRemoveUser"
 
@@ -46,7 +45,6 @@
 
 #define MessageOfDownloadError              @"MessageOfDownloadError"
 
-#define MessageOfNewFirstDocument            @"MessageOfNewFirstDocument"
 #define MessageOfChangeDocumentListOrderMethod @"MessageOfChangeDocumentListOrderMethod"
 #define MessageOfCheckAttachment                @"MessageOfCheckAttachment"
 #endif

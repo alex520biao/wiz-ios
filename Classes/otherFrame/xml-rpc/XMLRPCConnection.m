@@ -88,18 +88,14 @@
 
 - (void)cancel
 {
-    if (self.connection)
-    {
-        [self.connection cancel];
-
-    }
-    if (self.delegate)
-    {
-        NSError* error= [NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil];
-        [self.delegate xmlrpcDone: self isSucceeded: NO retObject:error forMethod: [self.request method]];
-        
-    }
-	self.connection = nil;
+    [self.connection cancel];
+    self.connection = nil;
+//    if (self.delegate)
+//    {
+//        NSError* error= [NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil];
+//        [self.delegate xmlrpcDone: self isSucceeded: NO retObject:error forMethod: [self.request method]];
+//    }
+    self.delegate = nil;
 }
 
 #pragma mark -
@@ -107,6 +103,7 @@
 - (void)dealloc
 {
 	[connection release];
+    connection = nil;
 	[delegate release];
 	[request release];
 	[retData release];

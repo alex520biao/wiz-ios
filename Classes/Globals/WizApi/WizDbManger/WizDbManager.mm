@@ -41,6 +41,7 @@
 #define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
 #define AutomicSync                     @"AutomicSync"
 #define LastSynchronizedDate            @"LastSynchronizedDate"
+#define NewNoteDefaultFolder            @"NewNoteDefaultFolder"
 
 @interface WizDeletedGUID : NSObject
 {
@@ -108,6 +109,20 @@ return self;
         self.serverChanged      = data.nServerChanged?YES:NO;
         self.localChanged       = data.nLocalChanged;
         self.protected_         = data.nProtected?YES:NO;
+        self.gpsLatitude        = data.fGpsLatitude;
+        self.gpsLongtitude      = data.fGpsLongtitude;
+        self.gpsAltitude        = data.fGpsAltitude;
+        self.gpsDop             = data.fGpsDop;
+        
+        self.gpsAddress         = [NSString stringWithCString:data.strGpsAddress.c_str() encoding:NSUTF8StringEncoding];
+        self.gpsCountry         = [NSString stringWithCString:data.strGpsCountry.c_str() encoding:NSUTF8StringEncoding];
+        self.gpsLevel1         = [NSString stringWithCString:data.strGpsLevel1.c_str() encoding:NSUTF8StringEncoding];
+        self.gpsLevel2         = [NSString stringWithCString:data.strGpsLevel2.c_str() encoding:NSUTF8StringEncoding];
+        self.gpsLevel3         = [NSString stringWithCString:data.strGpsLevel3.c_str() encoding:NSUTF8StringEncoding];
+        self.gpsDescription    = [NSString stringWithCString:data.strGPsDescription.c_str() encoding:NSUTF8StringEncoding];
+        
+        self.nReadCount         =data.nReadCount;
+        
 	}
 	return self;
 }
@@ -205,10 +220,6 @@ static WizDbManager* shareDbManager = nil;
 - (BOOL) isOpen
 {
     return index.IsOpened();
-}
-- (void) setDocumentServerChanged:(NSString*)guid  changed:(NSInteger)changed
-{
-    index.SetDocumentLocalChanged([guid UTF8String], changed);
 }
 
 - (void) initAccountSetting
@@ -615,10 +626,40 @@ static WizDbManager* shareDbManager = nil;
     }
 }
 
-
-
+//
+- (BOOL) setNewNoteDefaultFolder:(NSString *)folder
+{
+    if (folder == nil) {
+        return NO;
+    }
+    return [self setUserInfo:NewNoteDefaultFolder info:folder];
+}
+- (NSString*) newNoteDefaultFolder
+{
+    NSString* folder = [self userInfo:NewNoteDefaultFolder];
+    if (folder ==  nil || [folder isBlock]) {
+        NSString* defaultFolder = @"/My Notes/";
+        [self setNewNoteDefaultFolder:folder];
+        return defaultFolder;
+    }
+    return [folder retain];
+}
 
 //
+- (WizDocument*) documentForClearCacheNext
+{
+    WIZDOCUMENTDATA data;
+    if (!index.documentForClearCacheNext(data)) {
+        return nil;
+    }
+    WizDocument* doc = [[WizDocument alloc] initFromWizDocumentData:data];
+    return [doc autorelease];
+}
+- (BOOL) setDocumentServerChanged:(NSString *)guid changed:(BOOL)changed
+{
+    return index.SetDocumentServerChanged([guid UTF8String], changed);
+}
+
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID
 {
     WIZDOCUMENTDATA data;
@@ -648,7 +689,70 @@ static WizDbManager* shareDbManager = nil;
     NSNumber* localChanged = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
     NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
     NSNumber* serverChanged = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
+    
+    //
+//#define DataTypeUpdateDocumentGPS_LATITUDE      @"gps_latitude"
+//#define DataTypeUpdateDocumentGPS_LONGTITUDE    @"gps_longitude"
+//#define DataTypeUpdateDocumentGPS_ALTITUDE      @"GPS_ALTITUDE"
+//#define DataTypeUpdateDocumentGPS_DOP           @"GPS_DOP"
+//#define DataTypeUpdateDocumentGPS_ADDRESS       @"GPS_ADDRESS"
+//#define DataTypeUpdateDocumentGPS_COUNTRY       @"GPS_COUNTRY"
+//#define DataTypeUpdateDocumentGPS_LEVEL1        @"GPS_LEVEL1"
+//#define DataTypeUpdateDocumentGPS_LEVEL2        @"GPS_LEVEL2"
+//#define DataTypeUpdateDocumentGPS_LEVEL3        @"GPS_LEVEL3"
+//#define DataTypeUpdateDocumentGPS_DESCRIPTION   @"GPS_DESCRIPTION"
+//#define DataTypeUpdateDocumentREADCOUNT         @"READCOUNT"
+    NSNumber* nReadCount = [doc valueForKey:DataTypeUpdateDocumentREADCOUNT];
+    
+    NSNumber* gpsLatitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LATITUDE];
+    NSNumber* gpsLongtitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LONGTITUDE];
+    NSNumber* gpsAltitue    = [doc valueForKey:DataTypeUpdateDocumentGPS_ALTITUDE];
+    NSNumber* gpsDop        = [doc valueForKey:DataTypeUpdateDocumentGPS_DOP];
+    
+    NSString* gpsAddress  = [doc valueForKey:DataTypeUpdateDocumentGPS_ADDRESS];
+    NSString* gpsCountry = [doc valueForKey:DataTypeUpdateDocumentGPS_COUNTRY];
+    NSString* gpsLevel1 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL1];
+    NSString* gpsLevel2 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL2];
+    NSString* gpsLevel3 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL3];
+    NSString* gpsDescription  = [doc valueForKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
+    
 	WIZDOCUMENTDATA data;
+    //
+    if (nReadCount) {
+        data.nReadCount = [nReadCount intValue];
+    }
+    if (gpsLatitue) {
+        data.fGpsLatitude = [gpsLatitue floatValue];
+    }
+    if (gpsLongtitue) {
+        data.fGpsLongtitude = [gpsLongtitue floatValue];
+    }
+    if (gpsDop) {
+        data.fGpsDop = [gpsDop floatValue];
+    }
+    if (gpsAltitue) {
+        data.fGpsAltitude = [gpsAltitue floatValue];
+    }
+    if (gpsAddress) {
+        NSLog(@"%@",gpsAddress);
+        data.strGpsAddress = [gpsAddress UTF8String];
+    }
+    if (gpsCountry) {
+        data.strGpsCountry = [gpsCountry UTF8String];
+    }
+    if (gpsDescription) {
+        data.strGPsDescription = [gpsDescription UTF8String];
+    }
+    if (gpsLevel1) {
+        data.strGpsLevel1 = [gpsLevel1 UTF8String];
+    }
+    if (gpsLevel2) {
+        data.strGpsLevel2 = [gpsLevel2 UTF8String];
+    }
+    if (gpsLevel3) {
+         data.strGpsLevel3 = [gpsLevel3 UTF8String];
+    }
+    //
 	data.strGUID =[guid UTF8String];
 	data.strTitle =[title UTF8String];
 	data.strLocation = [location UTF8String];
@@ -693,7 +797,6 @@ static WizDbManager* shareDbManager = nil;
 }
 - (BOOL) updateDocuments:(NSArray *)documents
 {
-    NSLog(@"documents count is %d",[documents count]);
     for (int i =0; i < [documents count]; i++) {
         NSDictionary* doc = [documents objectAtIndex:i];
         @try {
@@ -733,7 +836,8 @@ static WizDbManager* shareDbManager = nil;
 - (NSArray*) recentDocuments
 {
 	CWizDocumentDataArray arrayDocument;
-	index.GetRecentDocuments(arrayDocument);	return [self documentsFromWizDocumentDataArray: arrayDocument];
+	index.GetRecentDocuments(arrayDocument);
+	return [self documentsFromWizDocumentDataArray: arrayDocument];
 }
 - (NSArray*) documentsByTag: (NSString*)tagGUID
 {
@@ -1299,4 +1403,6 @@ static WizDbManager* shareDbManager = nil;
     index.fileCountInTag([tagGUID UTF8String], count);
     return count;
 }
+//
+
 @end

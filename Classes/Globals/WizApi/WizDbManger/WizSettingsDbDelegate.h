@@ -60,4 +60,7 @@
 //
 - (BOOL) setLastSynchronizedDate:(NSDate*)date;
 - (NSDate*) lastSynchronizedDate;
+//
+- (BOOL) setNewNoteDefaultFolder:(NSString*)folder;
+- (NSString*) newNoteDefaultFolder;
 @end

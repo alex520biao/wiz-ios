@@ -16,6 +16,7 @@ std::string WizStdStringTrim(const std::string& str);
 
 std::string WizIntToStdString(int n);
 std::string WizGetCurrentTimeSQLString();
+std::string WizFloatToStdString(float f);
 
 struct WIZDOCUMENTATTACH
 {
@@ -42,16 +43,34 @@ struct WIZDOCUMENTDATA
 	std::string strDateModified;
 	std::string strType;
 	std::string strFileType;
+
 	int nAttachmentCount;
 	int nServerChanged;
 	int nLocalChanged;
     int nProtected;
+
+    float   fGpsLongtitude;
+    float   fGpsLatitude;
+    float   fGpsAltitude;
+    float   fGpsDop;
+    std::string strGpsAddress;
+    std::string strGpsCountry;
+    std::string strGpsLevel1;
+    std::string strGpsLevel2;
+    std::string strGpsLevel3;
+    std::string strGPsDescription;
+    int nReadCount;
 	//
 	WIZDOCUMENTDATA()
     : nAttachmentCount(0)
     , nServerChanged(0)
     , nLocalChanged(0)
     , nProtected(0)
+    , nReadCount(0)
+    , fGpsDop(0)
+    , fGpsAltitude(0)
+    , fGpsLatitude(0)
+    , fGpsLongtitude(0)
 	{
 		
 	}
@@ -183,6 +202,8 @@ public:
     bool fileCountWithChildInlocation(const char* lpszLocation, int& count);
     bool fileCountInTag(const char* lpszTagguid, int& count);
     bool documentsWillDowload(int duration, CWizDocumentDataArray& array);
+    //clear cache
+    bool documentForClearCacheNext(WIZDOCUMENTDATA& data);
 };	
 
 

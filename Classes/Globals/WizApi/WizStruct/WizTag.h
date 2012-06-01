@@ -14,7 +14,7 @@
 	NSString* description;
 	NSString* namePath;
     NSDate*   dateInfoModified;
-    BOOL       localChanged;
+    BOOL      localChanged;
 }
 @property (nonatomic, retain) NSString* parentGUID;
 @property (nonatomic, retain) NSString* description;

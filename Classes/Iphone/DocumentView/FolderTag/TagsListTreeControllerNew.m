@@ -22,7 +22,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfUpdateTagTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadAllData) name:MessageTypeOfUpdateTagTable];
     }
     return self;
 }
@@ -105,7 +105,7 @@
     {
         [self.displayNodes removeAllObjects];
     }
-    [self removeBlockLocationNode:tree];
+//    [self removeBlockLocationNode:tree];
     [LocationTreeNode getLocationNodes:self.tree :self.displayNodes];
     [self setNodeRow];
     [self.tableView reloadData];
@@ -114,7 +114,6 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [self reloadAllData];
     self.closedImage = [UIImage imageNamed:@"treePlus"];
     self.expandImage = [UIImage imageNamed:@"treeCut"];
 }

@@ -297,10 +297,18 @@
 		return [self valueTag: @"boolean" value: @"false"];
 	}
 }
-
+// dzpqzb add
 - (NSString *)encodeNumber: (NSNumber *)number
 {
-	return [self valueTag: @"i4" value: [number stringValue]];
+    if (!strcmp([number objCType], @encode(float))) {
+        return [self valueTag: @"double" value: [number stringValue]];
+    }
+    else if (!strcmp([number objCType], @encode(double))) {
+        return [self valueTag: @"double" value: [number stringValue]];
+    }
+    else {
+        return [self valueTag: @"i4" value: [number stringValue]];
+    }
 }
 
 - (NSString *)encodeString: (NSString *)string

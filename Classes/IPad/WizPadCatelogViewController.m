@@ -123,7 +123,6 @@
     NSUInteger needLength = documentsCount*(indexPath.row+1);
     NSArray* cellArray=nil;
     NSRange docRange;
-    NSLog(@"needLength %d",needLength);
     if ([dataArray count] < needLength) {
         docRange =  NSMakeRange(documentsCount*indexPath.row, [dataArray count]-documentsCount*indexPath.row);
     }
@@ -139,5 +138,4 @@
 {
     return 300;
 }
-
 @end

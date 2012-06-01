@@ -47,6 +47,9 @@
 - (NSArray*) documentsByLocation: (NSString*)parentLocation;
 - (NSArray*) documentForUpload;
 - (NSArray*) documentsForCache:(NSInteger)duration;
+- (WizDocument*) documentForClearCacheNext;
+
+- (BOOL) setDocumentServerChanged:(NSString*)guid changed:(BOOL)changed;
 //tag
 - (NSArray*) allTagsForTree;
 - (BOOL) updateTag: (NSDictionary*) tag;

@@ -40,7 +40,7 @@
     if (nil == self.wizTag) {
         return;
     }
-    nameLabel.text = self.wizTag.title;
+    nameLabel.text =  getTagDisplayName(self.wizTag.title);
     backGroudImageView.image = [UIImage imageNamed:@"tagBackgroud"];
     NSInteger count =  [WizTag fileCountOfTag:self.wizTag.guid];
     documentsCountLabel.text = [NSString stringWithFormat:@"%d %@",count,WizStrNotes];

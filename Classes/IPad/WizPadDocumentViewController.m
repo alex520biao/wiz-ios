@@ -27,6 +27,7 @@
 #import "WizSyncManager.h"
 #import "WizSettings.h"
 #import "ATMHud.h"
+#import "WizFileManager.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -36,7 +37,7 @@
 //
 #define TablePortraitFrame   CGRectMake(0.0, 0.0, 0.0, 0.0)
 #define HeadViewPortraitFrame     CGRectMake(0.0, 0.0, 768, 45)
-#define WebViewPortraitFrame     CGRectMake(0.0, 45, 768, 980)
+#define WebViewPortraitFrame     CGRectMake(0.0, 45, 768, 936)
 
 
 #define HeadViewLandScapeZoomFrame CGRectMake(0.0, 0.0, 1024, 44)
@@ -55,13 +56,17 @@
     UIBadgeView* attachmentCountBadge;
     UIPopoverController* currentPopoverController;
     UIButton* zoomOrShrinkButton;
+    //
+    NSInteger readWidth;
+    //
     
     UIBarButtonItem* editItem;
     UIBarButtonItem* newNoteItem;
     UIBarButtonItem* detailItem;
     UIBarButtonItem* attachmentsItem;
+    UIBarButtonItem* shareItem;
 }
-
+@property NSInteger readWidth;
 @property (nonatomic, retain) WizDocument* selectedDocument;
 @property (nonatomic, retain)  UIPopoverController* currentPopoverController;
 @end
@@ -71,6 +76,7 @@
 @synthesize documentsArray;
 @synthesize selectedDocument;
 @synthesize currentPopoverController;
+@synthesize readWidth;
 - (void) dealloc
 {
     //
@@ -78,6 +84,7 @@
     newNoteItem = nil;
     detailItem = nil;
     attachmentsItem = nil;
+    shareItem = nil;
     //
     [potraitTableView release];
     potraitTableView = nil;
@@ -98,10 +105,30 @@
 
 }
 
+- (void) loadReadJs
+{
+    [webView loadReadJavaScript];
+    NSString* url = self.selectedDocument.url;
+    NSString* type = self.selectedDocument.type;
+    NSString* width = [NSString stringWithFormat:@"%dpx",self.readWidth];
+    if ([[WizSettings defaultSettings] isMoblieView])
+    {
+        [webView setCurrentPageWidth:width];
+    }
+    else
+    {
+        if ([self.selectedDocument isIosDocument] || (url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
+            [webView setCurrentPageWidth:width];
+        }
+    }
+    if ([self.selectedDocument isIosDocument]) {
+        [webView setTableAndImageWidth:width];
+    }
+}
 
 - (void) webViewDidFinishLoad:(UIWebView *)webView
 {
-    
+    [self loadReadJs];
 }
 
 - (void) onDeleteDocument:(NSNotification*)nc
@@ -148,7 +175,103 @@
     }
     return self;
 }
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissModalViewControllerAnimated:YES];
+}
+- (void) shareFromEmail
+{
+    MFMailComposeViewController* emailController = [[MFMailComposeViewController alloc] init];
+    NSString* string = [NSString stringWithContentsOfFile:[self.selectedDocument documentIndexFile] usedEncoding:nil error:nil];
+    emailController.mailComposeDelegate = self;
+    NSString* title = [NSString stringWithFormat:@"%@ %@",self.selectedDocument.title,WizStrShareByWiz];
+    [emailController setSubject:title];
+    [emailController setMessageBody:string isHTML:YES];
+    [self presentModalViewController:emailController animated:YES];
+    [emailController release];
+}
+- (void) shareImagesFromEmail
+{
+    MFMailComposeViewController* emailController = [[MFMailComposeViewController alloc] init];
+    emailController.mailComposeDelegate = self;
+    NSString* title = [NSString stringWithFormat:@"%@ %@",self.selectedDocument.title,WizStrShareByWiz];
+    [emailController setSubject:title];
+    NSArray* contents = [[WizFileManager shareManager] contentsOfDirectoryAtPath:[self.selectedDocument documentIndexFilesPath] error:nil];
+    for (NSString* each in contents) {
+        NSString* fileDirPath = [self.selectedDocument documentIndexFilesPath];
+        NSString* filePath = [fileDirPath stringByAppendingPathComponent:each];
+        if ([WizGlobals checkAttachmentTypeIsImage:[each fileType]]) {
+            NSData* data = [NSData dataWithContentsOfFile:filePath];
+            if (nil != data) {
+                [emailController addAttachmentData:data mimeType:@"image" fileName:each];
+            }
+        }
+    }
+    [emailController setMessageBody:[webView bodyText] isHTML:YES];
+    [self presentModalViewController:emailController animated:YES];
+    [emailController release];
+}
+- (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [controller dismissModalViewControllerAnimated:YES];
+}
+- (void) shareFromEms
+{
+    MFMessageComposeViewController* messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    NSString* title = [NSString stringWithFormat:@"%@ %@",self.selectedDocument.title,WizStrShareByWiz];
+    [messageController setTitle:title];
+    [messageController setBody:[[webView bodyText] stringByAppendingFormat:@"\n%@",WizStrShareByWiz]];
+    [self presentModalViewController:messageController animated:YES];
+    [messageController release];
+}
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex >= actionSheet.numberOfButtons | buttonIndex < 0) {
+        return;
+    }
+    NSLog(@"%d %d",actionSheet.numberOfButtons, buttonIndex);
+    NSString* buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:WizStrShareByEmail]) {
+        [self shareFromEmail];
+    }
+    else if ([buttonTitle isEqualToString:WizstrShareImagesByEmail])
+    {
+        [self shareImagesFromEmail];
+    }
+    else if ([buttonTitle isEqualToString:WizStrShareByEms])
+    {
+        [self shareFromEms];
+    }
+    else {
+        
+    }
+}
 
+- (void) shareCurrentDocument
+{
+    UIActionSheet* shareSheet = [[UIActionSheet alloc]
+                                 initWithTitle:NSLocalizedString(@"Share", nil)
+                                 delegate:self
+                                 cancelButtonTitle:nil
+                                 destructiveButtonTitle:nil
+                                 otherButtonTitles:nil];
+    if ([MFMailComposeViewController canSendMail]) {
+        [shareSheet addButtonWithTitle:WizStrShareByEmail];
+        if ([self.selectedDocument isIosDocument]) {
+            if ([webView containImages]) {
+                [shareSheet addButtonWithTitle:WizstrShareImagesByEmail];
+            }
+        }
+    }
+    if ([MFMessageComposeViewController canSendText]) {
+        [shareSheet addButtonWithTitle:WizStrShareByEms];
+    }
+    [shareSheet addButtonWithTitle:WizStrCancel];
+    shareSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [shareSheet showFromBarButtonItem:shareItem animated:YES];
+    [shareSheet release];
+}
 - (void) dismissPoperview
 {
     if (nil != self.currentPopoverController) {
@@ -165,6 +288,16 @@
 - (void) newNote
 {
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
+    WizDocument* document = [[WizDocument alloc] init];
+    if (self.listType == WizPadCheckDocumentSourceTypeOfFolder) {
+        document.location = self.documentListKey;
+    }
+    else if (self.listType == WizPadCheckDocumentSourceTypeOfTag)
+    {
+        document.tagGuids = self.documentListKey;
+    }
+    newNote.docEdit = document;
+    [document release];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
@@ -186,6 +319,7 @@
 - (void) setViewsFrame
 {
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        self.readWidth = 1024;
         documentList.frame = TableLandscapeFrame;
         webView.frame = WebViewLandscapeFrame;
         headerView.frame = HeadViewLandScapeFrame;
@@ -194,12 +328,14 @@
     }
     else
     {
+        self.readWidth = 704;
         documentNameLabel.frame = CGRectMake(5.0, 0.0, 768, 44);
         zoomOrShrinkButton.hidden = YES;
         documentList.frame = TablePortraitFrame;
         webView.frame = WebViewPortraitFrame;
         headerView.frame = HeadViewPortraitFrame;
     }
+    [self loadReadJs];
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         [self dismissPoperview];
         self.navigationItem.rightBarButtonItem = nil;
@@ -222,6 +358,8 @@
     webView.frame = WebViewLandscapeFrame;
     documentList.frame = TableLandscapeFrame;
     [UIView commitAnimations];
+    self.readWidth = 704;
+    [self loadReadJs];
     [zoomOrShrinkButton setImage:[UIImage imageNamed:@"zoom"] forState:UIControlStateNormal];
     [zoomOrShrinkButton removeTarget:self action:@selector(shrinkDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
     [zoomOrShrinkButton addTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
@@ -238,6 +376,8 @@
     webView.frame = WebViewLandScapeZoomFrame;
     documentList.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);
     [UIView commitAnimations];
+    self.readWidth = 1024;
+    [self loadReadJs];
     [zoomOrShrinkButton setImage:[UIImage imageNamed:@"shrink"] forState:UIControlStateNormal];
     [zoomOrShrinkButton removeTarget:self action:@selector(zoomDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
     [zoomOrShrinkButton addTarget:self action:@selector(shrinkDocumentWebView) forControlEvents:UIControlEventTouchUpInside];
@@ -269,7 +409,12 @@
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
     [self setViewsFrame];
-
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        self.readWidth = 704;
+    }
+    else {
+        self.readWidth = 768;
+    }
 }
 - (void) loadArraySource
 {
@@ -406,31 +551,27 @@
 }
 - (void) buildToolBar
 {
-    UIButton* editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [editBtn setImage:[UIImage imageNamed:@"edit_gray"] forState:UIControlStateNormal];
-    editBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
-    [editBtn addTarget:self action:@selector(editCurrentDocument:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* edit =  [[UIBarButtonItem alloc] initWithCustomView:editBtn];
-    edit.width = 80;
-
-    attachmentCountBadge = [[UIBadgeView alloc] initWithFrame:CGRectMake(44, 0.0, 60, 20)];
-    UIButton* attach = [UIButton buttonWithType:UIButtonTypeCustom];
-    attach.frame = CGRectMake(0.0, 0.0, 44, 44);
-    [attach setImage:[UIImage imageNamed:@"newNoteAttach_gray"] forState:UIControlStateNormal];
-    [attach addSubview:attachmentCountBadge];
-    [attach addTarget:self action:@selector(checkAttachment) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* attachment = [[UIBarButtonItem alloc]initWithCustomView:attach];
-    attachment.width = 80;
-    UIButton* detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [detailBtn setImage:[UIImage imageNamed:@"detail_gray"] forState:UIControlStateNormal];
-    [detailBtn addTarget:self action:@selector(checkDocumentDtail) forControlEvents:UIControlEventTouchUpInside];
-    detailBtn.frame = CGRectMake(0.0, 0.0, 44, 44);
-    UIBarButtonItem* detail = [[UIBarButtonItem alloc] initWithCustomView:detailBtn];
-    detail.width = 80;
+    UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit_gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(editCurrentDocument:)];
+    
+    UIBarButtonItem* attachment = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newNoteAttach_gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(checkAttachment)];
+    
+    UIBarButtonItem* detail = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"detail_gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(checkDocumentDtail)];
+    
+    
+    UIBarButtonItem* share = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_share"] style:UIBarButtonItemStyleBordered target:self action:@selector(shareCurrentDocument)];
+    
+    UIBarButtonItem* newNote =[[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
+    
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flex.width = 344;
-    UIBarButtonItem* newNote =[[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];    
-    NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit, attachment, detail, flex,nil];
+   
+    UIBarButtonItem* flex2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    flex2.width = 40;
+    
+    
+    
+    
+    NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit,flex2, attachment,flex2, detail,flex2, share,flex,nil];
    
     [self setToolbarItems:items];
     //
@@ -438,17 +579,19 @@
     editItem = edit;
     attachmentsItem = attachment;
     detailItem = detail;
+    shareItem = share;
     //
     [edit release];
     [attachment release];
     [detail release];
     [flex release];
     [newNote release];
+    [share release];
+    [flex2 release];
 }
 - (void) downloadDocumentDone:(NSNotification*)nc
 {
     NSString* documentGUID = [WizNotificationCenter downloadGuidFromNc:nc];
-    NSLog(@"%@",documentGUID);
     NSArray* visibleCells = [documentList visibleCells];
     for (DocumentListViewCell* each in visibleCells) {
         if ([each.doc.guid isEqualToString:documentGUID]) {
@@ -481,10 +624,14 @@
 {
     WizSyncManager* share = [WizSyncManager shareManager];
     [share downloadWizObject:document];
+    [webView loadRequest:nil];
 }
 - (void) checkDocument:(WizDocument*)document
 {
     NSString* documentFileName = [document documentIndexFile];
+    if (![[WizFileManager shareManager] fileExistsAtPath:documentFileName]) {
+        [self downloadDocument:document];
+    }
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     [webView loadRequest:req];

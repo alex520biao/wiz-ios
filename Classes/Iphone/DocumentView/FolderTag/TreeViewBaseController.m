@@ -36,6 +36,10 @@
     }
 }
 
+- (void) willReloadAllData
+{
+    self.isWillReloadAllData = YES;
+}
 -(void)onExpand:(LocationTreeNode*)node{
    
     
@@ -83,7 +87,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        isWillReloadAllData = YES;
     }
     return self;
 }
@@ -104,15 +108,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (self.isWillReloadAllData) {
-        self.isWillReloadAllData = !self.isWillReloadAllData;
-    }
+    
     [super viewWillAppear:animated];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (self.isWillReloadAllData) {
+        [self reloadAllData];
+        self.isWillReloadAllData = !self.isWillReloadAllData;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -15,26 +15,15 @@
 #define WizEraseDataEnable  @"WizEraseDataEnable"
 
 @interface WizSettings ()
-{
-    MKPlacemark* currentPlaceMark;
-    CLLocation* currentLocation;
-    CLLocationManager* locationManager;
-}
-@property (atomic, retain) MKPlacemark* currentPlaceMark;
-@property (atomic, retain) CLLocation* currentLocation;
+
 @end
 
 @implementation WizSettings
 @synthesize settingsDbDelegate;
-@synthesize currentLocation;
-@synthesize currentPlaceMark;
 //single object
 static WizSettings* defaultSettings = nil;
 - (void) dealloc
 {
-    [locationManager release];
-    [currentLocation release];
-    [currentPlaceMark release];
     [super dealloc];
 }
 + (id) defaultSettings
@@ -73,59 +62,12 @@ static WizSettings* defaultSettings = nil;
 }
 // over
 
-- (void)startedReverseGeoderWithLatitude:(double)latitude longitude:(double)longitude{
-    CLLocationCoordinate2D coordinate2D;
-    coordinate2D.longitude = longitude;
-    coordinate2D.latitude = latitude;
-    MKReverseGeocoder *geoCoder = [[MKReverseGeocoder alloc] initWithCoordinate:coordinate2D];
-    geoCoder.delegate = self;
-    [geoCoder start];
-}
-- (void) reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark
-{
-    NSLog(@"city %@",placemark.locality);
-    self.currentPlaceMark = placemark;
-}
-- (void) reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
-{
-    NSLog(@"failed %@",error);
-}
-- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    [manager stopUpdatingLocation];
-    self.currentLocation = newLocation;
-    CLLocationDistance l = newLocation.coordinate.latitude;//得到经度
-    CLLocationDistance v = newLocation.coordinate.longitude;//得到纬度
-    [self startedReverseGeoderWithLatitude: l longitude: v];
-}
-- (MKPlacemark*) getCurrentPlaceMark
-{
-    return self.currentPlaceMark;
-}
-
-- (CLLocation*) getCurrentLocation
-{
-    return self.currentLocation;
-}
-- (void) startLocationReg
-{
-
-    if ([locationManager locationServicesEnabled]) {
-        locationManager.delegate = self;
-        locationManager.distanceFilter = 200;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        [locationManager startUpdatingLocation];
-    }
-}
 
 - (id) init
 {
     self = [super init];
     if (self) {
         self.settingsDbDelegate = [WizDbManager shareDbManager];
-        locationManager = [[CLLocationManager alloc] init];
-        NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:600 target:self selector:@selector(startLocationReg) userInfo:nil repeats:YES];
-        [timer fire];
     }
     return self;
 }
@@ -337,5 +279,15 @@ static WizSettings* defaultSettings = nil;
     return [self.settingsDbDelegate lastSynchronizedDate];
 }
 
+//
+- (BOOL) setNewNoteDefaultFolder:(NSString*)folder
+{
+    return [self.settingsDbDelegate setNewNoteDefaultFolder:folder];
+}
+
+- (NSString*) newNoteDefaultFolder
+{
+    return [self.settingsDbDelegate newNoteDefaultFolder];
+}
 
 @end

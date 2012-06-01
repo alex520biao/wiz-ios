@@ -70,7 +70,11 @@
 	NSArray* obj = retObject;
 	[self.dbDelegate updateDocuments:obj];
 }
--(void) onDownloadAttachmentList:(id)retObject {
+-(void) onDownloadAttachmentList:(id)retObject
+{
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingattachmentlist;
     NSArray* attachArr = [self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate attachmentVersion];
@@ -97,6 +101,9 @@
 }
 -(void) onDownloadDocumentList: (id)retObject
 {
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingnoteslist;
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[self.dbDelegate documentVersion];
@@ -115,6 +122,9 @@
 }
 - (void) onAllCategories: (id)retObject
 {
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingfolders;
 	NSDictionary* obj = retObject;
 	//
@@ -129,8 +139,10 @@
 }
 - (void) onPostTagList:(id)retObject
 {
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingtags;
-
     for (WizTag* tag in [self.dbDelegate tagsForUpload]) {
         tag.localChanged = 0;
         [tag save];
@@ -139,6 +151,9 @@
 }
 -(void) onAllTags: (id)retObject
 {
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingtags;
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate tagVersion];
@@ -150,17 +165,24 @@
         [self callAllTags:newVer+1];
     }
     else {
+        NSLog(@"%d tag need for upload ",[[self.dbDelegate tagsForUpload] count]);
         [self callPostTagList:[self.dbDelegate tagsForUpload]];
     }
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec
 {
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingdeletednotes;
 	[self.dbDelegate clearDeletedGUIDs];
     [self callAllTags:[self.dbDelegate tagVersion]];
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
+    if (!self.busy) {
+        return ;
+    }
     self.syncMessage = WizStrSyncingdeletednotes;
     NSArray* arr =[ self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate deletedGUIDVersion];
@@ -220,8 +242,18 @@
     }
     else {
         attempts = WizNetWorkMaxAttempts;
+        NSError* error = (NSError*) retObject;
+        if ([error.domain isEqualToString:WizErrorDomain] && error.code == NSUserCancelError) {
+            return;
+        }
         [WizGlobals reportError:retObject];
     }
     
+}
+- (void) cancel
+{
+    [super cancel];
+
+    NSLog(@"***************Canceled************");
 }
 @end

@@ -85,7 +85,6 @@
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
     [self.navigationController pushViewController:pad animated:YES];
-    [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     [pad release];
 }
 

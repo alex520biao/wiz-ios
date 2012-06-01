@@ -18,8 +18,8 @@ extern int CELLHEIGHTWITHOUTABSTRACT;
     WizAbstract* abstractData;
     BOOL showDownloadIndicator;
 }
-@property (nonatomic, retain) WizAbstract* abstractData;
-@property (nonatomic, retain) WizDocument* doc;
-@property (nonatomic, assign) BOOL showDownloadIndicator;
+@property (atomic, retain) WizAbstract* abstractData;
+@property (atomic, retain) WizDocument* doc;
+@property (atomic, assign) BOOL showDownloadIndicator;
 - (void) prepareForAppear;
 @end

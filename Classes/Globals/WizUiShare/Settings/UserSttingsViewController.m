@@ -25,6 +25,10 @@
 #import "NSArray+WizSetting.h"
 #import "WizFileManager.h"
 #import "WizSyncManager.h"
+#import "WizDbManager.h"
+#import "SelectFloderView.h"
+
+
 
 #define ClearCacheTag          1201
 #define ChangePasswordTag 888
@@ -49,12 +53,17 @@ enum WizSettingKind {
     WizSwitchCell* automicSyncCell;
     NSInteger      settingKind;
     NSString* usedSpaceString;
+     
+    //clearcache
+    BOOL  isStopClearCache;
+    MBProgressHUD* hub;
 }
 @property (nonatomic, retain) WizSwitchCell* mobileViewCell;
 @property (nonatomic, retain) WizSwitchCell* protectCell;
 @property (nonatomic, retain) WizSwitchCell* connectViaWifiCell;
 @property (nonatomic, retain) WizSwitchCell* automicSyncCell;
 @property (atomic, retain) NSString* usedSpaceString;
+@property (atomic, assign) BOOL isStopClearCache;
 @end
 
 
@@ -64,15 +73,37 @@ enum WizSettingKind {
 @synthesize connectViaWifiCell;
 @synthesize automicSyncCell;
 @synthesize usedSpaceString;
+@synthesize isStopClearCache;
+@synthesize navigationDelegate;
 - (void) dealloc
 {
+    navigationDelegate = nil;
     [automicSyncCell release];
     [mobileViewCell release];
     [connectViaWifiCell release];
     [protectCell release];
     [usedSpaceString release];
+    hub = nil;
     [super dealloc];
 }
+
+- (NSString*) selectedFolderOld
+{
+    return [[WizSettings defaultSettings] newNoteDefaultFolder];
+}
+
+- (void) didSelectedFolderString:(NSString *)folderString
+{
+    [[WizSettings defaultSettings] setNewNoteDefaultFolder:folderString];
+}
+- (void) selectDefaultNewNoteFolder
+{
+    SelectFloderView* selecteView = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
+    selecteView.selectDelegate = self;
+    [self.navigationController pushViewController:selecteView animated:YES];
+    [selecteView release];
+}
+
 - (void) setAutomicSync
 {
     [[WizSettings defaultSettings] setAutomicSync:self.automicSyncCell.valueSwitch.on];
@@ -157,12 +188,10 @@ enum WizSettingKind {
 //}
 - (void) logOutCurrentAccount
 {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     WizAccountManager* manager = [WizAccountManager defaultManager];
     [manager logoutAccount];
     if ([WizGlobals WizDeviceIsPad]) {
-        [nc postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
-        return;
+        [self.navigationDelegate willChangAccount];
     }
     else
     {
@@ -171,7 +200,7 @@ enum WizSettingKind {
 }
 - (void) buildNavItems
 {
-    UIBarButtonItem* logoutItem = [[UIBarButtonItem alloc] initWithTitle:WizStrLogOut style:UIBarButtonItemStyleDone target:self action:@selector(logOutCurrentAccount)];
+    UIBarButtonItem* logoutItem = [[UIBarButtonItem alloc] initWithTitle:WizStrLogOut style:UIBarButtonItemStylePlain target:self action:@selector(logOutCurrentAccount)];
     self.navigationItem.rightBarButtonItem = logoutItem;
     [logoutItem release];
 }
@@ -193,6 +222,13 @@ enum WizSettingKind {
     [self.tableView reloadData];
     
 }
+- (void) reloadUsedSpaceCell
+{
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:4]] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
+}
+
 - (void) loadUserSpaceStirng
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
@@ -201,6 +237,7 @@ enum WizSettingKind {
     NSString* str = NSLocalizedString(@"Used", nil);
     NSString* displayStr = [str stringByAppendingFormat:@" %.2fM",mUsedSpace];
     self.usedSpaceString =  NSLocalizedString(displayStr, nil);
+    [self performSelectorOnMainThread:@selector(reloadUsedSpaceCell) withObject:nil waitUntilDone:NO];
     [pool drain];
 }
 - (void) didChangedSyncDescription:(NSString *)description
@@ -255,7 +292,7 @@ enum WizSettingKind {
         case 3:
             return 3;
         case 4:
-            return 3;
+            return 4;
         case 5:
             return 4;
         default:
@@ -268,8 +305,6 @@ enum WizSettingKind {
     if (section == 0) {
         WizSettings* settings = [WizSettings defaultSettings];
         NSString* str = NSLocalizedString(@"Last synchronized: ", nil);
-        NSDate* lastDate = [settings lastSynchronizeDate];
-        NSLog(@"last date %@",lastDate);
         NSString* ret = [str stringByAppendingString:[[settings lastSynchronizeDate] stringSql]];
         return ret;
     }
@@ -313,6 +348,7 @@ enum WizSettingKind {
     WizSettings* defaultSettings = [WizSettings defaultSettings];
     cell.detailTextLabel.text = @"";
     cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     cell.textLabel.textAlignment = UITextAlignmentLeft;
     if ([indexPath isEqualToSectionAndRow:0 row:0]) {
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -372,11 +408,17 @@ enum WizSettingKind {
     }
     else if ([indexPath isEqualToSectionAndRow:4 row:0])
     {
-        cell.textLabel.text = NSLocalizedString(@"Photo Quality", nil);
-        NSInteger quality = [defaultSettings imageQualityValue] ;
-        cell.detailTextLabel.text = [[NSArray imageQulityArray] descriptionForWizSettingValue:quality];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.text = NSLocalizedString(@"Default Folder", nil);
+        cell.detailTextLabel.text = [WizGlobals  folderStringToLocal:[[WizSettings defaultSettings] newNoteDefaultFolder]];
     }
     else if ([indexPath isEqualToSectionAndRow:4 row:1])
+    {
+        cell.textLabel.text = NSLocalizedString(@"Photo Quality", nil);
+        NSInteger quality = [defaultSettings imageQualityValue];
+        cell.detailTextLabel.text = [[NSArray imageQulityArray] descriptionForWizSettingValue:quality];
+    }
+    else if ([indexPath isEqualToSectionAndRow:4 row:2])
     {
         cell.textLabel.text = NSLocalizedString(@"Clear cache",nil);
         cell.detailTextLabel.text = usedSpaceString;
@@ -432,7 +474,7 @@ enum WizSettingKind {
     {
         return self.connectViaWifiCell;
     }
-    else if ([indexPath isEqualToSectionAndRow:4 row:2])
+    else if ([indexPath isEqualToSectionAndRow:4 row:3])
     {
         return self.protectCell;
     }
@@ -456,14 +498,97 @@ enum WizSettingKind {
 
 - (void) clearCache
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
-                                                       message:NSLocalizedString(@"All the cache files will be deleted, are you sure?",nil)   
-                                                       delegate:self   
-                                                       cancelButtonTitle:WizStrCancel 
-                                                       otherButtonTitles:WizStrDelete,nil];  
-    alert.tag = ClearCacheTag;
-    [alert show];
-    [alert release];
+//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
+//                                                       message:NSLocalizedString(@"All the cache files will be deleted, are you sure?",nil)   
+//                                                       delegate:self   
+//                                                       cancelButtonTitle:WizStrCancel 
+//                                                       otherButtonTitles:WizStrDelete,nil];  
+//    alert.tag = ClearCacheTag;
+//    [alert show];
+//    [alert release];
+    [self willClearCache];
+}
+
+- (void) hudWasHidden:(MBProgressHUD *)hud
+{
+    [hud removeFromSuperview];
+    [hud release];
+    hud = nil;
+    self.usedSpaceString = @"";
+    [self reloadUsedSpaceCell];
+    [self performSelectorInBackground:@selector(loadUserSpaceStirng) withObject:nil];
+}
+- (void) doClearCache:(NSNumber*)timeInval
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    WizDbManager* dbManager = [[WizDbManager alloc] init];
+    WizFileManager* share = [WizFileManager shareManager];
+    [dbManager openDb:[share dbPath]];
+    WizDocument* document = nil;
+    CGFloat time = [timeInval floatValue];
+    self.isStopClearCache = NO;
+    do
+    {
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+        document = [dbManager documentForClearCacheNext];
+        if (document == nil) {
+            break;
+        }
+        if (ABS([document.dateModified timeIntervalSinceNow]) < time) {
+            break;
+        }
+        NSLog(@"real timeinterval is %f",[document.dateModified timeIntervalSinceNow]);
+        NSString* path = [share objectFilePath:document.guid];
+        if ([share removeItemAtPath:path error:nil]) {
+            if([dbManager setDocumentServerChanged:document.guid changed:YES])
+            {
+                NSLog(@"succeed");
+            }
+        }
+        [pool drain];
+    }
+    while (document != nil && !self.isStopClearCache);
+    [dbManager close];
+    [dbManager release];
+    [pool drain];
+}
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([WizGlobals WizDeviceIsPad]) {
+        UINavigationController* nav = [self.navigationDelegate settingsViewControllerParentViewController];
+        hub = [[MBProgressHUD alloc] initWithView:nav.view];
+        [nav.view addSubview:hub];
+    }
+    else {
+        hub = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        [self.navigationController.view addSubview:hub];
+    }
+    hub.delegate = self;
+    hub.labelText = NSLocalizedString(@"Clearing Cache ...", nil);
+    switch (buttonIndex) {
+        case 0:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:86400] animated:YES];
+            break;
+        case 1:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:604800] animated:YES];
+            break;
+        case 2:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:2592000] animated:YES];
+            break;
+        case 3:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:0] animated:YES];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void) willClearCache
+{
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrClearCache delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:nil otherButtonTitles:WizStrBeforeToday,WizStrBeforeAWeek,WizStrBeforeAMonth,WizStrAll,nil];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -476,7 +601,7 @@ enum WizSettingKind {
         {
             [[WizAccountManager defaultManager] removeAccount:[[WizAccountManager defaultManager] activeAccountUserId]];
             if ([WizGlobals WizDeviceIsPad]) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:MessageOfPadChangeUser object:nil userInfo:nil];
+                [self.navigationDelegate willChangAccount];
             }
             else
             {
@@ -486,13 +611,12 @@ enum WizSettingKind {
     }
     else if (alertView.tag == ProtectPasswordTag)
     {
+        
     }
     else if (alertView.tag == ClearCacheTag)
     {
-        if (buttonIndex == 1) {
-//            WizIndex* index = [WizIndex activeIndex];
-//            [index clearCache];
-        }
+        [self willClearCache];
+
     }
 }
 
@@ -601,6 +725,7 @@ enum WizSettingKind {
 }
 
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([indexPath isEqualToSectionAndRow:0 row:0]) {
@@ -629,9 +754,13 @@ enum WizSettingKind {
     }
     else if ([indexPath isEqualToSectionAndRow:4 row:0])
     {
-        [self selectPhotoQuality];
+        [self selectDefaultNewNoteFolder];
     }
     else if ([indexPath isEqualToSectionAndRow:4 row:1])
+    {
+        [self selectPhotoQuality];
+    }
+    else if ([indexPath isEqualToSectionAndRow:4 row:2])
     {
         [self clearCache];
     }

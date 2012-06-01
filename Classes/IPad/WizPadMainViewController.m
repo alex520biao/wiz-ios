@@ -30,6 +30,9 @@
     NSArray* viewControllers;
     
     UIActivityIndicatorView* activityIndicator;
+    
+    BOOL isWillReloadFolderTable;
+    BOOL isWillReloadTagTable;
 }
 @property (nonatomic, retain) UIPopoverController* currentPoperController;
 @end
@@ -46,7 +49,16 @@
     [viewControllers release];
     viewControllers = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
+}
+- (void) willReloadTagTable
+{
+    isWillReloadTagTable = YES;
+}
+- (void) willReloadFolderTable
+{
+    isWillReloadFolderTable = YES;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,9 +66,10 @@
     if (self) {
         NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
         [nc removeObserver:self];
-        [nc addObserver:self selector:@selector(willChangeUser) name:MessageOfPadChangeUser object:nil];
         [nc addObserver:self selector:@selector(viewWillChange:) name:MessageOfViewWillOrientent object:nil];
-        [nc addObserver:self selector:@selector(newNote) name:MessageOfNewFirstDocument object:nil];
+        
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadFolderTable) name:MessageTypeOfUpdateFolderTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadTagTable) name:MessageTypeOfUpdateTagTable];
     }
     return self;
 }
@@ -92,10 +105,10 @@
 }
 - (void) newNote
 {
-    
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
+    newNote.navigateDelegate = self;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];
@@ -133,9 +146,14 @@
     self.currentPoperController = nil;
 }
 
+- (UINavigationController*) settingsViewControllerParentViewController
+{
+    return self.navigationController;
+}
 - (void) setAccountSettings:(id)sender
 {
     UserSttingsViewController* settings = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    settings.navigationDelegate = self;
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:settings];
     [self popoverController:controller fromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionUp];
     [settings release];
@@ -214,11 +232,9 @@
 {
     
 }
-
-- (void) willChangeUser
+- (void) willChangAccount
 {
     [self.navigationController popViewControllerAnimated:NO];
-//    [WizNotificationCenter postChangeAccountMessage];
 }
 
 - (void) viewWillChange:(NSNotification*)nc
@@ -239,8 +255,6 @@
             [source addObject:array];
         }
         check.documentsArray = source;
-        NSLog(@"init sourceArray%@",source);
-        NSLog(@"sourceArray %@",sourceArray);
         [source release];
     }
     [self.navigationController pushViewController:check animated:YES];
@@ -282,6 +296,7 @@
     [mainSegment setSelectedSegmentIndex:0];
     UIViewController* controller = [viewControllers objectAtIndex:0];
     self.view = controller.view;
+    
 }
 
 - (void)viewDidUnload
@@ -317,12 +332,27 @@
     UIViewController* controller = [viewControllers objectAtIndex:mainSegment.selectedSegmentIndex];
     [controller viewWillAppear:animated];
 }
+- (void) newNoteWillDisappear
+{
+    if (isWillReloadTagTable) {
+        WizPadTagsViewController* tag = [viewControllers objectAtIndex:2];
+        [tag reloadAllData];
+        isWillReloadTagTable = NO;
+    }
+    if (isWillReloadFolderTable) {
+        WizPadFoldersViewController* folder = [viewControllers objectAtIndex:1];
+        [folder reloadAllData];
+        isWillReloadFolderTable = NO;
+    }
+}
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     UIViewController* controller = [viewControllers objectAtIndex:mainSegment.selectedSegmentIndex];
     [controller viewDidAppear:animated];
     [self buildToolBar];
+    
+    
 }
 - (void) viewWillDisappear:(BOOL)animated
 {

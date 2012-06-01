@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 #import "ATMHudDelegate.h"
 
-@interface DocumentViewCtrollerBase : UIViewController <UIWebViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate,ATMHudDelegate>
+@interface DocumentViewCtrollerBase : UIViewController <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UIActionSheetDelegate,UIWebViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate,ATMHudDelegate>
 {
     WizDocument* doc;
 }

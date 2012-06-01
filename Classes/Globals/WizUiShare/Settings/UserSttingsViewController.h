@@ -9,6 +9,13 @@
 #import <MessageUI/MessageUI.h>
 #import "WizSingleSelectDelegate.h"
 #import "WizSyncDescriptionDelegate.h"
+#import "MBProgressHUD.h"
+#import "WizSettingsParentNavigationDelegate.h"
+#import "WizFolderSelectDelegate.h"
 
-@interface UserSttingsViewController:UITableViewController <WizSyncDescriptionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,WizSingleSelectDelegate>
+@interface UserSttingsViewController:UITableViewController <WizFolderSelectDelegate,MBProgressHUDDelegate,UIActionSheetDelegate,WizSyncDescriptionDelegate,UIAlertViewDelegate,MFMailComposeViewControllerDelegate,WizSingleSelectDelegate>
+{
+    id<WizSettingsParentNavigationDelegate> navigationDelegate;
+}
+@property (atomic, assign) id<WizSettingsParentNavigationDelegate> navigationDelegate;
 @end

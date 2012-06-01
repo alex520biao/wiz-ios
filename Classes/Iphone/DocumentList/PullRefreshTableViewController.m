@@ -59,9 +59,10 @@
     refreshHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, 320, REFRESH_HEADER_HEIGHT)];
     refreshHeaderView.backgroundColor = [UIColor clearColor];
 
-    refreshLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.0, 320, REFRESH_HEADER_HEIGHT/2)];
+    refreshLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.0, 320, REFRESH_HEADER_HEIGHT)];
     refreshLabel.backgroundColor = [UIColor clearColor];
     refreshLabel.font = [UIFont boldSystemFontOfSize:12.0];
+    refreshLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     refreshLabel.textAlignment = UITextAlignmentCenter;
 
     refreshDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(50 , REFRESH_HEADER_HEIGHT/2 -7, 220, REFRESH_HEADER_HEIGHT/2)];

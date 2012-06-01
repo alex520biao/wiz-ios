@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "WizSettingsDbDelegate.h"
-#import <CoreLocation/CoreLocation.h>
-#import <MapKit/MapKit.h>
 
-@interface WizSettings : NSObject <MKReverseGeocoderDelegate, CLLocationManagerDelegate>
+
+@interface WizSettings : NSObject 
 {
     id<WizSettingsDbDelegate> settingsDbDelegate;
 }
@@ -78,6 +77,4 @@
 - (BOOL) setLastSynchronizedDate:(NSDate*)lastDate;
 - (NSDate*) lastSynchronizeDate;
 //
-- (MKPlacemark*) getCurrentPlaceMark;
-- (CLLocation*) getCurrentLocation;
 @end

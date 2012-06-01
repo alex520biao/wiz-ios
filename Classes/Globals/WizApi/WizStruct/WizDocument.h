@@ -32,6 +32,7 @@ enum
     WizEditDocumentTypeAllChanged = 1,
 };
 
+//GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT
 @interface WizDocument : WizObject
 {
 	NSString* location;
@@ -46,19 +47,47 @@ enum
     BOOL serverChanged;
     WizEditDocumentType localChanged;
 	NSInteger attachmentCount;
+    
+    float   gpsLatitude;
+    float   gpsLongtitude;
+    float   gpsAltitude;
+    float   gpsDop;
+    
+    NSString* gpsAddress;
+    NSString* gpsCountry;
+    NSString* gpsLevel1;
+    NSString* gpsLevel2;
+    NSString* gpsLevel3;
+    
+    NSString* gpsDescription;
+    int nReadCount;
+    
 }
-@property (nonatomic, retain) NSString* location;
-@property (nonatomic, retain) NSString* url;
-@property (nonatomic, retain) NSDate* dateCreated;
-@property (nonatomic, retain) NSDate* dateModified;
-@property (nonatomic, retain) NSString* type;
-@property (nonatomic, retain) NSString* fileType;
-@property (nonatomic, retain) NSString* tagGuids;
-@property (nonatomic, retain) NSString* dataMd5;
-@property (assign) BOOL serverChanged;
-@property (assign) WizEditDocumentType localChanged;
-@property (assign) BOOL protected_;
-@property int attachmentCount;
+@property (atomic, retain) NSString* location;
+@property (atomic, retain) NSString* url;
+@property (atomic, retain) NSDate* dateCreated;
+@property (atomic, retain) NSDate* dateModified;
+@property (atomic, retain) NSString* type;
+@property (atomic, retain) NSString* fileType;
+@property (atomic, retain) NSString* tagGuids;
+@property (atomic, retain) NSString* dataMd5;
+@property (atomic, assign) BOOL serverChanged;
+@property (atomic, assign) WizEditDocumentType localChanged;
+@property (atomic, assign) BOOL protected_;
+@property (atomic, assign) int attachmentCount;
+@property (atomic, assign)     float   gpsLatitude;
+@property (atomic, assign)     float   gpsLongtitude;
+@property (atomic, assign)     float   gpsAltitude;
+@property (atomic, assign)     float   gpsDop;
+@property (atomic, assign) int nReadCount;
+@property (atomic, retain) NSString* gpsAddress;
+@property (atomic, retain) NSString* gpsCountry;
+@property (atomic, retain) NSString* gpsLevel1;
+@property (atomic, retain) NSString* gpsLevel2;
+@property (atomic, retain) NSString* gpsLevel3;
+@property (atomic, retain) NSString* gpsDescription;
+
+
 - (NSComparisonResult) compareModifiedDate:(WizDocument*) doc;
 - (NSComparisonResult) compareWithFirstLetter:(WizDocument*) doc;
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc;
@@ -67,6 +96,7 @@ enum
 - (BOOL) isExistAbstractFile;
 - (BOOL) isExistIndexFile;
 
+- (NSString*) documentPath;
 - (NSString*) documentIndexFilesPath;
 - (NSString*) documentIndexFile;
 - (NSString*) documentMobileFile;
@@ -100,4 +130,6 @@ enum
 //
 + (NSArray*)documentsForCache;
 - (BOOL) isIosDocument;
+//
+- (NSString*)tagDisplayString;
 @end

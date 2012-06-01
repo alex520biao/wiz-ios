@@ -247,6 +247,12 @@ static WizFileManager* shareManager = nil;
     NSString* fileName;
     long long folderSize = 0;
     while ((fileName = [childFilesEnumerator nextObject]) != nil){
+        if ([fileName isEqualToString:@"index.db"]) {
+            continue;
+        }
+        if ([fileName isEqualToString:@"temp.db"]) {
+            continue;
+        }
         NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
         folderSize += [self fileSizeAtPath:fileAbsolutePath];
         }

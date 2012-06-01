@@ -37,7 +37,17 @@ BOOL isReverseMask(NSInteger mask)
 @synthesize serverChanged;
 @dynamic  localChanged;
 @synthesize attachmentCount;
-
+@synthesize gpsLatitude;
+@synthesize   gpsLongtitude;
+@synthesize  gpsAltitude;
+@synthesize gpsDop;
+@synthesize nReadCount;
+@synthesize gpsAddress;
+@synthesize gpsCountry;
+@synthesize gpsLevel1;
+@synthesize gpsLevel2;
+@synthesize gpsLevel3;
+@synthesize gpsDescription;
 - (WizEditDocumentType) localChanged
 {
     return localChanged;
@@ -59,6 +69,12 @@ BOOL isReverseMask(NSInteger mask)
     [dateModified release];
     [tagGuids release];
     [dataMd5 release];
+    [gpsCountry release];
+    [gpsAddress release];
+    [gpsLevel1 release];
+    [gpsLevel2 release];
+    [gpsLevel3 release];
+    [gpsDescription release];
     [super dealloc];
 }
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc
@@ -115,6 +131,11 @@ BOOL isReverseMask(NSInteger mask)
         return NO;
     }
     return YES;
+}
+- (NSString*) documentPath
+{
+    WizFileManager* share = [WizFileManager shareManager];
+    return [share objectFilePath:self.guid];
 }
 - (NSString*) documentIndexFilesPath
 {
@@ -246,6 +267,8 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:[NSNumber numberWithInt:self.localChanged] forKey:DataTypeUpdateDocumentLocalchanged];
     [doc setObject:[NSNumber numberWithBool:self.protected_] forKey:DataTypeUpdateDocumentProtected];
     [doc setObject:[NSNumber numberWithInt:self.attachmentCount] forKey:DataTypeUpdateDocumentAttachmentCount];
+    if (nil!= self.gpsAddress) {
+    }
     if (nil == self.type)
     {
         self.type = @"note";
@@ -256,7 +279,7 @@ BOOL isReverseMask(NSInteger mask)
     }
     [doc setObject:self.url forKey:DataTypeUpdateDocumentUrl];
     if (nil == self.location || [self.location isBlock]) {
-        self.location = @"/My Notes/";
+        self.location = [[WizSettings defaultSettings] newNoteDefaultFolder];
     }
     [doc setObject:self.location forKey:DataTypeUpdateDocumentLocation];
     if (nil == self.title || [self.title isBlock]) {
@@ -284,6 +307,31 @@ BOOL isReverseMask(NSInteger mask)
         self.dataMd5 = @"";
     }
     [doc setObject:self.dataMd5 forKey:DataTypeUpdateDocumentDataMd5];
+    
+    if (self.gpsAddress) {
+        [doc setObject:self.gpsAddress forKey:DataTypeUpdateDocumentGPS_ADDRESS];
+    }
+    if (self.gpsCountry) {
+        [doc setObject:self.gpsCountry forKey:DataTypeUpdateDocumentGPS_COUNTRY];
+    }
+    if (self.gpsLevel1) {
+        [doc setObject:self.gpsLevel1 forKey:DataTypeUpdateDocumentGPS_LEVEL1];
+    }
+    if (self.gpsLevel2) {
+        [doc setObject:self.gpsLevel2 forKey:DataTypeUpdateDocumentGPS_LEVEL2];
+    }
+    if (self.gpsLevel3) {
+        [doc setObject:self.gpsLevel3 forKey:DataTypeUpdateDocumentGPS_LEVEL3];
+    }
+    if (self.gpsDescription) {
+        [doc setObject:self.gpsDescription forKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
+    }
+    [doc setObject:[NSNumber numberWithFloat:self.gpsLatitude] forKey:DataTypeUpdateDocumentGPS_LATITUDE];
+    [doc setObject:[NSNumber numberWithFloat:self.gpsLongtitude] forKey:DataTypeUpdateDocumentGPS_LONGTITUDE];
+    [doc setObject:[NSNumber numberWithFloat:self.gpsAltitude] forKey:DataTypeUpdateDocumentGPS_ALTITUDE];
+    [doc setObject:[NSNumber numberWithFloat:self.gpsDop] forKey:DataTypeUpdateDocumentGPS_DOP];
+    [doc setObject:[NSNumber numberWithInt:self.nReadCount] forKey:DataTypeUpdateDocumentREADCOUNT];
+    
     NSLog(@"%@",doc);
     if ([[WizDbManager shareDbManager] updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
@@ -389,7 +437,8 @@ BOOL isReverseMask(NSInteger mask)
         }
         else {
             [each saveData:each.description];
-            textBody = [NSString stringWithFormat:@"Add by itouch"];
+            NSString* device = [[UIDevice currentDevice] name];
+            textBody = [NSString stringWithFormat:NSLocalizedString(@"Add by %@", nil),device];
         }
     }
     self.attachmentCount = [documentsSourceArray count] - [photoAndAudios count];
@@ -421,11 +470,6 @@ BOOL isReverseMask(NSInteger mask)
                 self.title = WizStrNewDocumentTitleAudio;
             }
         }
-    }
-    MKPlacemark* placeMark = [[WizSettings defaultSettings] getCurrentPlaceMark];
-    NSLog(@"location %@",placeMark);
-    if (nil != placeMark) {
-        self.title = [self.title stringByAppendingString:placeMark.description];
     }
     NSString* html = [self wizHtmlString:self.title body:textBody attachments:photoAndAudios];
     NSString* documentIndex = [self documentIndexFile];
@@ -498,4 +542,15 @@ BOOL isReverseMask(NSInteger mask)
     }
     return [self.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.type isEqualToString:WizDocumentTypeImageKeyString] || [self.type isEqualToString:WizDocumentTypeNoteKeyString];
 }
+
+//
+- (NSString*)tagDisplayString
+{
+    NSMutableString* tagNames = [NSMutableString string];
+    for (WizTag* each in [self tagDatas]) {
+        [tagNames appendFormat:@"|%@",getTagDisplayName(each.title)];
+    }
+    return tagNames;
+}
+
 @end

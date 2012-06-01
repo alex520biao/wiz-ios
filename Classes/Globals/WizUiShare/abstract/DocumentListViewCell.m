@@ -41,7 +41,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     @synchronized (placeHoderImage)
     {
         if (nil == placeHoderImage) {
-            placeHoderImage = [UIImage imageNamed:@"documentWithoutData"];
+            placeHoderImage = [[UIImage imageNamed:@"documentWithoutData"] retain];
         }
     }
     return placeHoderImage;
@@ -187,10 +187,14 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     nameLabel.text = self.doc.title;
     timeLabel.text = [self.doc.dateModified stringSql];
     detailLabel.text = self.abstractData.text;
-    if (nil != self.abstractData && nil != self.abstractData.image) {
-        abstractImageView.image = abstractData.image;
+    if (nil != self.abstractData)
+    {
+        if (nil != self.abstractData.image) {
+            abstractImageView.image = abstractData.image;
+        }
     }
     else {
+        detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
         abstractImageView.image = [DocumentListViewCell documentNoDataImage];
     }
 }

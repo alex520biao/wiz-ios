@@ -10,6 +10,27 @@
 #import "WizApiManagerDelegate.h"
 #define WizSyncEndMessage   @""
 
+typedef NSInteger WizSyncStatueCode;
+enum
+{
+    WizSyncStatueStart = 1,
+    WizSyncStatueEnd = 2,
+    WizSyncStatueDownloadDeletedItems = 3,
+    WizSyncStatueUploadloadDeletedItems,
+    WizSyncStatueDownloadFolder,
+    WizSyncStatueDownloadTags,
+    WizSyncStatueUploadTags,
+    WizSyncStatueDownloadDocumentList,
+    WizSyncStatueDownloadAttachmentList,
+    WizSyncStatueUploadDocument,
+    WizSyncStatueUploadAttachment,
+    WizSyncStatueDownloadDocument,
+    WizSyncStatueDownloadAttachment,
+    WizSyncStatueLogin,
+    WizSyncStatueSearching,
+    WizSyncStatueCreateAccount,
+};
+
 @class WizDocument;
 @class WizAttachment;
 
@@ -50,7 +71,7 @@
     id<WizApiDelegate> delegate;
     BOOL busy;
     NSString* syncMessage;
-    
+    WizSyncStatueCode syncStatue;
     id <WizApiManagerDelegate> apiManagerDelegate;
 }
 @property (nonatomic, retain) NSURL* accountURL;
@@ -62,7 +83,7 @@
 @property (atomic, readonly) BOOL busy;
 @property (nonatomic, assign) id<WizApiDelegate> delegate;
 @property (nonatomic, assign) id <WizApiManagerDelegate> apiManagerDelegate;
-
+@property (nonatomic, assign) WizSyncStatueCode syncStatue;
 -(BOOL) callClientLogin:(NSString*)accountUserId accountPassword:(NSString*)accountPassword;
 -(BOOL) callClientLogout;
 -(BOOL) callGetUserInfo;

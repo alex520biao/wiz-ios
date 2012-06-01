@@ -17,19 +17,14 @@
 #import "WizSyncManager.h"
 #import "DocumentViewCtrollerBase.h"
 #import "WizSettings.h"
-
+#import "MTStatusBarOverlay.h"
 
 @interface WizTableViewController ()
-{
-    UILabel* syncDesLabel;
-}
-@property (nonatomic, retain) UILabel* syncDesLabel;
 - (void) showSyncButton;
 @end
 @implementation WizTableViewController
 @synthesize kOrderIndex;
 @synthesize tableSourceArray;
-@synthesize syncDesLabel;
 - (NSArray*) reloadAllDocument
 {
     return nil;
@@ -56,6 +51,12 @@
     [[WizSyncManager shareManager] startSyncInfo];
     [self showActivity];
 }
+
+- (void) refresh
+{
+    [self reloadSelf];
+}
+
 - (void) showSyncButton
 {
     UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStyleBordered target:self action:@selector(reloadSelf)];
@@ -66,7 +67,6 @@
 - (void) dealloc
 {
     [tableSourceArray release];
-    [syncDesLabel release];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -83,32 +83,17 @@
 {
     return [[self.tableSourceArray objectAtIndex:section] description];
 }
-
+- (void) stopSyncing
+{
+    [[WizSyncManager shareManager] stopSync];
+}
 - (void) didChangedSyncDescription:(NSString *)description
 {
     if (description == nil || [description isBlock]) {
         self.tableView.tableHeaderView = nil;
         [self showSyncButton];
+        [self stopLoading];
         return;
-    }
-    if (self.tableView.tableHeaderView != nil) {
-        if (description == nil) {
-            self.tableView.tableHeaderView = nil;
-        }
-        else {
-            syncDesLabel.text = description;
-        }
-    }
-}
-- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    if ([[WizSyncManager shareManager] isSyncing]) {
-        self.tableView.tableHeaderView = syncDesLabel;
-        syncDesLabel.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 20);
-        syncDesLabel.text = [[WizSyncManager shareManager] syncDescription];
-    }
-    else {
-        self.tableView.tableHeaderView = nil;
     }
 }
 - (void)viewDidLoad
@@ -124,6 +109,12 @@
 {
     [super viewWillAppear:animated];
     [[WizSyncManager shareManager] setDisplayDelegate:self];
+    if ([[WizSyncManager shareManager] isSyncing]) {
+        [self startLoading];
+    }
+    else {
+        [self stopLoading];
+    }
     if ([[WizSettings defaultSettings] userTablelistViewOption] != self.kOrderIndex) {
         [self reloadAllData];
     }
@@ -293,9 +284,6 @@
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [WizNotificationCenter addObserverForUpdateDocumentList:self selector:@selector(reloadAllData)];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        syncDesLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        syncDesLabel.textAlignment = UITextAlignmentCenter;
-        syncDesLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.kOrderIndex = -1;
         [self showSyncButton];
     }

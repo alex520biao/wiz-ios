@@ -1,7 +1,23 @@
 // We're using a global variable to store the number of occurrences
 var MyApp_SearchResultCount = 0;
-
+var MySearchResultsArray = new Array();
+var CurrentIndex = 0;
 // helper function, recursively searches in elements and their child nodes
+function ScrollToSpan(index)
+{
+	var span = MySearchResultsArray[index];
+	var desiredHeight = span.offsetTop - 100;
+    window.scrollTo(0,desiredHeight);
+}
+
+function ScrollToNext()
+{
+    if(CurrentIndex == 0)
+    {
+        CurrentIndex = MyApp_SearchResultCount;
+    }
+    ScrollToSpan(CurrentIndex--);
+}
 function MyApp_HighlightAllOccurencesOfStringForElement(element, keyword) {
 	if(element) {
 		if(element.nodeType == 3) {// Text node
@@ -9,11 +25,9 @@ function MyApp_HighlightAllOccurencesOfStringForElement(element, keyword) {
 				var value = element.nodeValue;
 				// Search for keyword in text node
 				var idx = value.toLowerCase().indexOf(keyword);
-                
 				if(idx < 0)
 					break;
 				// not found, abort
-                
 				var span = document.createElement("span");
 				var text = document.createTextNode(value.substr(idx, keyword.length));
 				span.appendChild(text);
@@ -27,7 +41,7 @@ function MyApp_HighlightAllOccurencesOfStringForElement(element, keyword) {
 				element.parentNode.insertBefore(text, next);
 				element = text;
 				MyApp_SearchResultCount++;
-				// update the counter
+				MySearchResultsArray.push(span);
 			}
 		} else if(element.nodeType == 1) {// Element node
 			if(element.style.display != "none" && element.nodeName.toLowerCase() != 'select') {
@@ -43,6 +57,7 @@ function MyApp_HighlightAllOccurencesOfStringForElement(element, keyword) {
 function MyApp_HighlightAllOccurencesOfString(keyword) {
 	MyApp_RemoveAllHighlights();
 	MyApp_HighlightAllOccurencesOfStringForElement(document.body, keyword.toLowerCase());
+    ScrollToSpan(0);
 }
 
 // helper function, recursively removes the highlights in elements and their childs
@@ -71,7 +86,12 @@ function MyApp_RemoveAllHighlightsForElement(element) {
 }
 
 // the main entry point to remove the highlights
-function MyApp_RemoveAllHighlights() {
+function MyApp_RemoveAllHighlights() 
+{
+	for (i = 0 ; i < MyApp_SearchResultCount;i ++)
+	{
+		MySearchResultsArray.shift();
+	}
 	MyApp_SearchResultCount = 0;
 	MyApp_RemoveAllHighlightsForElement(document.body);
 }

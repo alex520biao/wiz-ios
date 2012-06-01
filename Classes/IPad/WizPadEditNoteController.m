@@ -50,9 +50,11 @@
 
 @implementation WizPadEditNoteController
 @synthesize currentPopoverController;
+@synthesize navigateDelegate;
 
 - (void) dealloc
 {
+    navigateDelegate = nil;
     [WizNotificationCenter removeObserver:self];
     [timerView release];
     [currentPopoverController release];
@@ -116,8 +118,8 @@
 }
 - (void) didSelectedTags:(NSArray *)tags
 {
-    tagTextField.text= [NSString stringWithFormat:@"%@",tags];
     [self.docEdit setTagWithArray:tags];
+    tagTextField.text = [self.docEdit tagDisplayString];
 }
 - (NSArray*) selectedTagsOld
 {
@@ -204,6 +206,7 @@
     [folderButton addTarget:self action:@selector(folderViewSelected:) forControlEvents:UIControlEventTouchUpInside];
     folderTextField.rightView = folderButton;
     folderTextField.rightViewMode = UITextFieldViewModeAlways;
+    
     [folderLabel release];
 
     
@@ -293,6 +296,7 @@
     self.docEdit.title = titleInputTextField.text;
     [self.docEdit saveWithData:bodyInputTextView.text attachments:self.attachmentsArray];
     [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self.navigateDelegate newNoteWillDisappear];
 }
 
 - (float) updateTime
@@ -462,6 +466,11 @@
         self.docEdit = doc;
         [doc release];
     }
+    else {
+        titleInputTextField.text = docEdit.title;
+        folderTextField.text = self.docEdit.location;
+        tagTextField.text = [self.docEdit tagDisplayString];
+    }
 }
 - (void) viewDidLoad
 {
@@ -501,8 +510,13 @@
 // textFieldDelegate
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField == folderTextField || textField == tagTextField) {
-        [textField resignFirstResponder];
+    if (textField == folderTextField) {
+        [self folderViewSelected:nil];
     }
+    else if (textField == tagTextField)
+    {
+        [self tagViewSelected];
+    }
+    [textField resignFirstResponder];
 }
 @end

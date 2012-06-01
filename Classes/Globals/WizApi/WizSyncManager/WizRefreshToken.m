@@ -22,6 +22,10 @@
 - (void) onError:(id)retObject
 {
     busy = NO;
+    NSError* error = (NSError*)retObject;
+    if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain]) {
+        
+    }
     [super onError:retObject];
 }
 - (BOOL) start

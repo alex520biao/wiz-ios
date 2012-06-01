@@ -26,7 +26,20 @@
 #define DataTypeUpdateDocumentLocalchanged      @"document_localchanged"
 #define DataTypeUpdateDocumentServerChanged     @"document_serverchanged"
 #define DataTypeUpdateDocumentProtected         @"document_protect"
-#define DataTypeUpdateDocumentInfoLocalChanged  @"documentLocalChanged"
+
+
+#define DataTypeUpdateDocumentGPS_LATITUDE      @"gps_latitude"
+#define DataTypeUpdateDocumentGPS_LONGTITUDE    @"gps_longitude"
+#define DataTypeUpdateDocumentGPS_ALTITUDE      @"GPS_ALTITUDE"
+#define DataTypeUpdateDocumentGPS_DOP           @"GPS_DOP"
+#define DataTypeUpdateDocumentGPS_ADDRESS       @"GPS_ADDRESS"
+#define DataTypeUpdateDocumentGPS_COUNTRY       @"GPS_COUNTRY"
+#define DataTypeUpdateDocumentGPS_LEVEL1        @"GPS_LEVEL1"
+#define DataTypeUpdateDocumentGPS_LEVEL2        @"GPS_LEVEL2"
+#define DataTypeUpdateDocumentGPS_LEVEL3        @"GPS_LEVEL3"
+#define DataTypeUpdateDocumentGPS_DESCRIPTION   @"GPS_DESCRIPTION"
+#define DataTypeUpdateDocumentREADCOUNT         @"READCOUNT"
+
 //attachment
 #define DataTypeUpdateAttachmentDescription     @"attachment_description"
 #define DataTypeUpdateAttachmentDocumentGuid    @"attachment_document_guid"

@@ -15,7 +15,7 @@
 #import "WizSelectTagViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizDbManager.h"
-
+#import "WizMapViewController.h"
 @interface DocumentInfoViewController()
 {
     BOOL docChanged;
@@ -180,10 +180,21 @@
         cell.textLabel.text = WizStrDateCreated;
         cell.detailTextLabel.text = [doc.dateCreated stringLocal];
     }
+//    else if (5 == indexPath.row) {
+//        cell.textLabel.text = WizStrLocation;
+//        cell.detailTextLabel.text = self.doc.gpsDescription;
+//    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
-
+- (void) showMap
+{
+    WizMapViewController* map = [[WizMapViewController alloc] init];
+    map.doc = self.doc;
+    [self.navigationController pushViewController:map animated:YES];
+    
+    [map release];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (1 == indexPath.row) {
@@ -192,6 +203,10 @@
     else if ( 2 == indexPath.row)
     {
         [self floderViewSelected];
+    }
+    else if (5 == indexPath.row)
+    {
+        [self showMap];
     }
 }
 

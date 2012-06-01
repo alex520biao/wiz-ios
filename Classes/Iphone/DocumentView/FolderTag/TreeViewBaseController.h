@@ -34,5 +34,6 @@
 
 -(void)onExpand:(LocationTreeNode*)node;
 -(void) setNodeRow;
-
+- (void) reloadAllData;
+- (void) willReloadAllData;
 @end

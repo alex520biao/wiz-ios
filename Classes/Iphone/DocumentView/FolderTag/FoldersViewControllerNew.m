@@ -23,13 +23,14 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfUpdateFolderTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadAllData) name:MessageTypeOfUpdateFolderTable];
     }
     return self;
 }
 - (void) dealloc
 {
     [WizNotificationCenter removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 - (void)didReceiveMemoryWarning
@@ -128,12 +129,9 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadAllData) name:MessageOfFolderViewVillReloadData object:nil];
     self.title = WizStrFolders;
-    [self reloadAllData];
     self.closedImage = [UIImage imageNamed:@"treePlus"];
     self.expandImage = [UIImage imageNamed:@"treeCut"];
-
     UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]])];
     UIImageView* searchFooter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"folderTableFooter"]];
     [footerView addSubview:searchFooter];
@@ -165,7 +163,6 @@
 
 - (void)viewDidUnload
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfFolderViewVillReloadData object:nil];
     [super viewDidUnload];
 }
 

@@ -45,6 +45,16 @@
 @synthesize busy;
 @synthesize syncMessage;
 @synthesize apiManagerDelegate;
+@dynamic syncStatue;
+
+- (void) setSyncStatue:(WizSyncStatueCode)syncStatue_
+{
+    syncStatue = syncStatue_;
+}
+- (WizSyncStatueCode) syncStatue
+{
+    return syncStatue;
+}
 -(int) listCount
 {
 	return 50;
@@ -67,7 +77,7 @@
 {
     if ([keyPath isEqualToString:@"syncMessage"]) {
         NSString* newSyncDes = [change valueForKey:NSKeyValueChangeNewKey];
-        [[WizSyncManager shareManager] setSyncDescription:newSyncDes];
+        [self.apiManagerDelegate didChangedSyncDescriptorMessage:newSyncDes];
     }
     
 }
@@ -79,8 +89,8 @@
     [apiURL release];
     [syncMessage release];
     delegate = nil;
+    [self removeObserver:self forKeyPath:@"syncMessage"];
     apiManagerDelegate = nil;
-    [[WizSyncManager shareManager] removeObserver:self forKeyPath:@"syncMessage"];
 	[super dealloc];
 }
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
@@ -394,7 +404,7 @@
 {
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams]; 
-    [postParams setObject:[NSNumber numberWithLong:objectSize] forKey:@"obj_size"];
+    [postParams setObject:[NSNumber numberWithInt:objectSize] forKey:@"obj_size"];
     [postParams setObject:object.guid forKey:@"obj_guid"];
     [postParams setObject:[object objectType] forKey:@"obj_type"];
     [postParams setObject:sumMD5 forKey:@"obj_md5"];
@@ -404,7 +414,7 @@
     NSString* localMd5 = [WizGlobals md5:data];
     [postParams setObject:localMd5 forKey:@"part_md5"];
     NSUInteger partSize=[data length];
-    [postParams setObject:[NSNumber numberWithUnsignedInteger:partSize]   forKey:@"part_size"];
+    [postParams setObject:[NSNumber numberWithInt:partSize]   forKey:@"part_size"];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadObject args:args];
@@ -452,31 +462,27 @@
 	if (!doc)
 		return NO;
 	//
-	//
-	NSDate* dateCreated = doc.dateCreated;
-	NSDate* dateModified = doc.dateModified;
-	//
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
-	[postParams setObject:doc.guid forKey:@"document_guid"];
-	[postParams setObject:doc.title forKey:@"document_title"];
-	[postParams setObject:doc.type forKey:@"document_type"];
-	[postParams setObject:doc.fileType forKey:@"document_filetype"];
-	[postParams setObject:dateModified forKey:@"dt_modified"];
-	[postParams setObject:doc.location forKey:@"document_category"];
-    
-    [postParams setObject:[NSNumber numberWithInt:1] forKey:@"document_info"];
-    [postParams setObject:zipMD5 forKey:@"document_zip_md5"];
-    [postParams setObject:dateCreated forKey:@"dt_created"];
-    
-    [postParams setObject:[NSNumber numberWithInt:isWithData] forKey:@"with_document_data"];
-    [postParams setObject:[NSNumber numberWithInt:doc.attachmentCount] forKey:@"document_attachment_count"];
+    [postParams setObjectNotNull:doc.guid forKey:@"document_guid"];
+    [postParams setObjectNotNull:doc.title forKey:@"document_title"];
+    [postParams setObjectNotNull:doc.type forKey:@"document_type"];
+    [postParams setObjectNotNull:doc.fileType forKey:@"document_filetype"];
+    [postParams setObjectNotNull:doc.dateModified forKey:@"dt_modified"];
+    [postParams setObjectNotNull:doc.location forKey:@"document_category"];
+    [postParams setObjectNotNull:[NSNumber numberWithInt:1] forKey:@"document_info"];
+    [postParams setObjectNotNull:zipMD5 forKey:@"document_zip_md5"];
+    [postParams setObjectNotNull:doc.dateCreated forKey:@"dt_created"];
+    [postParams setObjectNotNull:[NSNumber numberWithInt:isWithData] forKey:@"with_document_data"];
+    [postParams setObjectNotNull:[NSNumber numberWithInt:doc.attachmentCount] forKey:@"document_attachment_count"];
+    [postParams setObjectNotNull:[NSNumber numberWithFloat:doc.gpsLatitude] forKey:@"gps_latitude"];
+    [postParams setObjectNotNull:[NSNumber numberWithFloat:doc.gpsLongtitude] forKey:@"gps_longitude"];
     NSString* tags = [NSString stringWithString:doc.tagGuids];
     NSString* ss = [tags stringByReplacingOccurrencesOfString:@"*" withString:@";"];
     if(tags != nil)
-        [postParams setObject:ss forKey:@"document_tag_guids"];
+        [postParams setObjectNotNull:ss forKey:@"document_tag_guids"];
     else
-        [postParams setObject:tags forKey:@"document_tag_guids"];
+        [postParams setObjectNotNull:tags forKey:@"document_tag_guids"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentPostSimpleData args:args];
@@ -524,6 +530,7 @@
             [self cancel];
         }
         else if (error.code == NSUserCancelError && [error.domain isEqualToString:WizErrorDomain]) {
+            NSLog(@"canced ---------------------");
             return;
         }
         else {
@@ -538,6 +545,14 @@
     if (self.connectionXmlrpc)
     {
         [self.connectionXmlrpc cancel];
+        self.connectionXmlrpc = nil;
+    }
+    else
+    {
+        if (self.connectionXmlrpc != nil) {
+            [self.connectionXmlrpc cancel];
+        }
+        [self onError:[NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil]];
     }
 }
 @end

@@ -10,7 +10,7 @@
 #include "index.h"
 #include <stdlib.h>
 
-#include <string.h>
+#include <string>
 #include <vector>
 #include <sqlite3.h>
 #include <fstream>
@@ -18,6 +18,26 @@
 #include "CppSQLite3.h"
 #include "WizMisc.h"
 
+static const char* g_crrent_database_version = "0";
+static const char* g_META_VERSION = "VERSION";
+static const char* g_META_DATA_BASE_VERSION = "DATA_BASE";
+
+static const char* g_lpszUpgrede330 = "ALTER TABLE WIZ_DOCUMENT ADD GPS_LATITUDE REAL;\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_LONGTITUDE REAL;\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_ALTITUDE REAL;\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_DOP REAL;\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_ADDRESS varchar(100);\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_COUNTRY varchar(100);\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_LEVEL1 varchar(100);\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_LEVEL2 varchar(100);\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_LEVEL3 varchar(100);\n\
+ALTER TABLE WIZ_DOCUMENT ADD GPS_DESCRIPTION varchar(500);\n\
+ALTER TABLE WIZ_DOCUMENT ADD READCOUNT int;\n\
+ALTER TABLE WIZ_DOCUMENT ADD PROTECT int;\n\
+ALTER TABLE WIZ_DOCUMENT ADD RETAIN_DATA1  varchar(400);\n\
+ALTER TABLE WIZ_DOCUMENT ADD RETAIN_DATA2  varchar(400);\n\
+ALTER TABLE WIZ_DOCUMENT ADD RETAIN_DATA3  varchar(400);\n\
+ALTER TABLE WIZ_DOCUMENT ADD RETAIN_DATA4  varchar(400);";
 
 static const char* g_lpszLocationSQL = "CREATE TABLE WIZ_LOCATION (\n\
 [DOCUMENT_LOCATION] CHAR(255) NOT NULL COLLATE NOCASE,\n\
@@ -61,6 +81,22 @@ DOCUMENT_DATA_MD5              char(32),\n\
 ATTACHMENT_COUNT               int,\n\
 SERVER_CHANGED                 int,\n\
 LOCAL_CHANGED                  int,\n\
+GPS_LATITUDE REAL,\n\
+GPS_LONGTITUDE REAL,\n\
+GPS_ALTITUDE REAL,\n\
+GPS_DOP REAL,\n\
+GPS_ADDRESS varchar(100),\n\
+GPS_COUNTRY varchar(100),\n\
+ GPS_LEVEL1 varchar(100),\n\
+GPS_LEVEL2 varchar(100),\n\
+ GPS_LEVEL3 varchar(100),\n\
+ GPS_DESCRIPTION varchar(500),\n\
+ READCOUNT int,\n\
+ PROTECT int,\n\
+ RETAIN_DATA1  varchar(400),\n\
+ RETAIN_DATA2  varchar(400),\n\
+ RETAIN_DATA3  varchar(400),\n\
+ RETAIN_DATA4  varchar(400),\n\
 primary key (DOCUMENT_GUID)\n\
 )";
 
@@ -79,8 +115,7 @@ primary key (DELETED_GUID)\n\
 );";
 
 
-
-const char* g_lpszDocumentFieldList = "DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED";
+const char* g_lpszDocumentFieldList = "DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT ";
 const char* g_lpszDeletedGUIDFieldList = "DELETED_GUID, GUID_TYPE, DT_DELETED";
 
 const char* g_lpszUpgradeSql = "DROP TABLE WIZ_TAG";
@@ -115,11 +150,34 @@ bool CIndex::dropTable(const char *lpszTableName, const char *lpszTableSql)
 
 bool CIndex::upgradeDB()
 {
-    if (dropTable("WIZ_TAG", g_lpszUpgradeSql)) {
-        checkTable("WIZ_TAG", g_lpszTagSQL);
-        return true;
-    } 
-    return false;
+    std::string sql;
+    //version 0
+    if (!IsMetaExists(g_META_VERSION, g_META_DATA_BASE_VERSION)) {
+        sql = g_lpszUpgrede330;
+        SetMeta(g_META_VERSION, g_META_DATA_BASE_VERSION, "0");
+    }
+    else {
+        std::string version = GetMeta(g_META_VERSION, g_META_DATA_BASE_VERSION);
+        if (!strcmp(version.c_str(), g_crrent_database_version)) {
+            return true;
+        }
+        else {
+            return true;
+        }
+    }
+    try {
+		m_db.execDML(g_lpszUpgrede330);
+		return true;
+	}
+	catch (const CppSQLite3Exception& e)
+	{
+		TOLOG(e.errorMessage());
+		return false;
+	}
+	catch (...) {
+		TOLOG("Unknown exception while close DB");
+		return false;
+	}
 }
 
 bool CIndex::Open(const char* lpszFileName)
@@ -194,14 +252,20 @@ bool CIndex::InitDB()
 	if (!m_db.IsOpened())
 		return false;
 	//
+    if (!checkTable("WIZ_META", g_lpszMetaSQL))
+		return false;
 	if (!checkTable("WIZ_LOCATION", g_lpszLocationSQL))
 		return false;
 	if (!checkTable("WIZ_TAG", g_lpszTagSQL))
 		return false;
 	if (!checkTable("WIZ_DOCUMENT", g_lpszDocumentSQL))
-		return false;
-	if (!checkTable("WIZ_META", g_lpszMetaSQL))
-		return false;
+    {
+        return false;
+    }
+    else {
+        upgradeDB();
+    }
+	
 	if (!checkTable("WIZ_DELETED_GUID", g_lpszDeletedGUIDSQL))
         return false;
     if (!checkTable("WIZ_DOCUMENT_ATTACHMENT", g_lpsDocumentAttachSQL))
@@ -464,12 +528,23 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 		+ ", ATTACHMENT_COUNT=" + WizIntToStdString(data.nAttachmentCount)
 		+ ", SERVER_CHANGED=" + WizIntToStdString(data.nServerChanged)
 		+ ", LOCAL_CHANGED=" + WizIntToStdString(data.nLocalChanged)
+       + ", GPS_LATITUDE=" + WizFloatToStdString(data.fGpsLatitude)
+       + ", GPS_LONGTITUDE=" + WizFloatToStdString(data.fGpsLongtitude)
+       + ", GPS_ALTITUDE=" + WizFloatToStdString(data.fGpsAltitude)
+        +", GPS_DOP=" + WizFloatToStdString(data.fGpsDop)
+        +", GPS_ADDRESS=" + WizStringToSQLString(data.strGpsAddress)
+        +", GPS_COUNTRY=" + WizStringToSQLString(data.strGpsCountry)
+        + ", GPS_LEVEL1=" + WizStringToSQLString(data.strGpsLevel1)
+        + ", GPS_LEVEL2=" + WizStringToSQLString(data.strGpsLevel2)
+        + ", GPS_LEVEL3=" + WizStringToSQLString(data.strGpsLevel3)
+        + ", GPS_DESCRIPTION=" + WizStringToSQLString(data.strGPsDescription)
+        + ", READCOUNT=" + WizIntToStdString(data.nReadCount)
+        + ", PROTECT=" + WizIntToStdString(data.nProtected)
 		+ " where DOCUMENT_GUID=" + WizStringToSQLString(data.strGUID);
 	}
 	else
 	{
-		
-		sql = std::string("insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED) values (")
+		sql = std::string("insert into WIZ_DOCUMENT (" + std::string(g_lpszDocumentFieldList) + ") values (")
 		+ WizStringToSQLString(data.strGUID) + ", "
 		+ WizStringToSQLString(data.strTitle) + ", "
 		+ WizStringToSQLString(data.strLocation) + ", "
@@ -482,7 +557,19 @@ bool CIndex::UpdateDocument(const WIZDOCUMENTDATA& data)
 		+ WizStringToSQLString(data.strDataMd5) + ", "
 		+ WizIntToStdString(data.nAttachmentCount) + ", "
 		+ WizIntToStdString(data.nServerChanged) + ", "
-		+ WizIntToStdString(data.nLocalChanged)+ ""
+		+ WizIntToStdString(data.nLocalChanged)+ " ,"
+        + WizFloatToStdString(data.fGpsLatitude) + " ,"
+        + WizFloatToStdString(data.fGpsLongtitude)+ " ,"
+        + WizFloatToStdString(data.fGpsAltitude) + " ,"
+        + WizFloatToStdString(data.fGpsDop)+ " ,"
+        + WizStringToSQLString(data.strGpsAddress)+ " ,"
+        + WizStringToSQLString(data.strGpsCountry)+ " ,"
+        + WizStringToSQLString(data.strGpsLevel1)+ " ,"
+        + WizStringToSQLString(data.strGpsLevel2)+ " ,"
+        + WizStringToSQLString(data.strGpsLevel3)+ " ,"
+        + WizStringToSQLString(data.strGPsDescription)+ " ,"
+        + WizIntToStdString(data.nReadCount)+ " ,"
+        + WizIntToStdString(data.nProtected) + ""
 		+ ") ";
         
 	}
@@ -627,6 +714,18 @@ bool CIndex::SQLToDocuments(const char* lpszSQL, CWizDocumentDataArray& arrayDoc
 			data.nAttachmentCount = query.getIntField(10);
 			data.nServerChanged = query.getIntField(11);
 			data.nLocalChanged = query.getIntField(12);
+            data.fGpsLatitude = query.getFloatField(13);
+            data.fGpsLongtitude = query.getFloatField(14);
+            data.fGpsAltitude = query.getFloatField(15);
+            data.fGpsDop = query.getFloatField(16);
+            data.strGpsAddress = query.getStringField(17);
+            data.strGpsCountry = query.getStringField(18);
+            data.strGpsLevel1 = query.getStringField(19);
+            data.strGpsLevel2 = query.getStringField(20);
+            data.strGpsLevel3 = query.getStringField(21);
+            data.strGPsDescription = query.getStringField(22);
+            data.nReadCount = query.getIntField(23);
+            data.nProtected = query.getIntField(24);
 			//
 			arrayDocument.push_back(data);
 			//
@@ -801,7 +900,7 @@ bool CIndex::documentsWillDowload(int duration, CWizDocumentDataArray &array)
     int day = duration % 30;
     int month = duration/30 %12;
     int year = duration/(365);
-    std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT where DT_MODIFIED >= datetime('now', '-" +WizIntToStdString(day) + " day','-" + WizIntToStdString(month) + " month','-" + WizIntToStdString(year) + " year') and SERVER_CHANGED=1";
+    std::string sql = std::string("select ") + g_lpszDocumentFieldList + " from WIZ_DOCUMENT where DT_MODIFIED >= datetime('now', '-" +WizIntToStdString(day) + " day','-" + WizIntToStdString(month) + " month','-" + WizIntToStdString(year) + " year') and SERVER_CHANGED=1 order by DT_MODIFIED";
     if(!SQLToDocuments(sql.c_str(), array))
         return false;
     else
@@ -860,7 +959,7 @@ bool CIndex::UpdateTag(const WIZTAGDATA& data)
 bool CIndex::GetTagPostList(CWizTagDataArray &array)
 {
     std::string sql;
-    sql = std::string ("select TAG_GUID, TAG_PARENT_GUID, TAG_NAME, TAG_DESCRIPTION  ,LOCALCHANGED, DT_MODIFIED from WIZ_TAG where LOCALCHANGED is -1");
+    sql = std::string ("select TAG_GUID, TAG_PARENT_GUID, TAG_NAME, TAG_DESCRIPTION  ,LOCALCHANGED, DT_MODIFIED from WIZ_TAG where LOCALCHANGED is 1 or LOCALCHANGED is -1");
     //test post all tag
     //    sql = std::string ("select TAG_GUID, TAG_PARENT_GUID, TAG_NAME, TAG_DESCRIPTION  ,LOCALCHANGED, DT_MODIFIED from WIZ_TAG ");
     if (!m_db.IsOpened())
@@ -1485,7 +1584,20 @@ bool CIndex::RemoveDeletedGUID(const char* lpszGUID)
 	}
 }
 
-
+bool CIndex::documentForClearCacheNext(WIZDOCUMENTDATA &data)
+{
+    std::string sql = std::string("select * from WIZ_DOCUMENT where  SERVER_CHANGED=0 and LOCAL_CHANGED=0 order by DT_MODIFIED desc limit 0,1");
+    CWizDocumentDataArray arrayDocument;
+	if (!SQLToDocuments(sql.c_str(), arrayDocument))
+		return false;
+	//
+	if (1 != arrayDocument.size())
+		return false;
+	//
+	data = arrayDocument[0];
+	//
+	return true;
+}
 
 int WizStdStringReplace(std::string& str, const char* lpszStringToReplace, const char* lpszNewString)
 {
@@ -1574,6 +1686,14 @@ std::string WizIntToStdString(int n)
 	sprintf(sz, "%d", n);
 	return std::string(sz);
 }
+
+std::string WizFloatToStdString(float f)
+{
+    char sz[20] = {0};
+    sprintf(sz, "%f",f);
+    return std::string(sz);
+}
+
 std::string WizStdStringTrim(const std::string& str) 
 {
     std::string t = str;

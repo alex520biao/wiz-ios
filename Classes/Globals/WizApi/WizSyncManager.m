@@ -13,6 +13,7 @@
 #import "WizSyncData.h"
 #import "Reachability.h"
 #import "WizSettings.h"
+#import "MTStatusBarOverlay.h"
 #import "WizSyncSearch.h"
 //
 #define ServerUrlFile           @"config.dat"
@@ -64,7 +65,6 @@
 @synthesize apiUrl;
 @synthesize token;
 @synthesize kbGuid;
-@dynamic syncDescription;
 @synthesize displayDelegate;
 static WizSyncManager* shareManager;
 
@@ -80,35 +80,6 @@ static WizSyncManager* shareManager;
         }
     }
     return NO;
-}
-- (NSString*) syncDescription
-{
-    NSArray* allSyncData = [syncData allValues];
-    for (id each in allSyncData) {
-        if ([each isKindOfClass:[WizApi class]]) {
-            WizApi* api = (WizApi*)each;
-            if (api.busy) {
-                return api.syncMessage;
-            }
-        }
-    }
-    return syncDescription;
-}
-- (void) setSyncDescription:(NSString *)_syncDescription
-{
-    if (syncDescription == _syncDescription) {
-        return;
-    }
-    if (_syncDescription == nil) {
-        [syncDescription release];
-        [self.displayDelegate didChangedSyncDescription:@""];
-        return;
-    }
-    else {
-        [syncDescription release];
-        syncDescription =[_syncDescription retain];
-        [self.displayDelegate didChangedSyncDescription:_syncDescription];
-    }
 }
 + (id) shareManager
 {
@@ -184,7 +155,6 @@ static WizSyncManager* shareManager;
         self.token = WizStrName;
         self.kbGuid = WizStrName;
         [self loadServerUrl];
-        self.syncDescription = @"ddddd";
     }
     return self;
 }
@@ -221,7 +191,6 @@ static WizSyncManager* shareManager;
     self.apiUrl = urlAPI;
     [urlAPI release];
     self.kbGuid = _kbGuid;
-    self.syncDescription = @"did sync token";
     [self restartSync];
 }
 - (void) pauseAllSync
@@ -270,7 +239,11 @@ static WizSyncManager* shareManager;
 
 - (void) didChangedSyncDescriptorMessage:(NSString *)descriptorMessage
 {
-    
+    [self.displayDelegate didChangedSyncDescription:descriptorMessage];
+//    MTStatusBarOverlay* share = [MTStatusBarOverlay sharedInstance];
+//    [share postFinishMessage:descriptorMessage duration:1.5 animated:YES];
+//    [share setDetailViewMode:MTDetailViewModeHistory];
+//    share.progress = 1.0;
 }
 //
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject
@@ -302,13 +275,14 @@ static WizSyncManager* shareManager;
 
 - (void) stopSync
 {
+    [workQueque removeAllObjects];
+    [errorQueque removeAllObjects];
     [uploader stopUpload];
     [downloader stopDownload];
     [syncInfoer cancel];
     [refresher cancel];
     [searcher cancel];
-    [workQueque removeAllObjects];
-    [errorQueque removeAllObjects];
+
 }
 
 - (void) resignActive

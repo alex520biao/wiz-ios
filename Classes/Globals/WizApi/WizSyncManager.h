@@ -11,14 +11,11 @@
 #import "WizRefreshDelegate.h"
 #import "WizSyncSearchDelegate.h"
 #import "WizApiManagerDelegate.h"
-
 @interface WizSyncManager : NSObject <WizRefreshDelegate,WizApiManagerDelegate>
 {
-    NSString* syncDescription;
     id <WizSyncDescriptionDelegate> displayDelegate;
 }
 @property (nonatomic, assign) id<WizSyncDescriptionDelegate> displayDelegate;
-@property (retain) NSString* syncDescription;
 //upload
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject;
 - (BOOL) uploadWizObject:(WizObject*)object;

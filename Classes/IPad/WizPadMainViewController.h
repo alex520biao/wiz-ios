@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "WizPadViewDocumentDelegate.h"
 #import "SearchHistoryView.h"
+#import "WizSettingsParentNavigationDelegate.h"
+#import "WizPadNewNoteViewNavigationDelegate.h"
 
-@interface WizPadMainViewController : UIViewController <UIPopoverControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIAlertViewDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
+@interface WizPadMainViewController : UIViewController <WizPadNewNoteViewNavigationDelegate,WizSettingsParentNavigationDelegate,UIPopoverControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIAlertViewDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
 - (void) refreshAccountBegin:(id) sender;
 @end

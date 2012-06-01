@@ -16,6 +16,7 @@
 #import "WizFileManager.h"
 #import "WizDbManager.h"
 #import "WizNotification.h"
+#import "WizAbstractCache.h"
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -144,7 +145,8 @@
     }
     NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
     [timer fire];
-    [WizNotificationCenter postChangeAccountMessage];
+    WizAbstractCache* cache = [WizAbstractCache shareCache];
+    [cache didChangedAccountUser];
     return YES;
 }
 - (NSString*) activeAccountUserId
@@ -222,6 +224,7 @@
 {
     WizDbManager* share = [WizDbManager shareDbManager];
     [share close];
+    [share closeTempDb];
     WizSyncManager* sync = [WizSyncManager shareManager];
     [sync resignActive];
     [self setDefalutAccount:@""];

@@ -211,8 +211,8 @@
     }
     WizInputView* passwordInput_ = [[WizInputView alloc] initWithFrame:CGRectMake(100, 120, 320, 40)];
      [self.view addSubview:passwordInput_];
-    [passwordInput_ release];
     self.passwordInput = passwordInput_;
+    [passwordInput_ release];
     passwordInput.nameLable.text = WizStrPassword;
     passwordInput.textInputField.placeholder = @"password";
     passwordInput.textInputField.secureTextEntry = YES;

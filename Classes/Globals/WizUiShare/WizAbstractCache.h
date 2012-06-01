@@ -13,4 +13,7 @@
 - (void) didReceivedMenoryWarning;
 - (NSString*) getFolderAbstract:(NSString*)key;
 - (NSString*) getTagAbstract:(NSString*)tagGuid;
+- (void) didChangedAccountUser;
+- (void) willGenFoldersAbstract;
+- (void) willGenTagsAbstract;
 @end

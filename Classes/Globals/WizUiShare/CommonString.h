@@ -26,7 +26,7 @@
 #define	WizStrMyNotes               NSLocalizedString(@"My Notes", nil)
 #define	WizStrMyJournals            NSLocalizedString(@"My Journals", nil)
 #define	WizStrMyEvents              NSLocalizedString(@"My Events", nil)
-#define  	WizStrMyMobiles         NSLocalizedString(@"My Mobiles", nil)
+#define WizStrMyMobiles         NSLocalizedString(@"My Mobiles", nil)
 #define	WizStrFolders               NSLocalizedString(@"Folders", nil)
 #define	WizStrSearch                NSLocalizedString(@"Search", nil)
 #define	WizStrName                  NSLocalizedString(@"Name", nil)
@@ -88,5 +88,18 @@
 #define WizStrNewDocumentTitleNoTitle                   NSLocalizedString(@"No Title",nil)
 #define WizStrNewDocumentTitleImage                     NSLocalizedString(@"No Title Photo",nil)
 #define WizStrNewDocumentTitleAudio                     NSLocalizedString(@"No Title Audio",nil)
+
+#define WizStrShareByEmail               NSLocalizedString(@"Share By Email",nil)
+#define WizStrShareByEms                 NSLocalizedString(@"Share By Sms",nil)
+#define WizstrShareImagesByEmail            NSLocalizedString(@"Share Images By Email",nil)
+#define WizStrShareByWiz                 NSLocalizedString(@"Share By WizNote",nil)
+
+//
+#define WizStrClearCache                NSLocalizedString(@"Clear Cache",nil)
+#define WizStrBeforeToday               NSLocalizedString(@"Before today",nil)
+#define WizStrBeforeAWeek               NSLocalizedString(@"Before a week",nil)
+#define WizStrBeforeAMonth               NSLocalizedString(@"Before a month",nil)
+#define WizStrAll                       NSLocalizedString(@"All",nil)
+#define WizStrLocation                  NSLocalizedString(@"Location",nil)
 
 NSString* getTagDisplayName(NSString* tagName);

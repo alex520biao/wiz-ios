@@ -73,6 +73,13 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         }
     }
     else {
+        if ([retObject isKindOfClass:[NSError class]]) {
+            NSError* error = (NSError*)retObject;
+            if ([error.domain isEqualToString:WizErrorDomain ] && error.code == NSUserCancelError) {
+                attempts = WizNetWorkMaxAttempts;
+                return;
+            }
+        }
         [WizGlobals reportError:retObject];
         attempts = WizNetWorkMaxAttempts;
     }
@@ -89,7 +96,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         busy = NO;
         return NO;
     }
-    self.syncMessage = WizStrDownloadingNotes;
     NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
         [[WizFileManager shareManager]  deleteFile:fileNamePath];
@@ -118,8 +124,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     NSLog(@"download done!***************************");
     self.syncMessage = WizSyncEndMessage;
     NSString* guid = [NSString stringWithString:self.object.guid];
+    NSString* download = NSLocalizedString(@"Download", nil);
+    self.syncMessage = [NSString stringWithFormat:@"%@ %@",download,self.object.title];
     self.object = nil;
     [WizNotificationCenter postMessageDownloadDone:guid];
+    
     if ([downloadQueque count]) {
         [self startDownload];
     }
@@ -198,7 +207,8 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 }
 - (void) stopDownload
 {
-    [self cancel];
     [downloadQueque removeAllObjects];
+    [self cancel];
+    self.object = nil;
 }
 @end

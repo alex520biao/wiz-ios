@@ -25,8 +25,8 @@
 
 #define NOSUPPOURTALERT 199
 
-#define AttachmentCountBadgeViewLandscapeFrame CGRectMake(175  ,0.0 , 20, 20)
-#define AttachmentCountBadgeViewPotraitFrame    CGRectMake(125  , 0.0 , 20, 20)
+#define AttachmentCountBadgeViewLandscapeFrame CGRectMake(150  ,0.0 , 20, 20)
+#define AttachmentCountBadgeViewPotraitFrame    CGRectMake(100  , 0.0 , 20, 20)
 
 @interface DocumentViewCtrollerBase()
 {
@@ -40,12 +40,10 @@
     UISearchBar* searchDocumentBar;
     UIAlertView* conNotDownloadAlert;
     ATMHud* downloadActivity;
-    
     UIBadgeView* attachmentCountBadgeView;
     BOOL isEdit;
 }
 @property (nonatomic, retain)  UIWebView* web;
-@property (nonatomic, retain)  UISearchBar* searchDocumentBar;
 @property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
 @property (nonatomic, retain)  ATMHud* downloadActivity;
 @property (assign) BOOL isEdit;
@@ -61,7 +59,6 @@
 @synthesize doc;
 @synthesize fontWidth;
 @synthesize downloadActivity;
-@synthesize searchDocumentBar;
 @synthesize conNotDownloadAlert;
 @synthesize isEdit;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -71,7 +68,8 @@
         web = [[UIWebView alloc] init];
         web.delegate = self;
         downloadActivity = [[ATMHud alloc] initWithDelegate:self];
-        
+        searchDocumentBar = [[UISearchBar alloc] init];
+        searchDocumentBar.delegate = self;
         attachmentCountBadgeView = [[UIBadgeView alloc] init];
     }
     return self;
@@ -98,21 +96,99 @@
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
-
-
-- (void) changeWebViewWidth
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    NSString* ret = [NSString stringWithFormat:@"var meta= document.createElement(\"meta\"); \n\
-                     meta.setAttribute('name','viewport'); \n\
-                     meta.setAttribute('content','width=%@,initial-scale=1.0'); \n\
-                     document.getElementsByTagName(\"head\")[0].appendChild(meta);",self.fontWidth];
-    [self.web stringByEvaluatingJavaScriptFromString:ret];
+    [controller dismissModalViewControllerAnimated:YES];
+}
+- (void) shareFromEmail
+{
+    MFMailComposeViewController* emailController = [[MFMailComposeViewController alloc] init];
+    NSString* string = [NSString stringWithContentsOfFile:[self.doc documentIndexFile] usedEncoding:nil error:nil];
+    emailController.mailComposeDelegate = self;
+     NSString* title = [NSString stringWithFormat:@"%@ %@",self.doc.title,WizStrShareByWiz];
+     [emailController setSubject:title];
+    [emailController setMessageBody:string isHTML:YES];
+    [self presentModalViewController:emailController animated:YES];
+    [emailController release];
+}
+- (void) shareImagesFromEmail
+{
+    MFMailComposeViewController* emailController = [[MFMailComposeViewController alloc] init];
+    emailController.mailComposeDelegate = self;
+    NSString* title = [NSString stringWithFormat:@"%@ %@",self.doc.title,WizStrShareByWiz];
+    [emailController setSubject:title];
+    NSArray* contents = [[WizFileManager shareManager] contentsOfDirectoryAtPath:[self.doc documentIndexFilesPath] error:nil];
+    for (NSString* each in contents) {
+        NSString* fileDirPath = [self.doc documentIndexFilesPath];
+        NSString* filePath = [fileDirPath stringByAppendingPathComponent:each];
+        if ([WizGlobals checkAttachmentTypeIsImage:[each fileType]]) {
+            NSData* data = [NSData dataWithContentsOfFile:filePath];
+            if (nil != data) {
+                [emailController addAttachmentData:data mimeType:@"image" fileName:each];
+            }
+        }
+    }
+    [emailController setMessageBody:[web bodyText] isHTML:YES];
+    [self presentModalViewController:emailController animated:YES];
+    [emailController release];
+}
+- (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [controller dismissModalViewControllerAnimated:YES];
+}
+- (void) shareFromEms
+{
+    MFMessageComposeViewController* messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    NSString* title = [NSString stringWithFormat:@"%@ %@",self.doc.title,WizStrShareByWiz];
+    [messageController setTitle:title];
+    [messageController setBody:[[web bodyText] stringByAppendingFormat:@"\n%@",WizStrShareByWiz]];
+    [self presentModalViewController:messageController animated:YES];
+    [messageController release];
+}
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString* buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:WizStrShareByEmail]) {
+        [self shareFromEmail];
+    }
+    else if ([buttonTitle isEqualToString:WizstrShareImagesByEmail])
+    {
+        [self shareImagesFromEmail];
+    }
+    else if ([buttonTitle isEqualToString:WizStrShareByEms])
+    {
+        [self shareFromEms];
+    }
+    else {
+        
+    }
 }
 
-- (void) webViewDidStartLoad:(UIWebView *)webView
+- (void) shareCurrentDocument
 {
-  
-    
+    UIActionSheet* shareSheet = [[UIActionSheet alloc]
+                                 initWithTitle:NSLocalizedString(@"Share", nil)
+                                 delegate:self
+                                 cancelButtonTitle:nil
+                                 destructiveButtonTitle:nil
+                                 otherButtonTitles:nil];
+    if ([MFMailComposeViewController canSendMail]) {
+        [shareSheet addButtonWithTitle:WizStrShareByEmail];
+        if ([self.doc isIosDocument]) {
+            if ([web containImages]) {
+                [shareSheet addButtonWithTitle:WizstrShareImagesByEmail];
+            }
+        }
+    }
+    if ([MFMessageComposeViewController canSendText]) {
+        [shareSheet addButtonWithTitle:WizStrShareByEms];
+    }
+    [shareSheet addButtonWithTitle:WizStrCancel];
+    UIBarButtonItem* item = [self.toolbarItems objectAtIndex:4];
+    shareSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [shareSheet showFromBarButtonItem:item animated:YES];
+    [shareSheet release];
 }
 
 - (void) loadReadJs
@@ -253,7 +329,26 @@
     [self.navigationController pushViewController:infoView animated:YES];
     [infoView release];
 }
-
+- (void) hideSearchBar
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:searchDocumentBar cache:NO];
+    searchDocumentBar.hidden = YES;
+    [UIView commitAnimations];
+}
+- (void)searchDocument
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:searchDocumentBar cache:NO];
+    [web removeAllHighlights];
+    searchDocumentBar.hidden = NO;
+    [searchDocumentBar becomeFirstResponder];
+    [UIView commitAnimations];
+}
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if (searchText == nil || [searchText isEqualToString:@""]) {
@@ -261,19 +356,22 @@
     }
     [self.web highlightAllOccurencesOfString:searchText];
 }
-
-- (void)searchDocument
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.3];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.searchDocumentBar cache:NO];
-    if (self.searchDocumentBar.hidden == YES) {
-        [self.web removeAllHighlights];
-    }
-    self.searchDocumentBar.hidden = !self.searchDocumentBar.hidden;
-    [UIView commitAnimations];
+    searchBar.showsCancelButton = YES;
 }
+- (void) searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    [web removeAllHighlights];
+    [self hideSearchBar];
+}
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    [self hideSearchBar];
+}
+
 - (void) downloadDocument
 {
     [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
@@ -365,6 +463,7 @@
     [WizNotificationCenter removeObserverForDownloadDone:self];
     [super viewWillDisappear:animated];
     [self.navigationController setToolbarHidden:YES];
+    [attachmentCountBadgeView removeFromSuperview];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -409,6 +508,11 @@
     [self.navigationController setToolbarHidden:NO animated:YES];
     [self.navigationController.toolbar addSubview:attachmentCountBadgeView];
     [self setToolbarItemsEnable:NO];
+    
+    searchDocumentBar.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 44);
+    [self.view addSubview:searchDocumentBar];
+    searchDocumentBar.hidden = YES;
+    [searchDocumentBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
 }
 - (void) changeToolBarStatue:(UITapGestureRecognizer*)sender
 {
@@ -434,15 +538,18 @@
     
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    NSArray* array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info,flex,search, nil];
+    UIBarButtonItem* shareItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_share"] style:UIBarButtonItemStyleBordered target:self action:@selector(shareCurrentDocument)];
+    
+    NSArray* array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info,flex,search, flex,shareItem, nil];
     [edit release];
     [flex release];
     [info release];
     [attachment release];
     [search release];
+    [shareItem release];
     [self setToolbarItems:array];
     
-    [self.view addSubview:attachmentCountBadgeView];
+    
 }
 
 - (void)viewDidLoad

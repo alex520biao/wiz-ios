@@ -223,6 +223,7 @@
             [self.tableView endUpdates];
         }
     }
+    self.tableView.backgroundView = nil;
 }
 - (void) didPadCellDidSelectedDocument:(WizDocument *)doc
 {
