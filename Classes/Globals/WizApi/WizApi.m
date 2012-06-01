@@ -555,4 +555,8 @@
         [self onError:[NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil]];
     }
 }
+- (void) didChangeSyncStatue:(WizSyncStatueCode)statue
+{
+    [self.apiManagerDelegate didChangedStatue:self statue:statue];
+}
 @end

@@ -77,7 +77,6 @@
 {
     NSInteger currentOffSet = [self.uploadFildHandel offsetInFile];
     NSInteger currentPartCount =currentOffSet/UploadPartSize;
-    NSLog(@"current count is %d",currentPartCount);
     NSData* data = [self.uploadFildHandel readDataOfLength:UploadPartSize];
     return [self callUploadObjectData:self.uploadObject data:data objectSize:self.uploadFileSize count:currentPartCount sumMD5:self.uploadObjMd5 sumPartCount:self.sumUploadPartCount];
 }
@@ -112,7 +111,7 @@
         busy = NO;
         return NO;
     }
-    self.syncMessage = WizStrUploadingnotes;
+    [self didChangeSyncStatue:WizSyncStatueUploadBegin];
     if ([self.uploadObject isKindOfClass:[WizDocument class]]) {
         WizDocument* doc = (WizDocument*)self.uploadObject;
         if (doc.localChanged == WizEditDocumentTypeInfoChanged) {
@@ -204,6 +203,7 @@
     busy = NO;
     self.syncMessage = WizSyncEndMessage;
     if ([uploadQueque count]) {
+        [self didChangeSyncStatue:WizSyncStatueUploadEnd];
         [self startUpload];
     }
     else {
@@ -232,6 +232,7 @@
     {
         return NO;
     }
+    [self didChangeSyncStatue:WizSyncStatueUploadBegin];
     self.uploadObject = [uploadQueque objectAtIndex:0];
     [uploadQueque removeObjectAtIndex:0];
     return [self start];

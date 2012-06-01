@@ -90,6 +90,9 @@
 - (void) didChangedSyncDescription:(NSString *)description
 {
     if (description == nil || [description isBlock]) {
+        if ([[WizSyncManager shareManager] isSyncing]) {
+            return;
+        }
         self.tableView.tableHeaderView = nil;
         [self showSyncButton];
         [self stopLoading];

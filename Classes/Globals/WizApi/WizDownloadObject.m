@@ -96,6 +96,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         busy = NO;
         return NO;
     }
+    [self didChangeSyncStatue:WizSyncStatueDownloadBegin];
     NSString* fileNamePath = [[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid];
     if([[NSFileManager defaultManager] fileExistsAtPath:fileNamePath])
         [[WizFileManager shareManager]  deleteFile:fileNamePath];
@@ -127,9 +128,11 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     NSString* download = NSLocalizedString(@"Download", nil);
     self.syncMessage = [NSString stringWithFormat:@"%@ %@",download,self.object.title];
     self.object = nil;
+    [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
     [WizNotificationCenter postMessageDownloadDone:guid];
     
     if ([downloadQueque count]) {
+        [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
         [self startDownload];
     }
     else {

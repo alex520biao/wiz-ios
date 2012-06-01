@@ -28,10 +28,13 @@
 @interface WizAccountManager()
 {
 	NSMutableDictionary* dict;
+    NSTimer* timer;
 }
+@property (nonatomic, retain) NSTimer* timer;
 @end
 
 @implementation WizAccountManager
+@synthesize timer;
 -(NSString*) settingsFileName
 {
 	NSString* filename = [[WizFileManager  documentsPath] stringByAppendingPathComponent:SettingsFileName];
@@ -143,7 +146,7 @@
     if (![dbManager openTempDb:[fileManager tempDbPath]]) {
         return NO;
     }
-    NSTimer* timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
     [timer fire];
     WizAbstractCache* cache = [WizAbstractCache shareCache];
     [cache didChangedAccountUser];
@@ -222,6 +225,7 @@
 }
 - (void) logoutAccount
 {
+    [timer invalidate];
     WizDbManager* share = [WizDbManager shareDbManager];
     [share close];
     [share closeTempDb];

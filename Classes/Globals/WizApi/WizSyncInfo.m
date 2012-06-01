@@ -95,8 +95,8 @@
         }
     }
     busy = NO;
-    self.syncMessage = WizSyncEndMessage;
     [self.apiManagerDelegate didApiSyncDone:self];
+    [self didChangeSyncStatue:WizSyncStatueEndSyncInfo];
     [[WizSettings defaultSettings] setLastSynchronizedDate:[NSDate date]];
 }
 -(void) onDownloadDocumentList: (id)retObject
@@ -104,7 +104,6 @@
     if (!self.busy) {
         return ;
     }
-    self.syncMessage = WizStrSyncingnoteslist;
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[self.dbDelegate documentVersion];
 	[self.dbDelegate updateDocuments:obj];
@@ -118,6 +117,7 @@
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
         [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
         [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
+        [self didChangeSyncStatue:WizSyncStatueDownloadAttachmentList];
     }
 }
 - (void) onAllCategories: (id)retObject
@@ -125,7 +125,6 @@
     if (!self.busy) {
         return ;
     }
-    self.syncMessage = WizStrSyncingfolders;
 	NSDictionary* obj = retObject;
 	//
 	// save values returned by getUserInfo into current blog
@@ -136,25 +135,25 @@
 	//
 	[self.dbDelegate updateLocations:arrCategory];
     [self callDownloadDocumentList:[self.dbDelegate documentVersion]];
+    [self didChangeSyncStatue:WizSyncStatueDownloadDocumentList];
 }
 - (void) onPostTagList:(id)retObject
 {
     if (!self.busy) {
         return ;
     }
-    self.syncMessage = WizStrSyncingtags;
     for (WizTag* tag in [self.dbDelegate tagsForUpload]) {
         tag.localChanged = 0;
         [tag save];
     }
     [self callAllCategories];
+    [self didChangeSyncStatue:WizSyncStatueDownloadFolder];
 }
 -(void) onAllTags: (id)retObject
 {
     if (!self.busy) {
         return ;
     }
-    self.syncMessage = WizStrSyncingtags;
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate tagVersion];
     [self.dbDelegate updateTags:obj];
@@ -165,8 +164,8 @@
         [self callAllTags:newVer+1];
     }
     else {
-        NSLog(@"%d tag need for upload ",[[self.dbDelegate tagsForUpload] count]);
         [self callPostTagList:[self.dbDelegate tagsForUpload]];
+        [self didChangeSyncStatue:WizSyncStatueUploadTags];
     }
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec
@@ -174,16 +173,15 @@
     if (!self.busy) {
         return ;
     }
-    self.syncMessage = WizStrSyncingdeletednotes;
 	[self.dbDelegate clearDeletedGUIDs];
     [self callAllTags:[self.dbDelegate tagVersion]];
+    [self didChangeSyncStatue:WizSyncStatueDownloadTags];
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
     if (!self.busy) {
         return ;
     }
-    self.syncMessage = WizStrSyncingdeletednotes;
     NSArray* arr =[ self getArrayFromResponse:retObject];
     int64_t oldVer = [self.dbDelegate deletedGUIDVersion];
 	int64_t newVer = 0;
@@ -220,6 +218,7 @@
         [self callDownloadDeletedList:newVer+1];
     }
     else {
+        [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
         NSArray* array = [self.dbDelegate deletedGUIDsForUpload];
         [self callUploadDeletedGUIDs:array];
     }
@@ -230,11 +229,12 @@
         return NO;
     }
     busy = YES;
-    self.syncMessage = NSLocalizedString(@"Start Sync", nil);
+    [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
     return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
 }
 - (void) onError:(id)retObject
 {
+    [self didChangeSyncStatue:WizSyncStatueError];
     busy = NO;
     if (attempts) {
         attempts--;
@@ -248,12 +248,10 @@
         }
         [WizGlobals reportError:retObject];
     }
-    
 }
 - (void) cancel
 {
     [super cancel];
-
-    NSLog(@"***************Canceled************");
+    busy = NO;
 }
 @end

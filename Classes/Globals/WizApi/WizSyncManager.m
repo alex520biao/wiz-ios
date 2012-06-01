@@ -70,14 +70,13 @@ static WizSyncManager* shareManager;
 
 - (BOOL) isSyncing
 {
-    NSArray* allSyncData = [syncData allValues];
-    for (id each in allSyncData) {
-        if ([each isKindOfClass:[WizApi class]]) {
-            WizApi* api = (WizApi*)each;
-            if (api.busy) {
-                return YES;
-            }
+    for (WizApi* each in workQueque) {
+        if (each.busy) {
+            return YES;
         }
+    }
+    if (refresher.busy) {
+        return YES;
     }
     return NO;
 }
@@ -221,10 +220,17 @@ static WizSyncManager* shareManager;
     [workQueque addObject:api];
     return YES;
 }
-
+- (void) didChangedStatue:(WizApi *)api statue:(NSInteger)statue
+{
+    if (statue == WizSyncStatueEndSyncInfo) {
+        [self.displayDelegate didChangedSyncDescription:nil];
+    }
+    
+}
 - (void) didApiSyncDone:(WizApi *)api
 {
     [workQueque removeObject:api];
+    [self.displayDelegate didChangedSyncDescription:nil];
     NSLog(@"work count is %d",[workQueque count]);
 }
 

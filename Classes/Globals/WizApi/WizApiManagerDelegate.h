@@ -12,4 +12,5 @@
 - (void) didApiSyncDone:(WizApi*)api;
 - (void) didApiSyncError:(WizApi*)api error:(NSError*)error   ;
 - (void) didChangedSyncDescriptorMessage:(NSString*)descriptorMessage;
+- (void) didChangedStatue:(WizApi*)api statue:(NSInteger)statue;
 @end

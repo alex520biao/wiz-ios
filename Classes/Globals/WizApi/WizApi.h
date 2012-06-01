@@ -13,8 +13,9 @@
 typedef NSInteger WizSyncStatueCode;
 enum
 {
-    WizSyncStatueStart = 1,
-    WizSyncStatueEnd = 2,
+    WizSyncStatueError = 0,
+    WizSyncStatueStartSyncInfo = 1,
+    WizSyncStatueEndSyncInfo = 2,
     WizSyncStatueDownloadDeletedItems = 3,
     WizSyncStatueUploadloadDeletedItems,
     WizSyncStatueDownloadFolder,
@@ -29,6 +30,10 @@ enum
     WizSyncStatueLogin,
     WizSyncStatueSearching,
     WizSyncStatueCreateAccount,
+    WizSyncStatueUploadBegin,
+    WizSyncStatueUploadEnd,
+    WizSyncStatueDownloadBegin,
+    WizSyncStatueDownloadEnd,
 };
 
 @class WizDocument;
@@ -106,4 +111,5 @@ enum
 -(void) onError: (id)retObject;
 -(void) cancel;
 - (BOOL) start;
+- (void) didChangeSyncStatue:(WizSyncStatueCode)statue;
 @end
