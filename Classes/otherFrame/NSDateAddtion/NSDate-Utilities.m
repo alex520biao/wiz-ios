@@ -81,7 +81,10 @@
 			([components1 month] == [components2 month]) && 
 			([components1 day] == [components2 day]));
 }
-
++ (NSDate*) dateAtStartOfToday
+{
+    return [[NSDate date] dateAtStartOfDay];
+}
 - (BOOL) isToday
 {
 	return [self isEqualToDateIgnoringTime:[NSDate date]];

@@ -1404,5 +1404,9 @@ static WizDbManager* shareDbManager = nil;
     return count;
 }
 //
+- (void) deleteAbstractForGuid:(NSString*)documentGuid
+{
+    
+}
 
 @end

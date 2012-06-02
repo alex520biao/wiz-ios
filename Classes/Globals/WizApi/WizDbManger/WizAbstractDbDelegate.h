@@ -16,4 +16,5 @@
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
 - (void) extractSummary:(NSString *)documentGUID;
 - (BOOL) clearCache;
+- (BOOL) deleteAbstractByGUID:(NSString *)documentGUID;
 @end

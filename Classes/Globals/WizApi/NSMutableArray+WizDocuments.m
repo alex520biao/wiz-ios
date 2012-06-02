@@ -165,26 +165,28 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
                 return [WizGlobals pinyinFirstLetter:doc.title];
             case kOrderReverseDate:
             {
-                NSDate* date = doc.dateModified;
-                if ([date isToday] ) {
+                NSDate* todayStart = [NSDate dateAtStartOfToday];
+                float timeInterval = [todayStart timeIntervalSinceDate:doc.dateModified];
+                
+                if (timeInterval < 0) {
                     return WizStrToday;
                 }
-                else if ([date isYesterday])
+                else if (timeInterval < D_DAY)
                 {
                     return WizStrYesterday;
                 }
-                else if ([date isEqualToDateIgnoringTime:[NSDate dateWithDaysBeforeNow:2]])
+                else if (timeInterval < D_2DAY)
                 {
                     return WizStrThedaybeforeyesterday;
                 }
-                else if ([date isLaterThanDate:[NSDate dateWithDaysBeforeNow:7]])
+                else if (timeInterval < D_6DAY)
                 {
                     return WizStrWithInAWeek;
                 }
-                else {
+                else 
+                {
                     return WizStrOneWeekAgo;
                 }
-                
             }
             default:
                 break;
@@ -194,55 +196,129 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
     return @"No Title";
 }
+- (void) groupSourceArrayByReverseModifiedDate:(NSMutableArray*)sourceArray
+{
+
+    NSMutableArray* todyArr = [NSMutableArray array];
+    NSMutableArray* yestodyArr = [NSMutableArray array];
+    NSMutableArray* theDayBeforeYestodyArr = [NSMutableArray array];
+    NSMutableArray* inWeekArr   = [NSMutableArray array];
+    NSMutableArray* outWeekArr  = [NSMutableArray array];
+    
+    NSDate* todayStart = [NSDate dateAtStartOfToday];
+    
+    for (int docIndex = 0; docIndex < [sourceArray count] ; docIndex++) {
+        WizDocument* doc = [sourceArray objectAtIndex:docIndex];
+        float timeInterval = [todayStart timeIntervalSinceDate:doc.dateModified];
+        if (timeInterval < 0) {
+            [todyArr addObject:doc];
+        }
+        else if (timeInterval < D_DAY)
+        {
+            [yestodyArr addObject:doc];
+        }
+        else if (timeInterval < D_2DAY)
+        {
+            [theDayBeforeYestodyArr addObject:doc];
+        }
+        else if (timeInterval < D_6DAY)
+        {
+            [inWeekArr addObject:doc];
+        }
+        else 
+        {
+            NSRange range = NSMakeRange(docIndex, [sourceArray count] - docIndex);
+            [outWeekArr addObjectsFromArray:[sourceArray subarrayWithRange:range]];
+            break;
+        }
+    }
+    if ([todyArr count])
+    {
+        [self addObject:todyArr];
+    }
+    if ([yestodyArr count])
+    {
+        [self addObject:yestodyArr];
+    }
+    if ([theDayBeforeYestodyArr count])
+    {
+        [self addObject:theDayBeforeYestodyArr];
+    }
+    if ([inWeekArr count])
+    {
+        [self addObject:inWeekArr];
+    }
+    if ([outWeekArr count])
+    {
+        [self addObject:outWeekArr];
+    }
+}
 - (void) sortDocumentByOrder:(NSInteger)indexOrder
 {
     NSMutableArray* sourceArray = [self sourceArray];
-    NSDate* date1 = [NSDate date];
     [sourceArray sortDocuments:indexOrder];
-    NSDate* date2 = [NSDate date];
-    int count = 0;
     [self  removeAllObjects];
     if ([sourceArray count] == 1) {
         [self addObject:[NSMutableArray arrayWithObject:[sourceArray lastObject]]];
         return;
     }
-    for (int docIndx = 0; docIndx < [sourceArray count];) {
-        @try {
-            WizDocument* doc1 = [sourceArray objectAtIndex:docIndx];
-            WizDocument* doc2 = [sourceArray objectAtIndex:docIndx+1];
-            if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
-                NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
-                NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
-                [self addObject:arr];
-                count = docIndx+1;
-            }
-            docIndx++;
+    if (kOrderReverseDate == indexOrder) {
+        [self groupSourceArrayByReverseModifiedDate:sourceArray];
+        return;
+    }
+    NSMutableArray* currentSection= [NSMutableArray array];
+    for (int docIndex = 0; docIndex < [sourceArray count] -1; docIndex++) {
+        WizDocument* doc1 = [sourceArray objectAtIndex:docIndex];
+        WizDocument* doc2 = [sourceArray objectAtIndex:docIndex+1];
+        NSDate* date4 = [NSDate date];
+        [doc1 compareToGroup:doc2 mask:indexOrder];
+        NSDate* date5 = [NSDate date];
+        NSLog(@"coompare group used %f",[date4 timeIntervalSinceDate:date5]);
+        if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
+            [currentSection addObject:doc1];
+            [self addObject:currentSection];
+            currentSection = [NSMutableArray array];
         }
-        @catch (NSException *exception) {
-            if (docIndx == [sourceArray count]-1) {
-                WizDocument* doc1= [sourceArray objectAtIndex:[sourceArray count]-2];
-                WizDocument* doc2 = [sourceArray lastObject];
-                if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
-                    NSMutableArray* arr = [NSMutableArray arrayWithObject:doc2];
-                    [self addObject:arr];
-                }
-                else {
-                    NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
-                    NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
-                    [self addObject:arr];
-                }
-            }
-            docIndx++;
-            count = docIndx;
-            continue;
-        }
-        @finally {
+        else {
+            [currentSection addObject:doc1];
         }
     }
-    NSDate* date3 = [NSDate date];
-    
-    NSLog(@"sort using %f",[date1 timeIntervalSinceDate:date2]);
-    NSLog(@"group using %f",[date3 timeIntervalSinceDate:date2]);
+    if ([currentSection count]) {
+        [self addObject:currentSection];
+    }
+//    for (int docIndx = 0; docIndx < [sourceArray count];) {
+//        @try {
+//            WizDocument* doc1 = [sourceArray objectAtIndex:docIndx];
+//            WizDocument* doc2 = [sourceArray objectAtIndex:docIndx+1];
+//            if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
+//                NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
+//                NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
+//                [self addObject:arr];
+//                count = docIndx+1;
+//            }
+//            docIndx++;
+//        }
+//        @catch (NSException *exception) {
+//            if (docIndx == [sourceArray count]-1) {
+//                WizDocument* doc1= [sourceArray objectAtIndex:[sourceArray count]-2];
+//                WizDocument* doc2 = [sourceArray lastObject];
+//                if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
+//                    NSMutableArray* arr = [NSMutableArray arrayWithObject:doc2];
+//                    [self addObject:arr];
+//                }
+//                else {
+//                    NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
+//                    NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
+//                    [self addObject:arr];
+//                }
+//            }
+//            docIndx++;
+//            count = docIndx;
+//            continue;
+//        }
+//        @finally {
+//        }
+//    }
 }
 
 - (NSIndexPath*) indexPathOfWizDocument:(WizDocument*) doc
@@ -295,6 +371,14 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     @try {
         if (doc == nil) {
             return nil;
+        }
+        if ([self count]) {
+            if ([[self  lastObject] count]) {
+                WizDocument* lastDoc = [[self lastObject] lastObject];
+                if ([doc.dateModified isEarlierThanDate:lastDoc.dateModified]) {
+                    return nil;
+                }
+            }
         }
         NSInteger order = [[WizSettings defaultSettings] userTablelistViewOption];
         NSInteger section = NSNotFound;

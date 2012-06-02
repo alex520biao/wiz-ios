@@ -11,6 +11,8 @@
 #define D_DAY		86400
 #define D_WEEK		604800
 #define D_YEAR		31556926
+#define D_2DAY     172800
+#define D_6DAY     518400
 
 @interface NSDate (Utilities)
 
@@ -57,6 +59,7 @@
 - (NSInteger) daysAfterDate: (NSDate *) aDate;
 - (NSInteger) daysBeforeDate: (NSDate *) aDate;
 
++ (NSDate*) dateAtStartOfToday;
 // Decomposing dates
 @property (readonly) NSInteger nearestHour;
 @property (readonly) NSInteger hour;

@@ -48,12 +48,12 @@
 }
 - (void) reloadSelf
 {
-    [[WizSyncManager shareManager] startSyncInfo];
     [self showActivity];
 }
 
 - (void) refresh
 {
+    [[WizSyncManager shareManager] startSyncInfo];
     [self reloadSelf];
 }
 
@@ -113,9 +113,11 @@
     [super viewWillAppear:animated];
     [[WizSyncManager shareManager] setDisplayDelegate:self];
     if ([[WizSyncManager shareManager] isSyncing]) {
-        [self startLoading];
+        [self startLoadingAnimation];
+        [self showActivity];
     }
     else {
+        [self showSyncButton];
         [self stopLoading];
     }
     if ([[WizSettings defaultSettings] userTablelistViewOption] != self.kOrderIndex) {
@@ -266,6 +268,9 @@
     }
     else {
         indexPath = [self.tableSourceArray insertDocument:doc];
+        if (nil == indexPath) {
+            return;
+        }
         if (indexPath.section == WizNewSectionIndex) {
             [self.tableView beginUpdates];
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];

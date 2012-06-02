@@ -226,7 +226,6 @@ static WizSyncManager* shareManager;
         [self.displayDelegate didChangedSyncDescription:nil];
     }
     else if (statue == WizSyncStatueError) {
-        [self stopSync];
         [self.displayDelegate didChangedSyncDescription:nil];
     }
 }

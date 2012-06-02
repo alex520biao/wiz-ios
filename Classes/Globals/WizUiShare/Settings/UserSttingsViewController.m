@@ -524,6 +524,7 @@ enum WizSettingKind {
     WizDbManager* dbManager = [[WizDbManager alloc] init];
     WizFileManager* share = [WizFileManager shareManager];
     [dbManager openDb:[share dbPath]];
+    [dbManager openDb:[share tempDbPath]];
     WizDocument* document = nil;
     CGFloat time = [timeInval floatValue];
     self.isStopClearCache = NO;
@@ -542,7 +543,13 @@ enum WizSettingKind {
         if ([share removeItemAtPath:path error:nil]) {
             if([dbManager setDocumentServerChanged:document.guid changed:YES])
             {
-                NSLog(@"succeed");
+                [dbManager deleteAbstractByGUID:document.guid];
+                NSArray* attachments = [document attachments];
+                for (WizAttachment* each in attachments) {
+                    if ([share removeObjectPath:each.guid]) {
+                        [dbManager setAttachmentServerChanged:each.guid changed:YES];
+                    }
+                }
             }
         }
         [pool drain];
