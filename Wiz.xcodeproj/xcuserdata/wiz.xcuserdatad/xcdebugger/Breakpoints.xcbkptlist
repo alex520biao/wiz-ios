@@ -636,9 +636,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "416"
-         endingLineNumber = "416"
-         landmarkName = "@implementation NSMutableArray(WizDocuments)"
-         landmarkType = "3">
+         endingLineNumber = "416">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"

@@ -624,7 +624,7 @@
 }
 - (void) checkDocument:(WizDocument*)document
 {
-    NSString* documentFileName = [document documentIndexFile];
+    NSString* documentFileName = [document documentWillLoadFile];
     if (![[WizFileManager shareManager] fileExistsAtPath:documentFileName]) {
         [self downloadDocument:document];
     }
