@@ -294,7 +294,7 @@ enum WizSettingKind {
         case 4:
             return 4;
         case 5:
-            return 4;
+            return 3;
         default:
             return 0;
     }
@@ -430,15 +430,10 @@ enum WizSettingKind {
     }
     else if ([indexPath isEqualToSectionAndRow:5 row:1])
     {
-        cell.textLabel.text =NSLocalizedString( @"User Manual", nil);
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    }
-    else if ([indexPath isEqualToSectionAndRow:5 row:2])
-    {
         cell.textLabel.text =NSLocalizedString( @"Feedback", nil);
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
-    else if ([indexPath isEqualToSectionAndRow:5 row:3])
+    else if ([indexPath isEqualToSectionAndRow:5 row:2])
     {
         cell.textLabel.text =WizStrRateWizNote;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -667,7 +662,7 @@ enum WizSettingKind {
         MFMailComposeViewController* mailPocker = [[MFMailComposeViewController alloc] init];
         mailPocker.mailComposeDelegate = self;
         [mailPocker setSubject:[NSString stringWithFormat:@"[%@] %@ by %@",[[UIDevice currentDevice] model],NSLocalizedString(@"Feedback", nil),[[WizAccountManager defaultManager] activeAccountUserId]]];
-        NSArray* toRecipients = [NSArray arrayWithObjects:@"support@wiz.cn",@"yishuiliunian@gmail.com",nil];
+        NSArray* toRecipients = [NSArray arrayWithObjects:@"support@wiz.cn",@"ios@wiz.cn",nil];
         NSString* mailBody = [NSString stringWithFormat:@"%@:\n\n\n\n\n\n\n\n\n\n\n\n\n\n %@\n %@ \n%@"
                               ,NSLocalizedString(@"Your advice", nil)
                               ,[[UIDevice currentDevice] systemName]
@@ -774,15 +769,9 @@ enum WizSettingKind {
     {
         [self clearCache];
     }
-    else if ( (0 == indexPath.row ||1 == indexPath.row) && 5 == indexPath.section) {
+    else if ( 0 == indexPath.row && 5 == indexPath.section) {
         NSURL* url = nil;
-        NSString* key = nil;
-        if (0 == indexPath.row) {
-            key = @"iosabout";
-        }
-        else {
-            key = @"ioshelp";
-        }
+        NSString* key = @"ioshelp";
         NSString* urlStr = [NSString stringWithFormat:@"http://api.wiz.cn/?p=wiz&v=%@&c=%@&l=%@",[WizGlobals wizNoteVersion],key,[WizGlobals localLanguageKey]];
         url = [[NSURL alloc] initWithString:urlStr];
         NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
@@ -796,10 +785,10 @@ enum WizSettingKind {
         [web release];
         [con release];
     }
-    else if (2 == indexPath.row && 5 == indexPath.section) {
+    else if (1 == indexPath.row && 5 == indexPath.section) {
         [self sendFeedback];
     }
-    else if (3 == indexPath.row && 5 == indexPath.section)
+    else if (2 == indexPath.row && 5 == indexPath.section)
     {
         [self rateWizNote];
     }
