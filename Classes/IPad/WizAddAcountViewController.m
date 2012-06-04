@@ -75,10 +75,6 @@
 {
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
-- (void) xmlrpcDone: (NSNotification*)nc
-{
-
-}
 - (void) didVerifyAccountFaild
 {
     if (self.waitAlertView)

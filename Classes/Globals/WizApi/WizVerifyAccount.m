@@ -26,7 +26,7 @@
 	busy = NO;
 }
 -(void) onClientLogin: (id)retObject
-{
+{   busy = NO;
     [self.verifyDelegate didVerifyAccountSucceed];
 }
 

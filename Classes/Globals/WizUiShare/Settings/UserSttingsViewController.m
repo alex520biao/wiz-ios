@@ -546,8 +546,11 @@ enum WizSettingKind {
                 [dbManager deleteAbstractByGUID:document.guid];
                 NSArray* attachments = [document attachments];
                 for (WizAttachment* each in attachments) {
-                    if ([share removeObjectPath:each.guid]) {
-                        [dbManager setAttachmentServerChanged:each.guid changed:YES];
+                    NSLog(@"attachment guid is %@",each.guid);
+                    if (each.localChanged == 0) {
+                        if ([dbManager setAttachmentServerChanged:each.guid changed:YES]) {
+                            [share removeObjectPath:each.guid];
+                        }
                     }
                 }
             }
