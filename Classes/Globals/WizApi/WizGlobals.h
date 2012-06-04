@@ -17,8 +17,8 @@
 #import "NSMutableDictionary+WizDocument.h"
 #define _DEBUG
 #ifdef _DEBUG
-#else
 #define NSLog(s,...) ;
+#else
 #endif
 
 

@@ -501,6 +501,9 @@ BOOL isReverseMask(NSInteger mask)
             self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:subRange withString:@""];
         }
     }
+    if (self.localChanged == WizEditDocumentTypeAllChanged) {
+        return [self saveInfo];
+    }
     self.localChanged = WizEditDocumentTypeInfoChanged;
     return [self saveInfo];
 }

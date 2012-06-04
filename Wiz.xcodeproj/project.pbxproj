@@ -79,6 +79,8 @@
 		734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1351504597D002549CB /* TreeBaseNodeCell.m */; };
 		734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1371504597D002549CB /* TreeTableViewBase.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
+		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
+		734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53C3157CAD8F00BE496E /* WizWebEditor.m */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
 		7362ABA2156B86C700513E96 /* WizTagCatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362ABA1156B86C700513E96 /* WizTagCatelogView.m */; };
 		736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DEA541552843D00633B89 /* MBProgressHUD.m */; };
@@ -127,7 +129,6 @@
 		73A7857714F8CC23001387F6 /* CommonString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846014F8CC22001387F6 /* CommonString.m */; };
 		73A7857914F8CC23001387F6 /* WizChangePassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846614F8CC22001387F6 /* WizChangePassword.m */; };
 		73A7857A14F8CC23001387F6 /* WizChangePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846814F8CC22001387F6 /* WizChangePasswordController.m */; };
-		73A7857B14F8CC23001387F6 /* ScrollTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */; };
 		73A7857C14F8CC23001387F6 /* SelectFloderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846C14F8CC22001387F6 /* SelectFloderView.m */; };
 		73A7857D14F8CC23001387F6 /* UserSttingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */; };
 		73A7858114F8CC23001387F6 /* WizActivityIndicatorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */; };
@@ -470,6 +471,10 @@
 		734CA1371504597D002549CB /* TreeTableViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableViewBase.m; sourceTree = "<group>"; };
 		734CA1381504597D002549CB /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
+		734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WizEditor.h"; sourceTree = "<group>"; };
+		734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+WizEditor.m"; sourceTree = "<group>"; };
+		734D53C2157CAD8F00BE496E /* WizWebEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizWebEditor.h; path = WebEditor/WizWebEditor.h; sourceTree = "<group>"; };
+		734D53C3157CAD8F00BE496E /* WizWebEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizWebEditor.m; path = WebEditor/WizWebEditor.m; sourceTree = "<group>"; };
 		735C1B95153C218100A80353 /* WizSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncManager.h; sourceTree = "<group>"; };
 		735C1B96153C218100A80353 /* WizSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncManager.m; sourceTree = "<group>"; };
 		7362ABA0156B86C700513E96 /* WizTagCatelogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTagCatelogView.h; sourceTree = "<group>"; };
@@ -570,8 +575,6 @@
 		73A7846614F8CC22001387F6 /* WizChangePassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizChangePassword.m; path = ../WizUiShare/password/WizChangePassword.m; sourceTree = "<group>"; };
 		73A7846714F8CC22001387F6 /* WizChangePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizChangePasswordController.h; sourceTree = "<group>"; };
 		73A7846814F8CC22001387F6 /* WizChangePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizChangePasswordController.m; sourceTree = "<group>"; };
-		73A7846914F8CC22001387F6 /* ScrollTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollTableViewCell.h; sourceTree = "<group>"; };
-		73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollTableViewCell.m; sourceTree = "<group>"; };
 		73A7846B14F8CC22001387F6 /* SelectFloderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectFloderView.h; sourceTree = "<group>"; };
 		73A7846C14F8CC22001387F6 /* SelectFloderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectFloderView.m; sourceTree = "<group>"; };
 		73A7846E14F8CC22001387F6 /* UserSttingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSttingsViewController.h; sourceTree = "<group>"; };
@@ -1165,6 +1168,26 @@
 			path = DocumentView/FolderTag;
 			sourceTree = "<group>";
 		};
+		734D53B5157CA83100BE496E /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				734D53B7157CA8BA00BE496E /* WebEditor */,
+				738B80A2155134080005FD33 /* EidtNote */,
+			);
+			name = Editor;
+			sourceTree = "<group>";
+		};
+		734D53B7157CA8BA00BE496E /* WebEditor */ = {
+			isa = PBXGroup;
+			children = (
+				734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */,
+				734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */,
+				734D53C2157CAD8F00BE496E /* WizWebEditor.h */,
+				734D53C3157CAD8F00BE496E /* WizWebEditor.m */,
+			);
+			name = WebEditor;
+			sourceTree = "<group>";
+		};
 		735C1B93153C214C00A80353 /* SyncCenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1232,6 +1255,16 @@
 		738B80A2155134080005FD33 /* EidtNote */ = {
 			isa = PBXGroup;
 			children = (
+				73A7847D14F8CC22001387F6 /* WizNewTagCell.h */,
+				73A7847E14F8CC22001387F6 /* WizNewTagCell.m */,
+				736DE97715526A4500633B89 /* WizFolderSelectDelegate.h */,
+				73A7846B14F8CC22001387F6 /* SelectFloderView.h */,
+				73A7846C14F8CC22001387F6 /* SelectFloderView.m */,
+				73DD153A156122DB00DBC350 /* WizSelectTagDelegate.h */,
+				73A7847F14F8CC22001387F6 /* WizSelectTagViewController.h */,
+				73A7848014F8CC22001387F6 /* WizSelectTagViewController.m */,
+				73A7847914F8CC22001387F6 /* WizEditNoteBase.h */,
+				73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */,
 				738B80A6155135300005FD33 /* WizEditItemBackgroudView.h */,
 				738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */,
 			);
@@ -1381,23 +1414,13 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				734D53B5157CA83100BE496E /* Editor */,
 				739F607E157772BA00BBCD84 /* MAP */,
 				732CFF8E155CCDE900F9F779 /* WizPasscode */,
 				73A7845214F8CC22001387F6 /* DocumentInfoViewController.h */,
 				73A7845314F8CC22001387F6 /* DocumentInfoViewController.m */,
-				738B80A2155134080005FD33 /* EidtNote */,
-				73A7847914F8CC22001387F6 /* WizEditNoteBase.h */,
-				73A7847A14F8CC22001387F6 /* WizEditNoteBase.m */,
 				73A7845614F8CC22001387F6 /* attachmentView */,
 				73A7846414F8CC22001387F6 /* password */,
-				73A7846914F8CC22001387F6 /* ScrollTableViewCell.h */,
-				73A7846A14F8CC22001387F6 /* ScrollTableViewCell.m */,
-				736DE97715526A4500633B89 /* WizFolderSelectDelegate.h */,
-				73A7846B14F8CC22001387F6 /* SelectFloderView.h */,
-				73A7846C14F8CC22001387F6 /* SelectFloderView.m */,
-				73DD153A156122DB00DBC350 /* WizSelectTagDelegate.h */,
-				73A7847F14F8CC22001387F6 /* WizSelectTagViewController.h */,
-				73A7848014F8CC22001387F6 /* WizSelectTagViewController.m */,
 				73A7846D14F8CC22001387F6 /* Settings */,
 				73A7847514F8CC22001387F6 /* WizActivityIndicatorTableViewCell.h */,
 				73A7847614F8CC22001387F6 /* WizActivityIndicatorTableViewCell.m */,
@@ -1405,8 +1428,6 @@
 				73A7847814F8CC22001387F6 /* WizCheckProtectPassword.m */,
 				73A7847B14F8CC22001387F6 /* WizInputView.h */,
 				73A7847C14F8CC22001387F6 /* WizInputView.m */,
-				73A7847D14F8CC22001387F6 /* WizNewTagCell.h */,
-				73A7847E14F8CC22001387F6 /* WizNewTagCell.m */,
 				73A7848114F8CC22001387F6 /* WizUiTypeIndex.h */,
 			);
 			path = WizUiShare;
@@ -2309,7 +2330,6 @@
 				73A7857714F8CC23001387F6 /* CommonString.m in Sources */,
 				73A7857914F8CC23001387F6 /* WizChangePassword.m in Sources */,
 				73A7857A14F8CC23001387F6 /* WizChangePasswordController.m in Sources */,
-				73A7857B14F8CC23001387F6 /* ScrollTableViewCell.m in Sources */,
 				73A7857C14F8CC23001387F6 /* SelectFloderView.m in Sources */,
 				73A7857D14F8CC23001387F6 /* UserSttingsViewController.m in Sources */,
 				73A7858114F8CC23001387F6 /* WizActivityIndicatorTableViewCell.m in Sources */,
@@ -2443,6 +2463,8 @@
 				7316C0BD15748337000926E9 /* MTStatusBarOverlay.m in Sources */,
 				739F607815775FF900BBCD84 /* NSMutableDictionary+WizDocument.m in Sources */,
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
+				734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */,
+				734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

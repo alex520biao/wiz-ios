@@ -372,7 +372,7 @@
 }
 - (void) willSelecteTags
 {
-    WizSelectTagViewController* sTag = [[WizSelectTagViewController alloc] init];
+    WizSelectTagViewController* sTag = [[WizSelectTagViewController alloc] initWithStyle:UITableViewStyleGrouped];
     sTag.selectDelegate = self;
     [self.navigationController pushViewController:sTag animated:YES];
     [sTag release];
@@ -399,7 +399,7 @@
 }
 - (void) willSelectedFolder
 {
-    SelectFloderView* sFolder = [[SelectFloderView alloc] init];
+    SelectFloderView* sFolder = [[SelectFloderView alloc] initWithStyle:UITableViewStyleGrouped];
     sFolder.selectDelegate = self;
     [self.navigationController pushViewController:sFolder animated:YES];
     [sFolder release];

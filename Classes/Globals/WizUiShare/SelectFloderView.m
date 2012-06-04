@@ -256,6 +256,7 @@
     [self.selectedFloder removeLastObject];
     [self.selectedFloder addObject:folder];
     [self.selectDelegate didSelectedFolderString:folder];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

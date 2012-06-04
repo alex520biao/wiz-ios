@@ -1,4 +1,5 @@
 //
+
 //  WizUploadObjet.m
 //  Wiz
 //
@@ -251,6 +252,9 @@
 {
     [self cancel];
     [uploadQueque removeAllObjects];
-    [self onUploadObjectSucceedAndCleanTemp];
+    self.uploadObject = nil;
+    busy = NO;
+    self.syncMessage = WizSyncEndMessage;
+    [self.apiManagerDelegate didApiSyncDone:self];
 }
 @end  
