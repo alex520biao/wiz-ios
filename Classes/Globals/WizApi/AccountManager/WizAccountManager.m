@@ -24,6 +24,7 @@
 #define KeyOfPassword               @"password"
 #define KeyOfDefaultUserId          @"defaultUserId"
 #define KeyOfProtectPassword        @"protectPassword"
+#define KeyOfKbguids                @"KeyOfKbguids"
 //
 @interface WizAccountManager()
 {
@@ -70,6 +71,17 @@
 {
 	return [[WizGlobalData sharedData] defaultAccountManager];
 }
+
+- (NSDictionary*) buildKbguidData:(NSString*)kbguid name:(NSString*)kbName  type:(WizKbguidType)kbType  image:(UIImage*)abstractImage  abstractText:(NSString*)abstractString
+{
+    return nil;
+}
+
+- (NSDictionary*) buildAccountData:(NSString*)userId password:(NSString*)password kbguids:(NSArray*)kbguids
+{
+    return nil;
+}
+
 
 -(id) readSettings: (NSString*)key
 {
@@ -223,6 +235,12 @@
     [arr replaceObjectAtIndex:i withObject:account];
     [self writeSettings:KeyOfAccounts value:arr];
 }
+
+- (NSString*) registerActiveKbguid:(NSString *)kbguid
+{
+    return nil;
+}
+
 - (void) logoutAccount
 {
     [timer invalidate];
