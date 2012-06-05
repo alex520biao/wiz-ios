@@ -73,7 +73,7 @@
 
 - (void) makeSureParentExisted:(NSArray*)locationArray
 {
-    for (int i = 1; i < [locationArray count] -1 ; i++) {
+    for (int i = 1; i < (NSInteger)[locationArray count] -1 ; i++) {
         NSString* key = [self restructLoactionKey:locationArray maxIndex:i];
         NSString* title = [locationArray objectAtIndex:i];
         LocationTreeNode* currentNode = [LocationTreeNode findNodeByKey:key :tree];

@@ -124,7 +124,7 @@
     NSArray* cellArray=nil;
     NSRange docRange;
     if ([dataArray count] < needLength) {
-        docRange =  NSMakeRange(documentsCount*indexPath.row, [dataArray count]-documentsCount*indexPath.row);
+        docRange =  NSMakeRange(documentsCount*indexPath.row,[dataArray count]-documentsCount*indexPath.row);
     }
     else {
         docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);

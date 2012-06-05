@@ -32,7 +32,6 @@ enum
     WizEditDocumentTypeAllChanged = 1,
 };
 
-//GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT
 @interface WizDocument : WizObject
 {
 	NSString* location;

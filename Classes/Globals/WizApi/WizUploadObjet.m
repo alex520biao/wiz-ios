@@ -173,7 +173,6 @@
     }
 }
 
-
 - (void) onDocumentPostSimpleData:(id)retObject
 {
     WizDocument* eidt = (WizDocument*)self.uploadObject;
@@ -181,6 +180,7 @@
     [eidt saveInfo];
     [self onUploadObjectSucceedAndCleanTemp];
 }
+
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
     [WizAttachment setAttachmentLocalChanged:self.uploadObject.guid changed:NO];

@@ -441,7 +441,7 @@ BOOL isReverseMask(NSInteger mask)
             textBody = [NSString stringWithFormat:NSLocalizedString(@"Add by %@", nil),device];
         }
     }
-    self.attachmentCount = [documentsSourceArray count] - [photoAndAudios count];
+    self.attachmentCount = (NSInteger)[documentsSourceArray count] - [photoAndAudios count];
     if (hasPicture && !hasAudio) {
         self.type = WizDocumentTypeImageKeyString;
     }
@@ -500,9 +500,6 @@ BOOL isReverseMask(NSInteger mask)
         {
             self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:subRange withString:@""];
         }
-    }
-    if (self.localChanged == WizEditDocumentTypeAllChanged) {
-        return [self saveInfo];
     }
     self.localChanged = WizEditDocumentTypeInfoChanged;
     return [self saveInfo];

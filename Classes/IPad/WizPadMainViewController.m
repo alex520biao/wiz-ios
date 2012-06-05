@@ -28,9 +28,7 @@
     UISegmentedControl* mainSegment;
     UIPopoverController* currentPoperController;
     NSArray* viewControllers;
-    
     UIActivityIndicatorView* activityIndicator;
-    
     BOOL isWillReloadFolderTable;
     BOOL isWillReloadTagTable;
 }

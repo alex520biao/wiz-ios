@@ -112,10 +112,6 @@
 {
     [super viewDidDisappear:animated];
     if (docChanged) {
-        if (self.doc.localChanged == WizEditDocumentTypeAllChanged) {
-            docChanged = NO;
-            return;
-        }
         self.doc.localChanged = WizEditDocumentTypeInfoChanged;
         [self.doc saveInfo];
         docChanged = NO;

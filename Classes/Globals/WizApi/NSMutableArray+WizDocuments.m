@@ -227,7 +227,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         }
         else 
         {
-            NSRange range = NSMakeRange(docIndex, [sourceArray count] - docIndex);
+            NSRange range = NSMakeRange(docIndex, (NSInteger)[sourceArray count] - docIndex);
             [outWeekArr addObjectsFromArray:[sourceArray subarrayWithRange:range]];
             break;
         }
@@ -267,13 +267,11 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         return;
     }
     NSMutableArray* currentSection= [NSMutableArray array];
-    for (int docIndex = 0; docIndex < [sourceArray count] -1; docIndex++) {
+
+    for (int docIndex = 0; docIndex < (NSInteger)[sourceArray count] -1; docIndex++) {
         WizDocument* doc1 = [sourceArray objectAtIndex:docIndex];
         WizDocument* doc2 = [sourceArray objectAtIndex:docIndex+1];
-        NSDate* date4 = [NSDate date];
         [doc1 compareToGroup:doc2 mask:indexOrder];
-        NSDate* date5 = [NSDate date];
-        NSLog(@"coompare group used %f",[date4 timeIntervalSinceDate:date5]);
         if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
             [currentSection addObject:doc1];
             [self addObject:currentSection];
@@ -283,9 +281,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
             [currentSection addObject:doc1];
         }
     }
-    if ([currentSection count]) {
-        [self addObject:currentSection];
-    }
+    [self addObject:currentSection];
 //    for (int docIndx = 0; docIndx < [sourceArray count];) {
 //        @try {
 //            WizDocument* doc1 = [sourceArray objectAtIndex:docIndx];
