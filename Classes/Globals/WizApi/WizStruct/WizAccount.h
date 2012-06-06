@@ -18,9 +18,10 @@
 @property (atomic, retain) NSString* password;
 @property (atomic, retain) NSArray* groups;
 - (WizAccount*) initWithUserId:(NSString*)userId_  password:(NSString*)password_  kgguids:(NSArray*)kbguids_;
-
 - (WizAccount*) initAccountFromDic:(NSDictionary*)dic;
 - (NSDictionary*) accountDictionaryData;
 - (BOOL) isEqualToAccountDictionaryData:(NSDictionary*)data;
 - (void) updateWizGroup:(WizGroup*)group;
+- (NSString*) activeKbguidString;
+- (BOOL) setActiveKbGuidString:(NSString*)kbguid;
 @end

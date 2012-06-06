@@ -79,14 +79,12 @@
             WizGroup* group  = [[WizGroup alloc]  groupFromDicionary:each];
             group.type = WizKbguidGroupType;
             [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
-            
         }
     }
     busy = NO;
 }
 -(void) onClientLogin: (id)retObject
 {
-    busy = NO;
 	if ([retObject isKindOfClass:[NSDictionary class]]) {
         NSDictionary* userInfo = retObject;
         NSNumber* userPoints = [userInfo objectForKey:@"user_points"];
@@ -104,13 +102,12 @@
         self.token = _token;
         self.apiURL = urlAPI;
         [urlAPI release];
-//        [self callGetGroupKblist];
-//        
-//        WizGroup* group  = [[WizGroup alloc]  init];
-//        NSString* _kbGuid = [userInfo valueForKey:@"kb_guid"];
-//        group.guid = _kbGuid;
-//        group.type = WizKbguidPrivateType;
-//        [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
+        [self callGetGroupKblist];
+        WizGroup* group  = [[WizGroup alloc]  init];
+        NSString* _kbGuid = [userInfo valueForKey:@"kb_guid"];
+        group.guid = _kbGuid;
+        group.type = WizKbguidPrivateType;
+        [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
     }
     
 }

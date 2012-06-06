@@ -34,14 +34,15 @@
     else {
         imageData = [[UIImage imageNamed:@"edit"] compressedData];
     }
-    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         self.guid, KeyOfKbKbguid,
-                         self.title, KeyOfKbName,
-                         self.abstractText, KeyOfKbAbstractString,
-                         [NSNumber numberWithInt:self.type], KeyOfKbType,
-                         imageData, KeyOfKbImage
-                         ,nil];
-    NSLog(@"dic is %d",[dic count]);
+    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    [dic setObjectNotNull:self.guid forKey:KeyOfKbKbguid];
+    [dic setObjectNotNull:self.title forKey:KeyOfKbName];
+    [dic setObjectNotNull:imageData forKey:KeyOfKbImage];
+    [dic setObjectNotNull:[NSNumber numberWithInt:self.type] forKey:KeyOfKbType];
+    [dic setObjectNotNull:self.abstractText forKey:KeyOfKbAbstractString];
+
+    NSLog(@"dic is %@",dic);
+    NSLog(@"%@ %@ %d",self.guid,self.title,self.type);
     return dic;
 }
 - (BOOL) save
@@ -63,6 +64,9 @@
         NSData* data = [dic valueForKey:KeyOfKbImage];
         self.abstractImage = [UIImage imageWithData:data];
         NSNumber* kbType = [dic valueForKey:KeyOfKbType];
+        if (kbType) {
+            self.type = [kbType intValue];
+        }
     }
     return self;
 }

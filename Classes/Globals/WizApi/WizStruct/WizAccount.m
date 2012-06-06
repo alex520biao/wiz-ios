@@ -11,10 +11,28 @@
 #define KeyOfUserId                 @"userId"
 #define KeyOfPassword               @"password"
 #define KeyOfKbguids                @"KeyOfKbguids"
+@interface WizAccount()
+{
+    NSString* activeKb;
+}
+@property (atomic, retain) NSString* activeKb;
+@end
+
 @implementation WizAccount
+@synthesize activeKb;
 @synthesize userId;
 @synthesize password;
 @synthesize groups;
+
+- (void) dealloc
+{
+    [activeKb release];
+    [userId release];
+    [password release];
+    [groups release];
+    [super dealloc];
+}
+
 - (WizAccount*) initWithUserId:(NSString*)userId_  password:(NSString*)password_  kgguids:(NSArray*)kbguids_
 {
     self = [super init];
@@ -91,5 +109,15 @@
     }
     NSLog(@"count is %d",[self.groups count]);
     [[WizAccountManager defaultManager] updateAccount:self];
+}
+- (BOOL) setActiveKbGuidString:(NSString *)kbguid
+{
+    self.activeKb = kbguid;
+    return YES;
+}
+
+- (NSString*) activeKbguidString
+{
+    return self.activeKb;
 }
 @end

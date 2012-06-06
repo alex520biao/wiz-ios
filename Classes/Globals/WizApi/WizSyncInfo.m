@@ -226,7 +226,8 @@
 }
 - (BOOL) start
 {
-    if (self.busy) {
+    if (self.busy)
+    {
         return NO;
     }
     busy = YES;
@@ -250,6 +251,7 @@
         [WizGlobals reportError:retObject];
     }
 }
+
 - (void) cancel
 {
     [super cancel];
