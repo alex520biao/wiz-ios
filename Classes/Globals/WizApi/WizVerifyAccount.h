@@ -19,7 +19,6 @@
     NSString* accountPassword;
     id<WizVerifyAccountDeletage> verifyDelegate;
 }
-@property (readonly) BOOL busy;
 @property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSString* accountPassword;
 @property (retain, nonatomic) id <WizVerifyAccountDeletage> verifyDelegate;

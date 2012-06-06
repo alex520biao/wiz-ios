@@ -19,6 +19,7 @@
 #import "WizSyncManager.h"
 #import "WizAccountManager.h"
 #import "WizFileManager.h"
+#import "WizSettings.h"
 //
 #define DataTypeOfSyncManager               @"DataTypeOfSyncManager"
 #define DataTypeOfSync                      @"Sync"
@@ -210,6 +211,7 @@ static WizGlobalData* g_data;
     id data = [self dataOfAccount:WizGlobalAccount dataType:DataTypeOfChangePassword];
     if (nil == data) {
         data = [[WizChangePassword alloc] init];
+        [data setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];
         [self setDataOfAccount:WizGlobalAccount dataType:DataTypeOfChangePassword data:data];
         [data release];
         return data;

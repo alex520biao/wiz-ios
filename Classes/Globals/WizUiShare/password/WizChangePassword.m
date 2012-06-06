@@ -9,11 +9,13 @@
 #import "WizChangePassword.h"
 #import "WizChangePasswordController.h"
 @implementation WizChangePassword
+@synthesize changePasswordDelegate;
 -(void) onError: (id)retObject
 {
 	busy = NO;
     [self.changePasswordDelegate didChangedPasswordFaild];
 	[super onError:retObject];
+    NSLog(@"%@",retObject);
 }
 - (void) onChangePassword:(id)retObject
 {

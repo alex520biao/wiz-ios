@@ -7,14 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NSInteger WizKbguidType;
-enum  {
-    WizKbguidPrivateType = 0,
-    WizKbguidGroupType = 1
-};
+@class WizAccount;
 @interface WizAccountManager : NSObject
-
 + (WizAccountManager *) defaultManager;
 - (NSArray*) accounts;
 - (BOOL) findAccount: (NSString*)userId;
@@ -29,4 +23,9 @@ enum  {
 - (void) logoutAccount;
 - (void) removeAccount: (NSString*)userId;
 - (NSString*) registerActiveKbguid:(NSString*)kbguid;
+//
+
+- (void) updateAccount:(WizAccount*)account;
+- (WizAccount*) accountFromLoaclData:(NSString*)userId;
+- (WizAccount*) activeAccount;
 @end

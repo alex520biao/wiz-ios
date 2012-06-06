@@ -53,6 +53,7 @@
 		7316C0CA1574AD20000926E9 /* downloadIndicator5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */; };
 		7316C0CD1574B373000926E9 /* icon_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CB1574B373000926E9 /* icon_share.png */; };
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
+		731EFED3157E011500C859E0 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EFED2157E011500C859E0 /* WizGroup.m */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
 		732951641548F8FC00FA4FAA /* PhRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 732951631548F8FC00FA4FAA /* PhRecentViewController.m */; };
@@ -322,6 +323,7 @@
 		73A786FB14F8CD5D001387F6 /* about@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867014F8CD5D001387F6 /* about@x2.png */; };
 		73A786FC14F8CD5D001387F6 /* icon_512.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867114F8CD5D001387F6 /* icon_512.jpg */; };
 		73A786FD14F8CD5D001387F6 /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867214F8CD5D001387F6 /* icon_ipad.png */; };
+		73AFCC17157E0A4A00C48FE1 /* WizAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCC16157E0A4A00C48FE1 /* WizAccount.m */; };
 		73B46D16153E77240049556F /* WizSyncInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B46D15153E77230049556F /* WizSyncInfo.m */; };
 		73B46D2B153FAAD30049556F /* WizAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B46D2A153FAAD30049556F /* WizAccountManager.m */; };
 		73BB85241511F9D80032F99B /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB85231511F9D80032F99B /* WizNotification.m */; };
@@ -423,6 +425,9 @@
 		7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator5@2x.png"; sourceTree = "<group>"; };
 		7316C0CB1574B373000926E9 /* icon_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_share.png; sourceTree = "<group>"; };
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
+		731EFED1157E011400C859E0 /* WizGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGroup.h; path = WizStruct/WizGroup.h; sourceTree = "<group>"; };
+		731EFED2157E011500C859E0 /* WizGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGroup.m; path = WizStruct/WizGroup.m; sourceTree = "<group>"; };
+		731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDateBaseDelegate.h; sourceTree = "<group>"; };
 		7321310C15454AD70077F77E /* WizSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettings.h; sourceTree = "<group>"; };
 		7321310D15454AD70077F77E /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
 		7321310F15454BD50077F77E /* WizAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstract.h; path = WizStruct/WizAbstract.h; sourceTree = "<group>"; };
@@ -829,6 +834,8 @@
 		73A7867014F8CD5D001387F6 /* about@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@x2.png"; sourceTree = "<group>"; };
 		73A7867114F8CD5D001387F6 /* icon_512.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = icon_512.jpg; sourceTree = "<group>"; };
 		73A7867214F8CD5D001387F6 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		73AFCC15157E0A4A00C48FE1 /* WizAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccount.h; path = WizStruct/WizAccount.h; sourceTree = "<group>"; };
+		73AFCC16157E0A4A00C48FE1 /* WizAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAccount.m; path = WizStruct/WizAccount.m; sourceTree = "<group>"; };
 		73B46D14153E77230049556F /* WizSyncInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncInfo.h; sourceTree = "<group>"; };
 		73B46D15153E77230049556F /* WizSyncInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncInfo.m; sourceTree = "<group>"; };
 		73B46D29153FAAD30049556F /* WizAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccountManager.h; path = AccountManager/WizAccountManager.h; sourceTree = "<group>"; };
@@ -1029,6 +1036,11 @@
 				7321311015454BD50077F77E /* WizAbstract.m */,
 				73A18BF1155B6EED00E1324C /* WizObject+WizSync.h */,
 				73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */,
+				731EFED1157E011400C859E0 /* WizGroup.h */,
+				731EFED2157E011500C859E0 /* WizGroup.m */,
+				731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */,
+				73AFCC15157E0A4A00C48FE1 /* WizAccount.h */,
+				73AFCC16157E0A4A00C48FE1 /* WizAccount.m */,
 			);
 			name = WizStruct;
 			sourceTree = "<group>";
@@ -2465,6 +2477,8 @@
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
 				734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */,
 				734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */,
+				731EFED3157E011500C859E0 /* WizGroup.m in Sources */,
+				73AFCC17157E0A4A00C48FE1 /* WizAccount.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

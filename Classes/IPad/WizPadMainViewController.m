@@ -37,7 +37,7 @@
 
 @implementation WizPadMainViewController
 
-
+@synthesize currentPoperController;
 - (void) dealloc
 {
     [currentPoperController release];

@@ -1486,7 +1486,7 @@ bool CIndex::fileCountInLocation(const char *lpszLocation, int &count)
 
 bool CIndex::fileCountInTag(const char *lpszTagguid, int &count)
 {
-    std::string lpszSQL = std::string("select count(*) from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS = '") + lpszTagguid +("'");
+    std::string lpszSQL = std::string("select count(*) from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS like '%") + lpszTagguid +("%'");
     try {
 		CppSQLite3Query query = m_db.execQuery(lpszSQL.c_str());
 		while (!query.eof())

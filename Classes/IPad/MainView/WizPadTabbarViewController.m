@@ -17,6 +17,7 @@
 @end
 
 @implementation WizPadTabbarViewController
+@synthesize viewControllers;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

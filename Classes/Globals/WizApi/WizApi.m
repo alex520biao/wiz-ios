@@ -34,6 +34,7 @@
 #define SyncMethod_AttachmentPostSimpleData     @"attachment.postSimpleData"
 #define SyncMethod_GetAttachmentList            @"attachment.getList"
 #define SyncMethod_GetUserInfo                  @"wiz.getInfo"
+#define SyncMethod_GetGropKbGuids               @"accounts.getGroupKbList"
 
 @implementation WizApi
 @synthesize token;
@@ -175,7 +176,11 @@
         else if([method isEqualToString:SyncMethod_GetUserInfo])
         {
             [delegate onCallGetUserInfo:ret];
-        } 
+        }
+        else if ([method isEqualToString:SyncMethod_GetGropKbGuids])
+        {
+            [delegate onCallGetGropList:ret];
+        }
         else
 		{
 			[WizGlobals reportErrorWithString:NSLocalizedString(@"Unknown xml-rpc method!", nil)];
@@ -216,7 +221,6 @@
     else
         return NO;
 }
-
 -(void) addCommonParams: (NSMutableDictionary*)postParams
 {
 	[postParams setObject:@"iphone" forKey:@"client_type"];
@@ -506,6 +510,14 @@
     [postParams setObject:[NSNumber numberWithInt:1]    forKey:@"attachment_data"];
     NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_AttachmentPostSimpleData args:args];
+}
+
+- (BOOL)callGetGroupKblist
+{
+    NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+	[self addCommonParams:postParams];
+    NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetGropKbGuids args:args];
 }
 -(void) onError: (id)retObject
 {

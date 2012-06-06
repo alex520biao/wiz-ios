@@ -40,6 +40,7 @@
 @synthesize currentDocument;
 @synthesize cacheConditon;
 @synthesize dbManager;
+@synthesize thread;
 //single
 + (id) shareCache
 {

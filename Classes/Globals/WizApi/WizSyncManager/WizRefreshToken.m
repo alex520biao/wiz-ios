@@ -11,6 +11,7 @@
 #import "WizGlobalData.h"
 #import "WizSettings.h"
 #import "WizAccountManager.h"
+#import "WizFileManager.h"
 
 @implementation WizRefreshToken
 @synthesize refreshDelegate;
@@ -69,8 +70,23 @@
     NSLog(@"%@",password);
     return [self callClientLogin:accountUserId accountPassword:password];
 }
+- (void) onCallGetGropList:(id)retObject
+{
+    NSLog(@"%@",retObject);
+    if ([retObject isKindOfClass:[NSArray class]]) {
+        NSArray* kbGuids = retObject;
+        for (NSDictionary* each in kbGuids) {
+            WizGroup* group  = [[WizGroup alloc]  groupFromDicionary:each];
+            group.type = WizKbguidGroupType;
+            [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
+            
+        }
+    }
+    busy = NO;
+}
 -(void) onClientLogin: (id)retObject
 {
+    busy = NO;
 	if ([retObject isKindOfClass:[NSDictionary class]]) {
         NSDictionary* userInfo = retObject;
         NSNumber* userPoints = [userInfo objectForKey:@"user_points"];
@@ -83,7 +99,19 @@
         [defalutSettings setUserLevelName:userLevelName];
         [defalutSettings setUserType:userType];
         [self.refreshDelegate didRefreshToken:retObject];
+        NSString* _token = [userInfo valueForKey:@"token"];
+        NSURL* urlAPI = [[NSURL alloc] initWithString:[userInfo valueForKey:@"kapi_url"]];
+        self.token = _token;
+        self.apiURL = urlAPI;
+        [urlAPI release];
+//        [self callGetGroupKblist];
+//        
+//        WizGroup* group  = [[WizGroup alloc]  init];
+//        NSString* _kbGuid = [userInfo valueForKey:@"kb_guid"];
+//        group.guid = _kbGuid;
+//        group.type = WizKbguidPrivateType;
+//        [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
     }
-    busy = NO;
+    
 }
 @end

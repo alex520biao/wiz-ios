@@ -26,7 +26,6 @@
     BOOL willCheckInWiz;
     ATMHud* downloadActivity;
 }
-@property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) NSMutableArray* attachments;
 @property (nonatomic, retain) UIAlertView* waitAlert;
 @property (nonatomic, retain) NSIndexPath* lastIndexPath;

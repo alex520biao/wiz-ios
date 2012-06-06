@@ -73,13 +73,15 @@
 
 - (void) didChangedPasswordSucceed
 {
+    [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
     NSString* pwNewStr = self.passwordNew.textInputField.text;
     [[WizAccountManager defaultManager] changeAccountPassword:self.accountUserId password:pwNewStr];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) didChangedPasswordFaild
 {
-    
+    [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (void) changePassword
@@ -119,6 +121,7 @@
     self.waitAlert = waitAlert_;
     [waitAlert_ show];
     [waitAlert_ release];
+    [changePw changeAccountPassword:[[WizAccountManager defaultManager]activeAccountUserId]  oldPassword:oldPwStr newPassword:pwNewStr];
     
 }
 - (void) viewDidAppear:(BOOL)animated

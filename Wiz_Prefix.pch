@@ -11,4 +11,6 @@
     #import "WizAttachment.h"
     #import "WizTag.h"
     #import "WizAbstract.h"
+    #import "WizGroup.h"
+    #import "WizAccount.h"
 #endif

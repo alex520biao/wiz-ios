@@ -7,9 +7,8 @@
 //
 
 #import "WizAccountManager.h"
+#import "WizAccount.h"
 
-
-#import "WizGlobals.h"
 
 #import "WizGlobalData.h"
 #import "WizSyncManager.h"
@@ -25,6 +24,9 @@
 #define KeyOfDefaultUserId          @"defaultUserId"
 #define KeyOfProtectPassword        @"protectPassword"
 #define KeyOfKbguids                @"KeyOfKbguids"
+
+
+
 //
 @interface WizAccountManager()
 {
@@ -72,16 +74,29 @@
 	return [[WizGlobalData sharedData] defaultAccountManager];
 }
 
-- (NSDictionary*) buildKbguidData:(NSString*)kbguid name:(NSString*)kbName  type:(WizKbguidType)kbType  image:(UIImage*)abstractImage  abstractText:(NSString*)abstractString
-{
-    return nil;
-}
 
 - (NSDictionary*) buildAccountData:(NSString*)userId password:(NSString*)password kbguids:(NSArray*)kbguids
 {
-    return nil;
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            userId, KeyOfUserId ,
+            password,KeyOfPassword,
+            kbguids, KeyOfKbguids
+            ,nil];
+}
+- (NSString*) accountUserIDFromDic:(NSDictionary*)dic
+{
+    return [dic valueForKey:KeyOfUserId];
 }
 
+- (NSString*) accountUserPasswordFromDic:(NSDictionary*)dic
+{
+    return [dic valueForKey:KeyOfPassword];
+}
+
+- (NSString*) accountKbGuidsFromDic:(NSDictionary*)dic
+{
+    return [dic valueForKey:KeyOfKbguids];
+}
 
 -(id) readSettings: (NSString*)key
 {
@@ -122,6 +137,7 @@
     }
 	return NO;
 }
+
 
 -(NSString*) accountPasswordByUserId:(NSString *)userID
 {
@@ -175,7 +191,79 @@
         return @"";
     }
 }
+- (NSDictionary*) activeAccountData
+{
+    NSArray* exitsAccounts = [self readSettings:KeyOfAccounts];
+    for (NSDictionary* account in exitsAccounts) {
+        NSString* userId = [self accountUserIDFromDic:account];
+        if ([userId isEqualToString:[self activeAccountUserId]]) {
+            return account;
+        }
+    }
+    return nil;
+}
+- (void) addKbguidGroup:(NSDictionary*)dic
+{
+    
+}
+- (NSInteger) findAccountIndex:(WizAccount*)account
+{
+    NSArray* exitsAccounts = [self readSettings:KeyOfAccounts];
+    NSInteger accountIndex = 0;
+    BOOL exist = NO;
+    for (accountIndex = 0; accountIndex < [exitsAccounts count]; accountIndex++) {
+        NSDictionary* dic = [exitsAccounts objectAtIndex:accountIndex];
+        if ([account isEqualToAccountDictionaryData:dic]) {
+            exist = YES;
+            break;
+        }
+    }
+    if (exist) {
+        return accountIndex;
+    }
+    else {
+        return NSNotFound;
+    }
+}
+- (void) updateAccount:(WizAccount*)account
+{
+    NSInteger accountIndex    = [self findAccountIndex:account];
+    NSDictionary* accountData = [account accountDictionaryData];
+    NSArray* exitsAccounts    = [self readSettings:KeyOfAccounts];
+    NSMutableArray* array     = [NSMutableArray array];
+    if (exitsAccounts) {
+        [array addObjectsFromArray:exitsAccounts];
+    }
+    if (accountIndex == NSNotFound) {
+        [array addObject:accountData];
+    }
+    else {
+        [array replaceObjectAtIndex:accountIndex withObject:accountData];
+    }
+    [self writeSettings:KeyOfAccounts value:array];
+}
+- (void) updateWizGroup:(WizGroup*)group
+{
+    WizAccount* account = [self accountFromLoaclData:[self activeAccountUserId]];
+}
 
+- (WizAccount*) accountFromLoaclData:(NSString*)userId
+{
+    WizAccount* account = [[WizAccount alloc] init];
+    account.userId = userId;
+    NSInteger accountIndex    = [self findAccountIndex:account];
+    NSArray* exitsAccounts    = [self readSettings:KeyOfAccounts];
+    if (accountIndex == NSNotFound) {
+        return nil;
+    }
+    else {
+        return [account initAccountFromDic:[exitsAccounts objectAtIndex:accountIndex]];
+    }
+}
+- (WizAccount*) activeAccount
+{
+    return [self accountFromLoaclData:[self activeAccountUserId]];
+}
 -(void) addAccount: (NSString*)userId password:(NSString*)password
 {
 	if ([self findAccount:userId])

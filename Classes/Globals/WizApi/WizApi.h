@@ -62,6 +62,7 @@ enum
 - (void) onDocumentPostSimpleData:(id)retObject;
 - (void) onAttachmentPostSimpleData:(id)retObject;
 - (void) onDownloadObject:(id)retObject;
+- (void) onCallGetGropList:(id)retObject;
 @end
 
 @class XMLRPCConnection;
@@ -112,4 +113,5 @@ enum
 -(void) cancel;
 - (BOOL) start;
 - (void) didChangeSyncStatue:(WizSyncStatueCode)statue;
+- (BOOL)callGetGroupKblist;
 @end
