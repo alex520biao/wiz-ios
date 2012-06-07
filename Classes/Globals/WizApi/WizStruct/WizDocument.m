@@ -199,32 +199,32 @@ BOOL isReverseMask(NSInteger mask)
 //
 + (NSArray*) recentDocuments
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     return [share recentDocuments];
 }
 + (NSArray*) documentsByTag: (NSString*)tagGUID
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentsByTag:tagGUID];
 }
 + (NSArray*) documentsByKey: (NSString*)keywords
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentsByKey:keywords];
 }
 + (NSArray*) documentsByLocation: (NSString*)parentLocation
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentsByLocation:parentLocation];
 }
 + (NSArray*) documentForUpload
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentForUpload];
 }
 + (WizDocument*) documentFromDb:(NSString *)_guid
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentFromGUID:_guid];
 }
 //
@@ -232,15 +232,15 @@ BOOL isReverseMask(NSInteger mask)
 {
     WizFileManager* fileManager = [WizFileManager shareManager];
     [fileManager removeObjectPath:document.guid];
-    WizDbManager* db = [WizDbManager shareDbManager];
-    [db deleteDocument:document.guid];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    [share deleteDocument:document.guid];
     [WizNotificationCenter postDeleteDocumentMassage:document];
 }
 //
 
 - (NSArray*) attachments
 {
-    return [[WizDbManager shareDbManager] attachmentsByDocumentGUID:self.guid];
+    return [[[WizDbManager shareDbManager]shareDataBase] attachmentsByDocumentGUID:self.guid];
 }
 
 - (BOOL) addFileToIndexFiles:(NSString*)sourcePath
@@ -333,7 +333,7 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:[NSNumber numberWithInt:self.nReadCount] forKey:DataTypeUpdateDocumentREADCOUNT];
     
     NSLog(@"%@",doc);
-    if ([[WizDbManager shareDbManager] updateDocument:doc]) {
+    if ([[[WizDbManager shareDbManager] shareDataBase] updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;
     }
@@ -530,7 +530,7 @@ BOOL isReverseMask(NSInteger mask)
 }
 + (NSArray*)documentsForCache
 {
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
     return [share documentsForCache:duration];
 }

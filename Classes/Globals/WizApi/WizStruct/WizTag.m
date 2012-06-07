@@ -34,11 +34,11 @@
 }
 + (WizTag*) tagFromDb:(NSString*)guid
 {
-    return [[WizDbManager shareDbManager] tagFromGuid:guid];
+    return [[[WizDbManager shareDbManager] shareDataBase] tagFromGuid:guid];
 }
 - (NSString*) tagAbstract
 {
-    return [[WizDbManager shareDbManager] tagAbstractString:self.guid];
+    return [[[WizDbManager shareDbManager] shareDataBase] tagAbstractString:self.guid];
 }
 - (BOOL) save
 {
@@ -62,20 +62,20 @@
         self.parentGUID = @"";
     }
     [tag setObject:self.parentGUID forKey:DataTypeUpdateTagParentGuid];
-    return [[WizDbManager shareDbManager] updateTag:tag];
+    return [[[WizDbManager shareDbManager] shareDataBase] updateTag:tag];
 }
 + (void) deleteTag:(NSString*)tagGuid
 {
-    WizDbManager* db = [WizDbManager shareDbManager];
+    WizDataBase* db = [[WizDbManager shareDbManager] shareDataBase];
     [db deleteTag:tagGuid];
 }
 
 + (NSArray*) allTags
 {
-    return [[WizDbManager shareDbManager] allTagsForTree];
+    return [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
 }
 + (NSInteger) fileCountOfTag:(NSString*)tagGuid
 {
-    return [[WizDbManager shareDbManager] fileCountOfTag:tagGuid];
+    return [[[WizDbManager shareDbManager]shareDataBase] fileCountOfTag:tagGuid];
 }
 @end

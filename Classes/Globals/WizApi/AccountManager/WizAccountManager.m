@@ -31,13 +31,16 @@
 @interface WizAccountManager()
 {
 	NSMutableDictionary* dict;
+    WizAccount* activeAccount_;
     NSTimer* timer;
 }
 @property (nonatomic, retain) NSTimer* timer;
+@property (nonatomic, retain) WizAccount* activeAccount_;
 @end
 
 @implementation WizAccountManager
 @synthesize timer;
+@synthesize activeAccount_;
 -(NSString*) settingsFileName
 {
 	NSString* filename = [[WizFileManager  documentsPath] stringByAppendingPathComponent:SettingsFileName];
@@ -165,15 +168,16 @@
 - (BOOL) registerActiveAccount:(NSString*)userId
 {
     [self setDefalutAccount:userId];
-    WizFileManager* fileManager = [WizFileManager shareManager];
-    WizDbManager* dbManager = [WizDbManager shareDbManager];
-    if(![dbManager openDb:[fileManager dbPath]])
-    {
-        return NO;
-    }
-    if (![dbManager openTempDb:[fileManager tempDbPath]]) {
-        return NO;
-    }
+    [WizFileManager shareManager];
+    WizDataBase* dbManager = [[WizDbManager shareDbManager] shareDataBase];
+//    if(![dbManager openDb:[fileManager dbPath]])
+//    {
+//        return NO;
+//    }
+//    if (![dbManager openTempDb:[fileManager tempDbPath]]) {
+//        return NO;
+//    }
+    [dbManager reloadDb];
     timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
     [timer fire];
     WizAbstractCache* cache = [WizAbstractCache shareCache];
@@ -244,7 +248,7 @@
 }
 - (void) updateWizGroup:(WizGroup*)group
 {
-    WizAccount* account = [self accountFromLoaclData:[self activeAccountUserId]];
+    
 }
 
 - (WizAccount*) accountFromLoaclData:(NSString*)userId
@@ -262,7 +266,10 @@
 }
 - (WizAccount*) activeAccount
 {
-    return [self accountFromLoaclData:[self activeAccountUserId]];
+    if (self.activeAccount_ == nil) {
+        self.activeAccount_ = [self accountFromLoaclData:[self activeAccountUserId]];
+    }
+    return self.activeAccount_;
 }
 -(void) addAccount: (NSString*)userId password:(NSString*)password
 {
@@ -332,7 +339,7 @@
 - (void) logoutAccount
 {
     [timer invalidate];
-    WizDbManager* share = [WizDbManager shareDbManager];
+    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
     [share close];
     [share closeTempDb];
     WizSyncManager* sync = [WizSyncManager shareManager];

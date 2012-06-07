@@ -67,7 +67,7 @@ static WizSettings* defaultSettings = nil;
 {
     self = [super init];
     if (self) {
-        self.settingsDbDelegate = [WizDbManager shareDbManager];
+        self.settingsDbDelegate = [[WizDbManager shareDbManager] shareDataBase];
     }
     return self;
 }

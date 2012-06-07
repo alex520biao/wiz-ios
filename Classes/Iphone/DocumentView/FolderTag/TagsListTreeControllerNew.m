@@ -59,7 +59,7 @@
 
 - (void) reloadAllData
 {
-    NSArray* tagArray = [[WizDbManager shareDbManager] allTagsForTree];
+    NSArray* tagArray = [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
     tree = [[LocationTreeNode alloc]init] ;
     tree.deep = 0;
     tree.title = @"/";

@@ -8,14 +8,17 @@
 
 #import "WizAccount.h"
 #import "WizAccountManager.h"
+#import "WizSyncManager.h"
+#import "WizDbManager.h"
+#import "WizFileManager.h"
 #define KeyOfUserId                 @"userId"
 #define KeyOfPassword               @"password"
 #define KeyOfKbguids                @"KeyOfKbguids"
 @interface WizAccount()
 {
-    NSString* activeKb;
+    WizGroup* activeKb;
 }
-@property (atomic, retain) NSString* activeKb;
+@property (atomic, retain) WizGroup* activeKb;
 @end
 
 @implementation WizAccount
@@ -43,7 +46,15 @@
             self.groups = [NSArray array];
         }
         else {
-            self.groups = kbguids_;
+            NSMutableArray* array  = [NSMutableArray array];
+            for (NSDictionary* each in kbguids_) {
+                WizGroup* group = [[WizGroup alloc] groupFromDicionary:each];
+                if (group.type == WizKbguidPrivateType) {
+                    self.activeKb = group;
+                }
+            [array addObject:group];
+            }
+        self.groups = array;
         }
     }
     return self;
@@ -61,7 +72,15 @@
             self.groups = [NSArray array];
         }
         else {
-            self.groups = array;
+            NSMutableArray* groupsArray = [NSMutableArray array];
+            for (NSDictionary* each in array) {
+                WizGroup* group = [[WizGroup alloc] groupFromDicionary:each];
+                if (group.type == WizKbguidPrivateType) {
+                    self.activeKb = group;
+                }
+                [groupsArray addObject:group];
+            }
+            self.groups = groupsArray;
         }
     }
     return self;
@@ -72,7 +91,12 @@
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithCapacity:3];
     [dic setObject:self.userId forKey:KeyOfUserId];
     [dic setObject:self.password forKey:KeyOfPassword];
-    [dic setObject:self.groups forKey:KeyOfKbguids];
+    NSMutableArray* groupData = [NSMutableArray array];
+    for (WizGroup* each in self.groups) {
+        NSDictionary* groupDic = [each dictionaryWithGropuData];
+        [groupData addObject:groupDic];
+    }
+    [dic setObject:groupData forKey:KeyOfKbguids];
     return dic;
 }
 - (BOOL) isEqualToAccountDictionaryData:(NSDictionary*)data
@@ -89,34 +113,36 @@
 - (void) updateWizGroup:(WizGroup*)group
 {
     if (!self.groups) {
-        self.groups = [NSArray arrayWithObject:[group dictionaryWithGropuData]];
+        self.groups = [NSArray arrayWithObject:group];
     }
     else {
         NSMutableArray* array = [NSMutableArray arrayWithArray:self.groups];
         NSInteger i = 0;
         for (i = 0; i < [array count]; i++) {
-            NSDictionary* group_ =[array objectAtIndex:i];
-            if ([group isEqualToDictionary:group_]) {
-                [array replaceObjectAtIndex:i withObject:[group dictionaryWithGropuData]];
-                NSLog(@"===");
+            WizGroup* group_ =[array objectAtIndex:i];
+            if ([group.guid isEqualToString:group_.guid]) {
+                [array replaceObjectAtIndex:i withObject:group];
                 break;
             }
         }
         if (i == [array count]) {
-            [array addObject:[group dictionaryWithGropuData]];
+            [array addObject:group];
         }
         self.groups = array;
+        NSLog(@"group count is %d",[self.groups count]);
     }
-    NSLog(@"count is %d",[self.groups count]);
     [[WizAccountManager defaultManager] updateAccount:self];
 }
-- (BOOL) setActiveKbGuidString:(NSString *)kbguid
+
+- (BOOL) registerActiveKbguid:(WizGroup *)kb
 {
-    self.activeKb = kbguid;
+    self.activeKb = kb;
+    [[WizSyncManager shareManager] stopSync];
+    [[[WizDbManager shareDbManager] shareDataBase] reloadDb];
     return YES;
 }
 
-- (NSString*) activeKbguidString
+- (WizGroup*) activeGroup
 {
     return self.activeKb;
 }

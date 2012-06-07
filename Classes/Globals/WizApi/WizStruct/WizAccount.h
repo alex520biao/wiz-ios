@@ -22,6 +22,7 @@
 - (NSDictionary*) accountDictionaryData;
 - (BOOL) isEqualToAccountDictionaryData:(NSDictionary*)data;
 - (void) updateWizGroup:(WizGroup*)group;
-- (NSString*) activeKbguidString;
-- (BOOL) setActiveKbGuidString:(NSString*)kbguid;
+- (BOOL) registerActiveKbguid:(WizGroup *)kb;
+- (WizGroup*) activeGroup;
+
 @end

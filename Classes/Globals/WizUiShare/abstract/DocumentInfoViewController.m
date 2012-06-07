@@ -14,7 +14,6 @@
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
 #import "WizPhoneNotificationMessage.h"
-#import "WizDbManager.h"
 #import "WizMapViewController.h"
 @interface DocumentInfoViewController()
 {

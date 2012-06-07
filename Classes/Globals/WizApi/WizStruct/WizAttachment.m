@@ -77,25 +77,25 @@
     [attachment setObject:self.documentGuid forKey:DataTypeUpdateAttachmentDocumentGuid];
     [attachment setObject:self.dateModified forKey:DataTypeUpdateAttachmentDateModified];
     [attachment setObject:self.description forKey:DataTypeUpdateAttachmentDescription];
-    return [[WizDbManager shareDbManager] updateAttachment:attachment];
+    return [[[WizDbManager shareDbManager] shareDataBase] updateAttachment:attachment];
 }
 + (void) deleteAttachment:(NSString*)attachmentGuid
 {
-    WizDbManager* db = [WizDbManager shareDbManager];
+    WizDataBase* db = [[WizDbManager shareDbManager] shareDataBase];
     [db deleteAttachment:attachmentGuid];
 }
 + (WizAttachment*) attachmentFromDb:(NSString *)attachmentGuid
 {
-    return [[WizDbManager shareDbManager] attachmentFromGUID:attachmentGuid];
+    return [[[WizDbManager shareDbManager] shareDataBase] attachmentFromGUID:attachmentGuid];
 }
 
 + (void) setAttachServerChanged:(NSString*)attachmentGUID changed:(BOOL)changed
 {
-    [[WizDbManager shareDbManager] setAttachmentServerChanged:attachmentGUID changed:changed];
+    [[[WizDbManager shareDbManager] shareDataBase] setAttachmentServerChanged:attachmentGUID changed:changed];
 }
 + (void) setAttachmentLocalChanged:(NSString *)attachmentGuid changed:(BOOL)changed
 {
-    [[WizDbManager shareDbManager] setAttachmentLocalChanged:attachmentGuid changed:changed];
+    [[[WizDbManager shareDbManager] shareDataBase] setAttachmentLocalChanged:attachmentGuid changed:changed];
 }
 - (void) upload
 {

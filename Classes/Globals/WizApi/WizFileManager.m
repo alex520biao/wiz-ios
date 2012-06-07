@@ -88,16 +88,40 @@ static WizFileManager* shareManager = nil;
 	[self ensurePathExists:path];
 	return path;
 }
-- (NSString*) dbPath
+- (NSString*) dbPathForGroup:(NSString*)kbguid
 {
     NSString* accountPath = [self accountPath];
-	return [accountPath stringByAppendingPathComponent:@"index.db"];
+    NSString* name = [NSString stringWithFormat:@"%@.db",kbguid];
+	return [accountPath stringByAppendingPathComponent:name];
+}
+- (NSString*) tempDbPathForGroup:(NSString*)kbguid
+{
+    NSString* accountPath = [self accountPath];
+	NSString* name = [NSString stringWithFormat:@"%@.db",kbguid];
+	return [accountPath stringByAppendingPathComponent:name];
+}
+- (NSString*) accountsDbPath
+{
+    NSString* documentsPath = [WizFileManager documentsPath];
+    return [documentsPath stringByAppendingPathComponent:@"accounts.db"];
+}
+- (NSString*) dbPath
+{
+    WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
+    WizGroup* kb = [active activeGroup];
+    if (WizKbguidPrivateType == kb.type) {
+        return [self dbPathForGroup:@"index"];
+    }
+    NSLog(@"%@ %@",active, kb);
+	return [self dbPathForGroup:kb.guid];
 }
 - (NSString*) tempDbPath
 {
-    NSString* accountPath = [self accountPath];
-	return [accountPath stringByAppendingPathComponent:@"temp.db"];
+    WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
+    WizGroup* kb = [active activeGroup];
+    return [self dbPathForGroup:@"temp"];
 }
+
 - (NSString*) objectFilePath:(NSString*)objectGuid
 {
 	NSString* accountPath = [self accountPath];

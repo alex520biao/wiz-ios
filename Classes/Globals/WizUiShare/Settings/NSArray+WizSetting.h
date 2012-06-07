@@ -16,4 +16,6 @@
 - (NSInteger) indexForWizSettingValue:(NSInteger)value;
 + (NSArray*) tableViewOptions;
 - (NSString*) descriptionForWizSettingValue:(NSInteger)value;
++ (NSDictionary*) dictionaryForSettings:(id)value descriptor:(id)descripor;
+- (NSString*)wizStringValueAtIndex:(NSUInteger)index;
 @end

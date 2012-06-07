@@ -18,9 +18,9 @@
     BOOL isChangedUser;
     NSThread* thread;
     
-    WizDbManager* dbManager;
+    WizDataBase* dbManager;
 }
-@property (atomic, retain) WizDbManager* dbManager;
+@property (atomic, retain) WizDataBase* dbManager;
 @property (atomic, retain) NSMutableDictionary* tagsAbstractData;
 @property (atomic, retain) NSMutableDictionary* folderAbstractData;
 @property (atomic, retain) NSMutableDictionary* data;
@@ -85,8 +85,7 @@
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         [self.cacheConditon lockWhenCondition:HAS_DATA];
         if (self.isChangedUser) {
-            [self.dbManager closeTempDb];
-            [self.dbManager openTempDb:[[WizFileManager shareManager] tempDbPath]];
+            [self.dbManager reloadDb];
             self.isChangedUser = NO;
         }
         NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
@@ -106,8 +105,8 @@
 - (void) genFoldersAbstract
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    WizDbManager* dbManager_ = [[WizDbManager alloc] init];
-    [dbManager_ openDb:[[WizFileManager shareManager] dbPath]];
+    WizDataBase* dbManager_ = [[WizDataBase alloc] init];
+    [dbManager_ reloadDb];
     NSArray* allLocations = [dbManager_ allLocationsForTree];
     for (NSString* folderKey in allLocations) {
         NSString* abstract = [dbManager_ folderAbstractString:folderKey];
@@ -124,7 +123,7 @@
 - (void) genTagsAbstract
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    WizDbManager* dbManager_ = [[WizDbManager alloc] init];
+    WizDataBase* dbManager_ = [[WizDataBase alloc] init];
     [dbManager_ openDb:[[WizFileManager shareManager] dbPath]];
     NSArray* allTags = [dbManager_ allTagsForTree];
     for (WizTag* tag in allTags) {
@@ -180,7 +179,7 @@
         self.data = [NSMutableDictionary dictionary];
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.cacheConditon = [[[NSConditionLock alloc] initWithCondition:NO_DATA] autorelease];
-        WizDbManager* db = [[WizDbManager alloc] init];
+        WizDataBase* db = [[WizDataBase alloc] init];
         self.dbManager = db;
         [db release];
         thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];

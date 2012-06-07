@@ -13,7 +13,6 @@
 #import "WizAbstractCache.h"
 #import "WizDecorate.h"
 #import "WizNotification.h"
-#import "WizDbManager.h"
 #import "WizSyncManager.h"
 
 //#define CellWithImageFrame CGRectMake(8,8,225,74)

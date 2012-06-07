@@ -33,4 +33,9 @@
 //
 - (NSString*) searchHistoryFilePath;
 - (NSInteger) activeAccountFolderSize;
+
+//
+- (NSString*) dbPathForGroup:(NSString*)kbguid;
+- (NSString*) tempDbPathForGroup:(NSString*)kbguid;
+- (NSString*) accountsDbPath;
 @end

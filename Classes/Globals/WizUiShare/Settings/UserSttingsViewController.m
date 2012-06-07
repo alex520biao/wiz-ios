@@ -44,6 +44,7 @@ enum WizSettingKind {
     WizSetDownloadDurationCode = 4000,
     WizSetImageQulityCode = 4001,
     WizSetTableOption = 4002,
+    WizSelectGroup  = 4003
 };
 @interface UserSttingsViewController()
 {
@@ -516,10 +517,10 @@ enum WizSettingKind {
 - (void) doClearCache:(NSNumber*)timeInval
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    WizDbManager* dbManager = [[WizDbManager alloc] init];
+    
+    WizDataBase* dbManager = [[WizDataBase alloc] init];
     WizFileManager* share = [WizFileManager shareManager];
-    [dbManager openDb:[share dbPath]];
-    [dbManager openDb:[share tempDbPath]];
+    [dbManager reloadDb];
     WizDocument* document = nil;
     CGFloat time = [timeInval floatValue];
     self.isStopClearCache = NO;
@@ -691,13 +692,63 @@ enum WizSettingKind {
             if ([WizGlobals WizDeviceIsPad]) {
                 [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
             }
+            break;
         case WizSetImageQulityCode:
             [[WizSettings defaultSettings] setImageQualityValue:[[NSArray imageQulityArray] wizSettingValueAtIndex:index]];
+            break;
+        case WizSelectGroup:
+        {
+            WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
+            NSMutableArray* array = [NSMutableArray arrayWithCapacity:4];
+            NSLog(@"%@",activeAccount.groups);
+            for (NSDictionary* each in activeAccount.groups) {
+                NSLog(@"each is %@",each);
+                WizGroup* g = [[WizGroup alloc] groupFromDicionary:each];
+                if (g.title == nil) {
+                    NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:@"private"];
+                    [array addObject:dic];
+                }
+                else {
+                    NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:g.title];
+                    [array addObject:dic];
+                }
+                [g release];
+            }
+            NSString* string = [array wizStringValueAtIndex:index];
+            NSLog(@"%@ guid ",string);
+            [activeAccount registerActiveKbguid:[WizGroup groupFromGuid:string]];
+        }
+            break;
         default:
             break;
     }
 }
 - (void) selectDownoadDuration
+{
+    WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
+    NSMutableArray* array = [NSMutableArray arrayWithCapacity:4];
+    NSLog(@"%@",activeAccount.groups);
+    for (NSDictionary* each in activeAccount.groups) {
+        NSLog(@"each is %@",each);
+        WizGroup* g = [[WizGroup alloc] groupFromDicionary:each];
+        if (g.title == nil) {
+            NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:@"private"];
+            [array addObject:dic];
+        }
+        else {
+            NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:g.title];
+            [array addObject:dic];
+        }
+        [g release];
+    }
+    WizSingleSelectViewController* sigle = [[WizSingleSelectViewController alloc] initWithValusAndLastIndex:array lastIndex:0];
+    sigle.singleSelectDelegate = self;
+    settingKind = WizSelectGroup;
+    [self.navigationController pushViewController:sigle animated:YES];
+    [sigle release];
+}
+
+- (void) s 
 {
     NSArray* downloadDurationArray = [NSArray downloadDurationArray];
     NSInteger lastIndex = [downloadDurationArray indexForWizSettingValue:[[WizSettings defaultSettings] durationForDownloadDocument]];

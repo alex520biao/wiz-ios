@@ -24,4 +24,5 @@ enum  {
 - (NSDictionary*) dictionaryWithGropuData;
 - (WizGroup*)groupFromDicionary:(NSDictionary*)dic;
 - (BOOL) isEqualToDictionary:(NSDictionary*)dic;
++ (WizGroup*) groupFromGuid:(NSString*)guid;
 @end

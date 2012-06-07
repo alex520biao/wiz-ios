@@ -118,7 +118,7 @@
     if(self.allFloders == nil)
     {
         self.allFloders =[NSMutableArray array];
-        [self.allFloders addObjectsFromArray:[[WizDbManager shareDbManager] allLocationsForTree]];
+        [self.allFloders addObjectsFromArray:[[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree]];
     }
 }
 

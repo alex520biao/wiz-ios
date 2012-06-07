@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1416" systemVersion="12A154q" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="WizAccount" representedClassName="WizAccount" syncable="YES">
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="WizGroup" syncable="YES">
+        <attribute name="accountUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dateRoleCreated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="kbguid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kbId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kbName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kbNote" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kbSeo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kbType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ownerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="roleNote" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userGroup" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="WizSetting" syncable="YES">
+        <attribute name="accountUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="WizAccount" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="WizGroup" positionX="160" positionY="192" width="128" height="255"/>
+        <element name="WizSetting" positionX="160" positionY="192" width="128" height="90"/>
+    </elements>
+</model>

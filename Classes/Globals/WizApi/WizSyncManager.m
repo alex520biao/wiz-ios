@@ -15,6 +15,7 @@
 #import "WizSettings.h"
 #import "MTStatusBarOverlay.h"
 #import "WizSyncSearch.h"
+#import "WizAccountManager.h"
 //
 #define ServerUrlFile           @"config.dat"
 //
@@ -184,12 +185,12 @@ static WizSyncManager* shareManager;
 - (void) didRefreshToken:(NSDictionary*)dic
 {
     NSString* _token = [dic valueForKey:@"token"];
-    NSString* _kbGuid = [dic valueForKey:@"kb_guid"];
+
     NSURL* urlAPI = [[NSURL alloc] initWithString:[dic valueForKey:@"kapi_url"]];
     self.token = _token;
     self.apiUrl = urlAPI;
     [urlAPI release];
-    self.kbGuid = _kbGuid;
+
     [self restartSync];
 }
 - (void) pauseAllSync
@@ -214,9 +215,13 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
+    WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
+    WizGroup* group = [activeAccount activeGroup];
+    self.kbGuid = group.guid;
     api.token = self.token;
     api.kbguid = self.kbGuid;
     api.apiURL = self.apiUrl;
+    
     [workQueque addObjectUnique:api];
     return YES;
 }

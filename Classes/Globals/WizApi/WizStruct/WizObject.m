@@ -20,20 +20,20 @@
 }
 + (int) filecountWithChildOfLocation:(NSString*) location
 {
-    return [[WizDbManager shareDbManager] filecountWithChildOfLocation:location];
+    return [[[WizDbManager shareDbManager]shareDataBase] filecountWithChildOfLocation:location];
 }
 + (int) fileCountOfLocation:(NSString *)location
 {
-    return [[WizDbManager shareDbManager] fileCountOfLocation:location];
+    return [[[WizDbManager shareDbManager]shareDataBase] fileCountOfLocation:location];
 }
 + (NSArray*) allLocationsForTree
 {
-    return [[WizDbManager shareDbManager] allLocationsForTree];
+    return [[[WizDbManager shareDbManager]shareDataBase] allLocationsForTree];
 }
 
 + (NSString*) folderAbstract:(NSString*)folderKey
 {
-    return [[WizDbManager shareDbManager] folderAbstractString:folderKey];
+    return [[[WizDbManager shareDbManager]shareDataBase] folderAbstractString:folderKey];
 }
 - (id) init
 {

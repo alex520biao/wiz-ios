@@ -23,7 +23,7 @@
 {
     busy = NO;
     NSArray* obj = retObject;
-	[[WizDbManager shareDbManager] updateDocuments:obj];
+	[[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
     [self.searchDelegate didSearchSucceed];
     isSearching = NO;
     self.searchDelegate = nil;

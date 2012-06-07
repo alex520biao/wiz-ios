@@ -67,6 +67,7 @@
         if (kbType) {
             self.type = [kbType intValue];
         }
+        NSLog(@"      %d",self.type);
     }
     return self;
 }
@@ -83,6 +84,19 @@
         }
     }
     return NO;
+}
+
++ (WizGroup*) groupFromGuid:(NSString*)guid
+{
+    NSArray* array = [[[WizAccountManager defaultManager] activeAccount] groups];
+    for (NSDictionary* each in array) {
+        WizGroup* g = [[WizGroup alloc] groupFromDicionary:each];
+        if ([guid isEqualToString:g.guid]) {
+            return g;
+        }
+    [g release];
+    }
+    return nil;
 }
 
 @end

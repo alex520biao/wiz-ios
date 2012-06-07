@@ -15,6 +15,8 @@
 #import "WizGlobals.h"
 #import "PickViewController.h"
 #import "WizAccountManager.h"
+//group
+#import "WizGroupViewController.h"
 @interface WizIphoneLoginViewController ()
 {
     BOOL firstLoad;
@@ -22,13 +24,21 @@
 @end
 
 @implementation WizIphoneLoginViewController
+//- (void) didSelectedAccount:(NSString*)accountUserId
+//{
+//    [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
+//    PickerViewController* pick =[[PickerViewController alloc] init];
+//    [self.navigationController pushViewController:pick animated:YES];
+//    [pick release];
+//}
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
-    PickerViewController* pick =[[PickerViewController alloc] init];
-    [self.navigationController pushViewController:pick animated:YES];
-    [pick release];
+    WizGroupViewController* groups = [[WizGroupViewController alloc] init];
+    [self.navigationController pushViewController:groups animated:YES];
+    [groups release];
 }
+
 
 - (void) selecteDefaultAccount
 {

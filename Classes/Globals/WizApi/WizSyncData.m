@@ -68,7 +68,7 @@
     if (nil == nil || ![data isKindOfClass:[WizSyncInfo class]]) {
         data = [[WizSyncInfo alloc] init];
         [self setObject:data forKey:SyncDataOfSyncInfo];
-        [data setDbDelegate:[WizDbManager shareDbManager]];
+        [data setDbDelegate:[[WizDbManager shareDbManager] shareDataBase] ];
         [data release];
     }
     return data;

@@ -11,6 +11,12 @@
 #define WizSettingValue     @"WizSettingValue"
 #define WizSettingDescription     @"WizSettingDescription"
 @implementation NSArray (WizSetting)
+
++ (NSDictionary*) dictionaryForSettings:(id)value descriptor:(id)descripor
+{
+    return  [NSDictionary dictionaryWithObjectsAndKeys:descripor,WizSettingDescription, value, WizSettingValue, nil];
+}
+
 - (NSInteger) imageQulityFormIndex:(NSInteger)index
 {
     switch (index) {
@@ -47,6 +53,16 @@
             [NSDictionary dictionaryWithObjectsAndKeys: NSLocalizedString(@"Download all notes", nil),WizSettingDescription, [NSNumber numberWithInt:1000], WizSettingValue, nil] ,
             nil];
 }
+
+- (NSString*)wizStringValueAtIndex:(NSUInteger)index
+{
+    if ([self count] > index) {
+        NSDictionary* dic = [self objectAtIndex:index];
+        return [dic valueForKey:WizSettingValue];
+    }
+    return nil;
+}
+
 - (NSUInteger) wizSettingValueAtIndex:(NSUInteger)index
 {
     if ([self count] > index) {
