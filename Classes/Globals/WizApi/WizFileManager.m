@@ -108,12 +108,12 @@ static WizFileManager* shareManager = nil;
 - (NSString*) dbPath
 {
     WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
-    WizGroup* kb = [active activeGroup];
-    if (WizKbguidPrivateType == kb.type) {
+//    WizGroup* kb = [active activeGroup];
+//    if (WizKbguidPrivateType == kb.type) {
         return [self dbPathForGroup:@"index"];
-    }
-    NSLog(@"%@ %@",active, kb);
-	return [self dbPathForGroup:kb.guid];
+//    }
+//    NSLog(@"%@ %@",active, kb);
+//	return [self dbPathForGroup:kb.guid];
 }
 - (NSString*) tempDbPath
 {

@@ -57,21 +57,25 @@
     if (__managedObjectModel != nil) {
         return __managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"WizGroup" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"WizModel" withExtension:@"momd"];
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return __managedObjectModel;
 }
 
 // Returns the persistent store coordinator for the application.
 // If the coordinator doesn't already exist, it is created and the application's store added to it.
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
     if (__persistentStoreCoordinator != nil) {
         return __persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[NSURL alloc]  initWithString:[[WizFileManager shareManager] accountsDbPath]];
-    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"aaaaa.sqlite"];
     NSError *error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
@@ -81,6 +85,29 @@
     }    
     
     return __persistentStoreCoordinator;
+}
+- (WizAccount*) accountFromDataBase:(NSString*)userId
+{
+    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:WizEntityAccount];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"userId == %@",userId];
+    NSError* error = nil;
+    NSArray* result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (error) {
+        return nil;
+    }
+    return [result lastObject];
+}
+
+- (BOOL) updateAccount:(WizAccount*)account
+{
+    WizAccount* exist = [self accountFromDataBase:account.userId];
+    if (!exist) {
+        exist = [NSEntityDescription insertNewObjectForEntityForName:WizEntityAccount inManagedObjectContext:self.managedObjectContext];
+    }
+    exist.userId = account.userId;
+    exist.password = account.password;
+    [self saveContext];
+    return YES;
 }
 
 @end

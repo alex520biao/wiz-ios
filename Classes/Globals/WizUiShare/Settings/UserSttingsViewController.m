@@ -697,58 +697,13 @@ enum WizSettingKind {
             [[WizSettings defaultSettings] setImageQualityValue:[[NSArray imageQulityArray] wizSettingValueAtIndex:index]];
             break;
         case WizSelectGroup:
-        {
-            WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
-            NSMutableArray* array = [NSMutableArray arrayWithCapacity:4];
-            NSLog(@"%@",activeAccount.groups);
-            for (NSDictionary* each in activeAccount.groups) {
-                NSLog(@"each is %@",each);
-                WizGroup* g = [[WizGroup alloc] groupFromDicionary:each];
-                if (g.title == nil) {
-                    NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:@"private"];
-                    [array addObject:dic];
-                }
-                else {
-                    NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:g.title];
-                    [array addObject:dic];
-                }
-                [g release];
-            }
-            NSString* string = [array wizStringValueAtIndex:index];
-            NSLog(@"%@ guid ",string);
-            [activeAccount registerActiveKbguid:[WizGroup groupFromGuid:string]];
-        }
-            break;
+                  break;
         default:
             break;
     }
 }
-- (void) selectDownoadDuration
-{
-    WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
-    NSMutableArray* array = [NSMutableArray arrayWithCapacity:4];
-    NSLog(@"%@",activeAccount.groups);
-    for (NSDictionary* each in activeAccount.groups) {
-        NSLog(@"each is %@",each);
-        WizGroup* g = [[WizGroup alloc] groupFromDicionary:each];
-        if (g.title == nil) {
-            NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:@"private"];
-            [array addObject:dic];
-        }
-        else {
-            NSDictionary* dic = [NSMutableArray dictionaryForSettings:g.guid descriptor:g.title];
-            [array addObject:dic];
-        }
-        [g release];
-    }
-    WizSingleSelectViewController* sigle = [[WizSingleSelectViewController alloc] initWithValusAndLastIndex:array lastIndex:0];
-    sigle.singleSelectDelegate = self;
-    settingKind = WizSelectGroup;
-    [self.navigationController pushViewController:sigle animated:YES];
-    [sigle release];
-}
 
-- (void) s 
+- (void) selectDownoadDuration
 {
     NSArray* downloadDurationArray = [NSArray downloadDurationArray];
     NSInteger lastIndex = [downloadDurationArray indexForWizSettingValue:[[WizSettings defaultSettings] durationForDownloadDocument]];

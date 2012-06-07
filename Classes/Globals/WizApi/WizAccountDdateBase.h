@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define WizEntityAccount    @"WizAccount"
+#define WizEntityGroup      @"WizGroup"
+#define WizEntitySetting    @"WizSetting"
+
 @interface WizAccountDdateBase : NSObject
 
 @end
