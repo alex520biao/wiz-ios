@@ -107,18 +107,14 @@ static WizFileManager* shareManager = nil;
 }
 - (NSString*) dbPath
 {
-    WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
-//    WizGroup* kb = [active activeGroup];
-//    if (WizKbguidPrivateType == kb.type) {
+    WizGroup* kb = [[WizAccountManager defaultManager] activeAccountActiveGroup];
+    if ([kb.kbType isEqualToString:KeyOfKbTypePrivate]) {
         return [self dbPathForGroup:@"index"];
-//    }
-//    NSLog(@"%@ %@",active, kb);
-//	return [self dbPathForGroup:kb.guid];
+    }
+	return [self dbPathForGroup:kb.kbguid];
 }
 - (NSString*) tempDbPath
 {
-    WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
-    WizGroup* kb = [active activeGroup];
     return [self dbPathForGroup:@"temp"];
 }
 

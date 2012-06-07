@@ -11,7 +11,7 @@
 
 @implementation WizAccount
 
-@dynamic userId;
-@dynamic password;
+@dynamic  userId;
+@dynamic  password;
 
 @end

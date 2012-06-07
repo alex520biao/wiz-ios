@@ -224,7 +224,7 @@
     [self dismissAlertView];
     NSString* name = self.idInputView.textInputField.text;
     NSString* password = self.passwordInputView.textInputField.text;
-    [[WizAccountManager defaultManager]  addAccount:name password:password];
+    [[WizAccountManager defaultManager]  updateAccount:name password:password];
     [self.navigationController dismissModalViewControllerAnimated:NO];
     [WizNotificationCenter postPadSelectedAccountMessge:name];
 

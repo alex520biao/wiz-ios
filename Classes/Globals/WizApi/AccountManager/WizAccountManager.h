@@ -8,24 +8,22 @@
 
 #import <UIKit/UIKit.h>
 @class WizAccount;
+@class WizAccountDataBase;
 @interface WizAccountManager : NSObject
+{
+    WizAccountDataBase<WizSettingsDbDelegate>* accountSettingsDataBase;
+}
+@property (readonly, atomic) WizAccountDataBase<WizSettingsDbDelegate>* accountSettingsDataBase;
 + (WizAccountManager *) defaultManager;
-- (NSArray*) accounts;
-- (BOOL) findAccount: (NSString*)userId;
-- (NSString*) accountPasswordByUserId:(NSString *)userID;
-- (void) setDefalutAccount:(NSString*)accountUserId;
-- (BOOL) registerActiveAccount:(NSString*)userId;
-- (NSString*) activeAccountUserId;
-- (void) addAccount: (NSString*)userId password:(NSString*)password;
-- (NSString*) accountProtectPassword;
-- (void) setAccountProtectPassword:(NSString*)password;
-- (void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
-- (void) logoutAccount;
-- (void) removeAccount: (NSString*)userId;
-- (NSString*) registerActiveKbguid:(NSString*)kbguid;
-//
-
-- (void) updateAccount:(WizAccount*)account;
-- (WizAccount*) accountFromLoaclData:(NSString*)userId;
 - (WizAccount*) activeAccount;
+-(void) updateAccount: (NSString*)userId password:(NSString*)password;
+- (NSArray*) accounts;
+- (void) registerActiveAccount:(NSString*)accountUserId;
+- (void) updateGroup:(NSDictionary*)dic;
+- (NSString*) activeAccountUserId;
+- (NSString*) activeAccountPassword;
+- (NSArray*) activeAccountGroups;
+- (NSString*) activeAccountGroupKbguid;
+- (void) registerActiveGroup:(WizGroup*)group;
+- (WizGroup*) activeAccountActiveGroup;
 @end

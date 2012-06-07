@@ -4,7 +4,7 @@
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="WizGroup" syncable="YES">
+    <entity name="WizGroup" representedClassName="WizGroup" syncable="YES">
         <attribute name="accountUserId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
@@ -20,7 +20,7 @@
         <attribute name="serverUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userGroup" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="WizSetting" syncable="YES">
+    <entity name="WizSetting" representedClassName="WizSetting" syncable="YES">
         <attribute name="accountUserId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>

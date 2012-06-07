@@ -8,6 +8,8 @@
 
 #import "WizSettings.h"
 #import "WizDbManager.h"
+#import "WizAccountManager.h"
+#import "WizSettingsDbDelegate.h"
 
 #define WizServerUrlString  @"WizServerUrl"
 #define WizPasscode         @"WizPasscode"
@@ -67,7 +69,8 @@ static WizSettings* defaultSettings = nil;
 {
     self = [super init];
     if (self) {
-        self.settingsDbDelegate = [[WizDbManager shareDbManager] shareDataBase];
+        WizAccountDataBase<WizSettingsDbDelegate>* dataBase = [[WizAccountManager defaultManager] accountSettingsDataBase];
+        self.settingsDbDelegate = dataBase;
     }
     return self;
 }
@@ -225,7 +228,7 @@ static WizSettings* defaultSettings = nil;
 - (NSURL*) wizServerUrl
 {
     return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
-//    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
+    //    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
 }
 //
 - (BOOL) setAutomicSync:(BOOL)automic

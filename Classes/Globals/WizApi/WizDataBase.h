@@ -60,6 +60,32 @@
 //
 #define DataTypeUpdateKbGuid                    @"kb_guid"
 
+#define KeyOfSyncVersion               @"SYNC_VERSION"
+#define DocumentNameOfSyncVersion      @"DOCUMENT"
+#define DeletedGUIDNameOfSyncVersion   @"DELETED_GUID"
+#define TagVersion                     @"TAGVERSION"
+#define UserTrafficLimit               @"TRAFFICLIMIT"
+#define UserTrafficUsage               @"TRAFFUCUSAGE"
+#define KeyOfUserInfo                  @"USERINFO"
+#define UserLevel                      @"USERLEVEL"
+#define UserLevelName                  @"USERLEVELNAME"
+#define UserType                       @"USERTYPE"
+#define UserPoints                     @"USERPOINTS"
+#define AttachmentVersion              @"ATTACHMENTVERSION"
+#define MoblieView                     @"MOBLIEVIEW"
+#define DurationForDownloadDocument    @"DURATIONFORDOWLOADDOCUMENT"
+#define WebFontSize                    @"WEBFONTSIZE"
+#define DatabaseVesion                 @"DATABASE"
+#define ImageQuality                   @"IMAGEQUALITY"
+#define ProtectPssword                 @"PROTECTPASSWORD"
+#define FirstLog                       @"UserFirstLog"
+#define UserTablelistViewOption        @"UserTablelistViewOption"
+#define WizNoteAppVerSion              @"wizNoteAppVerSion"
+#define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
+#define AutomicSync                     @"AutomicSync"
+#define LastSynchronizedDate            @"LastSynchronizedDate"
+#define NewNoteDefaultFolder            @"NewNoteDefaultFolder"
+
 @interface WizDataBase : NSObject<WizDbDelegate, WizSettingsDbDelegate,WizAbstractDbDelegate>
 + (WizDataBase*) shareDataBase;
 - (BOOL) reloadDb;

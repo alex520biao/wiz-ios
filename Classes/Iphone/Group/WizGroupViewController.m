@@ -10,6 +10,7 @@
 #import "GMGridView.h"
 #import "WizAccountManager.h"
 #import "PickViewController.h"
+#import "UserSttingsViewController.h"
 @interface WizGroupViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {
     GMGridView* groupView;
@@ -31,8 +32,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        WizAccount* account = [[WizAccountManager defaultManager] activeAccount];
-        self.groupDataArray = [NSMutableArray arrayWithArray:account.groups];
+        self.groupDataArray = [NSMutableArray arrayWithArray:[[WizAccountManager defaultManager] activeAccountGroups]];
     }
     return self;
 }
@@ -63,6 +63,13 @@
     groupView.dataSource = self;
     groupView.actionDelegate = self;
 }
+- (void) setupAccount
+{
+    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped ];
+    editAccountView.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:editAccountView animated:YES];
+    [editAccountView release];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -70,6 +77,11 @@
    
     groupView.mainSuperView = self.navigationController.view;
     [self.navigationController setNavigationBarHidden:NO];
+    
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
+    self.navigationItem.leftBarButtonItem = item;
+    [item release];
+    
 }
 - (NSInteger)numberOfItemsInGMGridView:(GMGridView *)gridView
 {
@@ -118,14 +130,14 @@
     label.font = [UIFont boldSystemFontOfSize:20];
     label.numberOfLines = 0;
     [cell.contentView addSubview:label];
-    label.text = [[self.groupDataArray objectAtIndex:index] title];
+    WizGroup* group = [self.groupDataArray objectAtIndex:index];
+    label.text = group.kbName;
     return cell;
 }
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position
 {
-    WizAccount* account = [[WizAccountManager defaultManager] activeAccount];
     WizGroup* group = [self.groupDataArray objectAtIndex:position];
-    [account registerActiveKbguid:group];
+    [[WizAccountManager defaultManager] registerActiveGroup:group];
     PickerViewController* pick =[[PickerViewController alloc] init];
     [self.navigationController pushViewController:pick animated:YES];
     [pick release];

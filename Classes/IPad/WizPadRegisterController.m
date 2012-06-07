@@ -54,7 +54,7 @@
     NSString* emailString = self.accountEmail.textInputField.text;
     NSString* passwordString = self.accountPassword.textInputField.text;
     [self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-    [[WizAccountManager defaultManager] addAccount:emailString password:passwordString];
+    [[WizAccountManager defaultManager] updateAccount:emailString password:passwordString];
     [self.navigationController dismissModalViewControllerAnimated:NO];
     [WizNotificationCenter postPadSelectedAccountMessge:emailString];
 }

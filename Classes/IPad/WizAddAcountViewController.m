@@ -94,7 +94,7 @@
 
 	NSString* accountIDString = nameInput.textInputField.text;
     NSString* accountPasswordString = passwordInput.textInputField.text;
-    [[WizAccountManager defaultManager] addAccount:accountIDString password:accountPasswordString];
+    [[WizAccountManager defaultManager] updateAccount:accountIDString password:accountPasswordString];
     [self.navigationController dismissModalViewControllerAnimated:NO];
     [WizNotificationCenter postPadSelectedAccountMessge:accountIDString];
 }

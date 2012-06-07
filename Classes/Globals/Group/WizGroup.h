@@ -8,8 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#define KeyOfKbKbguid               @"kb_guid"
+#define KeyOfKbType                 @"kb_type"
+#define KeyOfKbImage                @"KeyOfKbImage"
+#define KeyOfKbAbstractString       @"KeyOfKbAbstractString"
+#define KeyOfKbName                 @"kb_name"
 
 
+#define KeyOfKbTypePrivate          @"private"
+#define KeyOfKbTypeGroup            @"group"
 @interface WizGroup : NSManagedObject
 
 @property (nonatomic, retain) NSString * accountUserId;
@@ -26,5 +33,5 @@
 @property (nonatomic, retain) NSString * roleNote;
 @property (nonatomic, retain) NSString * serverUrl;
 @property (nonatomic, retain) NSNumber * userGroup;
-
+- (void) getDataFromDic:(NSDictionary*)dic;
 @end

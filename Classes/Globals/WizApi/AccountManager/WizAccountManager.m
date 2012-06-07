@@ -16,6 +16,8 @@
 #import "WizDbManager.h"
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
+#import "WizAccountDataBase.h"
+
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -30,340 +32,115 @@
 //
 @interface WizAccountManager()
 {
-	NSMutableDictionary* dict;
     WizAccount* activeAccount_;
+    WizGroup*  activeGroup;
     NSTimer* timer;
+    WizAccountDataBase* dataBase;
 }
 @property (nonatomic, retain) NSTimer* timer;
 @property (nonatomic, retain) WizAccount* activeAccount_;
+@property (nonatomic, retain) WizAccountDataBase* dataBase;
+@property (nonatomic, retain) WizGroup*  activeGroup;
 @end
 
 @implementation WizAccountManager
 @synthesize timer;
 @synthesize activeAccount_;
--(NSString*) settingsFileName
+@synthesize dataBase;
+@synthesize activeGroup;
+@dynamic  accountSettingsDataBase;
+
+- (WizAccountDataBase<WizSettingsDbDelegate>*) accountSettingsDataBase
 {
-	NSString* filename = [[WizFileManager  documentsPath] stringByAppendingPathComponent:SettingsFileName];
-	return filename;
+    return self.dataBase;
 }
+
 -(id) init
 {
 	if (self = [super init])
 	{
-		NSString* filename = [self settingsFileName];
-		dict = [NSMutableDictionary dictionaryWithContentsOfFile:filename];
-		if (dict == nil)
-		{
-			dict = [[NSMutableDictionary alloc] init];
-		}
-		[dict retain];
+        dataBase = [[WizAccountDataBase alloc] init];
 	}
 	return self;
 }
 -(void)dealloc
 {
-	[dict release];
 	[super dealloc];
 }
-
--(NSMutableDictionary *)dict
-{
-	return dict;
-}
-
 
 +(WizAccountManager *) defaultManager
 {
 	return [[WizGlobalData sharedData] defaultAccountManager];
 }
 
-
-- (NSDictionary*) buildAccountData:(NSString*)userId password:(NSString*)password kbguids:(NSArray*)kbguids
-{
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-            userId, KeyOfUserId ,
-            password,KeyOfPassword,
-            kbguids, KeyOfKbguids
-            ,nil];
-}
-- (NSString*) accountUserIDFromDic:(NSDictionary*)dic
-{
-    return [dic valueForKey:KeyOfUserId];
-}
-
-- (NSString*) accountUserPasswordFromDic:(NSDictionary*)dic
-{
-    return [dic valueForKey:KeyOfPassword];
-}
-
-- (NSString*) accountKbGuidsFromDic:(NSDictionary*)dic
-{
-    return [dic valueForKey:KeyOfKbguids];
-}
-
--(id) readSettings: (NSString*)key
-{
-	return [dict objectForKey:key];
-}
-
--(void) writeSettings: (NSString*)key value:(id)value
-{
-	[dict setValue:value forKey:key];
-	NSString* filename = [self settingsFileName];
-    [dict writeToFile:filename atomically:YES];
-}
-
--(NSArray*) accounts
-{
-	id ret = [self readSettings:KeyOfAccounts];
-	if ([ret isKindOfClass:[NSArray class]])
-	{
-        NSMutableArray* arr = [NSMutableArray array];
-        for (NSDictionary* each in ret) {
-            NSString* userId = [each valueForKey:KeyOfUserId];
-            if (nil != userId) {
-                [arr addObject:userId];
-            }
-        }
-		 return arr;
-	}
-	return nil;
-}
-
--(BOOL) findAccount: (NSString*)userId
-{
-	NSArray* accounts = [self accounts];
-	for (NSString* each in accounts) {
-        if ([each isEqualToString:userId]) {
-            return YES;
-        }
-    }
-	return NO;
-}
-
-
--(NSString*) accountPasswordByUserId:(NSString *)userID
-{
-    if (![self findAccount:userID]) {
-        return nil;
-    }
-    id accounts = [self readSettings:KeyOfAccounts];
-    if ([accounts isKindOfClass:[NSArray class]])
-    {
-        for (NSDictionary* each in accounts) {
-            NSString* password = [each valueForKey:KeyOfPassword];
-            NSString* userId = [each valueForKey:KeyOfUserId];
-            if([userID isEqualToString:userId])
-            {
-                return password;
-            }
-        }
-    }
-    return nil;
-}
-- (void) setDefalutAccount:(NSString*)accountUserId;
-{
-    [self writeSettings:KeyOfDefaultUserId value:accountUserId];
-}
-- (BOOL) registerActiveAccount:(NSString*)userId
-{
-    [self setDefalutAccount:userId];
-    [WizFileManager shareManager];
-    WizDataBase* dbManager = [[WizDbManager shareDbManager] shareDataBase];
-//    if(![dbManager openDb:[fileManager dbPath]])
-//    {
-//        return NO;
-//    }
-//    if (![dbManager openTempDb:[fileManager tempDbPath]]) {
-//        return NO;
-//    }
-    [dbManager reloadDb];
-    timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
-    [timer fire];
-    WizAbstractCache* cache = [WizAbstractCache shareCache];
-    [cache didChangedAccountUser];
-    return YES;
-}
-- (NSString*) activeAccountUserId
-{
-    id userId = [self readSettings:KeyOfDefaultUserId];
-    if (userId != nil && [userId isKindOfClass:[NSString class]]) {
-        return (NSString*)userId;
-    }
-    else
-    {
-        return @"";
-    }
-}
-- (NSDictionary*) activeAccountData
-{
-    NSArray* exitsAccounts = [self readSettings:KeyOfAccounts];
-    for (NSDictionary* account in exitsAccounts) {
-        NSString* userId = [self accountUserIDFromDic:account];
-        if ([userId isEqualToString:[self activeAccountUserId]]) {
-            return account;
-        }
-    }
-    return nil;
-}
-- (void) addKbguidGroup:(NSDictionary*)dic
-{
-    
-}
-- (NSInteger) findAccountIndex:(WizAccount*)account
-{
-    NSArray* exitsAccounts = [self readSettings:KeyOfAccounts];
-    NSInteger accountIndex = 0;
-    BOOL exist = NO;
-    for (accountIndex = 0; accountIndex < [exitsAccounts count]; accountIndex++) {
-        NSDictionary* dic = [exitsAccounts objectAtIndex:accountIndex];
-        if ([account isEqualToAccountDictionaryData:dic]) {
-            exist = YES;
-            break;
-        }
-    }
-    if (exist) {
-        return accountIndex;
-    }
-    else {
-        return NSNotFound;
-    }
-}
-- (void) updateAccount:(WizAccount*)account
-{
-    NSInteger accountIndex    = [self findAccountIndex:account];
-    NSDictionary* accountData = [account accountDictionaryData];
-    NSArray* exitsAccounts    = [self readSettings:KeyOfAccounts];
-    NSMutableArray* array     = [NSMutableArray array];
-    if (exitsAccounts) {
-        [array addObjectsFromArray:exitsAccounts];
-    }
-    if (accountIndex == NSNotFound) {
-        [array addObject:accountData];
-    }
-    else {
-        [array replaceObjectAtIndex:accountIndex withObject:accountData];
-    }
-    [self writeSettings:KeyOfAccounts value:array];
-}
-- (void) updateWizGroup:(WizGroup*)group
-{
-    
-}
-
-- (WizAccount*) accountFromLoaclData:(NSString*)userId
-{
-    WizAccount* account = [[WizAccount alloc] init];
-    account.userId = userId;
-    NSInteger accountIndex    = [self findAccountIndex:account];
-    NSArray* exitsAccounts    = [self readSettings:KeyOfAccounts];
-    if (accountIndex == NSNotFound) {
-        return nil;
-    }
-    else {
-        return [account initAccountFromDic:[exitsAccounts objectAtIndex:accountIndex]];
-    }
-}
 - (WizAccount*) activeAccount
 {
-    if (self.activeAccount_ == nil) {
-        self.activeAccount_ = [self accountFromLoaclData:[self activeAccountUserId]];
-    }
     return self.activeAccount_;
 }
--(void) addAccount: (NSString*)userId password:(NSString*)password
+-(void) updateAccount: (NSString*)userId password:(NSString*)password
 {
-	if ([self findAccount:userId])
-	{
-		[self changeAccountPassword:userId password:password];
-		return;
-	}
-    NSLog(@"userId is %@",userId);
-	NSArray* exitsAccounts = [self readSettings:KeyOfAccounts];
-	//
-    if (![WizGlobals checkPasswordIsEncrypt:password]) {
-        password = [WizGlobals encryptPassword:password];
-    }
-	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password, KeyOfPassword, nil];
-	NSMutableArray* newAccounts = [NSMutableArray arrayWithArray:exitsAccounts];
-	[newAccounts addObject:account];
-    NSLog(@"dic %@",account);
-    [self writeSettings:KeyOfAccounts value:newAccounts];
-}
-- (NSString*) accountProtectPassword
-{
-    id password = [self readSettings:KeyOfProtectPassword];
-    if (password != nil && [password isKindOfClass:[NSString class]]) {
-        return password;
-    }
-    else
-    {
-        return @"";
-    }
+    password = [WizGlobals encryptPassword:password];
+    [self.dataBase updateAccount:userId password:password];
 }
 
-- (void) setAccountProtectPassword:(NSString*)password
-{
-    [self writeSettings:KeyOfProtectPassword value:password];
-}
 
 -(void) changeAccountPassword: (NSString*)userId password:(NSString*)password
 {
-    if (![self findAccount:userId]) {
-        return;
-    }
-    //
-    if (![WizGlobals checkPasswordIsEncrypt:password]) {
-        password = [WizGlobals encryptPassword:password];
-    }
-	NSDictionary* account = [NSDictionary dictionaryWithObjectsAndKeys:userId, KeyOfUserId, password , KeyOfPassword, nil];
-	//
-    NSMutableArray* arr = [NSMutableArray arrayWithArray:[self readSettings:KeyOfAccounts]];
-    int i = 0;
-    for (; i < [arr count] ; i++) {
-        NSDictionary* each = [arr objectAtIndex:i];
-        NSString* _userId = [each valueForKey:KeyOfUserId];
-        if ([_userId isEqualToString:userId]) {
-            break;
-        }
-    }
-    [arr replaceObjectAtIndex:i withObject:account];
-    [self writeSettings:KeyOfAccounts value:arr];
-}
 
-- (NSString*) registerActiveKbguid:(NSString *)kbguid
+}
+- (NSString*) activeAccountPassword
 {
-    return nil;
+    return self.activeAccount_.password;
 }
-
+- (NSString*) activeAccountUserId
+{
+    return [[self accounts] lastObject];
+}
 - (void) logoutAccount
 {
-    [timer invalidate];
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
-    [share close];
-    [share closeTempDb];
-    WizSyncManager* sync = [WizSyncManager shareManager];
-    [sync resignActive];
-    [self setDefalutAccount:@""];
-}
+    }
 
 -(void) removeAccount: (NSString*)userId
 {
-    if (![self findAccount:userId]) {
-        return;
+   }
+- (NSArray*) accounts
+{
+    NSMutableArray* array = [NSMutableArray array];
+    NSArray* ex = [self.dataBase allAccounts];
+    for (WizAccount* each in ex) {
+        NSLog(@"each %@ %@ %@",each, each.userId, each.password);
+        [array addObject:each.userId];
     }
-    NSMutableArray* arr = [NSMutableArray arrayWithArray:[self readSettings:KeyOfAccounts]];
-    int i = 0;
-    for (; i < [arr count] ; i++) {
-        NSDictionary* each = [arr objectAtIndex:i];
-        NSString* _userId = [each valueForKey:KeyOfUserId];
-        if ([_userId isEqualToString:userId]) {
-            break;
-        }
-    }
-    [[WizFileManager shareManager] removeItemAtPath:[[WizFileManager shareManager] accountPath] error:nil];
-    [arr removeObjectAtIndex:i];
-    [self logoutAccount];
-    [self writeSettings:KeyOfAccounts value:arr];
+    return array;
+}
+
+
+- (void) registerActiveAccount:(NSString *)accountUserId
+{
+    self.activeAccount_ = [self.dataBase accountFromDataBase:accountUserId];
+    [[[WizDbManager shareDbManager] shareDataBase] reloadDb];
+    [[WizSyncManager shareManager] startSyncInfo];
+}
+- (void) updateGroup:(NSDictionary *)dic
+{
+    [self.dataBase updateGroup:dic userId:self.activeAccount_.userId];
+}
+- (NSArray*) activeAccountGroups
+{
+   return  [self.dataBase allGroupByAccount:self.activeAccount_.userId];
+}
+- (NSString*) activeAccountGroupKbguid
+{
+    return self.activeGroup.kbguid;
+}
+- (void) registerActiveGroup:(WizGroup*)group
+{
+    self.activeGroup = group;
+    [[WizSyncManager shareManager] stopSync];
+    [[[WizDbManager shareDbManager] shareDataBase]reloadDb];
+}
+- (WizGroup*)activeAccountActiveGroup
+{
+    return self.activeGroup;
 }
 @end

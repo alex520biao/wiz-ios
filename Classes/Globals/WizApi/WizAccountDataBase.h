@@ -1,5 +1,5 @@
 //
-//  WizAccountDdateBase.h
+//  WizAccountDataBase.h
 //  Wiz
 //
 //  Created by 朝 董 on 12-6-7.
@@ -7,11 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WizSettingsDbDelegate.h"
 
 #define WizEntityAccount    @"WizAccount"
 #define WizEntityGroup      @"WizGroup"
 #define WizEntitySetting    @"WizSetting"
 
-@interface WizAccountDdateBase : NSObject
 
+@interface WizAccountDataBase : NSObject <WizSettingsDbDelegate>
+- (WizAccount*) accountFromDataBase:(NSString*)userId;
+- (BOOL) updateAccount:(WizAccount*)account;
+- (BOOL) updateAccount:(NSString*)userId    password:(NSString*)password;
+- (NSArray*) allAccounts;
+//
+- (BOOL) updateGroup:(NSDictionary*)dic  userId:(NSString*)userId;
+- (NSArray*) allGroupByAccount:(NSString*)userId;
 @end

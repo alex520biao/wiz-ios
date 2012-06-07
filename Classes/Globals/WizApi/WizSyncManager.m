@@ -215,13 +215,10 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
-    WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
-    WizGroup* group = [activeAccount activeGroup];
-    self.kbGuid = group.guid;
+    self.kbGuid = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
     api.token = self.token;
     api.kbguid = self.kbGuid;
     api.apiURL = self.apiUrl;
-    
     [workQueque addObjectUnique:api];
     return YES;
 }

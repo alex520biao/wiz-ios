@@ -66,7 +66,7 @@
     }
     busy = YES;
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    NSString* password  = [[WizAccountManager defaultManager] accountPasswordByUserId:accountUserId];
+    NSString* password  = [[WizAccountManager defaultManager] activeAccountPassword];
     NSLog(@"%@",password);
     return [self callClientLogin:accountUserId accountPassword:password];
 }
@@ -76,9 +76,7 @@
     if ([retObject isKindOfClass:[NSArray class]]) {
         NSArray* kbGuids = retObject;
         for (NSDictionary* each in kbGuids) {
-            WizGroup* group  = [[WizGroup alloc]  groupFromDicionary:each];
-            group.type = WizKbguidGroupType;
-            [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
+            [[WizAccountManager defaultManager] updateGroup:each];
         }
     }
     busy = NO;
@@ -103,12 +101,7 @@
         self.apiURL = urlAPI;
         [urlAPI release];
         [self callGetGroupKblist];
-        WizGroup* group  = [[WizGroup alloc]  init];
-        NSString* _kbGuid = [userInfo valueForKey:@"kb_guid"];
-        group.guid = _kbGuid;
-        group.type = WizKbguidPrivateType;
-        [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
+        [[WizAccountManager defaultManager] updateGroup:userInfo];
     }
-    
 }
 @end

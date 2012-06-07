@@ -84,10 +84,6 @@
     while (true) {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
         [self.cacheConditon lockWhenCondition:HAS_DATA];
-        if (self.isChangedUser) {
-            [self.dbManager reloadDb];
-            self.isChangedUser = NO;
-        }
         NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
         BOOL isImpty = [self.needGenAbstractDocuments count] == 0? YES:NO;
         [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
@@ -180,6 +176,7 @@
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.cacheConditon = [[[NSConditionLock alloc] initWithCondition:NO_DATA] autorelease];
         WizDataBase* db = [[WizDataBase alloc] init];
+        [db reloadDb];
         self.dbManager = db;
         [db release];
         thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
