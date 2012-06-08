@@ -22,4 +22,7 @@
 //
 - (BOOL) updateGroup:(NSDictionary*)dic  userId:(NSString*)userId;
 - (NSArray*) allGroupByAccount:(NSString*)userId;
+//
+- (NSString*) defaultAccountUserId;
+- (BOOL) setWizDefaultAccountUserId:(NSString*)userId;
 @end

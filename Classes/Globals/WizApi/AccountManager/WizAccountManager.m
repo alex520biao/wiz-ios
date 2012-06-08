@@ -94,7 +94,7 @@
 }
 - (NSString*) activeAccountUserId
 {
-    return [[self accounts] lastObject];
+    return self.activeAccount_.userId;
 }
 - (void) logoutAccount
 {
@@ -117,7 +117,12 @@
 
 - (void) registerActiveAccount:(NSString *)accountUserId
 {
+    [self.dataBase defaultAccountUserId];
+    if ([self.dataBase respondsToSelector:@selector(setWizDefaultAccountUserId:)]) {
+        NSLog(@"YES");
+    }
     self.activeAccount_ = [self.dataBase accountFromDataBase:accountUserId];
+    [self.dataBase setWizDefaultAccountUserId:self.activeAccount_.userId];
     [[[WizDbManager shareDbManager] shareDataBase] reloadDb];
     [[WizSyncManager shareManager] startSyncInfo];
 }
@@ -143,4 +148,10 @@
 {
     return self.activeGroup;
 }
+
+- (NSString*)defualtAccountUserId
+{
+    return [self.dataBase defaultAccountUserId];
+}
+
 @end

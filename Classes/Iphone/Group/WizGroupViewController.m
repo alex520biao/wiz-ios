@@ -11,6 +11,10 @@
 #import "WizAccountManager.h"
 #import "PickViewController.h"
 #import "UserSttingsViewController.h"
+#import "WizGroupViewCell.h"
+#import "WizDbManager.h"
+
+
 @interface WizGroupViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
 {
     GMGridView* groupView;
@@ -58,8 +62,8 @@
     gmGridView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:gmGridView];
     groupView = gmGridView;
-    groupView.style = GMGridViewStyleSwap;
-    groupView.centerGrid = YES;
+    groupView.style = GMGridViewStylePush;
+    groupView.centerGrid = NO;
     groupView.dataSource = self;
     groupView.actionDelegate = self;
 }
@@ -80,6 +84,7 @@
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
+    self.navigationController.navigationBar.tintColor = [UIColor lightGrayColor];
     [item release];
     
 }
@@ -96,42 +101,28 @@
     }
     else
     {
-        return CGSizeMake(140, 110);
+        return CGSizeMake(150, 120);
     }
 }
 - (GMGridViewCell *)GMGridView:(GMGridView *)gridView cellForItemAtIndex:(NSInteger)index
 {
     CGSize size = [self GMGridView:gridView sizeForItemsInInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
-    GMGridViewCell *cell = [gridView dequeueReusableCell];
-    
+    WizGroupViewCell *cell = (WizGroupViewCell*)[gridView dequeueReusableCell];
     if (!cell) 
     {
-        cell = [[GMGridViewCell alloc] init];
-        cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
-        cell.deleteButtonOffset = CGPointMake(-15, -15);
+        cell = [[WizGroupViewCell alloc] initWithSize:size];
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        view.backgroundColor = [UIColor redColor];
-        view.layer.masksToBounds = NO;
-        view.layer.cornerRadius = 8;
-        
-        cell.contentView = view;
+    }
+    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    WizGroup* group = [self.groupDataArray objectAtIndex:index];
+    cell.textLabel.text = group.kbName;
+    
+    WizAbstract* abs = [[[WizDbManager shareDbManager] shareDataBase] abstractOfDocument:group.kbguid];
+    if (abs) {
+        cell.imageView.image = abs.image;
     }
     
-    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:cell.contentView.bounds];
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    label.textAlignment = UITextAlignmentCenter;
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor blackColor];
-    label.highlightedTextColor = [UIColor whiteColor];
-    label.font = [UIFont boldSystemFontOfSize:20];
-    label.numberOfLines = 0;
-    [cell.contentView addSubview:label];
-    WizGroup* group = [self.groupDataArray objectAtIndex:index];
-    label.text = group.kbName;
     return cell;
 }
 - (void)GMGridView:(GMGridView *)gridView didTapOnItemAtIndex:(NSInteger)position

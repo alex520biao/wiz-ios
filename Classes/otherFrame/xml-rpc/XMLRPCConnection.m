@@ -142,7 +142,7 @@
 		NSObject* retObject = response.object;
 		NSString* method = [self.request method];
 		BOOL succeeded = !response.fault && !response.parseError && ![retObject isKindOfClass:[NSError class]];
-		[self.delegate xmlrpcDone: self isSucceeded: succeeded retObject:retObject forMethod: method];
+		[self.delegate xmlrpcDone: self isSucceeded:succeeded retObject:retObject forMethod: method];
 		[response release];
 	}
 	//

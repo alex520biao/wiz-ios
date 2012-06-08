@@ -85,6 +85,8 @@
 #define AutomicSync                     @"AutomicSync"
 #define LastSynchronizedDate            @"LastSynchronizedDate"
 #define NewNoteDefaultFolder            @"NewNoteDefaultFolder"
+#define DefaultAccountUserID            @"DefaultAccountUserID"
+
 
 @interface WizDataBase : NSObject<WizDbDelegate, WizSettingsDbDelegate,WizAbstractDbDelegate>
 + (WizDataBase*) shareDataBase;

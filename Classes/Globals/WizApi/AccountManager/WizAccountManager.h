@@ -26,4 +26,5 @@
 - (NSString*) activeAccountGroupKbguid;
 - (void) registerActiveGroup:(WizGroup*)group;
 - (WizGroup*) activeAccountActiveGroup;
+- (NSString*)defualtAccountUserId;
 @end

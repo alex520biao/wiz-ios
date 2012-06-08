@@ -13,6 +13,7 @@
 #import "WizFileManager.h"
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
+#import "WizAccountManager.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -1247,8 +1248,6 @@ static WizDataBase* shareDataBase = nil;
     abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
     abstract.imageDataLength = [abstractImageData length];
     abstract.text = [abstractText UTF8String];
-    
-    
     if (WizDeviceIsPad) {
         tempIndex.UpdatePadAbstract(abstract);
     }
@@ -1256,6 +1255,15 @@ static WizDataBase* shareDataBase = nil;
     {
         tempIndex.UpdateIphoneAbstract(abstract);
     }
+    abstract.guid = [[[WizAccountManager defaultManager] activeAccountGroupKbguid] UTF8String];
+    if (WizDeviceIsPad) {
+        tempIndex.UpdatePadAbstract(abstract);
+    }
+    else
+    {
+        tempIndex.UpdateIphoneAbstract(abstract);
+    }
+    
 }
 - (BOOL) clearCache
 {

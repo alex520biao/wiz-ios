@@ -206,7 +206,6 @@
 - (BOOL)  setUserInfo:(NSString*)key info:(NSString*)value
 {
     NSString* userId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizSetting* setting = [self settingByKey:key accountUserId:userId];
     [self updateSetting:key value:value accountUserId:userId];
     return YES;
 }
@@ -491,5 +490,40 @@
     return [folder retain];
 }
 
+
+//
+- (BOOL) setGlobalSetting:(NSString*)key  value:(NSString*)value
+{
+    [self updateSetting:key value:value accountUserId:@"Global"];
+    return YES;
+}
+
+- (NSString*) globalSetting:(NSString*)key
+{
+    WizSetting* setting = [self settingByKey:key accountUserId:@"Global"];
+    if (setting) {
+        return setting.value;
+    }
+    else {
+        return nil;
+    }
+}
+//
+- (NSString*) defaultAccountUserId
+{
+    NSString* userId = [self globalSetting:DefaultAccountUserID];
+    if (userId == nil || [userId isBlock]) {
+        return @"";
+    }
+    return userId;
+}
+
+- (BOOL) setWizDefaultAccountUserId:(NSString *)userId
+{
+    if (userId == nil) {
+        return NO;
+    }
+    return [self setGlobalSetting:DefaultAccountUserID value:userId];
+}
 
 @end

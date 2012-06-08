@@ -63,4 +63,6 @@
 //
 - (BOOL) setNewNoteDefaultFolder:(NSString*)folder;
 - (NSString*) newNoteDefaultFolder;
+
+
 @end

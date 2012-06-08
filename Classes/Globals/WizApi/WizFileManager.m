@@ -96,7 +96,7 @@ static WizFileManager* shareManager = nil;
 }
 - (NSString*) tempDbPathForGroup:(NSString*)kbguid
 {
-    NSString* accountPath = [self accountPath];
+    NSString* accountPath = [WizFileManager documentsPath];
 	NSString* name = [NSString stringWithFormat:@"%@.db",kbguid];
 	return [accountPath stringByAppendingPathComponent:name];
 }
@@ -115,7 +115,7 @@ static WizFileManager* shareManager = nil;
 }
 - (NSString*) tempDbPath
 {
-    return [self dbPathForGroup:@"temp"];
+    return [self tempDbPathForGroup:@"temp"];
 }
 
 - (NSString*) objectFilePath:(NSString*)objectGuid
