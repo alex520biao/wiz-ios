@@ -67,6 +67,7 @@
         self.delegate = self;
         attempts = WizNetWorkMaxAttempts;
         [self addObserver:self forKeyPath:@"syncMessage" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        self.apiManagerDelegate = [WizSyncManager shareManager];
     }
     return self;
 }

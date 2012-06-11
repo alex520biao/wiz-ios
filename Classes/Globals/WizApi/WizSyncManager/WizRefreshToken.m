@@ -28,7 +28,7 @@
                 NSString* password = ((UITextField*)each).text;
                 WizAccountManager* accountManager = [WizAccountManager defaultManager];
                 NSString* userId = [accountManager activeAccountUserId];
-                [accountManager changeAccountPassword:userId password:password];
+                [accountManager updateAccount:userId password:password];
                 [self start];
             }
         }
@@ -75,9 +75,7 @@
     NSLog(@"%@",retObject);
     if ([retObject isKindOfClass:[NSArray class]]) {
         NSArray* kbGuids = retObject;
-        for (NSDictionary* each in kbGuids) {
-            [[WizAccountManager defaultManager] updateGroup:each];
-        }
+        [[WizAccountManager defaultManager] updateGroups:kbGuids];
     }
     busy = NO;
 }

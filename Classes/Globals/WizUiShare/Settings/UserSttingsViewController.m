@@ -740,13 +740,6 @@ enum WizSettingKind {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([indexPath isEqualToSectionAndRow:0 row:0]) {
-        WizSyncManager* share = [WizSyncManager shareManager];
-        if ([share isSyncing]) {
-            [share stopSync];
-        }
-        else {
-            [share startSyncInfo];
-        }
         [self.tableView beginUpdates];
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];

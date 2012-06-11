@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WizSyncObjectSourceDelegate.h"
 #import "WizApi.h"
 @interface WizUploadObjet : WizApi
-- (BOOL) uploadWizObject:(WizObject*)wizobject;
-- (BOOL) isUploadWizObject:(WizObject*)object;
+{
+    id<WizSyncObjectSourceDelegate> sourceDelegate;
+}
+@property (assign) id<WizSyncObjectSourceDelegate> sourceDelegate;
+- (BOOL) startUpload;
 - (void) stopUpload;
+- (BOOL) isUploadWizObject:(WizObject*)object;
 @end

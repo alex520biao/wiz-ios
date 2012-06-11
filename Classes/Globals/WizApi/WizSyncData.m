@@ -2,91 +2,208 @@
 //  WizSyncData.m
 //  Wiz
 //
-//  Created by 朝 董 on 12-5-10.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by wiz on 12-6-11.
+//
 //
 
 #import "WizSyncData.h"
+#import "WizSetting.h"
 #import "WizSettings.h"
 #import "WizDbManager.h"
-#import "WizSyncSearch.h"
-#define SyncDataOfUploader      @"SyncDataOfUploader"
-#define SyncDataOfDownloader    @"SyncDataOfDownloader"
-#define SyncDataOfRefreshToken  @"SyncDataOfRefreshToken"
-#define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
-#define SyncDataOfSyncSearch    @"SyncDataOfSyncSearch"
+@interface WizSyncData ()
+{
+    NSMutableDictionary* syncApiData;
+    NSMutableArray*      workQueque;
+    NSMutableArray*      errorQueque;
+}
+@end
+@implementation WizSyncData
 
-@implementation NSMutableDictionary (Wizself)
++ (WizSyncData*) shareSyncData
+{
+    static WizSyncData* share = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        share = [[WizSyncData alloc] init];
+    });
+    return share;
+}
 
-- (WizUploadObjet*) shareUploader
+- (void) dealloc
 {
-    id data = [self valueForKey:SyncDataOfUploader];
-    if (nil == data || ![data isKindOfClass:[WizUploadObjet class]]) {
-        data = [[WizUploadObjet alloc] init];
-        [self setObject:data forKey:SyncDataOfUploader];
-        [data release];
-    }
-    return data;
+    [syncApiData release];
+    [workQueque release];
+    [errorQueque release];
+    [super dealloc];
 }
-- (WizDownloadObject*) shareDownloader
+
+- (NSMutableArray*) syncApiDataMutableArrayFor:(NSString*)apiClass
 {
-    id data = [self valueForKey:SyncDataOfDownloader];
-    if (nil == data || ![data isKindOfClass:[WizDownloadObject class]]) {
-        data = [[WizDownloadObject alloc] init];
-        [self setObject:data forKey:SyncDataOfDownloader];
-        [data release];
+    NSMutableArray* array = [syncApiData objectForKey:apiClass];
+    if (!array) {
+        array = [NSMutableArray array];
+        [syncApiData setObject:array forKey:apiClass];
     }
-    return data;
+    return array;
 }
-- (WizRefreshToken*) shareRefreshTokener
+
+- (NSMutableArray*) syncInfoArray
 {
-    WizRefreshToken* data = [self valueForKey:SyncDataOfRefreshToken];
-    NSLog(@"refresh data %@",data);
-    if (nil == nil || ![data isKindOfClass:[WizRefreshToken class]]) {
-        data = [[WizRefreshToken alloc] init];
-        [data setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];
-        [self setObject:data forKey:SyncDataOfRefreshToken];
-        [data release];
+    NSLog(@"des %@",[[WizSyncInfo class] description]);
+    return [self syncApiDataMutableArrayFor:[[WizSyncInfo class] description]] ;
+}
+
+- (NSMutableArray*) syncDownloadArray
+{
+    NSLog(@"des %@",[[WizDownloadObject class] description]);
+    return [self syncApiDataMutableArrayFor:[[WizDownloadObject class] description]] ;
+}
+
+- (NSMutableArray*) syncUploadArray
+{
+    return [self syncApiDataMutableArrayFor:[[WizUploadObjet class] description]] ;
+}
+
+- (NSMutableArray*) syncRefreshArray
+{
+    return [self syncApiDataMutableArrayFor:[[WizRefreshToken class] description]] ;
+}
+
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        syncApiData = [[NSMutableDictionary alloc] init];
+        workQueque = [[NSMutableArray alloc] init];
+        errorQueque = [[NSMutableArray alloc] init];
     }
-    return data;
+    return self;
 }
-- (WizSyncSearch*) shareSearch
+
+- (BOOL) isApiWorking:(WizApi *)api
 {
-    WizSyncSearch* data = [self valueForKey:SyncDataOfSyncSearch];
-    NSLog(@"SyncInfo data %@",data);
-    if (nil == nil || ![data isKindOfClass:[WizSyncSearch class]]) {
-        data = [[WizSyncSearch alloc] init];
-        [self setObject:data forKey:SyncDataOfSyncSearch];
-        [data release];
+   NSInteger index = [workQueque indexOfObject:api];
+    if (index == NSNotFound) {
+        return NO;
     }
-    return data;
+    else
+    {
+        return YES;
+    }
 }
-- (WizSyncInfo*) shareSyncInfo
+
+- (BOOL) isApiOnErroring:(WizApi *)api
 {
-    WizSyncInfo* data = [self valueForKey:SyncDataOfSyncInfo];
-    NSLog(@"SyncInfo data %@",data);
-    if (nil == nil || ![data isKindOfClass:[WizSyncInfo class]]) {
+    NSInteger index = [errorQueque indexOfObject:api];
+    if (NSNotFound == index) {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+- (WizApi*) getCanWorkApiFromArray:(NSMutableArray*)array
+{
+    for (WizSyncInfo*  each in array) {
+        if (NO == each.busy && ![self isApiOnErroring:each]) {
+            return each;
+        }
+    }
+    return nil;
+}
+- (WizSyncInfo*) syncInfoData
+{
+    WizSyncInfo* data = (WizSyncInfo*)[self getCanWorkApiFromArray:[self syncInfoArray]];
+    if (!data) {
         data = [[WizSyncInfo alloc] init];
-        [self setObject:data forKey:SyncDataOfSyncInfo];
-        [data setDbDelegate:[[WizDbManager shareDbManager] shareDataBase] ];
+        [[self syncInfoArray] addObject:data];
+        data.dbDelegate = [[WizDbManager shareDbManager] shareDataBase];
         [data release];
     }
     return data;
 }
-- (void) removeShareUploder
+- (WizUploadObjet*) uploadData
 {
-    [self removeObjectForKey:SyncDataOfUploader];
+    WizUploadObjet* data = (WizUploadObjet*)[self getCanWorkApiFromArray:[self syncUploadArray]];
+    if (!data) {
+        data = [[WizUploadObjet alloc] init];
+        [[self syncUploadArray] addObject:data];
+        [data release];
+    }
+    return data;
 }
-- (void) removeShareDownload
+- (WizDownloadObject*) downloadData
 {
-    [self removeObjectForKey:SyncDataOfDownloader];
+    WizDownloadObject* data = (WizDownloadObject*)[self getCanWorkApiFromArray:[self syncDownloadArray]];
+    if (!data) {
+        data = [[WizDownloadObject alloc] init];
+        [[self syncDownloadArray] addObject:data];
+        [data release];
+    }
+    return data;
 }
-- (void) removeShareRefreshTokener
+- (WizRefreshToken*) refreshData
 {
-    [self removeObjectForKey:SyncDataOfRefreshToken];
+    WizRefreshToken* data = (WizRefreshToken*)[self getCanWorkApiFromArray:[self syncRefreshArray]];
+    if (!data) {
+        data = [[WizRefreshToken alloc] init];
+        data.accountURL = [[WizSettings defaultSettings] wizServerUrl];
+        [[self syncRefreshArray] addObject:data];
+        [data release];
+    }
+    return data;
 }
-- (void) removeShareSyncInfo
+- (void) doWorkBegainApi:(WizApi *)api
 {
-    [self removeObjectForKey:SyncDataOfSyncInfo];
+    [workQueque addObjectUnique:api];
+}
+- (void) doWorkEndApi:(WizApi *)api
+{
+    [workQueque removeObject:api];
+}
+
+- (void) doErrorBegainApi:(WizApi *)api
+{
+    [errorQueque addObjectUnique:api];
+}
+
+- (void) doErrorEndApi:(WizApi *)api
+{
+    [errorQueque removeObject:api];
+}
+- (NSArray*) workArrayFroGuid:(NSString *)guid
+{
+    NSMutableArray* array = [NSMutableArray array];
+    for (WizApi* each in workQueque) {
+        if (each.kbguid != nil && [each.kbguid isEqualToString:guid]) {
+            [array addObject:each];
+        }
+    }
+    return array;
+}
+- (BOOL) isDownloadingObject:(WizObject *)object
+{
+    for (WizDownloadObject* each in [self syncDownloadArray]) {
+        if ([each isDownloadWizObject:object]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL) isUploadingObject:(WizObject *)object
+{
+    for (WizUploadObjet* each in [self syncUploadArray]) {
+        if ([each isUploadWizObject:object])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+- (NSArray*)errorQueque
+{
+    return [[errorQueque copy] autorelease];
 }
 @end

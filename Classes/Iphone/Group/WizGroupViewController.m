@@ -13,6 +13,7 @@
 #import "UserSttingsViewController.h"
 #import "WizGroupViewCell.h"
 #import "WizDbManager.h"
+#import "WizNotification.h"
 
 
 @interface WizGroupViewController () <GMGridViewDataSource, GMGridViewActionDelegate>
@@ -28,6 +29,7 @@
 {
     [groupView release];
     [groupDataArray release];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 
@@ -37,11 +39,17 @@
     if (self) {
         // Custom initialization
         self.groupDataArray = [NSMutableArray arrayWithArray:[[WizAccountManager defaultManager] activeAccountGroups]];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfRefreshGroupsData];
     }
     return self;
 }
 
 
+- (void) reloadAllData
+{
+    self.groupDataArray = [NSMutableArray arrayWithArray:[[WizAccountManager defaultManager] activeAccountGroups]];
+    [groupView reloadData];
+}
 
 - (void)viewDidUnload
 {
@@ -114,7 +122,6 @@
         cell = [[WizGroupViewCell alloc] initWithSize:size];
         
     }
-    [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     WizGroup* group = [self.groupDataArray objectAtIndex:index];
     cell.textLabel.text = group.kbName;
     
@@ -132,5 +139,10 @@
     PickerViewController* pick =[[PickerViewController alloc] init];
     [self.navigationController pushViewController:pick animated:YES];
     [pick release];
+}
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [groupView reloadData];
 }
 @end

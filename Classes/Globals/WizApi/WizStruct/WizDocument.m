@@ -357,7 +357,11 @@ BOOL isReverseMask(NSInteger mask)
 }
 - (void) download
 {
-    [[WizSyncManager shareManager] downloadWizObject:self];
+    WizSync* sync = [[WizSyncManager shareManager] activeGroupSync];
+    if (!sync) {
+        NSLog(@"nil");
+    }
+    [sync downloadWizObject:self];
 }
 
 

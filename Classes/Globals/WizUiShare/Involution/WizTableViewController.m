@@ -18,6 +18,7 @@
 #import "DocumentViewCtrollerBase.h"
 #import "WizSettings.h"
 #import "MTStatusBarOverlay.h"
+#import "WizAccountManager.h"
 
 @interface WizTableViewController ()
 - (void) showSyncButton;
@@ -53,7 +54,7 @@
 
 - (void) refresh
 {
-    [[WizSyncManager shareManager] startSyncInfo];
+    [[[WizSyncManager shareManager] syncDataForGroup:[[WizAccountManager defaultManager] activeAccountGroupKbguid]] startSyncInfo];
     [self reloadSelf];
 }
 
@@ -90,7 +91,8 @@
 - (void) didChangedSyncDescription:(NSString *)description
 {
     if (description == nil || [description isBlock]) {
-        if ([[WizSyncManager shareManager] isSyncing]) {
+        WizSync* sync = [[WizSyncManager shareManager] syncDataForGroup:[[WizAccountManager defaultManager] activeAccountGroupKbguid]];
+        if ([sync isSyncing]) {
             return;
         }
         self.tableView.tableHeaderView = nil;
@@ -112,7 +114,8 @@
 {
     [super viewWillAppear:animated];
     [[WizSyncManager shareManager] setDisplayDelegate:self];
-    if ([[WizSyncManager shareManager] isSyncing]) {
+    WizSync* sync = [[WizSyncManager shareManager] syncDataForGroup:[[WizAccountManager defaultManager] activeAccountGroupKbguid]];
+    if ([sync isSyncing]) {
         [self startLoadingAnimation];
         [self showActivity];
     }

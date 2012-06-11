@@ -14,6 +14,7 @@
 #import "WizDecorate.h"
 #import "WizNotification.h"
 #import "WizSyncManager.h"
+#import "WizAccountManager.h"
 
 //#define CellWithImageFrame CGRectMake(8,8,225,74)
 //#define CellWithoutImageFrame CGRectMake(8,8,300,74)
@@ -173,7 +174,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         abstractImageView.hidden = NO;
     }
     downloadIndicator.frame = CGRectMake(self.frame.size.width-30, 60, 20, 20);
-    if ([[WizSyncManager shareManager] isDownloadingWizobject:self.doc]) {
+    WizSync* sync = [[WizSyncManager shareManager] activeGroupSync];
+    if ([sync isDownloadingWizobject:self.doc]) {
         [downloadIndicator startAnimating];
     }
     else
@@ -200,7 +202,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-    if ([[WizSyncManager shareManager] isDownloadingWizobject:self.doc]) {
+     WizSync* sync = [[WizSyncManager shareManager] activeGroupSync];
+    if ([sync isDownloadingWizobject:self.doc]) {
         [downloadIndicator startAnimating];
     }
     else

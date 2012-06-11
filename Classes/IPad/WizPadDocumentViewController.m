@@ -619,7 +619,8 @@
 - (void) downloadDocument:(WizDocument*)document
 {
     WizSyncManager* share = [WizSyncManager shareManager];
-    [share downloadWizObject:document];
+    WizSync* sync = [share activeGroupSync];
+    [sync downloadWizObject:document];
     [webView loadRequest:nil];
 }
 - (void) checkDocument:(WizDocument*)document

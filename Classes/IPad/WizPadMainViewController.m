@@ -20,6 +20,7 @@
 #import "WizPadFoldersViewController.h"
 #import "WizPadTagsViewController.h"
 #import "WizFileManager.h"
+#import "WizAccountManager.h"
 
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
 
@@ -117,7 +118,8 @@
 - (void) refreshAccout
 {
     WizSyncManager* syncMan = [WizSyncManager shareManager];
-    if( ![syncMan isSyncing])
+    WizSync* sync = [syncMan syncDataForGroup:[[WizAccountManager defaultManager] activeAccountGroupKbguid]];
+    if( ![sync isSyncing])
     {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:WizStrSyncError
                                                         message:WizStrSyncAlreadyInProcess
@@ -129,7 +131,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         return;
     }
-    [syncMan startSyncInfo];
+    [sync startSyncInfo];
 }
 
 - (void) refreshAccountBegin:(id) sender

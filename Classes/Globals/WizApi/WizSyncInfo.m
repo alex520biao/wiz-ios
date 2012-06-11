@@ -85,14 +85,14 @@
         [self callDownloadAttachmentList:newVer+1];
     }
     else {
-        NSArray* ups = [WizDocument documentForUpload];
-        for (WizDocument* each in ups) {
-            [each upload];
-        }
-        NSArray* documents = [WizDocument documentsForCache];
-        for (WizDocument * each in documents) {
-            [each download];
-        }
+//        NSArray* ups = [WizDocument documentForUpload];
+//        for (WizDocument* each in ups) {
+//            [each upload];
+//        }
+//        NSArray* documents = [WizDocument documentsForCache];
+//        for (WizDocument * each in documents) {
+//            [each download];
+//        }
     }
     busy = NO;
     [self.apiManagerDelegate didApiSyncDone:self];
@@ -231,6 +231,9 @@
         return NO;
     }
     busy = YES;
+    
+    NSLog(@"%@",self.dbDelegate);
+    
     [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
     return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
 }

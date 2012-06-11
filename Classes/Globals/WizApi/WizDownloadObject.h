@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "WizApi.h"
+#import "WizSyncObjectSourceDelegate.h"
 
-extern NSString* SyncMethod_DownloadProcessPartBeginWithGuid ;
-extern NSString* SyncMethod_DownloadProcessPartEndWithGuid   ;
 
-@interface WizDownloadObject : WizApi 
-- (BOOL) downloadWizObject:(WizObject*)wizObject;
+@interface WizDownloadObject : WizApi
+{
+    id<WizSyncObjectSourceDelegate> sourceDelegate;
+}
+@property (atomic, assign) id<WizSyncObjectSourceDelegate> sourceDelegate;
 - (NSString*)currentDownloadObjectGuid;
 - (BOOL) isDownloadWizObject:(WizObject*)wizObject;
 - (void) stopDownload;
+- (BOOL) startDownload;
 @end

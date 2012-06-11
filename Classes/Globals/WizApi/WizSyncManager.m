@@ -16,71 +16,26 @@
 #import "MTStatusBarOverlay.h"
 #import "WizSyncSearch.h"
 #import "WizAccountManager.h"
-//
-#define ServerUrlFile           @"config.dat"
-//
-#define SyncDataOfUploader      @"SyncDataOfUploader"
-#define SyncDataOfDownloader    @"SyncDataOfDownloader"
-#define SyncDataOfRefreshToken  @"SyncDataOfRefreshToken"
-#define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
-//
-#define SyncDataOfObjectGUID        @"SyncDataOfObjectGUID"
-#define SyncDataOfObjectType        @"SyncDataOfObjectType"
-//
-#define SyncDataOfToken         @"SyncDataOfToken"
-#define SyncDataOfKbGuid        @"SyncDataOfKbGuid"
-#define SyncDataOfWizApi        @"SyncDataOfWizApi"
-#define SyncDataOfWizServerUrl  @"SyncDataOfWizServerUrl"
-//
-#define KeyOfServerUrl          @"KeyOfServerUrl"
-#define KeyOfApiUrl             @"KeyOfApiUrl"
+#import "WizSync.h"
 
 
 @interface WizSyncManager ()
 {
-    NSMutableArray* errorQueque;
-    NSMutableArray* workQueque;
-    
-    NSMutableDictionary* syncData;
-    
-    WizDownloadObject* downloader;
-    WizUploadObjet* uploader;
-    WizSyncInfo*    syncInfoer;
-    WizRefreshToken* refresher;
-    WizSyncSearch* searcher;
-    
-    NSTimer* restartTimer;
     NSURL* serverUrl;
     NSURL* apiUrl;
     NSString* token;
-    NSString* kbGuid;
+    NSMutableArray* syncArray;
+    WizSync* activeSync;
 }
-@property (nonatomic, retain) NSURL* serverUrl;
 @property (nonatomic, retain) NSURL* apiUrl;
 @property (nonatomic, retain) NSString* token;
-@property (nonatomic, retain) NSString* kbGuid;
 - (void) refreshToken;
 @end
 @implementation WizSyncManager
-@synthesize serverUrl;
 @synthesize apiUrl;
 @synthesize token;
-@synthesize kbGuid;
 @synthesize displayDelegate;
 static WizSyncManager* shareManager;
-
-- (BOOL) isSyncing
-{
-    for (WizApi* each in workQueque) {
-        if (each.busy) {
-            return YES;
-        }
-    }
-    if (refresher.busy) {
-        return YES;
-    }
-    return NO;
-}
 + (id) shareManager
 {
     @synchronized(shareManager)
@@ -93,76 +48,34 @@ static WizSyncManager* shareManager;
 }
 - (void) dealloc
 {
-    [errorQueque release];
-    [syncData release];
-    [restartTimer release];
     displayDelegate = nil;
-    
-    downloader = nil;
-    uploader = nil;
-    refresher = nil;
-    syncInfoer = nil;
-    
-    [workQueque release];
-    workQueque = nil;
     [super dealloc];
-}
-- (void) loadServerUrl
-{
-    self.serverUrl = [[WizSettings defaultSettings] wizServerUrl];
-}
-- (void) automicSyncData
-{
-    NSLog(@"************start automic sync****************");
-    WizSettings* settings = [WizSettings defaultSettings];
-    Reachability* reach = [[Reachability alloc] init];
-    if ([settings isAutomicSync]) {
-        if ([settings connectOnlyViaWifi]) {
-            if ([reach currentReachabilityStatus] == ReachableViaWiFi) {
-                 [self startSyncInfo];
-            }
-        }
-        else {
-             [self startSyncInfo];
-        }
-    }
-    [reach release];
 }
 - (id) init
 {
     self = [super init];
     if (self) {
-        syncData = [[NSMutableDictionary alloc] init];
-        //
-        downloader = [syncData shareDownloader];
-        downloader.apiManagerDelegate = self;
-        //
-        uploader = [syncData shareUploader];
-        uploader.apiManagerDelegate = self;
-        //
-        refresher = [syncData shareRefreshTokener];
-        refresher.apiManagerDelegate = self;
-        //
-        syncInfoer = [syncData shareSyncInfo];
-        syncInfoer.apiManagerDelegate = self;
-        //
-        searcher = [syncData shareSearch];
-        searcher.apiManagerDelegate = self;
-        //
-        errorQueque = [[NSMutableArray alloc] init];
-        workQueque = [[NSMutableArray alloc] init];
-        //
+        syncArray = [[NSMutableArray alloc] init];
         self.token = WizStrName;
-        self.kbGuid = WizStrName;
-        [self loadServerUrl];
     }
     return self;
 }
 //
+- (void) restartApi:(WizApi*)each
+{
+    [self addSyncToken:each];
+    [[WizSyncData shareSyncData] doErrorEndApi:each];
+    [each start];
+    [[WizSyncData shareSyncData] doWorkBegainApi:each];
+}
+
 - (void) restartSync
 {
-    NSLog(@"error api count is %d",[errorQueque count]);
-    for (WizApi* each in errorQueque) {
+    for (WizSync* each in syncArray) {
+        each.token = self.token;
+        each.apiUrl = self.apiUrl;
+    }
+    for (WizApi* each in [[WizSyncData shareSyncData] errorQueque]) {
         if ([each isKindOfClass:[WizRefreshToken class]]) {
             continue;
         }
@@ -175,11 +88,8 @@ static WizSyncManager* shareManager;
                 continue;
             }
         }
-        [self addSyncToken:each];
-        NSLog(@"%@",each);
-        [each start];
+        [self restartApi:each];
     }
-    [errorQueque removeAllObjects];
 }
 
 - (void) didRefreshToken:(NSDictionary*)dic
@@ -190,36 +100,19 @@ static WizSyncManager* shareManager;
     self.token = _token;
     self.apiUrl = urlAPI;
     [urlAPI release];
-
     [self restartSync];
 }
-- (void) pauseAllSync
-{
-    for (WizApi* each in workQueque)
-    {
-        if ([each isKindOfClass:[WizRefreshToken class]])
-        {
-            continue;
-        }
-        if (!each.busy)  [errorQueque addObjectUnique:each];
-    }
-    for(WizApi* each in errorQueque)
-{
-    [workQueque removeObject:each];
-}
-}
+
 - (void) refreshToken
 {
-    refresher.refreshDelegate = self;
-    [refresher start];
+    WizRefreshToken* refresh = [[WizSyncData shareSyncData] refreshData];
+    refresh.refreshDelegate = self;
+    [refresh start];
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
-    self.kbGuid = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
     api.token = self.token;
-    api.kbguid = self.kbGuid;
     api.apiURL = self.apiUrl;
-    [workQueque addObjectUnique:api];
     return YES;
 }
 - (void) didChangedStatue:(WizApi *)api statue:(NSInteger)statue
@@ -231,18 +124,10 @@ static WizSyncManager* shareManager;
         [self.displayDelegate didChangedSyncDescription:nil];
     }
 }
-- (void) didApiSyncDone:(WizApi *)api
-{
-    [workQueque removeObject:api];
-    [self.displayDelegate didChangedSyncDescription:nil];
-    NSLog(@"work count is %d",[workQueque count]);
-}
-
 - (void) didApiSyncError:(WizApi *)api error:(NSError *)error
 {
-    NSLog(@"%@",error);
     if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain]) {
-        [self pauseAllSync];
+        [[WizSyncData shareSyncData] doErrorBegainApi:api];
         [self refreshToken];
     }
 }
@@ -250,63 +135,42 @@ static WizSyncManager* shareManager;
 - (void) didChangedSyncDescriptorMessage:(NSString *)descriptorMessage
 {
     [self.displayDelegate didChangedSyncDescription:descriptorMessage];
-//    MTStatusBarOverlay* share = [MTStatusBarOverlay sharedInstance];
-//    [share postFinishMessage:descriptorMessage duration:1.5 animated:YES];
-//    [share setDetailViewMode:MTDetailViewModeHistory];
-//    share.progress = 1.0;
 }
-//
-- (BOOL) isUploadingWizObject:(WizObject*)wizobject
-{
-    return [uploader isUploadWizObject:wizobject];
-}
-- (BOOL) uploadWizObject:(WizObject*)object
-{
-    [self addSyncToken:uploader];
-    return [uploader uploadWizObject:object];
-}
-
-- (BOOL) isDownloadingWizobject:(WizObject*)object
-{
-    return [downloader isDownloadWizObject:object];
-}
-- (void) downloadWizObject:(WizObject*)object
-{
-    [self addSyncToken:downloader];
-    [downloader downloadWizObject:object];
-}
-//
-- (BOOL) startSyncInfo
-{
-    [self addSyncToken:syncInfoer];
-    return [syncInfoer start];
-}
-//
-
-- (void) stopSync
-{
-    [workQueque removeAllObjects];
-    [errorQueque removeAllObjects];
-    [uploader stopUpload];
-    [downloader stopDownload];
-    [syncInfoer cancel];
-    [refresher cancel];
-    [searcher cancel];
-
-}
-
 - (void) resignActive
 {
     self.token = @"";
-    self.kbGuid = @"";
-    [self stopSync];
 }
 
-- (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate
+- (void) didApiSyncDone:(WizApi *)api
 {
-    [searcher setSearchDelegate:searchDelegate];
-    searcher.keyWord = keywords;
-    [self addSyncToken:searcher];
-    [searcher start];
+    [[WizSyncData shareSyncData] doWorkEndApi:api];
+}
+- (WizSync*) syncDataForGroup:(NSString*)kbguid
+{
+    for (WizSync* each in syncArray) {
+        if ([each.kbGuid isEqualToString:kbguid]) {
+            return each;
+        }
+    }
+    WizSync* sync = [[WizSync alloc] init];
+    sync.token = self.token;
+    sync.apiUrl = self.apiUrl;
+    sync.kbGuid = kbguid;
+    [syncArray addObject:sync];
+    [sync release];
+    return sync;
+}
+- (WizSync*) activeGroupSync
+{
+    return activeSync;
+}
+- (void) registerAciveGroup:(NSString *)kbguid
+{
+    if (activeSync) {
+        [activeSync stopSync];
+    }
+    WizSync* sync = [self syncDataForGroup:kbguid];
+    activeSync = sync;
+    NSLog(@"%@",activeSync);
 }
 @end

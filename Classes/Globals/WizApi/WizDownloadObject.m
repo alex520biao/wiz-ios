@@ -14,15 +14,12 @@
 #import "WizFileManager.h"
 #import "WizDbManager.h"
 
-NSString* SyncMethod_DownloadProcessPartBeginWithGuid = @"DownloadProcessPartBegin";
-NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd";
 //
 #define DownloadPartSize      256*1024
 @interface WizDownloadObject ()
 {
     WizObject* object;
     NSFileHandle* fileHandle;
-    NSMutableArray* downloadQueque;
 }
 @property (nonatomic, retain) WizObject* object;
 @property (nonatomic, retain) NSFileHandle* fileHandle;
@@ -31,21 +28,19 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 @implementation WizDownloadObject
 @synthesize object;
 @synthesize fileHandle;
+@synthesize sourceDelegate;
 -(void) dealloc {
     if (nil != fileHandle) {
         [fileHandle closeFile];
         [fileHandle release];
     }
     [object release];
-    [downloadQueque release];
-    downloadQueque = nil;
     [super dealloc];
 }
 - (id) init
 {
     self = [super init];
     if (self) {
-        downloadQueque = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -80,7 +75,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
                 return;
             }
         }
-        [downloadQueque removeAllObjects];
         [WizGlobals reportError:retObject];
         attempts = WizNetWorkMaxAttempts;
     }
@@ -92,6 +86,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 }
 - (BOOL) start;
 {
+    NSLog(@"api url is %@",self.apiURL);
     busy = YES;
     if (self.object == nil) {
         busy = NO;
@@ -132,7 +127,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
     [WizNotificationCenter postMessageDownloadDone:guid];
     
-    if ([downloadQueque count]) {
+    if ([self.sourceDelegate willDownloandNext]) {
         [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
         [self startDownload];
     }
@@ -144,11 +139,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 {
     if (nil != self.object) {
         if ([self.object.guid isEqualToString:wizObject.guid]) {
-            return YES;
-        }
-    }
-    for (WizObject* each in downloadQueque) {
-        if ([each.guid isEqualToString:wizObject.guid]) {
             return YES;
         }
     }
@@ -192,27 +182,18 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     if (busy) {
         return NO;
     }
-    if ([downloadQueque count] == 0) {
+    WizObject* downlodObject = [self.sourceDelegate nextWizObjectForDownload];
+    if (!downlodObject) {
         return NO;
     }
-    self.object = [downloadQueque lastObject];
-    [downloadQueque removeLastObject];
+    self.object = downlodObject;
     return [self start];
-}
-- (BOOL) downloadWizObject:(WizObject*)wizObject
-{
-    if (nil != self.object) {
-        if ([wizObject.guid isEqualToString:self.object.guid]) {
-            return [self startDownload];
-        }
-    }
-    [downloadQueque addWizObjectUnique:wizObject];
-    return [self startDownload];
 }
 - (void) stopDownload
 {
-    [downloadQueque removeAllObjects];
     [self cancel];
     self.object = nil;
+    self.sourceDelegate = nil;
+    busy = NO;
 }
 @end

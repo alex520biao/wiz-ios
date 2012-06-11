@@ -52,3 +52,5 @@
 //
 #define MessageTypeOfPadTableViewListChangedOrder   @"MessageTypeOfPadTableViewListChangedOrder"
 #define MessageTypeOfPadSyncInfoEnd                 @"MessageTypeOfPadSyncInfoEnd"
+
+#define MessageTypeOfRefreshGroupsData              @"MessageTypeOfRefreshGroupsData"

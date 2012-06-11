@@ -25,4 +25,5 @@
 //
 - (NSString*) defaultAccountUserId;
 - (BOOL) setWizDefaultAccountUserId:(NSString*)userId;
+- (void) deleteAllGroups:(NSString*)userId;
 @end

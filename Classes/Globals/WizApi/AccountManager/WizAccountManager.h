@@ -27,4 +27,7 @@
 - (void) registerActiveGroup:(WizGroup*)group;
 - (WizGroup*) activeAccountActiveGroup;
 - (NSString*)defualtAccountUserId;
+- (void) logoutAccount;
+-(void) removeAccount: (NSString*)userId;
+- (void) updateGroups:(NSArray*)groupArray;
 @end

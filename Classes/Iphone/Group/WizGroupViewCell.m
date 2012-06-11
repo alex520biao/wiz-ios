@@ -46,8 +46,6 @@
         textLabel.font = [UIFont boldSystemFontOfSize:20];
         textLabel.numberOfLines = 0;
         textLabel.backgroundColor = [UIColor clearColor];
-        
-        
         [content addSubview:textLabel];
         textLabel.text = @"ddd";
         [textLabel setShadowColor:[UIColor lightGrayColor]];

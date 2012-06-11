@@ -81,6 +81,11 @@
 {
     password = [WizGlobals encryptPassword:password];
     [self.dataBase updateAccount:userId password:password];
+    if (self.activeAccount_) {
+        if ([self.activeAccount_.userId isEqualToString:userId]) {
+            self.activeAccount_ = [self.dataBase accountFromDataBase:userId];
+        }
+    }
 }
 
 
@@ -98,11 +103,15 @@
 }
 - (void) logoutAccount
 {
-    }
+
+}
+
 
 -(void) removeAccount: (NSString*)userId
 {
-   }
+
+}
+
 - (NSArray*) accounts
 {
     NSMutableArray* array = [NSMutableArray array];
@@ -117,18 +126,22 @@
 
 - (void) registerActiveAccount:(NSString *)accountUserId
 {
-    [self.dataBase defaultAccountUserId];
-    if ([self.dataBase respondsToSelector:@selector(setWizDefaultAccountUserId:)]) {
-        NSLog(@"YES");
-    }
     self.activeAccount_ = [self.dataBase accountFromDataBase:accountUserId];
     [self.dataBase setWizDefaultAccountUserId:self.activeAccount_.userId];
-    [[[WizDbManager shareDbManager] shareDataBase] reloadDb];
-    [[WizSyncManager shareManager] startSyncInfo];
+    [[WizSyncManager shareManager] refreshToken];
 }
 - (void) updateGroup:(NSDictionary *)dic
 {
     [self.dataBase updateGroup:dic userId:self.activeAccount_.userId];
+}
+
+- (void) updateGroups:(NSArray*)groupArray
+{
+    [self.dataBase deleteAllGroups:self.activeAccount_.userId];
+    for (NSDictionary* each in groupArray) {
+        [self updateGroup:each];
+    }
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfRefreshGroupsData];
 }
 - (NSArray*) activeAccountGroups
 {
@@ -140,9 +153,10 @@
 }
 - (void) registerActiveGroup:(WizGroup*)group
 {
+    [[WizSyncManager shareManager] registerAciveGroup:group.kbguid];
     self.activeGroup = group;
-    [[WizSyncManager shareManager] stopSync];
     [[[WizDbManager shareDbManager] shareDataBase]reloadDb];
+    
 }
 - (WizGroup*)activeAccountActiveGroup
 {

@@ -2,26 +2,30 @@
 //  WizSyncData.h
 //  Wiz
 //
-//  Created by 朝 董 on 12-5-10.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by wiz on 12-6-11.
+//
 //
 
 #import <Foundation/Foundation.h>
+#import "WizSyncInfo.h"
+#import "WizDownloadObject.h"
 #import "WizUploadObjet.h"
 #import "WizRefreshToken.h"
-#import "WizDownloadObject.h"
-#import "WizSyncInfo.h"
 
-@class WizSyncSearch;
-
-@interface NSMutableDictionary (WizSyncData)
-- (WizUploadObjet*) shareUploader;
-- (WizDownloadObject*) shareDownloader;
-- (WizRefreshToken*) shareRefreshTokener;
-- (WizSyncInfo*) shareSyncInfo;
-- (WizSyncSearch*) shareSearch;
-- (void) removeShareUploder;
-- (void) removeShareDownload;
-- (void) removeShareRefreshTokener;
-- (void) removeShareSyncInfo;
+@interface WizSyncData : NSObject
+- (WizSyncInfo*) syncInfoData;
+- (WizDownloadObject*) downloadData;
+- (WizUploadObjet*) uploadData;
+- (WizRefreshToken*) refreshData;
+- (BOOL) isApiWorking:(WizApi*)api;
+- (BOOL) isApiOnErroring:(WizApi*)api;
+- (void) doWorkBegainApi:(WizApi*)api;
+- (void) doWorkEndApi:(WizApi*)api;
+- (void) doErrorBegainApi:(WizApi*)api;
+- (void) doErrorEndApi:(WizApi*)api;
+- (NSArray*) workArrayFroGuid:(NSString*)guid;
+- (NSArray*) errorQueque;
++ (WizSyncData*) shareSyncData;
+- (BOOL) isDownloadingObject:(WizObject*)object;
+- (BOOL) isUploadingObject:(WizObject*)object;
 @end

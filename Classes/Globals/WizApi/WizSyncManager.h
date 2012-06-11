@@ -11,26 +11,18 @@
 #import "WizRefreshDelegate.h"
 #import "WizSyncSearchDelegate.h"
 #import "WizApiManagerDelegate.h"
+#import "WizSync.h"
 @interface WizSyncManager : NSObject <WizRefreshDelegate,WizApiManagerDelegate>
 {
     id <WizSyncDescriptionDelegate> displayDelegate;
 }
 @property (nonatomic, assign) id<WizSyncDescriptionDelegate> displayDelegate;
-//upload
-- (BOOL) isUploadingWizObject:(WizObject*)wizobject;
-- (BOOL) uploadWizObject:(WizObject*)object;
-//download
-- (BOOL) isDownloadingWizobject:(WizObject*)object;
-- (void) downloadWizObject:(WizObject*)object;
-//
-- (BOOL) startSyncInfo;
 //
 - (void) resignActive;
 + (id) shareManager;
+- (void) refreshToken;
 //
-- (void) automicSyncData;
-- (BOOL) isSyncing;
-- (void) stopSync;
-//
-- (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate;
+- (WizSync*) syncDataForGroup:(NSString*)kbguid;
+- (void) registerAciveGroup:(NSString*)kbguid;
+- (WizSync*) activeGroupSync;
 @end

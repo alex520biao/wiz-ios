@@ -167,6 +167,17 @@
     return result;
 }
 
+- (void) deleteAllGroups:(NSString*)userId
+{
+    NSArray* groups = [self allGroupByAccount:userId];
+    for (WizGroup* each in groups) {
+        if ([each.kbType isEqualToString:KeyOfKbTypePrivate]) {
+            continue;
+        }
+        [self.managedObjectContext deleteObject:each];
+    }
+    [self saveContext];
+}
 - (WizSetting*) settingByKey:(NSString*)key  accountUserId:(NSString*)userId
 {
     NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:WizEntitySetting];

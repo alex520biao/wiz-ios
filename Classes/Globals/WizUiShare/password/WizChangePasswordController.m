@@ -75,7 +75,7 @@
 {
     [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
     NSString* pwNewStr = self.passwordNew.textInputField.text;
-    [[WizAccountManager defaultManager] changeAccountPassword:self.accountUserId password:pwNewStr];
+    [[WizAccountManager defaultManager] updateAccount:self.accountUserId password:pwNewStr];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

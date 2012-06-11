@@ -9,7 +9,4 @@
 #import "WizSyncDataFactory.h"
 
 @implementation WizSyncDataFactory
-{
-    
-}
 @end

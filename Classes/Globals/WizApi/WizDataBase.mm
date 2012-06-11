@@ -1255,14 +1255,21 @@ static WizDataBase* shareDataBase = nil;
     {
         tempIndex.UpdateIphoneAbstract(abstract);
     }
-    abstract.guid = [[[WizAccountManager defaultManager] activeAccountGroupKbguid] UTF8String];
-    if (WizDeviceIsPad) {
-        tempIndex.UpdatePadAbstract(abstract);
+    NSString* acitve = [[WizAccountManager defaultManager] activeAccountGroupKbguid] ;
+    if (acitve) {
+        if (compassImage) {
+            abstract.guid = [acitve UTF8String];
+            if (WizDeviceIsPad) {
+                tempIndex.UpdatePadAbstract(abstract);
+            }
+            else
+            {
+                tempIndex.UpdateIphoneAbstract(abstract);
+            }
+        }
     }
-    else
-    {
-        tempIndex.UpdateIphoneAbstract(abstract);
-    }
+    
+    
     
 }
 - (BOOL) clearCache

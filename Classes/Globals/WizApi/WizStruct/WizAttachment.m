@@ -102,7 +102,7 @@
     if (!self.localChanged) {
         return;
     }
-    [[WizSyncManager shareManager] uploadWizObject:self];
+    [[[WizSyncManager shareManager] activeGroupSync] uploadWizObject:self];
 }
 
 - (void) download
@@ -110,7 +110,7 @@
     if (!self.serverChanged) {
         return;
     }
-    [[WizSyncManager shareManager] downloadWizObject:self];
+    [[[WizSyncManager shareManager]activeGroupSync] downloadWizObject:self];
 }
 
 @end
