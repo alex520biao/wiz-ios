@@ -144,6 +144,9 @@ static WizSyncManager* shareManager;
 - (void) didApiSyncDone:(WizApi *)api
 {
     [[WizSyncData shareSyncData] doWorkEndApi:api];
+    if ([api isKindOfClass:[WizSyncInfo class]]) {
+        [activeSync uploadAllObject];
+    }
 }
 - (WizSync*) syncDataForGroup:(NSString*)kbguid
 {

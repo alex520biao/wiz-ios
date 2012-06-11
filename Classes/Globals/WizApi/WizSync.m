@@ -8,6 +8,7 @@
 
 #import "WizSync.h"
 #import "WizSyncData.h"
+#import "WizDbManager.h"
 
 @interface WizSync ()
 {
@@ -76,6 +77,7 @@
 }
 - (BOOL) uploadWizObject:(WizObject*)object
 {
+    [uploadArray addObjectUnique:object];
     WizUploadObjet* uploader = [[WizSyncData shareSyncData] uploadData];
     uploader.sourceDelegate = self;
     [self addSyncToken:uploader];
@@ -168,6 +170,13 @@
             WizUploadObjet* u = (WizUploadObjet*)each;
             [u startUpload];
         }
+    }
+}
+- (void) uploadAllObject
+{
+    NSArray* array = [[[WizDbManager shareDbManager] shareDataBase] documentForUpload];
+    for (WizDocument* each in array) {
+        [each upload];
     }
 }
 @end

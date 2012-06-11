@@ -38,5 +38,7 @@
 - (void) stopSync;
 //
 - (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate;
+
+- (void) uploadAllObject;
 @end
 

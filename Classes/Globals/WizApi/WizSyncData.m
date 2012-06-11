@@ -49,13 +49,11 @@
 
 - (NSMutableArray*) syncInfoArray
 {
-    NSLog(@"des %@",[[WizSyncInfo class] description]);
     return [self syncApiDataMutableArrayFor:[[WizSyncInfo class] description]] ;
 }
 
 - (NSMutableArray*) syncDownloadArray
 {
-    NSLog(@"des %@",[[WizDownloadObject class] description]);
     return [self syncApiDataMutableArrayFor:[[WizDownloadObject class] description]] ;
 }
 

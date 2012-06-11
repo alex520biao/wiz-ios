@@ -347,11 +347,11 @@ BOOL isReverseMask(NSInteger mask)
     if (!self.localChanged) {
         return;
     }
-    [[WizSyncManager shareManager] uploadWizObject:self];
+    [[[WizSyncManager shareManager] activeGroupSync] uploadWizObject:self];
     NSArray* attachments = [self attachments];
     for (WizAttachment* attch in attachments) {
         if (attch.localChanged) {
-            [[WizSyncManager shareManager] uploadWizObject:attch];
+            [[[WizSyncManager shareManager]activeGroupSync] uploadWizObject:attch];
         }
     }
 }
