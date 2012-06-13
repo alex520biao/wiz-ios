@@ -34,7 +34,7 @@
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
-    WizGroupViewController* groups = [[WizGroupViewController alloc] init];
+    WizGroupViewController* groups = [[WizGroupViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.navigationController pushViewController:groups animated:YES];
     [groups release];
 }

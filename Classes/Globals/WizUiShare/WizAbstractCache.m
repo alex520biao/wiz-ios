@@ -3,6 +3,7 @@
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 #import "WizFileManager.h"
+#import "WizDataBase.h"
 
 
 #define NO_DATA     5211
@@ -17,10 +18,7 @@
     NSConditionLock* cacheConditon;
     BOOL isChangedUser;
     NSThread* thread;
-    
-    WizDataBase* dbManager;
 }
-@property (atomic, retain) WizDataBase* dbManager;
 @property (atomic, retain) NSMutableDictionary* tagsAbstractData;
 @property (atomic, retain) NSMutableDictionary* folderAbstractData;
 @property (atomic, retain) NSMutableDictionary* data;
@@ -39,7 +37,6 @@
 @synthesize isChangedUser;
 @synthesize currentDocument;
 @synthesize cacheConditon;
-@synthesize dbManager;
 @synthesize thread;
 //single
 + (id) shareCache
@@ -89,7 +86,8 @@
         [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
         if(nil != documentGuid)
         {
-            WizAbstract* abstract = [self.dbManager abstractOfDocument:documentGuid];
+            WizDataBase* dataBase = [[WizDbManager shareDbManager] shareDataBase];
+            WizAbstract* abstract = [dataBase abstractOfDocument:documentGuid];
             NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
             [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
             [self.needGenAbstractDocuments removeLastObject];
@@ -175,10 +173,6 @@
         self.data = [NSMutableDictionary dictionary];
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.cacheConditon = [[[NSConditionLock alloc] initWithCondition:NO_DATA] autorelease];
-        WizDataBase* db = [[WizDataBase alloc] init];
-        [db reloadDb];
-        self.dbManager = db;
-        [db release];
         thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
         [thread start];
         

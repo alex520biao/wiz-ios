@@ -19,13 +19,19 @@
     NSRange range = NSMakeRange(0, 7);
    return [dateToLocalString substringWithRange:range];
 }
+
 - (NSString*) stringLocal
 {
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    NSLocale *locale = [NSLocale currentLocale];
-    [dateFormatter setLocale:locale];
+    
+	static  NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        NSLocale *locale = [NSLocale currentLocale];
+        [dateFormatter setLocale:locale];
+    });
     return [dateFormatter stringFromDate:self];
 }
 -(NSString*) stringSql

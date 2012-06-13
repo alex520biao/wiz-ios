@@ -17,6 +17,7 @@
 #import "WizSyncSearch.h"
 #import "WizAccountManager.h"
 #import "WizSync.h"
+#import "WizGlobalError.h"
 
 
 @interface WizSyncManager ()
@@ -24,9 +25,9 @@
     NSURL* serverUrl;
     NSURL* apiUrl;
     NSString* token;
-    NSMutableArray* syncArray;
-    WizSync* activeSync;
+    NSMutableDictionary* syncDataDictionary;
 }
+@property (atomic, retain) NSMutableDictionary* syncDataDictionary;
 @property (nonatomic, retain) NSURL* apiUrl;
 @property (nonatomic, retain) NSString* token;
 - (void) refreshToken;
@@ -35,6 +36,7 @@
 @synthesize apiUrl;
 @synthesize token;
 @synthesize displayDelegate;
+@synthesize syncDataDictionary;
 static WizSyncManager* shareManager;
 + (id) shareManager
 {
@@ -51,11 +53,13 @@ static WizSyncManager* shareManager;
     displayDelegate = nil;
     [super dealloc];
 }
+
+
 - (id) init
 {
     self = [super init];
     if (self) {
-        syncArray = [[NSMutableArray alloc] init];
+        self.syncDataDictionary = [NSMutableDictionary dictionary];
         self.token = WizStrName;
     }
     return self;
@@ -69,26 +73,31 @@ static WizSyncManager* shareManager;
     [[WizSyncData shareSyncData] doWorkBegainApi:each];
 }
 
+
+- (WizSync*) getWizSyncForGroup:(NSString*)kbguid
+{
+    if (kbguid == nil) {
+        return nil;
+    }
+    WizSync* sync = [self.syncDataDictionary valueForKey:kbguid];
+    if (!sync) {
+        sync = [[WizSync alloc] init];
+        sync.kbGuid = kbguid;
+        sync.token = self.token;
+        sync.apiUrl = self.apiUrl;
+        [self.syncDataDictionary setObject:sync forKey:kbguid];
+        [sync release];
+    }
+    return sync;
+}
+
 - (void) restartSync
 {
-    for (WizSync* each in syncArray) {
-        each.token = self.token;
-        each.apiUrl = self.apiUrl;
-    }
-    for (WizApi* each in [[WizSyncData shareSyncData] errorQueque]) {
-        if ([each isKindOfClass:[WizRefreshToken class]]) {
-            continue;
-        }
-        if (each.busy) {
-            continue;
-        }
-        if ([each isKindOfClass:[WizSyncSearch class]]) {
-            WizSyncSearch* search = (WizSyncSearch*)each;
-            if (!search.isSearching) {
-                continue;
-            }
-        }
-        [self restartApi:each];
+    for (NSArray* each in [self.syncDataDictionary allValues]) {
+        WizSync* sync = (WizSync*)each;
+        sync.token = self.token;
+        sync.apiUrl = self.apiUrl;
+        [sync restartSync];
     }
 }
 
@@ -130,6 +139,10 @@ static WizSyncManager* shareManager;
         [[WizSyncData shareSyncData] doErrorBegainApi:api];
         [self refreshToken];
     }
+    else if (error.code == WizCanNoteResloceErrorCode && [error.domain isEqualToString:WizErrorDomain])
+    {
+        [[WizSyncData shareSyncData] doErrorEndApi:api];
+    }
 }
 
 - (void) didChangedSyncDescriptorMessage:(NSString *)descriptorMessage
@@ -144,36 +157,48 @@ static WizSyncManager* shareManager;
 - (void) didApiSyncDone:(WizApi *)api
 {
     [[WizSyncData shareSyncData] doWorkEndApi:api];
-    if ([api isKindOfClass:[WizSyncInfo class]]) {
-        [activeSync uploadAllObject];
+    if ([api isKindOfClass:[WizSyncInfo class]])
+    {
+        WizSync* sync = [self getWizSyncForGroup:api.kbguid];
+        [sync downloadCacheDocuments];
+        [sync uploadAllObject];
     }
 }
+
+- (BOOL) isWizSyncCanReuse:(WizSync*)sync
+{
+    if ([sync isSyncing]) {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
+
 - (WizSync*) syncDataForGroup:(NSString*)kbguid
 {
-    for (WizSync* each in syncArray) {
-        if ([each.kbGuid isEqualToString:kbguid]) {
-            return each;
-        }
-    }
-    WizSync* sync = [[WizSync alloc] init];
-    sync.token = self.token;
-    sync.apiUrl = self.apiUrl;
-    sync.kbGuid = kbguid;
-    [syncArray addObject:sync];
-    [sync release];
+    WizSync* sync = [self getWizSyncForGroup:kbguid];
     return sync;
 }
 - (WizSync*) activeGroupSync
 {
-    return activeSync;
+    return [self getWizSyncForGroup:[[WizAccountManager defaultManager] activeAccountGroupKbguid]];
 }
 - (void) registerAciveGroup:(NSString *)kbguid
 {
-    if (activeSync) {
-        [activeSync stopSync];
-    }
-    WizSync* sync = [self syncDataForGroup:kbguid];
-    activeSync = sync;
-    NSLog(@"%@",activeSync);
+    
 }
+
+- (void) refreshGroupsData
+{
+    NSArray* array = [[WizAccountManager defaultManager] activeAccountGroups];
+    for (WizGroup* each in array) {
+        WizSync* sync = [self getWizSyncForGroup:each.kbguid];
+        [sync startSyncInfo];
+    }
+}
+
+
 @end

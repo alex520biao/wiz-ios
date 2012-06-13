@@ -7,6 +7,8 @@
 //
 
 #import "WizGroup.h"
+#import <Foundation/Foundation.h>
+#import "NSDate+WizTools.h"
 
 
 @implementation WizGroup
@@ -25,6 +27,7 @@
 @dynamic roleNote;
 @dynamic serverUrl;
 @dynamic userGroup;
+@dynamic orderIndex;
 
 - (void) getDataFromDic:(NSDictionary*)dic
 {
@@ -39,6 +42,7 @@
     if (!type) {
         type = KeyOfKbTypePrivate;
     }
+    NSLog(@"%@",dic);
     self.kbType = type;
 }
 @end

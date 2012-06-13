@@ -144,6 +144,7 @@ public:
 	bool GetAllTagsPathForTree(CWizTagDataArray& arrayTag);
     bool SqlToTags(const char* sql, CWizTagDataArray& array);
     bool TagFromGUID(const char* lpszGUID, WIZTAGDATA& data);
+    bool SetTagLocalChanged(const char* lpszGuid, bool changed);
 	//
     std::string GetTagAbstract(const char* lpaszTagGuid);
     std::string GetFolderAbstractString(const char* lpszFolderKey);

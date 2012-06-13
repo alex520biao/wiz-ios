@@ -10,4 +10,6 @@
 @interface WizDbManager : NSObject 
 + (id) shareDbManager;
 - (WizDataBase*) shareDataBase;
+- (WizDataBase*) getWizDataBase:(NSString*)accountUserId  groupId:(NSString*)groupId;
+- (void) removeUnactiveDatabase;
 @end

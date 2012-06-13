@@ -15,6 +15,7 @@
 #import "WizSelectTagViewController.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizMapViewController.h"
+#import "WizDbManager.h"
 @interface DocumentInfoViewController()
 {
     BOOL docChanged;
@@ -112,7 +113,8 @@
     [super viewDidDisappear:animated];
     if (docChanged) {
         self.doc.localChanged = WizEditDocumentTypeInfoChanged;
-        [self.doc saveInfo];
+        WizDataBase* dataBase = [[WizDbManager shareDbManager] shareDataBase];
+        [self.doc saveInfo:dataBase];
         docChanged = NO;
     }
 }

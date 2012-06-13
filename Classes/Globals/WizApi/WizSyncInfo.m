@@ -12,6 +12,12 @@
 #import "WizSyncManager.h"
 #import "WizNotification.h"
 #import "WizSettings.h"
+#import "WizFileManager.h"
+#import "WizDocument.h"
+#import "WizGlobalError.h"
+#import "WizTag.h"
+#import "WizAccountManager.h"
+#import "WizDataBase.h"
 
 @implementation WizSyncInfo
 @synthesize dbDelegate;
@@ -56,43 +62,41 @@
 -(void) onDocumentsByCategory: (id)retObject
 {
 	NSArray* obj = retObject;
-	[self.dbDelegate updateDocuments:obj];
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+	[dataBase updateDocuments:obj];
 }
 //
 -(void) onDocumentsByTag: (id)retObject
 {
 	NSArray* obj = retObject;
-	[self.dbDelegate updateDocuments:obj];
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+	[dataBase updateDocuments:obj];
 }
 //
 -(void) onDocumentsByKey: (id)retObject
 {
 	NSArray* obj = retObject;
-	[self.dbDelegate updateDocuments:obj];
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+	[dataBase updateDocuments:obj];
 }
 -(void) onDownloadAttachmentList:(id)retObject
 {
     if (!self.busy) {
         return ;
     }
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
     self.syncMessage = WizStrSyncingattachmentlist;
     NSArray* attachArr = [self getArrayFromResponse:retObject];
-    int64_t oldVer = [self.dbDelegate attachmentVersion];
-    [self.dbDelegate updateAttachments:attachArr];
+    int64_t oldVer = [dataBase attachmentVersion];
+    [dataBase updateAttachments:attachArr];
     int64_t newVer = [self newVersion:attachArr];
     if (newVer > oldVer) {
-        [self.dbDelegate setAttachmentVersion:newVer+1];
+        [dataBase setAttachmentVersion:newVer+1];
         [self callDownloadAttachmentList:newVer+1];
-    }
-    else {
-//        NSArray* ups = [WizDocument documentForUpload];
-//        for (WizDocument* each in ups) {
-//            [each upload];
-//        }
-//        NSArray* documents = [WizDocument documentsForCache];
-//        for (WizDocument * each in documents) {
-//            [each download];
-//        }
     }
     busy = NO;
     [self.apiManagerDelegate didApiSyncDone:self];
@@ -104,12 +108,14 @@
     if (!self.busy) {
         return ;
     }
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSArray* obj = [self getArrayFromResponse:retObject];
-    int64_t oldVer =[self.dbDelegate documentVersion];
-	[self.dbDelegate updateDocuments:obj];
+    int64_t oldVer =[dataBase documentVersion];
+	[dataBase updateDocuments:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [self.dbDelegate setDocumentVersion:newVer+1];
+        [dataBase setDocumentVersion:newVer+1];
         [self callDownloadDocumentList:newVer+1];
     }
     else {
@@ -117,7 +123,7 @@
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
         [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfPadSyncInfoEnd];
-        [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
+        [self callDownloadAttachmentList:[dataBase attachmentVersion]];
         [self didChangeSyncStatue:WizSyncStatueDownloadAttachmentList];
     }
 }
@@ -126,6 +132,8 @@
     if (!self.busy) {
         return ;
     }
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSDictionary* obj = retObject;
 	//
 	// save values returned by getUserInfo into current blog
@@ -134,8 +142,8 @@
 	//
 	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
 	//
-	[self.dbDelegate updateLocations:arrCategory];
-    [self callDownloadDocumentList:[self.dbDelegate documentVersion]];
+	[dataBase updateLocations:arrCategory];
+    [self callDownloadDocumentList:[dataBase documentVersion]];
     [self didChangeSyncStatue:WizSyncStatueDownloadDocumentList];
 }
 - (void) onPostTagList:(id)retObject
@@ -143,9 +151,10 @@
     if (!self.busy) {
         return ;
     }
-    for (WizTag* tag in [self.dbDelegate tagsForUpload]) {
-        tag.localChanged = 0;
-        [tag save];
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    for (WizTag* tag in [dataBase tagsForUpload]) {
+        [dataBase setTagLocalChanged:tag.guid changed:NO];
     }
     [self callAllCategories];
     [self didChangeSyncStatue:WizSyncStatueDownloadFolder];
@@ -155,18 +164,27 @@
     if (!self.busy) {
         return ;
     }
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSArray* obj = [self getArrayFromResponse:retObject];
-    int64_t oldVer = [self.dbDelegate tagVersion];
-    [self.dbDelegate updateTags:obj];
-
+    int64_t oldVer = [dataBase tagVersion];
+    [dataBase updateTags:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [self.dbDelegate setTageVersion:newVer+1];
+        [dataBase setTageVersion:newVer+1];
         [self callAllTags:newVer+1];
     }
     else {
-        [self callPostTagList:[self.dbDelegate tagsForUpload]];
-        [self didChangeSyncStatue:WizSyncStatueUploadTags];
+        NSArray* array = [dataBase tagsForUpload];
+        if (array == nil || [array count] ==0) {
+            [self callAllCategories];
+        }
+        else
+        {
+            [self callPostTagList:[dataBase tagsForUpload]];
+            [self didChangeSyncStatue:WizSyncStatueUploadTags];
+        }
+        
     }
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec
@@ -174,8 +192,10 @@
     if (!self.busy) {
         return ;
     }
-	[self.dbDelegate clearDeletedGUIDs];
-    [self callAllTags:[self.dbDelegate tagVersion]];
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+	[dataBase clearDeletedGUIDs];
+    [self callAllTags:[dataBase tagVersion]];
     [self didChangeSyncStatue:WizSyncStatueDownloadTags];
 }
 -(void) onDownloadDeletedList: (id)retObject
@@ -183,8 +203,10 @@
     if (!self.busy) {
         return ;
     }
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
     NSArray* arr =[ self getArrayFromResponse:retObject];
-    int64_t oldVer = [self.dbDelegate deletedGUIDVersion];
+    int64_t oldVer = [dataBase deletedGUIDVersion];
 	int64_t newVer = 0;
 	for (NSDictionary* dict in arr)
 	{
@@ -199,28 +221,28 @@
 		//
 		if ([type isEqualToString:@"document"])
 		{
-            WizDocument* doc = [WizDocument documentFromDb:guid];
-            if (nil == doc) {
-                continue;
+            if ([dataBase deleteDocument:guid]) {
+                [[WizFileManager shareManager] removeObjectPath:guid];
+                [WizNotificationCenter postDeleteDocumentMassage:[[[WizDocument alloc] init] autorelease]];
             }
-            [WizDocument deleteDocument:doc];
-		}
+        }
+        
 		else if ([type isEqualToString:@"tag"])
 		{
-			[WizTag deleteTag:guid];
+            [dataBase deleteTag:guid];
 		}
         if ([type isEqualToString:@"attachment"])
         {
-            [WizAttachment deleteAttachment:guid];
+            [dataBase deleteAttachment:guid];
         }
 	}
     if (newVer > oldVer) {
-        [self.dbDelegate setDeletedGUIDVersion:newVer+1];
+        [dataBase setDeletedGUIDVersion:newVer+1];
         [self callDownloadDeletedList:newVer+1];
     }
     else {
         [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
-        NSArray* array = [self.dbDelegate deletedGUIDsForUpload];
+        NSArray* array = [dataBase deletedGUIDsForUpload];
         [self callUploadDeletedGUIDs:array];
     }
 }
@@ -231,11 +253,10 @@
         return NO;
     }
     busy = YES;
-    
-    NSLog(@"%@",self.dbDelegate);
-    
     [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
-    return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
+    NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    return [self callDownloadDeletedList:[dataBase deletedGUIDVersion]];
 }
 - (void) onError:(id)retObject
 {
@@ -252,9 +273,9 @@
             return;
         }
         [WizGlobals reportError:retObject];
+        [self.apiManagerDelegate didApiSyncError:self error:[WizGlobalError canNotResloceError]];
     }
 }
-
 - (void) cancel
 {
     [super cancel];

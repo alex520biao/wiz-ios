@@ -24,6 +24,7 @@
 #import "WizFileManager.h"
 #import "WizPasscodeViewController.h"
 #import "WizSettings.h"
+#import "WizDbManager.h"
 
 
 #define WizAbs(x) x>0?x:-x
@@ -91,6 +92,7 @@
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
     [[WizAbstractCache shareCache] didReceivedMenoryWarning];
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfMemeoryWarning];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if ([[WizSettings defaultSettings] isPasscodeEnable]) {
@@ -129,7 +131,14 @@
         doc.title = fileName;
         NSMutableArray* arr = [NSMutableArray array];
         [arr addAttachmentBySourceFile:toFilePath];
-        [doc saveWithData:nil attachments:arr];
+        
+        NSString* groupId = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
+        if (groupId == nil || [groupId isBlock]) {
+            groupId = [[WizSettings defaultSettings] defaultGroupKbGuid];
+        }
+        
+        WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:defaultAccount groupId:groupId];
+        [doc saveWithData:nil attachments:arr toDataBase:dataBase];
         [doc release];
         return YES;
     }

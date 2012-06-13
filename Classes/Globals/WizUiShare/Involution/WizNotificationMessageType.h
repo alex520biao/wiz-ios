@@ -54,3 +54,7 @@
 #define MessageTypeOfPadSyncInfoEnd                 @"MessageTypeOfPadSyncInfoEnd"
 
 #define MessageTypeOfRefreshGroupsData              @"MessageTypeOfRefreshGroupsData"
+
+#define MessageTypeOfMemeoryWarning                 @"MessageTypeOfMemeoryWarning"
+
+#define MessageTypeOfRegisterGroupKbguid            @"MessageTypeOfRegisterGroupKbguid"

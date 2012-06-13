@@ -15,6 +15,8 @@
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizSyncManager.h"
+#import "WizDbManager.h"
+#import "WizAccountManager.h"
 #define UploadPartSize  (262144)
 
 @protocol WizUploadObjectDelegate
@@ -170,15 +172,15 @@
 
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizDocument* eidt = (WizDocument*)self.uploadObject;
-    eidt.localChanged = WizEditDocumentTypeNoChanged;
-    [eidt saveInfo];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
+    [dataBase setDocumentLocalChanged:self.uploadObject.guid changed:WizEditDocumentTypeNoChanged];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    [WizAttachment setAttachmentLocalChanged:self.uploadObject.guid changed:NO];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
+    [dataBase setAttachmentLocalChanged:self.uploadObject.guid changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 -(void) onError: (id)retObject

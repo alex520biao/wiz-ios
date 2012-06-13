@@ -11,11 +11,18 @@
 #import "PickViewController.h"
 #import "UserSttingsViewController.h"
 #import "WizNotification.h"
+#import "WizFileManager.h"
+#import "WizDbManager.h"
+#import "WizSyncManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface WizGroupViewController ()
 {
     NSArray* groupsArray;
+    WizDataBase* dataBase;
+    NSFetchedResultsController* fetch;
 }
+@property (nonatomic, retain) NSFetchedResultsController* fetch;
 @property (nonatomic, retain) NSArray* groupsArray;
 @end
 
@@ -26,11 +33,12 @@
 - (void) dealloc
 {
     [groupsArray release];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 - (void) reloadAllData
 {
-    self.groupsArray =[[WizAccountManager defaultManager] activeAccountGroups];
+    [self.fetch performFetch:nil];
     [self.tableView reloadData];
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -38,25 +46,38 @@
     self = [super initWithStyle:style];
     if (self) {
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfRefreshGroupsData];
+        dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:nil];
     }
+    
     return self;
 }
-
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+    [self reloadAllData];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationController setNavigationBarHidden:NO];
+
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
-    self.navigationController.navigationBar.tintColor = [UIColor lightGrayColor];
     [item release];
-    self.groupsArray =[[WizAccountManager defaultManager] activeAccountGroups] ;
+    self.fetch = [[WizAccountManager defaultManager] groupsFetchResultController];
+    
+    UIBarButtonItem* refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshAccountGroudData)];
+    self.navigationItem.rightBarButtonItem = refreshItem;
+    [refreshItem release];
+    
+//    self.groupsArray =[[WizAccountManager defaultManager] activeAccountGroups] ;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+   
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -66,6 +87,11 @@
     editAccountView.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:editAccountView animated:YES];
     [editAccountView release];
+}
+
+- (void) refreshAccountGroudData
+{
+    [[WizSyncManager shareManager] refreshGroupsData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -78,13 +104,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 
-    return 1;
+    return [[self.fetch sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    return [self.groupsArray count];
+    return [[[self.fetch sections] objectAtIndex:section] numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -92,62 +117,52 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell.accessoryView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 80, 80) ]autorelease];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.accessoryView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        cell.accessoryView.layer.borderWidth = 0.6f;
+        
     }
-    WizGroup* group = [self.groupsArray objectAtIndex:indexPath.row];
+//    WizGroup* group = [self.groupsArray objectAtIndex:indexPath.row];
+    UIImageView* imageView = (UIImageView*) cell.accessoryView;
+    WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
+    imageView.image = [[dataBase abstractForGroup:group.kbguid].image compressedImageWidth:80];
     cell.textLabel.text = group.kbName;
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) viewDidAppear:(BOOL)animated
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    [super viewDidAppear:animated];
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizGroup* group = [self.groupsArray objectAtIndex:indexPath.row];
-    NSLog(@"group array %d",[self.groupsArray count]);
-    NSLog(@"%@ %@",group.kbName,group.kbguid);
+    WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
     [[WizAccountManager defaultManager] registerActiveGroup:group];
     PickerViewController* pick = [[PickerViewController alloc] init];
     [self.navigationController pushViewController:pick animated:YES];
     [pick release];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [[[self.fetch sections] objectAtIndex:section] name];
+}
+-(UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView* sectionView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 20)] autorelease];
+    sectionView.image = [UIImage imageNamed:@"tableSectionHeader"];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(10, 4.0, 320, 15)];
+    [label setFont:[UIFont systemFontOfSize:13]];
+    [sectionView addSubview:label];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = [self tableView:self.tableView titleForHeaderInSection:section];
+    [label release];
+    sectionView.alpha = 0.8f;
+    return sectionView;
 }
 @end

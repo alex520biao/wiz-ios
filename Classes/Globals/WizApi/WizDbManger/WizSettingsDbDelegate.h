@@ -64,5 +64,8 @@
 - (BOOL) setNewNoteDefaultFolder:(NSString*)folder;
 - (NSString*) newNoteDefaultFolder;
 
-
+//
+@optional
+- (NSString*) defaultGroupKbGuid;
+- (BOOL) setDefaultGroupKbGuid:(NSString*)groupGuid;
 @end

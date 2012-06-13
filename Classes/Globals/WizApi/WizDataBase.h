@@ -86,9 +86,12 @@
 #define LastSynchronizedDate            @"LastSynchronizedDate"
 #define NewNoteDefaultFolder            @"NewNoteDefaultFolder"
 #define DefaultAccountUserID            @"DefaultAccountUserID"
-
+#define DefaultGroupKbGuid              @"DefaultGroupKbGuid"
 
 @interface WizDataBase : NSObject<WizDbDelegate, WizSettingsDbDelegate,WizAbstractDbDelegate>
+{
+    NSString* kbguid;
+}
+@property (atomic, retain) NSString* kbguid;
 + (WizDataBase*) shareDataBase;
-- (BOOL) reloadDb;
 @end

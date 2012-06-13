@@ -13,4 +13,8 @@
 {
     return [NSError errorWithDomain:WizErrorDomain code:CodeOfTokenUnActiveError userInfo:nil];
 }
++ (NSError*) canNotResloceError
+{
+    return [NSError errorWithDomain:WizErrorDomain code:WizCanNoteResloceErrorCode userInfo:nil];
+}
 @end

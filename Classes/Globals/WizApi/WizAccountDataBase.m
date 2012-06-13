@@ -166,6 +166,33 @@
     }
     return result;
 }
+- (NSFetchedResultsController*) allGroupsFectchRequest:(NSString*)userId
+{
+    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:WizEntityGroup];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"accountUserId == %@",userId];
+    [fetchRequest setPredicate:predicate];
+    NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"kbType" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    NSFetchedResultsController* fectchRe = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"kbType" cacheName:@"groups"];
+    NSError* error = nil;
+    if (![fectchRe performFetch:&error]) {
+        NSLog(@"%@",error);
+    }
+    return [fectchRe autorelease];
+}
+
+- (WizGroup*) privateGroup
+{
+    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:WizEntityGroup];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"kbType == %@",KeyOfKbTypePrivate];
+    [fetchRequest setPredicate:predicate];
+    NSError* error = nil;
+    NSArray* result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (error) {
+        return nil;
+    }
+    return [result lastObject];
+}
 
 - (void) deleteAllGroups:(NSString*)userId
 {
@@ -224,7 +251,7 @@
 {
     NSString* str = [self userInfo:ImageQuality];
     if(!str)
-        return 0;
+        return 300;
     else
         return [str longLongValue];
 }
@@ -276,7 +303,7 @@
 {
     NSString* str = [self userInfo:UserTablelistViewOption];
     if (str == nil || [str isEqualToString:@""]) {
-        return kOrderDate;
+        return kOrderReverseDate;
     }
     else
         return [str longLongValue];
@@ -536,5 +563,20 @@
     }
     return [self setGlobalSetting:DefaultAccountUserID value:userId];
 }
+- (NSString*) defaultGroupKbGuid
+{
+    NSString* group = [self globalSetting:DefaultGroupKbGuid];
+    if (group == nil || [group isBlock]) {
+        return [self privateGroup].kbguid;
+    }
+    return group;
+}
 
+- (BOOL) setDefaultGroupKbGuid:(NSString*)groupGuid
+{
+    if (groupGuid == nil || [groupGuid isBlock]) {
+        return NO;
+    }
+    return [self setUserInfo:DefaultGroupKbGuid info:groupGuid];
+}
 @end

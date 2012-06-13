@@ -9,7 +9,10 @@
 #import "WizSync.h"
 #import "WizSyncData.h"
 #import "WizDbManager.h"
-
+#import "WizSyncSearch.h"
+#import "WizAccountManager.h"
+#import "WizDataBase.h"
+#import "WizSettings.h"
 @interface WizSync ()
 {
 
@@ -22,8 +25,10 @@
 @synthesize apiUrl;
 @synthesize token;
 @synthesize kbGuid;
+@synthesize dataBaseDelegate;
 - (void) dealloc
 {
+    dataBaseDelegate = nil;
     [apiUrl release];
     [token release];
     [kbGuid release];
@@ -77,7 +82,9 @@
 }
 - (BOOL) uploadWizObject:(WizObject*)object
 {
-    [uploadArray addObjectUnique:object];
+    if (![self isUploadingWizObject:object]) {
+        [uploadArray addObjectUnique:object];
+    }
     WizUploadObjet* uploader = [[WizSyncData shareSyncData] uploadData];
     uploader.sourceDelegate = self;
     [self addSyncToken:uploader];
@@ -98,7 +105,9 @@
  }
 - (void) downloadWizObject:(WizObject*)object
 {
-    [downloadArray addObject:object];
+    if (![self isDownloadingWizobject:object]) {
+        [downloadArray addObject:object];
+    }
     WizDownloadObject* downloader = [[WizSyncData shareSyncData] downloadData];
     downloader.sourceDelegate = self;
     [self addSyncToken:downloader];
@@ -108,6 +117,7 @@
 - (BOOL) startSyncInfo
 {
     WizSyncInfo* syncInfoer =[[WizSyncData shareSyncData] syncInfoData];
+    syncInfoer.dbDelegate = self.dataBaseDelegate;
     [self addSyncToken:syncInfoer];
     return [syncInfoer start];
 }
@@ -170,13 +180,60 @@
             WizUploadObjet* u = (WizUploadObjet*)each;
             [u startUpload];
         }
+        else if ([each isKindOfClass:[WizSyncInfo class]])
+        {
+            WizSyncInfo* s = (WizSyncInfo*)each;
+            [s cancel];
+        }
     }
 }
 - (void) uploadAllObject
 {
-    NSArray* array = [[[WizDbManager shareDbManager] shareDataBase] documentForUpload];
-    for (WizDocument* each in array) {
-        [each upload];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
+    NSArray* array = [dataBase documentForUpload];
+    if (nil == array || ![array count] ) {
+        return;
+    }
+    [uploadArray addObjectsFromArray:[array subarrayWithRange:NSMakeRange(0, [array count]-1)]];
+    [self uploadWizObject:[array lastObject]];
+}
+
+- (void) downloadCacheDocuments
+{
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
+    NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
+    NSArray* array = [dataBase documentsForCache:duration];
+    [self downloadWizObjects:array];
+}
+
+- (void) downloadWizObjects:(NSArray*)array
+{
+    if (nil == array || ![array count])
+    {
+        return;
+    }
+    [downloadArray addObjectsFromArray:[array subarrayWithRange:NSMakeRange(0, [array count]-1)]];
+    [self downloadWizObject:[array lastObject]];
+}
+- (void) restartSync
+{
+    NSArray* errorApis = [[WizSyncData shareSyncData] errorArrayForGroup:self.kbGuid];
+    for (WizApi* each in errorApis) {
+        if ([each isKindOfClass:[WizRefreshToken class]]) {
+            continue;
+        }
+        if (each.busy) {
+            continue;
+        }
+        if ([each isKindOfClass:[WizSyncSearch class]]) {
+            WizSyncSearch* search = (WizSyncSearch*)each;
+            if (!search.isSearching) {
+                continue;
+            }
+        }
+        [self addSyncToken:each];
+        [each start];
     }
 }
+
 @end

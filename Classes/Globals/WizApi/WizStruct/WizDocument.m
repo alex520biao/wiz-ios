@@ -15,6 +15,8 @@
 #import "WizSyncManager.h"
 #import "TagsListTreeControllerNew.h"
 #import "WizSettings.h"
+#import "WizDataBase.h"
+#import "WizAccountManager.h"
 
 BOOL isReverseMask(NSInteger mask)
 {
@@ -256,7 +258,7 @@ BOOL isReverseMask(NSInteger mask)
     }
     return YES;
 }
-- (BOOL) saveInfo
+- (BOOL) saveInfo:(WizDataBase*)dataBase
 {
     if (self.guid == nil || [self.guid isBlock]) {
         self.guid = [WizGlobals genGUID];
@@ -331,9 +333,7 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:[NSNumber numberWithFloat:self.gpsAltitude] forKey:DataTypeUpdateDocumentGPS_ALTITUDE];
     [doc setObject:[NSNumber numberWithFloat:self.gpsDop] forKey:DataTypeUpdateDocumentGPS_DOP];
     [doc setObject:[NSNumber numberWithInt:self.nReadCount] forKey:DataTypeUpdateDocumentREADCOUNT];
-    
-    NSLog(@"%@",doc);
-    if ([[[WizDbManager shareDbManager] shareDataBase] updateDocument:doc]) {
+    if ([dataBase updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;
     }
@@ -404,7 +404,7 @@ BOOL isReverseMask(NSInteger mask)
     NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">  </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
     return html;
 }
-- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(WizDataBase*)dataBase
 {
     if (self.serverChanged) {
         return NO;
@@ -481,32 +481,8 @@ BOOL isReverseMask(NSInteger mask)
     [html writeToFile:[self documentMobileFile] atomically:YES encoding:NSUTF16StringEncoding error:nil];
     self.dataMd5 = [self localDataMd5];
     self.localChanged = WizEditDocumentTypeAllChanged;
-    [self saveInfo];
+    [self saveInfo:dataBase];
     return YES;
-}
-
-- (BOOL) deleteTag:(NSString*)tagGuid
-{
-    if (nil == self.tagGuids) {
-        return NO;
-    }
-    NSRange range = [self.tagGuids rangeOfString:tagGuid];
-    if (range.location == NSNotFound || range.length == NSNotFound)
-    {
-        return NO;
-    }
-    self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:range withString:@""];
-    if(range.location >= 1)
-    {
-        NSRange subRange = NSMakeRange(range.location-1, 1);
-        NSString* sepatatedStr = [self.tagGuids substringWithRange:subRange];
-        if([sepatatedStr isEqualToString:@"*"])
-        {
-            self.tagGuids = [self.tagGuids stringByReplacingCharactersInRange:subRange withString:@""];
-        }
-    }
-    self.localChanged = WizEditDocumentTypeInfoChanged;
-    return [self saveInfo];
 }
 
 - (void) setTagWithArray:(NSArray*)tags

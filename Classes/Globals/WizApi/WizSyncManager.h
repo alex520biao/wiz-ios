@@ -25,4 +25,5 @@
 - (WizSync*) syncDataForGroup:(NSString*)kbguid;
 - (void) registerAciveGroup:(NSString*)kbguid;
 - (WizSync*) activeGroupSync;
+- (void) refreshGroupsData;
 @end

@@ -17,8 +17,10 @@ enum WizErrorCode {
     NSInvaildUrlErrorCode       = -1000,
     NSOvertimeErrorCode         = -1001,
     WizGuidIsNilErrorCode       = 6001,
-    NSUserCancelError           = 10000
+    NSUserCancelError           = 10000,
+    WizCanNoteResloceErrorCode  = 1718
 };
 @interface WizGlobalError : NSObject
 + (NSError*) tokenUnActiveError;
++ (NSError*) canNotResloceError;
 @end

@@ -49,7 +49,10 @@
 @synthesize dataBase;
 @synthesize activeGroup;
 @dynamic  accountSettingsDataBase;
-
+- (NSFetchedResultsController*) groupsFetchResultController
+{
+    return [self.dataBase allGroupsFectchRequest:self.activeAccount_.userId];
+}
 - (WizAccountDataBase<WizSettingsDbDelegate>*) accountSettingsDataBase
 {
     return self.dataBase;
@@ -77,6 +80,7 @@
 {
     return self.activeAccount_;
 }
+
 -(void) updateAccount: (NSString*)userId password:(NSString*)password
 {
     password = [WizGlobals encryptPassword:password];
@@ -155,8 +159,6 @@
 {
     [[WizSyncManager shareManager] registerAciveGroup:group.kbguid];
     self.activeGroup = group;
-    [[[WizDbManager shareDbManager] shareDataBase]reloadDb];
-    
 }
 - (WizGroup*)activeAccountActiveGroup
 {

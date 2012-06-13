@@ -33,5 +33,6 @@
 @property (nonatomic, retain) NSString * roleNote;
 @property (nonatomic, retain) NSString * serverUrl;
 @property (nonatomic, retain) NSNumber * userGroup;
+@property (nonatomic, retain) NSNumber * orderIndex;
 - (void) getDataFromDic:(NSDictionary*)dic;
 @end

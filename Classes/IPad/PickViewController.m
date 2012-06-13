@@ -62,8 +62,8 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
-     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
      [super viewDidAppear:animated];
+   
 }
  
 - (void)didReceiveMemoryWarning
@@ -107,7 +107,7 @@
     folderView.title = WizStrFolders;
     folderController.tabBarItem.image = [UIImage imageNamed:@"barItemFolde"];
     [folderView release];
-
+    
     TagsListTreeControllerNew* tagView = [[TagsListTreeControllerNew alloc] init];
     UINavigationController* tagController = [[UINavigationController alloc] init];
     tagView.title = WizStrTags;
@@ -134,13 +134,12 @@
     [emptyController release];
     [tagController release];
     [searchController release];
-    [[self.tabBarController.view viewWithTag:101]setHidden:NO];
     
 }
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-
+    self.viewControllers = nil;
 }
  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -152,7 +151,6 @@
  
 - (void) dismissModalViewControllerAnimated:(BOOL)animated
 {
-         [[self.tabBarController.view viewWithTag:101]setHidden:NO];
 }
 
 - (void) tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item

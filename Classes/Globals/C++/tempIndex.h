@@ -16,6 +16,8 @@ struct WIZABSTRACT
 {
     std::string guid;
     std::string text;
+    std::string kbGuid;
+    std::string dataModified;
     unsigned char* imageData;
     int imageDataLength;
     //
@@ -64,6 +66,7 @@ private:
     bool UpdateAbstract(const WIZABSTRACT& lpszAbstract,const char* type);
     bool AbstractFromGUID(const char* guid, WIZABSTRACT& lpszAbstract,const char* type);
     bool AbstractIsExist(const char* guid,const char* type);
+    bool sqlToAbstract(const char* lpszSql, WIZABSTRACT& lpszAbstract);
 public:
 	bool Open(const char* lpszFileName);
 	void Close();
@@ -75,6 +78,8 @@ public:
     bool DeleteAbstractByGUID(const char* guid);
     bool PhoneAbstractExist(const char* guid);
     bool PadAbstractExist(const char* guid);
+    bool groupAbstract(const char* kbGuid,WIZABSTRACT &lpszAbstract);
+    
 };
 
 #endif

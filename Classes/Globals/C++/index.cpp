@@ -870,6 +870,7 @@ bool CIndex::TagFromGUID(const char *lpszGUID, WIZTAGDATA &data)
 }
 
 
+
 bool CIndex::AttachFromGUID(const char *guid, WIZDOCUMENTATTACH& dataExist)
 {
     std::string sql = std::string("select ") + g_lpsDocumentAttachFieldSQL + " from WIZ_DOCUMENT_ATTACHMENT where ATTACHMENT_GUID='" + guid +"'";
@@ -1095,7 +1096,24 @@ bool CIndex::SetAttachmentServerChanged(const char *lpszAttachmentGUID, bool cha
 	}
 }
 
-
+bool CIndex::SetTagLocalChanged(const char *lpszGuid, bool changed)
+{
+    if (!m_db.IsOpened()) {
+        return false;
+    }
+    std::string sql = std::string("update WIZ_TAG set LOCAL_CHANGED=") + WizIntToStdString(changed) + " where TAG_GUID = " + WizStringToSQLString(lpszGuid);
+    try {
+        m_db.execDML(sql.c_str());
+        return true;
+    } catch (const CppSQLite3Exception& e) {
+        TOLOG(e.errorMessage());
+        return false;
+    }
+    catch (...) {
+		TOLOG("Unknown exception while update document local_changed");
+		return false;
+	}
+}
 
 bool CIndex::SetDocumentLocalChanged(const char* lpszDocumentGUID, int changed)
 {

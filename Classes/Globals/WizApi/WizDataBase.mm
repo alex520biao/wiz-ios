@@ -14,12 +14,35 @@
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
 #import "WizAccountManager.h"
+#import <ifaddrs.h>
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
 #define TypeOfPrivateGroup              @"PRIVATE"
 //
 
+@interface WizAbstract (InitFromDb)
+- (WizAbstract*) initFromDb:(const WIZABSTRACT&)data;
+@end
+
+@implementation WizAbstract(InitFromDb)
+
+- (WizAbstract*) initFromDb:(const WIZABSTRACT &)data
+{
+    self = [super init];
+    if (self) {
+        NSString* textA = [[NSString alloc] initWithUTF8String:data.text.c_str()];
+        NSData* imageData = [[NSData alloc] initWithBytes:data.imageData length:data.imageDataLength];
+        UIImage* imageA = [UIImage imageWithData:imageData];
+        self.image = imageA;
+        self.text = textA;
+        [text release];
+        [imageData release];
+    }
+    return self;
+}
+
+@end
 
 @interface WizDeletedGUID : NSObject
 {
@@ -38,13 +61,11 @@
 @synthesize guid;
 @synthesize type;
 @synthesize dateDeleted;
-
 -(void) dealloc
 {
     [guid release];
     [type release];
     [dateDeleted release];
-    //
     [super dealloc];
 }
 
@@ -176,7 +197,12 @@ NSInteger compareTag(id location1, id location2, void*)
 
 @implementation WizDataBase
 
-
+@synthesize kbguid;
+- (void) dealloc
+{
+    [kbguid release];
+    [super dealloc];
+}
 //single object
 static WizDataBase* shareDataBase = nil;
 + (WizDataBase*) shareDataBase
@@ -191,20 +217,6 @@ static WizDataBase* shareDataBase = nil;
 }
 // over
 
-- (BOOL) reloadDb
-{
-    if ([self isOpen]) {
-        [self close];
-    }
-    if ([self isTempDbOpen]) {
-        [self closeTempDb];
-    }
-    NSString* db = [[WizFileManager shareManager] dbPath];
-    NSString* tempDb = [[WizFileManager shareManager] tempDbPath];
-    [self openDb:db];
-    [self openTempDb:tempDb];
-    return YES;
-}
 
 - (void) close
 {
@@ -650,7 +662,13 @@ static WizDataBase* shareDataBase = nil;
 }
 - (BOOL) setDocumentServerChanged:(NSString *)guid changed:(BOOL)changed
 {
-    return index.SetDocumentServerChanged([guid UTF8String], changed);
+    BOOL ret= index.SetDocumentServerChanged([guid UTF8String], changed);
+    return ret;
+}
+
+- (BOOL) setDocumentLocalChanged:(NSString*)guid  changed:(WizEditDocumentType)changed
+{
+    return index.SetDocumentLocalChanged([guid UTF8String], changed);
 }
 
 - (WizDocument*) documentFromGUID:(NSString*)documentGUID
@@ -664,6 +682,18 @@ static WizDataBase* shareDataBase = nil;
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID
 {
     return  tempIndex.DeleteAbstractByGUID([documentGUID UTF8String])?YES:NO;
+}
+- (WizAbstract*) abstractForGroup:(NSString *)kbguid
+{
+    if (kbguid == nil || [kbguid isBlock]) {
+        return nil;
+    }
+    WIZABSTRACT data;
+    if(!tempIndex.groupAbstract([kbguid UTF8String], data))
+    {
+        return nil;
+    }
+    return [[[WizAbstract alloc] initFromDb:data] autorelease];
 }
 
 - (BOOL) updateDocument:(NSDictionary*) doc
@@ -727,7 +757,6 @@ static WizDataBase* shareDataBase = nil;
         data.fGpsAltitude = [gpsAltitue floatValue];
     }
     if (gpsAddress) {
-        NSLog(@"%@",gpsAddress);
         data.strGpsAddress = [gpsAddress UTF8String];
     }
     if (gpsCountry) {
@@ -990,7 +1019,10 @@ static WizDataBase* shareDataBase = nil;
 	//
 	return YES;
 }
-
+- (BOOL) setTagLocalChanged:(NSString*)guid changed:(BOOL)changed
+{
+    return index.SetTagLocalChanged([guid UTF8String], changed?true:false);
+}
 //- (NSString*) tagAbstractString:(NSString*)tagGuid
 //{
 //    index.GetTagPostList(<#CWizTagDataArray &array#>)
@@ -1107,21 +1139,18 @@ static WizDataBase* shareDataBase = nil;
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID
 {
     WIZABSTRACT abstract;
+    BOOL su;
     if (![WizGlobals WizDeviceIsPad]) {
-        tempIndex.PhoneAbstractFromGUID([documentGUID UTF8String], abstract);
+        su =  tempIndex.PhoneAbstractFromGUID([documentGUID UTF8String], abstract);
     }
     else
     {
-        tempIndex.PadAbstractFromGUID([documentGUID UTF8String], abstract);
+        su = tempIndex.PadAbstractFromGUID([documentGUID UTF8String], abstract);
     }
-    NSString* text = [[NSString alloc] initWithUTF8String:abstract.text.c_str()];
-    NSData* imageData = [[NSData alloc] initWithBytes:abstract.imageData length:abstract.imageDataLength];
-    UIImage* image = [UIImage imageWithData:imageData];
-    WizAbstract* ret = [[[WizAbstract alloc] init] autorelease];
-    ret.image = image;
-    ret.text = text;
-    [text release];
-    [imageData release];
+    if (!su) {
+        return nil;
+    }
+    WizAbstract* ret = [[[WizAbstract alloc] initFromDb:abstract] autorelease];
     return ret;
 }
 - (void) extractSummary:(NSString *)documentGUID
@@ -1248,6 +1277,15 @@ static WizDataBase* shareDataBase = nil;
     abstract.setData((unsigned char *)[abstractImageData bytes], [abstractImageData length]);
     abstract.imageDataLength = [abstractImageData length];
     abstract.text = [abstractText UTF8String];
+    NSString* acitve = self.kbguid;
+    abstract.dataModified = [[[NSDate date] stringSql] UTF8String];
+    if (acitve == nil || [acitve isBlock]) {
+        NSLog(@"nil active");
+    }
+    else
+    {
+        abstract.kbGuid = [acitve UTF8String];
+    }
     if (WizDeviceIsPad) {
         tempIndex.UpdatePadAbstract(abstract);
     }
@@ -1255,22 +1293,7 @@ static WizDataBase* shareDataBase = nil;
     {
         tempIndex.UpdateIphoneAbstract(abstract);
     }
-    NSString* acitve = [[WizAccountManager defaultManager] activeAccountGroupKbguid] ;
-    if (acitve) {
-        if (compassImage) {
-            abstract.guid = [acitve UTF8String];
-            if (WizDeviceIsPad) {
-                tempIndex.UpdatePadAbstract(abstract);
-            }
-            else
-            {
-                tempIndex.UpdateIphoneAbstract(abstract);
-            }
-        }
-    }
-    
-    
-    
+   
 }
 - (BOOL) clearCache
 {

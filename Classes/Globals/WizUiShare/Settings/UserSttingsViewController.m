@@ -66,8 +66,6 @@ enum WizSettingKind {
 @property (atomic, retain) NSString* usedSpaceString;
 @property (atomic, assign) BOOL isStopClearCache;
 @end
-
-
 @implementation UserSttingsViewController
 @synthesize mobileViewCell;
 @synthesize protectCell;
@@ -104,7 +102,6 @@ enum WizSettingKind {
     [self.navigationController pushViewController:selecteView animated:YES];
     [selecteView release];
 }
-
 - (void) setAutomicSync
 {
     [[WizSettings defaultSettings] setAutomicSync:self.automicSyncCell.valueSwitch.on];
@@ -159,34 +156,6 @@ enum WizSettingKind {
 
 #pragma mark - View lifecycle
 
-//- (void) buildDisplayInfo
-//{
-//    NSArray* imageQulityItems = [NSArray arrayWithObjects:NSLocalizedString(@"Small", nil),
-//                                 NSLocalizedString(@"Medium", nil),
-//                                 NSLocalizedString(@"Large", nil), nil];
-//    self.imageQualityData = imageQulityItems;
-//    NSArray* downloadDurationItems = [NSArray arrayWithObjects:NSLocalizedString(@"Do not download", nil), 
-//                                      NSLocalizedString(@"One day", nil),
-//                                      WizStrOneWeek,
-//                                      NSLocalizedString(@"All", nil), nil];
-//    
-//    NSArray* downloadDurationRemind_ = [NSArray arrayWithObjects:NSLocalizedString(@"Does not download any notes automatic", nil),
-//                                        NSLocalizedString(@"Download notes within a day", nil),
-//                                        NSLocalizedString(@"Download notes within a week", nil),
-//                                        NSLocalizedString(@"Download all notes", nil),
-//                                        nil];
-//    
-//    self.viewOptions = [NSArray arrayWithObjects:WizStrDateModified
-//                    ,NSLocalizedString(@"Date modified (Reverse)" , nil)
-//                    ,WizStrTitle
-//                    ,NSLocalizedString(@"Title (Reverse)", nil)
-//                    ,WizStrDateCreated
-//                    ,NSLocalizedString(@"Date created (Reverse)", nil)
-//                    ,nil];
-//    
-//    self.downloadDurationData = downloadDurationItems;
-//    self.downloadDurationRemind = downloadDurationRemind_;
-//}
 - (void) logOutCurrentAccount
 {
     WizAccountManager* manager = [WizAccountManager defaultManager];
@@ -354,7 +323,7 @@ enum WizSettingKind {
     if ([indexPath isEqualToSectionAndRow:0 row:0]) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
-        if ([[WizSyncManager shareManager] isSyncing]) {
+        if ([[[WizSyncManager shareManager] activeGroupSync] isSyncing]) {
             cell.textLabel.textAlignment = UITextAlignmentCenter;
             cell.textLabel.text = NSLocalizedString(@"Synchronization in process. Tap to stop it.", nil);
         }
@@ -494,14 +463,6 @@ enum WizSettingKind {
 
 - (void) clearCache
 {
-//    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Clear cache",nil)   
-//                                                       message:NSLocalizedString(@"All the cache files will be deleted, are you sure?",nil)   
-//                                                       delegate:self   
-//                                                       cancelButtonTitle:WizStrCancel 
-//                                                       otherButtonTitles:WizStrDelete,nil];  
-//    alert.tag = ClearCacheTag;
-//    [alert show];
-//    [alert release];
     [self willClearCache];
 }
 

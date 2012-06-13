@@ -28,4 +28,5 @@
 + (WizSyncData*) shareSyncData;
 - (BOOL) isDownloadingObject:(WizObject*)object;
 - (BOOL) isUploadingObject:(WizObject*)object;
+- (NSArray*) errorArrayForGroup:(NSString*)kbguid;
 @end

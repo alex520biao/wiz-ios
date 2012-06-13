@@ -86,7 +86,7 @@
 }
 - (void) stopSyncing
 {
-    [[WizSyncManager shareManager] stopSync];
+    [[[WizSyncManager shareManager] activeGroupSync] stopSync];
 }
 - (void) didChangedSyncDescription:(NSString *)description
 {

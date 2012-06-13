@@ -12,8 +12,6 @@
 +(NSString*) documentsPath;
 + (id) shareManager;
 - (NSString*) accountPath;
-- (NSString*) dbPath;
-- (NSString*) tempDbPath;
 - (NSString*) objectFilePath:(NSString*)objectGuid;
 - (NSString*) documentIndexFile:(NSString*)documentGUID;
 - (NSString*) documentMobileFile:(NSString*)documentGuid;
@@ -35,7 +33,7 @@
 - (NSInteger) activeAccountFolderSize;
 
 //
-- (NSString*) dbPathForGroup:(NSString*)kbguid;
-- (NSString*) tempDbPathForGroup:(NSString*)kbguid;
 - (NSString*) accountsDbPath;
+- (NSString*) dbPathForAccountUserId:(NSString*)accountUserId   groupId:(NSString*)kbGuid;
+- (NSString*) tempDbPathForAccount:(NSString*)accountUserId;
 @end

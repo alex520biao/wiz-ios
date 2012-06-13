@@ -7,11 +7,10 @@
 //
 
 #import "WizObject.h"
-
 #define WizDocumentTypeAudioKeyString @"audio"
 #define WizDocumentTypeImageKeyString @"image"
 #define WizDocumentTypeNoteKeyString @"note"
-
+@class WizDataBase;
 typedef NSUInteger WizTableOrder;
 //%2 is reverse
 BOOL isReverseMask(NSInteger mask);
@@ -109,7 +108,7 @@ enum
 + (NSArray*) documentsByKey: (NSString*)keywords;
 + (NSArray*) documentsByLocation: (NSString*)parentLocation;
 + (NSArray*) documentForUpload;
-+ (WizDocument*) documentFromDb:(NSString*)guid;
++ (WizDocument*) documentFromDb:(NSString*)guid  ;
 
 //
 - (NSString*) localDataMd5;
@@ -118,14 +117,13 @@ enum
 - (NSArray*) attachments;
 
 //
-- (BOOL) saveInfo;
+- (BOOL) saveInfo:(WizDataBase*)dataBase;
 - (void) upload;
 - (void) download;
 //
-- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray;
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(WizDataBase*)dataBase;
 - (void) setTagWithArray:(NSArray*)tags;
 - (NSArray*) existPhotoAndAudio;
-- (BOOL) deleteTag:(NSString*)tagGuid;
 //
 + (NSArray*)documentsForCache;
 - (BOOL) isIosDocument;

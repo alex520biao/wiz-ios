@@ -78,7 +78,7 @@
 {
 	NSRange range = [self rangeOfString:find];
 	if (range.location == NSNotFound)
-		return -1;
+		return NSNotFound;
 	//
 	return range.location;
 }
@@ -125,7 +125,7 @@
 {
 	NSString* text = [self trim];
 	int index = [text indexOfChar:'\n'];
-	if (-1 == index)
+	if (NSNotFound == index)
 		return text;
 	//
 	return [[text substringToIndex:index] trim];

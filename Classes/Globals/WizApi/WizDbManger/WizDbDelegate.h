@@ -50,6 +50,7 @@
 - (WizDocument*) documentForClearCacheNext;
 
 - (BOOL) setDocumentServerChanged:(NSString*)guid changed:(BOOL)changed;
+- (BOOL) setDocumentLocalChanged:(NSString*)guid  changed:(WizEditDocumentType)changed;
 //tag
 - (NSArray*) allTagsForTree;
 - (BOOL) updateTag: (NSDictionary*) tag;
@@ -58,6 +59,7 @@
 - (int) fileCountOfTag:(NSString *)tagGUID;
 - (WizTag*) tagFromGuid:(NSString *)guid;
 - (NSString*) tagAbstractString:(NSString*)guid;
+- (BOOL) setTagLocalChanged:(NSString*)guid changed:(BOOL)changed;
 //attachment
 -(NSArray*) attachmentsByDocumentGUID:(NSString*) documentGUID;
 - (BOOL) setAttachmentLocalChanged:(NSString *)attchmentGUID changed:(BOOL)changed;

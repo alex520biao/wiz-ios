@@ -17,4 +17,5 @@
 - (void) extractSummary:(NSString *)documentGUID;
 - (BOOL) clearCache;
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID;
+- (WizAbstract*) abstractForGroup:(NSString*)kbguid;
 @end

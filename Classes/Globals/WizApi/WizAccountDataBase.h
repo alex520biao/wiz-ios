@@ -16,7 +16,6 @@
 
 @interface WizAccountDataBase : NSObject <WizSettingsDbDelegate>
 - (WizAccount*) accountFromDataBase:(NSString*)userId;
-- (BOOL) updateAccount:(WizAccount*)account;
 - (BOOL) updateAccount:(NSString*)userId    password:(NSString*)password;
 - (NSArray*) allAccounts;
 //
@@ -26,4 +25,6 @@
 - (NSString*) defaultAccountUserId;
 - (BOOL) setWizDefaultAccountUserId:(NSString*)userId;
 - (void) deleteAllGroups:(NSString*)userId;
+
+- (NSFetchedResultsController*) allGroupsFectchRequest:(NSString*)userId;
 @end

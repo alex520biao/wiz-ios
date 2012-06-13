@@ -18,6 +18,7 @@
 #import "WizSelectTagViewController.h"
 #import "WizEditItemBackgroudView.h"
 #import "WizNotification.h"
+#import "WizDbManager.h"
 #define KEYHIDDEN               209
 #define HIDDENTTAG              300
 #define NOHIDDENTTAG            301
@@ -634,7 +635,8 @@
     [self audioStopRecord];
     self.docEdit.title = self.titleTextFiled.text;
     NSLog(@"title = %@",self.docEdit.title);
-    [self.docEdit saveWithData:self.bodyTextField.text attachments:self.attachmentsArray];
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    [self.docEdit saveWithData:self.bodyTextField.text attachments:self.attachmentsArray toDataBase:dataBase];
     [self postSelectedMessageToPicker];
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }

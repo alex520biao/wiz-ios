@@ -18,11 +18,12 @@
     NSURL* apiUrl;
     NSString* token;
     NSString* kbGuid;
+    id <WizDbDelegate> dataBaseDelegate;
 }
 @property (nonatomic, retain) NSURL* apiUrl;
 @property (nonatomic, retain) NSString* token;
 @property (nonatomic, retain) NSString* kbGuid;
-@property (nonatomic, assign) id<WizSyncDescriptionDelegate> displayDelegate;
+@property (nonatomic, assign) id <WizDbDelegate> dataBaseDelegate;
 //upload
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject;
 - (BOOL) uploadWizObject:(WizObject*)object;
@@ -40,5 +41,8 @@
 - (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate;
 
 - (void) uploadAllObject;
+- (void) downloadWizObjects:(NSArray*)array;
+- (void) restartSync;
+- (void) downloadCacheDocuments;
 @end
 

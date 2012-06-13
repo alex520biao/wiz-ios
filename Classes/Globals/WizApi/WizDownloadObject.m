@@ -13,6 +13,7 @@
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizDbManager.h"
+#import "WizAccountManager.h"
 
 //
 #define DownloadPartSize      256*1024
@@ -106,14 +107,15 @@
 
 - (void) downloadDone
 {
+    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
     if ([self.object isKindOfClass:[WizDocument class]]) {
-        WizDocument* document = (WizDocument*)self.object;
-        document.serverChanged = NO;
-        [document saveInfo];
+        WizDocument* doc = (WizDocument*)self.object;
+        doc.serverChanged = NO;
+        [doc saveInfo:dataBase];
     }
     else if ([self.object isKindOfClass:[WizAttachment class]])
     {
-        [WizAttachment setAttachServerChanged:self.object.guid changed:NO];
+        [dataBase setAttachmentServerChanged:self.object.guid changed:NO];
     }
     //
     busy = NO;
@@ -126,7 +128,6 @@
     self.object = nil;
     [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
     [WizNotificationCenter postMessageDownloadDone:guid];
-    
     if ([self.sourceDelegate willDownloandNext]) {
         [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
         [self startDownload];

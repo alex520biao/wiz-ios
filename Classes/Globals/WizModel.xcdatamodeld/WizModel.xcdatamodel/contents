@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1416" systemVersion="12A154q" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1467" systemVersion="12A154q" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="WizAccount" representedClassName="WizAccount" syncable="YES">
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
@@ -15,6 +15,7 @@
         <attribute name="kbNote" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kbSeo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kbType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderIndex" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="ownerName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="roleNote" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serverUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -26,8 +27,8 @@
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="WizAccount" positionX="160" positionY="192" width="128" height="75"/>
-        <element name="WizGroup" positionX="160" positionY="192" width="128" height="255"/>
-        <element name="WizSetting" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="WizAccount" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="WizGroup" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="WizSetting" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

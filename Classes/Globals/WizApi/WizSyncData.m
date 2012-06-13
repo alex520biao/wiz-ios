@@ -10,6 +10,7 @@
 #import "WizSetting.h"
 #import "WizSettings.h"
 #import "WizDbManager.h"
+#import "WizNotification.h"
 @interface WizSyncData ()
 {
     NSMutableDictionary* syncApiData;
@@ -19,6 +20,25 @@
 @end
 @implementation WizSyncData
 
+- (void) clearNotWorkingSyncDataFromArray:(NSMutableArray*)array
+{
+    NSArray* temp = [NSArray arrayWithArray:array];
+    for (WizApi* each in temp) {
+        if (![self isApiWorking:each]) {
+            [array removeObject:each];
+        }
+    }
+}
+
+- (void) clearSyncData
+{
+    NSArray* syncDatas = [syncApiData allValues];
+    for (NSMutableArray* each in syncDatas) {
+        [self clearNotWorkingSyncDataFromArray:each];
+    }
+    NSLog(@"download object count is %d",[[self syncDownloadArray] count]);
+    
+}
 + (WizSyncData*) shareSyncData
 {
     static WizSyncData* share = nil;
@@ -71,6 +91,7 @@
 {
     self = [super init];
     if (self) {
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(clearSyncData) name:MessageTypeOfMemeoryWarning];
         syncApiData = [[NSMutableDictionary alloc] init];
         workQueque = [[NSMutableArray alloc] init];
         errorQueque = [[NSMutableArray alloc] init];
@@ -101,10 +122,20 @@
         return YES;
     }
 }
+- (BOOL) isWizApiWoring:(WizApi*)api
+{
+    if (NO == api.busy && ![self isApiOnErroring:api]) {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
 - (WizApi*) getCanWorkApiFromArray:(NSMutableArray*)array
 {
-    for (WizSyncInfo*  each in array) {
-        if (NO == each.busy && ![self isApiOnErroring:each]) {
+    for (WizApi*  each in array) {
+        if (![self isWizApiWoring:each]) {
             return each;
         }
     }
@@ -116,7 +147,6 @@
     if (!data) {
         data = [[WizSyncInfo alloc] init];
         [[self syncInfoArray] addObject:data];
-        data.dbDelegate = [[WizDbManager shareDbManager] shareDataBase];
         [data release];
     }
     return data;
@@ -139,6 +169,7 @@
         [[self syncDownloadArray] addObject:data];
         [data release];
     }
+    NSLog(@"download object count is %d",[[self syncDownloadArray] count]);
     return data;
 }
 - (WizRefreshToken*) refreshData
@@ -159,6 +190,8 @@
 - (void) doWorkEndApi:(WizApi *)api
 {
     [workQueque removeObject:api];
+    NSLog(@"work count %d",[workQueque count]);
+    NSLog(@"error count %d",[errorQueque count]);
 }
 
 - (void) doErrorBegainApi:(WizApi *)api
@@ -180,6 +213,18 @@
     }
     return array;
 }
+
+- (NSArray*) errorArrayForGroup:(NSString*)kbguid
+{
+    NSMutableArray* array = [NSMutableArray array];
+    for (WizApi* each in errorQueque) {
+        if (each.kbguid != nil && [each.kbguid isEqualToString:kbguid]) {
+            [array addObject:each];
+        }
+    }
+    return array;
+}
+
 - (BOOL) isDownloadingObject:(WizObject *)object
 {
     for (WizDownloadObject* each in [self syncDownloadArray]) {
@@ -204,4 +249,6 @@
 {
     return [[errorQueque copy] autorelease];
 }
+
+
 @end

@@ -30,4 +30,5 @@
 - (void) logoutAccount;
 -(void) removeAccount: (NSString*)userId;
 - (void) updateGroups:(NSArray*)groupArray;
+- (NSFetchedResultsController*) groupsFetchResultController;
 @end
