@@ -115,6 +115,11 @@ private:
 	bool checkTable(const char* lpszTableName, const char* lpszTableSQL);
     bool dropTable(const char* lpszTableName, const char* lpszTableSql);
 public:
+    
+    bool exeDml(const char* lpszSql);
+    const char* TableContent(const char* lpszTableName);
+    bool isTableExist(const char* lpszSql);
+    
 	bool Open(const char* lpszFileName);
 	void Close();
 	bool IsOpened();

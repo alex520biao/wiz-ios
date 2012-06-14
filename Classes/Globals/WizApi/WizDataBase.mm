@@ -112,7 +112,6 @@
         self.gpsLongtitude      = data.fGpsLongtitude;
         self.gpsAltitude        = data.fGpsAltitude;
         self.gpsDop             = data.fGpsDop;
-        
         self.gpsAddress         = [NSString stringWithCString:data.strGpsAddress.c_str() encoding:NSUTF8StringEncoding];
         self.gpsCountry         = [NSString stringWithCString:data.strGpsCountry.c_str() encoding:NSUTF8StringEncoding];
         self.gpsLevel1         = [NSString stringWithCString:data.strGpsLevel1.c_str() encoding:NSUTF8StringEncoding];
@@ -256,6 +255,72 @@ static WizDataBase* shareDataBase = nil;
             [self setImageQualityValue:750];
         }
     }
+}
+
+- (BOOL) isTableExist:(NSString*)tableName
+{
+    return index.isTableExist([tableName UTF8String]);
+}
+
+- (NSString*) tableContent:(NSString*)tableName
+{
+    return [NSString stringWithUTF8String:index.TableContent([tableName UTF8String])];
+}
+
+- (BOOL) isColumnExistInTable:(NSString*)columnName tableName:(NSString*)tableName
+{
+    NSString* content = [self tableContent:tableName];
+    NSInteger pos = [content indexOf:columnName];
+    if (NSNotFound == pos) {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
+- (BOOL) createColumn:(NSString*)createSql
+{
+    index.exeDml([createSql UTF8String]);
+    return YES;
+}
+
+- (BOOL) createTable:(NSString*)createSql
+{
+    index.exeDml([createSql UTF8String]);
+    return YES;
+}
+
+- (BOOL) initDbWithModel:(NSDictionary*)model
+{
+    for (NSString* tableName in [model allKeys])
+    {
+        NSDictionary*  conten = [model valueForKey:tableName];
+        if ([self isTableExist:tableName]) {
+            for (NSString* columnName in [conten allKeys])
+            {
+                if ([columnName isEqualToString:tableName])
+                {
+                    continue;
+                }
+                if (![self isColumnExistInTable:columnName tableName:tableName])
+                {
+                    if (![self createColumn:[conten valueForKey:columnName]])
+                    {
+                        return NO;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (![self createTable:[conten valueForKey:tableName]]) {
+                return NO;
+            } ;
+        }
+    }
+    return YES;
 }
 
 - (BOOL) openDb:(NSString*)dbFilePath

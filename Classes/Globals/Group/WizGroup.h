@@ -13,12 +13,22 @@
 #define KeyOfKbImage                @"KeyOfKbImage"
 #define KeyOfKbAbstractString       @"KeyOfKbAbstractString"
 #define KeyOfKbName                 @"kb_name"
+#define KeyOfKbRight                @"user_group"
 
 
 #define KeyOfKbTypePrivate          @"private"
 #define KeyOfKbTypeGroup            @"group"
-@interface WizGroup : NSManagedObject
+enum WizGroupUserRightAdmin {
+    WizGroupUserRightAdmin = 0,
+    WizGroupUserRightSuper = 10 ,
+    WizGroupUserRightEditor = 50,
+    WizGroupUserRightAuthor = 100,
+    WizGroupUserRightReader = 1000,
+    WizGroupUserRightNone = 10000,
+    WizGroupUserRightAll = -1
+};
 
+@interface WizGroup : NSManagedObject
 @property (nonatomic, retain) NSString * accountUserId;
 @property (nonatomic, retain) NSDate * dateCreated;
 @property (nonatomic, retain) NSDate * dateModified;

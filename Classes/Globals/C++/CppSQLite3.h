@@ -262,6 +262,7 @@ public:
 
 	bool tableExists(const char* szTable);
 
+    bool columnExists(const char* szColumn, const char* szTable);
     int execDML(const char* szSQL);
 
     CppSQLite3Query execQuery(const char* szSQL);
@@ -286,7 +287,7 @@ public:
 	bool IsOpened();
 
 	bool hasRecord(const char* lpszSQL);
-    
+    const char* SQLiteTableContent(const char* lpszTableName);
 private:
 
     CppSQLite3DB(const CppSQLite3DB& db);

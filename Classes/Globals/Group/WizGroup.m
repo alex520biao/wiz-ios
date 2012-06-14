@@ -42,7 +42,15 @@
     if (!type) {
         type = KeyOfKbTypePrivate;
     }
-    NSLog(@"%@",dic);
-    self.kbType = type;
+    NSNumber* right = [dic valueForKey:KeyOfKbRight];
+    if (!right)
+    {
+        self.userGroup = [NSNumber numberWithInt:WizGroupUserRightAll];
+    }
+    else
+    {
+        self.userGroup = [NSNumber numberWithInt:[right intValue]];
+    }
+   self.kbType = type;
 }
 @end

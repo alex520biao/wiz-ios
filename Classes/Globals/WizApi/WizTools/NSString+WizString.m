@@ -92,7 +92,7 @@
 {
 	NSRange range = [self rangeOfString:find options:NSBackwardsSearch];
 	if (range.location == NSNotFound)
-		return -1;
+		return NSNotFound;
 	//
 	return range.location;
 }

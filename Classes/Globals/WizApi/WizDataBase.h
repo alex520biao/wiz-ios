@@ -94,4 +94,5 @@
 }
 @property (atomic, retain) NSString* kbguid;
 + (WizDataBase*) shareDataBase;
+- (BOOL) initDbWithModel:(NSDictionary*)model;
 @end

@@ -10,6 +10,11 @@
 #import "WizFileManager.h"
 #import "WizNotification.h"
 #import "WizAccountManager.h"
+#import "XMLRPCResponse.h"
+
+
+#define PRIMARAY_KEY    @"PRIMARAY_KEY"
+
 @interface WizDbManager()
 {
     NSMutableArray* dbDataArray;
@@ -29,6 +34,47 @@
 - (void) clearDataBase
 {
     
+}
+
+- (NSDictionary*) createTableModel:(NSDictionary*)data  tableName:(NSString*)tableName
+{
+    NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
+    NSMutableString* createTableSql = [NSMutableString stringWithFormat:@"CREATE TABLE %@ (", tableName];
+    for (NSString* column in [data allKeys])
+    {
+        NSString* columnType = [data valueForKey:column];
+        if ([column isEqualToString:PRIMARAY_KEY]) {
+            continue;
+        }
+        NSString* columnSql = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ %@;",tableName ,column, columnType];
+        [dictionary setObject:columnSql forKey:column];
+        [createTableSql appendFormat:@"%@ %@,", column, columnType];
+    }
+    NSString* primaryKey = [data valueForKey:PRIMARAY_KEY];
+    if (!primaryKey) {
+        NSInteger lastIndex = [createTableSql lastIndexOf:@","];
+        if (NSNotFound != lastIndex) {
+            [createTableSql deleteCharactersInRange:NSMakeRange(lastIndex, createTableSql.length)];
+        }
+    }
+    else
+    {
+        [createTableSql appendFormat:@" primary key (%@));",primaryKey];
+    }
+    
+    [dictionary setObject:createTableSql forKey:tableName];
+    return dictionary;
+}
+
+- (NSDictionary*) getDataBaseStruct
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"WizDataBaseModel" ofType:@"plist"];
+    NSDictionary* dic = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSMutableDictionary* ret = [NSMutableDictionary dictionary];
+    for (NSString* table in [dic allKeys]) {
+       [ret setObject:[self createTableModel:[dic valueForKey:table] tableName:table] forKey:table];
+    }
+    return ret;
 }
 
 - (WizDbManager*) init

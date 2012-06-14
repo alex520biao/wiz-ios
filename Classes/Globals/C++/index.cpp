@@ -15,8 +15,10 @@
 #include <sqlite3.h>
 #include <fstream>
 #include <string>
+#include <map>
 #include "CppSQLite3.h"
 #include "WizMisc.h"
+
 
 static const char* g_crrent_database_version = "0";
 static const char* g_META_VERSION = "VERSION";
@@ -187,6 +189,8 @@ bool CIndex::Open(const char* lpszFileName)
 		return true;
 	//
 	try {
+       
+        
 		m_db.open(lpszFileName);
 		//
 		if (!InitDB())
@@ -227,6 +231,35 @@ bool CIndex::IsOpened()
 	return m_db.IsOpened();
 }
 
+const char* CIndex::TableContent(const char *lpszTableName)
+{
+    return m_db.SQLiteTableContent(lpszTableName);
+}
+
+bool CIndex::isTableExist(const char *lpszSql)
+{
+    return m_db.tableExists(lpszSql);
+}
+bool CIndex::exeDml(const char *lpszSql)
+{
+    if (!m_db.IsOpened()) {
+        return false;
+    }
+    try {
+		m_db.execDML(lpszSql);
+		return true;
+	}
+	catch (const CppSQLite3Exception& e)
+	{
+		TOLOG(e.errorMessage());
+		return false;
+	}
+	catch (...) {
+		TOLOG("Unknown exception while close DB");
+		return false;
+	}
+}
+
 bool  CIndex::checkTable(const char* lpszTableName, const char* lpszTableSQL)
 {
 	if (m_db.tableExists(lpszTableName))
@@ -265,7 +298,6 @@ bool CIndex::InitDB()
     else {
         upgradeDB();
     }
-	
 	if (!checkTable("WIZ_DELETED_GUID", g_lpszDeletedGUIDSQL))
         return false;
     if (!checkTable("WIZ_DOCUMENT_ATTACHMENT", g_lpsDocumentAttachSQL))

@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include "WizMisc.h"
 #include <string>
+#include <c++/4.2.1/bits/stl_vector.h>
+#include <c++/4.2.1/bits/stl_bvector.h>
 
 
 // Named constant for passing to CppSQLite3Exception when passing it a string
@@ -1231,6 +1233,36 @@ CppSQLite3Statement CppSQLite3DB::compileStatement(const char* szSQL)
 	return CppSQLite3Statement(mpDB, pVM);
 }
 
+const char* CppSQLite3DB::SQLiteTableContent(const char *lpszTableName)
+{
+    std::string sql = std::string("select sql from sqlite_master where name = '" + std::string(lpszTableName) +"';");
+    printf("%s",sql.c_str());
+    try {
+        std::string content ;
+        CppSQLite3Query query = execQuery(sql.c_str());
+        while (!query.eof()) {
+            return  query.getStringField(0);
+        }
+        return NULL;
+    }
+    catch (const CppSQLite3Exception& e)
+	{
+		TOLOG(e.errorMessage());
+		return NULL;
+	}
+	catch (...) {
+		TOLOG("Unknown exception while close DB");
+		return NULL;
+	}
+}
+
+bool CppSQLite3DB::columnExists(const char *szColumn, const char *szTable)
+{
+    char szSQL[1024] = {'\0'};
+	sprintf(szSQL, "select count(*) from sqlite_master where type='table' and name='%s'", szTable);
+	int nRet = execScalar(szSQL);
+	return (nRet > 0);
+}
 
 bool CppSQLite3DB::tableExists(const char* szTable)
 {
@@ -1315,7 +1347,6 @@ int CppSQLite3DB::execScalar(const char* szSQL)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR,
 								"Invalid scalar query");
 	}
-
 	return atoi(q.fieldValue(0));
 }
 
