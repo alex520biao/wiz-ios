@@ -129,4 +129,7 @@ enum
 - (BOOL) isIosDocument;
 //
 - (NSString*)tagDisplayString;
+
+//
+- (NSDictionary*) dataBaseModelData;
 @end

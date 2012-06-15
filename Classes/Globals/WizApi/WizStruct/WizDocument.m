@@ -258,7 +258,8 @@ BOOL isReverseMask(NSInteger mask)
     }
     return YES;
 }
-- (BOOL) saveInfo:(WizDataBase*)dataBase
+
+- (NSDictionary*) dataBaseModelData
 {
     if (self.guid == nil || [self.guid isBlock]) {
         self.guid = [WizGlobals genGUID];
@@ -333,6 +334,12 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:[NSNumber numberWithFloat:self.gpsAltitude] forKey:DataTypeUpdateDocumentGPS_ALTITUDE];
     [doc setObject:[NSNumber numberWithFloat:self.gpsDop] forKey:DataTypeUpdateDocumentGPS_DOP];
     [doc setObject:[NSNumber numberWithInt:self.nReadCount] forKey:DataTypeUpdateDocumentREADCOUNT];
+    return doc;
+}
+
+- (BOOL) saveInfo:(WizDataBase*)dataBase
+{
+    NSDictionary* doc = [self dataBaseModelData];
     if ([dataBase updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;

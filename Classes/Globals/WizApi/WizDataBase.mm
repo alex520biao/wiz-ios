@@ -15,6 +15,7 @@
 #import "WizAbstractCache.h"
 #import "WizAccountManager.h"
 #import <ifaddrs.h>
+#import "WizInfoDataBase.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -409,7 +410,7 @@ static WizDataBase* shareDataBase = nil;
 {
     return [self syncVersion:TagVersion];
 }
-- (BOOL) setTageVersion:(int64_t)ver
+- (BOOL) setTagVersion:(int64_t)ver
 {
     return [self setSyncVersion:TagVersion version:ver];
 }
@@ -884,6 +885,9 @@ static WizDataBase* shareDataBase = nil;
 }
 - (BOOL) updateDocuments:(NSArray *)documents
 {
+    NSString* db = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"ddd.db"];
+    WizInfoDataBase* data = [[WizInfoDataBase alloc] initWithPath:db modelName:@"WizDataBaseModel"];
+    [data updateDocuments:documents];
     for (int i =0; i < [documents count]; i++) {
         NSDictionary* doc = [documents objectAtIndex:i];
         @try {

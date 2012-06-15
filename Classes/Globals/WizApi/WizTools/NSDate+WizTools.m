@@ -20,6 +20,11 @@
    return [dateToLocalString substringWithRange:range];
 }
 
+- (NSDate*) dateIgnoreMillisecond
+{
+    int64_t interval = [self timeIntervalSinceReferenceDate];
+    return  [NSDate dateWithTimeIntervalSinceReferenceDate:interval];
+}
 - (NSString*) stringLocal
 {
     
@@ -36,21 +41,28 @@
 }
 -(NSString*) stringSql
 {
-    static  NSCalendar* cal = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    });
-	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-	NSDateComponents* com = [cal components:unitFlags fromDate:self];
-	int year = [com year];
-	int month = [com month];
-	int day = [com day];
-	int hour = [com hour];
-	int minute = [com minute];
-	int second = [com second];
-	//
-	NSString* str = [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second];
-	return str;
+    static NSDateFormatter* formatter= nil;
+    if (!formatter) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    }
+    NSString* dateString = [formatter stringFromDate:self];
+	return dateString ;
+//    static  NSCalendar* cal = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+//    });
+//	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+//	NSDateComponents* com = [cal components:unitFlags fromDate:self];
+//	int year = [com year];
+//	int month = [com month];
+//	int day = [com day];
+//	int hour = [com hour];
+//	int minute = [com minute];
+//	int second = [com second];
+//	//
+//	NSString* str = [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second];
+//	return str;
 }
 @end

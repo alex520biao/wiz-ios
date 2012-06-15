@@ -64,6 +64,7 @@
 - (void)clearCachedStatements;
 - (void)closeOpenResultSets;
 - (BOOL)hasOpenResultSets;
+- (BOOL) initDbWithModel:(NSDictionary*)model;
 
 // encryption methods.  You need to have purchased the sqlite encryption extensions for these to work.
 - (BOOL)setKey:(NSString*)key;

@@ -1,7 +1,8 @@
 #import "FMDatabase.h"
 #import "unistd.h"
 #import <objc/runtime.h>
-
+#import "FMDatabaseAdditions.h"
+#import "WizGlobals.h"
 @interface FMDatabase ()
 
 - (FMResultSet *)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray*)arrayArgs orDictionary:(NSDictionary *)dictionaryArgs orVAList:(va_list)args;
@@ -29,6 +30,38 @@
     return sqlite3_threadsafe();
 }
 
+- (BOOL) initDbWithModel:(NSDictionary*)model
+{
+    for (NSString* tableName in [model allKeys])
+    {
+        tableName = [tableName trim];
+        NSDictionary*  conten = [model valueForKey:tableName];
+        if ([self tableExists:tableName]) {
+            for (NSString* columnName in [conten allKeys])
+            {
+                columnName = [columnName trim];
+                if ([columnName isEqualToString:tableName])
+                {
+                    continue;
+                }
+                if (![self columnExists:columnName inTableWithName:tableName])
+                {
+                    if (![self executeUpdate:[conten valueForKey:columnName]])
+                    {
+                        return NO;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (![self executeUpdate:[conten valueForKey:tableName]]) {
+                return NO;
+            } ;
+        }
+    }
+    return YES;
+}
 - (id)initWithPath:(NSString*)aPath {
     
     assert(sqlite3_threadsafe()); // whoa there big boy- gotta make sure sqlite it happy with what we're going to do.
@@ -82,7 +115,6 @@
         NSLog(@"error opening!: %d", err);
         return NO;
     }
-    
     return YES;
 }
 
@@ -893,9 +925,11 @@
 - (BOOL)executeUpdate:(NSString*)sql, ... {
     va_list args;
     va_start(args, sql);
-    
-    BOOL result = [self executeUpdate:sql error:nil withArgumentsInArray:nil orDictionary:nil orVAList:args];
-    
+    NSError* error = nil;
+    BOOL result = [self executeUpdate:sql error:&error withArgumentsInArray:nil orDictionary:nil orVAList:args];
+    if (error) {
+        NSLog(@"%@",error);
+    }
     va_end(args);
     return result;
 }

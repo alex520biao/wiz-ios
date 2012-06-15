@@ -18,6 +18,8 @@
 		<string>char(19)</string>
 		<key>PRIMARAY_KEY</key>
 		<string>TAG_GUID</string>
+		<key>Test</key>
+		<string>varchar(12)</string>
 	</dict>
 	<key>WIZ_META</key>
 	<dict>
@@ -113,6 +115,8 @@
 		<string>varchar(100)</string>
 		<key>GPS_COUNTRY</key>
 		<string>varchar(100)</string>
+		<key>GPS_DESCRIPTION</key>
+		<string>varchar(500)</string>
 		<key>GPS_LEVEL1</key>
 		<string>varchar(100)</string>
 		<key>GPS_LEVEL2</key>

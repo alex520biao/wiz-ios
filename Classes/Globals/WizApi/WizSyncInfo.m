@@ -171,7 +171,7 @@
     [dataBase updateTags:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [dataBase setTageVersion:newVer+1];
+        [dataBase setTagVersion:newVer+1];
         [self callAllTags:newVer+1];
     }
     else {
@@ -184,7 +184,6 @@
             [self callPostTagList:[dataBase tagsForUpload]];
             [self didChangeSyncStatue:WizSyncStatueUploadTags];
         }
-        
     }
 }
 -(void) onUploadDeletedGUIDs: (id)retObjec

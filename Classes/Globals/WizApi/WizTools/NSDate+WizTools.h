@@ -13,4 +13,5 @@
 - (NSString*) stringYearAndMounth;
 - (NSString*) stringLocal;
 - (NSString*) stringSql;
+- (NSDate*) dateIgnoreMillisecond;
 @end

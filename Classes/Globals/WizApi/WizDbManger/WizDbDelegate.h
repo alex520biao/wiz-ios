@@ -22,7 +22,7 @@
 - (int64_t) deletedGUIDVersion;
 //
 - (int64_t) tagVersion;
-- (BOOL) setTageVersion:(int64_t)ver;
+- (BOOL) setTagVersion:(int64_t)ver;
 //
 - (int64_t) attachmentVersion;
 - (BOOL) setAttachmentVersion:(int64_t)ver;
