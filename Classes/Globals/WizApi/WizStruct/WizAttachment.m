@@ -13,7 +13,7 @@
 
 @implementation WizAttachment
 @synthesize type;
-@synthesize dateMd5;
+@synthesize dataMd5;
 @synthesize description;
 @synthesize dateModified;
 @synthesize documentGuid;
@@ -22,7 +22,7 @@
 - (void) dealloc
 {
     [type release];
-    [dateMd5 release];
+    [dataMd5 release];
     [description release];
     [documentGuid release];
     [super dealloc];
@@ -46,6 +46,21 @@
     [[WizFileManager shareManager] deleteFile:dataFilePath];
     return fileMd5;
 }
+
+- (NSDictionary*) dataBaseModelData
+{
+    NSMutableDictionary* attachment = [NSMutableDictionary dictionaryWithCapacity:14];
+    [attachment setObjectNotNull:self.guid forKey:DataTypeUpdateAttachmentGuid];
+    [attachment setObjectNotNull:self.dataMd5 forKey:DataTypeUpdateAttachmentDataMd5];
+    [attachment setObjectNotNull:[NSNumber numberWithBool:self.serverChanged] forKey:DataTypeUpdateAttachmentServerChanged];
+    [attachment setObjectNotNull:[NSNumber numberWithBool:self.localChanged] forKey:DataTypeUpdateAttachmentLocalChanged];
+    [attachment setObjectNotNull:self.title forKey:DataTypeUpdateAttachmentTitle];
+    [attachment setObjectNotNull:self.documentGuid forKey:DataTypeUpdateAttachmentDocumentGuid];
+    [attachment setObjectNotNull:self.dateModified forKey:DataTypeUpdateAttachmentDateModified];
+    [attachment setObject:self.description forKey:DataTypeUpdateAttachmentDescription];
+    return attachment;
+}
+
 - (BOOL) saveData:(NSString*)filePath
 {
     if (self.guid == nil || [self.guid isBlock]) {
@@ -58,7 +73,7 @@
     if (![[WizFileManager shareManager] moveItemAtPath:filePath toPath:[self attachmentFilePath] error:nil]) {
         return NO;
     }
-    NSMutableDictionary* attachment = [NSMutableDictionary dictionaryWithCapacity:14];
+    
     if (nil == self.title || [self.title isBlock]) {
         self.title = WizStrNoTitle;
     }
@@ -68,16 +83,11 @@
     if (nil == self.description) {
         self.description = @"";
     }
-    self.dateMd5 = [WizGlobals fileMD5:filePath];
-    [attachment setObject:self.guid forKey:DataTypeUpdateAttachmentGuid];
-    [attachment setObject:self.dateMd5 forKey:DataTypeUpdateAttachmentDataMd5];
-    [attachment setObject:[NSNumber numberWithBool:0] forKey:DataTypeUpdateAttachmentServerChanged];
-    [attachment setObject:[NSNumber numberWithBool:1] forKey:DataTypeUpdateAttachmentLocalChanged];
-    [attachment setObject:self.title forKey:DataTypeUpdateAttachmentTitle];
-    [attachment setObject:self.documentGuid forKey:DataTypeUpdateAttachmentDocumentGuid];
-    [attachment setObject:self.dateModified forKey:DataTypeUpdateAttachmentDateModified];
-    [attachment setObject:self.description forKey:DataTypeUpdateAttachmentDescription];
-    return [[[WizDbManager shareDbManager] shareDataBase] updateAttachment:attachment];
+    self.dataMd5 = [WizGlobals fileMD5:filePath];
+    self.localChanged = YES;
+    self.serverChanged = NO;
+    
+    return [[[WizDbManager shareDbManager] shareDataBase] updateAttachment:[self dataBaseModelData]];
 }
 + (void) deleteAttachment:(NSString*)attachmentGuid
 {

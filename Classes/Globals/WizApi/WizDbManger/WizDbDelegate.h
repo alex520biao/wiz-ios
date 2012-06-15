@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class WizDocument;
+#include "WizDocument.h"
 @class WizAttachment;
 @class WizTag;
 @protocol WizDbDelegate <NSObject>

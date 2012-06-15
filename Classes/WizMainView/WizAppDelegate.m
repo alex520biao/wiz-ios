@@ -1,4 +1,3 @@
-//
 //  WizAppDelegate.m
 //  Wiz
 //
@@ -28,6 +27,8 @@
 #import "WizInfoDataBase.h"
 #import "WizGlobals.h"
 #import "WizDocument.h"
+#import "WizAttachment.h"
+#import "WizTag.h"
 
 #define WizAbs(x) x>0?x:-x
 
@@ -121,6 +122,10 @@
     {
         return [data1 isEqualToNumber:data2];
     }
+    else if ([data1 isKindOfClass:[NSDate class]])
+    {
+        return [data1 isEqualToDate:data2];
+    }
     return NO;
 }
 
@@ -153,28 +158,110 @@
     {
         NSLog(@"not pass update %@",key);
     }
-    
+    return NO;
+}
+
+- (BOOL) testArray:(NSArray*)array string:(NSString*)str
+{
+    if (array && [array count]) {
+        NSLog(@"pass %@ and has %d objects",str,[array count]);
+        return YES;
+    }
+    else{
+        NSLog(@"not pass %@",str);
+        return NO;
+    }
+}
+- (BOOL) testAttachmentData:(id)data  updateData:(id)updatedata  type:(NSString*)key  inDataBase:(WizInfoDataBase*)dataBase;
+{
+    NSString* guid = [WizGlobals genGUID];
+    NSString* documentGuid = @"8c9d8bd1-e9bd-4284-8f60-8341e8966f7f";
+    NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithObject:data forKey:key];
+    [doc setObject:documentGuid forKey:DataTypeUpdateAttachmentDocumentGuid];
+    [doc setObject:guid forKey:DataTypeUpdateAttachmentGuid];
+    [dataBase updateAttachment:doc];
+    WizAttachment* attachment = [dataBase attachmentFromGUID:guid];
+    NSDictionary* insertDoc = [attachment dataBaseModelData];
+    id insertData = [insertDoc valueForKey:key];
+    if ([self isIDEqueToID:data data2:insertData]) {
+        NSLog(@"pass insert %@",key);
+    }
+    else
+    {
+        NSLog(@"%@\n%@",doc,insertData);
+        NSLog(@"not pass insert %@",key);
+    }
+    //update
+    [doc setObject:updatedata forKey:key];
+    [dataBase updateAttachment:doc];
+    WizAttachment* attachment1 = [dataBase attachmentFromGUID:guid];
+    NSDictionary* insertDoc1 = [attachment1 dataBaseModelData];
+    id insertData1= [insertDoc1 valueForKey:key];
+    if ([self isIDEqueToID:updatedata data2:insertData1]) {
+        NSLog(@"pass update %@",key);
+    }
+    else
+    {
+        NSLog(@"not pass update %@",key);
+    }
+    return NO;
+}
+
+- (BOOL) testTagData:(id)data  updateData:(id)updatedata  type:(NSString*)key  inDataBase:(WizInfoDataBase*)dataBase
+{
+    NSString* guid = [WizGlobals genGUID];
+    NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithObject:data forKey:key];
+    [doc setObject:guid forKey:DataTypeUpdateTagGuid];
+    [dataBase updateTag:doc];
+    WizTag* attachment = [dataBase tagFromGuid:guid];
+    NSDictionary* insertDoc = [attachment dataBaseModelData];
+    id insertData = [insertDoc valueForKey:key];
+    if ([self isIDEqueToID:data data2:insertData]) {
+        NSLog(@"pass insert %@",key);
+    }
+    else
+    {
+        NSLog(@"%@\n%@",doc,insertData);
+        NSLog(@"not pass insert %@",key);
+    }
+    //update
+    [doc setObject:updatedata forKey:key];
+    [dataBase updateTag:doc];
+    WizTag* attachment1 = [dataBase tagFromGuid:guid];
+    NSDictionary* insertDoc1 = [attachment1 dataBaseModelData];
+    id insertData1= [insertDoc1 valueForKey:key];
+    if ([self isIDEqueToID:updatedata data2:insertData1]) {
+        NSLog(@"pass update %@",key);
+    }
+    else
+    {
+        NSLog(@"not pass update %@",key);
+    }
+    return NO;
 }
 
 - (void) testDocument:(WizInfoDataBase*)data
 {
     
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentTitle inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentLocation inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentTagGuids inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentDataMd5 inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentGPS_COUNTRY inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentFileType inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentType inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentGPS_ADDRESS inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentGPS_DESCRIPTION inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentUrl inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentGPS_LEVEL1 inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentGPS_LEVEL2 inDataBase:data];
-    [self testData:@"dddddddd" updateData:@"xxxxxxxxx" type:DataTypeUpdateDocumentGPS_LEVEL3 inDataBase:data];
+    NSString* initString = @"aaaaaaaa";
+    NSString* updateString = @"pppppppp";
+    
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentTitle inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentLocation inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentTagGuids inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentDataMd5 inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentGPS_COUNTRY inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentFileType inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentType inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentGPS_ADDRESS inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentGPS_DESCRIPTION inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentUrl inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentGPS_LEVEL1 inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentGPS_LEVEL2 inDataBase:data];
+    [self testData:initString updateData:updateString type:DataTypeUpdateDocumentGPS_LEVEL3 inDataBase:data];
 
-    NSNumber* initBoolNumber = [NSNumber numberWithInt:1];
-    NSNumber* updateBollNumder = [NSNumber numberWithInt:0];
+    NSNumber* initBoolNumber = [NSNumber numberWithInt:0];
+    NSNumber* updateBollNumder = [NSNumber numberWithInt:1];
     NSNumber* bigNumber = [NSNumber numberWithInt:56];
     [self testData:initBoolNumber updateData:bigNumber type:DataTypeUpdateDocumentAttachmentCount inDataBase:data];
     [self testData:initBoolNumber updateData:updateBollNumder type:DataTypeUpdateDocumentProtected inDataBase:data];
@@ -190,6 +277,46 @@
     [self testData:realNumber updateData:updataRealNumber type:DataTypeUpdateDocumentGPS_LONGTITUDE inDataBase:data];
     [self testData:realNumber updateData:updataRealNumber type:DataTypeUpdateDocumentGPS_ALTITUDE inDataBase:data];
     [self testData:realNumber updateData:updataRealNumber type:DataTypeUpdateDocumentGPS_LATITUDE inDataBase:data];
+    
+    NSDate* date1 = [[NSDate dateWithDaysBeforeNow:10] dateIgnoreMillisecond];
+    NSDate* updateData = [[NSDate date] dateIgnoreMillisecond];
+    [self testData:date1 updateData:updateData type:DataTypeUpdateDocumentDateModified inDataBase:data];
+    [self testData:date1 updateData:updateData type:DataTypeUpdateDocumentDateCreated inDataBase:data];
+    
+    
+    
+    [self testArray:[data documentsByKey:updateString] string:@"documentsByKey"];
+    [self testArray:[data documentsByLocation:updateString] string:@"documentsByLocation"];
+    [self testArray:[data documentsByTag:updateString] string:@"documentsByTag"];
+    [self testArray:[data recentDocuments] string:@"recentDocuments"];
+    [self testArray:[data documentsForCache:100] string:@"documentsForCache"];
+    [self testArray:[data documentForUpload] string:@"documentForUpload"];
+    
+    if ([data documentForClearCacheNext]) {
+        NSLog(@"pass documentForClearCacheNext");
+    }
+    else
+    {
+        NSLog(@"pass not documentForClearCacheNext");
+    }
+    [self testAttachmentData:initString updateData:updateString type:DataTypeUpdateAttachmentDataMd5 inDataBase:data];
+    [self testAttachmentData:initString updateData:updateString type:DataTypeUpdateAttachmentDescription inDataBase:data];
+    [self testAttachmentData:initString updateData:updateString type:DataTypeUpdateAttachmentTitle inDataBase:data];
+    [self testAttachmentData:initBoolNumber updateData:updateBollNumder type:DataTypeUpdateAttachmentLocalChanged inDataBase:data];
+    [self testAttachmentData:initBoolNumber updateData:updateBollNumder type:DataTypeUpdateAttachmentServerChanged inDataBase:data];
+    [self testAttachmentData:date1 updateData:updateData type:DataTypeUpdateAttachmentDateModified inDataBase:data];
+    
+    [self testArray:[data attachmentsByDocumentGUID:@"8c9d8bd1-e9bd-4284-8f60-8341e8966f7f"] string:@"attachmentsByDocumentGUID"];
+
+
+    [self testTagData:initString updateData:updateString type:DataTypeUpdateTagParentGuid inDataBase:data];
+    [self testTagData:initString updateData:updateString type:DataTypeUpdateTagTitle inDataBase:data];
+    [self testTagData:initString updateData:updateString type:DataTypeUpdateTagDescription inDataBase:data];
+    [self testTagData:initBoolNumber updateData:updateBollNumder type:DataTypeUpdateTagLocalchanged inDataBase:data];
+    [self testTagData:date1 updateData:updateData type:DataTypeUpdateTagDtInfoModifed inDataBase:data];
+
+    [self testArray:[data allTagsForTree] string:@"allLocationsForTree"];
+    [self testArray:[data tagsForUpload] string:@"tagsForUpload"];
 }
 
 - (void) initRootNavigation

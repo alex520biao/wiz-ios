@@ -8,7 +8,7 @@
 
 #import "WizTag.h"
 #import "WizDbManager.h"
-
+#import "WizGlobals.h"
 @implementation WizTag
 @synthesize parentGUID;
 @synthesize description;
@@ -40,29 +40,34 @@
 {
     return [[[WizDbManager shareDbManager] shareDataBase] tagAbstractString:self.guid];
 }
+
+- (NSDictionary*) dataBaseModelData
+{
+    NSMutableDictionary* tag = [NSMutableDictionary dictionary];
+    [tag setObjectNotNull:self.guid forKey:DataTypeUpdateTagGuid];
+    [tag setObjectNotNull:self.title forKey:DataTypeUpdateTagTitle];
+    [tag setObjectNotNull:self.description forKey:DataTypeUpdateTagDescription];
+    [tag setObjectNotNull:[NSNumber numberWithInt:self.localChanged] forKey:DataTypeUpdateTagLocalchanged];
+    [tag setObjectNotNull:self.dateInfoModified forKey:DataTypeUpdateTagDtInfoModifed];
+    [tag setObjectNotNull:self.parentGUID forKey:DataTypeUpdateTagParentGuid];
+    return tag;
+}
+
 - (BOOL) save
 {
     if (nil == self.guid || [self.guid isBlock]) {
         self.guid = [WizGlobals genGUID];
     }
-    NSMutableDictionary* tag = [NSMutableDictionary dictionary];
-    
     if (nil == self.description) {
         self.description = @"";
     }
-    [tag setObject:self.guid forKey:DataTypeUpdateTagGuid];
-    [tag setObject:self.title forKey:DataTypeUpdateTagTitle];
-    [tag setObject:self.description forKey:DataTypeUpdateTagDescription];
-    [tag setObject:[NSNumber numberWithInt:self.localChanged] forKey:DataTypeUpdateTagLocalchanged];
     if (nil == self.dateInfoModified) {
         self.dateInfoModified = [NSDate date];
     }
-    [tag setObject:self.dateInfoModified forKey:DataTypeUpdateTagDtInfoModifed];
     if (nil == parentGUID) {
         self.parentGUID = @"";
     }
-    [tag setObject:self.parentGUID forKey:DataTypeUpdateTagParentGuid];
-    return [[[WizDbManager shareDbManager] shareDataBase] updateTag:tag];
+    return [[[WizDbManager shareDbManager] shareDataBase] updateTag:[self dataBaseModelData]];
 }
 + (void) deleteTag:(NSString*)tagGuid
 {

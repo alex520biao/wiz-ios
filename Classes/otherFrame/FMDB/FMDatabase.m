@@ -934,8 +934,15 @@
     return result;
 }
 
-- (BOOL)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments {
-    return [self executeUpdate:sql error:nil withArgumentsInArray:arguments orDictionary:nil orVAList:nil];
+- (BOOL)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments
+{
+    NSError* error = nil;
+    if (![self executeUpdate:sql error:&error withArgumentsInArray:arguments orDictionary:nil orVAList:nil])
+    {
+        NSLog(@"%@",error);
+        return NO;
+    }
+    return YES;
 }
 
 - (BOOL)executeUpdate:(NSString*)sql withParameterDictionary:(NSDictionary *)arguments {

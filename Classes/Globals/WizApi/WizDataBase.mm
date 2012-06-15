@@ -159,7 +159,7 @@
     if (self) {
         self.guid = [NSString stringWithCString:data.strAttachmentGuid.c_str() encoding:NSUTF8StringEncoding];
         self.title = [NSString stringWithCString:data.strAttachmentName.c_str() encoding:NSUTF8StringEncoding];
-        self.dateMd5 = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
+        self.dataMd5 = [NSString stringWithCString:data.strDataMd5.c_str() encoding:NSUTF8StringEncoding];
         self.description = [NSString stringWithCString:data.strDescription.c_str() encoding:NSUTF8StringEncoding];
         self.documentGuid = [NSString stringWithCString:data.strDocumentGuid.c_str() encoding:NSUTF8StringEncoding];
         self.dateModified = [[NSString stringWithCString:data.strDataModified.c_str() encoding:NSUTF8StringEncoding]dateFromSqlTimeString];
