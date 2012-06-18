@@ -15,11 +15,12 @@
 #import "WizDbManager.h"
 #import "WizSyncManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import "WizTempDataBase.h"
 
 @interface WizGroupViewController ()
 {
     NSArray* groupsArray;
-    WizDataBase* dataBase;
+    id<WizDbDelegate> dataBase;
     NSFetchedResultsController* fetch;
 }
 @property (nonatomic, retain) NSFetchedResultsController* fetch;
@@ -124,10 +125,8 @@
         cell.accessoryView.layer.borderWidth = 0.6f;
         
     }
-//    WizGroup* group = [self.groupsArray objectAtIndex:indexPath.row];
     UIImageView* imageView = (UIImageView*) cell.accessoryView;
     WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
-    imageView.image = [[dataBase abstractForGroup:group.kbguid].image compressedImageWidth:80];
     cell.textLabel.text = group.kbName;
     return cell;
 }

@@ -189,7 +189,7 @@
 }
 - (void) uploadAllObject
 {
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
     NSArray* array = [dataBase documentForUpload];
     if (nil == array || ![array count] ) {
         return;
@@ -200,7 +200,7 @@
 
 - (void) downloadCacheDocuments
 {
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
     NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
     NSArray* array = [dataBase documentsForCache:duration];
     [self downloadWizObjects:array];

@@ -21,6 +21,7 @@
 
 + (id)databaseQueueWithPath:(NSString*)aPath;
 - (id)initWithPath:(NSString*)aPath;
+- (id) initWithPath:(NSString *)aPath withModel:(NSDictionary*)model;
 - (void)close;
 
 - (void)inDatabase:(void (^)(FMDatabase *db))block;

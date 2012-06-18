@@ -635,7 +635,7 @@
     [self audioStopRecord];
     self.docEdit.title = self.titleTextFiled.text;
     NSLog(@"title = %@",self.docEdit.title);
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
     [self.docEdit saveWithData:self.bodyTextField.text attachments:self.attachmentsArray toDataBase:dataBase];
     [self postSelectedMessageToPicker];
     [self.navigationController dismissModalViewControllerAnimated:YES];

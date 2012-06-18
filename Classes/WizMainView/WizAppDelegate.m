@@ -29,6 +29,7 @@
 #import "WizDocument.h"
 #import "WizAttachment.h"
 #import "WizTag.h"
+#import "WizTempDataBase.h"
 
 #define WizAbs(x) x>0?x:-x
 
@@ -317,15 +318,42 @@
 
     [self testArray:[data allTagsForTree] string:@"allLocationsForTree"];
     [self testArray:[data tagsForUpload] string:@"tagsForUpload"];
+    NSLog(@"tag abstract %@",[ data tagAbstractString:@"1"]);
+    
+    [data addDeletedGUIDRecord:[WizGlobals genGUID] type:@"documentGuid"];
+    [self testArray:[data deletedGUIDsForUpload] string:@"deletedGUIDsForUpload"];
+    
+    NSArray* locationArray = [NSArray arrayWithObjects:@"asdfasdf",@"dfsdf", nil];
+    [data clearDeletedGUIDs];
+    [data updateLocations:locationArray];
+    NSLog(@"%@",[data allLocationsForTree]);
+    
+    
+}
+
+
+- (void) testAbstract
+{
+    NSString* db = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"temp.db"];
+    WizTempDataBase* temp = [[WizTempDataBase alloc] initWithPath:db modelName:@"WizAbstractDataBaseModel"];
+    UIImage* image = [UIImage imageNamed:@"icon_excel_img"];
+    [temp updateAbstract:@"xxxx" imageData:[image compressedData] guid:@"xxx" type:@"ddd" kbguid:@"xxxx"];
+    
+    WizAbstract* abst = [temp abstractOfDocument:@"xxx"];
+    NSLog(@"%@ %@",abst.text, abst.image);
 }
 
 - (void) initRootNavigation
 {
     {
         [self testDate];
-        NSString* db = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"ddd.db"];
+        NSString* db = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"rdd.db"];
         WizInfoDataBase* data = [[WizInfoDataBase alloc] initWithPath:db modelName:@"WizDataBaseModel"];
         [self testDocument:data];
+    }
+    
+    {
+        [self testAbstract];
     }
     [WizNotificationCenter removeObserver:self];
     UINavigationController* root = [[UINavigationController alloc] init];
@@ -415,7 +443,7 @@
         if (groupId == nil || [groupId isBlock]) {
             groupId = [[WizSettings defaultSettings] defaultGroupKbGuid];
         }
-        WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:defaultAccount groupId:groupId];
+        id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:defaultAccount groupId:groupId];
         [doc saveWithData:nil attachments:arr toDataBase:dataBase];
         [doc release];
         return YES;

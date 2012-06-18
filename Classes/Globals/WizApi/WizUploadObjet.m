@@ -172,14 +172,14 @@
 
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
     [dataBase setDocumentLocalChanged:self.uploadObject.guid changed:WizEditDocumentTypeNoChanged];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
     [dataBase setAttachmentLocalChanged:self.uploadObject.guid changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
 }

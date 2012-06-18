@@ -113,7 +113,7 @@
     [super viewDidDisappear:animated];
     if (docChanged) {
         self.doc.localChanged = WizEditDocumentTypeInfoChanged;
-        WizDataBase* dataBase = [[WizDbManager shareDbManager] shareDataBase];
+        id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
         [self.doc saveInfo:dataBase];
         docChanged = NO;
     }

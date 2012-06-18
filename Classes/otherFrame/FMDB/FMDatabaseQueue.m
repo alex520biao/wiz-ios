@@ -8,10 +8,10 @@
 
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
-
+#import "FMDatabaseAdditions.h"
 /*
  
- Note: we call [self retain]; before using dispatch_sync, just incase 
+ Note: we call [self retain]; before using dispatch_sync, just incase
  FMDatabaseQueue is released on another thread and we're in the middle of doing
  something in dispatch_sync
  
@@ -28,6 +28,58 @@
     FMDBAutorelease(q);
     
     return q;
+}
+
+- (id) initWithPath:(NSString *)aPath withModel:(NSDictionary*)model
+{
+    self = [super init];
+    
+    if (self != nil) {
+        
+        _db = [FMDatabase databaseWithPath:aPath];
+        FMDBRetain(_db);
+        
+        if (![_db open]) {
+            NSLog(@"Could not create database queue for path %@", aPath);
+            FMDBRelease(self);
+            return 0x00;
+        }
+        
+        _path = FMDBReturnRetained(aPath);
+        
+        _queue = dispatch_queue_create([[NSString stringWithFormat:@"fmdb.%@", self] UTF8String], NULL);
+        
+        
+        for (NSString* tableName in [model allKeys])
+        {
+            tableName = [tableName trim];
+            NSDictionary*  conten = [model valueForKey:tableName];
+            if ([_db tableExists:tableName]) {
+                for (NSString* columnName in [conten allKeys])
+                {
+                    columnName = [columnName trim];
+                    if ([columnName isEqualToString:tableName])
+                    {
+                        continue;
+                    }
+                    if (![_db columnExists:columnName inTableWithName:tableName])
+                    {
+                        if (![_db executeUpdate:[conten valueForKey:columnName]])
+                        {
+                            return NO;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (![_db executeUpdate:[conten valueForKey:tableName]]) {
+                    return NO;
+                } ;
+            }
+        }
+    }
+    return self;
 }
 
 - (id)initWithPath:(NSString*)aPath {

@@ -71,7 +71,7 @@
 }
 + (void) deleteTag:(NSString*)tagGuid
 {
-    WizDataBase* db = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> db = [[WizDbManager shareDbManager] shareDataBase];
     [db deleteTag:tagGuid];
 }
 

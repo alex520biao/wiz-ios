@@ -14,8 +14,13 @@
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
 #import "WizAccountManager.h"
+#import "WizAbstract.h"
 #import <ifaddrs.h>
 #import "WizInfoDataBase.h"
+#import "WizDocument.h"
+#import "WizTag.h"
+#import "WizAttachment.h"
+#import "WizGlobals.h"
 #define AttachmentNameOfSyncVersion     @"ATTACHMENTVERSION"
 //
 #define TypeOfWizGroup                  @"GROUPS"
@@ -45,30 +50,13 @@
 
 @end
 
-@interface WizDeletedGUID : NSObject
-{
-	NSString* guid;
-	NSString* type;
-	NSString* dateDeleted;
-}
-@property (nonatomic, retain) NSString* guid;
-@property (nonatomic, retain)NSString* type;
-@property (nonatomic, retain)NSString* dateDeleted;
+@interface WizDeletedGUID  (WizDb)
+-(id) initFromWizDeletedGUIDData: (const WIZDELETEDGUIDDATA&) data;
 @end
 
 
-@implementation WizDeletedGUID
+@implementation WizDeletedGUID(WizDb)
 
-@synthesize guid;
-@synthesize type;
-@synthesize dateDeleted;
--(void) dealloc
-{
-    [guid release];
-    [type release];
-    [dateDeleted release];
-    [super dealloc];
-}
 
 -(id) initFromWizDeletedGUIDData: (const WIZDELETEDGUIDDATA&) data
 {
@@ -204,8 +192,8 @@ NSInteger compareTag(id location1, id location2, void*)
     [super dealloc];
 }
 //single object
-static WizDataBase* shareDataBase = nil;
-+ (WizDataBase*) shareDataBase
+static id<WizDbDelegate> shareDataBase = nil;
++ (id<WizDbDelegate>) shareDataBase
 {
     @synchronized(shareDataBase)
     {
@@ -885,9 +873,6 @@ static WizDataBase* shareDataBase = nil;
 }
 - (BOOL) updateDocuments:(NSArray *)documents
 {
-    NSString* db = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"ddd.db"];
-    WizInfoDataBase* data = [[WizInfoDataBase alloc] initWithPath:db modelName:@"WizDataBaseModel"];
-    [data updateDocuments:documents];
     for (int i =0; i < [documents count]; i++) {
         NSDictionary* doc = [documents objectAtIndex:i];
         @try {

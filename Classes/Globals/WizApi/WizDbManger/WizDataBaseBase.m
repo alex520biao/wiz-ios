@@ -12,8 +12,7 @@
 #import "WizFileManager.h"
 #define PRIMARAY_KEY    @"PRIMARAY_KEY"
 @implementation WizDataBaseBase
-@synthesize dataBase;
-
+@synthesize queue;
 - (NSDictionary*) createTableModel:(NSDictionary*)data  tableName:(NSString*)tableName
 {
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
@@ -30,10 +29,9 @@
     }
     NSString* primaryKey = [data valueForKey:PRIMARAY_KEY];
     if (!primaryKey) {
-        
         int lastIndex = [createTableSql  lastIndexOf:@","];
         if (NSNotFound != lastIndex) {
-            [createTableSql deleteCharactersInRange:NSMakeRange(lastIndex, createTableSql.length)];
+            [createTableSql deleteCharactersInRange:NSMakeRange(lastIndex, 1)];
         }
     }
     else
@@ -58,7 +56,7 @@
 
 - (void) dealloc
 {
-    [dataBase release];
+    [queue release];
     [super dealloc];
 }
 
@@ -66,10 +64,8 @@
 {
     self = [super init];
     if (self) {
-        dataBase = [[FMDatabase alloc] initWithPath:dbPath];
-        [dataBase open];
         NSDictionary* model = [self getDataBaseStructFromFile:modelName];
-        [dataBase initDbWithModel:model];
+        queue = [[FMDatabaseQueue alloc] initWithPath:dbPath withModel:model];
     }
     return self;
 }

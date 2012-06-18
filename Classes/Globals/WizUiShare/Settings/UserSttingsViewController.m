@@ -479,7 +479,7 @@ enum WizSettingKind {
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
-    WizDataBase* dbManager = [[WizDataBase alloc] init];
+    id<WizDbDelegate> dbManager = [[WizDataBase alloc] init];
     WizFileManager* share = [WizFileManager shareManager];
     [dbManager reloadDb];
     WizDocument* document = nil;

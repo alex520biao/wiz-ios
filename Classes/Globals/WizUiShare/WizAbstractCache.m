@@ -86,7 +86,7 @@
         [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
         if(nil != documentGuid)
         {
-            WizDataBase* dataBase = [[WizDbManager shareDbManager] shareDataBase];
+            id<WizAbstractDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
             WizAbstract* abstract = [dataBase abstractOfDocument:documentGuid];
             NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
             [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
@@ -99,7 +99,7 @@
 - (void) genFoldersAbstract
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    WizDataBase* dbManager_ = [[WizDataBase alloc] init];
+    id<WizDbDelegate> dbManager_ = [[WizDataBase alloc] init];
     [dbManager_ reloadDb];
     NSArray* allLocations = [dbManager_ allLocationsForTree];
     for (NSString* folderKey in allLocations) {
@@ -117,7 +117,7 @@
 - (void) genTagsAbstract
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    WizDataBase* dbManager_ = [[WizDataBase alloc] init];
+    id<WizDbDelegate> dbManager_ = [[WizDataBase alloc] init];
     [dbManager_ openDb:[[WizFileManager shareManager] dbPath]];
     NSArray* allTags = [dbManager_ allTagsForTree];
     for (WizTag* tag in allTags) {

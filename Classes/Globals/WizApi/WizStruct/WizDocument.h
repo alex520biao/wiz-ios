@@ -7,6 +7,7 @@
 //
 
 #import "WizObject.h"
+#import "WizDbDelegate.h"
 #define WizDocumentTypeAudioKeyString @"audio"
 #define WizDocumentTypeImageKeyString @"image"
 #define WizDocumentTypeNoteKeyString @"note"
@@ -50,7 +51,7 @@ enum
      kOrderCreatedDate=5,
      kOrderReverseCreatedDate=6
 };
-typedef NSInteger WizEditDocumentType;
+
 enum
 {
     WizEditDocumentTypeNoChanged = 0,
@@ -144,11 +145,11 @@ enum
 - (NSArray*) attachments;
 
 //
-- (BOOL) saveInfo:(WizDataBase*)dataBase;
+- (BOOL) saveInfo:(id<WizDbDelegate>)dataBase;
 - (void) upload;
 - (void) download;
 //
-- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(WizDataBase*)dataBase;
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(id<WizDbDelegate>)dataBase;
 - (void) setTagWithArray:(NSArray*)tags;
 - (NSArray*) existPhotoAndAudio;
 //

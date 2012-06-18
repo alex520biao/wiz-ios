@@ -63,7 +63,7 @@
 {
 	NSArray* obj = retObject;
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	[dataBase updateDocuments:obj];
 }
 //
@@ -71,7 +71,7 @@
 {
 	NSArray* obj = retObject;
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	[dataBase updateDocuments:obj];
 }
 //
@@ -79,7 +79,7 @@
 {
 	NSArray* obj = retObject;
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	[dataBase updateDocuments:obj];
 }
 -(void) onDownloadAttachmentList:(id)retObject
@@ -88,7 +88,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
     self.syncMessage = WizStrSyncingattachmentlist;
     NSArray* attachArr = [self getArrayFromResponse:retObject];
     int64_t oldVer = [dataBase attachmentVersion];
@@ -109,7 +109,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[dataBase documentVersion];
 	[dataBase updateDocuments:obj];
@@ -133,7 +133,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSDictionary* obj = retObject;
 	//
 	// save values returned by getUserInfo into current blog
@@ -152,7 +152,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
     for (WizTag* tag in [dataBase tagsForUpload]) {
         [dataBase setTagLocalChanged:tag.guid changed:NO];
     }
@@ -165,7 +165,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer = [dataBase tagVersion];
     [dataBase updateTags:obj];
@@ -192,7 +192,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	[dataBase clearDeletedGUIDs];
     [self callAllTags:[dataBase tagVersion]];
     [self didChangeSyncStatue:WizSyncStatueDownloadTags];
@@ -203,7 +203,7 @@
         return ;
     }
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
     NSArray* arr =[ self getArrayFromResponse:retObject];
     int64_t oldVer = [dataBase deletedGUIDVersion];
 	int64_t newVer = 0;
@@ -254,7 +254,7 @@
     busy = YES;
     [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
     NSString* activeAccountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
     return [self callDownloadDeletedList:[dataBase deletedGUIDVersion]];
 }
 - (void) onError:(id)retObject

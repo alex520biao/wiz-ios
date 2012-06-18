@@ -107,7 +107,7 @@
 
 - (void) downloadDone
 {
-    WizDataBase* dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
     if ([self.object isKindOfClass:[WizDocument class]]) {
         WizDocument* doc = (WizDocument*)self.object;
         doc.serverChanged = NO;

@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-@interface WizDbManager : NSObject 
+#import "WizDbDelegate.h"
+@interface WizDbManager : NSObject
 + (id) shareDbManager;
-- (WizDataBase*) shareDataBase;
-- (WizDataBase*) getWizDataBase:(NSString*)accountUserId  groupId:(NSString*)groupId;
+- (id<WizDbDelegate>) shareDataBase;
+- (id<WizDbDelegate>) getWizDataBase:(NSString*)accountUserId  groupId:(NSString*)groupId;
+- (id<WizAbstractDbDelegate>) getWizTempDataBase:(NSString*)accountUserId;
 - (void) removeUnactiveDatabase;
 @end

@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "FMDataBase.h"
+#import "FMDatabaseQueue.h"
 @interface WizDataBaseBase : NSObject
 {
-    FMDatabase* dataBase;
+    FMDatabaseQueue* queue;
 }
-@property (nonatomic, readonly) FMDatabase* dataBase;
+@property (atomic, readonly) FMDatabaseQueue* queue;
 - (WizDataBaseBase*) initWithPath:(NSString*)dbPath modelName:(NSString*)modelName;
 @end

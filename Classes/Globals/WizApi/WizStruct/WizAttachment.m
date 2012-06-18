@@ -91,7 +91,7 @@
 }
 + (void) deleteAttachment:(NSString*)attachmentGuid
 {
-    WizDataBase* db = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> db = [[WizDbManager shareDbManager] shareDataBase];
     [db deleteAttachment:attachmentGuid];
 }
 + (WizAttachment*) attachmentFromDb:(NSString *)attachmentGuid

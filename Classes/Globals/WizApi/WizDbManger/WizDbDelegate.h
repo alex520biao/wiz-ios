@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "WizDocument.h"
+
+#import "WizDeletedGUID.h"
 @class WizAttachment;
 @class WizTag;
+@class WizDocument;
+
 @protocol WizDbDelegate <NSObject>
 - (void) close;
 - (BOOL) isOpen;

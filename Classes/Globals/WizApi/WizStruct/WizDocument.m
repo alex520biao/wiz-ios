@@ -201,32 +201,32 @@ BOOL isReverseMask(NSInteger mask)
 //
 + (NSArray*) recentDocuments
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     return [share recentDocuments];
 }
 + (NSArray*) documentsByTag: (NSString*)tagGUID
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentsByTag:tagGUID];
 }
 + (NSArray*) documentsByKey: (NSString*)keywords
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentsByKey:keywords];
 }
 + (NSArray*) documentsByLocation: (NSString*)parentLocation
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentsByLocation:parentLocation];
 }
 + (NSArray*) documentForUpload
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentForUpload];
 }
 + (WizDocument*) documentFromDb:(NSString *)_guid
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     return [share documentFromGUID:_guid];
 }
 //
@@ -234,7 +234,7 @@ BOOL isReverseMask(NSInteger mask)
 {
     WizFileManager* fileManager = [WizFileManager shareManager];
     [fileManager removeObjectPath:document.guid];
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     [share deleteDocument:document.guid];
     [WizNotificationCenter postDeleteDocumentMassage:document];
 }
@@ -337,7 +337,7 @@ BOOL isReverseMask(NSInteger mask)
     return doc;
 }
 
-- (BOOL) saveInfo:(WizDataBase*)dataBase
+- (BOOL) saveInfo:(id<WizDbDelegate>)dataBase
 {
     NSDictionary* doc = [self dataBaseModelData];
     if ([dataBase updateDocument:doc]) {
@@ -411,7 +411,7 @@ BOOL isReverseMask(NSInteger mask)
     NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">  </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
     return html;
 }
-- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(WizDataBase*)dataBase
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(id<WizDbDelegate>)dataBase
 {
     if (self.serverChanged) {
         return NO;
@@ -517,7 +517,7 @@ BOOL isReverseMask(NSInteger mask)
 }
 + (NSArray*)documentsForCache
 {
-    WizDataBase* share = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
     return [share documentsForCache:duration];
 }
