@@ -25,6 +25,11 @@
     NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
     [nc removeObserver:observer name:name object:nil];
 }
++ (void) postMessage:(NSString*)messageName userInfo:(NSDictionary*)info
+{
+    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    [nc postNotificationName:messageName object:nil userInfo:info];
+}
 + (void) postMessageWithName:(NSString*)messageName userInfoObject:(id)infoObject userInfoKey:(NSString*)infoKey
 {
     NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
@@ -35,6 +40,7 @@
         [nc postNotificationName:messageName object:nil userInfo:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey]];
     }
 }
+
 + (void) postSimpleMessageWithName:(NSString*)messageName
 {
     [WizNotificationCenter postMessageWithName:messageName userInfoObject:nil userInfoKey:nil];
@@ -134,6 +140,10 @@
 + (NSString*) getDocumentGUIDFromNc:(NSNotification*)nc
 {
     return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfDocumentGUID notification:nc];
+}
++ (NSString*) getKbguidFromNc:(NSNotification*)nc
+{
+    return [WizNotificationCenter getMessgeInfoForKey:UserInfoTypeOfKbGuid notification:nc];
 }
 + (void) postUpdateFolder:(NSString*)folderKey
 {
@@ -269,4 +279,14 @@
     [WizNotificationCenter postMessageWithName:MessageTypeOfCacheDbUpdate userInfoObject:guid userInfoKey:UserInfoTypeOfDocumentGUID];
 }
 //
++ (void) addObserverForExtractDocumentAbstract:(id)observer selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer selector:selector name:MessageTypeOfExtractDocumentAbstract];
+}
+
++ (void) postMessageExtractDocumentAbstract:(NSString*)documentGuid kbguid:(NSString*)kbguid
+{
+    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,UserInfoTypeOfDocumentGUID, kbguid, UserInfoTypeOfKbGuid, nil];
+    [WizNotificationCenter postMessage:MessageTypeOfExtractDocumentAbstract userInfo:dic];
+}
 @end

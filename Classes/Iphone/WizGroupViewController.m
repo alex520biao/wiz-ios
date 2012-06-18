@@ -20,7 +20,7 @@
 @interface WizGroupViewController ()
 {
     NSArray* groupsArray;
-    id<WizDbDelegate> dataBase;
+    id<WizAbstractDbDelegate> dataBase;
     NSFetchedResultsController* fetch;
 }
 @property (nonatomic, retain) NSFetchedResultsController* fetch;
@@ -47,7 +47,7 @@
     self = [super initWithStyle:style];
     if (self) {
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfRefreshGroupsData];
-        dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:nil];
+        dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
     }
     
     return self;
@@ -128,6 +128,9 @@
     UIImageView* imageView = (UIImageView*) cell.accessoryView;
     WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
     cell.textLabel.text = group.kbName;
+    WizAbstract* abs = [dataBase abstractForGroup:group.kbguid];
+    NSLog(@"%@ %@",abs.text, abs.image);
+        imageView.image = abs.image;
     return cell;
 }
 

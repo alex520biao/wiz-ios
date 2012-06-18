@@ -27,6 +27,7 @@
 + (void) addObserverForIphoneSetupAccount:(id)observer  selector:(SEL)selector;
 + (void) postIphoneSetupAccount;
 //
++ (NSString*) getKbguidFromNc:(NSNotification*)nc;
 + (void) addObserverForDeleteDocument:(id) observer selector:(SEL)selector;
 + (void) removeObserverForDeleteDocument:(id)observer;
 + (WizDocument*) getWizDocumentFromNc:(NSNotification*)nc;
@@ -80,4 +81,8 @@
 + (void) removeObserverForUpdateDocumentList:(id)observer;
 //
 + (void) postSimpleMessageWithName:(NSString*)messageName;
+//
++ (void) addObserverForExtractDocumentAbstract:(id)observer selector:(SEL)selector;
+
++ (void) postMessageExtractDocumentAbstract:(NSString*)documentGuid kbguid:(NSString*)kbguid;
 @end

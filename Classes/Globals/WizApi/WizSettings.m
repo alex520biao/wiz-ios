@@ -7,7 +7,6 @@
 //
 
 #import "WizSettings.h"
-#import "WizDbManager.h"
 #import "WizAccountManager.h"
 #import "WizSettingsDbDelegate.h"
 

@@ -14,6 +14,7 @@
 
 
 #import "WizGlobals.h"
+#import "WizNotification.h"
 #define KeyOfSyncVersion                        @"SYNC_VERSION"
 #define KeyOfSyncVersionDocument                @"DOCUMENT"
 #define KeyOfSyncVersionDeletedGuid             @"DELETED_GUID"
@@ -59,6 +60,7 @@
         if ([s next]) {
             value = [s stringForColumnIndex:0];
         }
+        [s close];
     }];
     }
     if ([value isBlock]) {
@@ -94,7 +96,7 @@
 - (int64_t) syncVersion:(NSString*)type
 {
     NSString* verString = [self getMeta:KeyOfSyncVersion withKey:type];
-        NSLog(@"version string is %@",verString);
+        NSLog(@"%@ version string is %@", type,verString);
     if (verString) {
         NSLog(@"%@",verString);
         return [verString longLongValue];
@@ -175,6 +177,7 @@
             [array addObject:doc];
             [doc release];
         }
+        [result close];
     }];
     return array;
 }
@@ -234,14 +237,20 @@
     [self.queue inDatabase:^(FMDatabase *db) {
         ret = [db executeUpdate:@"update WIZ_DOCUMENT set LOCAL_CHANGED=? where DOCUMENT_GUID= ?",[NSNumber numberWithInt:changed],guid];;
     }];
+    if (ret && changed) {
+        [WizNotificationCenter postUpdateDocument:guid];
+    }
     return ret;
 }
 - (BOOL) setDocumentServerChanged:(NSString *)guid changed:(BOOL)changed
 {
     __block BOOL ret;
     [self.queue inDatabase:^(FMDatabase *db) {
-        ret=  [db executeUpdate:@"update WIZ_DOCUMENT set LOCAL_CHANGED=? where DOCUMENT_GUID= ?",[NSNumber numberWithInt:changed],guid];
+        ret=  [db executeUpdate:@"update WIZ_DOCUMENT set SERVER_CHANGED=? where DOCUMENT_GUID= ?",[NSNumber numberWithInt:changed],guid];
     }];
+    if (ret && !changed) {
+        [WizNotificationCenter postUpdateDocument:guid];
+    }
     return ret;
 }
 
@@ -310,6 +319,10 @@
             return NO;
         }
     }
+    if ([documents count]) {
+        [WizNotificationCenter postupdateDocumentListMessage];
+    }
+
     return YES;
 }
 
@@ -393,6 +406,7 @@
             [attachments addObject:attachment];
             [attachment release];
         }
+        [result close];
     }];
     return attachments;
 }
@@ -447,6 +461,7 @@
             [array addObject:tag];
             [tag release];
         }
+        [result close];
     }];
     return array;
 }
@@ -550,6 +565,7 @@
             [ret appendFormat:@"%@\n",[result stringForColumnIndex:0]];
         }
         NSLog(@"string %@",ret);
+        [result close];
     }];
     return ret;
 }
@@ -591,6 +607,8 @@
             [deleteGuid release];
         }
         NSLog(@"array %@ %@",array,sql);
+        
+        [result close];
     }];
     
     return array;
@@ -650,6 +668,7 @@
         {
             ret=  NO;
         }
+        [result close];
     }];
     return ret;
     
@@ -692,6 +711,7 @@
             [dic setObject:location forKey:location];
         }
         [dic setObject:@"/My Mobiles/" forKey:@"/My Mobiles/"];
+        [result close];
     }];
     return [dic allValues];
 }
@@ -706,6 +726,7 @@
         if ([result next]) {
             count = [result intForColumnIndex:0];
         }
+        [result close];
     }];
     return count;
 }
@@ -718,6 +739,7 @@
         if ([result next]) {
             count = [result intForColumnIndex:0];
         }
+        [result close];
     }];
     return count;
 }
@@ -730,6 +752,7 @@
         if ([result next]) {
             count = [result intForColumnIndex:0];
         }
+        [result close];
     }];
     return count;
 }
@@ -745,6 +768,7 @@
             [ret appendFormat:@"%@\n",[result stringForColumnIndex:0]];
         }
         NSLog(@"string %@",ret);
+        [result close];
     }];
     return ret;
 }

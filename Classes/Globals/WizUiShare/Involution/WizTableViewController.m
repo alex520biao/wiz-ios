@@ -289,7 +289,8 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
+    if (self)
+    {
         self.tableSourceArray = [NSMutableArray array];
         [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];

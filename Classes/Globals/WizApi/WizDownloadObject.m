@@ -108,10 +108,11 @@
 - (void) downloadDone
 {
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager] activeAccountUserId] groupId:self.kbguid];
-    if ([self.object isKindOfClass:[WizDocument class]]) {
-        WizDocument* doc = (WizDocument*)self.object;
-        doc.serverChanged = NO;
-        [doc saveInfo:dataBase];
+    if ([self.object isKindOfClass:[WizDocument class]])
+    {
+        NSLog(@"download guid is %@",self.object.guid);
+        [dataBase setDocumentServerChanged:self.object.guid changed:NO];
+        [WizNotificationCenter postMessageExtractDocumentAbstract:self.object.guid kbguid:self.kbguid];
     }
     else if ([self.object isKindOfClass:[WizAttachment class]])
     {

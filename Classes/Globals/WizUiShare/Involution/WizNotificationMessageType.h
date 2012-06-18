@@ -13,6 +13,7 @@
 #define MessageTypeOfChangeAccount                  @"wizChangeAccountMessage"
 #define MessageTypeOfPadSendSelectedAccountMessage  @"MessageTypeOfPadSendSelectedAccountMessage"
 
+#define UserInfoTypeOfKbGuid                        @"UserInfoTypeOfKbGuid"
 #define UserInfoTypeOfDocumentGUID                  @"MessageDataTypeOfDocumentGUID"
 #define MessageInfoOfDidSelectedAccountUserId       @"accountUserId"
 
@@ -58,3 +59,5 @@
 #define MessageTypeOfMemeoryWarning                 @"MessageTypeOfMemeoryWarning"
 
 #define MessageTypeOfRegisterGroupKbguid            @"MessageTypeOfRegisterGroupKbguid"
+
+#define MessageTypeOfExtractDocumentAbstract        @"MessageTypeOfExtractDocumentAbstract"

@@ -477,8 +477,8 @@
 		7326F4811589D805001944C1 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
 		7326F4831589D805001944C1 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		7326F4841589D805001944C1 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		7326F48C1589D9AB001944C1 /* WizDataBaseV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDataBaseV.h; path = WizDbManger/WizDataBaseV.h; sourceTree = "<group>"; };
-		7326F48D1589D9AC001944C1 /* WizDataBaseV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDataBaseV.m; path = WizDbManger/WizDataBaseV.m; sourceTree = "<group>"; };
+		7326F48C1589D9AB001944C1 /* WizDataBaseV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDataBaseV.h; path = ../../Globals/WizApi/WizDbManger/WizDataBaseV.h; sourceTree = "<group>"; };
+		7326F48D1589D9AC001944C1 /* WizDataBaseV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDataBaseV.m; path = ../../Globals/WizApi/WizDbManger/WizDataBaseV.m; sourceTree = "<group>"; };
 		7327C76E1588518C00FB5CB8 /* WizAbstractDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractDataBase.h; sourceTree = "<group>"; };
 		7327C76F1588518C00FB5CB8 /* WizAbstractDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAbstractDataBase.m; sourceTree = "<group>"; };
 		732951621548F8FC00FA4FAA /* PhRecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhRecentViewController.h; path = Classes/Iphone/DocumentList/PhRecentViewController.h; sourceTree = SOURCE_ROOT; };
@@ -922,8 +922,8 @@
 		73B46D15153E77230049556F /* WizSyncInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncInfo.m; sourceTree = "<group>"; };
 		73B46D29153FAAD30049556F /* WizAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccountManager.h; path = AccountManager/WizAccountManager.h; sourceTree = "<group>"; };
 		73B46D2A153FAAD30049556F /* WizAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAccountManager.m; path = AccountManager/WizAccountManager.m; sourceTree = "<group>"; };
-		73B49F90158D606600592649 /* WizTempDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTempDataBase.h; path = WizDbManger/WizTempDataBase.h; sourceTree = "<group>"; };
-		73B49F91158D606600592649 /* WizTempDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizTempDataBase.m; path = WizDbManger/WizTempDataBase.m; sourceTree = "<group>"; };
+		73B49F90158D606600592649 /* WizTempDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTempDataBase.h; path = ../../Globals/WizApi/WizDbManger/WizTempDataBase.h; sourceTree = "<group>"; };
+		73B49F91158D606600592649 /* WizTempDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizTempDataBase.m; path = ../../Globals/WizApi/WizDbManger/WizTempDataBase.m; sourceTree = "<group>"; };
 		73BA1CFB1581EBA70050DCCE /* WizSyncDataFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncDataFactory.h; sourceTree = "<group>"; };
 		73BA1CFC1581EBA70050DCCE /* WizSyncDataFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncDataFactory.m; sourceTree = "<group>"; };
 		73BB85221511F9D80032F99B /* WizNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNotification.h; path = Notification/WizNotification.h; sourceTree = "<group>"; };
@@ -947,10 +947,10 @@
 		73C0A423156A39B2002EDFE4 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		73C59EE1151C25B500715995 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		73C59EE4151C290500715995 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		73C7845E1589DBF600A07941 /* WizDataBaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDataBaseBase.h; path = WizDbManger/WizDataBaseBase.h; sourceTree = "<group>"; };
-		73C7845F1589DBF600A07941 /* WizDataBaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDataBaseBase.m; path = WizDbManger/WizDataBaseBase.m; sourceTree = "<group>"; };
-		73C7846A1589EA1100A07941 /* WizInfoDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizInfoDataBase.h; path = WizDbManger/WizInfoDataBase.h; sourceTree = "<group>"; };
-		73C7846B1589EA1200A07941 /* WizInfoDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizInfoDataBase.m; path = WizDbManger/WizInfoDataBase.m; sourceTree = "<group>"; };
+		73C7845E1589DBF600A07941 /* WizDataBaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDataBaseBase.h; path = ../../Globals/WizApi/WizDbManger/WizDataBaseBase.h; sourceTree = "<group>"; };
+		73C7845F1589DBF600A07941 /* WizDataBaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDataBaseBase.m; path = ../../Globals/WizApi/WizDbManger/WizDataBaseBase.m; sourceTree = "<group>"; };
+		73C7846A1589EA1100A07941 /* WizInfoDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizInfoDataBase.h; path = ../../Globals/WizApi/WizDbManger/WizInfoDataBase.h; sourceTree = "<group>"; };
+		73C7846B1589EA1200A07941 /* WizInfoDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizInfoDataBase.m; path = ../../Globals/WizApi/WizDbManger/WizInfoDataBase.m; sourceTree = "<group>"; };
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		73CAB8BC158598D0003B3CDC /* WizSyncObjectSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizSyncObjectSourceDelegate.h; sourceTree = "<group>"; };
 		73D455AD154508AB0003103F /* WizTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTag.h; path = WizStruct/WizTag.h; sourceTree = "<group>"; };
@@ -1210,16 +1210,8 @@
 				732FE31C154A423B0047B665 /* WizAbstractDbDelegate.h */,
 				7324B22C157F4B4F00F26712 /* WizDataBase.h */,
 				7324B22D157F4B4F00F26712 /* WizDataBase.mm */,
-				73B49F90158D606600592649 /* WizTempDataBase.h */,
-				73B49F91158D606600592649 /* WizTempDataBase.m */,
 				7327C76E1588518C00FB5CB8 /* WizAbstractDataBase.h */,
 				7327C76F1588518C00FB5CB8 /* WizAbstractDataBase.m */,
-				73C7845E1589DBF600A07941 /* WizDataBaseBase.h */,
-				73C7845F1589DBF600A07941 /* WizDataBaseBase.m */,
-				73C7846A1589EA1100A07941 /* WizInfoDataBase.h */,
-				73C7846B1589EA1200A07941 /* WizInfoDataBase.m */,
-				7326F48C1589D9AB001944C1 /* WizDataBaseV.h */,
-				7326F48D1589D9AC001944C1 /* WizDataBaseV.m */,
 			);
 			name = WizDb;
 			sourceTree = "<group>";
@@ -2155,6 +2147,14 @@
 		73B96A25158EEC20008C3CE0 /* WizDataBase */ = {
 			isa = PBXGroup;
 			children = (
+				73B49F90158D606600592649 /* WizTempDataBase.h */,
+				73B49F91158D606600592649 /* WizTempDataBase.m */,
+				73C7845E1589DBF600A07941 /* WizDataBaseBase.h */,
+				73C7845F1589DBF600A07941 /* WizDataBaseBase.m */,
+				73C7846A1589EA1100A07941 /* WizInfoDataBase.h */,
+				73C7846B1589EA1200A07941 /* WizInfoDataBase.m */,
+				7326F48C1589D9AB001944C1 /* WizDataBaseV.h */,
+				7326F48D1589D9AC001944C1 /* WizDataBaseV.m */,
 			);
 			name = WizDataBase;
 			sourceTree = "<group>";

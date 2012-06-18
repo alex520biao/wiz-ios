@@ -14,7 +14,7 @@
 - (BOOL) isTempDbOpen;
 - (void) closeTempDb;
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
-- (void) extractSummary:(NSString *)documentGUID;
+- (void) extractSummary:(NSString *)documentGUID kbGuid:(NSString*)kbguid;
 - (BOOL) clearCache;
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID;
 - (WizAbstract*) abstractForGroup:(NSString*)kbguid;

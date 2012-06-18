@@ -23,12 +23,13 @@
         {
             ret = NO;
         }
+        [result close];
 
     }];
     return ret;
 }
 
-- (void) extractSummary:(NSString *)documentGUID
+- (void) extractSummary:(NSString *)documentGUID  kbGuid:(NSString*)kbguid
 {
     BOOL WizDeviceIsPad = [WizGlobals WizDeviceIsPad];
     NSString* sourceFilePath = [[WizFileManager shareManager] documentIndexFile:documentGUID];
@@ -143,10 +144,9 @@
         {
             compassImage = [maxImage wizCompressedImageWidth:140 height:140];
         }
-        
     }
     
-    [self updateAbstract:abstractText imageData:abstractImageData guid:documentGUID type:@"" kbguid:@""];
+    [self updateAbstract:abstractText imageData:[compassImage compressedData] guid:documentGUID type:@"" kbguid:kbguid];
 }
 
 - (BOOL) updateAbstract:(NSString*)text imageData:(NSData*)imageData guid:(NSString*)guid type:(NSString*)type kbguid:(NSString*)kbguid
@@ -168,7 +168,19 @@
 
 - (WizAbstract*) abstractForGroup:(NSString *)kbguid
 {
-    
+    __block WizAbstract* abs = nil;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        FMResultSet* result = [db executeQuery:@"select  ABSTRACT_TEXT, ABSTRACT_IMAGE from WIZ_ABSTRACT where GROUP_KBGUID = ? and  length(ABSTRACT_IMAGE) > 0 order by DT_MODIFIED desc limit 0,1",kbguid];
+        if ([result next]) {
+            WizAbstract* local = [[WizAbstract alloc] init];
+            local.text = [result stringForColumnIndex:0];
+            local.image = [UIImage imageWithData:[result dataForColumnIndex:1]];
+            abs = [local autorelease];
+        }
+        [result close];
+    }];
+    NSLog(@"abs %@",abs);
+    return abs;
 }
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID
 {
@@ -181,12 +193,17 @@
             local.image = [UIImage imageWithData:[result dataForColumnIndex:1]];
             abs = [local autorelease];
         }
+        [result close];
     }];
     return abs;
 }
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID
 {
-    
+    __block BOOL ret;
+    [self.queue inDatabase:^(FMDatabase *db) {
+       ret = [db executeUpdate:@"delete from WIZ_ABSTRACT where ABSTRACT_GUID=?",documentGUID];
+    }];
+    return ret;
 }
 - (BOOL) clearCache
 {
