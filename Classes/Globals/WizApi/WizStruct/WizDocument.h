@@ -37,6 +37,7 @@
 #define DataTypeUpdateDocumentGPS_LEVEL3        @"GPS_LEVEL3"
 #define DataTypeUpdateDocumentGPS_DESCRIPTION   @"GPS_DESCRIPTION"
 #define DataTypeUpdateDocumentREADCOUNT         @"READCOUNT"
+#define DataTypeUpdateDocumentOwner             @"document_owner"
 
 @class WizDataBase;
 typedef NSUInteger WizTableOrder;
@@ -88,6 +89,10 @@ enum
     NSString* gpsDescription;
     int nReadCount;
     
+    NSString* accountUserId;
+    NSString* kbGuid;
+    NSString* owner;
+    
 }
 @property (atomic, retain) NSString* location;
 @property (atomic, retain) NSString* url;
@@ -112,6 +117,10 @@ enum
 @property (atomic, retain) NSString* gpsLevel2;
 @property (atomic, retain) NSString* gpsLevel3;
 @property (atomic, retain) NSString* gpsDescription;
+
+@property (atomic, retain) NSString* accountUserId;
+@property (atomic, retain) NSString* kbGuid;
+@property (atomic, retain) NSString* owner;
 
 
 - (NSComparisonResult) compareModifiedDate:(WizDocument*) doc;
@@ -145,11 +154,11 @@ enum
 - (NSArray*) attachments;
 
 //
-- (BOOL) saveInfo:(id<WizDbDelegate>)dataBase;
+- (BOOL) saveInfo;
 - (void) upload;
 - (void) download;
 //
-- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(id<WizDbDelegate>)dataBase;
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray;
 - (void) setTagWithArray:(NSArray*)tags;
 - (NSArray*) existPhotoAndAudio;
 //

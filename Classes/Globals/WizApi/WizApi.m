@@ -95,11 +95,16 @@
     apiManagerDelegate = nil;
 	[super dealloc];
 }
+- (void)  delegatePerformSelector:(SEL)aSelector withObject:(id)ret
+{
+    [delegate performSelector:aSelector withObject:ret];
+}
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	if (succeeded && ![ret isKindOfClass:[NSError class]])
 	{
+        SEL selector;
 		if ([method isEqualToString:SyncMethod_ClientLogin])
 		{
 			[delegate onClientLogin:ret];
@@ -126,7 +131,8 @@
 		}
 		else if ([method isEqualToString:SyncMethod_DownloadDocumentList])
 		{
-			[delegate onDownloadDocumentList:ret];
+            selector = @selector(onDownloadDocumentList:);
+			[self performSelectorInBackground:selector withObject:ret];
 		}
 		else if ([method isEqualToString:SyncMethod_DocumentsByCategory])
 		{
@@ -200,15 +206,20 @@
     self.connectionXmlrpc = nil;
 }
 
--(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args
+- (BOOL) doExeCuteXml:(NSArray*)args
 {
-	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:url];
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    NSURL* url = [args objectAtIndex:0];
+    NSString* method = [args objectAtIndex:1];
+    id argsRe= [args objectAtIndex:2];
+    
+    XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:url];
 	if (!request)
     {
 		return NO;
     }
 	//
-	[request setMethod:method withObjects:args];
+	[request setMethod:method withObjects:argsRe];
 	//
 	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
 	//
@@ -219,10 +230,40 @@
         return YES;
     else
         return NO;
+    [pool drain];
+}
+
+-(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args
+{
+    
+    [self performSelectorOnMainThread:@selector(doExeCuteXml:) withObject:[NSArray arrayWithObjects:url,method, args, nil] waitUntilDone:NO];
+//	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:url];
+//	if (!request)
+//    {
+//		return NO;
+//    }
+//	//
+//	[request setMethod:method withObjects:args];
+//	//
+//	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
+//	//
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//	[request release];
+//	//
+//    if(nil != self.connectionXmlrpc)
+//        return YES;
+//    else
+//        return NO;
 }
 -(void) addCommonParams: (NSMutableDictionary*)postParams
 {
-	[postParams setObject:@"iphone" forKey:@"client_type"];
+    if ([WizGlobals WizDeviceIsPad]) {
+        [postParams setObject:@"ipad" forKey:@"client_type"];
+    }
+	else
+    {
+        [postParams setObject:@"iphone" forKey:@"client_type"];
+    }
 	[postParams setObject:@"normal" forKey:@"program_type"];
 //	[postParams setObject:[NSNumber numberWithInt:3] forKey:@"api_version"];
     // new version 4

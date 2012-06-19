@@ -22,6 +22,7 @@
 #import "WizFileManager.h"
 #import <UIKit/UIKit.h>
 #import "ATMHud.h"
+#import "WizAccountManager.h"
 
 #define NOSUPPOURTALERT 199
 
@@ -474,6 +475,7 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self buildToolBar];
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
         attachmentCountBadgeView.frame = AttachmentCountBadgeViewPotraitFrame;
@@ -527,7 +529,7 @@
 }
 - (void) buildToolBar
 {
-    UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editDocument)];
+    
     
     UIBarButtonItem* info = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"detail"] style:UIBarButtonItemStyleBordered target:self action:@selector(viewDocumentInfo)];
     
@@ -539,9 +541,19 @@
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     UIBarButtonItem* shareItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_share"] style:UIBarButtonItemStyleBordered target:self action:@selector(shareCurrentDocument)];
-    
-    NSArray* array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info,flex,search, flex,shareItem, nil];
-    [edit release];
+    WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
+    NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    BOOL canEdit = [current canEditDocument] || ([current canEditCurrentDocument] && [self.doc.owner isEqualToString:accountUserId]);
+    NSArray* array = nil;
+    if (canEdit) {
+        UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editDocument)];
+        array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info,flex,search, flex,shareItem, nil];
+        [edit release];
+    }
+    else
+    {
+        array = [NSArray arrayWithObjects:attachment,flex,info,flex,search, flex,shareItem, nil];
+    }
     [flex release];
     [info release];
     [attachment release];
@@ -560,7 +572,7 @@
     [self.downloadActivity setCaption:WizStrLoading];
     [self.downloadActivity setActivity:YES];
     [self.downloadActivity show];
-    [self buildToolBar];
+    
 }
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {

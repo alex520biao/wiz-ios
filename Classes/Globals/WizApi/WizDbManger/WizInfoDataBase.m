@@ -142,7 +142,7 @@
     if (nil == where) {
         where = @"";
     }
-    NSString* sql = [NSString stringWithFormat:@"select DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT from WIZ_DOCUMENT %@",where];
+    NSString* sql = [NSString stringWithFormat:@"select DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT, OWNER from WIZ_DOCUMENT %@",where];
     __block NSMutableArray* array = [NSMutableArray array];
     
     [self.queue inDatabase:^(FMDatabase *db) {
@@ -174,6 +174,9 @@
             doc.gpsDescription = [result stringForColumnIndex:22];
             doc.nReadCount = [result intForColumnIndex:23];
             doc.protected_ = [result intForColumnIndex:24];
+            doc.owner = [result stringForColumnIndex:25];
+            doc.accountUserId = self.accountUserId;
+            doc.kbGuid = self.kbGuid;
             [array addObject:doc];
             [doc release];
         }
@@ -282,7 +285,7 @@
     NSString* gpsLevel2 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL2];
     NSString* gpsLevel3 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL3];
     NSString* gpsDescription  = [doc valueForKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
-    
+    NSString* owner = [doc valueForKey:DataTypeUpdateDocumentOwner];
     if (!dateCreated) {
         dateCreated = [NSDate date];
     }
@@ -296,16 +299,25 @@
     if (!localChanged) {
         localChanged = [NSNumber numberWithBool:0];
     }
+    WizDocument* docExist = [self documentFromGUID:guid];
     __block BOOL ret;
-    if ([self documentFromGUID:guid]) {
+    if (docExist)
+    {
+        if ([localChanged intValue] == 0 && (![docExist.dataMd5 isEqualToString:dataMd5] || docExist.serverChanged )) {
+            serverChanged = [NSNumber numberWithBool:1];
+        }
+        else
+        {
+            serverChanged = [NSNumber numberWithBool:0];
+        }
         [self.queue inDatabase:^(FMDatabase *db) {
-            ret =[db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TITLE=?, DOCUMENT_LOCATION=?, DOCUMENT_URL=?, DOCUMENT_TAG_GUIDS=?, DOCUMENT_TYPE=?, DOCUMENT_FILE_TYPE=?, DT_CREATED=?, DT_MODIFIED=?, DOCUMENT_DATA_MD5=?, ATTACHMENT_COUNT=?, SERVER_CHANGED=?, LOCAL_CHANGED=?, GPS_LATITUDE=?, GPS_LONGTITUDE=?, GPS_ALTITUDE=?, GPS_DOP=?, GPS_ADDRESS=?, GPS_COUNTRY=?, GPS_LEVEL1=?, GPS_LEVEL2=?, GPS_LEVEL3=?, GPS_DESCRIPTION=?, READCOUNT=?, PROTECT=? where DOCUMENT_GUID= ?",title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,guid];
+            ret =[db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TITLE=?, DOCUMENT_LOCATION=?, DOCUMENT_URL=?, DOCUMENT_TAG_GUIDS=?, DOCUMENT_TYPE=?, DOCUMENT_FILE_TYPE=?, DT_CREATED=?, DT_MODIFIED=?, DOCUMENT_DATA_MD5=?, ATTACHMENT_COUNT=?, SERVER_CHANGED=?, LOCAL_CHANGED=?, GPS_LATITUDE=?, GPS_LONGTITUDE=?, GPS_ALTITUDE=?, GPS_DOP=?, GPS_ADDRESS=?, GPS_COUNTRY=?, GPS_LEVEL1=?, GPS_LEVEL2=?, GPS_LEVEL3=?, GPS_DESCRIPTION=?, READCOUNT=?, PROTECT=?, OWNER=? where DOCUMENT_GUID= ?",title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,owner,guid];
         }];
     }
     else
     {
         [self.queue inDatabase:^(FMDatabase *db) {
-           ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",guid, title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected];
+           ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT, OWNER) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",guid, title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,owner];
         }];
     
     }
@@ -314,15 +326,17 @@
 
 - (BOOL) updateDocuments:(NSArray *)documents
 {
+    NSDate* date1 = [NSDate date];
     for (NSDictionary* doc in documents) {
         if (![self updateDocument:doc]) {
             return NO;
         }
     }
+    NSDate* date2 = [NSDate date];
+    NSLog(@"update documents spend without reloadUI %f",[date1 timeIntervalSinceDate:date2]);
     if ([documents count]) {
         [WizNotificationCenter postupdateDocumentListMessage];
     }
-
     return YES;
 }
 
@@ -356,7 +370,15 @@
         serVerChanged = [NSNumber numberWithInt:1];
     }
     __block BOOL ret;
-    if ([self attachmentFromGUID:guid]) {
+    WizAttachment* attachmentExist =[self attachmentFromGUID:guid];
+    if (attachmentExist) {
+        if ([localChanged intValue] ==0 && (attachmentExist.serverChanged || ![dataMd5 isEqualToString:attachmentExist.dataMd5])) {
+            serVerChanged = [NSNumber numberWithBool:1];
+        }
+        else
+        {
+            serVerChanged = [NSNumber numberWithBool:0];
+        }
         [self.queue inDatabase:^(FMDatabase *db) {
             [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set DOCUMENT_GUID=?, ATTACHMENT_NAME=?, ATTACHMENT_DATA_MD5=?, ATTACHMENT_DESCRIPTION=?, DT_MODIFIED=?, SERVER_CHANGED=?, LOCAL_CHANGED=? where ATTACHMENT_GUID=?"
                withArgumentsInArray:[NSArray arrayWithObjects:documentGuid, title, dataMd5, description, [dateModified stringSql] , serVerChanged, localChanged,guid, nil]];
@@ -390,7 +412,6 @@
     }
     __block NSMutableArray* attachments = [NSMutableArray array];
     NSString* sql = [NSString stringWithFormat:@"select ATTACHMENT_GUID ,DOCUMENT_GUID, ATTACHMENT_NAME,ATTACHMENT_DATA_MD5,ATTACHMENT_DESCRIPTION,DT_MODIFIED,SERVER_CHANGED,LOCAL_CHANGED from WIZ_DOCUMENT_ATTACHMENT %@",where];
-    
     [self.queue inDatabase:^(FMDatabase *db) {
         FMResultSet* result = [db executeQuery:sql withArgumentsInArray:args];
         while ([result next]) {
@@ -408,6 +429,7 @@
         }
         [result close];
     }];
+    NSLog(@"attachments  count %@ %@ %@",self.kbGuid,attachments, [args lastObject]);
     return attachments;
 }
 
@@ -515,27 +537,19 @@
     NSPredicate* rpredicate = [NSPredicate predicateWithFormat:@"parentGUID != %@",parentTag.guid];
     NSArray* section = [rest filteredArrayUsingPredicate:predicate];
     [rest filterUsingPredicate:rpredicate];
-
-    if ([section count]) {
-        for (WizTag* each in section) {
-            each.namePath = [parentTag.namePath stringByAppendingFormat:@"%@/",each.title];
-            [self genTagNamePath:each rest:rest];
-            if (![rest count]) {
-                break;
-            }
-        }
+    for (WizTag* each in section) {
+        each.namePath = [parentTag.namePath stringByAppendingFormat:@"%@/",each.title];
+        [self genTagNamePath:each rest:rest];
     }
 }
 
 - (void) getTagNamePath:(NSMutableArray*)array
 {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentGUID != nil"];
-    NSPredicate* rPredicate = [NSPredicate predicateWithFormat:@"parentGUID == nil"];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentGUID.length != 0"];
+    NSPredicate* rPredicate = [NSPredicate predicateWithFormat:@"parentGUID.length == 0"];
     NSArray* root = [array filteredArrayUsingPredicate:rPredicate];
     NSMutableArray* rest =[NSMutableArray arrayWithArray:[array filteredArrayUsingPredicate:predicate]];
-    if (![rest count]) {
-        return;
-    }
+    
     for (WizTag* each in root) {
         each.namePath = [NSString stringWithFormat:@"/%@/",each.title];
         [self genTagNamePath:each rest:rest];
@@ -544,7 +558,7 @@
 - (NSArray*) allTagsForTree
 {
     NSMutableArray* allTags =[NSMutableArray arrayWithArray:[self tagsArrayWithWhereField:@"" args:nil]];
-    [self getTagNamePath:allTags];
+//    [self getTagNamePath:allTags];
     return allTags;
 }
 

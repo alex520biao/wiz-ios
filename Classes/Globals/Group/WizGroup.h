@@ -45,4 +45,7 @@ enum WizGroupUserRightAdmin {
 @property (nonatomic, retain) NSNumber * userGroup;
 @property (nonatomic, retain) NSNumber * orderIndex;
 - (void) getDataFromDic:(NSDictionary*)dic;
+- (BOOL) canEditDocument;
+- (BOOL) canEditTag;
+- (BOOL) canEditCurrentDocument;
 @end

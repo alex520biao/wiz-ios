@@ -19,11 +19,11 @@
     NSMutableDictionary* tagsAbstractData;
     NSMutableArray* needGenAbstractDocuments;
     NSString* currentDocument;
-    NSConditionLock* cacheConditon;
+    NSCondition* genCacheCondition;
     BOOL isChangedUser;
     NSThread* thread;
     
-    NSConditionLock* extractAbstractCondition;
+    NSCondition* genExtractCondition;
     NSMutableArray* needExtractAbstractArray;
 }
 @property (atomic, retain) NSMutableDictionary* tagsAbstractData;
@@ -32,10 +32,10 @@
 @property (atomic, retain) NSMutableArray* needGenAbstractDocuments;
 @property (atomic) BOOL isChangedUser;
 @property (atomic, retain) NSString* currentDocument;
-@property (atomic, retain) NSConditionLock* cacheConditon;
+
 @property (atomic, retain) NSThread* thread;
 @property (atomic, retain) NSMutableArray* needExtractAbstractArray;
-@property (atomic, retain) NSConditionLock* extractAbstractCondition;
+
 - (void) genAbstract;
 @end
 @implementation WizAbstractCache
@@ -45,9 +45,9 @@
 @synthesize needGenAbstractDocuments;
 @synthesize isChangedUser;
 @synthesize currentDocument;
-@synthesize cacheConditon;
+
 @synthesize thread;
-@synthesize extractAbstractCondition;
+
 //single
 - (void) dealloc
 {
@@ -56,8 +56,6 @@
     [folderAbstractData release];
     [needGenAbstractDocuments release];
     [currentDocument release];
-    [cacheConditon release];
-    [extractAbstractCondition release];
     [thread release];
     [needGenAbstractDocuments release];
     [super dealloc];
@@ -100,14 +98,20 @@
 }
 //over
 
+- (void) clearCacheFroDocument:(NSString*)documentGuid
+{
+    NSLog(@"%@",[self.data objectForKey:documentGuid]);
+    [self.data removeObjectForKey:documentGuid];
+}
+
 - (void) genAbstract
 {
     while (true) {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        [self.cacheConditon lockWhenCondition:HAS_DATA];
+        [genCacheCondition lock];
+        [genCacheCondition wait];
+        [genCacheCondition unlock];
         NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
-        BOOL isImpty = [self.needGenAbstractDocuments count] == 0? YES:NO;
-        [self.cacheConditon unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
         if(nil != documentGuid)
         {
             id<WizAbstractDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
@@ -191,7 +195,11 @@
 {
     while (YES) {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        [self.extractAbstractCondition lockWhenCondition:HAS_DATA];
+        
+        [genExtractCondition lock];
+        [genExtractCondition wait];
+        [genExtractCondition unlock];
+        
         NSDictionary* document = [self.needExtractAbstractArray lastObject];
         if(nil != document)
         {
@@ -203,39 +211,19 @@
             [self.needExtractAbstractArray removeLastObject];
             
         }
-        BOOL isImpty = [self.needExtractAbstractArray count] == 0? YES:NO;
-        [self.extractAbstractCondition unlockWithCondition:(isImpty?NO_DATA:HAS_DATA)];
         [pool release];
     }
 }
 - (void) pushNeedExtractAbstractDocument:(NSNotification*)nc
 {
-    [self.extractAbstractCondition lock];
+    [genExtractCondition lock];
     NSString* documentGuid = [WizNotificationCenter getDocumentGUIDFromNc:nc];
     NSString* documentKbguid = [WizNotificationCenter getKbguidFromNc:nc];
     NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,DocumentGuid,documentKbguid,DocumentKbGuid, nil];
     [self.needExtractAbstractArray addObject:dic];
-    [self.extractAbstractCondition unlockWithCondition:HAS_DATA];
-}
-
-- (id) init
-{
-    self = [super init];
-    if (self) {
-        [WizNotificationCenter addObserverWithKey:self selector:@selector(didReceivedMenoryWarning) name:MessageTypeOfMemeoryWarning];
-        [WizNotificationCenter addObserverForExtractDocumentAbstract:self selector:@selector(pushNeedExtractAbstractDocument:)];
-        self.folderAbstractData = [NSMutableDictionary dictionary];
-        self.tagsAbstractData = [NSMutableDictionary dictionary];
-        self.data = [NSMutableDictionary dictionary];
-        self.needGenAbstractDocuments = [NSMutableArray array];
-        self.needExtractAbstractArray = [[[NSMutableArray alloc] init] autorelease];
-        extractAbstractCondition = [[NSConditionLock alloc] initWithCondition:NO_DATA];
-        thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
-        [thread start];
-        cacheConditon = [[NSConditionLock alloc] initWithCondition:NO_DATA];
-        [NSThread detachNewThreadSelector:@selector(extractAbstract) toTarget:self withObject:nil];
-    }
-    return self;
+    [self clearCacheFroDocument:documentGuid];
+    [genExtractCondition signal];
+    [genExtractCondition unlock];
 }
 
 
@@ -260,16 +248,17 @@
 - (void) pushNeedGenAbstractDoument:(NSString*)documentGuid
 
 {
-    [self.cacheConditon lock];
+    [genCacheCondition lock];
     @try {
         [self.needGenAbstractDocuments addObject:documentGuid];
+        [genCacheCondition signal];
     }
     @catch (NSException *exception) {
         return;
     }
     @finally {
     }
-    [self.cacheConditon unlockWithCondition:HAS_DATA];
+[genCacheCondition unlock];
 }
 
 - (WizAbstract*) documentAbstractForIphone:(WizDocument*)document
@@ -277,6 +266,7 @@
     WizAbstract* abs = [self.data valueForKey:document.guid];
     if (nil == abs && document.serverChanged != YES) {
         [self pushNeedGenAbstractDoument:document.guid];
+    
     }
     return abs;
 }
@@ -285,5 +275,25 @@
 {
     [self.data removeAllObjects];
 }
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(didReceivedMenoryWarning) name:MessageTypeOfMemeoryWarning];
+        [WizNotificationCenter addObserverForExtractDocumentAbstract:self selector:@selector(pushNeedExtractAbstractDocument:)];
+        self.folderAbstractData = [NSMutableDictionary dictionary];
+        self.tagsAbstractData = [NSMutableDictionary dictionary];
+        self.data = [NSMutableDictionary dictionary];
+        self.needGenAbstractDocuments = [NSMutableArray array];
+        self.needExtractAbstractArray = [[[NSMutableArray alloc] init] autorelease];
+        genCacheCondition = [[NSCondition alloc] init];
+        genExtractCondition = [[NSCondition alloc] init];
+        thread = [[NSThread alloc] initWithTarget:self selector:@selector(genAbstract) object:nil];
+        [thread start];
+        [NSThread detachNewThreadSelector:@selector(extractAbstract) toTarget:self withObject:nil];
+    }
+    return self;
+}
+
 
 @end

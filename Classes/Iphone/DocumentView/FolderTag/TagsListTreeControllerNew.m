@@ -56,49 +56,47 @@
 }
 
 
-
+- (void) genTagNamePath:(LocationTreeNode*)parentTag rest:(NSMutableArray*)rest
+{
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentGUID == %@",parentTag.locationKey];
+    NSPredicate* rpredicate = [NSPredicate predicateWithFormat:@"parentGUID != %@",parentTag.locationKey];
+    NSArray* section = [rest filteredArrayUsingPredicate:predicate];
+    [rest filterUsingPredicate:rpredicate];
+    for (WizTag* each in section) {
+        LocationTreeNode* node = [[LocationTreeNode alloc] init];
+        node.title = each.title;
+        node.locationKey = each.guid;
+        [parentTag addChild:node];
+        [self genTagNamePath:node rest:rest];
+        [node release];
+    }
+}
 - (void) reloadAllData
 {
-    NSArray* tagArray = [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
-    tree = [[LocationTreeNode alloc]init] ;
+    NSMutableArray* tagArray = [NSMutableArray arrayWithArray:[[[WizDbManager shareDbManager] shareDataBase] allTagsForTree]];
+    
+    NSLog(@"%d",[tagArray count]);
+    
+    tree = [[LocationTreeNode alloc]init];
     tree.deep = 0;
     tree.title = @"/";
     tree.locationKey = @"/";
     tree.hidden = YES;
     tree.expanded =YES;
-    for (WizTag* each in tagArray)
-    {
+
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentGUID.length != 0"];
+    NSPredicate* rPredicate = [NSPredicate predicateWithFormat:@"parentGUID.length == 0"];
+    NSArray* root = [tagArray filteredArrayUsingPredicate:rPredicate];
+    NSMutableArray* rest =[NSMutableArray arrayWithArray:[tagArray filteredArrayUsingPredicate:predicate]];
+    for (WizTag* each in root) {
         LocationTreeNode* node = [[LocationTreeNode alloc] init];
-        NSString* tagName = getTagDisplayName(each.title);
-        node.title = tagName;
+        node.title = each.title;
         node.locationKey = each.guid;
-        if (nil != each.parentGUID && ![each.parentGUID isEqualToString:@""]) {
-            LocationTreeNode* parent = [LocationTreeNode findNodeByKey:each.parentGUID :self.tree];
-            if (nil == parent) {
-                WizTag* parentTag = [WizTag  tagFromDb:each.parentGUID];
-                LocationTreeNode* nodee = [[LocationTreeNode alloc] init];
-                nodee.title = parentTag.title;
-                nodee.locationKey = parentTag.guid;
-                [tree addChild:parent];
-                [nodee addChild:node];
-                [nodee release];
-                [node release];
-                continue;
-            }
-            else
-            {
-                [parent addChild:node];
-                [node release];
-                continue;
-            }
-        }
-        else
-        {
-            [tree addChild:node];
-            [node release];
-        }
-        
+        [tree addChild:node];
+        [self genTagNamePath:node rest:rest];
+         [node release];
     }
+    
     if (nil == self.displayNodes) {
         self.displayNodes = [NSMutableArray array];
     } else

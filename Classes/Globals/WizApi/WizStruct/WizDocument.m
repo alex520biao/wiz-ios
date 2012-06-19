@@ -50,6 +50,10 @@ BOOL isReverseMask(NSInteger mask)
 @synthesize gpsLevel2;
 @synthesize gpsLevel3;
 @synthesize gpsDescription;
+@synthesize accountUserId;
+@synthesize kbGuid;
+@synthesize owner;
+
 - (WizEditDocumentType) localChanged
 {
     return localChanged;
@@ -77,8 +81,32 @@ BOOL isReverseMask(NSInteger mask)
     [gpsLevel2 release];
     [gpsLevel3 release];
     [gpsDescription release];
+    [accountUserId release];
+    [kbGuid release];
+    [owner release];
     [super dealloc];
 }
+- (id<WizDbDelegate>) refrenceDataBase
+{
+    NSString* userId;
+    NSString* kbId;
+    if (!self.accountUserId) {
+        userId = [[WizAccountManager defaultManager] activeAccountUserId];
+    }
+    else
+    {
+        userId = self.accountUserId;
+    }
+    if (!kbGuid) {
+        kbId = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
+    }
+    else
+    {
+        kbId = self.kbGuid;
+    }
+    return [[WizDbManager shareDbManager] getWizDataBase:userId groupId:kbId];
+}
+
 - (NSComparisonResult) compareCreateDate:(WizDocument*)doc
 {
     if (self.dateCreated == nil || doc.dateCreated == nil) {
@@ -242,7 +270,8 @@ BOOL isReverseMask(NSInteger mask)
 
 - (NSArray*) attachments
 {
-    return [[[WizDbManager shareDbManager]shareDataBase] attachmentsByDocumentGUID:self.guid];
+    id<WizDbDelegate> dataBase = [self refrenceDataBase];
+    return [dataBase attachmentsByDocumentGUID:self.guid];
 }
 
 - (BOOL) addFileToIndexFiles:(NSString*)sourcePath
@@ -337,10 +366,20 @@ BOOL isReverseMask(NSInteger mask)
     return doc;
 }
 
-- (BOOL) saveInfo:(id<WizDbDelegate>)dataBase
+- (BOOL) saveInfo
 {
+    id<WizDbDelegate> dataBase = [self refrenceDataBase];
     NSDictionary* doc = [self dataBaseModelData];
     if ([dataBase updateDocument:doc]) {
+        NSString* kb ;
+        if (!self.kbGuid) {
+            kb = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
+        }
+        else
+        {
+            kb = self.kbGuid;
+        }
+        [WizNotificationCenter postMessageExtractDocumentAbstract:self.guid kbguid:kb];
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;
     }
@@ -411,8 +450,7 @@ BOOL isReverseMask(NSInteger mask)
     NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">  </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
     return html;
 }
-- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray toDataBase:(id<WizDbDelegate>)dataBase
-{
+- (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray {
     if (self.serverChanged) {
         return NO;
     }
@@ -488,7 +526,7 @@ BOOL isReverseMask(NSInteger mask)
     [html writeToFile:[self documentMobileFile] atomically:YES encoding:NSUTF16StringEncoding error:nil];
     self.dataMd5 = [self localDataMd5];
     self.localChanged = WizEditDocumentTypeAllChanged;
-    [self saveInfo:dataBase];
+    [self saveInfo];
     return YES;
 }
 

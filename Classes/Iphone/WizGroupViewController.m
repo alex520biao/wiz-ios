@@ -129,8 +129,7 @@
     WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
     cell.textLabel.text = group.kbName;
     WizAbstract* abs = [dataBase abstractForGroup:group.kbguid];
-    NSLog(@"%@ %@",abs.text, abs.image);
-        imageView.image = abs.image;
+    imageView.image = abs.image;
     return cell;
 }
 

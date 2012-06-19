@@ -16,6 +16,7 @@
 #import "SearchViewControllerIphone.h"
 #import "WizPhoneNotificationMessage.h"
 #import "UserSttingsViewController.h"
+#import "WizAccountManager.h"
 //wiz-dzpqzb test
 #import "FoldersViewControllerNew.h"
 #import "WizNotification.h"
@@ -23,6 +24,12 @@
 #import "PhRecentViewController.h"
 
  #define NEWNOTEENTRY 101
+
+@interface PickerViewController()
+{
+    BOOL canNewDocument;
+}
+@end
  
 @implementation PickerViewController
 -(void) dealloc
@@ -35,7 +42,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-
+        
     }
     return self;
 }
@@ -95,6 +102,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
+    canNewDocument = [current canEditDocument];
+    
     PhRecentViewController* recent = [[PhRecentViewController alloc]init] ;
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];
@@ -120,18 +130,24 @@
     searchController.title = WizStrSearch;
     searchController.tabBarItem.image = [UIImage imageNamed:@"barItemSearch"];
     [searchView release];
+    if (canNewDocument) {
+        UIImageView* view = [[UIImageView alloc] init] ;
+        UINavigationController* emptyController = [[UINavigationController alloc]init];
+        emptyController.title = NSLocalizedString(@"New", nil);
+        emptyController.tabBarItem.tag = NEWNOTEENTRY;
+        emptyController.tabBarItem.image = [UIImage imageNamed:@"barItemNewNote"];
+        [emptyController.view addSubview:view];
+        [view release];
+        self.viewControllers = [NSArray arrayWithObjects:recentController,folderController, emptyController, tagController ,searchController, nil];
+         [emptyController release];
+    }
+    else
+    {
+        self.viewControllers = [NSArray arrayWithObjects:recentController,folderController,  tagController ,searchController, nil];
+    }
     
-    UIImageView* view = [[UIImageView alloc] init] ;
-    UINavigationController* emptyController = [[UINavigationController alloc]init];
-    emptyController.title = NSLocalizedString(@"New", nil);
-    emptyController.tabBarItem.tag = 1000;
-    emptyController.tabBarItem.image = [UIImage imageNamed:@"barItemNewNote"];
-    [emptyController.view addSubview:view];
-    [view release];
-    self.viewControllers = [NSArray arrayWithObjects:recentController,folderController, emptyController, tagController ,searchController, nil];
     [recentController release];
     [folderController release];
-    [emptyController release];
     [tagController release];
     [searchController release];
     
@@ -155,7 +171,7 @@
 
 - (void) tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    if(item.tag == 1000)
+    if(item.tag == NEWNOTEENTRY)
     {
         [self newNote];
     }
@@ -170,10 +186,9 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    if (self.selectedIndex == 2) {
+    if (self.selectedIndex == 2 && canNewDocument) {
         [self setSelectedIndex:0];
     }
-//    [self setSelectedIndex:0];
 }
 
 - (void) viewWillDisappear:(BOOL)animated

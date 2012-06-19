@@ -36,7 +36,6 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:sourceFilePath]) {
         return;
     }
-    NSData* abstractImageData = nil;
     NSString* abstractText = nil;
     NSLog(@"%@",sourceFilePath);
     NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
@@ -154,7 +153,7 @@
     __block BOOL ret;
     if ([self isAbstractExist:guid]) {
         [self.queue inDatabase:^(FMDatabase *db) {
-            ret =[db executeUpdate:@"update WIZ_ABSTRACT set ABSTRACT_GUID=? ,ABSTRACT_TYPE=?, ABSTRACT_TEXT=?, ABSTRACT_IMAGE=?, GROUP_KBGUID=?,DT_MODIFIED=?", guid, type, text, imageData,kbguid, [[NSDate date] stringSql]];
+            ret =[db executeUpdate:@"update WIZ_ABSTRACT set ABSTRACT_TYPE=?, ABSTRACT_TEXT=?, ABSTRACT_IMAGE=?, GROUP_KBGUID=?,DT_MODIFIED=? where ABSTRACT_GUID=?", type, text, imageData,kbguid, [[NSDate date] stringSql], guid];
         }];
     }
     else
@@ -179,7 +178,6 @@
         }
         [result close];
     }];
-    NSLog(@"abs %@",abs);
     return abs;
 }
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID

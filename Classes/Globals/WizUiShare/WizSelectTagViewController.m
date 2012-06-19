@@ -13,6 +13,7 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizGlobals.h"
 #import "WizNotification.h"
+#import "WizAccountManager.h"
 
 @interface WizSelectTagViewController()
 {
@@ -21,6 +22,7 @@
     UISearchDisplayController* searchDisplayController;
     NSMutableArray* searchedTags;
     BOOL isNewTag;
+    
 }
 @property (nonatomic, retain) NSMutableArray* tags;
 @property (nonatomic, retain)UISearchBar* searchBar;
@@ -216,7 +218,13 @@
     self.searchedTags = [NSMutableArray arrayWithArray:nameIn];
     NSPredicate* searchFullName = [NSPredicate predicateWithFormat:@"title = %@",self.searchBar.text];
     NSArray* predicateArray = [[self allTags] filteredArrayUsingPredicate:searchFullName];
-    if([predicateArray count]==0)
+    
+    static BOOL canNewTag;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        canNewTag = [[[WizAccountManager defaultManager] activeAccountActiveGroup] canEditTag];
+    });
+    if([predicateArray count]==0 && canNewTag)
     {
         WizTag* tag =[[WizTag alloc]init];
         tag.title = self.searchBar.text;

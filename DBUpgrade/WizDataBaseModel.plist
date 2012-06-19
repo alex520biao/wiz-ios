@@ -18,8 +18,6 @@
 		<string>char(19)</string>
 		<key>PRIMARAY_KEY</key>
 		<string>TAG_GUID</string>
-		<key>Test</key>
-		<string>varchar(12)</string>
 	</dict>
 	<key>WIZ_META</key>
 	<dict>
@@ -125,6 +123,8 @@
 		<string>varchar(100)</string>
 		<key>READCOUNT</key>
 		<string>int</string>
+		<key>OWNER</key>
+		<string>varchar(50)</string>
 		<key>PROTECT</key>
 		<string>int</string>
 	</dict>

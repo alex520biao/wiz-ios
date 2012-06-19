@@ -13,6 +13,16 @@
 #define PRIMARAY_KEY    @"PRIMARAY_KEY"
 @implementation WizDataBaseBase
 @synthesize queue;
+@synthesize accountUserId;
+@synthesize kbGuid;
+- (void) dealloc
+{
+    [accountUserId release];
+    [kbGuid release];
+    [queue release];
+    [super dealloc];
+}
+
 - (NSDictionary*) createTableModel:(NSDictionary*)data  tableName:(NSString*)tableName
 {
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
@@ -54,10 +64,17 @@
     return ret;
 }
 
-- (void) dealloc
+- (WizDataBaseBase*) initWithAccountUserId:(NSString*)accountUserId_ kbGuid:(NSString*)kbGuid_    modelName:(NSString*)modelName
 {
-    [queue release];
-    [super dealloc];
+    self = [super init];
+    if (self) {
+        NSString* dbPath = [[WizFileManager shareManager] dbPathForAccountUserId:accountUserId_ groupId:kbGuid_];
+        accountUserId = [accountUserId_ retain];
+        kbGuid = [kbGuid_ retain];
+        NSDictionary* model = [self getDataBaseStructFromFile:modelName];
+        queue = [[FMDatabaseQueue alloc] initWithPath:dbPath withModel:model];
+    }
+    return self;
 }
 
 - (WizDataBaseBase*) initWithPath:(NSString*)dbPath modelName:(NSString*)modelName

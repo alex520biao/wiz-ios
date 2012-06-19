@@ -429,11 +429,9 @@
         [arr addAttachmentBySourceFile:toFilePath];
         
         NSString* groupId = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
-        if (groupId == nil || [groupId isBlock]) {
-            groupId = [[WizSettings defaultSettings] defaultGroupKbGuid];
-        }
-        id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:defaultAccount groupId:groupId];
-        [doc saveWithData:nil attachments:arr toDataBase:dataBase];
+        doc.kbGuid = groupId;
+        doc.accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+        [doc saveWithData:nil attachments:arr ];
         [doc release];
         return YES;
     }

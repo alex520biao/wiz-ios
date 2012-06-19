@@ -60,8 +60,7 @@
 			if ([self.delegate respondsToSelector: @selector(xmlrpcDone:isSucceeded:retObject:forMethod:)])
 			{
 				NSDictionary *usrInfo = [NSDictionary dictionaryWithObjectsAndKeys:@"Connection error. Failed to init NSURLConnection", NSLocalizedDescriptionKey, nil];
-				NSError* err = [[NSError errorWithDomain:@"come.effigent.iphone.parseerror" code:-1 userInfo:usrInfo] retain];
-				
+				NSError* err = [[NSError errorWithDomain:WizErrorDomain code:-1 userInfo:usrInfo] retain];
 				[self.delegate xmlrpcDone: self isSucceeded: NO retObject:err forMethod: [req method]];
                 [err release];
 			}

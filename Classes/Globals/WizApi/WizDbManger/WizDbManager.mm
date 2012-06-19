@@ -102,7 +102,7 @@ static WizDbManager* shareDbManager = nil;
     {
         return nil;
     }
-    id<WizDbDelegate> dataBase = [[WizInfoDataBase alloc] initWithPath:dbPath modelName:@"WizDataBaseModel"];
+    id<WizDbDelegate> dataBase = [[WizInfoDataBase alloc] initWithAccountUserId:accountUserId kbGuid:groupId modelName:@"WizDataBaseModel"];
     [self.dbDataDictionary setObject:dataBase forKey:[self dataBaseKeyString:accountUserId groupId:groupId]];
     return [dataBase autorelease];
 }

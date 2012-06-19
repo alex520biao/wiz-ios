@@ -29,6 +29,34 @@
 @dynamic userGroup;
 @dynamic orderIndex;
 
+- (NSInteger) getCurrentUserRight
+{
+    return [self.userGroup integerValue];
+}
+- (BOOL) canEditCurrentDocument
+{
+    NSInteger right = [self.userGroup integerValue];
+    if (right <= 100 ) {
+        return YES;
+    }
+    return NO;
+}
+- (BOOL) canEditDocument
+{
+    NSInteger right = [self.userGroup integerValue];
+    if (right <= 50 ) {
+        return YES;
+    }
+    return NO;
+}
+- (BOOL) canEditTag
+{
+    NSInteger right = [self.userGroup integerValue];
+    if (right <= 10 ) {
+        return YES;
+    }
+    return NO;
+}
 - (void) getDataFromDic:(NSDictionary*)dic
 {
     self.kbguid = [dic valueForKey:KeyOfKbKbguid];

@@ -16,6 +16,7 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizMapViewController.h"
 #import "WizDbManager.h"
+#import "WizAccountManager.h"
 @interface DocumentInfoViewController()
 {
     BOOL docChanged;
@@ -198,16 +199,21 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (1 == indexPath.row) {
-        [self tagViewSelect];
-    }
-    else if ( 2 == indexPath.row)
-    {
-        [self floderViewSelected];
-    }
-    else if (5 == indexPath.row)
-    {
-        [self showMap];
+    WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
+    NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    BOOL canEdit = [current canEditDocument] || ([current canEditCurrentDocument] && [self.doc.owner isEqualToString:accountUserId]);
+    if (canEdit) {
+        if (1 == indexPath.row) {
+            [self tagViewSelect];
+        }
+        else if ( 2 == indexPath.row)
+        {
+            [self floderViewSelected];
+        }
+        else if (5 == indexPath.row)
+        {
+            [self showMap];
+        }
     }
 }
 

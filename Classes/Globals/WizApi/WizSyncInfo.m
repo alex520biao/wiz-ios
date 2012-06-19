@@ -27,6 +27,14 @@
     [dbDelegate release];
     [super dealloc];
 }
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
 
 - (void) onCallGetUserInfo:(id)retObject
 {
@@ -112,11 +120,14 @@
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[dataBase documentVersion];
-	[dataBase updateDocuments:obj];
+    NSDate* date1= [NSDate date];
+	[dataBase  updateDocuments:obj];
+    NSDate* date2 = [NSDate date];
+    NSLog(@"update documents spend %f count %d",[date1 timeIntervalSinceDate:date2], [obj count]);
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
         [dataBase setDocumentVersion:newVer+1];
-        [self callDownloadDocumentList:newVer+1];
+        [self  callDownloadDocumentList:newVer+1];
     }
     else {
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
@@ -242,9 +253,21 @@
     else {
         [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
         NSArray* array = [dataBase deletedGUIDsForUpload];
-        [self callUploadDeletedGUIDs:array];
+        if (![array count]) {
+            [self callAllTags:[dataBase tagVersion]];
+        }
+        else
+        {
+            [self callUploadDeletedGUIDs:array];
+        }
     }
 }
+- (void) doSync
+{
+    [NSRunLoop currentRunLoop];
+}
+
+
 - (BOOL) start
 {
     if (self.busy)
