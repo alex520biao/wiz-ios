@@ -44,14 +44,12 @@
 
 - (NSDate *) dateFromSqlTimeString
 {
-	NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+	NSDateFormatter* formatter = [NSDate shareSqlDataFormater];
     if (self.length < 19) {
         [formatter release];
         return nil;
     }
     NSDate* date = [formatter dateFromString:self];
-	[formatter release];
 	return date ;
 }
 //

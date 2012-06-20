@@ -10,6 +10,7 @@
 #import "NSDate-Utilities.h"
 
 @interface NSDate (WizTools)
++ (NSDateFormatter*) shareSqlDataFormater;
 - (NSString*) stringYearAndMounth;
 - (NSString*) stringLocal;
 - (NSString*) stringSql;

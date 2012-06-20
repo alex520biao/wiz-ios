@@ -70,20 +70,6 @@
     NSLog(@"%@",password);
     return [self callClientLogin:accountUserId accountPassword:password];
 }
-- (void) onCallGetGropList:(id)retObject
-{
-    NSLog(@"%@",retObject);
-    if ([retObject isKindOfClass:[NSArray class]]) {
-        NSArray* kbGuids = retObject;
-        for (NSDictionary* each in kbGuids) {
-            WizGroup* group  = [[WizGroup alloc]  groupFromDicionary:each];
-            group.type = WizKbguidGroupType;
-            [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
-            
-        }
-    }
-    busy = NO;
-}
 -(void) onClientLogin: (id)retObject
 {
     busy = NO;
@@ -104,13 +90,6 @@
         self.token = _token;
         self.apiURL = urlAPI;
         [urlAPI release];
-//        [self callGetGroupKblist];
-//        
-//        WizGroup* group  = [[WizGroup alloc]  init];
-//        NSString* _kbGuid = [userInfo valueForKey:@"kb_guid"];
-//        group.guid = _kbGuid;
-//        group.type = WizKbguidPrivateType;
-//        [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
     }
     
 }

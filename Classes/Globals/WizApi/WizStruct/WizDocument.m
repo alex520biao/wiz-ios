@@ -378,7 +378,7 @@ BOOL isReverseMask(NSInteger mask)
     NSMutableString* tableContensString = [NSMutableString string];
     [tableContensString appendString:@"<ul>"];
     if (body) {
-        [tableContensString appendFormat:@"<li><p>%@</p></li>",body];
+        [tableContensString appendFormat:@"<li><p>%@</p></li>",[body toHtml]];
     }
     for (WizAttachment* attachment in attachments) {
         NSString* source = attachment.description;

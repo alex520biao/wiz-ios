@@ -76,9 +76,6 @@
 		734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12B1504597D002549CB /* LocationTreeNode.m */; };
 		734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12D1504597D002549CB /* LocationTreeViewCell.m */; };
 		734CA13E1504597D002549CB /* TagsListTreeControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */; };
-		734CA1401504597D002549CB /* TreeBaseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1331504597D002549CB /* TreeBaseNode.m */; };
-		734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1351504597D002549CB /* TreeBaseNodeCell.m */; };
-		734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1371504597D002549CB /* TreeTableViewBase.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
 		734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53C3157CAD8F00BE496E /* WizWebEditor.m */; };
@@ -468,12 +465,6 @@
 		734CA12D1504597D002549CB /* LocationTreeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTreeViewCell.m; sourceTree = "<group>"; };
 		734CA12E1504597D002549CB /* TagsListTreeControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsListTreeControllerNew.h; sourceTree = "<group>"; };
 		734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeControllerNew.m; sourceTree = "<group>"; };
-		734CA1321504597D002549CB /* TreeBaseNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeBaseNode.h; sourceTree = "<group>"; };
-		734CA1331504597D002549CB /* TreeBaseNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeBaseNode.m; sourceTree = "<group>"; };
-		734CA1341504597D002549CB /* TreeBaseNodeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeBaseNodeCell.h; sourceTree = "<group>"; };
-		734CA1351504597D002549CB /* TreeBaseNodeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeBaseNodeCell.m; sourceTree = "<group>"; };
-		734CA1361504597D002549CB /* TreeTableViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeTableViewBase.h; sourceTree = "<group>"; };
-		734CA1371504597D002549CB /* TreeTableViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableViewBase.m; sourceTree = "<group>"; };
 		734CA1381504597D002549CB /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
 		734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WizEditor.h"; sourceTree = "<group>"; };
@@ -1167,12 +1158,6 @@
 				734CA12B1504597D002549CB /* LocationTreeNode.m */,
 				734CA12C1504597D002549CB /* LocationTreeViewCell.h */,
 				734CA12D1504597D002549CB /* LocationTreeViewCell.m */,
-				734CA1321504597D002549CB /* TreeBaseNode.h */,
-				734CA1331504597D002549CB /* TreeBaseNode.m */,
-				734CA1341504597D002549CB /* TreeBaseNodeCell.h */,
-				734CA1351504597D002549CB /* TreeBaseNodeCell.m */,
-				734CA1361504597D002549CB /* TreeTableViewBase.h */,
-				734CA1371504597D002549CB /* TreeTableViewBase.m */,
 				734CA1381504597D002549CB /* TreeViewBaseController.h */,
 				734CA1391504597D002549CB /* TreeViewBaseController.m */,
 			);
@@ -2405,9 +2390,6 @@
 				734CA13C1504597D002549CB /* LocationTreeNode.m in Sources */,
 				734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */,
 				734CA13E1504597D002549CB /* TagsListTreeControllerNew.m in Sources */,
-				734CA1401504597D002549CB /* TreeBaseNode.m in Sources */,
-				734CA1411504597D002549CB /* TreeBaseNodeCell.m in Sources */,
-				734CA1421504597D002549CB /* TreeTableViewBase.m in Sources */,
 				734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */,
 				7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */,
 				737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */,
