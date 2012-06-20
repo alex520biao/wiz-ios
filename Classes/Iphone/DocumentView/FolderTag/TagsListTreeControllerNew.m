@@ -75,8 +75,6 @@
 {
     NSMutableArray* tagArray = [NSMutableArray arrayWithArray:[[[WizDbManager shareDbManager] shareDataBase] allTagsForTree]];
     
-    NSLog(@"%d",[tagArray count]);
-    
     tree = [[LocationTreeNode alloc]init];
     tree.deep = 0;
     tree.title = @"/";
@@ -103,10 +101,11 @@
     {
         [self.displayNodes removeAllObjects];
     }
-//    [self removeBlockLocationNode:tree];
     [LocationTreeNode getLocationNodes:self.tree :self.displayNodes];
     [self setNodeRow];
     [self.tableView reloadData];
+    
+    NSLog(@"self retain count %d",[self retainCount]);
 }
 
 - (void) viewDidLoad

@@ -567,7 +567,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@" %f",self.view.frame.size.width);
     [self.view addSubview:self.downloadActivity.view];
     [self.downloadActivity setCaption:WizStrLoading];
     [self.downloadActivity setActivity:YES];

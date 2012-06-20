@@ -8,6 +8,26 @@
 
 #import "WizNotification.h"
 #import "WizGlobalData.h"
+
+#define DataOfName      @"DataOfName"
+#define DataOfObject    @"DataOfObject"
+#define DataOfUserInfo  @"DataOfUserInfo"
+
+@interface NSNotificationCenter(MP)
+- (void) postMessage:(NSDictionary*)dic;
+@end
+
+@implementation NSNotificationCenter(MP)
+- (void) postMessage:(NSDictionary*)dic
+{
+    NSString* name = [dic objectForKey:DataOfName];
+    id object = [dic objectForKey:DataOfObject];
+    NSDictionary* userInfo = [dic objectForKey:DataOfUserInfo];
+    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    [nc postNotificationName:name object:object userInfo:userInfo];
+}
+@end
+
 @implementation WizNotificationCenter
 
 + (void) addObserverWithKey:(id)observer selector:(SEL)selector name:(NSString *)name
@@ -25,20 +45,26 @@
     NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
     [nc removeObserver:observer name:name object:nil];
 }
+
 + (void) postMessage:(NSString*)messageName userInfo:(NSDictionary*)info
 {
     NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
-    [nc postNotificationName:messageName object:nil userInfo:info];
+    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    if (info != nil ) {
+        [dic setObject:info   forKey:DataOfUserInfo];
+    }
+    [dic setObject:messageName forKey:DataOfName];
+    [nc performSelectorOnMainThread:@selector(postMessage:) withObject:dic waitUntilDone:NO];
 }
 + (void) postMessageWithName:(NSString*)messageName userInfoObject:(id)infoObject userInfoKey:(NSString*)infoKey
 {
     NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
-    if (infoKey == nil || infoObject == nil) {
-        [nc  postNotificationName:messageName object:nil userInfo:nil];
+    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    if (infoKey != nil || infoKey != nil) {
+        [dic setObject:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey] forKey:DataOfUserInfo];
     }
-    else {
-        [nc postNotificationName:messageName object:nil userInfo:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey]];
-    }
+    [dic setObject:messageName forKey:DataOfName];
+    [nc performSelectorOnMainThread:@selector(postMessage:) withObject:dic waitUntilDone:NO];
 }
 
 + (void) postSimpleMessageWithName:(NSString*)messageName

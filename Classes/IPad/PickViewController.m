@@ -35,6 +35,9 @@
 -(void) dealloc
 {
     [WizNotificationCenter removeObserver:self];
+    for (UINavigationController* each in self.viewControllers) {
+        NSLog(@"retaun count is %d %d",[each retainCount], [[each.viewControllers lastObject] retainCount]);
+    }
     [super dealloc];
 }
 
@@ -75,20 +78,11 @@
  
 - (void)didReceiveMemoryWarning
 {
-         // Releases the view if it doesn't have a superview.
-//         [super didReceiveMemoryWarning];
-         
-         // Release any cached data, images, etc that aren't in use.
+     [super didReceiveMemoryWarning];
 }
  
  #pragma mark   View lifecycle
  
-//- (void) selectedView:(NSNotification*)nc
-//{
-//    NSDictionary* userInfo = [nc userInfo];
-//    NSNumber* index = [userInfo valueForKey:TypeOfMainPickerViewIndex];
-//    [self setSelectedIndex:[index intValue]];
-//}
 - (void) popSelf
 {
     [self.navigationController popViewControllerAnimated:NO];
@@ -160,8 +154,6 @@
  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-         // Return YES for supported orientations
-//         return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
  
@@ -177,11 +169,6 @@
     }
 }
 
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    [viewController viewWillAppear:animated];
-}
-
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -189,12 +176,20 @@
     if (self.selectedIndex == 2 && canNewDocument) {
         [self setSelectedIndex:0];
     }
+    
+    
+    for (UINavigationController* each in self.viewControllers) {
+        NSLog(@"view retain count is %d",[[each.viewControllers lastObject] retainCount]);
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    for (UINavigationController* each in self.viewControllers) {
+        NSLog(@"view disappear retain count is %d",[[each.viewControllers lastObject] retainCount]);
+    }
 }
 @end
 

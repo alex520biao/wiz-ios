@@ -8,12 +8,9 @@
 
 #import "FoldersViewControllerNew.h"
 #import "TreeViewBaseController.h"
-#import "WizGlobalData.h"
 #import "LocationTreeNode.h"
 #import "LocationTreeViewCell.h"
-#import "WizGlobals.h"
 #import "WizPhoneNotificationMessage.h"
-#import "WizTableViewController.h"
 #import "WizDbManager.h"
 #import "PhFolderListViewController.h"
 
@@ -29,16 +26,13 @@
 }
 - (void) dealloc
 {
+    NSLog(@"foler dealloc");
     [WizNotificationCenter removeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 - (NSString*) restructLoactionKey:(NSArray*)locationArray  maxIndex:(int)index
@@ -124,7 +118,7 @@
     }];
     [LocationTreeNode getLocationNodes:tree :self.displayNodes];
     [self setNodeRow];
-	[[self tableView] reloadData];
+	[[self tableView]performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 - (void) viewDidLoad
 {
@@ -181,6 +175,16 @@
         [self.navigationController pushViewController:folder animated:YES];
         [folder release];
     }
+}
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    NSLog(@"folder retain count %d",[self retainCount]);
 }
 
 @end

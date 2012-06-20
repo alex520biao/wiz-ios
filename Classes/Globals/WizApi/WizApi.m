@@ -36,6 +36,12 @@
 #define SyncMethod_GetUserInfo                  @"wiz.getInfo"
 #define SyncMethod_GetGropKbGuids               @"accounts.getGroupKbList"
 
+@interface WizApi ()
+{
+    SEL xmlRpcDoneSelector;
+}
+@end
+
 @implementation WizApi
 @synthesize token;
 @synthesize kbguid;
@@ -97,101 +103,131 @@
 }
 - (void)  delegatePerformSelector:(SEL)aSelector withObject:(id)ret
 {
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     [delegate performSelector:aSelector withObject:ret];
+    [pool drain];
+}
+- (void) delegatePerformXmlRpcDoneSelectorWithObject:(id)ret
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    [delegate performSelector:xmlRpcDoneSelector withObject:ret];
+    [pool drain];
 }
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	if (succeeded && ![ret isKindOfClass:[NSError class]])
 	{
-        SEL selector;
-		if ([method isEqualToString:SyncMethod_ClientLogin])
-		{
-			[delegate onClientLogin:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_ClientLogout])
-		{
-			[delegate onClientLogout:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_CreateAccount])
-		{
-			[delegate onCreateAccount:ret];
-		}
-        else if ([method isEqualToString:SyncMethod_ChangeAccountPassword])
+        @synchronized(self)
         {
-            [delegate onChangePassword:ret];
+            if ([method isEqualToString:SyncMethod_ClientLogin])
+            {
+                xmlRpcDoneSelector = @selector(onClientLogin:);
+    //			[delegate onClientLogin:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_ClientLogout])
+            {
+                xmlRpcDoneSelector = @selector(onClientLogout:);
+    //			[delegate onClientLogout:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_CreateAccount])
+            {
+                xmlRpcDoneSelector = @selector(onCreateAccount:);
+    //			[delegate onCreateAccount:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_ChangeAccountPassword])
+            {
+                xmlRpcDoneSelector = @selector(onChangePassword:);
+    //            [delegate onChangePassword:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_GetAllCategories])
+            {
+                xmlRpcDoneSelector = @selector(onAllCategories:);
+    //			[delegate onAllCategories:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_GetAllTags])
+            {
+                xmlRpcDoneSelector = @selector(onAllTags:);
+    //			[delegate onAllTags:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_DownloadDocumentList])
+            {
+                xmlRpcDoneSelector = @selector(onDownloadDocumentList:);
+    //			[self performSelectorInBackground:selector withObject:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_DocumentsByCategory])
+            {
+                xmlRpcDoneSelector = @selector(onDocumentsByCategory:);
+    //			[delegate onDocumentsByCategory:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_DocumentsByTag])
+            {
+                xmlRpcDoneSelector = @selector(onDocumentsByTag:);
+    //			[delegate onDocumentsByTag:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_DownloadDeletedList])
+            {
+                xmlRpcDoneSelector = @selector(onDownloadDeletedList:);
+    //			[delegate onDownloadDeletedList:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_UploadDeletedList])
+            {
+    //            selector = @selector(onUploadDeletedGUIDs:);
+                [delegate onUploadDeletedGUIDs:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_DocumentsByKey])
+            {
+                xmlRpcDoneSelector = @selector(onDocumentsByKey:);
+    //			[delegate onDocumentsByKey:ret];
+            }
+            else if([method isEqualToString:SyncMethod_DownloadObject])
+            {
+                xmlRpcDoneSelector = @selector(onDownloadObject:);
+    //            [delegate onDownloadObject:ret];
+    //            return;
+            }
+            else if([method isEqualToString:SyncMethod_UploadObject])
+            {
+                xmlRpcDoneSelector = @selector(onUploadObjectData:);
+    //            [delegate onUploadObjectData:ret];
+    //            return;
+            }
+            else if([method isEqualToString:SyncMethod_GetAttachmentList])
+            {
+                xmlRpcDoneSelector = @selector(onDownloadAttachmentList:);
+    //            [delegate onDownloadAttachmentList:ret];
+            }
+            else if([method isEqualToString:SyncMethod_PostTagList])
+            {
+                xmlRpcDoneSelector = @selector(onPostTagList:);
+    //            [delegate onPostTagList:ret];
+            }
+            else if([method isEqualToString:SyncMethod_DocumentPostSimpleData])
+            {
+                xmlRpcDoneSelector = @selector(onDocumentPostSimpleData:);
+    //            [delegate onDocumentPostSimpleData:ret];
+            }
+            else if([method isEqualToString:SyncMethod_AttachmentPostSimpleData])
+            {
+                xmlRpcDoneSelector = @selector(onAttachmentPostSimpleData:);
+    //            [delegate onAttachmentPostSimpleData:ret];
+            }
+            else if([method isEqualToString:SyncMethod_GetUserInfo])
+            {
+                xmlRpcDoneSelector = @selector(onCallGetUserInfo:);
+    //            [delegate onCallGetUserInfo:ret];
+            }
+            else if ([method isEqualToString:SyncMethod_GetGropKbGuids])
+            {
+                xmlRpcDoneSelector = @selector(onCallGetGropList:);
+    //            [delegate onCallGetGropList:ret];
+            }
+            else
+            {
+                [WizGlobals reportErrorWithString:NSLocalizedString(@"Unknown xml-rpc method!", nil)];
+            }
+            [self performSelectorInBackground:@selector(delegatePerformXmlRpcDoneSelectorWithObject:) withObject:ret];
         }
-		else if ([method isEqualToString:SyncMethod_GetAllCategories])
-		{
-			[delegate onAllCategories:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_GetAllTags])
-		{
-			[delegate onAllTags:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_DownloadDocumentList])
-		{
-            selector = @selector(onDownloadDocumentList:);
-			[self performSelectorInBackground:selector withObject:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_DocumentsByCategory])
-		{
-			[delegate onDocumentsByCategory:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_DocumentsByTag])
-		{
-			[delegate onDocumentsByTag:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_DownloadDeletedList])
-		{
-			[delegate onDownloadDeletedList:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_UploadDeletedList])
-		{
-			[delegate onUploadDeletedGUIDs:ret];
-		}
-		else if ([method isEqualToString:SyncMethod_DocumentsByKey])
-		{
-			[delegate onDocumentsByKey:ret];
-		}
-        else if([method isEqualToString:SyncMethod_DownloadObject])
-        {
-            [delegate onDownloadObject:ret];
-            return;
-        }
-        else if([method isEqualToString:SyncMethod_UploadObject])
-        {
-            [delegate onUploadObjectData:ret];
-            return;
-        }
-        else if([method isEqualToString:SyncMethod_GetAttachmentList])
-        {
-            [delegate onDownloadAttachmentList:ret];
-        }
-        else if([method isEqualToString:SyncMethod_PostTagList])
-        {
-            [delegate onPostTagList:ret];
-        }
-        else if([method isEqualToString:SyncMethod_DocumentPostSimpleData])
-        {
-            [delegate onDocumentPostSimpleData:ret];
-        }
-        else if([method isEqualToString:SyncMethod_AttachmentPostSimpleData])
-        {
-            [delegate onAttachmentPostSimpleData:ret];
-        }
-        else if([method isEqualToString:SyncMethod_GetUserInfo])
-        {
-            [delegate onCallGetUserInfo:ret];
-        }
-        else if ([method isEqualToString:SyncMethod_GetGropKbGuids])
-        {
-            [delegate onCallGetGropList:ret];
-        }
-        else
-		{
-			[WizGlobals reportErrorWithString:NSLocalizedString(@"Unknown xml-rpc method!", nil)];
-		}
         
 	}
 	else 

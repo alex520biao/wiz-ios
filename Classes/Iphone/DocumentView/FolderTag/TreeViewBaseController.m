@@ -8,7 +8,7 @@
 
 #import "TreeViewBaseController.h"
 #import "LocationTreeNode.h"
-#import "LocationTreeViewCell.h"
+
 #import "WizApi.h"
 
 #import "WizGlobals.h"
@@ -116,20 +116,25 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    NSLog(@"folder retain count %d",[self retainCount]);
     if (self.isWillReloadAllData) {
         [self reloadAllData];
         self.isWillReloadAllData = !self.isWillReloadAllData;
     }
+    NSLog(@"folder retain count %d",[self retainCount]);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    NSLog(@"folder retain count %d",[self retainCount]);
     [super viewWillDisappear:animated];
+    NSLog(@"folder retain count %d",[self retainCount]);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    NSLog(@"folder retain count %d",[self retainCount]);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -176,33 +181,13 @@
 - (UITableViewCell *) tableView: (UITableView *)tableView
 		  cellForRowAtIndexPath: (NSIndexPath *)indexPath
 {
-	NSString* CellId = [NSString stringWithFormat:@"%@%d",@"FolderCell",indexPath.row];
-    static NSString* CellNoChild = @"cell_no_child";
+    static NSString* CellNoChild = @"Cell";
     LocationTreeNode* node = [displayNodes objectAtIndex:indexPath.row];
-    LocationTreeViewCell *cell = nil;
-    if (![node hasChildren]) {
-        cell=(LocationTreeViewCell*)[tableView dequeueReusableCellWithIdentifier:CellNoChild];
-        if (cell == nil)
-        {
-            cell = [[[LocationTreeViewCell alloc]
-                     initWithStyle:UITableViewCellStyleSubtitle
-                     reuseIdentifier:CellNoChild] autorelease];
-        }
+    LocationTreeViewCell *cell = (LocationTreeViewCell*)[tableView dequeueReusableCellWithIdentifier:CellNoChild];
+    if (!cell) {
+        cell = [[[LocationTreeViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellNoChild] autorelease]; ;
+        cell.expandDelegate = self;
     }
-    
-    else
-    {
-        cell=(LocationTreeViewCell*)[tableView dequeueReusableCellWithIdentifier:CellId];
-        if (cell == nil)
-        {
-            cell = [[[LocationTreeViewCell alloc]
-                     initWithStyle:UITableViewCellStyleSubtitle
-                     reuseIdentifier:CellId] autorelease];
-        }
-        
-    }
-    [cell setOwner:self];
-    [cell setOnExpand:@selector(onExpand:)];
     [cell setTreeNode:node];
     [self configCell:cell :node];
 	return cell;

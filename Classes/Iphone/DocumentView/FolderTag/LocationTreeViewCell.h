@@ -8,16 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "LocationTreeNode.h"
+@protocol WizTreeExpandDelegate
+- (void) onExpand:(LocationTreeNode*)node;
+@end
 
 @interface LocationTreeViewCell : UITableViewCell {
-    SEL onExpand;
     LocationTreeNode* treeNode;
-    id owner;
     UIImage* expandImage;
     UIImage* closedImage;
+    id<WizTreeExpandDelegate> expandDelegate;
 }
-@property (assign) SEL onExpand;
-@property(nonatomic, retain) id owner;
+@property(nonatomic, assign) id<WizTreeExpandDelegate> expandDelegate;
 @property(nonatomic, retain) LocationTreeNode* treeNode;
 @property(nonatomic,retain) UIImage* expandImage;
 @property(nonatomic,retain) UIImage* closedImage;

@@ -7,17 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LocationTreeViewCell.h"
 @class LocationTreeNode;
-@class LocationTreeViewCell;
-
 @protocol WizTreeViewBaseMethod <NSObject>
-
 @optional
 -(void) setDetail:(LocationTreeViewCell*)cell;
 -(void) reloadAllData;
 @end
 
-@interface TreeViewBaseController : UITableViewController <WizTreeViewBaseMethod,UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate> {
+@interface TreeViewBaseController : UITableViewController <WizTreeExpandDelegate ,WizTreeViewBaseMethod,UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate> {
     NSArray* locations;
     NSMutableArray *displayNodes;
     LocationTreeNode* tree;

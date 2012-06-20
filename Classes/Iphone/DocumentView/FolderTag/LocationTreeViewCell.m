@@ -10,15 +10,16 @@
 
 @implementation LocationTreeViewCell
 
-@synthesize onExpand,owner;
+@synthesize expandDelegate;
 @synthesize treeNode;
 @synthesize closedImage;
 @synthesize expandImage;
 - (void) dealloc
 {
-    [owner release];
+    expandDelegate = nil;
     [closedImage release];
     [expandImage release];
+    [treeNode release];
     [super dealloc];
 }
 -(void) addSelcetorToView:(SEL)sel :(UIView*)view
@@ -46,13 +47,10 @@
             self.imageView.image = self.expandImage;
         }
 		treeNode.expanded=!treeNode.expanded;//切换“展开/收起”状态
-        if(owner!=nil && onExpand!=nil)//若用户设置了onExpand属性则调用
-			[owner performSelector:onExpand withObject:treeNode];
+        [self.expandDelegate onExpand:treeNode];
 	}
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
-
-
 @end

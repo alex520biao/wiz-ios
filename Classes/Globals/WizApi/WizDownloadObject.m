@@ -121,7 +121,6 @@
     //
     busy = NO;
     attempts = WizNetWorkMaxAttempts;
-    NSLog(@"download done!***************************");
     self.syncMessage = WizSyncEndMessage;
     NSString* guid = [NSString stringWithString:self.object.guid];
     NSString* download = NSLocalizedString(@"Download", nil);

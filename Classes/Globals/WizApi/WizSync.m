@@ -137,7 +137,6 @@
 }
 - (BOOL) willDownloandNext
 {
-    NSLog(@"download array is %d",[downloadArray count]);
     if ([downloadArray count]) {
         return YES;
     }
