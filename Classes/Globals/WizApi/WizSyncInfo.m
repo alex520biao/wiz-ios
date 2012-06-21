@@ -233,7 +233,9 @@
 		{
             if ([dataBase deleteDocument:guid]) {
                 [[WizFileManager shareManager] removeObjectPath:guid];
-                [WizNotificationCenter postDeleteDocumentMassage:[[[WizDocument alloc] init] autorelease]];
+                WizDocument* doc = [[[WizDocument alloc] init] autorelease];
+                doc.guid = guid;
+                [WizNotificationCenter postDeleteDocumentMassage:doc];
             }
         }
         
