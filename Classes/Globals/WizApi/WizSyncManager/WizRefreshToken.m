@@ -75,7 +75,7 @@
     NSLog(@"%@",retObject);
     if ([retObject isKindOfClass:[NSArray class]]) {
         NSArray* kbGuids = retObject;
-        [[WizAccountManager defaultManager] updateGroups:kbGuids];
+        [[WizAccountManager defaultManager] performSelectorOnMainThread:@selector(updateGroups:) withObject:kbGuids  waitUntilDone:NO];
     }
     busy = NO;
 }
@@ -99,7 +99,7 @@
         self.apiURL = urlAPI;
         [urlAPI release];
         [self callGetGroupKblist];
-        [[WizAccountManager defaultManager] updateGroup:userInfo];
+        [[WizAccountManager defaultManager] performSelectorOnMainThread:@selector(updateGroup:) withObject:userInfo  waitUntilDone:NO];
     }
 }
 @end

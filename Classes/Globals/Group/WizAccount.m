@@ -10,8 +10,6 @@
 
 
 @implementation WizAccount
-
 @dynamic  userId;
 @dynamic  password;
-
 @end

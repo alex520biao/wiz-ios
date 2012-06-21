@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>WizSetting</key>
+	<dict>
+		<key>SETTING_USERID</key>
+		<string>varchar(200)</string>
+		<key>SETTING_KBGUID</key>
+		<string>char(36)</string>
+		<key>SETTING_KEY</key>
+		<string>varchar(200)</string>
+		<key>SETTING_VALUE</key>
+		<string>varchar(200)</string>
+		<key>SETTING_DATE_MODIFIED</key>
+		<string>char(19)</string>
+	</dict>
+</dict>
+</plist>

@@ -13,8 +13,9 @@
 #import "XMLRPCResponse.h"
 #import "WizInfoDataBase.h"
 #import "WizTempDataBase.h"
+#import "wizSettingsDataBase.h"
 
-
+#define WIZ_ACCOUNTS_SETTINGSFILE   @"WIZ_ACCOUNTS_SETTINGSFILE"
 #define PRIMARAY_KEY    @"PRIMARAY_KEY"
 
 @interface WizDbManager()
@@ -118,6 +119,14 @@ static WizDbManager* shareDbManager = nil;
     return [database autorelease];
 }
 
+- (id<WizSettingsDbDelegate>) getNewWizSettingsDataBase
+{
+    NSString* dbPath = [[WizFileManager documentsPath] stringByAppendingPathComponent:@"accounts.db"];
+    id<WizSettingsDbDelegate> dataBase = [[WizSettingsDataBase alloc] initWithPath:dbPath modelName:@"WizSettingsDataBaseModel"];
+    [self.dbDataDictionary setObject:dataBase forKey:WIZ_ACCOUNTS_SETTINGSFILE];
+    return [dataBase autorelease];
+}
+
 - (id<WizDbDelegate>) getWizDataBase:(NSString *)accountUserId groupId:(NSString *)groupId
 {
     id<WizDbDelegate> dataBase = [self.dbDataDictionary objectForKey:[self dataBaseKeyString:accountUserId groupId:groupId]];
@@ -132,6 +141,15 @@ static WizDbManager* shareDbManager = nil;
     id<WizAbstractDbDelegate> dataBase = [self.dbDataDictionary objectForKey:accountUserId];
     if (!dataBase) {
         dataBase = [self getNewWizTempDataBase:accountUserId];
+    }
+    return dataBase;
+}
+
+- (id<WizSettingsDbDelegate>) getWizSettingsDataBase
+{
+    id<WizSettingsDbDelegate> dataBase = [self.dbDataDictionary objectForKey:WIZ_ACCOUNTS_SETTINGSFILE];
+    if (!dataBase) {
+        dataBase = [self getNewWizSettingsDataBase];
     }
     return dataBase;
 }

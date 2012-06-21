@@ -54,7 +54,10 @@ static WizSyncManager* shareManager;
     [super dealloc];
 }
 
-
+- (NSString*)getShareToken
+{
+    return self.token;
+}
 - (id) init
 {
     self = [super init];
@@ -153,6 +156,7 @@ static WizSyncManager* shareManager;
 {
     self.token = @"";
 }
+
 
 - (void) didApiSyncDone:(WizApi *)api
 {

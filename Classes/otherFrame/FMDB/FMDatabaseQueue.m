@@ -73,6 +73,7 @@
             }
             else
             {
+                NSLog(@"create is %@",[conten valueForKey:tableName]);
                 if (![_db executeUpdate:[conten valueForKey:tableName]]) {
                     return NO;
                 } ;

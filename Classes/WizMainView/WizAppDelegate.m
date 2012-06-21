@@ -342,9 +342,15 @@
 //    WizAbstract* abst = [temp abstractOfDocument:@"xxx"];
 //    NSLog(@"%@ %@",abst.text, abst.image);
 //}
+- (void) testSettingsDataBase
+{
+    [[WizDbManager shareDbManager] getWizSettingsDataBase];
+    [[WizSyncManager shareManager] refreshToken];
+}
 
 - (void) initRootNavigation
 {
+    
     UINavigationController* root = [[UINavigationController alloc] init];
     if ([WizGlobals WizDeviceIsPad])
     {

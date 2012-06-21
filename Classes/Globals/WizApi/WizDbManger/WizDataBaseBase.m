@@ -43,6 +43,7 @@
         if (NSNotFound != lastIndex) {
             [createTableSql deleteCharactersInRange:NSMakeRange(lastIndex, 1)];
         }
+        [createTableSql appendString:@")"];
     }
     else
     {
@@ -86,5 +87,6 @@
     }
     return self;
 }
+
 
 @end

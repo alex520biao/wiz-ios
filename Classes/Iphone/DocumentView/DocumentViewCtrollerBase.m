@@ -384,40 +384,6 @@
     self.web.scalesPageToFit = YES;
     NSString* documentFileName = [self.doc documentWillLoadFile];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-//    if ([[WizSettings defaultSettings] isMoblieView]) {
-//        [self setDeviceWidth];
-//        if (![self.doc isExistMobileViewFile]) {
-//            NSString* documentType = self.doc.type;
-//            if (documentType!=nil) {
-//                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
-//                    [self setZoomWidth];
-//                }
-//            }
-//            else
-//            {
-//                NSString* url = self.doc.url;
-//                if (url != nil && url.length > 4) {
-//                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
-//                        [self setZoomWidth];
-//                    }
-//                }
-//            }
-//            
-//        }
-//    }
-//    else {
-//        [self setZoomWidth];
-//        NSString* url = self.doc.url;
-//        NSString* type = self.doc.type;
-//        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-//            [self setDeviceWidth];
-//        }
-//        if ([type isEqualToString:@"webnote"]) {
-//            if ([self.doc isNewWebnote]) {
-//                [self setDeviceWidth];
-//            }
-//        }
-//    }
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageAllowed timeoutInterval:40.0f];
     [self.web loadRequest:req];
     [req release];

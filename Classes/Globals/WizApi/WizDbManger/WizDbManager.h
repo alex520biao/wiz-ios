@@ -13,5 +13,6 @@
 - (id<WizDbDelegate>) shareDataBase;
 - (id<WizDbDelegate>) getWizDataBase:(NSString*)accountUserId  groupId:(NSString*)groupId;
 - (id<WizAbstractDbDelegate>) getWizTempDataBase:(NSString*)accountUserId;
+- (id<WizSettingsDbDelegate>) getWizSettingsDataBase;
 - (void) removeUnactiveDatabase;
 @end

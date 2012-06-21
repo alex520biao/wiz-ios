@@ -200,7 +200,8 @@
 - (void) downloadCacheDocuments
 {
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
-    NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
+//    NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
+    NSInteger duration = 1;
     NSArray* array = [dataBase documentsForCache:duration];
     [self downloadWizObjects:array];
 }

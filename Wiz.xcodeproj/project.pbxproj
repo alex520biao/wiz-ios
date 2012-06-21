@@ -381,6 +381,8 @@
 		73EDCC41156C81680077F224 /* WizPadCatelogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EDCC40156C81680077F224 /* WizPadCatelogViewController.m */; };
 		73EEF496153E650300481029 /* WizGlobalError.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EEF495153E650300481029 /* WizGlobalError.m */; };
 		73F116F1155A5ADA00967D4D /* WizSyncMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F116F0155A5ADA00967D4D /* WizSyncMessage.m */; };
+		73F18537159302EA0095BA21 /* WizSettingsDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F18536159302EA0095BA21 /* WizSettingsDataBase.m */; };
+		73F1853A159304E00095BA21 /* WizSettingsDataBaseModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73F18539159304E00095BA21 /* WizSettingsDataBaseModel.plist */; };
 		73FA11CC1557D1CF008B5FDF /* PhFolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */; };
 		73FBB846156C863A008FC4BC /* WizPadFoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FBB845156C863A008FC4BC /* WizPadFoldersViewController.m */; };
 		73FBB851156C888E008FC4BC /* WizFolderCatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FBB850156C888E008FC4BC /* WizFolderCatelogView.m */; };
@@ -980,6 +982,9 @@
 		73EEF495153E650300481029 /* WizGlobalError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobalError.m; sourceTree = "<group>"; };
 		73F116EF155A5AD900967D4D /* WizSyncMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncMessage.h; sourceTree = "<group>"; };
 		73F116F0155A5ADA00967D4D /* WizSyncMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncMessage.m; sourceTree = "<group>"; };
+		73F18535159302EA0095BA21 /* WizSettingsDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettingsDataBase.h; sourceTree = "<group>"; };
+		73F18536159302EA0095BA21 /* WizSettingsDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettingsDataBase.m; sourceTree = "<group>"; };
+		73F18539159304E00095BA21 /* WizSettingsDataBaseModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = WizSettingsDataBaseModel.plist; path = DBUpgrade/WizSettingsDataBaseModel.plist; sourceTree = "<group>"; };
 		73FA11CA1557D1CF008B5FDF /* PhFolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhFolderListViewController.h; path = Classes/Iphone/DocumentList/PhFolderListViewController.h; sourceTree = SOURCE_ROOT; };
 		73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhFolderListViewController.m; path = Classes/Iphone/DocumentList/PhFolderListViewController.m; sourceTree = SOURCE_ROOT; };
 		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
@@ -1073,6 +1078,7 @@
 				73FBA14115183C2A0096E54F /* Wiz-Info.plist */,
 				735CEA0315898F8800C5C456 /* WizDataBaseModel.plist */,
 				73156C80158D68EF00508718 /* WizAbstractDataBaseModel.plist */,
+				73F18539159304E00095BA21 /* WizSettingsDataBaseModel.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2140,6 +2146,8 @@
 				73C7846B1589EA1200A07941 /* WizInfoDataBase.m */,
 				7326F48C1589D9AB001944C1 /* WizDataBaseV.h */,
 				7326F48D1589D9AC001944C1 /* WizDataBaseV.m */,
+				73F18535159302EA0095BA21 /* WizSettingsDataBase.h */,
+				73F18536159302EA0095BA21 /* WizSettingsDataBase.m */,
 			);
 			name = WizDataBase;
 			sourceTree = "<group>";
@@ -2505,6 +2513,7 @@
 				7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */,
 				735CEA0415898F8800C5C456 /* WizDataBaseModel.plist in Resources */,
 				73156C81158D68EF00508718 /* WizAbstractDataBaseModel.plist in Resources */,
+				73F1853A159304E00095BA21 /* WizSettingsDataBaseModel.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2692,6 +2701,7 @@
 				73C7846C1589EA1200A07941 /* WizInfoDataBase.m in Sources */,
 				735FE44F158B842100A0E038 /* WizDeletedGUID.m in Sources */,
 				73B49F92158D606600592649 /* WizTempDataBase.m in Sources */,
+				73F18537159302EA0095BA21 /* WizSettingsDataBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

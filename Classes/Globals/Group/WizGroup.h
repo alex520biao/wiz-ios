@@ -14,10 +14,10 @@
 #define KeyOfKbAbstractString       @"KeyOfKbAbstractString"
 #define KeyOfKbName                 @"kb_name"
 #define KeyOfKbRight                @"user_group"
-
-
 #define KeyOfKbTypePrivate          @"private"
 #define KeyOfKbTypeGroup            @"group"
+#define KeyOfKbOrderIndex           @"KeyOfKbOrderIndex"
+
 enum WizGroupUserRightAdmin {
     WizGroupUserRightAdmin = 0,
     WizGroupUserRightSuper = 10 ,
@@ -42,8 +42,8 @@ enum WizGroupUserRightAdmin {
 @property (nonatomic, retain) NSString * ownerName;
 @property (nonatomic, retain) NSString * roleNote;
 @property (nonatomic, retain) NSString * serverUrl;
-@property (nonatomic, retain) NSNumber * userGroup;
-@property (nonatomic, retain) NSNumber * orderIndex;
+@property (nonatomic, retain) NSNumber* userGroup;
+@property (nonatomic, retain) NSNumber*  orderIndex;
 - (void) getDataFromDic:(NSDictionary*)dic;
 - (BOOL) canEditDocument;
 - (BOOL) canEditTag;

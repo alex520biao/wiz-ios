@@ -9,6 +9,7 @@
 #import "WizSettings.h"
 #import "WizAccountManager.h"
 #import "WizSettingsDbDelegate.h"
+#import "WizDbManager.h"
 
 #define WizServerUrlString  @"WizServerUrl"
 #define WizPasscode         @"WizPasscode"
@@ -68,7 +69,7 @@ static WizSettings* defaultSettings = nil;
 {
     self = [super init];
     if (self) {
-        WizAccountDataBase<WizSettingsDbDelegate>* dataBase = [[WizAccountManager defaultManager] accountSettingsDataBase];
+        id<WizSettingsDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizSettingsDataBase];
         self.settingsDbDelegate = dataBase;
     }
     return self;
@@ -275,21 +276,17 @@ static WizSettings* defaultSettings = nil;
 {
     return [self.settingsDbDelegate setLastSynchronizedDate:lastDate];
 }
-
 - (NSDate*) lastSynchronizeDate
 {
     return [self.settingsDbDelegate lastSynchronizedDate];
 }
-
 //
 - (BOOL) setNewNoteDefaultFolder:(NSString*)folder
 {
     return [self.settingsDbDelegate setNewNoteDefaultFolder:folder];
 }
-
 - (NSString*) newNoteDefaultFolder
 {
     return [self.settingsDbDelegate newNoteDefaultFolder];
 }
-
 @end
