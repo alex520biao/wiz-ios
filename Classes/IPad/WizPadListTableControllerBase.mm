@@ -156,6 +156,7 @@
     if ([[WizSettings defaultSettings] userTablelistViewOption] != self.kOrderIndex) {
         [self reloadAllData];
     }
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

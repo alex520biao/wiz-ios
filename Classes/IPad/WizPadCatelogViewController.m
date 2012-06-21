@@ -53,6 +53,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [dataArray removeAllObjects];
     [dataArray addObjectsFromArray:[self catelogDataSourceArray]];
+    willInterfaceOrientation = self.interfaceOrientation;
     [self.tableView reloadData];
 }
 - (void)viewDidLoad
@@ -89,14 +90,18 @@
     {
         count = 3;
     }
-    NSLog(@"count is %d",count);
-    NSLog(@"%d remind %d",[dataArray count],[dataArray count]%count);
     if ([dataArray  count]%count>0) {
         return  [dataArray count]/count+1;
     }
     else {
         return [dataArray count]/count  ;
     }
+}
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    willInterfaceOrientation = self.interfaceOrientation;
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -115,9 +120,11 @@
     NSInteger documentsCount =0;
     if (UIInterfaceOrientationIsLandscape(willInterfaceOrientation)) {
         documentsCount = 4;
+        NSLog(@"current interface is landscape");
     }
     else
     {
+        NSLog(@"current interface is patrait");
         documentsCount = 3;
     }
     NSUInteger needLength = documentsCount*(indexPath.row+1);
@@ -129,7 +136,7 @@
     else {
         docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
     }
-    NSLog(@"index ");
+    NSLog(@"index docRange is %d %d",docRange.location, docRange.length);
     cellArray = [dataArray subarrayWithRange:docRange];
     [cell setCatelogViewContents:cellArray];
     return cell;
