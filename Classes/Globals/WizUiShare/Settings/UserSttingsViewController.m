@@ -658,21 +658,13 @@ enum WizSettingKind {
             [[WizSettings defaultSettings] setImageQualityValue:[[NSArray imageQulityArray] wizSettingValueAtIndex:index]];
             break;
         case WizSelectGroup:
-<<<<<<< Updated upstream
                   break;
-=======
-            break;
->>>>>>> Stashed changes
         default:
             break;
     }
 }
-<<<<<<< Updated upstream
 
 - (void) selectDownoadDuration
-=======
-- (void) selectDownoadDuration 
->>>>>>> Stashed changes
 {
     NSArray* downloadDurationArray = [NSArray downloadDurationArray];
     NSInteger lastIndex = [downloadDurationArray indexForWizSettingValue:[[WizSettings defaultSettings] durationForDownloadDocument]];

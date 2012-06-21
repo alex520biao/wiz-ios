@@ -120,12 +120,6 @@ static WizSyncManager* shareManager;
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
-<<<<<<< Updated upstream
-=======
-    WizAccount* activeAccount = [[WizAccountManager defaultManager] activeAccount];
-    WizGroup* group = [activeAccount activeGroup];
-    self.kbGuid = group.kbguid;
->>>>>>> Stashed changes
     api.token = self.token;
     api.apiURL = self.apiUrl;
     return YES;

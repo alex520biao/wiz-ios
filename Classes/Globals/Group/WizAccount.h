@@ -11,6 +11,8 @@
 
 
 @interface WizAccount : NSManagedObject
+
 @property (nonatomic, retain) NSString * userId;
 @property (nonatomic, retain) NSString * password;
+
 @end

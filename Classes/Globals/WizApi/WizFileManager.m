@@ -116,29 +116,8 @@ static WizFileManager* shareManager = nil;
 - (NSString*) accountsDbPath
 {
     NSString* documentsPath = [WizFileManager documentsPath];
-    NSLog(@"%@",documentsPath);
     return [documentsPath stringByAppendingPathComponent:@"accounts.db"];
 }
-<<<<<<< Updated upstream
-=======
-- (NSString*) dbPath
-{
-//    WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
-//    if (WizKbguidPrivateType == kb.type) {
-//        return [self dbPathForGroup:@"index"];
-//    }
-//    NSLog(@"%@ %@",active, kb);
-//	return [self dbPathForGroup:kb.guid];
-    return [self dbPathForGroup:@"index"];
-}
-- (NSString*) tempDbPath
-{
-    WizAccount* active = [[WizAccountManager defaultManager] activeAccount];
-    WizGroup* kb = [active activeGroup];
-    return [self dbPathForGroup:@"temp"];
-}
-
->>>>>>> Stashed changes
 - (NSString*) objectFilePath:(NSString*)objectGuid
 {
 	NSString* accountPath = [self accountPath];
