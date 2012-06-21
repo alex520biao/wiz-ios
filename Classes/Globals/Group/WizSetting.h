@@ -12,8 +12,13 @@
 
 @interface WizSetting : NSManagedObject
 
+<<<<<<< Updated upstream
 @property (nonatomic, retain) NSString * accountUserId;
 @property (nonatomic, retain) NSString * key;
+=======
+@property (nonatomic, retain) NSString * key;
+@property (nonatomic, retain) NSString * accountUserId;
+>>>>>>> Stashed changes
 @property (nonatomic, retain) NSString * value;
 
 @end

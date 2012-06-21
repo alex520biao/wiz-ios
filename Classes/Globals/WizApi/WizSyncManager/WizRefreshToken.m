@@ -75,7 +75,14 @@
     NSLog(@"%@",retObject);
     if ([retObject isKindOfClass:[NSArray class]]) {
         NSArray* kbGuids = retObject;
+<<<<<<< Updated upstream
         [[WizAccountManager defaultManager] updateGroups:kbGuids];
+=======
+        for (NSDictionary* each in kbGuids) {
+            WizGroup* group  = [[WizGroup alloc]  groupFromDicionary:each];
+            [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
+        }
+>>>>>>> Stashed changes
     }
     busy = NO;
 }
@@ -99,7 +106,14 @@
         self.apiURL = urlAPI;
         [urlAPI release];
         [self callGetGroupKblist];
+<<<<<<< Updated upstream
         [[WizAccountManager defaultManager] updateGroup:userInfo];
+=======
+        WizGroup* group  = [[WizGroup alloc]  init];
+        NSString* _kbGuid = [userInfo valueForKey:@"kb_guid"];
+        group.kbguid = _kbGuid;
+        [[[WizAccountManager defaultManager] activeAccount] updateWizGroup:group];
+>>>>>>> Stashed changes
     }
 }
 @end

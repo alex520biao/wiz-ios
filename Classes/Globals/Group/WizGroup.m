@@ -7,12 +7,16 @@
 //
 
 #import "WizGroup.h"
+<<<<<<< Updated upstream
 #import <Foundation/Foundation.h>
 #import "NSDate+WizTools.h"
+=======
+>>>>>>> Stashed changes
 
 
 @implementation WizGroup
 
+<<<<<<< Updated upstream
 @dynamic accountUserId;
 @dynamic dateCreated;
 @dynamic dateModified;
@@ -81,4 +85,21 @@
     }
    self.kbType = type;
 }
+=======
+@dynamic dateCreated;
+@dynamic userGroup;
+@dynamic serverUrl;
+@dynamic roleNote;
+@dynamic ownerName;
+@dynamic kbType;
+@dynamic kbSeo;
+@dynamic kbNote;
+@dynamic kbName;
+@dynamic kbId;
+@dynamic kbguid;
+@dynamic dateRoleCreated;
+@dynamic dateModified;
+@dynamic accountUserId;
+
+>>>>>>> Stashed changes
 @end

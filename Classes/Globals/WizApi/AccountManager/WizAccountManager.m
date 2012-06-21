@@ -8,7 +8,7 @@
 
 #import "WizAccountManager.h"
 #import "WizAccount.h"
-
+#import "WizAccountDataBase.h"
 
 #import "WizGlobalData.h"
 #import "WizSyncManager.h"
@@ -40,13 +40,17 @@
 @property (nonatomic, retain) NSTimer* timer;
 @property (nonatomic, retain) WizAccount* activeAccount_;
 @property (nonatomic, retain) WizAccountDataBase* dataBase;
+<<<<<<< Updated upstream
 @property (nonatomic, retain) WizGroup*  activeGroup;
+=======
+>>>>>>> Stashed changes
 @end
 
 @implementation WizAccountManager
 @synthesize timer;
 @synthesize activeAccount_;
 @synthesize dataBase;
+<<<<<<< Updated upstream
 @synthesize activeGroup;
 @dynamic  accountSettingsDataBase;
 - (NSFetchedResultsController*) groupsFetchResultController
@@ -54,6 +58,9 @@
     return [self.dataBase allGroupsFectchRequest:self.activeAccount_.userId];
 }
 - (WizAccountDataBase<WizSettingsDbDelegate>*) accountSettingsDataBase
+=======
+-(NSString*) settingsFileName
+>>>>>>> Stashed changes
 {
     return self.dataBase;
 }
@@ -62,7 +69,19 @@
 {
 	if (self = [super init])
 	{
+<<<<<<< Updated upstream
         dataBase = [[WizAccountDataBase alloc] init];
+=======
+		NSString* filename = [self settingsFileName];
+		dict = [NSMutableDictionary dictionaryWithContentsOfFile:filename];
+		if (dict == nil)
+		{
+			dict = [[NSMutableDictionary alloc] init];
+		}
+		[dict retain];
+        dataBase = [[WizAccountDataBase alloc] init];
+        [dataBase saveContext];
+>>>>>>> Stashed changes
 	}
 	return self;
 }

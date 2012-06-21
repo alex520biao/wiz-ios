@@ -119,6 +119,8 @@
 		7383DA38158059D500D66B7B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7383DA37158059D400D66B7B /* CoreData.framework */; };
 		7383DA3F15805A6B00D66B7B /* WizAccountDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA3E15805A6B00D66B7B /* WizAccountDataBase.m */; };
 		7383DA4215805C0100D66B7B /* WizAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA4115805C0000D66B7B /* WizAccount.m */; };
+		7383DA4515805D0B00D66B7B /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA4415805D0B00D66B7B /* WizGroup.m */; };
+		7383DA4815805D4400D66B7B /* WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA4715805D4400D66B7B /* WizSetting.m */; };
 		7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738611491558BD86005C710C /* PhTagListViewController.m */; };
 		738A975B15809C1B00136E81 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 738A975A15809C1B00136E81 /* WizGroup.m */; };
 		738A975F1580B32E00136E81 /* WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 738A975E1580B32E00136E81 /* WizSetting.m */; };
@@ -457,6 +459,10 @@
 		7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator5@2x.png"; sourceTree = "<group>"; };
 		7316C0CB1574B373000926E9 /* icon_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_share.png; sourceTree = "<group>"; };
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
+<<<<<<< Updated upstream
+=======
+		731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDateBaseDelegate.h; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
 		7321310C15454AD70077F77E /* WizSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettings.h; sourceTree = "<group>"; };
 		7321310D15454AD70077F77E /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
 		7321310F15454BD50077F77E /* WizAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstract.h; path = WizStruct/WizAbstract.h; sourceTree = "<group>"; };
@@ -579,6 +585,10 @@
 		7383DA3E15805A6B00D66B7B /* WizAccountDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAccountDataBase.m; sourceTree = "<group>"; };
 		7383DA4015805C0000D66B7B /* WizAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccount.h; path = ../Group/WizAccount.h; sourceTree = "<group>"; };
 		7383DA4115805C0000D66B7B /* WizAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAccount.m; path = ../Group/WizAccount.m; sourceTree = "<group>"; };
+		7383DA4315805D0B00D66B7B /* WizGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGroup.h; path = ../Group/WizGroup.h; sourceTree = "<group>"; };
+		7383DA4415805D0B00D66B7B /* WizGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGroup.m; path = ../Group/WizGroup.m; sourceTree = "<group>"; };
+		7383DA4615805D4400D66B7B /* WizSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSetting.h; path = ../Group/WizSetting.h; sourceTree = "<group>"; };
+		7383DA4715805D4400D66B7B /* WizSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSetting.m; path = ../Group/WizSetting.m; sourceTree = "<group>"; };
 		738611481558BD86005C710C /* PhTagListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhTagListViewController.h; path = Classes/Iphone/DocumentList/PhTagListViewController.h; sourceTree = SOURCE_ROOT; };
 		738611491558BD86005C710C /* PhTagListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhTagListViewController.m; path = Classes/Iphone/DocumentList/PhTagListViewController.m; sourceTree = SOURCE_ROOT; };
 		738A975915809C1B00136E81 /* WizGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGroup.h; path = ../Group/WizGroup.h; sourceTree = "<group>"; };
@@ -1123,6 +1133,7 @@
 				7321311015454BD50077F77E /* WizAbstract.m */,
 				73A18BF1155B6EED00E1324C /* WizObject+WizSync.h */,
 				73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */,
+<<<<<<< Updated upstream
 				7383DA4015805C0000D66B7B /* WizAccount.h */,
 				7383DA4115805C0000D66B7B /* WizAccount.m */,
 				738A975D1580B32E00136E81 /* WizSetting.h */,
@@ -1131,6 +1142,15 @@
 				738A975A15809C1B00136E81 /* WizGroup.m */,
 				735FE44D158B842000A0E038 /* WizDeletedGUID.h */,
 				735FE44E158B842100A0E038 /* WizDeletedGUID.m */,
+=======
+				731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */,
+				7383DA4315805D0B00D66B7B /* WizGroup.h */,
+				7383DA4415805D0B00D66B7B /* WizGroup.m */,
+				7383DA4015805C0000D66B7B /* WizAccount.h */,
+				7383DA4115805C0000D66B7B /* WizAccount.m */,
+				7383DA4615805D4400D66B7B /* WizSetting.h */,
+				7383DA4715805D4400D66B7B /* WizSetting.m */,
+>>>>>>> Stashed changes
 			);
 			name = WizStruct;
 			sourceTree = "<group>";
@@ -2672,6 +2692,7 @@
 				7383DA361580571900D66B7B /* WizModel.xcdatamodeld in Sources */,
 				7383DA3F15805A6B00D66B7B /* WizAccountDataBase.m in Sources */,
 				7383DA4215805C0100D66B7B /* WizAccount.m in Sources */,
+<<<<<<< Updated upstream
 				738A975B15809C1B00136E81 /* WizGroup.m in Sources */,
 				738A975F1580B32E00136E81 /* WizSetting.m in Sources */,
 				73BA1CFD1581EBA70050DCCE /* WizSyncDataFactory.m in Sources */,
@@ -2692,6 +2713,10 @@
 				73C7846C1589EA1200A07941 /* WizInfoDataBase.m in Sources */,
 				735FE44F158B842100A0E038 /* WizDeletedGUID.m in Sources */,
 				73B49F92158D606600592649 /* WizTempDataBase.m in Sources */,
+=======
+				7383DA4515805D0B00D66B7B /* WizGroup.m in Sources */,
+				7383DA4815805D4400D66B7B /* WizSetting.m in Sources */,
+>>>>>>> Stashed changes
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
