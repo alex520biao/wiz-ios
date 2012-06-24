@@ -450,9 +450,10 @@ enum WizSettingKind {
     {
         self.connectViaWifiCell.valueSwitch.on = [defaultSettings connectOnlyViaWifi];
     }
-    else if ([indexPath isEqualToSectionAndRow:4 row:2])
+    else if ([indexPath isEqualToSectionAndRow:4 row:3])
     {
         self.protectCell.valueSwitch.on = [defaultSettings isPasscodeEnable];
+        NSLog(@"passcode is *****  %d",[defaultSettings isPasscodeEnable]);
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
