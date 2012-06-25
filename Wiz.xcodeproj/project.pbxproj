@@ -115,9 +115,7 @@
 		7383DA2215803F2400D66B7B /* GMGridViewLayoutStrategies.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1B15803F2400D66B7B /* GMGridViewLayoutStrategies.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7383DA2315803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1D15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7383DA2415803F2400D66B7B /* UIView+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1F15803F2400D66B7B /* UIView+GMGridViewAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		7383DA361580571900D66B7B /* WizModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA341580571900D66B7B /* WizModel.xcdatamodeld */; };
 		7383DA38158059D500D66B7B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7383DA37158059D400D66B7B /* CoreData.framework */; };
-		7383DA3F15805A6B00D66B7B /* WizAccountDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA3E15805A6B00D66B7B /* WizAccountDataBase.m */; };
 		7383DA4215805C0100D66B7B /* WizAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA4115805C0000D66B7B /* WizAccount.m */; };
 		7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738611491558BD86005C710C /* PhTagListViewController.m */; };
 		738A975B15809C1B00136E81 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 738A975A15809C1B00136E81 /* WizGroup.m */; };
@@ -575,10 +573,7 @@
 		7383DA1D15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIGestureRecognizer+GMGridViewAdditions.m"; path = "GMGridView/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m"; sourceTree = "<group>"; };
 		7383DA1E15803F2400D66B7B /* UIView+GMGridViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+GMGridViewAdditions.h"; path = "GMGridView/GMGridView/UIView+GMGridViewAdditions.h"; sourceTree = "<group>"; };
 		7383DA1F15803F2400D66B7B /* UIView+GMGridViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GMGridViewAdditions.m"; path = "GMGridView/GMGridView/UIView+GMGridViewAdditions.m"; sourceTree = "<group>"; };
-		7383DA351580571900D66B7B /* WizModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WizModel.xcdatamodel; sourceTree = "<group>"; };
 		7383DA37158059D400D66B7B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		7383DA3D15805A6B00D66B7B /* WizAccountDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAccountDataBase.h; sourceTree = "<group>"; };
-		7383DA3E15805A6B00D66B7B /* WizAccountDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAccountDataBase.m; sourceTree = "<group>"; };
 		7383DA4015805C0000D66B7B /* WizAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccount.h; path = ../Group/WizAccount.h; sourceTree = "<group>"; };
 		7383DA4115805C0000D66B7B /* WizAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAccount.m; path = ../Group/WizAccount.m; sourceTree = "<group>"; };
 		738611481558BD86005C710C /* PhTagListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhTagListViewController.h; path = Classes/Iphone/DocumentList/PhTagListViewController.h; sourceTree = SOURCE_ROOT; };
@@ -1414,7 +1409,6 @@
 		7383DA321580570400D66B7B /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				7383DA341580571900D66B7B /* WizModel.xcdatamodeld */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -2129,8 +2123,6 @@
 			children = (
 				73B46D29153FAAD30049556F /* WizAccountManager.h */,
 				73B46D2A153FAAD30049556F /* WizAccountManager.m */,
-				7383DA3D15805A6B00D66B7B /* WizAccountDataBase.h */,
-				7383DA3E15805A6B00D66B7B /* WizAccountDataBase.m */,
 			);
 			name = AccountCenter;
 			sourceTree = "<group>";
@@ -2678,8 +2670,6 @@
 				7383DA2215803F2400D66B7B /* GMGridViewLayoutStrategies.m in Sources */,
 				7383DA2315803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
 				7383DA2415803F2400D66B7B /* UIView+GMGridViewAdditions.m in Sources */,
-				7383DA361580571900D66B7B /* WizModel.xcdatamodeld in Sources */,
-				7383DA3F15805A6B00D66B7B /* WizAccountDataBase.m in Sources */,
 				7383DA4215805C0100D66B7B /* WizAccount.m in Sources */,
 				738A975B15809C1B00136E81 /* WizGroup.m in Sources */,
 				738A975F1580B32E00136E81 /* WizSetting.m in Sources */,
@@ -3023,19 +3013,6 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		7383DA341580571900D66B7B /* WizModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				7383DA351580571900D66B7B /* WizModel.xcdatamodel */,
-			);
-			currentVersion = 7383DA351580571900D66B7B /* WizModel.xcdatamodel */;
-			path = WizModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
 }
