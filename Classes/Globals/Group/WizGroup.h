@@ -10,14 +10,22 @@
 #import <CoreData/CoreData.h>
 #define KeyOfKbKbguid               @"kb_guid"
 #define KeyOfKbType                 @"kb_type"
-#define KeyOfKbImage                @"KeyOfKbImage"
-#define KeyOfKbAbstractString       @"KeyOfKbAbstractString"
 #define KeyOfKbName                 @"kb_name"
 #define KeyOfKbRight                @"user_group"
+#define KeyOfKbDateCreated          @"dt_created"
+#define KeyOfKbDateModified         @"dt_modified"
+#define KeyOfKbDateRoleCreated      @"dt_role_created"
+#define KeyOfKbSeo                  @"kb_seo"
+#define KeyOfKbOwnerName            @"owner_name"
+#define KeyOfKbNote                 @"kb_note"
+#define KeyOfKbAccountUserId        @"KeyOfKbAccountUserId"
+
+
 #define KeyOfKbTypePrivate          @"private"
 #define KeyOfKbTypeGroup            @"group"
+#define KeyOfKbImage                @"KeyOfKbImage"
+#define KeyOfKbAbstractString       @"KeyOfKbAbstractString"
 #define KeyOfKbOrderIndex           @"KeyOfKbOrderIndex"
-
 enum WizGroupUserRightAdmin {
     WizGroupUserRightAdmin = 0,
     WizGroupUserRightSuper = 10 ,
@@ -42,8 +50,8 @@ enum WizGroupUserRightAdmin {
 @property (nonatomic, retain) NSString * ownerName;
 @property (nonatomic, retain) NSString * roleNote;
 @property (nonatomic, retain) NSString * serverUrl;
-@property (nonatomic, retain) NSNumber* userGroup;
-@property (nonatomic, retain) NSNumber*  orderIndex;
+@property (nonatomic, assign) NSInteger userGroup;
+@property (nonatomic, assign) NSInteger  orderIndex;
 - (void) getDataFromDic:(NSDictionary*)dic;
 - (BOOL) canEditDocument;
 - (BOOL) canEditTag;

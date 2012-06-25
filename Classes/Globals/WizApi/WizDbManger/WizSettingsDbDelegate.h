@@ -10,6 +10,17 @@
 
 @protocol WizSettingsDbDelegate <NSObject>
 
+- (BOOL) isGroupExist:(NSString*)kbguid;
+- (BOOL) updateGroup:(NSDictionary*)dic;
+- (BOOL) updatePrivateGroup:(NSString*)guid accountUserId:(NSString*)userId;
+- (BOOL) updateGroups:(NSArray*)groupsData accountUserId:(NSString*)userId;
+- (NSArray*) groupsWithWhereFiled:(NSString*)whereField args:(NSArray*)args;
+- (WizGroup*) groupFromGuid:(NSString*)kbguid  accountUserId:(NSString*)userId;
+- (BOOL) deleteAccountGroups:(NSString*)userId;
+- (NSArray*) accountsWithWhereField:(NSString*)whereField args:(NSArray*)args;
+- (WizAccount*) accountFromUserId:(NSString*)userId;
+- (NSArray*) allAccounts;
+- (BOOL) deleteAccountByUserId:(NSString*)userId;
 - (int64_t) wizDataBaseVersion;
 - (BOOL) setWizDataBaseVersion:(int64_t)ver;
 //settings

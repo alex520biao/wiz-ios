@@ -578,11 +578,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "361966167.440908"
+         timestampString = "362287022.15651"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "22"
-         endingLineNumber = "22"
+         startingLineNumber = "184"
+         endingLineNumber = "184"
          landmarkName = "-settingWithWhereField:args:"
          landmarkType = "5">
       </FileBreakpoint>

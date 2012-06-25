@@ -29,30 +29,23 @@
 @dynamic userGroup;
 @dynamic orderIndex;
 
-- (NSInteger) getCurrentUserRight
-{
-    return [self.userGroup integerValue];
-}
 - (BOOL) canEditCurrentDocument
 {
-    NSInteger right = [self.userGroup integerValue];
-    if (right <= 100 ) {
+    if (self.userGroup <= 100 ) {
         return YES;
     }
     return NO;
 }
 - (BOOL) canEditDocument
 {
-    NSInteger right = [self.userGroup integerValue];
-    if (right <= 50 ) {
+    if (self.userGroup <= 50 ) {
         return YES;
     }
     return NO;
 }
 - (BOOL) canEditTag
 {
-    NSInteger right = [self.userGroup integerValue];
-    if (right <= 10 ) {
+    if (self.userGroup <= 10 ) {
         return YES;
     }
     return NO;
