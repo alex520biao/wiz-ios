@@ -16,21 +16,18 @@
 #import "WizSyncManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import "WizTempDataBase.h"
+#import "WizGroup.h"
 
 @interface WizGroupViewController ()
 {
     NSArray* groupsArray;
     id<WizAbstractDbDelegate> dataBase;
-    NSFetchedResultsController* fetch;
 }
-@property (nonatomic, retain) NSFetchedResultsController* fetch;
 @property (nonatomic, retain) NSArray* groupsArray;
 @end
 
 @implementation WizGroupViewController
-
 @synthesize groupsArray;
-
 - (void) dealloc
 {
     [groupsArray release];
@@ -39,7 +36,7 @@
 }
 - (void) reloadAllData
 {
-    [self.fetch performFetch:nil];
+    self.groupsArray = [[WizAccountManager defaultManager] activeAccountGroups];
     [self.tableView reloadData];
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -47,7 +44,6 @@
     self = [super initWithStyle:style];
     if (self) {
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfRefreshGroupsData];
-        dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
     }
     
     return self;
@@ -66,8 +62,6 @@
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:WizStrSettings style:UIBarButtonItemStyleBordered target:self action:@selector(setupAccount)];
     self.navigationItem.leftBarButtonItem = item;
     [item release];
-    self.fetch = [[WizAccountManager defaultManager] groupsFetchResultController];
-    
     UIBarButtonItem* refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshAccountGroudData)];
     self.navigationItem.rightBarButtonItem = refreshItem;
     [refreshItem release];
@@ -105,12 +99,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 
-    return [[self.fetch sections] count];
+    return [self.groupsArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[self.fetch sections] objectAtIndex:section] numberOfObjects];
+    return [[self.groupsArray objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -126,7 +120,7 @@
         
     }
     UIImageView* imageView = (UIImageView*) cell.accessoryView;
-    WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
+    WizGroup* group = [[self.groupsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = group.kbName;
     WizAbstract* abs = [dataBase abstractForGroup:group.kbguid];
     imageView.image = abs.image;
@@ -140,8 +134,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizGroup* group = [self.fetch objectAtIndexPath:indexPath];
-    [[WizAccountManager defaultManager] registerActiveGroup:group];
+    WizGroup* group = [[self.groupsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [[WizAccountManager defaultManager] registerActiveGroup:group.kbguid];
     PickerViewController* pick = [[PickerViewController alloc] init];
     [self.navigationController pushViewController:pick animated:YES];
     [pick release];
@@ -151,7 +145,13 @@
     return 80;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [[[self.fetch sections] objectAtIndex:section] name];
+    if (section == 0) {
+        return NSLocalizedString(@"Private Knowledge Base", nil);
+    }
+    else
+    {
+        return NSLocalizedString(@"Group", nil);
+    }
 }
 -(UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {

@@ -7,28 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WizSettingsDbDelegate.h"
 @class WizAccount;
-@class WizAccountDataBase;
+@class WizGroup;
 @interface WizAccountManager : NSObject
-{
-    WizAccountDataBase<WizSettingsDbDelegate>* accountSettingsDataBase;
-}
-@property (readonly, atomic) WizAccountDataBase<WizSettingsDbDelegate>* accountSettingsDataBase;
 + (WizAccountManager *) defaultManager;
-- (WizAccount*) activeAccount;
--(void) updateAccount: (NSString*)userId password:(NSString*)password;
+
+- (BOOL) updateAccount: (NSString*)userId password:(NSString*)password;
 - (NSArray*) accounts;
-- (void) registerActiveAccount:(NSString*)accountUserId;
-- (void) updateGroup:(NSDictionary*)dic;
+
+- (BOOL) logoutAccount:(NSString*)userId;
+- (BOOL) removeAccount:(NSString*)userId;
+- (BOOL) registerActiveAccount:(NSString*)accountUserId;
 - (NSString*) activeAccountUserId;
 - (NSString*) activeAccountPassword;
+
+
+
 - (NSArray*) activeAccountGroups;
 - (NSString*) activeAccountGroupKbguid;
-- (void) registerActiveGroup:(WizGroup*)group;
-- (WizGroup*) activeAccountActiveGroup;
+- (BOOL) registerActiveGroup:(NSString*)kbGuid;
 - (NSString*)defualtAccountUserId;
-- (void) logoutAccount;
--(void) removeAccount: (NSString*)userId;
-- (void) updateGroups:(NSArray*)groupArray;
-- (NSFetchedResultsController*) groupsFetchResultController;
+
+- (BOOL) updateGroups:(NSArray*)groupArray;
+- (BOOL) updatePrivateGroups:(NSString*)kbguid accountUserId:(NSString*)userId;
+- (WizGroup*)activeAccountActiveGroup;
+- (BOOL) isAccountExist:(NSString*)accountUserId;
 @end

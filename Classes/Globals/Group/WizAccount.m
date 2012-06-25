@@ -10,6 +10,12 @@
 
 
 @implementation WizAccount
-@dynamic  userId;
-@dynamic  password;
+@synthesize  userId;
+@synthesize  password;
+- (void) dealloc
+{
+    [userId release];
+    [password release];
+    [super dealloc];
+}
 @end

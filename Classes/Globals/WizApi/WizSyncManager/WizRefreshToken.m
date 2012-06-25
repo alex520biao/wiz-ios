@@ -72,10 +72,8 @@
 }
 - (void) onCallGetGropList:(id)retObject
 {
-    NSLog(@"%@",retObject);
     if ([retObject isKindOfClass:[NSArray class]]) {
-        NSArray* kbGuids = retObject;
-        [[WizAccountManager defaultManager] performSelectorOnMainThread:@selector(updateGroups:) withObject:kbGuids  waitUntilDone:NO];
+        [[WizAccountManager defaultManager] updateGroups:retObject];
     }
     busy = NO;
 }
@@ -98,8 +96,12 @@
         self.token = _token;
         self.apiURL = urlAPI;
         [urlAPI release];
+        NSLog(@"%@",retObject);
+        NSString* privateKbGuid = [userInfo valueForKey:@"kb_guid"];
+        [[WizAccountManager defaultManager] updatePrivateGroups:privateKbGuid accountUserId:nil];
+        
         [self callGetGroupKblist];
-        [[WizAccountManager defaultManager] performSelectorOnMainThread:@selector(updateGroup:) withObject:userInfo  waitUntilDone:NO];
+
     }
 }
 @end

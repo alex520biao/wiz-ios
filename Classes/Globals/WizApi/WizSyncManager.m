@@ -203,6 +203,14 @@ static WizSyncManager* shareManager;
         [sync startSyncInfo];
     }
 }
+- (void) stopSync
+{
+    for (WizSync* each in [self.syncDataDictionary allValues]) {
+        if ([each isSyncing]) {
+            [each stopSync];
+        }
+    }
+}
 
 
 @end

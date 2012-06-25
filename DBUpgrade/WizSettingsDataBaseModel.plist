@@ -48,7 +48,7 @@
 		<key>KB_USER_GROUP</key>
 		<string>int</string>
 		<key>PRIMARAY_KEY</key>
-		<string>KB_GUID</string>
+		<string>KB_GUID,KB_ACCOUNT_USERID</string>
 	</dict>
 	<key>WizAccount</key>
 	<dict>

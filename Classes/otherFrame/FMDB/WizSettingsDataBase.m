@@ -15,19 +15,20 @@
 #define WizGlobalAccountUserId  @"WizGlobalAccountUserId"
 @implementation WizSettingsDataBase
 
-- (BOOL) isGroupExist:(NSString*)kbguid
+- (BOOL) isGroupExist:(NSString*)kbguid accountUserId:(NSString*)accountId
 {
-    __block BOOL succeed;
+    __block BOOL succeed = NO;
     [queue inDatabase:^(FMDatabase *db) {
-        FMResultSet* set = [db executeQuery:@"select * from WizGroup where KB_GUID = ?",kbguid];
+        FMResultSet* set = [db executeQuery:@"select * from WizGroup where KB_GUID = ? and KB_ACCOUNT_USERID=?",kbguid,accountId];
         if ([set next]) {
             succeed = YES;
         }
+        [set close];
     }];
     return succeed;
 }
 
-- (BOOL) updateGroup:(NSDictionary*)dic
+- (BOOL) updateGroup:(NSDictionary*)dic  accountUserId:(NSString*)account
 {
     NSString* guid = [dic valueForKey:KeyOfKbKbguid];
     NSDate* dateCreated = [dic valueForKey:KeyOfKbDateCreated];
@@ -38,7 +39,6 @@
     NSString* kbNote = [dic valueForKey:KeyOfKbNote];
     NSNumber* orderIndex = [dic valueForKey:KeyOfKbOrderIndex];
     NSString* kbType = [dic valueForKey:KeyOfKbType];
-    NSString* account = [dic valueForKey:KeyOfKbAccountUserId];
     NSString* ownerName = [dic valueForKey:KeyOfKbOwnerName];
     if (!guid || [guid isBlock]) {
         return NO;
@@ -53,15 +53,15 @@
         kbType = KeyOfKbTypePrivate;
     }
     __block BOOL ret;
-    if ([self isGroupExist:guid]) {
+    if ([self isGroupExist:guid accountUserId:account]) {
         [queue inDatabase:^(FMDatabase *db) {
-            ret= [db executeUpdate:@"update WizGroup set KB_NOTE=?, KB_NAME=?, KB_ORDER_INDEX=?, KB_USER_GROUP=?, KB_ACCOUNT_USERID=?, KB_GUID=?, KB_TYPE=?, KB_OWNER_NAME=?,  KB_DATE_ROLE_CREATED=?, KB_DATE_CREATED=?,KB_DATE_MODIFIED=?",kbNote,kbName,[orderIndex intValue], [userGroup intValue], account, guid, kbType, ownerName, [dateRoleCreated stringSql], [dateCreated stringSql], [dateModified stringSql]];
+            ret= [db executeUpdate:@"update WizGroup set KB_NOTE=?, KB_NAME=?, KB_ORDER_INDEX=?, KB_USER_GROUP=?,  KB_TYPE=?, KB_OWNER_NAME=?,  KB_DATE_ROLE_CREATED=?, KB_DATE_CREATED=?,KB_DATE_MODIFIED=? where KB_GUID=? and  KB_ACCOUNT_USERID=? ",kbNote,kbName,orderIndex, userGroup, kbType, ownerName, [dateRoleCreated stringSql], [dateCreated stringSql], [dateModified stringSql], guid, account];
         }];
     }
     else
     {
         [queue inDatabase:^(FMDatabase *db) {
-            ret = [db executeUpdate:@"insert into WizGroup ( KB_NOTE, KB_NAME, KB_ORDER_INDEX, KB_USER_GROUP, KB_ACCOUNT_USERID, KB_GUID, KB_TYPE, KB_OWNER_NAME,  KB_DATE_ROLE_CREATED, KB_DATE_CREATED,KB_DATE_MODIFIED) values(?,?,?,?,?,?,?,?,?,?,?)",kbNote,kbName,[orderIndex intValue], [userGroup intValue], account, guid, kbType, ownerName, [dateRoleCreated stringSql], [dateCreated stringSql], [dateModified stringSql]];
+            ret = [db executeUpdate:@"insert into WizGroup ( KB_NOTE, KB_NAME, KB_ORDER_INDEX, KB_USER_GROUP, KB_ACCOUNT_USERID, KB_GUID, KB_TYPE, KB_OWNER_NAME,  KB_DATE_ROLE_CREATED, KB_DATE_CREATED,KB_DATE_MODIFIED) values(?,?,?,?,?,?,?,?,?,?,?)",kbNote,kbName,orderIndex,userGroup, account, guid, kbType, ownerName, [dateRoleCreated stringSql], [dateCreated stringSql], [dateModified stringSql]];
         }];
     }
     return ret;
@@ -69,16 +69,27 @@
 
 - (BOOL) updatePrivateGroup:(NSString*)guid accountUserId:(NSString*)userId
 {
-    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:guid,KeyOfKbKbguid,@"Private Knowledge Base",KeyOfKbName, userId, KeyOfKbAccountUserId, nil];
-    return [self updateGroup:dic];
+    __block BOOL ret = NO;
+    if ([self isGroupExist:guid accountUserId:userId])
+    {
+        NSLog(@"update");
+        [queue inDatabase:^(FMDatabase *db) {
+            ret = [db executeUpdate:@"update WizGroup set KB_NAME=?, KB_TYPE=?, KB_USER_GROUP=? where KB_GUID=?  and  KB_ACCOUNT_USERID=?",@"Private Knowledge Base", KeyOfKbTypePrivate,[NSNumber numberWithInt:WizGroupUserRightAll],guid,userId];
+        }];
+    }
+    else
+    {
+        [queue inDatabase:^(FMDatabase *db) {
+            ret = [db executeUpdate:@"insert into WizGroup (KB_GUID,KB_NAME,KB_USER_GROUP,KB_TYPE,KB_ACCOUNT_USERID) values(?,?,?,?,?)",guid, @"Private Knowledge Base", [NSNumber numberWithInt:WizGroupUserRightAll],KeyOfKbTypePrivate,userId];
+        }];
+    }
+    return ret;
 }
 
 - (BOOL) updateGroups:(NSArray*)groupsData accountUserId:(NSString*)userId
 {
     for (NSDictionary* each in groupsData) {
-        NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:each];
-        [dic setObject:KeyOfKbAccountUserId forKey:userId];
-        if (![self updateGroup:dic]) {
+        if (![self updateGroup:each accountUserId:userId]) {
             return NO;
         }
     }
@@ -106,6 +117,7 @@
             [array addObject:group];
             [group release];
         }
+        [result close];
     }];
     return array;
 }
@@ -114,12 +126,16 @@
 {
     return [[self groupsWithWhereFiled:@"where KB_GUID =? and KB_ACCOUNT_USERID=?" args:[NSArray arrayWithObjects:kbguid,userId, nil]] lastObject];
 }
+- (NSArray*) groupsByAccountUserId:(NSString*)userId
+{
+    return [self groupsWithWhereFiled:@"where KB_ACCOUNT_USERID=?" args:[NSArray arrayWithObject:userId]];
+}
 
 - (BOOL) deleteAccountGroups:(NSString*)userId
 {
     __block BOOL ret;
     [queue inDatabase:^(FMDatabase *db) {
-        ret = [db executeUpdate:@"delete from WizGroup where KB_ACCOUNT_USERID=?",userId];
+        ret = [db executeUpdate:@"delete from WizGroup where KB_ACCOUNT_USERID=? and KB_TYPE=?",userId,KeyOfKbTypeGroup];
     }];
     return ret;
 }
@@ -127,16 +143,18 @@
 - (NSArray*) accountsWithWhereField:(NSString*)whereField args:(NSArray*)args
 {
     NSString* sql = [NSString stringWithFormat:@"select ACCOUNT_PASSWORD, ACCOUNT_USERID from WizAccount %@",whereField];
+    NSLog(@"account sql %@",sql);
     __block NSMutableArray* array = [NSMutableArray array];
     [queue inDatabase:^(FMDatabase *db) {
         FMResultSet* result = [db executeQuery:sql withArgumentsInArray:args];
         while ([result next]) {
             WizAccount* account = [[WizAccount alloc] init];
-            account.userId = [result stringForColumnIndex:0];
-            account.password = [result stringForColumnIndex:1];
+            account.password = [result stringForColumnIndex:0];
+            account.userId = [result stringForColumnIndex:1];
             [array addObject:account];
             [account release];
         }
+        [result close];
     }];
     return array;
 }
@@ -157,7 +175,7 @@
     else
     {
         [queue inDatabase:^(FMDatabase *db) {
-            ret = [db executeUpdate:@"insert into WizAccount (ACCOUNT_PASSWORD, ACCOUNT_USERID) values(?,?)",userId, password];
+            ret = [db executeUpdate:@"insert into WizAccount (ACCOUNT_PASSWORD, ACCOUNT_USERID) values(?,?)",password, userId];
         }];
     }
     return ret;

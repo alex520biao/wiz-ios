@@ -16,8 +16,7 @@
 #import "WizDbManager.h"
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
-#import "WizAccountDataBase.h"
-
+#import "WizGroup.h"
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -35,34 +34,25 @@
     WizAccount* activeAccount_;
     WizGroup*  activeGroup;
     NSTimer* timer;
-    WizAccountDataBase* dataBase;
+    id<WizSettingsDbDelegate> dataBase;
 }
 @property (nonatomic, retain) NSTimer* timer;
 @property (nonatomic, retain) WizAccount* activeAccount_;
-@property (nonatomic, retain) WizAccountDataBase* dataBase;
 @property (nonatomic, retain) WizGroup*  activeGroup;
+@property (assign)  id<WizSettingsDbDelegate> dataBase;
 @end
 
 @implementation WizAccountManager
 @synthesize timer;
 @synthesize activeAccount_;
-@synthesize dataBase;
 @synthesize activeGroup;
-@dynamic  accountSettingsDataBase;
-- (NSFetchedResultsController*) groupsFetchResultController
-{
-    return [self.dataBase allGroupsFectchRequest:self.activeAccount_.userId];
-}
-- (WizAccountDataBase<WizSettingsDbDelegate>*) accountSettingsDataBase
-{
-    return self.dataBase;
-}
+@synthesize dataBase;
 
 -(id) init
 {
 	if (self = [super init])
 	{
-        dataBase = [[WizAccountDataBase alloc] init];
+        self.dataBase = [[WizDbManager shareDbManager] getWizSettingsDataBase];
 	}
 	return self;
 }
@@ -76,27 +66,17 @@
 	return [[WizGlobalData sharedData] defaultAccountManager];
 }
 
-- (WizAccount*) activeAccount
+- (BOOL) isAccountExist:(NSString *)accountUserId
 {
-    return self.activeAccount_;
+    return [self.dataBase accountFromUserId:accountUserId]?YES:NO;
 }
 
--(void) updateAccount: (NSString*)userId password:(NSString*)password
+-(BOOL) updateAccount: (NSString*)userId password:(NSString*)password
 {
     password = [WizGlobals encryptPassword:password];
-    [self.dataBase updateAccount:userId password:password];
-    if (self.activeAccount_) {
-        if ([self.activeAccount_.userId isEqualToString:userId]) {
-            self.activeAccount_ = [self.dataBase accountFromDataBase:userId];
-        }
-    }
+   return [self.dataBase updateAccount:userId password:password];
 }
 
-
--(void) changeAccountPassword: (NSString*)userId password:(NSString*)password
-{
-
-}
 - (NSString*) activeAccountPassword
 {
     return self.activeAccount_.password;
@@ -105,60 +85,79 @@
 {
     return self.activeAccount_.userId;
 }
-- (void) logoutAccount
+- (BOOL) logoutAccount:(NSString *)userId
 {
-
+    [[WizSyncManager shareManager] stopSync];
+    return [self.dataBase setWizDefaultAccountUserId:@""];
 }
 
 
--(void) removeAccount: (NSString*)userId
+-(BOOL) removeAccount: (NSString*)userId
 {
-
+    if ([self.dataBase deleteAccountByUserId:userId]) {
+        [self.dataBase deleteAccountGroups:userId];
+        [[WizFileManager shareManager] removeAccount:userId];
+        return YES;
+    }
+    return NO;
 }
 
 - (NSArray*) accounts
 {
-    NSMutableArray* array = [NSMutableArray array];
-    NSArray* ex = [self.dataBase allAccounts];
-    for (WizAccount* each in ex) {
-        NSLog(@"each %@ %@ %@",each, each.userId, each.password);
-        [array addObject:each.userId];
-    }
-    return array;
+     return [self.dataBase allAccounts];
 }
 
 
-- (void) registerActiveAccount:(NSString *)accountUserId
+- (BOOL) registerActiveAccount:(NSString *)accountUserId
 {
-    self.activeAccount_ = [self.dataBase accountFromDataBase:accountUserId];
+    self.activeAccount_ = [self.dataBase accountFromUserId:accountUserId];
+    if (![self.dataBase setWizDefaultAccountUserId:self.activeAccount_.userId]) {
+        NSLog(@" set default account error %@",accountUserId);
+    }
     [self.dataBase setWizDefaultAccountUserId:self.activeAccount_.userId];
     [[WizSyncManager shareManager] refreshToken];
-}
-- (void) updateGroup:(NSDictionary *)dic
-{
-    [self.dataBase updateGroup:dic userId:self.activeAccount_.userId];
+    return YES;
 }
 
-- (void) updateGroups:(NSArray*)groupArray
+- (BOOL) updateGroups:(NSArray*)groupArray
 {
-    [self.dataBase deleteAllGroups:self.activeAccount_.userId];
-    for (NSDictionary* each in groupArray) {
-        [self updateGroup:each];
-    }
-    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfRefreshGroupsData];
+    if ([self.dataBase deleteAccountGroups:self.activeAccount_.userId]) {
+        if ([self.dataBase updateGroups:groupArray accountUserId:self.activeAccount_.userId]) {
+            [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfRefreshGroupsData];
+            return YES;
+        }
+    };
+    return NO;
 }
 - (NSArray*) activeAccountGroups
 {
-   return  [self.dataBase allGroupByAccount:self.activeAccount_.userId];
+    NSArray* allGroups = [self.dataBase groupsByAccountUserId:self.activeAccount_.userId];
+    static NSPredicate* personPre = nil;
+    static NSPredicate* groupPre = nil;
+    if (!personPre) {
+        personPre = [[NSPredicate predicateWithFormat:@"kbType == %@",KeyOfKbTypePrivate] retain];
+    }
+    if (!groupPre) {
+        groupPre = [[NSPredicate predicateWithFormat:@"kbType != %@", KeyOfKbTypePrivate] retain];
+    }
+    return  [NSArray arrayWithObjects:[allGroups filteredArrayUsingPredicate:personPre],[allGroups filteredArrayUsingPredicate:groupPre], nil];
 }
 - (NSString*) activeAccountGroupKbguid
 {
     return self.activeGroup.kbguid;
 }
-- (void) registerActiveGroup:(WizGroup*)group
+- (BOOL) registerActiveGroup:(NSString *)kbGuid
 {
+    WizGroup* group = [self.dataBase groupFromGuid:kbGuid accountUserId:self.activeAccount_.userId];
     [[WizSyncManager shareManager] registerAciveGroup:group.kbguid];
     self.activeGroup = group;
+    if (group) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 - (WizGroup*)activeAccountActiveGroup
 {
@@ -169,5 +168,13 @@
 {
     return [self.dataBase defaultAccountUserId];
 }
+- (BOOL) updatePrivateGroups:(NSString *)kbguid accountUserId:(NSString *)userId
+{
+    if (!userId) {
+        userId = [NSString stringWithString:self.activeAccount_.userId];
+    }
+    return [self.dataBase updatePrivateGroup:kbguid accountUserId:self.activeAccount_.userId];
+}
+
 
 @end

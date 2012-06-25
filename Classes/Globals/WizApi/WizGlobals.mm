@@ -564,6 +564,9 @@ static NSArray* htmlArray;
 
 + (NSString*) encryptPassword:(NSString*)password
 {
+    if ([WizGlobals checkPasswordIsEncrypt:password]) {
+        return password;
+    }
     NSString* md5P = [WizGlobals md5:[password dataUsingEncoding:NSUTF8StringEncoding]];
     NSString* md = [NSString stringWithFormat:@"md5.%@",md5P];
     return md;

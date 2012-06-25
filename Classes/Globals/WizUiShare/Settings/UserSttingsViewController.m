@@ -159,7 +159,7 @@ enum WizSettingKind {
 - (void) logOutCurrentAccount
 {
     WizAccountManager* manager = [WizAccountManager defaultManager];
-    [manager logoutAccount];
+    [manager logoutAccount:nil];
     if ([WizGlobals WizDeviceIsPad]) {
         [self.navigationDelegate willChangAccount];
     }
@@ -477,47 +477,47 @@ enum WizSettingKind {
 }
 - (void) doClearCache:(NSNumber*)timeInval
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    
-    id<WizDbDelegate> dbManager = [[WizDataBase alloc] init];
-    WizFileManager* share = [WizFileManager shareManager];
-    [dbManager reloadDb];
-    WizDocument* document = nil;
-    CGFloat time = [timeInval floatValue];
-    self.isStopClearCache = NO;
-    do
-    {
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        document = [dbManager documentForClearCacheNext];
-        if (document == nil) {
-            break;
-        }
-        if (ABS([document.dateModified timeIntervalSinceNow]) < time) {
-            break;
-        }
-        NSLog(@"real timeinterval is %f",[document.dateModified timeIntervalSinceNow]);
-        NSString* path = [share objectFilePath:document.guid];
-        if ([share removeItemAtPath:path error:nil]) {
-            if([dbManager setDocumentServerChanged:document.guid changed:YES])
-            {
-                [dbManager deleteAbstractByGUID:document.guid];
-                NSArray* attachments = [document attachments];
-                for (WizAttachment* each in attachments) {
-                    NSLog(@"attachment guid is %@",each.guid);
-                    if (each.localChanged == 0) {
-                        if ([dbManager setAttachmentServerChanged:each.guid changed:YES]) {
-                            [share removeObjectPath:each.guid];
-                        }
-                    }
-                }
-            }
-        }
-        [pool drain];
-    }
-    while (document != nil && !self.isStopClearCache);
-    [dbManager close];
-    [dbManager release];
-    [pool drain];
+//    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+//    
+//    id<WizDbDelegate> dbManager = [[WizDataBase alloc] init];
+//    WizFileManager* share = [WizFileManager shareManager];
+//    [dbManager reloadDb];
+//    WizDocument* document = nil;
+//    CGFloat time = [timeInval floatValue];
+//    self.isStopClearCache = NO;
+//    do
+//    {
+//        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+//        document = [dbManager documentForClearCacheNext];
+//        if (document == nil) {
+//            break;
+//        }
+//        if (ABS([document.dateModified timeIntervalSinceNow]) < time) {
+//            break;
+//        }
+//        NSLog(@"real timeinterval is %f",[document.dateModified timeIntervalSinceNow]);
+//        NSString* path = [share objectFilePath:document.guid];
+//        if ([share removeItemAtPath:path error:nil]) {
+//            if([dbManager setDocumentServerChanged:document.guid changed:YES])
+//            {
+//                [dbManager deleteAbstractByGUID:document.guid];
+//                NSArray* attachments = [document attachments];
+//                for (WizAttachment* each in attachments) {
+//                    NSLog(@"attachment guid is %@",each.guid);
+//                    if (each.localChanged == 0) {
+//                        if ([dbManager setAttachmentServerChanged:each.guid changed:YES]) {
+//                            [share removeObjectPath:each.guid];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        [pool drain];
+//    }
+//    while (document != nil && !self.isStopClearCache);
+//    [dbManager close];
+//    [dbManager release];
+//    [pool drain];
 }
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

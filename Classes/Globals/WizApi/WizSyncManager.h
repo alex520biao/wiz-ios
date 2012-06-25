@@ -26,6 +26,6 @@
 - (void) registerAciveGroup:(NSString*)kbguid;
 - (WizSync*) activeGroupSync;
 - (void) refreshGroupsData;
-
 - (NSString*)getShareToken;
+- (void) stopSync;
 @end

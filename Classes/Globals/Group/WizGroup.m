@@ -13,21 +13,39 @@
 
 @implementation WizGroup
 
-@dynamic accountUserId;
-@dynamic dateCreated;
-@dynamic dateModified;
-@dynamic dateRoleCreated;
-@dynamic kbguid;
-@dynamic kbId;
-@dynamic kbName;
-@dynamic kbNote;
-@dynamic kbSeo;
-@dynamic kbType;
-@dynamic ownerName;
-@dynamic roleNote;
-@dynamic serverUrl;
-@dynamic userGroup;
-@dynamic orderIndex;
+@synthesize  accountUserId;
+@synthesize dateCreated;
+@synthesize dateModified;
+@synthesize dateRoleCreated;
+@synthesize kbguid;
+@synthesize kbId;
+@synthesize kbName;
+@synthesize kbNote;
+@synthesize kbSeo;
+@synthesize kbType;
+@synthesize ownerName;
+@synthesize roleNote;
+@synthesize serverUrl;
+@synthesize userGroup;
+@synthesize orderIndex;
+
+- (void) dealloc
+{
+    [accountUserId release];
+    [dateCreated release];
+    [dateModified release];
+    [dateRoleCreated release];
+    [kbguid release];
+    [kbId release];
+    [kbName release];
+    [kbNote release];
+    [kbSeo release];
+    [kbType release];
+    [ownerName release];
+    [roleNote release];
+    [serverUrl release];
+    [super dealloc];
+}
 
 - (BOOL) canEditCurrentDocument
 {
@@ -66,11 +84,11 @@
     NSNumber* right = [dic valueForKey:KeyOfKbRight];
     if (!right)
     {
-        self.userGroup = [NSNumber numberWithInt:WizGroupUserRightAll];
+        self.userGroup = WizGroupUserRightAll;
     }
     else
     {
-        self.userGroup = [NSNumber numberWithInt:[right intValue]];
+        self.userGroup =[right intValue];
     }
    self.kbType = type;
 }

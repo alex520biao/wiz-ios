@@ -17,6 +17,7 @@
 #import "WizMapViewController.h"
 #import "WizDbManager.h"
 #import "WizAccountManager.h"
+#import "WizGroup.h"
 @interface DocumentInfoViewController()
 {
     BOOL docChanged;
@@ -114,8 +115,7 @@
     [super viewDidDisappear:animated];
     if (docChanged) {
         self.doc.localChanged = WizEditDocumentTypeInfoChanged;
-        id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
-        [self.doc saveInfo:dataBase];
+        [self.doc saveInfo];
         docChanged = NO;
     }
 }

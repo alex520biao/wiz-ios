@@ -10,9 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface WizAccount : NSManagedObject
-
+@interface WizAccount : NSObject
 @property (nonatomic, retain) NSString * userId;
 @property (nonatomic, retain) NSString * password;
-
 @end

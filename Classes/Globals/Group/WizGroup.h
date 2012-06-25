@@ -36,7 +36,7 @@ enum WizGroupUserRightAdmin {
     WizGroupUserRightAll = -1
 };
 
-@interface WizGroup : NSManagedObject
+@interface WizGroup : NSObject
 @property (nonatomic, retain) NSString * accountUserId;
 @property (nonatomic, retain) NSDate * dateCreated;
 @property (nonatomic, retain) NSDate * dateModified;

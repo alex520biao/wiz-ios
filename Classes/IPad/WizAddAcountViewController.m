@@ -16,8 +16,19 @@
 
 @interface WizAddAcountViewController()
 {
-        UIButton* accountButton;
+    WizInputView* nameInput;
+    WizInputView* passwordInput;
+    UITableView* existAccountsTable;
+    UIAlertView* waitAlertView;
+    NSMutableArray* fitAccounts;
+    NSArray*        accounts;
+    UIButton* accountButton;
 }
+@property (nonatomic,retain) WizInputView* nameInput;
+@property (nonatomic,retain) WizInputView* passwordInput;
+@property (nonatomic,retain) UIAlertView* waitAlertView;
+@property (nonatomic,retain) UITableView* existAccountsTable;
+@property (nonatomic,retain) NSMutableArray* fitAccounts;
 @property (nonatomic, retain)    UIButton* accountButton;
 - (void)showAllAccounts:(id)sender;
 @end
@@ -37,6 +48,7 @@
     [accountButton release];
     [existAccountsTable release];
     [fitAccounts release];
+    [accounts release];
     [super dealloc];
 }
 
@@ -158,7 +170,6 @@
     [self setExistAccountsTableViewFrame];
     [self.view addSubview:self.existAccountsTable];
     [self.existAccountsTable reloadData];
-    
     if (self.accountButton != nil) {
         [self.accountButton removeTarget:self action:@selector(showAllAccounts:) forControlEvents:UIControlEventTouchUpInside];
         [self.accountButton addTarget:self action:@selector(removeTable) forControlEvents:UIControlEventTouchUpInside];
@@ -166,7 +177,7 @@
 }
 - (void)showAllAccounts:(id)sender
 {
-    [self showExistAccounts:[[WizAccountManager defaultManager] accounts]];
+    [self showExistAccounts:accounts];
 }
 - (void) viewDidLoad
 {
@@ -195,8 +206,8 @@
     [titleView release];
     [ges release];
     [backView release];
-    
-    if ([[[WizAccountManager defaultManager] accounts] count]) {
+    accounts = [[[WizAccountManager defaultManager] accounts] retain];
+    if ([accounts count]) {
         UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:[UIImage imageNamed:@"userIcons"] forState:UIControlStateNormal];
         nameInput.textInputField.rightView = button;
@@ -268,8 +279,8 @@
          cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
         
     }
-    NSString* userId = [self.fitAccounts objectAtIndex:indexPath.row];
-    cell.textLabel.text = userId;
+    WizAccount* account = [self.fitAccounts objectAtIndex:indexPath.row];
+    cell.textLabel.text = account.userId;
     cell.textLabel.font = [UIFont systemFontOfSize:13];
     cell.imageView.image = [UIImage imageNamed:@"userIcon"];
     return cell;
@@ -284,16 +295,18 @@
 }
 - (void) reloadAccountsTable:(NSString*)match
 {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"SELF like %@",match];
-    NSArray* nameIn = [[[WizAccountManager defaultManager] accounts] filteredArrayUsingPredicate:predicate];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"userId like %@",match];
+    NSArray* nameIn = [accounts filteredArrayUsingPredicate:predicate];
     self.fitAccounts = [NSMutableArray arrayWithArray:nameIn];
     if ([fitAccounts count] > 1) {
         [self setExistAccountsTableViewFrame];
         [self.view addSubview:self.existAccountsTable];
         [self showExistAccounts:fitAccounts];
-    } else if ([fitAccounts count] == 1)
+    }
+    else if ([fitAccounts count] == 1)
     {
-        NSString* string = [fitAccounts lastObject];
+        WizAccount* account = [fitAccounts lastObject];
+        NSString* string = account.userId;
         if (string.length >1) {
             if ([string isEqualToString:[match substringToIndex:match.length-1]]) {
                 [self removeTable];
@@ -304,7 +317,6 @@
                 [self showExistAccounts:fitAccounts];
             }
         }
-
     }
     else {
         [self removeTable];
@@ -348,7 +360,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* accountUserId = [self.fitAccounts objectAtIndex:indexPath.row];
+    NSString* accountUserId = [[self.fitAccounts objectAtIndex:indexPath.row] userId];
     self.nameInput.textInputField.text = accountUserId;
     [self.nameInput.textInputField resignFirstResponder];
     [self.passwordInput.textInputField becomeFirstResponder];

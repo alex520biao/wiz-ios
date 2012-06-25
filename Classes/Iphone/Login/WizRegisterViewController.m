@@ -133,7 +133,7 @@
 		[self showErrorAlert:WizStrThePasswordDontMatch];
 		return;
 	}
-	if ([[WizAccountManager defaultManager] findAccount:name])
+	if ([[WizAccountManager defaultManager] isAccountExist:name])
 	{
 		[self showErrorAlert:WizStrAccounthasalreadyexists];
 		return;

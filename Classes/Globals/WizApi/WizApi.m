@@ -271,25 +271,8 @@
 
 -(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args
 {
-    
     [self performSelectorOnMainThread:@selector(doExeCuteXml:) withObject:[NSArray arrayWithObjects:url,method, args, nil] waitUntilDone:NO];
-//	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:url];
-//	if (!request)
-//    {
-//		return NO;
-//    }
-//	//
-//	[request setMethod:method withObjects:args];
-//	//
-//	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
-//	//
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//	[request release];
-//	//
-//    if(nil != self.connectionXmlrpc)
-//        return YES;
-//    else
-//        return NO;
+    return YES;
 }
 -(void) addCommonParams: (NSMutableDictionary*)postParams
 {
