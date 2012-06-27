@@ -339,6 +339,7 @@
 		73B49F92158D606600592649 /* WizTempDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B49F91158D606600592649 /* WizTempDataBase.m */; };
 		73BA1CFD1581EBA70050DCCE /* WizSyncDataFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BA1CFC1581EBA70050DCCE /* WizSyncDataFactory.m */; };
 		73BB85241511F9D80032F99B /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB85231511F9D80032F99B /* WizNotification.m */; };
+		73BFEC4E159B02F0000E79C8 /* WizMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73BFEC4C159B02F0000E79C8 /* WizMisc.cpp */; };
 		73C0A424156A39B2002EDFE4 /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C0A410156A39B2002EDFE4 /* 11-x.png */; };
 		73C0A425156A39B2002EDFE4 /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C0A411156A39B2002EDFE4 /* 19-check.png */; };
 		73C0A426156A39B2002EDFE4 /* ATMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 73C0A413156A39B2002EDFE4 /* ATMHud.m */; };
@@ -884,6 +885,8 @@
 		73BB85221511F9D80032F99B /* WizNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNotification.h; path = Notification/WizNotification.h; sourceTree = "<group>"; };
 		73BB85231511F9D80032F99B /* WizNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizNotification.m; path = Notification/WizNotification.m; sourceTree = "<group>"; };
 		73BB85281511FC3C0032F99B /* WizNotificationMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizNotificationMessageType.h; sourceTree = "<group>"; };
+		73BFEC4C159B02F0000E79C8 /* WizMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WizMisc.cpp; path = "Classes/Globals/C++/WizMisc.cpp"; sourceTree = SOURCE_ROOT; };
+		73BFEC4D159B02F0000E79C8 /* WizMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizMisc.h; path = "Classes/Globals/C++/WizMisc.h"; sourceTree = SOURCE_ROOT; };
 		73C0A410156A39B2002EDFE4 /* 11-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-x.png"; sourceTree = "<group>"; };
 		73C0A411156A39B2002EDFE4 /* 19-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-check.png"; sourceTree = "<group>"; };
 		73C0A412156A39B2002EDFE4 /* ATMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHud.h; sourceTree = "<group>"; };
@@ -2064,6 +2067,8 @@
 		73B96A25158EEC20008C3CE0 /* WizDataBase */ = {
 			isa = PBXGroup;
 			children = (
+				73BFEC4C159B02F0000E79C8 /* WizMisc.cpp */,
+				73BFEC4D159B02F0000E79C8 /* WizMisc.h */,
 				73B49F90158D606600592649 /* WizTempDataBase.h */,
 				73B49F91158D606600592649 /* WizTempDataBase.m */,
 				73C7845E1589DBF600A07941 /* WizDataBaseBase.h */,
@@ -2617,6 +2622,7 @@
 				73F18537159302EA0095BA21 /* WizSettingsDataBase.m in Sources */,
 				73DC4B321599916F001BDF64 /* WizGroupSettingsViewController.m in Sources */,
 				73DC4B351599BE55001BDF64 /* WizGroupDownloadViewController.m in Sources */,
+				73BFEC4E159B02F0000E79C8 /* WizMisc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

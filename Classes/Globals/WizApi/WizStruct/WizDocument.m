@@ -263,6 +263,8 @@ BOOL isReverseMask(NSInteger mask)
     [fileManager removeObjectPath:document.guid];
     id<WizDbDelegate> share = [[WizDbManager shareDbManager] shareDataBase];
     [share deleteDocument:document.guid];
+    id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
+    [abstractDataBase deleteAbstractByGUID:document.guid];
     [WizNotificationCenter postDeleteDocumentMassage:document];
 }
 //
