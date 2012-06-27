@@ -87,7 +87,7 @@
 }
 - (BOOL) logoutAccount:(NSString *)userId
 {
-    [[WizSyncManager shareManager] stopSync];
+    [[WizSyncManager shareManager] resignActive];
     [[WizDbManager shareDbManager] removeUnactiveDatabase:userId];
     return [self.dataBase setWizDefaultAccountUserId:@""];
 }

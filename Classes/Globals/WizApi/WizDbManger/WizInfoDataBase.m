@@ -60,13 +60,13 @@
         if ([s next]) {
             value = [s stringForColumnIndex:0];
         }
+        else
+        {
+            value = nil;
+        }
         [s close];
     }];
     }
-    if ([value isBlock]) {
-        return nil;
-    }
-    NSLog(@"value %@",value);
     return value;
 }
 
@@ -96,12 +96,9 @@
 - (int64_t) syncVersion:(NSString*)type
 {
     NSString* verString = [self getMeta:KeyOfSyncVersion withKey:type];
-        NSLog(@"%@ version string is %@", type,verString);
     if (verString) {
-        NSLog(@"%@",verString);
         return [verString longLongValue];
     }
-
     return 0;
 }
 - (BOOL) setDocumentVersion:(int64_t)ver

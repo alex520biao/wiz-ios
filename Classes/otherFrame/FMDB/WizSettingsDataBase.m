@@ -241,7 +241,6 @@
         }
         [result close];
     }];
-    NSLog(@"the setting is %@",ret);
     return ret;
 }
 - (NSString*) settingByKey:(NSString*)userId kbguid:(NSString*)kbguid key:(NSString*)key

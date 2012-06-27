@@ -108,11 +108,6 @@
 		7380F7E7156B500400BC59F2 /* CatelogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F7E6156B500400BC59F2 /* CatelogCell.m */; };
 		73810CD914FB222000BEBADC /* WizPadCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */; };
 		73810CDF14FB256F00BEBADC /* WizCheckAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = 73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */; };
-		7383DA2015803F2400D66B7B /* GMGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1615803F2400D66B7B /* GMGridView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		7383DA2115803F2400D66B7B /* GMGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1815803F2400D66B7B /* GMGridViewCell.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		7383DA2215803F2400D66B7B /* GMGridViewLayoutStrategies.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1B15803F2400D66B7B /* GMGridViewLayoutStrategies.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		7383DA2315803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1D15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		7383DA2415803F2400D66B7B /* UIView+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA1F15803F2400D66B7B /* UIView+GMGridViewAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7383DA38158059D500D66B7B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7383DA37158059D400D66B7B /* CoreData.framework */; };
 		7383DA4215805C0100D66B7B /* WizAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 7383DA4115805C0000D66B7B /* WizAccount.m */; };
 		7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738611491558BD86005C710C /* PhTagListViewController.m */; };
@@ -557,18 +552,6 @@
 		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
-		7383DA1415803F2400D66B7B /* GMGridView-Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GMGridView-Constants.h"; path = "GMGridView/GMGridView/GMGridView-Constants.h"; sourceTree = "<group>"; };
-		7383DA1515803F2400D66B7B /* GMGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GMGridView.h; path = GMGridView/GMGridView/GMGridView.h; sourceTree = "<group>"; };
-		7383DA1615803F2400D66B7B /* GMGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GMGridView.m; path = GMGridView/GMGridView/GMGridView.m; sourceTree = "<group>"; };
-		7383DA1715803F2400D66B7B /* GMGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GMGridViewCell.h; path = GMGridView/GMGridView/GMGridViewCell.h; sourceTree = "<group>"; };
-		7383DA1815803F2400D66B7B /* GMGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GMGridViewCell.m; path = GMGridView/GMGridView/GMGridViewCell.m; sourceTree = "<group>"; };
-		7383DA1915803F2400D66B7B /* GMGridViewCell+Extended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GMGridViewCell+Extended.h"; path = "GMGridView/GMGridView/GMGridViewCell+Extended.h"; sourceTree = "<group>"; };
-		7383DA1A15803F2400D66B7B /* GMGridViewLayoutStrategies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GMGridViewLayoutStrategies.h; path = GMGridView/GMGridView/GMGridViewLayoutStrategies.h; sourceTree = "<group>"; };
-		7383DA1B15803F2400D66B7B /* GMGridViewLayoutStrategies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GMGridViewLayoutStrategies.m; path = GMGridView/GMGridView/GMGridViewLayoutStrategies.m; sourceTree = "<group>"; };
-		7383DA1C15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIGestureRecognizer+GMGridViewAdditions.h"; path = "GMGridView/GMGridView/UIGestureRecognizer+GMGridViewAdditions.h"; sourceTree = "<group>"; };
-		7383DA1D15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIGestureRecognizer+GMGridViewAdditions.m"; path = "GMGridView/GMGridView/UIGestureRecognizer+GMGridViewAdditions.m"; sourceTree = "<group>"; };
-		7383DA1E15803F2400D66B7B /* UIView+GMGridViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+GMGridViewAdditions.h"; path = "GMGridView/GMGridView/UIView+GMGridViewAdditions.h"; sourceTree = "<group>"; };
-		7383DA1F15803F2400D66B7B /* UIView+GMGridViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GMGridViewAdditions.m"; path = "GMGridView/GMGridView/UIView+GMGridViewAdditions.m"; sourceTree = "<group>"; };
 		7383DA37158059D400D66B7B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7383DA4015805C0000D66B7B /* WizAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccount.h; path = ../Group/WizAccount.h; sourceTree = "<group>"; };
 		7383DA4115805C0000D66B7B /* WizAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAccount.m; path = ../Group/WizAccount.m; sourceTree = "<group>"; };
@@ -1383,25 +1366,6 @@
 			name = WizGroup;
 			sourceTree = "<group>";
 		};
-		7383DA1315803F1500D66B7B /* GM */ = {
-			isa = PBXGroup;
-			children = (
-				7383DA1415803F2400D66B7B /* GMGridView-Constants.h */,
-				7383DA1515803F2400D66B7B /* GMGridView.h */,
-				7383DA1615803F2400D66B7B /* GMGridView.m */,
-				7383DA1715803F2400D66B7B /* GMGridViewCell.h */,
-				7383DA1815803F2400D66B7B /* GMGridViewCell.m */,
-				7383DA1915803F2400D66B7B /* GMGridViewCell+Extended.h */,
-				7383DA1A15803F2400D66B7B /* GMGridViewLayoutStrategies.h */,
-				7383DA1B15803F2400D66B7B /* GMGridViewLayoutStrategies.m */,
-				7383DA1C15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.h */,
-				7383DA1D15803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m */,
-				7383DA1E15803F2400D66B7B /* UIView+GMGridViewAdditions.h */,
-				7383DA1F15803F2400D66B7B /* UIView+GMGridViewAdditions.m */,
-			);
-			name = GM;
-			sourceTree = "<group>";
-		};
 		7383DA321580570400D66B7B /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -1785,7 +1749,6 @@
 			isa = PBXGroup;
 			children = (
 				737C21071585E0E800AEB967 /* MMGridView */,
-				7383DA1315803F1500D66B7B /* GM */,
 				7316C0BA15748337000926E9 /* MT */,
 				73C0A40F156A39B2002EDFE4 /* ATMHud */,
 				736DEA521552843D00633B89 /* MBProcessHUD */,
@@ -2664,11 +2627,6 @@
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
 				734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */,
 				734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */,
-				7383DA2015803F2400D66B7B /* GMGridView.m in Sources */,
-				7383DA2115803F2400D66B7B /* GMGridViewCell.m in Sources */,
-				7383DA2215803F2400D66B7B /* GMGridViewLayoutStrategies.m in Sources */,
-				7383DA2315803F2400D66B7B /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
-				7383DA2415803F2400D66B7B /* UIView+GMGridViewAdditions.m in Sources */,
 				7383DA4215805C0100D66B7B /* WizAccount.m in Sources */,
 				738A975B15809C1B00136E81 /* WizGroup.m in Sources */,
 				738A975F1580B32E00136E81 /* WizSetting.m in Sources */,

@@ -26,6 +26,8 @@
     NSURL* apiUrl;
     NSString* token;
     NSMutableDictionary* syncDataDictionary;
+    
+    BOOL isRefreshingToken;
 }
 @property (atomic, retain) NSMutableDictionary* syncDataDictionary;
 @property (nonatomic, retain) NSURL* apiUrl;
@@ -106,8 +108,8 @@ static WizSyncManager* shareManager;
 
 - (void) didRefreshToken:(NSDictionary*)dic
 {
+    isRefreshingToken = NO;
     NSString* _token = [dic valueForKey:@"token"];
-
     NSURL* urlAPI = [[NSURL alloc] initWithString:[dic valueForKey:@"kapi_url"]];
     self.token = _token;
     self.apiUrl = urlAPI;
@@ -117,9 +119,12 @@ static WizSyncManager* shareManager;
 
 - (void) refreshToken
 {
-    WizRefreshToken* refresh = [[WizSyncData shareSyncData] refreshData];
-    refresh.refreshDelegate = self;
-    [refresh start];
+    if (!isRefreshingToken) {
+        WizRefreshToken* refresh = [[WizSyncData shareSyncData] refreshData];
+        refresh.refreshDelegate = self;
+        [refresh start];
+        isRefreshingToken = YES;
+    }
 }
 - (BOOL) addSyncToken:(WizApi*)api
 {
@@ -155,6 +160,7 @@ static WizSyncManager* shareManager;
 - (void) resignActive
 {
     self.token = @"";
+    [self stopSync];
 }
 
 
