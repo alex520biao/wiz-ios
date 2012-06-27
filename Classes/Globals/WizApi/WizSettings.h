@@ -77,4 +77,10 @@
 - (BOOL) setLastSynchronizedDate:(NSDate*)lastDate;
 - (NSDate*) lastSynchronizeDate;
 //
+
+- (BOOL) setGroupLastSyncDate:(NSString*)kbGuid;
+- (NSDate*) groupLastSyncDate:(NSString*)kbGuid;
+//
+- (BOOL) setGroupAutoDownload:(NSString*)kb isAuto:(BOOL)isAuto;
+- (BOOL) isGroupAutoDownload:(NSString*)kb;
 @end

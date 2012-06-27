@@ -40,12 +40,7 @@
 #define TableListViewOptionTag 1101
 #define ProtectPasswordSucceedTag 1301
 
-enum WizSettingKind {
-    WizSetDownloadDurationCode = 4000,
-    WizSetImageQulityCode = 4001,
-    WizSetTableOption = 4002,
-    WizSelectGroup  = 4003
-};
+
 @interface UserSttingsViewController()
 {
     WizSwitchCell* mobileViewCell;
@@ -254,9 +249,9 @@ enum WizSettingKind {
 {
     switch (section) {
         case 0:
-            return 1;
+            return 0;
         case 1:
-            return 5;
+            return 2;
         case 2:
             return 2;
         case 3:
@@ -270,31 +265,31 @@ enum WizSettingKind {
     }
 }
 
-- (NSString*)tableView:(UITableView*) tableView titleForFooterInSection:(NSInteger)section
-{
-    if (section == 0) {
-        WizSettings* settings = [WizSettings defaultSettings];
-        NSString* str = NSLocalizedString(@"Last synchronized: ", nil);
-        NSString* ret = [str stringByAppendingString:[[settings lastSynchronizeDate] stringSql]];
-        return ret;
-    }
-    return nil;
-}
-- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (1 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Account", nil)];
-	else if (2 == section)
-		return [NSString stringWithString: NSLocalizedString(@"View", nil)];
-    else if (3 == section)
-		return [NSString stringWithString: WizStrSync];
-    else if (4 == section)
-		return [NSString stringWithString: WizStrSettings];
-	else if (5 == section)
-		return [NSString stringWithString: NSLocalizedString(@"Help", nil)];
-	else
-		return nil;
-}
+//- (NSString*)tableView:(UITableView*) tableView titleForFooterInSection:(NSInteger)section
+//{
+//    if (section == 0) {
+//        WizSettings* settings = [WizSettings defaultSettings];
+//        NSString* str = NSLocalizedString(@"Last synchronized: ", nil);
+//        NSString* ret = [str stringByAppendingString:[[settings lastSynchronizeDate] stringSql]];
+//        return ret;
+//    }
+//    return nil;
+//}
+//- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    if (1 == section)
+//		return [NSString stringWithString: NSLocalizedString(@"Account", nil)];
+//	else if (2 == section)
+//		return [NSString stringWithString: NSLocalizedString(@"View", nil)];
+//    else if (3 == section)
+//		return [NSString stringWithString: WizStrSync];
+//    else if (4 == section)
+//		return [NSString stringWithString: WizStrSettings];
+//	else if (5 == section)
+//		return [NSString stringWithString: NSLocalizedString(@"Help", nil)];
+//	else
+//		return nil;
+//}
 
 - (NSString*) setStringDisplayWidth:(NSString*) str :(float)width
 {

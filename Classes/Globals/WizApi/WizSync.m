@@ -120,6 +120,7 @@
     syncInfoer.dbDelegate = self.dataBaseDelegate;
     [self addSyncToken:syncInfoer];
     return [syncInfoer start];
+    return NO;
 }
 //
 
@@ -200,10 +201,12 @@
 - (void) downloadCacheDocuments
 {
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:[[WizAccountManager defaultManager]activeAccountUserId] groupId:self.kbGuid];
-//    NSInteger duration = [[WizSettings defaultSettings] durationForDownloadDocument];
-    NSInteger duration = 1;
-    NSArray* array = [dataBase documentsForCache:duration];
-    [self downloadWizObjects:array];
+    WizSettings* settings = [WizSettings defaultSettings];
+    if ([settings isGroupAutoDownload:self.kbGuid]) {
+        NSInteger duration = [settings durationForDownloadDocument];
+        NSArray* array = [dataBase documentsForCache:duration];
+        [self downloadWizObjects:array];
+    }
 }
 
 - (void) downloadWizObjects:(NSArray*)array

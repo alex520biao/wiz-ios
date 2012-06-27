@@ -17,6 +17,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WizTempDataBase.h"
 #import "WizGroup.h"
+#import "WizSettings.h"
+#import "WizGroupSettingsViewController.h"
 
 @interface WizGroupViewController ()
 {
@@ -44,8 +46,9 @@
     self = [super initWithStyle:style];
     if (self) {
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllData) name:MessageTypeOfRefreshGroupsData];
+        dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
+        
     }
-    
     return self;
 }
 - (void) viewWillAppear:(BOOL)animated
@@ -78,10 +81,14 @@
 }
 - (void) setupAccount
 {
-    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped ];
-    editAccountView.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:editAccountView animated:YES];
-    [editAccountView release];
+//    UserSttingsViewController* editAccountView = [[UserSttingsViewController alloc] initWithStyle:UITableViewStyleGrouped ];
+//    editAccountView.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:editAccountView animated:YES];
+//    [editAccountView release];
+    WizGroupSettingsViewController* edit = [[WizGroupSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    edit.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:edit animated:YES];
+    [edit release];
 }
 
 - (void) refreshAccountGroudData
@@ -117,6 +124,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.accessoryView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         cell.accessoryView.layer.borderWidth = 0.6f;
+        cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
         
     }
     UIImageView* imageView = (UIImageView*) cell.accessoryView;
@@ -124,6 +132,7 @@
     cell.textLabel.text = group.kbName;
     WizAbstract* abs = [dataBase abstractForGroup:group.kbguid];
     imageView.image = abs.image;
+    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last synchronized:%@", nil), [[[WizSettings defaultSettings] groupLastSyncDate:group.kbguid] stringSql]];
     return cell;
 }
 

@@ -15,7 +15,6 @@
 #import "WizSyncManager.h"
 #import "TagsListTreeControllerNew.h"
 #import "WizSettings.h"
-#import "WizDataBase.h"
 #import "WizAccountManager.h"
 
 BOOL isReverseMask(NSInteger mask)

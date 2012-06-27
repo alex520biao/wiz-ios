@@ -57,7 +57,6 @@
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
-		7324B22E157F4B4F00F26712 /* WizDataBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7324B22D157F4B4F00F26712 /* WizDataBase.mm */; };
 		7326F4851589D805001944C1 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326F47B1589D805001944C1 /* FMDatabase.m */; };
 		7326F4861589D805001944C1 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326F47D1589D805001944C1 /* FMDatabaseAdditions.m */; };
 		7326F4871589D805001944C1 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7326F47F1589D805001944C1 /* FMDatabasePool.m */; };
@@ -363,6 +362,8 @@
 		73CAAA1D14EA388500D5FF9B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CAAA1C14EA388500D5FF9B /* MessageUI.framework */; };
 		73D455AF154508AB0003103F /* WizTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D455AE154508AB0003103F /* WizTag.m */; };
 		73D455B81545130A0003103F /* NSString+WizString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D455B71545130A0003103F /* NSString+WizString.m */; };
+		73DC4B321599916F001BDF64 /* WizGroupSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73DC4B311599916F001BDF64 /* WizGroupSettingsViewController.m */; };
+		73DC4B351599BE55001BDF64 /* WizGroupDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73DC4B341599BE54001BDF64 /* WizGroupDownloadViewController.m */; };
 		73E05167156B85BF0064A353 /* WizPadTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E05166156B85BF0064A353 /* WizPadTagsViewController.m */; };
 		73E4462A155CB429004077AF /* NSIndexPath+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E44629155CB429004077AF /* NSIndexPath+WizTools.m */; };
 		73E5DB751550C7E800CC3562 /* WizString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E5DB741550C7E800CC3562 /* WizString.m */; };
@@ -461,8 +462,6 @@
 		7321310F15454BD50077F77E /* WizAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstract.h; path = WizStruct/WizAbstract.h; sourceTree = "<group>"; };
 		7321311015454BD50077F77E /* WizAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAbstract.m; path = WizStruct/WizAbstract.m; sourceTree = "<group>"; };
 		73213113154572100077F77E /* WizSettingsDbDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizSettingsDbDelegate.h; path = WizDbManger/WizSettingsDbDelegate.h; sourceTree = "<group>"; };
-		7324B22C157F4B4F00F26712 /* WizDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBase.h; sourceTree = "<group>"; };
-		7324B22D157F4B4F00F26712 /* WizDataBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizDataBase.mm; sourceTree = "<group>"; };
 		7326F47A1589D805001944C1 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		7326F47B1589D805001944C1 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		7326F47C1589D805001944C1 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -942,6 +941,10 @@
 		73D455AE154508AB0003103F /* WizTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizTag.m; path = WizStruct/WizTag.m; sourceTree = "<group>"; };
 		73D455B61545130A0003103F /* NSString+WizString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+WizString.h"; path = "WizTools/NSString+WizString.h"; sourceTree = "<group>"; };
 		73D455B71545130A0003103F /* NSString+WizString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+WizString.m"; path = "WizTools/NSString+WizString.m"; sourceTree = "<group>"; };
+		73DC4B301599916F001BDF64 /* WizGroupSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupSettingsViewController.h; sourceTree = "<group>"; };
+		73DC4B311599916F001BDF64 /* WizGroupSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGroupSettingsViewController.m; sourceTree = "<group>"; };
+		73DC4B331599BE54001BDF64 /* WizGroupDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDownloadViewController.h; sourceTree = "<group>"; };
+		73DC4B341599BE54001BDF64 /* WizGroupDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGroupDownloadViewController.m; sourceTree = "<group>"; };
 		73DD153A156122DB00DBC350 /* WizSelectTagDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSelectTagDelegate.h; sourceTree = "<group>"; };
 		73DD153B156126E500DBC350 /* WizEidtNoteSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEidtNoteSourceDelegate.h; sourceTree = "<group>"; };
 		73E05165156B85BF0064A353 /* WizPadTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadTagsViewController.h; sourceTree = "<group>"; };
@@ -1197,8 +1200,6 @@
 				73467DF71545036500ECF5F9 /* WizDbDelegate.h */,
 				73213113154572100077F77E /* WizSettingsDbDelegate.h */,
 				732FE31C154A423B0047B665 /* WizAbstractDbDelegate.h */,
-				7324B22C157F4B4F00F26712 /* WizDataBase.h */,
-				7324B22D157F4B4F00F26712 /* WizDataBase.mm */,
 			);
 			name = WizDb;
 			sourceTree = "<group>";
@@ -1643,6 +1644,8 @@
 				73A7848314F8CC22001387F6 /* WizUserSettingCell.m */,
 				73A7846E14F8CC22001387F6 /* UserSttingsViewController.h */,
 				73A7846F14F8CC22001387F6 /* UserSttingsViewController.m */,
+				73DC4B301599916F001BDF64 /* WizGroupSettingsViewController.h */,
+				73DC4B311599916F001BDF64 /* WizGroupSettingsViewController.m */,
 				739DF1DD155BC35900863D5F /* WizSwitchCell.h */,
 				739DF1DE155BC35900863D5F /* WizSwitchCell.m */,
 				739DF1E0155BC5CC00863D5F /* WizSingleSelectViewController.h */,
@@ -1651,6 +1654,8 @@
 				739DF1E4155BD89D00863D5F /* NSArray+WizSetting.h */,
 				739DF1E5155BD89D00863D5F /* NSArray+WizSetting.m */,
 				739223EF1576006600EDFC1B /* WizSettingsParentNavigationDelegate.h */,
+				73DC4B331599BE54001BDF64 /* WizGroupDownloadViewController.h */,
+				73DC4B341599BE54001BDF64 /* WizGroupDownloadViewController.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2659,7 +2664,6 @@
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
 				734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */,
 				734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */,
-				7324B22E157F4B4F00F26712 /* WizDataBase.mm in Sources */,
 				7383DA2015803F2400D66B7B /* GMGridView.m in Sources */,
 				7383DA2115803F2400D66B7B /* GMGridViewCell.m in Sources */,
 				7383DA2215803F2400D66B7B /* GMGridViewLayoutStrategies.m in Sources */,
@@ -2686,6 +2690,8 @@
 				735FE44F158B842100A0E038 /* WizDeletedGUID.m in Sources */,
 				73B49F92158D606600592649 /* WizTempDataBase.m in Sources */,
 				73F18537159302EA0095BA21 /* WizSettingsDataBase.m in Sources */,
+				73DC4B321599916F001BDF64 /* WizGroupSettingsViewController.m in Sources */,
+				73DC4B351599BE55001BDF64 /* WizGroupDownloadViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

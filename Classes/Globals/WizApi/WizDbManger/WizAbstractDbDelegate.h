@@ -10,9 +10,6 @@
 
 @class WizAbstract;
 @protocol WizAbstractDbDelegate <NSObject>
-- (BOOL) openTempDb:(NSString*)tempDbFilePath;
-- (BOOL) isTempDbOpen;
-- (void) closeTempDb;
 - (WizAbstract*) abstractOfDocument:(NSString *)documentGUID;
 - (void) extractSummary:(NSString *)documentGUID kbGuid:(NSString*)kbguid;
 - (BOOL) clearCache;

@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+enum WizSettingKind {
+    WizSetDownloadDurationCode = 4000,
+    WizSetImageQulityCode = 4001,
+    WizSetTableOption = 4002,
+    WizSelectGroup  = 4003
+};
 @interface NSArray (WizSetting)
 + (NSArray*) imageQulityArray;
 + (NSArray*) downloadDurationArray;

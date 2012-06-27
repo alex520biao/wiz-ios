@@ -88,6 +88,7 @@
 - (BOOL) logoutAccount:(NSString *)userId
 {
     [[WizSyncManager shareManager] stopSync];
+    [[WizDbManager shareDbManager] removeUnactiveDatabase:userId];
     return [self.dataBase setWizDefaultAccountUserId:@""];
 }
 
@@ -96,10 +97,9 @@
 {
     if ([self.dataBase deleteAccountByUserId:userId]) {
         [self.dataBase deleteAccountGroups:userId];
-        [[WizFileManager shareManager] removeAccount:userId];
-        return YES;
+        [[WizFileManager shareManager]  removeActiveAccountData];
     }
-    return NO;
+    return [self logoutAccount:userId];
 }
 
 - (NSArray*) accounts
@@ -115,7 +115,7 @@
         NSLog(@" set default account error %@",accountUserId);
     }
     [self.dataBase setWizDefaultAccountUserId:self.activeAccount_.userId];
-    [[WizSyncManager shareManager] refreshToken];
+//    [[WizSyncManager shareManager] refreshToken];
     return YES;
 }
 
@@ -128,6 +128,10 @@
         }
     };
     return NO;
+}
+- (NSArray*) activeAccountGroupsWithoutSection
+{
+    return [self.dataBase groupsByAccountUserId:self.activeAccount_.userId];
 }
 - (NSArray*) activeAccountGroups
 {

@@ -14,6 +14,8 @@
 		<string>varchar(200)</string>
 		<key>SETTING_DATE_MODIFIED</key>
 		<string>char(19)</string>
+		<key>PRIMARAY_KEY</key>
+		<string>SETTING_USERID,SETTING_KBGUID,SETTING_KEY</string>
 	</dict>
 	<key>WizGroup</key>
 	<dict>

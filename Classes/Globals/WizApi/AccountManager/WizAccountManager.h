@@ -33,4 +33,5 @@
 - (BOOL) updatePrivateGroups:(NSString*)kbguid accountUserId:(NSString*)userId;
 - (WizGroup*)activeAccountActiveGroup;
 - (BOOL) isAccountExist:(NSString*)accountUserId;
+- (NSArray*) activeAccountGroupsWithoutSection;
 @end

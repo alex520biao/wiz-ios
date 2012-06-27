@@ -109,7 +109,7 @@
     busy = NO;
     [self.apiManagerDelegate didApiSyncDone:self];
     [self didChangeSyncStatue:WizSyncStatueEndSyncInfo];
-    [[WizSettings defaultSettings] setLastSynchronizedDate:[NSDate date]];
+    [[WizSettings defaultSettings] setGroupLastSyncDate:self.kbguid];
 }
 -(void) onDownloadDocumentList: (id)retObject
 {

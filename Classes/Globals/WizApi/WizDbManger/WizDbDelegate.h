@@ -14,9 +14,6 @@
 @class WizDocument;
 
 @protocol WizDbDelegate <NSObject>
-- (void) close;
-- (BOOL) isOpen;
-- (BOOL) openDb:(NSString*)dbFilePath;
 // version
 - (int64_t) documentVersion;
 - (BOOL) setDocumentVersion:(int64_t)ver;

@@ -3,7 +3,6 @@
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 #import "WizFileManager.h"
-#import "WizDataBase.h"
 #import "WizTempDataBase.h"
 
 #define DocumentGuid    @"DocumentGuid"

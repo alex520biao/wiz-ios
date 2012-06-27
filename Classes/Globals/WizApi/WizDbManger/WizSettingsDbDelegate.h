@@ -75,6 +75,12 @@
 //
 - (NSString*) defaultAccountUserId;
 - (BOOL) setWizDefaultAccountUserId:(NSString *)userId;
+//
+- (BOOL) setGroupLastSyncDate:(NSString*)kbGuid;
+- (NSDate*) groupLastSyncDate:(NSString*)kbGuid;
+//
+- (BOOL) setGroupAutoDownload:(NSString*)kb isAuto:(BOOL)isAuto;
+- (BOOL) isGroupAutoDownload:(NSString*)kb;
 @optional
 - (NSString*) defaultGroupKbGuid;
 - (BOOL) setDefaultGroupKbGuid:(NSString*)groupGuid;

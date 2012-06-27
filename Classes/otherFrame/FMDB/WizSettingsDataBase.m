@@ -13,6 +13,38 @@
 
 #define WizGlobalSetting  @"GLOBAL"
 #define WizGlobalAccountUserId  @"WizGlobalAccountUserId"
+
+
+#define KeyOfSyncVersion               @"SYNC_VERSION"
+#define DocumentNameOfSyncVersion      @"DOCUMENT"
+#define DeletedGUIDNameOfSyncVersion   @"DELETED_GUID"
+#define AttachmentVersion              @"ATTACHMENTVERSION"
+#define TagVersion                     @"TAGVERSION"
+#define UserTrafficLimit               @"TRAFFICLIMIT"
+#define UserTrafficUsage               @"TRAFFUCUSAGE"
+#define KeyOfUserInfo                  @"USERINFO"
+#define UserLevel                      @"USERLEVEL"
+#define UserLevelName                  @"USERLEVELNAME"
+#define UserType                       @"USERTYPE"
+#define UserPoints                     @"USERPOINTS"
+#define MoblieView                     @"MOBLIEVIEW"
+#define DurationForDownloadDocument    @"DURATIONFORDOWLOADDOCUMENT"
+#define WebFontSize                    @"WEBFONTSIZE"
+#define DatabaseVesion                 @"DATABASE"
+#define ImageQuality                   @"IMAGEQUALITY"
+#define ProtectPssword                 @"PROTECTPASSWORD"
+#define FirstLog                       @"UserFirstLog"
+#define UserTablelistViewOption        @"UserTablelistViewOption"
+#define WizNoteAppVerSion              @"wizNoteAppVerSion"
+#define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
+#define AutomicSync                     @"AutomicSync"
+#define LastSynchronizedDate            @"LastSynchronizedDate"
+#define NewNoteDefaultFolder            @"NewNoteDefaultFolder"
+#define DefaultAccountUserID            @"DefaultAccountUserID"
+#define DefaultGroupKbGuid              @"DefaultGroupKbGuid"
+#define SettingsTypeOfLastSyncDate      @"SettingsTypeOfLastSyncDate"
+#define SettingsTypeOfGroupAutoDownload @"SettingsTypeOfGroupAutoDownload"
+
 @implementation WizSettingsDataBase
 
 - (BOOL) isGroupExist:(NSString*)kbguid accountUserId:(NSString*)accountId
@@ -189,7 +221,7 @@
 {
     __block BOOL ret;
     [queue inDatabase:^(FMDatabase *db) {
-        ret = [db executeUpdate:@"delete WizAccount where ACCOUNT_USERID=?",userId];
+        ret = [db executeUpdate:@"delete from WizAccount where ACCOUNT_USERID=?",userId];
     }];
     return ret;
 }
@@ -203,11 +235,13 @@
         if ([result next]) {
             ret = [result stringForColumnIndex:0];
         }
+        else
+        {
+            ret = nil;
+        }
         [result close];
     }];
-    if ([ret isBlock]) {
-        return nil;
-    }
+    NSLog(@"the setting is %@",ret);
     return ret;
 }
 - (NSString*) settingByKey:(NSString*)userId kbguid:(NSString*)kbguid key:(NSString*)key
@@ -218,7 +252,7 @@
 - (BOOL) updateSetting:(NSString*)userId  kbGuid:(NSString*)kbguid  key:(NSString*)key value:(NSString*)value
 {
     __block BOOL ret;
-    if ([self settingByKey:userId kbguid:kbguid key:value]) {
+    if ([self settingByKey:userId kbguid:kbguid key:key]) {
         [queue inDatabase:^(FMDatabase *db) {
            ret = [db executeUpdate:@"update WizSetting set SETTING_VALUE=?, SETTING_DATE_MODIFIED=? where SETTING_USERID=? and SETTING_KBGUID=? and SETTING_KEY=?",value, [[NSDate date] stringSql],userId, kbguid, key];
         }];
@@ -550,6 +584,54 @@
         return NO;
     }
     return [self setGlobalSetting:DefaultAccountUserID value:userId];
+}
+- (BOOL) setWizDataBaseVersion:(int64_t)ver
+{
+    return [self setUserInfo:DatabaseVesion info:[NSString stringWithFormat:@"%lld",ver]];
+}
+
+- (int64_t) wizDataBaseVersion
+{
+    NSString* verStr = [self userInfo:DatabaseVesion];
+    if (!verStr) {
+        [self setWizDataBaseVersion:0];
+        return 0;
+    }
+    else
+    {
+        return [verStr longLongValue];
+    }
+}
+- (BOOL) setGroupLastSyncDate:(NSString *)kb
+{
+    NSString* userId = [[WizAccountManager defaultManager] activeAccountUserId];
+    return [self updateSetting:userId kbGuid:kb key:SettingsTypeOfLastSyncDate value:[[NSDate date]stringSql]];
+}
+
+- (NSDate*) groupLastSyncDate:(NSString *)kb
+{
+    NSString* userId = [[WizAccountManager defaultManager] activeAccountUserId];
+    NSString* last = [self settingByKey:userId kbguid:kb key:SettingsTypeOfLastSyncDate];
+    if (!last) {
+        return [NSDate date];
+    }
+    return [last dateFromSqlTimeString];
+}
+
+- (BOOL) setGroupAutoDownload:(NSString*)kb isAuto:(BOOL)isAuto
+{
+    NSString* userId = [[WizAccountManager defaultManager] activeAccountUserId];
+    return [self updateSetting:userId kbGuid:kb key:SettingsTypeOfGroupAutoDownload value:[NSString stringWithFormat:@"%d", isAuto]];
+}
+
+- (BOOL) isGroupAutoDownload:(NSString*)kb
+{
+    NSString* userId = [[WizAccountManager defaultManager] activeAccountUserId];
+    NSString* isAuto = [self settingByKey:userId kbguid:kb key:SettingsTypeOfGroupAutoDownload];
+    if (!isAuto) {
+        return NO;
+    }
+    return [isAuto boolValue];
 }
 //- (NSString*) defaultGroupKbGuid
 //{

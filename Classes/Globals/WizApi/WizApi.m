@@ -14,6 +14,8 @@
 #import "WizNotification.h"
 #import "WizDocument.h"
 #import "WizSyncManager.h"
+#import "WizSetting.h"
+#import "WizSettings.h"
 
 #define SyncMethod_ClientLogin                  @"accounts.clientLogin"
 #define SyncMethod_ClientLogout                 @"accounts.clientLogout"
@@ -271,6 +273,9 @@
 
 -(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args
 {
+    if (url == nil) {
+        url = [[WizSettings defaultSettings] wizServerUrl];
+    }
     [self performSelectorOnMainThread:@selector(doExeCuteXml:) withObject:[NSArray arrayWithObjects:url,method, args, nil] waitUntilDone:NO];
     return YES;
 }
@@ -408,8 +413,9 @@
 	[postParams setObject:[NSNumber numberWithInt:[self listCount] ] forKey:@"count"];
 	[postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-    BOOL ret = [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDeletedList args:args];
-	return  ret;
+    NSLog(@"%@",args);
+     
+	return  [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDeletedList args:args];;
 }
 
 -(BOOL) callDocumentsByCategory:(NSString*)location
@@ -419,6 +425,7 @@
 	[postParams setObject:location forKey:@"category"];
 	[postParams setObject:[NSNumber numberWithInt:1000] forKey:@"count"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+    
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_DocumentsByCategory args:args];
 }
 

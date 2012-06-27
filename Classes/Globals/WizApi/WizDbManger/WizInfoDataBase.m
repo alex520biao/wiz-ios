@@ -429,7 +429,6 @@
         }
         [result close];
     }];
-    NSLog(@"attachments  count %@ %@ %@",self.kbGuid,attachments, [args lastObject]);
     return attachments;
 }
 

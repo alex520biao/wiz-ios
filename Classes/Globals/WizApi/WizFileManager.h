@@ -31,6 +31,7 @@
 //
 - (NSString*) searchHistoryFilePath;
 - (NSInteger) activeAccountFolderSize;
+- (BOOL) removeActiveAccountData;
 
 //
 - (NSString*) accountsDbPath;

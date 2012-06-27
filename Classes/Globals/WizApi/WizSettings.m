@@ -227,7 +227,11 @@ static WizSettings* defaultSettings = nil;
 }
 - (NSURL*) wizServerUrl
 {
-    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
+    static NSURL* url = nil;
+    if (!url) {
+        url = [[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"];
+    }
+    return url;
     //    return [[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"];
 }
 //
@@ -288,5 +292,22 @@ static WizSettings* defaultSettings = nil;
 - (NSString*) newNoteDefaultFolder
 {
     return [self.settingsDbDelegate newNoteDefaultFolder];
+}
+//
+- (BOOL) setGroupLastSyncDate:(NSString *)kbGuid
+{
+    return [self.settingsDbDelegate setGroupLastSyncDate:kbGuid];
+}
+- (NSDate*) groupLastSyncDate:(NSString *)kbGuid
+{
+    return [self.settingsDbDelegate groupLastSyncDate:kbGuid];
+}
+- (BOOL) setGroupAutoDownload:(NSString*)kb isAuto:(BOOL)isAuto
+{
+    return [self.settingsDbDelegate setGroupAutoDownload:kb isAuto:isAuto];
+}
+- (BOOL) isGroupAutoDownload:(NSString*)kb
+{
+    return [self.settingsDbDelegate isGroupAutoDownload:kb];
 }
 @end

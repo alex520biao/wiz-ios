@@ -17,6 +17,9 @@
 #import "WizPhoneNotificationMessage.h"
 #import "UserSttingsViewController.h"
 #import "WizAccountManager.h"
+#import "WizSyncInfo.h"
+#import "WizSyncManager.h"
+#import "WizSettings.h"
 //wiz-dzpqzb test
 #import "FoldersViewControllerNew.h"
 #import "WizNotification.h"
@@ -172,14 +175,18 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+   
+    WizSettings* settings = [WizSettings defaultSettings];
+    if ([settings isAutomicSync]) {
+        NSString* activeGroupId = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
+        if ([[settings groupLastSyncDate:activeGroupId] timeIntervalSinceNow] < -60) {
+            WizSync* sync = [[WizSyncManager shareManager] syncDataForGroup:activeGroupId];
+            [sync startSyncInfo];
+        }
+    }
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     if (self.selectedIndex == 2 && canNewDocument) {
         [self setSelectedIndex:0];
-    }
-    
-    
-    for (UINavigationController* each in self.viewControllers) {
-        NSLog(@"view retain count is %d",[[each.viewControllers lastObject] retainCount]);
     }
 }
 

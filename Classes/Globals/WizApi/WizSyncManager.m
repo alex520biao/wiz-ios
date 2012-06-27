@@ -198,9 +198,11 @@ static WizSyncManager* shareManager;
 - (void) refreshGroupsData
 {
     NSArray* array = [[WizAccountManager defaultManager] activeAccountGroups];
-    for (WizGroup* each in array) {
-        WizSync* sync = [self getWizSyncForGroup:each.kbguid];
-        [sync startSyncInfo];
+    for (NSArray* each in array) {
+        for (WizGroup* group in each) {
+            WizSync* sync = [self getWizSyncForGroup:group.kbguid];
+            [sync startSyncInfo];
+        }
     }
 }
 - (void) stopSync

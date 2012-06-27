@@ -244,12 +244,17 @@ static WizFileManager* shareManager = nil;
     [zip release];
     return zipPath;
 }
+- (BOOL) removeActiveAccountData
+{
+    return [self removeItemAtPath:[self accountPath] error:nil];
+}
 
 - (BOOL) removeObjectPath:(NSString*)guid
 {
     NSString* objectPath = [self objectFilePath:guid];
     return [self removeItemAtPath:objectPath error:nil];
 }
+
 //editDocumentAndAttachment
 - (NSString*) attachmentTempDirectory
 {

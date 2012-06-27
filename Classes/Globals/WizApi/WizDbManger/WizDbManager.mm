@@ -20,7 +20,6 @@
 
 @interface WizDbManager()
 {
-    NSMutableArray* dbDataArray;
     NSMutableDictionary* dbDataDictionary;
 }
 @property (atomic, retain) NSMutableDictionary* dbDataDictionary;
@@ -31,7 +30,6 @@
 - (void) dealloc
 {
     [dbDataDictionary release];
-    [dbDataArray release];
     [super dealloc];
 }
 - (void) clearDataBase
@@ -44,7 +42,6 @@
 {
     self = [super init];
     if (self) {
-        dbDataArray = [[NSMutableArray alloc] init];
         self.dbDataDictionary = [[NSMutableDictionary alloc] init];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(clearDataBase) name:MessageTypeOfMemeoryWarning];
     }
@@ -154,16 +151,18 @@ static WizDbManager* shareDbManager = nil;
     return dataBase;
 }
 
-- (void) removeUnactiveDatabase
+- (void) removeUnactiveDatabase:(NSString*)userId
 {
-    NSMutableArray* keys = [NSMutableArray array];
     for (NSString* each in [self.dbDataDictionary allKeys]) {
-        if (NSNotFound != [each indexOf:[self getCurrentThreadId]]) {
-            [keys addObject:each];
+        if ([each isEqualToString:WIZ_ACCOUNTS_SETTINGSFILE]) {
+            continue;
         }
-    }
-    for (NSString* each in keys) {
         [self.dbDataDictionary removeObjectForKey:each];
+    }
+    NSLog(@"keys count is %d",[[self.dbDataDictionary allKeys] count]);
+    for(NSString* each in [self.dbDataDictionary allKeys])
+    {
+        NSLog(@"%@",each);
     }
 }
 
