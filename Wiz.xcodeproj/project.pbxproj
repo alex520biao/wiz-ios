@@ -129,10 +129,6 @@
 		73A42964157388AE00479A42 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42959157388AE00479A42 /* SBJsonParser.m */; };
 		73A42965157388AE00479A42 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295B157388AE00479A42 /* SBJsonWriter.m */; };
 		73A42966157388AE00479A42 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295E157388AE00479A42 /* Reachability.m */; };
-		73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */; };
-		73A7855814F8CC23001387F6 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841C14F8CC22001387F6 /* index.cpp */; };
-		73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841E14F8CC22001387F6 /* tempIndex.cpp */; };
-		73A7855A14F8CC23001387F6 /* WizMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842014F8CC22001387F6 /* WizMisc.cpp */; };
 		73A7855B14F8CC23001387F6 /* WizApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842414F8CC22001387F6 /* WizApi.m */; };
 		73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842614F8CC22001387F6 /* WizCreateAccount.m */; };
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
@@ -596,14 +592,6 @@
 		73A4295B157388AE00479A42 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		73A4295D157388AE00479A42 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		73A4295E157388AE00479A42 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
-		73A7841B14F8CC22001387F6 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
-		73A7841C14F8CC22001387F6 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		73A7841D14F8CC22001387F6 /* index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		73A7841E14F8CC22001387F6 /* tempIndex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tempIndex.cpp; sourceTree = "<group>"; };
-		73A7841F14F8CC22001387F6 /* tempIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tempIndex.h; sourceTree = "<group>"; };
-		73A7842014F8CC22001387F6 /* WizMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WizMisc.cpp; sourceTree = "<group>"; };
-		73A7842114F8CC22001387F6 /* WizMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizMisc.h; sourceTree = "<group>"; };
 		73A7842314F8CC22001387F6 /* WizApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApi.h; sourceTree = "<group>"; };
 		73A7842414F8CC22001387F6 /* WizApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApi.m; sourceTree = "<group>"; };
 		73A7842514F8CC22001387F6 /* WizCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCreateAccount.h; sourceTree = "<group>"; };
@@ -1177,7 +1165,6 @@
 			isa = PBXGroup;
 			children = (
 				7326F4791589D804001944C1 /* FMDB */,
-				73A7841914F8CC22001387F6 /* C++ */,
 				4A4F0D1B1542F35900767434 /* WizDbManager.h */,
 				4A4F0D1C1542F35A00767434 /* WizDbManager.mm */,
 				73467DF71545036500ECF5F9 /* WizDbDelegate.h */,
@@ -1511,22 +1498,6 @@
 				73A7845014F8CC22001387F6 /* WizUiShare */,
 			);
 			path = Globals;
-			sourceTree = "<group>";
-		};
-		73A7841914F8CC22001387F6 /* C++ */ = {
-			isa = PBXGroup;
-			children = (
-				73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */,
-				73A7841B14F8CC22001387F6 /* CppSQLite3.h */,
-				73A7841C14F8CC22001387F6 /* index.cpp */,
-				73A7841D14F8CC22001387F6 /* index.h */,
-				73A7841E14F8CC22001387F6 /* tempIndex.cpp */,
-				73A7841F14F8CC22001387F6 /* tempIndex.h */,
-				73A7842014F8CC22001387F6 /* WizMisc.cpp */,
-				73A7842114F8CC22001387F6 /* WizMisc.h */,
-			);
-			name = "C++";
-			path = "../C++";
 			sourceTree = "<group>";
 		};
 		73A7842214F8CC22001387F6 /* WizApi */ = {
@@ -2479,10 +2450,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */,
-				73A7855814F8CC23001387F6 /* index.cpp in Sources */,
-				73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */,
-				73A7855A14F8CC23001387F6 /* WizMisc.cpp in Sources */,
 				73A7855B14F8CC23001387F6 /* WizApi.m in Sources */,
 				73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */,
 				73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */,
