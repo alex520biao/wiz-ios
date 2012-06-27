@@ -17,6 +17,10 @@
 #import "WizChangePasswordController.h"
 #import "CloudReview.h"
 #import "WizGroupDownloadViewController.h"
+#import "MBProgressHUD.h"
+#import "WizDbManager.h"
+#import "WizFileManager.h"
+#import "WizAbstractCache.h"
 
 
 #define WizSettingTableAlertKindRemoveAccount 1000
@@ -40,7 +44,7 @@ enum WizTableIndex {
 
 typedef NSInteger WizSettingTableIndex;
 
-@interface WizGroupSettingsViewController ()
+@interface WizGroupSettingsViewController () <MBProgressHUDDelegate, UIActionSheetDelegate>
 {
     NSArray* sectionHeadTitle;
     NSArray* sectionNailTitle;
@@ -54,6 +58,8 @@ typedef NSInteger WizSettingTableIndex;
     WizSwitchCell* automicSyncCell;
     
     NSInteger settingKind;
+    
+    MBProgressHUD* hub;
 }
 @end
 
@@ -442,6 +448,89 @@ typedef NSInteger WizSettingTableIndex;
     [self.navigationController pushViewController:download animated:YES];
     [download release];
 }
+
+
+- (void) doClearCache:(NSNumber*)timeInval
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    WizDocument* document = nil;
+    CGFloat time = [timeInval floatValue];
+    NSArray* groups = [[WizAccountManager defaultManager] activeAccountGroupsWithoutSection];
+    NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizFileManager* share = [WizFileManager shareManager];
+    id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] getWizTempDataBase:accountUserId];
+    for (WizGroup* each in groups) {
+        id<WizDbDelegate> dateBase = [[WizDbManager shareDbManager] getWizDataBase:accountUserId groupId:each.kbguid];
+        do
+        {
+            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+            document = [dateBase documentForClearCacheNext];
+            if (document == nil) {
+                break;
+            }
+            if (ABS([document.dateModified timeIntervalSinceNow]) < time) {
+                break;
+            }
+            NSLog(@"real timeinterval is %f",[document.dateModified timeIntervalSinceNow]);
+            NSString* path = [share objectFilePath:document.guid];
+            if ([share removeItemAtPath:path error:nil]) {
+                if([dateBase setDocumentServerChanged:document.guid changed:YES])
+                {
+                    [abstractDataBase deleteAbstractByGUID:document.guid];
+                    NSArray* attachments = [document attachments];
+                    for (WizAttachment* each in attachments) {
+                        NSLog(@"attachment guid is %@",each.guid);
+                        if (each.localChanged == 0) {
+                            if ([dateBase setAttachmentServerChanged:each.guid changed:YES]) {
+                                [share removeObjectPath:each.guid];
+                            }
+                        }
+                    }
+                }
+            }
+            [pool drain];
+        }
+        while (document != nil );
+    }
+    [[WizAbstractCache shareCache] didReceivedMenoryWarning];
+    [pool drain];
+}
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+
+    if (!hub) {
+        hub = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        [self.navigationController.view addSubview:hub];
+    }
+    hub.delegate = self;
+    hub.labelText = NSLocalizedString(@"Clearing Cache ...", nil);
+    switch (buttonIndex) {
+        case 0:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:86400] animated:YES];
+            break;
+        case 1:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:604800] animated:YES];
+            break;
+        case 2:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:2592000] animated:YES];
+            break;
+        case 3:
+            [hub showWhileExecuting:@selector(doClearCache:) onTarget:self withObject:[NSNumber numberWithFloat:0] animated:YES];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void) willClearCache
+{
+    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrClearCache delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:nil otherButtonTitles:WizStrBeforeToday,WizStrBeforeAWeek,WizStrBeforeAMonth,WizStrAll,nil];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger index = indexPath.section*10 + indexPath.row;
@@ -459,6 +548,7 @@ typedef NSInteger WizSettingTableIndex;
             [self removeAccount];
             break;
         case WizSettingIndexClearCache:
+            [self willClearCache];
             break;
         case WizSettingIndexAbout:
             break;

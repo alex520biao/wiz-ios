@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "WizSingleSelectDelegate.h"
+
 @interface WizGroupSettingsViewController : UITableViewController <WizSingleSelectDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 @end
