@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>FastWiz.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>Wiz.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,16 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>1D6058900D05DD3D006BFB54</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7399A77A159C1FF20065A41B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7399A79B159C1FF20065A41B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

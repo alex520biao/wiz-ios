@@ -114,6 +114,21 @@
 		738A975B15809C1B00136E81 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 738A975A15809C1B00136E81 /* WizGroup.m */; };
 		738A975F1580B32E00136E81 /* WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 738A975E1580B32E00136E81 /* WizSetting.m */; };
 		738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */; };
+		7399A77D159C1FF20065A41B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		7399A77E159C1FF20065A41B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		7399A77F159C1FF20065A41B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		7399A785159C1FF20065A41B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7399A783159C1FF20065A41B /* InfoPlist.strings */; };
+		7399A787159C1FF20065A41B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7399A786159C1FF20065A41B /* main.m */; };
+		7399A78B159C1FF20065A41B /* WizFastAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7399A78A159C1FF20065A41B /* WizFastAppDelegate.m */; };
+		7399A78D159C1FF20065A41B /* FastWiz.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 7399A78C159C1FF20065A41B /* FastWiz.entitlements */; };
+		7399A790159C1FF20065A41B /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7399A78E159C1FF20065A41B /* MainStoryboard_iPhone.storyboard */; };
+		7399A793159C1FF20065A41B /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7399A791159C1FF20065A41B /* MainStoryboard_iPad.storyboard */; };
+		7399A796159C1FF20065A41B /* WizFastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7399A795159C1FF20065A41B /* WizFastViewController.m */; };
+		7399A79E159C1FF20065A41B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399A79D159C1FF20065A41B /* SenTestingKit.framework */; };
+		7399A79F159C1FF20065A41B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		7399A7A0159C1FF20065A41B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		7399A7A8159C1FF20065A41B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7399A7A6159C1FF20065A41B /* InfoPlist.strings */; };
+		7399A7AB159C1FF20065A41B /* FastWizTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7399A7AA159C1FF20065A41B /* FastWizTests.m */; };
 		739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 739BE7B1153E524100057601 /* NSArray+WizTools.m */; };
 		739DF1DF155BC35900863D5F /* WizSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1DE155BC35900863D5F /* WizSwitchCell.m */; };
 		739DF1E2155BC5CC00863D5F /* WizSingleSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1E1155BC5CC00863D5F /* WizSingleSelectViewController.m */; };
@@ -380,6 +395,16 @@
 		73FC9B421558F57300F1B243 /* WizSyncSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FC9B411558F57300F1B243 /* WizSyncSearch.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7399A7A1159C1FF20065A41B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7399A77A159C1FF20065A41B;
+			remoteInfo = FastWiz;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* WizNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -562,6 +587,24 @@
 		738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditItemBackgroudView.m; sourceTree = "<group>"; };
 		738CD277156E23560001617D /* WizPadCheckAttachmentDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachmentDelegate.h; sourceTree = "<group>"; };
 		739223EF1576006600EDFC1B /* WizSettingsParentNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizSettingsParentNavigationDelegate.h; sourceTree = "<group>"; };
+		7399A77B159C1FF20065A41B /* FastWiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastWiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7399A782159C1FF20065A41B /* FastWiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FastWiz-Info.plist"; sourceTree = "<group>"; };
+		7399A784159C1FF20065A41B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7399A786159C1FF20065A41B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7399A788159C1FF20065A41B /* FastWiz-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FastWiz-Prefix.pch"; sourceTree = "<group>"; };
+		7399A789159C1FF20065A41B /* WizFastAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizFastAppDelegate.h; sourceTree = "<group>"; };
+		7399A78A159C1FF20065A41B /* WizFastAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WizFastAppDelegate.m; sourceTree = "<group>"; };
+		7399A78C159C1FF20065A41B /* FastWiz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FastWiz.entitlements; sourceTree = "<group>"; };
+		7399A78F159C1FF20065A41B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		7399A792159C1FF20065A41B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		7399A794159C1FF20065A41B /* WizFastViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizFastViewController.h; sourceTree = "<group>"; };
+		7399A795159C1FF20065A41B /* WizFastViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WizFastViewController.m; sourceTree = "<group>"; };
+		7399A79C159C1FF20065A41B /* FastWizTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FastWizTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7399A79D159C1FF20065A41B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		7399A7A5159C1FF20065A41B /* FastWizTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FastWizTests-Info.plist"; sourceTree = "<group>"; };
+		7399A7A7159C1FF20065A41B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7399A7A9159C1FF20065A41B /* FastWizTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FastWizTests.h; sourceTree = "<group>"; };
+		7399A7AA159C1FF20065A41B /* FastWizTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastWizTests.m; sourceTree = "<group>"; };
 		739BE7B0153E524100057601 /* NSArray+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+WizTools.h"; path = "WizTools/NSArray+WizTools.h"; sourceTree = "<group>"; };
 		739BE7B1153E524100057601 /* NSArray+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+WizTools.m"; path = "WizTools/NSArray+WizTools.m"; sourceTree = "<group>"; };
 		739DF1DD155BC35900863D5F /* WizSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSwitchCell.h; sourceTree = "<group>"; };
@@ -996,6 +1039,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7399A778159C1FF20065A41B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7399A77D159C1FF20065A41B /* UIKit.framework in Frameworks */,
+				7399A77E159C1FF20065A41B /* Foundation.framework in Frameworks */,
+				7399A77F159C1FF20065A41B /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7399A798159C1FF20065A41B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7399A79E159C1FF20065A41B /* SenTestingKit.framework in Frameworks */,
+				7399A79F159C1FF20065A41B /* UIKit.framework in Frameworks */,
+				7399A7A0159C1FF20065A41B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1003,6 +1066,8 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* WizNote.app */,
+				7399A77B159C1FF20065A41B /* FastWiz.app */,
+				7399A79C159C1FF20065A41B /* FastWizTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1016,6 +1081,8 @@
 				73A7840714F8CC22001387F6 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				7399A780159C1FF20065A41B /* FastWiz */,
+				7399A7A3159C1FF20065A41B /* FastWizTests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				3072578D132496BB009DA753 /* libxml2.dylib */,
@@ -1070,6 +1137,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				7399A79D159C1FF20065A41B /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1394,6 +1462,51 @@
 				738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */,
 			);
 			name = EidtNote;
+			sourceTree = "<group>";
+		};
+		7399A780159C1FF20065A41B /* FastWiz */ = {
+			isa = PBXGroup;
+			children = (
+				7399A789159C1FF20065A41B /* WizFastAppDelegate.h */,
+				7399A78A159C1FF20065A41B /* WizFastAppDelegate.m */,
+				7399A78E159C1FF20065A41B /* MainStoryboard_iPhone.storyboard */,
+				7399A791159C1FF20065A41B /* MainStoryboard_iPad.storyboard */,
+				7399A794159C1FF20065A41B /* WizFastViewController.h */,
+				7399A795159C1FF20065A41B /* WizFastViewController.m */,
+				7399A781159C1FF20065A41B /* Supporting Files */,
+			);
+			path = FastWiz;
+			sourceTree = "<group>";
+		};
+		7399A781159C1FF20065A41B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7399A782159C1FF20065A41B /* FastWiz-Info.plist */,
+				7399A783159C1FF20065A41B /* InfoPlist.strings */,
+				7399A786159C1FF20065A41B /* main.m */,
+				7399A788159C1FF20065A41B /* FastWiz-Prefix.pch */,
+				7399A78C159C1FF20065A41B /* FastWiz.entitlements */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7399A7A3159C1FF20065A41B /* FastWizTests */ = {
+			isa = PBXGroup;
+			children = (
+				7399A7A9159C1FF20065A41B /* FastWizTests.h */,
+				7399A7AA159C1FF20065A41B /* FastWizTests.m */,
+				7399A7A4159C1FF20065A41B /* Supporting Files */,
+			);
+			path = FastWizTests;
+			sourceTree = "<group>";
+		};
+		7399A7A4159C1FF20065A41B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7399A7A5159C1FF20065A41B /* FastWizTests-Info.plist */,
+				7399A7A6159C1FF20065A41B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		739BE7AF153E521400057601 /* WizTools */ = {
@@ -2225,6 +2338,42 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* WizNote.app */;
 			productType = "com.apple.product-type.application";
 		};
+		7399A77A159C1FF20065A41B /* FastWiz */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7399A7B2159C1FF20065A41B /* Build configuration list for PBXNativeTarget "FastWiz" */;
+			buildPhases = (
+				7399A777159C1FF20065A41B /* Sources */,
+				7399A778159C1FF20065A41B /* Frameworks */,
+				7399A779159C1FF20065A41B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FastWiz;
+			productName = FastWiz;
+			productReference = 7399A77B159C1FF20065A41B /* FastWiz.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7399A79B159C1FF20065A41B /* FastWizTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7399A7B3159C1FF20065A41B /* Build configuration list for PBXNativeTarget "FastWizTests" */;
+			buildPhases = (
+				7399A797159C1FF20065A41B /* Sources */,
+				7399A798159C1FF20065A41B /* Frameworks */,
+				7399A799159C1FF20065A41B /* Resources */,
+				7399A79A159C1FF20065A41B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7399A7A2159C1FF20065A41B /* PBXTargetDependency */,
+			);
+			name = FastWizTests;
+			productName = FastWizTests;
+			productReference = 7399A79C159C1FF20065A41B /* FastWizTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2247,12 +2396,15 @@
 				zh,
 				"zh-Hant",
 				"zh-Hans-CN",
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Wiz */,
+				7399A77A159C1FF20065A41B /* FastWiz */,
+				7399A79B159C1FF20065A41B /* FastWizTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2448,7 +2600,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7399A779159C1FF20065A41B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7399A785159C1FF20065A41B /* InfoPlist.strings in Resources */,
+				7399A78D159C1FF20065A41B /* FastWiz.entitlements in Resources */,
+				7399A790159C1FF20065A41B /* MainStoryboard_iPhone.storyboard in Resources */,
+				7399A793159C1FF20065A41B /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7399A799159C1FF20065A41B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7399A7A8159C1FF20065A41B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7399A79A159C1FF20065A41B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -2626,7 +2813,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7399A777159C1FF20065A41B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7399A787159C1FF20065A41B /* main.m in Sources */,
+				7399A78B159C1FF20065A41B /* WizFastAppDelegate.m in Sources */,
+				7399A796159C1FF20065A41B /* WizFastViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7399A797159C1FF20065A41B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7399A7AB159C1FF20065A41B /* FastWizTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7399A7A2159C1FF20065A41B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7399A77A159C1FF20065A41B /* FastWiz */;
+			targetProxy = 7399A7A1159C1FF20065A41B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		30F7799E133A12BA0096FF74 /* Localizable.strings */ = {
@@ -2699,6 +2912,38 @@
 				73E9BA70152060100033A1FE /* zh-Hans */,
 			);
 			name = WizIphoneLoginViewController.xib;
+			sourceTree = "<group>";
+		};
+		7399A783159C1FF20065A41B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7399A784159C1FF20065A41B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7399A78E159C1FF20065A41B /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7399A78F159C1FF20065A41B /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		7399A791159C1FF20065A41B /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7399A792159C1FF20065A41B /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		7399A7A6159C1FF20065A41B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7399A7A7159C1FF20065A41B /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		73C59EE2151C25B500715995 /* InfoPlist.strings */ = {
@@ -2872,6 +3117,176 @@
 			};
 			name = Distribution;
 		};
+		7399A7AC159C1FF20065A41B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = FastWiz/FastWiz.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FastWiz/FastWiz-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FastWiz/FastWiz-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7399A7AD159C1FF20065A41B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = FastWiz/FastWiz.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FastWiz/FastWiz-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FastWiz/FastWiz-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		7399A7AE159C1FF20065A41B /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = FastWiz/FastWiz.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FastWiz/FastWiz-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FastWiz/FastWiz-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
+		7399A7AF159C1FF20065A41B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FastWiz.app/FastWiz";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FastWiz/FastWiz-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FastWizTests/FastWizTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		7399A7B0159C1FF20065A41B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FastWiz.app/FastWiz";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FastWiz/FastWiz-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FastWizTests/FastWizTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		7399A7B1159C1FF20065A41B /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FastWiz.app/FastWiz";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FastWiz/FastWiz-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FastWizTests/FastWizTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Distribution;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2932,6 +3347,24 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		7399A7B2159C1FF20065A41B /* Build configuration list for PBXNativeTarget "FastWiz" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7399A7AC159C1FF20065A41B /* Debug */,
+				7399A7AD159C1FF20065A41B /* Release */,
+				7399A7AE159C1FF20065A41B /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7399A7B3159C1FF20065A41B /* Build configuration list for PBXNativeTarget "FastWizTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7399A7AF159C1FF20065A41B /* Debug */,
+				7399A7B0159C1FF20065A41B /* Release */,
+				7399A7B1159C1FF20065A41B /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Wiz" */ = {
 			isa = XCConfigurationList;
