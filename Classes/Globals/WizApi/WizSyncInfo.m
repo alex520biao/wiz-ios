@@ -102,7 +102,7 @@
     int64_t oldVer = [dataBase attachmentVersion];
     [dataBase updateAttachments:attachArr];
     int64_t newVer = [self newVersion:attachArr];
-    if (newVer > oldVer) {
+    if (newVer >= oldVer) {
         [dataBase setAttachmentVersion:newVer+1];
         [self callDownloadAttachmentList:newVer+1];
     }
@@ -179,7 +179,7 @@
     int64_t oldVer = [dataBase tagVersion];
     [dataBase updateTags:obj];
     int64_t newVer = [self newVersion:obj];
-    if (newVer > oldVer) {
+    if (newVer >= oldVer) {
         [dataBase setTagVersion:newVer+1];
         [self callAllTags:newVer+1];
     }
@@ -246,7 +246,7 @@
             [dataBase deleteAttachment:guid];
         }
 	}
-    if (newVer > oldVer) {
+    if (newVer >= oldVer) {
         [dataBase setDeletedGUIDVersion:newVer+1];
         [self callDownloadDeletedList:newVer+1];
     }
