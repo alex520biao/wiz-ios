@@ -666,12 +666,12 @@ static const xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) 
   return array;
 }
 
-- (NSString *)description {
-  int nodeType = (xmlNode_ ? xmlNode_->type : -1);
-  
-  return [NSString stringWithFormat:@"%@ 0x%lX: {type:%d name:%@ xml:\"%@\"}",
-          [self class], self, nodeType, [self name], [self XMLString]];
-}
+//- (NSString *)description {
+//  int nodeType = (xmlNode_ ? xmlNode_->type : -1);
+//  
+//  return [NSString stringWithFormat:@"%@ 0x%lX: {type:%d name:%@ xml:\"%@\"}",
+//          [self class], self, nodeType, [self name], [self XMLString]];
+//}
 
 - (id)copyWithZone:(NSZone *)zone {
   
@@ -1337,9 +1337,9 @@ static const xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) 
   return self;
 }
 
-- (NSString *)description {
-  return [NSString stringWithFormat:@"%@ 0x%lX", [self class], self];
-}
+//- (NSString *)description {
+//  return [NSString stringWithFormat:@"%@ 0x%lX", [self class], self];
+//}
 
 - (void)dealloc {
   if (xmlDoc_ != NULL) {

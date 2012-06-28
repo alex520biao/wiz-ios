@@ -7,12 +7,14 @@
 //
 
 #import "WizNotification.h"
-#import "WizGlobalData.h"
 
 #define DataOfName      @"DataOfName"
 #define DataOfObject    @"DataOfObject"
 #define DataOfUserInfo  @"DataOfUserInfo"
 
+@interface WizNotificationCenter()
++ (NSNotificationCenter*) wizShareCenter;
+@end
 @interface NSNotificationCenter(MP)
 - (void) postMessage:(NSDictionary*)dic;
 @end
@@ -23,32 +25,46 @@
     NSString* name = [dic objectForKey:DataOfName];
     id object = [dic objectForKey:DataOfObject];
     NSDictionary* userInfo = [dic objectForKey:DataOfUserInfo];
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
     [nc postNotificationName:name object:object userInfo:userInfo];
 }
 @end
 
 @implementation WizNotificationCenter
 
++ (NSNotificationCenter*) wizShareCenter
+{
+    static NSNotificationCenter* share = nil;
+    @synchronized(share)
+    {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            share = [[NSNotificationCenter alloc] init];
+        });
+    }
+    return share;
+
+}
+
 + (void) addObserverWithKey:(id)observer selector:(SEL)selector name:(NSString *)name
 {
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
     [nc addObserver:observer selector:selector name:name object:nil];
 }
 + (void) removeObserver:(id) observer
 {
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
     [nc removeObserver:observer];
 }
 + (void) removeObserverWithKey:(id) observer name:(NSString*)name
 {
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
     [nc removeObserver:observer name:name object:nil];
 }
 
 + (void) postMessage:(NSString*)messageName userInfo:(NSDictionary*)info
 {
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
     if (info != nil ) {
         [dic setObject:info   forKey:DataOfUserInfo];
@@ -58,7 +74,7 @@
 }
 + (void) postMessageWithName:(NSString*)messageName userInfoObject:(id)infoObject userInfoKey:(NSString*)infoKey
 {
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+    NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
     NSMutableDictionary* dic = [NSMutableDictionary dictionary];
     if (infoKey != nil || infoKey != nil) {
         [dic setObject:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey] forKey:DataOfUserInfo];

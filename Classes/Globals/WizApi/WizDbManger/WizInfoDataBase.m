@@ -283,6 +283,8 @@
     NSString* gpsLevel3 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL3];
     NSString* gpsDescription  = [doc valueForKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
     NSString* owner = [doc valueForKey:DataTypeUpdateDocumentOwner];
+    
+    BOOL serverDocument;
     if (!dateCreated) {
         dateCreated = [NSDate date];
     }
@@ -294,18 +296,21 @@
         serverChanged = [NSNumber numberWithBool:1];
     }
     if (!localChanged) {
+        serverDocument = YES;
         localChanged = [NSNumber numberWithBool:0];
+    }
+    else
+    {
+        serverDocument = NO;
     }
     WizDocument* docExist = [self documentFromGUID:guid];
     __block BOOL ret;
     if (docExist)
     {
-        if ([localChanged intValue] == 0 && (![docExist.dataMd5 isEqualToString:dataMd5] || docExist.serverChanged )) {
-            serverChanged = [NSNumber numberWithBool:1];
-        }
-        else
-        {
-            serverChanged = [NSNumber numberWithBool:0];
+        if (serverDocument) {
+            if (!(![docExist.dataMd5 isEqualToString:dataMd5] || docExist.serverChanged) ) {
+                serverChanged = [NSNumber numberWithBool:0];
+            }
         }
         [self.queue inDatabase:^(FMDatabase *db) {
             ret =[db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TITLE=?, DOCUMENT_LOCATION=?, DOCUMENT_URL=?, DOCUMENT_TAG_GUIDS=?, DOCUMENT_TYPE=?, DOCUMENT_FILE_TYPE=?, DT_CREATED=?, DT_MODIFIED=?, DOCUMENT_DATA_MD5=?, ATTACHMENT_COUNT=?, SERVER_CHANGED=?, LOCAL_CHANGED=?, GPS_LATITUDE=?, GPS_LONGTITUDE=?, GPS_ALTITUDE=?, GPS_DOP=?, GPS_ADDRESS=?, GPS_COUNTRY=?, GPS_LEVEL1=?, GPS_LEVEL2=?, GPS_LEVEL3=?, GPS_DESCRIPTION=?, READCOUNT=?, PROTECT=?, OWNER=? where DOCUMENT_GUID= ?",title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,owner,guid];

@@ -160,6 +160,4 @@ typedef NSUInteger GDataXMLNodeKind;
 
 - (void)setVersion:(NSString *)version;
 - (void)setCharacterEncoding:(NSString *)encoding;
-
-- (NSString *)description;
 @end

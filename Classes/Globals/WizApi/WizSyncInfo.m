@@ -120,12 +120,10 @@
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizDataBase:activeAccountUserId groupId:self.kbguid];
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[dataBase documentVersion];
-    NSDate* date1= [NSDate date];
 	[dataBase  updateDocuments:obj];
-    NSDate* date2 = [NSDate date];
-    NSLog(@"update documents spend %f count %d",[date1 timeIntervalSinceDate:date2], [obj count]);
     int64_t newVer = [self newVersion:obj];
-    if (newVer > oldVer) {
+    NSLog(@"new %lld old %lld",newVer,oldVer);
+    if (newVer >= oldVer) {
         [dataBase setDocumentVersion:newVer+1];
         [self  callDownloadDocumentList:newVer+1];
     }

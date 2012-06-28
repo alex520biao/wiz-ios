@@ -94,7 +94,7 @@ typedef NSInteger WizSettingTableIndex;
                         ,@""
                         ,@""
                         ,@""
-                        ,@""
+                        ,NSLocalizedString(@"The documents recently downloaded will be removed from the local after clicking.",nil)
                         ,@""
                         , nil];
     NSArray* user = [[NSArray alloc] initWithObjects:
@@ -108,7 +108,7 @@ typedef NSInteger WizSettingTableIndex;
                        ,NSLocalizedString(@"Remove account", nil)
                        ,nil];
     NSArray* syncOption = [[NSArray alloc] initWithObjects:
-                           NSLocalizedString(@"Manager Off Line", nil)
+                           NSLocalizedString(@"Offline Download", nil)
                            , NSLocalizedString(@"Sync Only By Wifi",nil)
                            , WizStrAutomicSync
                            , nil];

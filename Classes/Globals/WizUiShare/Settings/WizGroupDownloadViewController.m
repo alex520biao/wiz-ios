@@ -106,12 +106,12 @@
             
              btn1 =[UIButton buttonWithType:UIButtonTypeRoundedRect];
             [btn1 setTitle:NSLocalizedString(@"Open All", nil) forState:UIControlStateNormal];
-            btn1.frame = CGRectMake(0.0, 0.0, 140, 44);
+            btn1.frame = CGRectMake(0.0, 0.0, 150, 44);
             [totalActionCell.contentView addSubview:btn1];
             
             btn2 =[UIButton buttonWithType:UIButtonTypeRoundedRect];
             [btn2 setTitle:NSLocalizedString(@"Close All", nil) forState:UIControlStateNormal];
-            btn2.frame = CGRectMake(150, 0.0, 140, 44);
+            btn2.frame = CGRectMake(150, 0.0, 150, 44);
             [totalActionCell.contentView addSubview:btn2];
         });
         [btn1 addTarget:self action:@selector(openAllGroupDownload) forControlEvents:UIControlEventTouchUpInside];
@@ -129,6 +129,13 @@
     cell.valueSwitch.tag = indexPath.row;
     cell.valueSwitch.on = [[WizSettings defaultSettings] isGroupAutoDownload:group.kbguid];
     return cell;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 1) {
+        return NSLocalizedString(@"If you open the group offline download switch ,  the group will automatically download the content of the document within a day when the next synchronization.", nil);
+    }
+    return nil;
 }
 /*
 // Override to support conditional editing of the table view.

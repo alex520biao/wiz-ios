@@ -413,7 +413,6 @@
 	[postParams setObject:[NSNumber numberWithInt:[self listCount] ] forKey:@"count"];
 	[postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
-    NSLog(@"%@",args);
      
 	return  [self executeXmlRpc:self.apiURL method:SyncMethod_DownloadDeletedList args:args];;
 }
