@@ -17,6 +17,7 @@
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
 #import "WizGroup.h"
+#import "WizSettings.h"
 
 #define SettingsFileName            @"settings.plist"
 #define KeyOfAccounts               @"accounts"
@@ -98,6 +99,7 @@
     if ([self.dataBase deleteAccountByUserId:userId]) {
         [self.dataBase deleteAccountGroups:userId];
         [[WizFileManager shareManager]  removeActiveAccountData];
+        [[WizSettings defaultSettings] deleteAccountSettings:userId];
     }
     return [self logoutAccount:userId];
 }

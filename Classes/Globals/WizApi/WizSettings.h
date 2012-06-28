@@ -83,4 +83,6 @@
 //
 - (BOOL) setGroupAutoDownload:(NSString*)kb isAuto:(BOOL)isAuto;
 - (BOOL) isGroupAutoDownload:(NSString*)kb;
+//
+- (BOOL) deleteAccountSettings:(NSString*)userID;
 @end

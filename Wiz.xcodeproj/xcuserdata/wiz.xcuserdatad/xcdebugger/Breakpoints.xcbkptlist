@@ -544,7 +544,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "113"
          endingLineNumber = "113"
-         landmarkName = "-registerActiveAccount:"
+         landmarkName = "-removeAccount:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -583,7 +583,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "139"
          endingLineNumber = "139"
-         landmarkName = "-activeAccountGroups"
+         landmarkName = "-removeAccount:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

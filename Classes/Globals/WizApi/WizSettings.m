@@ -310,4 +310,9 @@ static WizSettings* defaultSettings = nil;
 {
     return [self.settingsDbDelegate isGroupAutoDownload:kb];
 }
+//
+- (BOOL) deleteAccountSettings:(NSString*)userID
+{
+    return [self.settingsDbDelegate deleteAccountSettings:userID];
+}
 @end

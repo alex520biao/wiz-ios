@@ -21,6 +21,7 @@
 - (int64_t) wizDataBaseVersion;
 - (BOOL) setWizDataBaseVersion:(int64_t)ver;
 //settings
+- (BOOL) deleteAccountSettings:(NSString*)userID;
 - (int64_t) imageQualityValue;
 - (BOOL) setImageQualityValue:(int64_t)value;
 //

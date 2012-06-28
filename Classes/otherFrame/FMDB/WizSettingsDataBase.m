@@ -225,6 +225,14 @@
     }];
     return ret;
 }
+- (BOOL) deleteAccountSettings:(NSString*)userID
+{
+    __block BOOL ret;
+    [queue inDatabase:^(FMDatabase *db) {
+        ret = [db executeUpdate:@"delete from WizSetting where SETTING_USERID=?",userID];
+    }];
+    return ret;
+}
 
 - (NSString*) settingWithWhereField:(NSString*)whereField  args:(NSArray*)args
 {
