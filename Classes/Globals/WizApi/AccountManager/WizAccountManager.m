@@ -181,7 +181,7 @@
     if (!userId) {
         userId = [NSString stringWithString:self.activeAccount_.userId];
     }
-    return [self.dataBase updatePrivateGroup:kbguid accountUserId:self.activeAccount_.userId];
+    return [self.dataBase updatePrivateGroup:kbguid accountUserId:userId];
 }
 
 

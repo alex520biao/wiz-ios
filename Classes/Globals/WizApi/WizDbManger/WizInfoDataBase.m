@@ -379,14 +379,14 @@
             serVerChanged = [NSNumber numberWithBool:0];
         }
         [self.queue inDatabase:^(FMDatabase *db) {
-            [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set DOCUMENT_GUID=?, ATTACHMENT_NAME=?, ATTACHMENT_DATA_MD5=?, ATTACHMENT_DESCRIPTION=?, DT_MODIFIED=?, SERVER_CHANGED=?, LOCAL_CHANGED=? where ATTACHMENT_GUID=?"
+          ret =  [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set DOCUMENT_GUID=?, ATTACHMENT_NAME=?, ATTACHMENT_DATA_MD5=?, ATTACHMENT_DESCRIPTION=?, DT_MODIFIED=?, SERVER_CHANGED=?, LOCAL_CHANGED=? where ATTACHMENT_GUID=?"
                withArgumentsInArray:[NSArray arrayWithObjects:documentGuid, title, dataMd5, description, [dateModified stringSql] , serVerChanged, localChanged,guid, nil]];
         }];
     }
     else
     {
         [self.queue inDatabase:^(FMDatabase *db) {
-            [db executeUpdate:@"insert into WIZ_DOCUMENT_ATTACHMENT (ATTACHMENT_GUID ,DOCUMENT_GUID, ATTACHMENT_NAME,ATTACHMENT_DATA_MD5,ATTACHMENT_DESCRIPTION,DT_MODIFIED,SERVER_CHANGED,LOCAL_CHANGED) values(?, ?, ?, ?, ?, ?, ?, ?)"
+          ret =  [db executeUpdate:@"insert into WIZ_DOCUMENT_ATTACHMENT (ATTACHMENT_GUID ,DOCUMENT_GUID, ATTACHMENT_NAME,ATTACHMENT_DATA_MD5,ATTACHMENT_DESCRIPTION,DT_MODIFIED,SERVER_CHANGED,LOCAL_CHANGED) values(?, ?, ?, ?, ?, ?, ?, ?)"
                withArgumentsInArray:[NSArray arrayWithObjects:guid,documentGuid, title, dataMd5, description, [dateModified stringSql], serVerChanged, localChanged, nil]];
         }];
     }
@@ -445,7 +445,7 @@
 {
     __block BOOL ret;
     [self.queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set LOCAL_CHANGED=? where ATTACHMENT_GUID=?",[NSNumber numberWithBool:changed], attchmentGUID];
+       ret = [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set LOCAL_CHANGED=? where ATTACHMENT_GUID=?",[NSNumber numberWithBool:changed], attchmentGUID];
     }];
     return ret;
 }
@@ -454,7 +454,7 @@
 {
     __block BOOL ret;
     [self.queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set SERVER_CHANGED=? where ATTACHMENT_GUID=?",[NSNumber numberWithBool:changed], attchmentGUID];
+       ret = [db executeUpdate:@"update WIZ_DOCUMENT_ATTACHMENT set SERVER_CHANGED=? where ATTACHMENT_GUID=?",[NSNumber numberWithBool:changed], attchmentGUID];
     }];
     return ret;
 }
@@ -514,7 +514,7 @@
     else
     {
         [self.queue inDatabase:^(FMDatabase *db) {
-            [db executeUpdate:@"insert into WIZ_TAG (TAG_GUID, TAG_PARENT_GUID, TAG_NAME, TAG_DESCRIPTION ,LOCALCHANGED, DT_MODIFIED ) values (?, ?, ?, ?, ?, ?)",guid,parentGuid,name,description,localChanged,[dtInfoModifed stringSql]];
+          ret =  [db executeUpdate:@"insert into WIZ_TAG (TAG_GUID, TAG_PARENT_GUID, TAG_NAME, TAG_DESCRIPTION ,LOCALCHANGED, DT_MODIFIED ) values (?, ?, ?, ?, ?, ?)",guid,parentGuid,name,description,localChanged,[dtInfoModifed stringSql]];
         }];
     }
     return ret;
@@ -585,7 +585,7 @@
 {
     __block BOOL ret;
     [self.queue inDatabase:^(FMDatabase *db) {
-        [db executeUpdate:@"update WIZ_TAG set LOCAL_CHANGED=? where TAG_GUID =?",guid
+        ret = [db executeUpdate:@"update WIZ_TAG set LOCAL_CHANGED=? where TAG_GUID =?",guid
          , [NSNumber numberWithBool:changed]];
     }];
     return ret;

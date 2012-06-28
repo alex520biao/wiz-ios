@@ -93,9 +93,6 @@ static WizSyncManager* shareManager;
         [self.syncDataDictionary setObject:sync forKey:kbguid];
         [sync release];
     }
-    for (NSString* each in [self.syncDataDictionary allKeys]) {
-        NSLog(@" sync key is %@ ",each);
-    }
     return sync;
 }
 

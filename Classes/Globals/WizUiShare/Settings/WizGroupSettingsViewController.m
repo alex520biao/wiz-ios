@@ -142,9 +142,12 @@ typedef NSInteger WizSettingTableIndex;
                         ,[NSNumber numberWithInt:WizSettingIndexPasscode]
                         ,[NSNumber numberWithInt:WizSettingIndexAutoSync]
                         , nil];
-    for (NSArray* each in cellsTitleArray) {
-        [each release];
-    }
+    [user release];
+    [syncOption release];
+    [viewOption release];
+    [global release];
+    [clearCache release];
+    [about release];
 }
 
 - (NSString*) titleForSwithCell:(NSInteger)index

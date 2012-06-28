@@ -35,13 +35,10 @@
 + (NSNotificationCenter*) wizShareCenter
 {
     static NSNotificationCenter* share = nil;
-    @synchronized(share)
-    {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            share = [[NSNotificationCenter alloc] init];
-        });
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        share = [[NSNotificationCenter alloc] init];
+    });
     return share;
 
 }

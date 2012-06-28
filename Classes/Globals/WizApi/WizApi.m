@@ -264,11 +264,13 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[request release];
 	//
+    BOOL ret ;
     if(nil != self.connectionXmlrpc)
-        return YES;
+        ret = YES;
     else
-        return NO;
+        ret = NO;
     [pool drain];
+    return ret;
 }
 
 -(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args

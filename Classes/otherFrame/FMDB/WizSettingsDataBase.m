@@ -556,11 +556,10 @@
 {
     NSString* folder = [self userInfo:NewNoteDefaultFolder];
     if (folder ==  nil || [folder isBlock]) {
-        NSString* defaultFolder = @"/My Notes/";
+        folder = @"/My Notes/";
         [self setNewNoteDefaultFolder:folder];
-        return defaultFolder;
     }
-    return [folder retain];
+    return folder;
 }
 
 
