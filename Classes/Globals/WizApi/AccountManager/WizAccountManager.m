@@ -80,6 +80,8 @@
 
 - (NSString*) activeAccountPassword
 {
+    WizAccount* account = [self.dataBase accountFromUserId:self.activeAccount_.userId];
+    self.activeAccount_ = account;
     return self.activeAccount_.password;
 }
 - (NSString*) activeAccountUserId

@@ -30,6 +30,12 @@
     }
 }
 
+- (void) removeAllSyncData
+{
+    [self clearSyncData];
+    [errorQueque removeAllObjects];
+}
+
 - (void) clearSyncData
 {
     NSArray* syncDatas = [syncApiData allValues];
@@ -249,6 +255,4 @@
 {
     return [[errorQueque copy] autorelease];
 }
-
-
 @end

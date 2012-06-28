@@ -29,4 +29,5 @@
 - (BOOL) isDownloadingObject:(WizObject*)object;
 - (BOOL) isUploadingObject:(WizObject*)object;
 - (NSArray*) errorArrayForGroup:(NSString*)kbguid;
+- (void) removeAllSyncData;
 @end

@@ -122,7 +122,6 @@
     int64_t oldVer =[dataBase documentVersion];
 	[dataBase  updateDocuments:obj];
     int64_t newVer = [self newVersion:obj];
-    NSLog(@"new %lld old %lld",newVer,oldVer);
     if (newVer >= oldVer) {
         [dataBase setDocumentVersion:newVer+1];
         [self  callDownloadDocumentList:newVer+1];

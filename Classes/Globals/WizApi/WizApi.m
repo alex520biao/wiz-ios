@@ -586,6 +586,7 @@
 }
 -(void) onError: (id)retObject
 {
+    NSLog(@"self account userId %@  %@",self.kbguid, self.token);
 	if ([retObject isKindOfClass:[NSError class]])
 	{
         [WizGlobals toLog:[NSString stringWithFormat:@"%@",retObject]];

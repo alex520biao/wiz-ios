@@ -93,6 +93,9 @@ static WizSyncManager* shareManager;
         [self.syncDataDictionary setObject:sync forKey:kbguid];
         [sync release];
     }
+    for (NSString* each in [self.syncDataDictionary allKeys]) {
+        NSLog(@" sync key is %@ ",each);
+    }
     return sync;
 }
 
@@ -218,6 +221,12 @@ static WizSyncManager* shareManager;
             [each stopSync];
         }
     }
+    if (isRefreshingToken) {
+        WizRefreshToken* refresh = [[WizSyncData shareSyncData] refreshData];
+        [refresh cancel];
+    }
+    [[WizSyncData shareSyncData] removeAllSyncData];
+    [self.syncDataDictionary removeAllObjects];
 }
 
 

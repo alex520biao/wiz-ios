@@ -45,11 +45,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
-         timestampString = "362546287.463098"
+         timestampString = "362548282.787062"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "145"
-         endingLineNumber = "145"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
          landmarkName = "-onAllCategories:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -253,11 +253,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizDbManger/WizInfoDataBase.m"
-         timestampString = "362545852.295554"
+         timestampString = "362548282.787062"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "557"
-         endingLineNumber = "557"
+         startingLineNumber = "554"
+         endingLineNumber = "554"
          landmarkName = "-getTagNamePath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -266,11 +266,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizDbManger/WizInfoDataBase.m"
-         timestampString = "362545852.295554"
+         timestampString = "362548282.787062"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "556"
-         endingLineNumber = "556"
+         startingLineNumber = "553"
+         endingLineNumber = "553"
          landmarkName = "-getTagNamePath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -279,11 +279,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizDbManger/WizInfoDataBase.m"
-         timestampString = "362545852.295554"
+         timestampString = "362548282.787062"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "539"
-         endingLineNumber = "539"
+         startingLineNumber = "536"
+         endingLineNumber = "536"
          landmarkName = "-genTagNamePath:rest:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -292,11 +292,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
-         timestampString = "362546287.463098"
+         timestampString = "362548282.787062"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "214"
-         endingLineNumber = "214"
+         startingLineNumber = "213"
+         endingLineNumber = "213"
          landmarkName = "-onDownloadDeletedList:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -539,12 +539,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/AccountManager/WizAccountManager.m"
-         timestampString = "362459018.682623"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "113"
-         endingLineNumber = "113"
-         landmarkName = "-removeAccount:"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
+         landmarkName = "-registerActiveAccount:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -578,12 +578,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/AccountManager/WizAccountManager.m"
-         timestampString = "362459018.682623"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "139"
-         endingLineNumber = "139"
-         landmarkName = "-removeAccount:"
+         startingLineNumber = "143"
+         endingLineNumber = "143"
+         landmarkName = "-activeAccountGroups"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -643,11 +643,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "362475985.957182"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "607"
-         endingLineNumber = "607"
+         startingLineNumber = "615"
+         endingLineNumber = "615"
          landmarkName = "-setGroupLastSyncDate:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -656,11 +656,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "362475985.957182"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "256"
-         endingLineNumber = "256"
+         startingLineNumber = "264"
+         endingLineNumber = "264"
          landmarkName = "-updateSetting:kbGuid:key:value:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -669,11 +669,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "362475985.957182"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "262"
-         endingLineNumber = "262"
+         startingLineNumber = "270"
+         endingLineNumber = "270"
          landmarkName = "-updateSetting:kbGuid:key:value:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -682,11 +682,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "362475985.957182"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "266"
-         endingLineNumber = "266"
+         startingLineNumber = "274"
+         endingLineNumber = "274"
          landmarkName = "-updateSetting:kbGuid:key:value:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -695,11 +695,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "362374612.72046"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "234"
-         endingLineNumber = "234"
+         startingLineNumber = "242"
+         endingLineNumber = "242"
          landmarkName = "-settingWithWhereField:args:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -708,11 +708,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/otherFrame/FMDB/WizSettingsDataBase.m"
-         timestampString = "362475985.957182"
+         timestampString = "362548074.621861"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "255"
-         endingLineNumber = "255"
+         startingLineNumber = "263"
+         endingLineNumber = "263"
          landmarkName = "-updateSetting:kbGuid:key:value:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -773,11 +773,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizApi.m"
-         timestampString = "362546444.801348"
+         timestampString = "362548466.733126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "589"
-         endingLineNumber = "589"
+         startingLineNumber = "590"
+         endingLineNumber = "590"
          landmarkName = "-onError:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -786,11 +786,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncManager.m"
-         timestampString = "362475175.78342"
+         timestampString = "362548799.383059"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "148"
-         endingLineNumber = "148"
+         startingLineNumber = "151"
+         endingLineNumber = "151"
          landmarkName = "-didApiSyncError:error:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -799,11 +799,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncManager.m"
-         timestampString = "362475175.78342"
+         timestampString = "362548799.383059"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "127"
-         endingLineNumber = "127"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
          landmarkName = "-refreshToken"
          landmarkType = "5">
       </FileBreakpoint>
@@ -812,11 +812,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncManager.m"
-         timestampString = "362475175.78342"
+         timestampString = "362548799.383059"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "113"
-         endingLineNumber = "113"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
          landmarkName = "-didRefreshToken:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -844,6 +844,32 @@
          startingLineNumber = "242"
          endingLineNumber = "242"
          landmarkName = "-setDocumentLocalChanged:changed:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizSyncData.m"
+         timestampString = "362549330.000322"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "41"
+         endingLineNumber = "41"
+         landmarkName = "-clearSyncData"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
+         timestampString = "362548656.199303"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
+         landmarkName = "-start"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

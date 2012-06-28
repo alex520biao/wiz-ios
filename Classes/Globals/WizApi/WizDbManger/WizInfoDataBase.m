@@ -328,14 +328,11 @@
 
 - (BOOL) updateDocuments:(NSArray *)documents
 {
-    NSDate* date1 = [NSDate date];
     for (NSDictionary* doc in documents) {
         if (![self updateDocument:doc]) {
             return NO;
         }
     }
-    NSDate* date2 = [NSDate date];
-    NSLog(@"update documents spend without reloadUI %f",[date1 timeIntervalSinceDate:date2]);
     if ([documents count]) {
         [WizNotificationCenter postupdateDocumentListMessage];
     }
