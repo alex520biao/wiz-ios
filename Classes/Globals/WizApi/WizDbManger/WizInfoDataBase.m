@@ -139,7 +139,19 @@
     if (nil == where) {
         where = @"";
     }
-    NSString* sql = [NSString stringWithFormat:@"select DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT, OWNER from WIZ_DOCUMENT %@",where];
+    
+    NSInteger indexOfWhere = [where indexOf:@"where"];
+    if (NSNotFound == indexOfWhere)
+    {
+        where = [NSString stringWithFormat:@" where DOCUMENT_LOCATION != '/Deleted Items/' %@",where];
+    }
+    else
+    {
+        NSMutableString* string = [NSMutableString stringWithString:where];
+        [string insertString:@" DOCUMENT_LOCATION != '/Deleted Items/' and " atIndex:(indexOfWhere + 6)];
+        where = string;
+    }
+    NSString* sql = [NSString stringWithFormat:@"select DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT, OWNER from WIZ_DOCUMENT %@ ",where];
     __block NSMutableArray* array = [NSMutableArray array];
     
     [self.queue inDatabase:^(FMDatabase *db) {

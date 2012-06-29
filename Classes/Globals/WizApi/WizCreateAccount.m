@@ -14,16 +14,28 @@
 @synthesize accountPassword;
 @synthesize accountUserId;
 @synthesize createAccountDelegate;
+- (void) doErrorCreate
+{   NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    [self.createAccountDelegate didCreateAccountFaild];
+    [pool drain];
+}
 -(void) onError: (id)retObject
 {
 	[WizGlobals reportError:retObject];
 	busy = NO;
-    [self.createAccountDelegate didCreateAccountFaild];
+    [self  performSelectorOnMainThread:@selector(doErrorCreate) withObject:nil waitUntilDone:YES];
 }
 -(void) onCreateAccount: (id)retObject
 {
 	busy = NO;
+    NSLog(@"ret %@",retObject);
+    [self performSelectorOnMainThread:@selector(doCreateAccountOnMainProcess) withObject:nil waitUntilDone:YES];
+}
+- (void) doCreateAccountOnMainProcess
+{
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     [self.createAccountDelegate didCreateAccountSucceed];
+    [pool drain];
 }
 - (BOOL) createAccount
 {

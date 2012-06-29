@@ -119,7 +119,7 @@
         NSLog(@" set default account error %@",accountUserId);
     }
     [self.dataBase setWizDefaultAccountUserId:self.activeAccount_.userId];
-//    [[WizSyncManager shareManager] refreshToken];
+    [[WizSyncManager shareManager] refreshToken];
     return YES;
 }
 
