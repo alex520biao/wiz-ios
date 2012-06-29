@@ -100,8 +100,7 @@
 {
     [super viewDidLoad];
     WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
-    canNewDocument = [current canEditDocument];
-    
+    canNewDocument = [current canNewDocument];
     PhRecentViewController* recent = [[PhRecentViewController alloc]init] ;
     UINavigationController* recentController = [[UINavigationController alloc]init];
     [recentController pushViewController:recent animated:NO];

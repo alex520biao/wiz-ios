@@ -47,16 +47,18 @@
     [super dealloc];
 }
 
-- (BOOL) canEditCurrentDocument
+- (BOOL) canNewDocument
 {
-    if (self.userGroup <= 100 ) {
-        return YES;
-    }
-    return NO;
+    return self.userGroup <= 100;
 }
-- (BOOL) canEditDocument
+
+- (BOOL) canEditCurrentDocument:(NSString*)documentOwner      currentUser:(NSString*)userId
 {
     if (self.userGroup <= 50 ) {
+        return YES;
+    }
+    else if (self.userGroup == 100 && [documentOwner isEqualToString:userId])
+    {
         return YES;
     }
     return NO;

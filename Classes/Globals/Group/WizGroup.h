@@ -53,7 +53,7 @@ enum WizGroupUserRightAdmin {
 @property (nonatomic, assign) NSInteger userGroup;
 @property (nonatomic, assign) NSInteger  orderIndex;
 - (void) getDataFromDic:(NSDictionary*)dic;
-- (BOOL) canEditDocument;
+- (BOOL) canNewDocument;
 - (BOOL) canEditTag;
-- (BOOL) canEditCurrentDocument;
+- (BOOL) canEditCurrentDocument:(NSString*)documentOwner      currentUser:(NSString*)userId;
 @end

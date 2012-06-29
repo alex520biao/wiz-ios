@@ -382,7 +382,7 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* WizNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* WizGroup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizGroup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3072578D132496BB009DA753 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -1002,7 +1002,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* WizNote.app */,
+				1D6058910D05DD3D006BFB54 /* WizGroup.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2222,7 +2222,7 @@
 			);
 			name = Wiz;
 			productName = Wiz;
-			productReference = 1D6058910D05DD3D006BFB54 /* WizNote.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* WizGroup.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2759,7 +2759,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = WizNote;
+				PRODUCT_NAME = WizGroup;
 				PROVISIONING_PROFILE = "E0CFE4E7-A34B-4911-99C8-58457270910D";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0CFE4E7-A34B-4911-99C8-58457270910D";
 				SDKROOT = iphoneos;
@@ -2796,7 +2796,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = WizNote;
+				PRODUCT_NAME = WizGroup;
 				PROVISIONING_PROFILE = "E0CFE4E7-A34B-4911-99C8-58457270910D";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0CFE4E7-A34B-4911-99C8-58457270910D";
 				SDKROOT = iphoneos;
@@ -2862,7 +2862,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = WizNote;
+				PRODUCT_NAME = WizGroup;
 				PROVISIONING_PROFILE = "E0CFE4E7-A34B-4911-99C8-58457270910D";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0CFE4E7-A34B-4911-99C8-58457270910D";
 				SDKROOT = iphoneos;

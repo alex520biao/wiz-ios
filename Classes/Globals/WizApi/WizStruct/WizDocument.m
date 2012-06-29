@@ -359,6 +359,11 @@ BOOL isReverseMask(NSInteger mask)
     if (self.gpsDescription) {
         [doc setObject:self.gpsDescription forKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
     }
+    if (!self.owner)
+    {
+        self.owner = [[WizAccountManager defaultManager] activeAccountUserId];
+    }
+    [doc setObject:self.owner forKey:DataTypeUpdateDocumentOwner];
     [doc setObject:[NSNumber numberWithFloat:self.gpsLatitude] forKey:DataTypeUpdateDocumentGPS_LATITUDE];
     [doc setObject:[NSNumber numberWithFloat:self.gpsLongtitude] forKey:DataTypeUpdateDocumentGPS_LONGTITUDE];
     [doc setObject:[NSNumber numberWithFloat:self.gpsAltitude] forKey:DataTypeUpdateDocumentGPS_ALTITUDE];

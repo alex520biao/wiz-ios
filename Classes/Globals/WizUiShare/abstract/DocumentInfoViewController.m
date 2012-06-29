@@ -201,7 +201,7 @@
 {
     WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    BOOL canEdit = [current canEditDocument] || ([current canEditCurrentDocument] && [self.doc.owner isEqualToString:accountUserId]);
+    BOOL canEdit = [current canEditCurrentDocument:self.doc.owner currentUser:accountUserId];
     if (canEdit) {
         if (1 == indexPath.row) {
             [self tagViewSelect];

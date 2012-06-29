@@ -509,7 +509,7 @@
     UIBarButtonItem* shareItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_share"] style:UIBarButtonItemStyleBordered target:self action:@selector(shareCurrentDocument)];
     WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    BOOL canEdit = [current canEditDocument] || ([current canEditCurrentDocument] && [self.doc.owner isEqualToString:accountUserId]);
+    BOOL canEdit = [current canEditCurrentDocument:self.doc.owner currentUser:accountUserId];
     NSArray* array = nil;
     if (canEdit) {
         UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editDocument)];

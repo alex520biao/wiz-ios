@@ -219,7 +219,9 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizGroup* current = [[WizAccountManager defaultManager] activeAccountActiveGroup];
-    return [current canEditDocument];
+    NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    return [current canEditCurrentDocument:doc.owner currentUser:accountUserId];
 }
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
