@@ -79,7 +79,7 @@
         userGroup = [NSNumber numberWithInt:WizGroupUserRightAll];
     }
     if (!kbName) {
-        kbName = @"Private Knowledge Base";
+        kbName = NSLocalizedString(@"Private Knowledge Base", nil);
     }
     if (!KeyOfKbType) {
         kbType = KeyOfKbTypePrivate;
@@ -106,13 +106,13 @@
     {
         NSLog(@"update");
         [queue inDatabase:^(FMDatabase *db) {
-            ret = [db executeUpdate:@"update WizGroup set KB_NAME=?, KB_TYPE=?, KB_USER_GROUP=? where KB_GUID=?  and  KB_ACCOUNT_USERID=?",@"Private Knowledge Base", KeyOfKbTypePrivate,[NSNumber numberWithInt:WizGroupUserRightAll],guid,userId];
+            ret = [db executeUpdate:@"update WizGroup set KB_NAME=?, KB_TYPE=?, KB_USER_GROUP=? where KB_GUID=?  and  KB_ACCOUNT_USERID=?",NSLocalizedString(@"Private Knowledge Base", nil), KeyOfKbTypePrivate,[NSNumber numberWithInt:WizGroupUserRightAll],guid,userId];
         }];
     }
     else
     {
         [queue inDatabase:^(FMDatabase *db) {
-            ret = [db executeUpdate:@"insert into WizGroup (KB_GUID,KB_NAME,KB_USER_GROUP,KB_TYPE,KB_ACCOUNT_USERID) values(?,?,?,?,?)",guid, @"Private Knowledge Base", [NSNumber numberWithInt:WizGroupUserRightAll],KeyOfKbTypePrivate,userId];
+            ret = [db executeUpdate:@"insert into WizGroup (KB_GUID,KB_NAME,KB_USER_GROUP,KB_TYPE,KB_ACCOUNT_USERID) values(?,?,?,?,?)",guid,NSLocalizedString(@"Private Knowledge Base", nil), [NSNumber numberWithInt:WizGroupUserRightAll],KeyOfKbTypePrivate,userId];
         }];
     }
     return ret;

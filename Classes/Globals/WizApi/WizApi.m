@@ -261,7 +261,6 @@
 	//
 	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
 	//
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[request release];
 	//
     BOOL ret ;
@@ -279,6 +278,7 @@
         url = [[WizSettings defaultSettings] wizServerUrl];
     }
     [self performSelectorOnMainThread:@selector(doExeCuteXml:) withObject:[NSArray arrayWithObjects:url,method, args, nil] waitUntilDone:NO];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     return YES;
 }
 -(void) addCommonParams: (NSMutableDictionary*)postParams
