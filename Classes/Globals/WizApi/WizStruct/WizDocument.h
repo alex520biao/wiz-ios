@@ -131,4 +131,6 @@ enum
 - (BOOL) isIosDocument;
 //
 - (NSString*)tagDisplayString;
+//
+- (BOOL) saveWithHtmlBody:(NSString*)body;
 @end

@@ -10,7 +10,10 @@
 #import "WizGlobalData.h"
 #import "ZipArchive.h"
 #import "WizAccountManager.h"
+
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
+#define EditTempDirectory   @"EditTempDirectory"
+
 @implementation WizFileManager
 //singleton
 static WizFileManager* shareManager = nil;
@@ -260,7 +263,7 @@ static WizFileManager* shareManager = nil;
 }
 - (NSString*) getAttachmentSourceFileName
 {
-     NSString* objectPath = [self attachmentTempDirectory];
+     NSString* objectPath = [[self editingTempDirectory] stringByAppendingPathComponent:@"index_files"];
     [[WizFileManager shareManager] ensurePathExists:objectPath];
     return [objectPath stringByAppendingPathComponent:[WizGlobals genGUID]];
 }
@@ -305,4 +308,14 @@ static WizFileManager* shareManager = nil;
 {
     return [self documentFile:@"SearchHistoryDir" fileName:@"history.dat"];
 }
+- (NSString*) editingTempDirectory
+{
+    return [self objectFilePath:EditTempDirectory];
+}
+
+- (BOOL) clearEditingTempDirectory
+{
+    return [self removeObjectPath:EditTempDirectory];
+}
+
 @end

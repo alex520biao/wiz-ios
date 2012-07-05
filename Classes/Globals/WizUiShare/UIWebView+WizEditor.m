@@ -7,6 +7,7 @@
 //
 
 #import "UIWebView+WizEditor.h"
+#import "NSString+WizString.h"
 
 @implementation UIWebView (WizEditor)
 - (UIColor *)colorFromRGBValue:(NSString *)rgb { // General format is 'rgb(red, green, blue)'
@@ -26,15 +27,15 @@
     return retVal;
 }
 - (void)bold {
-    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand(\"Bold\")"];
+    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('Bold')"];
 }
 
 - (void)italic {
-    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand(\"Italic\")"];
+    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('Italic')"];
 }
 
 - (void)underline {
-    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand(\"Underline\")"];
+    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('Underline')"];
 }
 - (void)undo {
     [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('undo')"];
@@ -42,5 +43,56 @@
 
 - (void)redo {
     [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('redo')"];
+}
+
+- (NSString*) getDocumentBodyHtml
+{
+    return [self stringByEvaluatingJavaScriptFromString:@"getDocumentEditedBodyHtml();"];
+}
+- (void) insertImage:(NSString*)imagePath
+{
+    NSInteger indexOfEditDir = [imagePath indexOf:@"index_files"];
+    NSString* path = nil;
+    if (indexOfEditDir != NSNotFound) {
+        path = [imagePath substringFromIndex:indexOfEditDir];
+    }
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"insertPhoto('%@')",path]];
+}
+- (void) focusEditor
+{
+    [self stringByEvaluatingJavaScriptFromString:@"focusEditor()"];
+}
+
+- (void) highlightText
+{
+    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('backColor', false, 'yellow')"];
+}
+
+- (void) strikeThrough
+{
+    [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('strikeThrough')"];
+}
+- (void)highlight {
+    NSString *currentColor = [self stringByEvaluatingJavaScriptFromString:@"document.queryCommandValue('backColor')"];
+    if ([currentColor isEqualToString:@"rgb(255, 255, 0)"]) {
+        [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('backColor', false, 'white')"];
+    } else {
+        [self stringByEvaluatingJavaScriptFromString:@"document.execCommand('backColor', false, 'yellow')"];
+    }
+}
+- (void)fontSizeUp {
+    int size = [[self stringByEvaluatingJavaScriptFromString:@"document.queryCommandValue('fontSize')"] intValue] + 1;
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.execCommand('fontSize', false, '%i')", size]];
+}
+
+- (void)fontSizeDown {
+    int size = [[self stringByEvaluatingJavaScriptFromString:@"document.queryCommandValue('fontSize')"] intValue] - 1;
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.execCommand('fontSize', false, '%i')", size]];
+}
+- (void) prapareForEdit
+{
+    NSURL* url = [[NSBundle mainBundle] URLForResource:@"editor" withExtension:@"js"];
+    NSString* string = [NSString stringWithContentsOfURL:url usedEncoding:nil error:nil];
+    [self stringByEvaluatingJavaScriptFromString:string];
 }
 @end

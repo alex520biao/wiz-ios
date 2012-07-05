@@ -45,11 +45,14 @@
 - (NSDate *) dateFromSqlTimeString
 {
 	NSDateFormatter* formatter = [NSDate shareSqlDataFormater];
-    if (self.length < 19) {
-        [formatter release];
-        return nil;
-    }
-    NSDate* date = [formatter dateFromString:self];
+//    @synchronized(formatter)
+//    {
+        if (self.length < 19) {
+            [formatter release];
+            return nil;
+        }
+//    }
+     NSDate* date = [formatter dateFromString:self];
 	return date ;
 }
 //

@@ -53,6 +53,8 @@
 		7316C0CA1574AD20000926E9 /* downloadIndicator5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */; };
 		7316C0CD1574B373000926E9 /* icon_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CB1574B373000926E9 /* icon_share.png */; };
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
+		731E2B2615A4437C007C597D /* WizCommonEditorBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 731E2B2515A4437C007C597D /* WizCommonEditorBaseViewController.m */; };
+		731E2B2815A44B71007C597D /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 731E2B2715A44B71007C597D /* jquery.js */; };
 		731EFED3157E011500C859E0 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EFED2157E011500C859E0 /* WizGroup.m */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
@@ -78,12 +80,14 @@
 		734CA13E1504597D002549CB /* TagsListTreeControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
-		734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53C3157CAD8F00BE496E /* WizWebEditor.m */; };
+		735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
 		7362ABA2156B86C700513E96 /* WizTagCatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362ABA1156B86C700513E96 /* WizTagCatelogView.m */; };
 		736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DEA541552843D00633B89 /* MBProgressHUD.m */; };
 		736EBAAB1544F76A00D97ACB /* WizDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 736EBAAA1544F76A00D97ACB /* WizDocument.m */; };
 		737675BB156645470061FFCF /* WizGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 737675BA156645470061FFCF /* WizGridView.m */; };
+		7376BBB015A1A17E0034D2F6 /* WizPhoneEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7376BBAF15A1A17E0034D2F6 /* WizPhoneEditViewController.m */; };
+		7376BBB315A1A27D0034D2F6 /* WizEditorBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7376BBB215A1A27D0034D2F6 /* WizEditorBaseViewController.m */; };
 		7376C069157381A900DE74D3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7376C068157381A900DE74D3 /* MapKit.framework */; };
 		737999AB150DB84B0029A967 /* WizTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737999AA150DB84B0029A967 /* WizTableViewController.m */; };
 		737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B530C151EEA1200CE3656 /* WizIphoneLoginViewController.m */; };
@@ -97,6 +101,8 @@
 		7386114A1558BD87005C710C /* PhTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738611491558BD86005C710C /* PhTagListViewController.m */; };
 		738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */; };
 		739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 739BE7B1153E524100057601 /* NSArray+WizTools.m */; };
+		739C193D15A29BF900EA0BCB /* editModel.html in Resources */ = {isa = PBXBuildFile; fileRef = 739C193C15A29BF900EA0BCB /* editModel.html */; };
+		739C194315A29E8F00EA0BCB /* editor.js in Resources */ = {isa = PBXBuildFile; fileRef = 739C194215A29E8F00EA0BCB /* editor.js */; };
 		739DF1DF155BC35900863D5F /* WizSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1DE155BC35900863D5F /* WizSwitchCell.m */; };
 		739DF1E2155BC5CC00863D5F /* WizSingleSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1E1155BC5CC00863D5F /* WizSingleSelectViewController.m */; };
 		739DF1E6155BD89D00863D5F /* NSArray+WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 739DF1E5155BD89D00863D5F /* NSArray+WizSetting.m */; };
@@ -422,6 +428,9 @@
 		7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator5@2x.png"; sourceTree = "<group>"; };
 		7316C0CB1574B373000926E9 /* icon_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_share.png; sourceTree = "<group>"; };
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
+		731E2B2415A4437C007C597D /* WizCommonEditorBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCommonEditorBaseViewController.h; sourceTree = "<group>"; };
+		731E2B2515A4437C007C597D /* WizCommonEditorBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCommonEditorBaseViewController.m; sourceTree = "<group>"; };
+		731E2B2715A44B71007C597D /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		731EFED1157E011400C859E0 /* WizGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGroup.h; path = WizStruct/WizGroup.h; sourceTree = "<group>"; };
 		731EFED2157E011500C859E0 /* WizGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGroup.m; path = WizStruct/WizGroup.m; sourceTree = "<group>"; };
 		731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDateBaseDelegate.h; sourceTree = "<group>"; };
@@ -469,8 +478,8 @@
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
 		734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WizEditor.h"; sourceTree = "<group>"; };
 		734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+WizEditor.m"; sourceTree = "<group>"; };
-		734D53C2157CAD8F00BE496E /* WizWebEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizWebEditor.h; path = WebEditor/WizWebEditor.h; sourceTree = "<group>"; };
-		734D53C3157CAD8F00BE496E /* WizWebEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizWebEditor.m; path = WebEditor/WizWebEditor.m; sourceTree = "<group>"; };
+		735136FB15A296BB00797CDF /* UIBarButtonItem+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WizTools.h"; sourceTree = "<group>"; };
+		735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WizTools.m"; sourceTree = "<group>"; };
 		735C1B95153C218100A80353 /* WizSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncManager.h; sourceTree = "<group>"; };
 		735C1B96153C218100A80353 /* WizSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncManager.m; sourceTree = "<group>"; };
 		7362ABA0156B86C700513E96 /* WizTagCatelogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTagCatelogView.h; sourceTree = "<group>"; };
@@ -483,6 +492,10 @@
 		73728D2F156B98B700FA41AA /* WizPadViewDocumentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadViewDocumentDelegate.h; sourceTree = "<group>"; };
 		737675B9156645470061FFCF /* WizGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGridView.h; path = WizGridView/WizGridView.h; sourceTree = "<group>"; };
 		737675BA156645470061FFCF /* WizGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGridView.m; path = WizGridView/WizGridView.m; sourceTree = "<group>"; };
+		7376BBAE15A1A17E0034D2F6 /* WizPhoneEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPhoneEditViewController.h; sourceTree = "<group>"; };
+		7376BBAF15A1A17E0034D2F6 /* WizPhoneEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPhoneEditViewController.m; sourceTree = "<group>"; };
+		7376BBB115A1A27D0034D2F6 /* WizEditorBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditorBaseViewController.h; sourceTree = "<group>"; };
+		7376BBB215A1A27D0034D2F6 /* WizEditorBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditorBaseViewController.m; sourceTree = "<group>"; };
 		7376C068157381A900DE74D3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		737999A9150DB84B0029A967 /* WizTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTableViewController.h; sourceTree = "<group>"; };
 		737999AA150DB84B0029A967 /* WizTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTableViewController.m; sourceTree = "<group>"; };
@@ -507,6 +520,8 @@
 		739223EF1576006600EDFC1B /* WizSettingsParentNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizSettingsParentNavigationDelegate.h; sourceTree = "<group>"; };
 		739BE7B0153E524100057601 /* NSArray+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+WizTools.h"; path = "WizTools/NSArray+WizTools.h"; sourceTree = "<group>"; };
 		739BE7B1153E524100057601 /* NSArray+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+WizTools.m"; path = "WizTools/NSArray+WizTools.m"; sourceTree = "<group>"; };
+		739C193C15A29BF900EA0BCB /* editModel.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = editModel.html; path = Resources/Html/editModel.html; sourceTree = "<group>"; };
+		739C194215A29E8F00EA0BCB /* editor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = editor.js; sourceTree = "<group>"; };
 		739DF1DD155BC35900863D5F /* WizSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSwitchCell.h; sourceTree = "<group>"; };
 		739DF1DE155BC35900863D5F /* WizSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSwitchCell.m; sourceTree = "<group>"; };
 		739DF1E0155BC5CC00863D5F /* WizSingleSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSingleSelectViewController.h; sourceTree = "<group>"; };
@@ -960,6 +975,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				731E2B2715A44B71007C597D /* jquery.js */,
+				739C193A15A29BC700EA0BCB /* Html */,
 				73A784F614F8CC22001387F6 /* JS */,
 				32CA4F630368D1EE00C91783 /* Wiz_Prefix.pch */,
 			);
@@ -1121,6 +1138,15 @@
 			name = WizPasscode;
 			sourceTree = "<group>";
 		};
+		73386C6D15A44020006831FC /* CommonEditor */ = {
+			isa = PBXGroup;
+			children = (
+				731E2B2415A4437C007C597D /* WizCommonEditorBaseViewController.h */,
+				731E2B2515A4437C007C597D /* WizCommonEditorBaseViewController.m */,
+			);
+			name = CommonEditor;
+			sourceTree = "<group>";
+		};
 		7339C81F156CE95700F93D6F /* downloadArrows */ = {
 			isa = PBXGroup;
 			children = (
@@ -1168,6 +1194,7 @@
 		734D53B5157CA83100BE496E /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				73386C6D15A44020006831FC /* CommonEditor */,
 				734D53B7157CA8BA00BE496E /* WebEditor */,
 				738B80A2155134080005FD33 /* EidtNote */,
 			);
@@ -1179,10 +1206,21 @@
 			children = (
 				734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */,
 				734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */,
-				734D53C2157CAD8F00BE496E /* WizWebEditor.h */,
-				734D53C3157CAD8F00BE496E /* WizWebEditor.m */,
+				7376BBAE15A1A17E0034D2F6 /* WizPhoneEditViewController.h */,
+				7376BBAF15A1A17E0034D2F6 /* WizPhoneEditViewController.m */,
+				7376BBB115A1A27D0034D2F6 /* WizEditorBaseViewController.h */,
+				7376BBB215A1A27D0034D2F6 /* WizEditorBaseViewController.m */,
 			);
 			name = WebEditor;
+			sourceTree = "<group>";
+		};
+		735136F915A2969C00797CDF /* WizExtensionTools */ = {
+			isa = PBXGroup;
+			children = (
+				735136FB15A296BB00797CDF /* UIBarButtonItem+WizTools.h */,
+				735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */,
+			);
+			name = WizExtensionTools;
 			sourceTree = "<group>";
 		};
 		735C1B93153C214C00A80353 /* SyncCenter */ = {
@@ -1305,6 +1343,14 @@
 			name = WizTools;
 			sourceTree = "<group>";
 		};
+		739C193A15A29BC700EA0BCB /* Html */ = {
+			isa = PBXGroup;
+			children = (
+				739C193C15A29BF900EA0BCB /* editModel.html */,
+			);
+			name = Html;
+			sourceTree = "<group>";
+		};
 		739F607E157772BA00BBCD84 /* MAP */ = {
 			isa = PBXGroup;
 			children = (
@@ -1411,6 +1457,7 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				735136F915A2969C00797CDF /* WizExtensionTools */,
 				734D53B5157CA83100BE496E /* Editor */,
 				739F607E157772BA00BBCD84 /* MAP */,
 				732CFF8E155CCDE900F9F779 /* WizPasscode */,
@@ -1594,6 +1641,7 @@
 				730C4C3A156A4C5200A9E7C8 /* iphoneRead.js */,
 				73A784F714F8CC22001387F6 /* SearchWebView.js */,
 				73EBE49B1561F03400BE7429 /* read.css */,
+				739C194215A29E8F00EA0BCB /* editor.js */,
 			);
 			name = JS;
 			path = Classes/JS;
@@ -2124,8 +2172,10 @@
 				730C4C3C156A4E0700A9E7C8 /* iphoneRead.js in Resources */,
 				30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */,
 				731161FC14F5028D007EC8AC /* Default-Portrait~ipad.png in Resources */,
+				731E2B2815A44B71007C597D /* jquery.js in Resources */,
 				7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */,
 				7311621314F50AC0007EC8AC /* Default.png in Resources */,
+				739C194315A29E8F00EA0BCB /* editor.js in Resources */,
 				7311621014F50ABB007EC8AC /* Default@2x.png in Resources */,
 				730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */,
 				730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */,
@@ -2301,6 +2351,7 @@
 				7316C0CA1574AD20000926E9 /* downloadIndicator5@2x.png in Resources */,
 				7316C0CD1574B373000926E9 /* icon_share.png in Resources */,
 				7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */,
+				739C193D15A29BF900EA0BCB /* editModel.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2458,9 +2509,12 @@
 				739F607815775FF900BBCD84 /* NSMutableDictionary+WizDocument.m in Sources */,
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
 				734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */,
-				734D53C4157CAD8F00BE496E /* WizWebEditor.m in Sources */,
 				731EFED3157E011500C859E0 /* WizGroup.m in Sources */,
 				73AFCC17157E0A4A00C48FE1 /* WizAccount.m in Sources */,
+				7376BBB015A1A17E0034D2F6 /* WizPhoneEditViewController.m in Sources */,
+				7376BBB315A1A27D0034D2F6 /* WizEditorBaseViewController.m in Sources */,
+				735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */,
+				731E2B2615A4437C007C597D /* WizCommonEditorBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

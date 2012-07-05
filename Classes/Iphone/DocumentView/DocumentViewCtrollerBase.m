@@ -20,6 +20,10 @@
 #import "WizSyncManager.h"
 #import "WizSettings.h"
 #import "WizFileManager.h"
+
+#import "WizPhoneEditViewController.h"
+#import "WizCommonEditorBaseViewController.h"
+
 #import <UIKit/UIKit.h>
 #import "ATMHud.h"
 
@@ -259,19 +263,24 @@
 }
 - (void)editCurrentDocument
 {
-    NewNoteView* newNote= [[NewNoteView alloc]init];
-    WizDocument* edit = self.doc;
-    newNote.docEdit = edit;
-    NSMutableArray* array =[NSMutableArray array];
-    if ([self.doc.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.doc.type isEqualToString:WizDocumentTypeImageKeyString] || [self.doc.type isEqualToString:WizDocumentTypeNoteKeyString]) {
-       [array addObjectsFromArray:[self.doc existPhotoAndAudio]]; 
-    }
-    [array addObjectsFromArray:[self.doc attachments]];
-    [newNote prepareForEdit:[self.web bodyText] attachments:array];
-    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+    WizCommonEditorBaseViewController* newNoteController = [[WizCommonEditorBaseViewController alloc] initWithWizDocument:self.doc];
+    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
     [self.navigationController presentModalViewController:controller animated:YES];
-    [newNote release];
+    [newNoteController release];
     [controller release];
+//    NewNoteView* newNote= [[NewNoteView alloc]init];
+//    WizDocument* edit = self.doc;
+//    newNote.docEdit = edit;
+//    NSMutableArray* array =[NSMutableArray array];
+//    if ([self.doc.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.doc.type isEqualToString:WizDocumentTypeImageKeyString] || [self.doc.type isEqualToString:WizDocumentTypeNoteKeyString]) {
+//       [array addObjectsFromArray:[self.doc existPhotoAndAudio]]; 
+//    }
+//    [array addObjectsFromArray:[self.doc attachments]];
+//    [newNote prepareForEdit:[self.web bodyText] attachments:array];
+//    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+//    [self.navigationController presentModalViewController:controller animated:YES];
+//    [newNote release];
+//    [controller release];
     self.isEdit = YES;
 }
 

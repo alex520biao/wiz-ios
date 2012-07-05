@@ -13,6 +13,7 @@
 #import "UIView-TagExtensions.h"
 #import "WizGlobalData.h"
 
+#import "WizPhoneEditViewController.h"
 #import "SearchViewControllerIphone.h"
 #import "WizPhoneNotificationMessage.h"
 #import "UserSttingsViewController.h"
@@ -41,13 +42,19 @@
 }
 -(void) newNote
 {
-    NewNoteView* newNote= [[NewNoteView alloc]init];
-    WizDocument* doc = [[WizDocument alloc] init];
-    newNote.docEdit = doc;
-    [doc release];
-    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+//    NewNoteView* newNote= [[NewNoteView alloc]init];
+//    WizDocument* doc = [[WizDocument alloc] init];
+//    newNote.docEdit = doc;
+//    [doc release];
+//    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+//    [self.navigationController presentModalViewController:controller animated:YES];
+//    [newNote release];
+//    [controller release];
+    
+    WizPhoneEditViewController* newNoteController = [[WizPhoneEditViewController alloc] initWithWizDocument:nil];
+    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
     [self.navigationController presentModalViewController:controller animated:YES];
-    [newNote release];
+    [newNoteController release];
     [controller release];
 }
  

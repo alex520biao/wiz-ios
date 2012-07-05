@@ -400,6 +400,14 @@ BOOL isReverseMask(NSInteger mask)
     NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">  </style></head>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
     return html;
 }
+- (BOOL) saveWithHtmlBody:(NSString*)body
+{
+    self.dataMd5 = [self localDataMd5];
+    self.serverChanged = 0;
+    self.localChanged = WizEditDocumentTypeAllChanged;
+    return [self saveInfo];
+}
+
 - (BOOL) saveWithData:(NSString*)textBody   attachments:(NSArray*)documentsSourceArray
 {
     if (self.serverChanged) {

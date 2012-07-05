@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#define EditTempDirectory   @"EditTempDirectory"
 
 @interface WizFileManager : NSFileManager
 +(NSString*) documentsPath;
@@ -33,4 +34,8 @@
 //
 - (NSString*) searchHistoryFilePath;
 - (NSInteger) activeAccountFolderSize;
+//
+- (NSString*) editingTempDirectory;
+- (BOOL) clearEditingTempDirectory;
+-(BOOL) ensurePathExists:(NSString*)path;
 @end

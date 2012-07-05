@@ -9,5 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @interface UIWebView (WizEditor)
-
+- (void) prapareForEdit;
+- (void) insertImage:(NSString*)imagePath;
+- (void) focusEditor;
+- (void)bold;
+- (void)italic;
+- (void)underline;
+- (void)undo;
+- (void)redo;
+- (NSString*) getDocumentBodyHtml;
+- (void) highlightText;
+- (void) strikeThrough;
+- (void)fontSizeUp;
+- (void)fontSizeDown;
 @end
