@@ -156,7 +156,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 
 - (void) prepareForAppear
 {
-    self.doc = [WizDocument documentFromDb:self.doc.guid];
     WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc];
     self.abstractData = abstract;
     [self performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];

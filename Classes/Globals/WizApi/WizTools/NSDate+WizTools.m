@@ -39,7 +39,10 @@
         NSLocale *locale = [NSLocale currentLocale];
         [dateFormatter setLocale:locale];
     }
-    return [dateFormatter stringFromDate:self];
+    @synchronized(dateFormatter)
+    {
+        return [dateFormatter stringFromDate:self];
+    }
 }
 -(NSString*) stringSql
 {
