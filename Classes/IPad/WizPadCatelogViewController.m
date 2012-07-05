@@ -136,9 +136,19 @@
     else {
         docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
     }
-    NSLog(@"index docRange is %d %d",docRange.location, docRange.length);
-    cellArray = [dataArray subarrayWithRange:docRange];
-    [cell setCatelogViewContents:cellArray];
+
+    @try {
+        cellArray = [dataArray subarrayWithRange:docRange];
+        [cell setCatelogViewContents:cellArray];
+    }
+    @catch (NSException *exception) {
+        if ([exception isKindOfClass:[NSRangeException class]]) {
+            NSLog(@"index docRange is %d %d",docRange.location, docRange.length);
+            return nil;
+        }
+    }
+    @finally {
+    }
     return cell;
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
