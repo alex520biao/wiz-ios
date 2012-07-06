@@ -1,5 +1,28 @@
-<html>
-    <body>
-         asdfasdf
-    </body>
+<html> 
+	<head> 
+        <title>My Page</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+            <script src="js/jquery.js"></script>
+            <script language='javascript' type='text/javascript'>
+                $(function() {
+                  $('wiz').click(function(e) {
+                                  c = e.target;
+                                  // var url='wiznote:'+'ddd'+':'+'dddd';
+                                  // document.location = url ;
+                                  alert(c);
+                                  return false;
+                                  });
+                  });
+                var c = 1;
+                function clearjquery() {
+                    $('*').unbind();
+                }
+                function endFix(result) {
+                    c.innerHTML = result;
+                }
+                </script>
+            
+    </head> 
+    <body>IOSWizEditor</body>
+    
 </html>

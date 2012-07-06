@@ -36,6 +36,13 @@
     }
     return [[fileName componentsSeparatedByString:@"."] lastObject];
 }
+
+- (NSString*) stringReplaceUseRegular:(NSString *)regex withString:(NSString*)replaceStr
+{
+    NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
+    return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:replaceStr];
+}
+
 - (NSString*) stringReplaceUseRegular:(NSString*)regex
 {
     NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
@@ -79,7 +86,7 @@
 {
 	NSRange range = [self rangeOfString:find];
 	if (range.location == NSNotFound)
-		return -1;
+		return NSNotFound;
 	//
 	return range.location;
 }
@@ -93,7 +100,7 @@
 {
 	NSRange range = [self rangeOfString:find options:NSBackwardsSearch];
 	if (range.location == NSNotFound)
-		return -1;
+		return NSNotFound;
 	//
 	return range.location;
 }

@@ -54,7 +54,6 @@
 		7316C0CD1574B373000926E9 /* icon_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CB1574B373000926E9 /* icon_share.png */; };
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
 		731E2B2615A4437C007C597D /* WizCommonEditorBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 731E2B2515A4437C007C597D /* WizCommonEditorBaseViewController.m */; };
-		731E2B2815A44B71007C597D /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 731E2B2715A44B71007C597D /* jquery.js */; };
 		731EFED3157E011500C859E0 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EFED2157E011500C859E0 /* WizGroup.m */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
@@ -345,6 +344,7 @@
 		73E05167156B85BF0064A353 /* WizPadTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E05166156B85BF0064A353 /* WizPadTagsViewController.m */; };
 		73E4462A155CB429004077AF /* NSIndexPath+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E44629155CB429004077AF /* NSIndexPath+WizTools.m */; };
 		73E5DB751550C7E800CC3562 /* WizString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E5DB741550C7E800CC3562 /* WizString.m */; };
+		73E61F9715A69DFD004BB2D4 /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = 73E61F9615A69DFD004BB2D4 /* jquery.js */; };
 		73E62DA8155B610F001B35C9 /* WizSyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E62DA7155B610F001B35C9 /* WizSyncData.m */; };
 		73E7647B153D6FE30089D5FF /* WizRefreshToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E7647A153D6FE30089D5FF /* WizRefreshToken.m */; };
 		73E8E3391565EBC600E72429 /* WizPadTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E8E3381565EBC600E72429 /* WizPadTabbarViewController.m */; };
@@ -430,7 +430,6 @@
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
 		731E2B2415A4437C007C597D /* WizCommonEditorBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCommonEditorBaseViewController.h; sourceTree = "<group>"; };
 		731E2B2515A4437C007C597D /* WizCommonEditorBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCommonEditorBaseViewController.m; sourceTree = "<group>"; };
-		731E2B2715A44B71007C597D /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		731EFED1157E011400C859E0 /* WizGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGroup.h; path = WizStruct/WizGroup.h; sourceTree = "<group>"; };
 		731EFED2157E011500C859E0 /* WizGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGroup.m; path = WizStruct/WizGroup.m; sourceTree = "<group>"; };
 		731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDateBaseDelegate.h; sourceTree = "<group>"; };
@@ -880,6 +879,7 @@
 		73E44629155CB429004077AF /* NSIndexPath+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+WizTools.m"; sourceTree = "<group>"; };
 		73E5DB731550C7E800CC3562 /* WizString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizString.h; path = WizTools/WizString.h; sourceTree = "<group>"; };
 		73E5DB741550C7E800CC3562 /* WizString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizString.m; path = WizTools/WizString.m; sourceTree = "<group>"; };
+		73E61F9615A69DFD004BB2D4 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		73E62DA6155B610F001B35C9 /* WizSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncData.h; sourceTree = "<group>"; };
 		73E62DA7155B610F001B35C9 /* WizSyncData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncData.m; sourceTree = "<group>"; };
 		73E76479153D6FE30089D5FF /* WizRefreshToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizRefreshToken.h; path = WizSyncManager/WizRefreshToken.h; sourceTree = "<group>"; };
@@ -975,7 +975,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				731E2B2715A44B71007C597D /* jquery.js */,
 				739C193A15A29BC700EA0BCB /* Html */,
 				73A784F614F8CC22001387F6 /* JS */,
 				32CA4F630368D1EE00C91783 /* Wiz_Prefix.pch */,
@@ -1638,6 +1637,7 @@
 		73A784F614F8CC22001387F6 /* JS */ = {
 			isa = PBXGroup;
 			children = (
+				73E61F9615A69DFD004BB2D4 /* jquery.js */,
 				730C4C3A156A4C5200A9E7C8 /* iphoneRead.js */,
 				73A784F714F8CC22001387F6 /* SearchWebView.js */,
 				73EBE49B1561F03400BE7429 /* read.css */,
@@ -2171,8 +2171,8 @@
 			files = (
 				730C4C3C156A4E0700A9E7C8 /* iphoneRead.js in Resources */,
 				30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */,
+				73E61F9715A69DFD004BB2D4 /* jquery.js in Resources */,
 				731161FC14F5028D007EC8AC /* Default-Portrait~ipad.png in Resources */,
-				731E2B2815A44B71007C597D /* jquery.js in Resources */,
 				7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */,
 				7311621314F50AC0007EC8AC /* Default.png in Resources */,
 				739C194315A29E8F00EA0BCB /* editor.js in Resources */,

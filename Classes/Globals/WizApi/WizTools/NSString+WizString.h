@@ -13,6 +13,7 @@
 - (NSString*) fileName;
 - (NSString*) fileType;
 - (NSString*) stringReplaceUseRegular:(NSString*)regex;
+- (NSString*) stringReplaceUseRegular:(NSString *)regex withString:(NSString*)replaceStr;
 - (NSDate *) dateFromSqlTimeString;
 //help
 - (NSString*) trim;

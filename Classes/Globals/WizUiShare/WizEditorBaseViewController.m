@@ -133,56 +133,116 @@
     [[UIMenuController sharedMenuController] setMenuItems:array];
     
 }
+- (NSString*) editorModelHtmlPath
+{
+   return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:@"editModel.html"];
+}
+- (NSString*) editingModelHtmlPath
+{
+    return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:@"editing.html"];
+}
+- (void) buildEditorEnviroment
+{
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    NSString* editPath = [fileManager editingTempDirectory];
+    //js
+    NSString* jsPath = [[NSBundle mainBundle] pathForResource:@"jquery" ofType:@"js"];
+    NSString* jsEditPath = [editPath stringByAppendingPathComponent:@"js"];
+    [fileManager ensurePathExists:jsEditPath];
+    NSString* jsFilePath = [jsEditPath stringByAppendingPathComponent:@"jquery.js"];
+    
+    NSError* error = nil;
+    
+    if (![fileManager fileExistsAtPath:jsFilePath]) {
+        NSStringEncoding jsEndcoding;
+        NSString* jsContent = [NSString stringWithContentsOfFile:jsPath usedEncoding:&jsEndcoding error:&error];
+        if (!jsContent) {
+            NSLog(@"error %@",error);
+        }
+        if (![jsContent writeToFile:jsFilePath atomically:YES encoding:jsEndcoding error:&error]) {
+            NSLog(@"w e %@",error);
+        };
+    }
+    NSString* editorModelPath = [[NSBundle mainBundle] pathForResource:@"editModel" ofType:@"html"];
+
+    NSString* editorModelHtmlPath = [self editorModelHtmlPath];
+    
+    if (![fileManager fileExistsAtPath:editorModelHtmlPath]) {
+        NSStringEncoding encoding;
+        NSString* string = [NSString stringWithContentsOfFile:editorModelPath usedEncoding:&encoding error:nil];
+        if (string) {
+           if (![string writeToFile:editorModelHtmlPath atomically:YES encoding:encoding error:&error])
+           {
+               NSLog(@"%@",error);
+           }
+        }
+    }
+}
 
 - (id) initWithWizDocument:(WizDocument*)doc
 {
     self = [super init];
     if (self) {
         if (doc) {
-            
+            [self buildEditorEnviroment];
             self.docEdit = doc;
             WizFileManager* fileManager = [WizFileManager shareManager];
-//            NSString* documentObjectPath = [fileManager objectFilePath:doc.guid];
+            NSString* documentObjectPath = [fileManager objectFilePath:doc.guid];
             NSString* editPath = [fileManager editingTempDirectory];
-//            NSError* error = nil;
-//            for (NSString* each in [fileManager contentsOfDirectoryAtPath:documentObjectPath error:nil]  ) {
-//                NSString* sourcePath = [documentObjectPath stringByAppendingPathComponent:each];
-//                NSString* toPath = [editPath stringByAppendingPathComponent:each];
-//                [fileManager copyItemAtPath:sourcePath toPath:toPath error:&error];
-//                if (error)
-//                {
-//                    NSLog(@"error is %@",error);
-//                }
-//            }
-            NSString* path = [editPath stringByAppendingPathComponent:@"index.html"];
-//            
-            {
-                NSMutableString* content =[NSMutableString stringWithString:[NSString stringWithContentsOfFile:path usedEncoding:nil error:nil]];
-                NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:@"(<[^>]*>)" options:0 error:nil];
-                NSString* str =  [reg stringByReplacingMatchesInString:content options:0 range:NSMakeRange(0, content.length) withTemplate:@"</wiz>$1<wiz>"];
-                NSRegularExpression* script = [NSRegularExpression regularExpressionWithPattern:@"</wiz>(<script[^>]*?>[\\s\\S]*?<\\/script>)<wiz>" options:0 error:nil];
-                str = [script stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0,str.length) withTemplate:@"$1"];
+            NSError* error = nil;
+            
+
+            for (NSString* each in [fileManager contentsOfDirectoryAtPath:documentObjectPath error:nil]  ) {
+                NSString* sourcePath = [documentObjectPath stringByAppendingPathComponent:each];
+                NSString* toPath = [editPath stringByAppendingPathComponent:each];
                 
-                [str writeToFile:path atomically:YES encoding:NSUTF16StringEncoding error:nil];
+                if ([fileManager fileExistsAtPath:toPath]) {
+                    [fileManager removeItemAtPath:toPath error:nil];
+                }
+                if(![fileManager copyItemAtPath:sourcePath toPath:toPath error:&error])
+                {
+                     NSLog(@"error is %@",error);
+                }
             }
-            NSURL* url = [NSURL fileURLWithPath:path];
-//            NSString* jquery = [[NSBundle mainBundle] pathForResource:@"jquery" ofType:@"js"];
-//            NSString* string = [NSString stringWithContentsOfFile:jquery usedEncoding:nil error:nil];
+
+            
 //            
-//            NSString* toPath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"jquery.js"];
+//            NSString* path = [editPath stringByAppendingPathComponent:@"index.html"];
+//            NSStringEncoding contentEncoding;
 //            
-//            [[WizFileManager shareManager] copyItemAtPath:jquery toPath:toPath error:nil];
+//            NSString* content =[NSString stringWithContentsOfFile:path usedEncoding:&contentEncoding error:&error];
 //            
-//            NSString* htmlContent = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
 //            
-//            NSInteger indexOfHtml = [htmlContent indexOf:@"<html>"];
-//            NSMutableString* m;
-//            if (indexOfHtml != NSNotFound) {
-//                m = [NSMutableString stringWithString:htmlContent];
-//                [m insertString:@"<script src='jquery.js'></script><script language='javascript' type='text/javascript'>$(function() { $('font').click(function(e) {c = e.target; var url='wiznote:'+'ddd'+':'+'dddd';document.location = url ;return false;	});     });</script>" atIndex:indexOfHtml+6];
+//            if (!content) {
+//                NSLog(@"%@",error);
 //            }
-//            NSLog(@"content is %@ ",m);
-//            NSLog(@"url %@",url.absoluteString);
+//            NSLog(@"content encoding is %u",contentEncoding);
+//            
+//            
+//            int64_t indexBBegain = [content indexOf:@"<body>"];
+//            NSInteger indexBEnd   = [content indexOf:@"</body>"];
+//            if (indexBBegain != NSNotFound && indexBEnd != NSNotFound) {
+//                content = [content substringWithRange:NSMakeRange(indexBBegain, indexBEnd-indexBBegain+7)];
+//                content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
+//                content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
+//            }
+//           
+//
+//            NSString* editingFile = [self editingModelHtmlPath];
+//            NSString* modelFile = [self editorModelHtmlPath];
+//            NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
+//            if (!modelContent) {
+//                NSLog(@"%@",error);
+//            }
+//            NSLog(@"%@=============",content);
+//             content  =  [modelContent stringByReplacingOccurrencesOfString:@"<body>IOSWizEditor</body>" withString:content];
+//            NSLog(@"model %@",content);
+//
+//            NSString* string = [NSString stringWithUTF8String:[content UTF8String]];
+//            [string writeToFile:editingFile atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//            
+            
+            NSURL* url = [NSURL fileURLWithPath:editingFile];
             self.urlRequest = [NSURLRequest requestWithURL:url];
             
         }
