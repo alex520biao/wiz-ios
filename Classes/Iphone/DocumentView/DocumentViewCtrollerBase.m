@@ -219,13 +219,15 @@
         [web setTableAndImageWidth:width];
     }
 }
+- (void) webViewDidStartLoad:(UIWebView *)webView
+{
+     [self.downloadActivity hide];
+     [self setToolbarItemsEnable:YES];
+}
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.downloadActivity hide];
     [webView loadReadJavaScript];
     [self loadReadJs];
-    [self setToolbarItemsEnable:YES];
-    
 }
 - (void) setDeviceWidth
 {
