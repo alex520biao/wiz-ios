@@ -21,6 +21,7 @@
 #import "WizPadTagsViewController.h"
 #import "WizFileManager.h"
 
+#import "WizPadEditViewController.h"
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
 
 @interface WizPadMainViewController ()
@@ -104,6 +105,7 @@
 }
 - (void) newNote
 {
+
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;

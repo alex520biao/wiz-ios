@@ -52,15 +52,17 @@
 - (NSDate *) dateFromSqlTimeString
 {
 	NSDateFormatter* formatter = [NSDate shareSqlDataFormater];
-//    @synchronized(formatter)
-//    {
+    @synchronized(formatter)
+    {
         if (self.length < 19) {
             [formatter release];
             return nil;
         }
-//    }
      NSDate* date = [formatter dateFromString:self];
-	return date ;
+        return date ;
+    }
+	
+        
 }
 //
 -(NSString*) trim
@@ -89,6 +91,15 @@
 		return NSNotFound;
 	//
 	return range.location;
+}
+
+- (NSInteger) indexOf:(NSString *)find compareOptions:(NSStringCompareOptions)mask
+{
+    NSRange range = [self rangeOfString:find options:mask];
+    if (range.location == NSNotFound) {
+        return NSNotFound;
+    }
+    return range.location;
 }
 -(int) lastIndexOfChar: (unichar)ch
 {
@@ -133,9 +144,8 @@
 {
 	NSString* text = [self trim];
 	int index = [text indexOfChar:'\n'];
-	if (-1 == index)
+	if (NSNotFound == index)
 		return text;
-	//
 	return [[text substringToIndex:index] trim];
 }
 
@@ -153,5 +163,36 @@
 	
 }
 
+- (NSString *)URLEncodedString{    
+    NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                           (CFStringRef)self,
+                                                                           NULL,
+                                                                           CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                           kCFStringEncodingUTF8);
+    [result autorelease];
+    return result;
+}
+- (NSString*)URLDecodedString{
+    NSString *result = (NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
+                                                                                           (CFStringRef)self,
+                                                                                           CFSTR(""),
+                                                                                           kCFStringEncodingUTF8);
+    [result autorelease];
+    return result;
+}
 
+- (BOOL) writeToFile:(NSString *)path useUtf8Bom:(BOOL)isWithBom error:(NSError **)error
+{
+    
+    char BOM[] = {0xEF, 0xBB, 0xBF};
+    NSMutableData* data = [NSMutableData data];
+    [data appendBytes:BOM length:3];
+    [data appendData:[self dataUsingEncoding:NSUTF8StringEncoding]];
+    NSFileManager* fileNamger = [NSFileManager defaultManager];
+    if ([fileNamger fileExistsAtPath:path]) {
+        [fileNamger removeItemAtPath:path error:nil];
+    }
+    [fileNamger createFileAtPath:path contents:data attributes:nil];
+    return YES;
+}
 @end

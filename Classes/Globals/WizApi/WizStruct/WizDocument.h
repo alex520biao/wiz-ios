@@ -133,4 +133,5 @@ enum
 - (NSString*)tagDisplayString;
 //
 - (BOOL) saveWithHtmlBody:(NSString*)body;
+- (BOOL) saveWithFileChanged;
 @end

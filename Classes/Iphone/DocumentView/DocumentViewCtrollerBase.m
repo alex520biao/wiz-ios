@@ -21,9 +21,8 @@
 #import "WizSettings.h"
 #import "WizFileManager.h"
 
-#import "WizPhoneEditViewController.h"
-#import "WizCommonEditorBaseViewController.h"
-
+#import "WizPhoneEditorViewControllerL5.h"
+#import "WizPhoneEditViewControllerM5.h"
 #import <UIKit/UIKit.h>
 #import "ATMHud.h"
 
@@ -225,11 +224,16 @@
 }
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.downloadActivity hide];
     [webView loadReadJavaScript];
+    [self.downloadActivity hide];
+
     [self loadReadJs];
-    [self setToolbarItemsEnable:YES];
+
     
+}
+- (void) webViewDidStartLoad:(UIWebView *)webView
+{
+    [self setToolbarItemsEnable:YES];
 }
 - (void) setDeviceWidth
 {
@@ -263,11 +267,22 @@
 }
 - (void)editCurrentDocument
 {
-    WizCommonEditorBaseViewController* newNoteController = [[WizCommonEditorBaseViewController alloc] initWithWizDocument:self.doc];
-    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
-    [self.navigationController presentModalViewController:controller animated:YES];
-    [newNoteController release];
-    [controller release];
+    if ([WizGlobals WizDeviceVersion] <5) {
+        WizPhoneEditorViewControllerL5* newNoteController = [[WizPhoneEditorViewControllerL5 alloc] initWithWizDocument:self.doc];
+        UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
+        [self.navigationController presentModalViewController:controller animated:YES];
+        [newNoteController release];
+        [controller release];
+    }
+    else
+    {
+        WizPhoneEditViewControllerM5* newNoteController = [[WizPhoneEditViewControllerM5 alloc] initWithWizDocument:self.doc];
+        UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
+        [self.navigationController presentModalViewController:controller animated:YES];
+        [newNoteController release];
+        [controller release];
+    }
+    
 //    NewNoteView* newNote= [[NewNoteView alloc]init];
 //    WizDocument* edit = self.doc;
 //    newNote.docEdit = edit;

@@ -42,7 +42,7 @@
     WizAttachment* attachm = [[WizAttachment alloc] init];
     attachm.description = source;
     attachm.localChanged = WizAttachmentEditTypeTempChanged;
-    [self addObject:attachm];
+[self addObject:attachm];
     [attachm release];
 }
 - (NSArray*) attachmentTempSourceFile

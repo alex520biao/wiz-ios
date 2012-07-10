@@ -28,4 +28,12 @@
 - (NSString*) toValidPathComponent;
 
 - (NSComparisonResult) compareFirstCharacter:(NSString*)string;
+
+- (NSString *)URLEncodedString;
+- (NSString*)URLDecodedString;
+
+//
+- (BOOL) writeToFile:(NSString *)path useUtf8Bom:(BOOL)isWithBom error:(NSError **)error;
+//
+- (NSInteger) indexOf:(NSString *)find compareOptions:(NSStringCompareOptions)mask;
 @end

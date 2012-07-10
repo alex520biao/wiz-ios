@@ -20,9 +20,12 @@
     //
     UIWebView* editorWebView;
     //
+    NSURLRequest* urlRequest;
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;
+@property (nonatomic, retain) NSURLRequest* urlRequest;
+
 //
 - (id) initWithWizDocument:(WizDocument*)doc;
 //
@@ -36,4 +39,9 @@
 - (void) willAddAudioDone:(NSString*)audioPath;
 - (void) willAddPhotoDone:(NSString*)photoPath;
 //
+
+
+//
+- (NSURL*) buildEditorEnviromentLessThan5;
+- (NSURL*) buildEditorEnviromentMoreThan5;
 @end

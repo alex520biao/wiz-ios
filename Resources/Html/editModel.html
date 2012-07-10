@@ -1,15 +1,14 @@
 <html> 
 	<head> 
         <title>My Page</title> 
-        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta name="viewport" ,content="width=device-width, initial-scale=1" ,charset="utf-8">
             <script src="js/jquery.js"></script>
             <script language='javascript' type='text/javascript'>
                 $(function() {
                   $('wiz').click(function(e) {
                                   c = e.target;
-                                  // var url='wiznote:'+'ddd'+':'+'dddd';
-                                  // document.location = url ;
-                                  alert(c);
+                                 var url='wiznote:'+'changedText'+':'+c.innerText;
+                                 document.location = url;
                                   return false;
                                   });
                   });
@@ -18,7 +17,7 @@
                     $('*').unbind();
                 }
                 function endFix(result) {
-                    c.innerHTML = result;
+                    c.innerText = result;
                 }
                 </script>
             

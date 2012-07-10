@@ -28,6 +28,8 @@
 #import "WizSettings.h"
 #import "ATMHud.h"
 #import "WizFileManager.h"
+#import "WizPadEditViewController.h"
+
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -483,18 +485,27 @@
 }
 - (void) onEditCurrentDocument
 {
-    WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
-    edit.docEdit = self.selectedDocument;
-    NSMutableArray* array = [NSMutableArray arrayWithCapacity:2];
-    if ([self.selectedDocument.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeImageKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeNoteKeyString]) {
-        [array addObjectsFromArray:[self.selectedDocument existPhotoAndAudio]];
-    }
-    [edit prepareForEdit:[webView bodyText] attachments:array];
-    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
-    [edit release];
-    nav.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self.navigationController presentModalViewController:nav animated:YES];
-    [nav release];
+    
+    WizPadEditViewController* newNote = [[WizPadEditViewController alloc] initWithWizDocument:self.selectedDocument];
+    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+    controller.modalPresentationStyle = UIModalPresentationPageSheet;
+    controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
+    [self.navigationController presentModalViewController:controller animated:YES];
+    [newNote release];
+    [controller release];
+    
+//    WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
+//    edit.docEdit = self.selectedDocument;
+//    NSMutableArray* array = [NSMutableArray arrayWithCapacity:2];
+//    if ([self.selectedDocument.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeImageKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeNoteKeyString]) {
+//        [array addObjectsFromArray:[self.selectedDocument existPhotoAndAudio]];
+//    }
+//    [edit prepareForEdit:[webView bodyText] attachments:array];
+//    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
+//    [edit release];
+//    nav.modalPresentationStyle = UIModalPresentationPageSheet;
+//    [self.navigationController presentModalViewController:nav animated:YES];
+//    [nav release];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

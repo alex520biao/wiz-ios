@@ -1,20 +1,27 @@
 var EditorDivID = 'editedContent';
 function getDocumentEditedBodyHtml() {
-    return document.body.innerHTML;
+    return document.getElementById(EditorDivID).innerHTML;
 }
 function getDocumentEditedBody()
 {
 	return document.body;
 }
-
+function focusEditor()
+{
+    document.getElementById(EditorDivID).focus();
+}
 function initRootElement() {
-    document.body.setAttribute('contentEditable', true);
+    var span = document.createElement("div");
+    span.setAttribute("id", EditorDivID);
+    span.setAttribute("contenteditable", "true")
+    span.innerHTML = document.body.innerHTML;
+    document.body.innerHTML = '';
+    document.body.appendChild(span);
 }
 function insertPhoto(path)
 {
-	root = getDocumentEditedBody();
-	root.focus();
-	
+	root = document.body;
+	alert("ddd");
 	img = document.createElement('img');
 	img.setAttribute('src',path);
 	
@@ -32,4 +39,3 @@ function insertAudio(path)
 	root.appendChild(audio);
 	// embed src=\"index_files/%@\" autostart=false
 }
-initRootElement();

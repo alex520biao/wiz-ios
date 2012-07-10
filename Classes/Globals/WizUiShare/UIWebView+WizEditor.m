@@ -49,14 +49,23 @@
 {
     return [self stringByEvaluatingJavaScriptFromString:@"getDocumentEditedBodyHtml();"];
 }
+- (NSString*) getRelativePath:(NSString*)path
+{
+    NSInteger indexOfEditDir = [path indexOf:@"index_files"];
+    NSString* ralativePath = path;
+    if (indexOfEditDir != NSNotFound) {
+        ralativePath = [path substringFromIndex:indexOfEditDir];
+    }
+    return ralativePath;
+}
 - (void) insertImage:(NSString*)imagePath
 {
-    NSInteger indexOfEditDir = [imagePath indexOf:@"index_files"];
-    NSString* path = nil;
-    if (indexOfEditDir != NSNotFound) {
-        path = [imagePath substringFromIndex:indexOfEditDir];
-    }
-    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"insertPhoto('%@')",path]];
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"insertPhoto('%@')",[self getRelativePath:imagePath]]];
+}
+- (BOOL) insertAudio:(NSString*)audioPath
+{
+    NSString* pat = [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"insertAudio('%@')",[self getRelativePath:audioPath]]];
+    return ![pat isEqualToString:@"false"];
 }
 - (void) focusEditor
 {
@@ -92,6 +101,13 @@
 - (void) prapareForEdit
 {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"editor" withExtension:@"js"];
+    NSString* string = [NSString stringWithContentsOfURL:url usedEncoding:nil error:nil];
+    [self stringByEvaluatingJavaScriptFromString:string];
+}
+
+- (void) prapareForEditLessThan5
+{
+    NSURL* url = [[NSBundle mainBundle] URLForResource:@"commenEditorLessThan5" withExtension:@"js"];
     NSString* string = [NSString stringWithContentsOfURL:url usedEncoding:nil error:nil];
     [self stringByEvaluatingJavaScriptFromString:string];
 }

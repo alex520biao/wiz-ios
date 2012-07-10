@@ -313,9 +313,5 @@ static WizFileManager* shareManager = nil;
     return [self objectFilePath:EditTempDirectory];
 }
 
-- (BOOL) clearEditingTempDirectory
-{
-    return [self removeObjectPath:EditTempDirectory];
-}
 
 @end

@@ -11,6 +11,8 @@
 @interface UIWebView (WizEditor)
 - (void) prapareForEdit;
 - (void) insertImage:(NSString*)imagePath;
+- (BOOL) insertAudio:(NSString*)audioPath;
+//
 - (void) focusEditor;
 - (void)bold;
 - (void)italic;
@@ -22,4 +24,8 @@
 - (void) strikeThrough;
 - (void)fontSizeUp;
 - (void)fontSizeDown;
+
+//
+- (void) prapareForEditLessThan5;
+
 @end

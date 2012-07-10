@@ -22,6 +22,7 @@
     [singleRecognizer release];
     //
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithCustomView:buttonView];
+    
     [buttonView release];
     return [item autorelease];
 }

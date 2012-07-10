@@ -473,11 +473,6 @@ static NSArray* htmlArray;
 + (NSString*) wizNoteVersion
 {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];  
-//    // app名称  
-//    NSString *name = [infoDictionary objectForKey:@"CFBundleDisplayName"];  
-//    // app版本  
-//    NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];  
-//    // app build版本  
     NSString *build = [infoDictionary objectForKey:@"CFBundleVersion"];
     if (!build) {
         build = @"3.1";
