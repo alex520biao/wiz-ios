@@ -19,6 +19,11 @@
 #import "UIBarButtonItem+WizTools.h"
 #import "DocumentInfoViewController.h"
 
+#import "WizRecoderProcessView.h"
+
+#define AudioMaxProcess  40
+
+
 @interface WizEditorBaseViewController () <UIWebViewDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>
 {
     NSMutableArray* attachmentsArray;
@@ -31,7 +36,7 @@
     
     UIView* recorderProcessView;
     UILabel* recorderProcessLabel;
-    UIProgressView* recorderProcessLineView;
+    WizRecoderProcessView* recorderProcessLineView;
     
     //
     NSTimer* autoSaveTimer;
@@ -75,17 +80,23 @@
 - (void) buildRecoderProcessView
 {
     recorderProcessView = [[UIView alloc]init];
+    recorderProcessView.backgroundColor = [UIColor brownColor];
     recorderProcessLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 35)];
     [recorderProcessView addSubview:recorderProcessLabel];
+    recorderProcessLabel.backgroundColor = [UIColor clearColor];
     
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:NSLocalizedString(@"Stop", nil) forState:UIControlStateNormal];
     button.frame = CGRectMake(260, 0.0, 60, 40);
     [button addTarget:self action:@selector(stopRecord) forControlEvents:UIControlEventTouchUpInside];
     [recorderProcessView addSubview:button];
     
-    recorderProcessLineView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-    recorderProcessLineView.frame = CGRectMake(80, 0.0, 200, 40);
-
+    recorderProcessLineView = [[WizRecoderProcessView alloc] initWithFrame:CGRectMake(80, 0.0, 200, 40)];
+    recorderProcessLineView.maxProcess = AudioMaxProcess;
+    
+    
     [recorderProcessView addSubview:recorderProcessLineView];
 }
 
@@ -520,10 +531,10 @@
 - (void) updateTime
 {
     [self.audioRecorder updateMeters];
-    [recorderProcessLineView setProgress:[self.audioRecorder peakPowerForChannel:0] animated:YES];
+    [recorderProcessLineView setCurrentProcess:(AudioMaxProcess - ABS([self.audioRecorder peakPowerForChannel:0]))];
+    
     NSLog(@"peak power is %f",[self.audioRecorder peakPowerForChannel:0]);
     currentRecoderTime+=0.1f;
-    recorderProcessView.backgroundColor = [UIColor colorWithWhite:currentRecoderTime alpha:1.0];
     recorderProcessLabel.text = [WizGlobals timerStringFromTimerInver:currentRecoderTime];
 }
 

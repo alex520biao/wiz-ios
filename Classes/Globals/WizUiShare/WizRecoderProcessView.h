@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface WizRecoderProcessView : UIView
-
+{
+    NSInteger  maxProcess;
+    NSInteger currentProcess;
+}
+@property (assign)  NSInteger  maxProcess;
+@property (assign) NSInteger currentProcess;
 @end

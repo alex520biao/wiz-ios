@@ -25,7 +25,7 @@
 - (void) showFontTools:(NSNotification*)nc
 {
     CGRect kbRect = [[[nc userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    fontToolBar.frame = CGRectMake(0.0,kbRect.origin.y-105, kbRect.size.width, 44);
+    fontToolBar.frame = CGRectMake(0.0,self.view.frame.size.height-kbRect.size.height-44, kbRect.size.width, 44);
 }
 
 - (void) hideFontTools:(NSNotification*)nc
