@@ -15,7 +15,8 @@
 #import "WizSyncManager.h"
 #import "TagsListTreeControllerNew.h"
 #import "WizSettings.h"
-
+#import "WizAttachment.h"
+#import "CommonString.h"
 BOOL isReverseMask(NSInteger mask)
 {
     if (mask %2 == 0) {
@@ -256,7 +257,8 @@ BOOL isReverseMask(NSInteger mask)
     }
     return YES;
 }
-- (BOOL) saveInfo
+
+- (NSDictionary*) getModelDictionary
 {
     if (self.guid == nil || [self.guid isBlock]) {
         self.guid = [WizGlobals genGUID];
@@ -331,8 +333,14 @@ BOOL isReverseMask(NSInteger mask)
     [doc setObject:[NSNumber numberWithFloat:self.gpsAltitude] forKey:DataTypeUpdateDocumentGPS_ALTITUDE];
     [doc setObject:[NSNumber numberWithFloat:self.gpsDop] forKey:DataTypeUpdateDocumentGPS_DOP];
     [doc setObject:[NSNumber numberWithInt:self.nReadCount] forKey:DataTypeUpdateDocumentREADCOUNT];
+    return doc;
+}
+
+- (BOOL) saveInfo
+{
     
-    NSLog(@"%@",doc);
+    NSDictionary* doc = [self getModelDictionary];
+   
     if ([[WizDbManager shareDbManager] updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;
@@ -567,6 +575,65 @@ BOOL isReverseMask(NSInteger mask)
         [tagNames appendFormat:@"|%@",getTagDisplayName(each.title)];
     }
     return tagNames;
+}
+
+- (WizDocument*) initFromDictionaryModel:(NSDictionary*)doc
+{
+    self = [super init];
+    if (self) {
+        self.guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
+        self.title =[doc valueForKey:DataTypeUpdateDocumentTitle];
+        self.location = [doc valueForKey:DataTypeUpdateDocumentLocation];
+        self.dataMd5 = [doc valueForKey:DataTypeUpdateDocumentDataMd5];
+        self.url = [doc valueForKey:DataTypeUpdateDocumentUrl];
+        self.tagGuids = [doc valueForKey:DataTypeUpdateDocumentTagGuids];
+        self.dateCreated = [doc valueForKey:DataTypeUpdateDocumentDateCreated];
+        self.dateModified = [doc valueForKey:DataTypeUpdateDocumentDateModified];
+        self.type = [doc valueForKey:DataTypeUpdateDocumentType];
+        self.fileType = [doc valueForKey:DataTypeUpdateDocumentFileType];
+        NSNumber* nAttachmentCount = [doc valueForKey:DataTypeUpdateDocumentAttachmentCount];
+        NSNumber* localChanged = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
+        NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
+        NSNumber* serverChanged = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
+        NSNumber* nReadCount = [doc valueForKey:DataTypeUpdateDocumentREADCOUNT];
+        NSNumber* gpsLatitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LATITUDE];
+        NSNumber* gpsLongtitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LONGTITUDE];
+        NSNumber* gpsAltitue    = [doc valueForKey:DataTypeUpdateDocumentGPS_ALTITUDE];
+        NSNumber* gpsDop        = [doc valueForKey:DataTypeUpdateDocumentGPS_DOP];
+        
+        
+        if (nProtected) {
+            self.protected_ = [nProtected boolValue];
+        }
+        
+        if (nReadCount) {
+            self.nReadCount = [nReadCount intValue];
+        }
+        if (gpsLatitue) {
+            self.gpsLatitude = [gpsLatitue floatValue];
+        }
+        if (gpsLongtitue) {
+            self.gpsLongtitude = [gpsLongtitue floatValue];
+        }
+        if (gpsDop) {
+            self.gpsDop = [gpsDop floatValue];
+        }
+        if (gpsAltitue) {
+            self.gpsAltitude = [gpsAltitue floatValue];
+        }
+        if (nAttachmentCount) {
+            self.attachmentCount = [nAttachmentCount intValue];
+        }
+
+        
+        self.gpsAddress  = [doc valueForKey:DataTypeUpdateDocumentGPS_ADDRESS];
+        self.gpsCountry = [doc valueForKey:DataTypeUpdateDocumentGPS_COUNTRY];
+        self.gpsLevel1 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL1];
+        self.gpsLevel2 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL2];
+        self.gpsLevel3 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL3];
+        self.gpsDescription  = [doc valueForKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
+    }
+    return self;
 }
 
 @end

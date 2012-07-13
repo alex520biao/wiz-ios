@@ -8,7 +8,7 @@
 
 #import "WizPhoneNotificationMessage.h"
 #import "WizEditorBaseViewController.h"
-
+#import "CommonString.h"
 #import <AVFoundation/AVFoundation.h>
 #import "WizFileManager.h"
 #import "NSArray+WizTools.h"
@@ -21,10 +21,20 @@
 
 #import "WizRecoderProcessView.h"
 
+#import "WizImageEditViewController.h"
+
 #define AudioMaxProcess  40
 
+#define WizEditingDocumentModelFileName  @"editingDocumentModel"
+#define WizEditingDocumentFileName  @"editing.html"
+#define WizEditingDocumentHTMLModelFileName @"editModel.html"
+enum WizEditActionSheetTag {
+    WizEditActionSheetTagCancelSave = 1000,
+    WizEditActionSheetTagResumeEditing = 10001
+    };
+typedef NSInteger WizEditActionSheetTag;
 
-@interface WizEditorBaseViewController () <UIWebViewDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>
+@interface WizEditorBaseViewController () <UIWebViewDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate, WizImageEditDelegate>
 {
     NSMutableArray* attachmentsArray;
     
@@ -48,6 +58,13 @@
 
 @implementation WizEditorBaseViewController
 
+@synthesize audioRecorder;
+@synthesize audioSession;
+@synthesize audioTimer;
+@synthesize currentDeleteImagePath;
+@synthesize docEdit;
+@synthesize sourceDelegate;
+@synthesize urlRequest;
 - (void) dealloc
 {
     //
@@ -77,6 +94,9 @@
 //{
 //    NSLog(@"ddd");
 //}
+
+
+
 - (void) buildRecoderProcessView
 {
     recorderProcessView = [[UIView alloc]init];
@@ -95,8 +115,6 @@
     
     recorderProcessLineView = [[WizRecoderProcessView alloc] initWithFrame:CGRectMake(80, 0.0, 200, 40)];
     recorderProcessLineView.maxProcess = AudioMaxProcess;
-    
-    
     [recorderProcessView addSubview:recorderProcessLineView];
 }
 
@@ -109,14 +127,48 @@
         editorWebView.delegate = self;
         //
         [self buildRecoderProcessView];
-        autoSaveTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(saveToLocal) userInfo:nil repeats:YES];
+        autoSaveTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(saveToLocal) userInfo:nil repeats:YES];
         
     }
     return self;
 }
 
+- (void) willDeleteImagePhone:(NSString*)sourcePath
+{
+    WizImageEditViewController* imageEditor = [[WizImageEditViewController alloc] init];
+    imageEditor.sourcePath = sourcePath;
+    imageEditor.editDelegate = self;
+    [self.navigationController pushViewController:imageEditor animated:YES];
+    [imageEditor release];
+}
+- (void) editorImageDone
+{
+    [editorWebView deleteImage];
+}
+
+- (void) willDeleteImagePad:(NSString*)sourcePath
+{
+    
+}
+- (void) willDeleteImage:(NSString*)sourcePath
+{
+    if ([WizGlobals WizDeviceIsPad]) {
+        
+    }
+    else
+    {
+        [self willDeleteImagePhone:sourcePath];
+    }
+}
 - (void) saveToLocal
 {
+    NSString* editingFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentModelFileName];
+    
+    NSDictionary* doc = [self.docEdit getModelDictionary];
+    
+    if (![doc writeToFile:editingFilePath atomically:YES]) {
+        [WizGlobals toLog:@"write to editingModelFile error"];
+    };
     if ([WizGlobals WizDeviceVersion] < 5) {
         [self autoSaveLessThan5];
     }
@@ -131,11 +183,11 @@
     if ([fileName isEqualToString:@"js"]) {
         return YES;
     }
-    else if ([fileName isEqualToString:@"editModel.html"])
+    else if ([fileName isEqualToString:WizEditingDocumentHTMLModelFileName])
     {
         return YES;
     }
-    else if ([fileName isEqualToString:@"editing.html"])
+    else if ([fileName isEqualToString:WizEditingDocumentFileName])
     {
         return YES;
     }
@@ -147,18 +199,18 @@
     WizFileManager* fileManager = [WizFileManager shareManager];
     NSString* editorPath = [fileManager editingTempDirectory];
     NSError* error = nil;
-    for (NSString* each in [fileManager contentsOfDirectoryAtPath:editorPath error:nil]) {
-        if ([each isEqualToString:@"editing.html"]) {
-            if (![fileManager removeItemAtPath:[editorPath stringByAppendingPathComponent:each] error:&error])
-            {
+    for (NSString* each in [fileManager contentsOfDirectoryAtPath:editorPath error:nil])
+    {
+        if (![self isEditorEnviromentFile:each] || [each isEqualToString:WizEditingDocumentFileName] ) {
+            if (![fileManager removeItemAtPath:[editorPath stringByAppendingPathComponent:each] error:&error]) {
                 NSLog(@"error %@",error);
             }
         }
     }
 }
-- (void) autoSaveMoreThan5
+
+- (void) saveToLocal:(NSString*)body
 {
-    NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
     NSString* indexFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"index.html"];
     NSString* moblieFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"wiz_mobile.html"];
     
@@ -166,16 +218,17 @@
     [html writeToFile:indexFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
     [html writeToFile:moblieFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
 }
+
+- (void) autoSaveMoreThan5
+{
+    NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
+    [self saveToLocal:body];
+}
 - (void) autoSaveLessThan5
 {
     NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
     body = [body stringReplaceUseRegular:@"<wiz>|</wiz>"];
-    NSString* indexFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"index.html"];
-    NSString* moblieFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"wiz_mobile.html"];
-    
-    NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
-    [html writeToFile:indexFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
-    [html writeToFile:moblieFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
+    [self saveToLocal:body];
 }
 
 
@@ -271,11 +324,11 @@
 }
 - (NSString*) editorModelHtmlPath
 {
-   return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:@"editModel.html"];
+   return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentHTMLModelFileName];
 }
 - (NSString*) editingModelHtmlPath
 {
-    return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:@"editing.html"];
+    return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentFileName];
 }
 
 - (void) copyJSModelToEditorEnviromentLessThan5:(NSString*)name  type:(NSString*)type
@@ -408,7 +461,7 @@
     NSURL* ret = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"errorModel" ofType:@"html"]];
     WizFileManager* fileManager = [WizFileManager shareManager];
     NSString* editPath = [fileManager editingTempDirectory];
-    NSString* editingFilePath = [editPath stringByAppendingPathComponent:@"editing.html"];
+    NSString* editingFilePath = [editPath stringByAppendingPathComponent:WizEditingDocumentFileName];
     
     NSError* error = nil;
     if (self.docEdit) {
@@ -454,7 +507,13 @@
 {
     self = [super init];
     if (self) {
-        self.docEdit = doc;
+        if (doc) {
+            self.docEdit = doc;
+        }
+        else
+        {
+            self.docEdit = [[[WizDocument alloc] init] autorelease];
+        }
     }
     return self;
 }
@@ -465,6 +524,7 @@
 }
 - (void) actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    
     if (buttonIndex == 1) {
         return;
     }
@@ -473,6 +533,7 @@
         if (autoSaveTimer) {
             [autoSaveTimer invalidate];
         }
+        [self clearEditorEnviromentLessThan5];
         [self postSelectedMessageToPicker];
         [self.navigationController dismissModalViewControllerAnimated:YES];
         
@@ -483,6 +544,7 @@
 {
     [self stopRecord];
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
+    actionSheet.tag = WizEditActionSheetTagCancelSave;
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }
@@ -647,6 +709,18 @@
     [picker dismissModalViewControllerAnimated:YES];
 }
 //
+
+- (void) resumeLastEditong
+{
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    NSString* editingPath = [fileManager editingTempDirectory];
+    NSString* editingFile = [editingPath stringByAppendingPathComponent:WizEditingDocumentFileName];
+    NSString* editingDocumentModel = [editingPath stringByAppendingPathComponent:WizEditingDocumentModelFileName];
+    self.docEdit = [[[WizDocument alloc] initFromDictionaryModel:[NSDictionary dictionaryWithContentsOfFile:editingDocumentModel]] autorelease];
+    self.urlRequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:editingFile]];
+}
+
+
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

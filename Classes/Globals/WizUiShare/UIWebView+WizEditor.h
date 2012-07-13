@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define  WizNotCmdChangedText @"changedText"
+#define  WizNotCmdChangedImage  @"changedImage"
 @interface UIWebView (WizEditor)
 - (void) prapareForEdit;
 - (void) insertImage:(NSString*)imagePath;
@@ -28,4 +29,8 @@
 //
 - (void) prapareForEditLessThan5;
 
+//
+- (NSArray*) decodeJsCmd:(NSString*)urlCmd;
+//
+- (BOOL) deleteImage;
 @end

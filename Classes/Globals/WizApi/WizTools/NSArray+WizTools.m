@@ -7,6 +7,7 @@
 //
 
 #import "NSArray+WizTools.h"
+#import "WizAttachment.h"
 @implementation NSMutableArray (WizTools)
 - (BOOL) hasWizObject:(WizObject *)obj
 {
@@ -36,13 +37,21 @@
     }
     [self addObject:objcet];
 }
-
+- (void) addAttachmentUnique:(WizAttachment*)attachment
+{
+    for (WizAttachment* each in self) {
+        if ([each.description isEqualToString:attachment.description]) {
+            return;
+        }
+        [self addObject:attachment];
+    }
+}
 - (void) addAttachmentBySourceFile:(NSString *)source
 {
     WizAttachment* attachm = [[WizAttachment alloc] init];
     attachm.description = source;
     attachm.localChanged = WizAttachmentEditTypeTempChanged;
-[self addObject:attachm];
+    [self addAttachmentUnique:attachm];
     [attachm release];
 }
 - (NSArray*) attachmentTempSourceFile

@@ -9,6 +9,9 @@
 #import "UIWebView+WizEditor.h"
 #import "NSString+WizString.h"
 
+#define  WizNotCmdInditify @"<Wiznote-dzpqzb>"
+
+
 @implementation UIWebView (WizEditor)
 - (UIColor *)colorFromRGBValue:(NSString *)rgb { // General format is 'rgb(red, green, blue)'
     if ([rgb rangeOfString:@"rgb"].location == NSNotFound)
@@ -111,4 +114,34 @@
     NSString* string = [NSString stringWithContentsOfURL:url usedEncoding:nil error:nil];
     [self stringByEvaluatingJavaScriptFromString:string];
 }
+- (NSArray*) decodeJsCmd:(NSString*)urlCmd
+{
+    if (!urlCmd) {
+        return nil;
+    }
+    NSString* cmd = [urlCmd URLDecodedString];
+    NSInteger indexOfWizCmdIndity = [cmd indexOf:WizNotCmdInditify compareOptions:NSCaseInsensitiveSearch];
+    if (NSNotFound == indexOfWizCmdIndity) {
+        return nil;
+    }
+    NSLog(@"cmd is%@",[cmd substringFromIndex:indexOfWizCmdIndity]);
+    NSMutableArray* array =[NSMutableArray arrayWithArray:[[cmd substringFromIndex:indexOfWizCmdIndity] componentsSeparatedByString:WizNotCmdInditify]];
+    if ([[array objectAtIndex:0] isBlock]) {
+        [array removeObjectAtIndex:0];
+    }
+    return array;
+}
+- (BOOL) deleteImage
+{
+   NSString* ret = [self stringByEvaluatingJavaScriptFromString:@"deleteImage()"];
+    
+    if ([ret isEqualToString:@"false"]) {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
+
 @end

@@ -16,6 +16,7 @@
 #import "SearchViewControllerIphone.h"
 #import "WizPhoneNotificationMessage.h"
 #import "UserSttingsViewController.h"
+#import "WizPhoneEditorViewControllerL5.h"
 //wiz-dzpqzb test
 #import "FoldersViewControllerNew.h"
 #import "WizNotification.h"
@@ -24,7 +25,11 @@
 #import "WizGlobals.h"
 #import "WizPhoneEditViewControllerM5.h"
  #define NEWNOTEENTRY 101
- 
+
+@interface PickerViewController ()<UIAlertViewDelegate>
+
+@end
+
 @implementation PickerViewController
 -(void) dealloc
 {
@@ -74,11 +79,35 @@
     }
     return self;
 }
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        WizEditorBaseViewController* base;
+        if ([WizGlobals WizDeviceVersion] < 5.0) {
+             base = [[WizPhoneEditorViewControllerL5 alloc] init];
+        }
+        else
+        {
+            base = [[WizPhoneEditViewControllerM5 alloc] init];
+        }
+        
+        UINavigationController* root = [[UINavigationController alloc] initWithRootViewController:base];
+        [base resumeLastEditong];
+        [self.navigationController presentModalViewController:root animated:YES];
+        [root release];
+        [base release];
+    }
+}
 
 - (void) viewDidAppear:(BOOL)animated
 {
-     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
      [super viewDidAppear:animated];
+    [[self.tabBarController.view viewWithTag:101]setHidden:NO];
+    
+    if ([WizGlobals checkLastEditingSaved]) {
+        UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"The last editing document not be saved, are you resume editing?", nil) delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:NSLocalizedString(@"Resume", nil), nil] autorelease];
+        [alert show];
+    }
 }
  
 - (void)didReceiveMemoryWarning

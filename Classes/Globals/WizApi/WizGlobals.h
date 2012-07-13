@@ -96,6 +96,8 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 + (UIImage*) attachmentNotationImage:(NSString*)type;
 //
 + (void) decorateViewWithShadowAndBorder:(UIView*)view;
+
++ (BOOL) checkLastEditingSaved;
 @end
 
 

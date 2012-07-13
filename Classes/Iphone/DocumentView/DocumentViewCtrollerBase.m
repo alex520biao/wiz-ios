@@ -267,7 +267,10 @@
 }
 - (void)editCurrentDocument
 {
-    if ([WizGlobals WizDeviceVersion] <5) {
+    
+    BOOL testL5 = YES;
+    
+    if ([WizGlobals WizDeviceVersion] <5 || testL5) {
         WizPhoneEditorViewControllerL5* newNoteController = [[WizPhoneEditorViewControllerL5 alloc] initWithWizDocument:self.doc];
         UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
         [self.navigationController presentModalViewController:controller animated:YES];

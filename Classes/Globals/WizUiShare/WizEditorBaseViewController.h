@@ -21,11 +21,13 @@
     UIWebView* editorWebView;
     //
     NSURLRequest* urlRequest;
+    
+    NSString* currentDeleteImagePath;
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;
 @property (nonatomic, retain) NSURLRequest* urlRequest;
-
+@property (nonatomic, retain)  NSString* currentDeleteImagePath;
 //
 - (id) initWithWizDocument:(WizDocument*)doc;
 //
@@ -44,4 +46,8 @@
 //
 - (NSURL*) buildEditorEnviromentLessThan5;
 - (NSURL*) buildEditorEnviromentMoreThan5;
+//
+- (void) willDeleteImage:(NSString*)sourcePath;
+//
+- (void) resumeLastEditong;
 @end

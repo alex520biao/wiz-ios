@@ -10,6 +10,7 @@
 #import "NSString+WizString.h"
 #import <QuartzCore/QuartzCore.h>
 
+
 @interface WizCommonEditorBaseViewController () <UITextViewDelegate>
 {
     UITextView* textView;
@@ -32,19 +33,33 @@
 {
     [webView prapareForEditLessThan5];
 }
+
+- (void) editorImageDone
+{
+    [editorWebView deleteImage];
+    [[NSFileManager defaultManager] removeItemAtPath:self.currentDeleteImagePath error:nil];
+}
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* requestString = [[request URL] absoluteString];
-    NSArray* com = [requestString componentsSeparatedByString:@":"];
-    if (com && [com count] >=3) {
-        [textView resignFirstResponder];
-        NSString* appName = [com objectAtIndex:0];
-        NSString* cmd = [com objectAtIndex:1];
-        NSString* text = [com objectAtIndex:2];
-        if ([appName isEqualToString:@"wiznote"] && [cmd isEqualToString:@"changedText"]) {
-            NSLog(@"text is %@ \n urldecodedString is %@",text,[text URLDecodedString]);
-            textView.text = [text URLDecodedString];
+    NSArray* array = [webView decodeJsCmd:requestString];
+    
+    if (array && [array count] >=2) {
+        NSString* cmd = [array objectAtIndex:0];
+        NSString* content = [array objectAtIndex:1];
+        if ([cmd isEqualToString:WizNotCmdChangedText]) {
+            textView.text =content;
             [textView becomeFirstResponder];
+        }
+        else if ([cmd isEqualToString:WizNotCmdChangedImage])
+        {
+            static NSString* fileBom =@"file:///";
+            NSInteger indexOfFileBom = [content indexOf:fileBom];
+            if (NSNotFound != indexOfFileBom) {
+                NSString* path = [content substringFromIndex:indexOfFileBom+fileBom.length];
+                [self willDeleteImage:path];
+                self.currentDeleteImagePath = path;
+            }
         }
     }
     if ([[[[request URL] absoluteString] fileName] isEqualToString:[[[self.urlRequest URL] absoluteString] fileName]])
@@ -127,7 +142,7 @@
 {
     self = [super initWithWizDocument:doc];
     if (self) {
-        [self buildEditorEnviromentLessThan5];
+        self.urlRequest = [NSURLRequest requestWithURL:[self buildEditorEnviromentLessThan5]];
     }
     return self;
 }

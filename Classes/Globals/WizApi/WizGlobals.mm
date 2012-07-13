@@ -623,6 +623,17 @@ static NSArray* htmlArray;
         return [UIImage imageNamed:@"icon_file_img"];
     }
 }
++ (BOOL) checkLastEditingSaved
+{
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    if (![fileManager fileExistsAtPath:[[fileManager editingTempDirectory] stringByAppendingPathComponent:@"editingDocumentModel"]]) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
 @end
 
 
