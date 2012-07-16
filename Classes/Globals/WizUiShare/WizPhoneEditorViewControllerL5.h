@@ -6,8 +6,8 @@
 //
 //
 
-#import "WizCommonEditorBaseViewController.h"
+#import "WizCommonEditorBaseViewControllerL5.h"
 
-@interface WizPhoneEditorViewControllerL5 : WizCommonEditorBaseViewController
+@interface WizPhoneEditorViewControllerL5 : WizCommonEditorBaseViewControllerL5
 
 @end

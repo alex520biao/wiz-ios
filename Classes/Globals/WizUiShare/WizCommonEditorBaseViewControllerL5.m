@@ -1,31 +1,37 @@
 //
-//  WizCommonEditorBaseViewController.m
+//  WizCommonEditorBaseViewControllerL5.m
 //  Wiz
 //
 //  Created by wiz on 12-7-4.
 //
 //
 
-#import "WizCommonEditorBaseViewController.h"
+#import "WizCommonEditorBaseViewControllerL5.h"
 #import "NSString+WizString.h"
 #import <QuartzCore/QuartzCore.h>
 
 
-@interface WizCommonEditorBaseViewController () <UITextViewDelegate>
+@interface WizCommonEditorBaseViewControllerL5 () <UITextViewDelegate>
 {
     UITextView* textView;
     UIView* additionView;
     
     UIButton* hideTextViewButton;
     UIButton* voiceInputBUtton;
+    
+    NSString* currentEditString;
+    NSRange currentEditStringRange;
 }
+@property (nonatomic, retain) NSString* currentEditString;
 @end
 
-@implementation WizCommonEditorBaseViewController
+@implementation WizCommonEditorBaseViewControllerL5
+@synthesize currentEditString;
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [textView release];
+    [currentEditString release];
     [super dealloc];
 }
 
@@ -33,23 +39,63 @@
 {
     [webView prapareForEditLessThan5];
 }
-
+- (void) prepareForVoiceRecognitionStart
+{
+    [textView resignFirstResponder];
+}
+- (void) didVoiceRecognitionEnd:(NSString *)string
+{
+    NSMutableString* edit;
+    if (self.currentEditString != nil) {
+        [NSMutableString stringWithString:self.currentEditString];
+    }
+    if (edit == nil) {
+        edit = [NSMutableString string];
+    }
+    if (currentEditStringRange.location != NSNotFound && nil!= string) {
+        @try {
+            if (currentEditStringRange.length >0) {
+                [edit replaceCharactersInRange:currentEditStringRange withString:string];
+            }
+            else
+            {
+                [edit insertString:string atIndex:currentEditStringRange.location];
+            }
+        }
+        @catch (NSException *exception) {
+            if ([exception isKindOfClass:[NSRangeException class]])
+            {
+                [edit insertString:string atIndex:currentEditStringRange.location];
+            }
+        }
+        @finally {
+            [edit insertString:string atIndex:0];
+        }
+    }
+    [self changeText:edit];
+}
 - (void) editorImageDone
 {
     [editorWebView deleteImage];
     [[NSFileManager defaultManager] removeItemAtPath:self.currentDeleteImagePath error:nil];
 }
+
+- (void) changeText:(NSString*)text
+{
+    textView.text =text;
+    self.currentEditString = text;
+    [textView becomeFirstResponder];
+} 
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* requestString = [[request URL] absoluteString];
     NSArray* array = [webView decodeJsCmd:requestString];
-    
     if (array && [array count] >=2) {
         NSString* cmd = [array objectAtIndex:0];
         NSString* content = [array objectAtIndex:1];
         if ([cmd isEqualToString:WizNotCmdChangedText]) {
-            textView.text =content;
-            [textView becomeFirstResponder];
+            [self changeText:[content fromHtml]];
         }
         else if ([cmd isEqualToString:WizNotCmdChangedImage])
         {
@@ -59,6 +105,10 @@
                 NSString* path = [content substringFromIndex:indexOfFileBom+fileBom.length];
                 [self willDeleteImage:path];
                 self.currentDeleteImagePath = path;
+            }
+            else
+            {
+                
             }
         }
     }
@@ -97,11 +147,12 @@
 }
 - (void) buildAddtionView
 {
-     additionView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 80, 40)];
+     additionView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 0.0)];
     hideTextViewButton = [[UIButton alloc] initWithFrame:CGRectMake(40, 0.0, 40, 40)];
     [hideTextViewButton addTarget:self action:@selector(hideAddition) forControlEvents:UIControlEventTouchUpInside];
     [hideTextViewButton setTitle:@"H" forState:UIControlStateNormal];
     [additionView addSubview:hideTextViewButton];
+    
 }
 - (void) buildTextView
 {
@@ -127,12 +178,19 @@
     }
     return self;
 }
-
+- (void) textViewDidChangeSelection:(UITextView *)textView_
+{
+    currentEditStringRange = textView_.selectedRange;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.view addSubview:textView];
     [self.view addSubview:additionView];
+    
+    self.voiceRecognitionView = [[[VoiceRecognition alloc] initWithFrame:CGRectMake(0.0, 0.0, 40, 40) parentView:editorWebView] autorelease];
+    self.voiceRecognitionView.recognitionDelegate = self;
+    [additionView addSubview:self.voiceRecognitionView];
 	// Do any additional setup after loading the view.
 
 }

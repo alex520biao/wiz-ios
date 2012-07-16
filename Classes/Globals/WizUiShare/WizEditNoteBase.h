@@ -10,10 +10,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "VoiceRecognition.h"
 
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 @class ELCImagePickerController;
-@interface WizEditNoteBase : UIViewController<AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate>
+@class WizDocument;
+@interface WizEditNoteBase : UIViewController<AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizVoiceRecognitionDelegate>
 {
     WizDocument* docEdit;
     float currentTime;

@@ -5,6 +5,7 @@ var WizNotCmdChangedImage = "changedImage";
 var WizDeleteImageSpanName = "WizDeleteImageSpan";
 var needChangedNode = '';
 var currentSelectImage ='';
+
 function sendCmdToWiznote(cmd,content)
 {
     var url =WizNotCmdInditify + cmd + WizNotCmdInditify + content;
@@ -17,7 +18,7 @@ function sendChangedTextMessage(content)
 $(function() {
   $('wiz').click(function(e) {
                  needChangedNode = e.target;
-                 sendChangedTextMessage(e.target.innerText);
+                 sendChangedTextMessage(e.target.innerHTML);
                  return false;
                  });
   });
@@ -26,7 +27,7 @@ function clearjquery() {
     $('*').unbind();
 }
 function endFix(result) {
-    needChangedNode.innerText = result;
+    needChangedNode.innerHTML = result;
 }
 function getDocumentEditedBodyHtml() {
     return document.getElementById(EditorDivID).innerHTML;
@@ -50,7 +51,6 @@ function initRootElement() {
 function insertPhoto(path)
 {
 	root = document.body;
-	alert("ddd");
 	img = document.createElement('img');
 	img.setAttribute('src',path);
 	
@@ -66,7 +66,6 @@ function insertAudio(path)
 	root.appendChild(audio);
 	// embed src=\"index_files/%@\" autostart=false
 }
-
 function copyAttributes(source, aim)
 {
 	var attributes = source.attributes;
@@ -93,18 +92,19 @@ function clickOnImage(e) {
     var targ
     if(!e)
         var e = window.event
-        if(e.target)
-            targ = e.target
-        else if(e.srcElement)
-            targ = e.srcElement
-        if(targ.nodeType == 3)// defeat Safari bug
-            targ = targ.parentNode
-        var tname
-        tname = targ.tagName
-        if (tname == 'IMG')
-        {
-            currentSelectImage = targ;
-            sendCmdToWiznote(WizNotCmdChangedImage,targ.src)
-        };
+    if(e.target)
+        targ = e.target
+    else if(e.srcElement)
+        targ = e.srcElement
+    if(targ.nodeType == 3)// defeat Safari bug
+        targ = targ.parentNode
+    var tname
+    tname = targ.tagName
+    if (tname == 'IMG')
+    {
+        currentSelectImage = targ;
+        sendCmdToWiznote(WizNotCmdChangedImage,targ.src)
+    };
 }
-document.body.addEventListener('click',clickOnImage)
+
+document.body.addEventListener('click',clickOnImage);

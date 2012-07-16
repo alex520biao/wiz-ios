@@ -104,10 +104,10 @@
      [super viewDidAppear:animated];
     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
     
-    if ([WizGlobals checkLastEditingSaved]) {
-        UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"The last editing document not be saved, are you resume editing?", nil) delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:NSLocalizedString(@"Resume", nil), nil] autorelease];
-        [alert show];
-    }
+//    if ([WizGlobals checkLastEditingSaved]) {
+//        UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"The last editing document not be saved, are you resume editing?", nil) delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:NSLocalizedString(@"Resume", nil), nil] autorelease];
+//        [alert show];
+//    }
 }
  
 - (void)didReceiveMemoryWarning

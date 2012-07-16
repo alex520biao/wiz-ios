@@ -13,6 +13,8 @@
 @interface DocumentInfoViewController : UITableViewController <WizFolderSelectDelegate,WizSelectTagDelegate>
 {
     WizDocument* doc;
+    BOOL isEditTheDoc;
 }
 @property (nonatomic, retain) WizDocument* doc;
+@property (nonatomic, assign) BOOL isEditTheDoc;
 @end

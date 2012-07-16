@@ -8,6 +8,7 @@
 
 #import "WizPhoneEditViewControllerM5.h"
 #import "UIBarButtonItem+WizTools.h"
+#import "WizFileManager.h"
 
 @interface WizPhoneEditViewControllerM5 ()
 {
@@ -47,8 +48,8 @@
         UIBarButtonItem* underline = [[UIBarButtonItem alloc] initWithTitle:@"U" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(underline)];
         UIBarButtonItem* highLight = [[UIBarButtonItem alloc] initWithTitle:@"!" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(highlightText)];
         UIBarButtonItem* strikeThrough = [[UIBarButtonItem alloc] initWithTitle:@"S" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(strikeThrough)];
-        UIBarButtonItem* fontSub = [[UIBarButtonItem alloc] initWithTitle:@"A-" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(fontSizeUp)];
-        UIBarButtonItem* fonPlus = [[UIBarButtonItem alloc] initWithTitle:@"A+" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(fontSizeDown)];
+        UIBarButtonItem* fontSub = [[UIBarButtonItem alloc] initWithTitle:@"A-" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(fontSizeDown)];
+        UIBarButtonItem* fonPlus = [[UIBarButtonItem alloc] initWithTitle:@"A+" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(fontSizeUp)];
         fontToolBar.items = [NSArray arrayWithObjects:italic,bold,underline, strikeThrough,highLight,fontSub,fonPlus, nil];
         [italic release];
         [bold release];
@@ -72,8 +73,24 @@
     //
     
     [self.view addSubview:fontToolBar];
-    
+   
+    self.voiceRecognitionView = [VoiceRecognition alloc] initWithFrame:<#(CGRect)#> parentView:<#(UIView *)#>
 	// Do any additional setup after loading the view.
+}
+- (void) resumeLastEditong
+{
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    NSError* error = nil;
+    if ([fileManager fileExistsAtPath:[self editingFilePath]]) {
+        if (![fileManager removeItemAtPath:[self editingFilePath] error:&error]) {
+            NSLog(@"resume delete file error %@",error);
+        }
+    }
+    if (![fileManager copyItemAtPath:[self editingIndexFilePath] toPath:[self editingFilePath] error:&error]) {
+        NSLog(@"resume copy file error %@",error);
+    }
+    self.docEdit = [[[WizDocument alloc] initFromDictionaryModel:[NSDictionary dictionaryWithContentsOfFile:[self editingDocumentModelFilePath]]] autorelease];
+    self.urlRequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:[self editingFilePath]]];
 }
 
 - (void)viewDidUnload

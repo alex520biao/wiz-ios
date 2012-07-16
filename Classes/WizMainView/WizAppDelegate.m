@@ -24,6 +24,8 @@
 #import "WizFileManager.h"
 #import "WizPasscodeViewController.h"
 #import "WizSettings.h"
+#import "WizPhoneEditorViewControllerL5.h"
+#import "WizPhoneEditViewControllerM5.h"
 
 
 #define WizAbs(x) x>0?x:-x
@@ -45,6 +47,44 @@
 }
 #pragma mark -
 #pragma mark Application lifecycle
+
+- (void) tryResumeLastEdition
+{
+    if (![WizGlobals checkLastEditingSaved]) {
+        
+        if ([WizGlobals WizDeviceVersion]  < 5) {
+            if ([WizGlobals WizDeviceIsPad]) {
+                
+            }
+            else
+            {
+                WizPhoneEditorViewControllerL5* edit = [[WizPhoneEditorViewControllerL5 alloc] init];
+                [edit resumeLastEditong];
+                UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
+                [edit release];
+                [self.window.rootViewController presentModalViewController:nav animated:YES];
+                [nav release];
+            }
+            NSLog(@"wiznote version is %lld",[[WizGlobals wizNoteVersion] longLongValue]);
+        }
+        else
+        {
+            if ([WizGlobals WizDeviceIsPad]) {
+                
+            }
+            else
+            {
+                WizPhoneEditViewControllerM5* edit = [[WizPhoneEditViewControllerM5 alloc] init];
+                [edit resumeLastEditong];
+                UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
+                [edit release];
+                [self.window.rootViewController presentModalViewController:nav animated:YES];
+                [nav release];
+            }
+        }
+    }
+}
+
 - (void) initRootNavigation
 {
     [WizNotificationCenter removeObserver:self];
@@ -64,6 +104,8 @@
     window.rootViewController = root;
     [root release];
     [self.window makeKeyAndVisible];
+    
+    [self tryResumeLastEdition];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -133,6 +175,7 @@
         [doc release];
         return YES;
     }
+
     return NO;
 }
 

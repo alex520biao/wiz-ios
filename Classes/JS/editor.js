@@ -48,4 +48,12 @@ function insertAudio(path)
 	root.appendChild(audio);
 	// embed src=\"index_files/%@\" autostart=false
 }
+function insertText(text)
+{
+	var selection = document.getSelection();
+	var baseNode  = selection.baseNode;
+	var baseNodeStr = baseNode.nodeValue;
+	var offset = selection.baseOffset;
+	baseNode.nodeValue = baseNodeStr.substr(0,offset) + text + baseNodeStr.substr(offset,baseNodeStr.length);
+}
 initRootElement();

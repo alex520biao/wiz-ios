@@ -36,7 +36,7 @@
 
 - (id) initWithWizDocument:(WizDocument *)doc
 {
-    self = [super initWithWizDocument:doc];
+    self = [super init];
     if (self) {
         self.urlRequest = [NSURLRequest requestWithURL:[self buildEditorEnviromentMoreThan5]];
     }

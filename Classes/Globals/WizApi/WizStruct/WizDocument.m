@@ -592,22 +592,22 @@ BOOL isReverseMask(NSInteger mask)
         self.type = [doc valueForKey:DataTypeUpdateDocumentType];
         self.fileType = [doc valueForKey:DataTypeUpdateDocumentFileType];
         NSNumber* nAttachmentCount = [doc valueForKey:DataTypeUpdateDocumentAttachmentCount];
-        NSNumber* localChanged = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
+        NSNumber* localChanged_ = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
         NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
-        NSNumber* serverChanged = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
-        NSNumber* nReadCount = [doc valueForKey:DataTypeUpdateDocumentREADCOUNT];
+        NSNumber* serverChanged_ = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
+        NSNumber* nReadCount_ = [doc valueForKey:DataTypeUpdateDocumentREADCOUNT];
         NSNumber* gpsLatitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LATITUDE];
         NSNumber* gpsLongtitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LONGTITUDE];
         NSNumber* gpsAltitue    = [doc valueForKey:DataTypeUpdateDocumentGPS_ALTITUDE];
-        NSNumber* gpsDop        = [doc valueForKey:DataTypeUpdateDocumentGPS_DOP];
+        NSNumber* gpsDop_        = [doc valueForKey:DataTypeUpdateDocumentGPS_DOP];
         
         
         if (nProtected) {
             self.protected_ = [nProtected boolValue];
         }
         
-        if (nReadCount) {
-            self.nReadCount = [nReadCount intValue];
+        if (nReadCount_) {
+            self.nReadCount = [nReadCount_ intValue];
         }
         if (gpsLatitue) {
             self.gpsLatitude = [gpsLatitue floatValue];
@@ -615,8 +615,8 @@ BOOL isReverseMask(NSInteger mask)
         if (gpsLongtitue) {
             self.gpsLongtitude = [gpsLongtitue floatValue];
         }
-        if (gpsDop) {
-            self.gpsDop = [gpsDop floatValue];
+        if (gpsDop_) {
+            self.gpsDop = [gpsDop_ floatValue];
         }
         if (gpsAltitue) {
             self.gpsAltitude = [gpsAltitue floatValue];

@@ -14,55 +14,51 @@
 @synthesize iFlyRecongize;
 @synthesize resuletString;
 @synthesize parentView;
-@synthesize owner;
+@synthesize recognitionDelegate;
 - (void) dealloc
 {
     [image release];
     [iFlyRecongize release];
     [resuletString release];
     [parentView release];
-    [owner release];;
+    recognitionDelegate = nil;
     [super dealloc];
 }
 
 - (void) startRecognition
 {
-    if ([self.iFlyRecongize start]) {
-    
+    [self.recognitionDelegate prepareForVoiceRecognitionStart];
+    if (![self.iFlyRecongize start]) {
+        [WizGlobals toLog:@"start flyRecongized error!"];
     }
 }
 
 
-
 - (void)onRecognizeEnd:(IFlyRecognizeControl *)iFlyRecognizeControl theError:(SpeechError) error
 {
-    [owner performSelector:@selector(voiceInputOver:) withObject:self.resuletString];
+    [self.recognitionDelegate didVoiceRecognitionEnd:self.resuletString];
     self.resuletString = @"";
-
-
 }
 - (void)onRecognizeResult:(NSArray *)array
 {
 	self.resuletString = [[array objectAtIndex:0] objectForKey:@"NAME"];
-
 }
 
 - (void)onResult:(IFlyRecognizeControl *)iFlyRecognizeControl theResult:(NSArray *)resultArray
 {
 	[self onRecognizeResult:resultArray];
 }
-- (id)initWithFrame:(CGRect)frame parentView:(UIView*) view
+- (id)initWithFrame:(CGRect)frame parentView:(UIView*)pView
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.parentView = view;
         NSString *initParam = [[NSString alloc] initWithFormat:
                                @"server_url=%@,appid=%@",ENGINE_URL,APPID];
         // 识别控件
         IFlyRecognizeControl* recg  = [[IFlyRecognizeControl alloc] initWithOrigin:H_CONTROL_ORIGIN theInitParam:initParam];
         self.iFlyRecongize = recg;
         [recg release];
-        [self.parentView addSubview:self.iFlyRecongize];
+        [pView addSubview:self.iFlyRecongize];
         [self.iFlyRecongize setEngine:@"sms" theEngineParam:nil theGrammarID:nil];
         [self.iFlyRecongize setSampleRate:16000];
         self.iFlyRecongize.delegate = self;
@@ -72,6 +68,14 @@
         [self addSubview:_image];
         self.image = _image;
         [_image release];
+        
+        
+        UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(startRecognition)] autorelease];
+        tap.numberOfTapsRequired =1;
+        tap.numberOfTouchesRequired =1;
+        [self addGestureRecognizer:tap];
+        self.userInteractionEnabled = YES;
+        
     }
     return self;
 }

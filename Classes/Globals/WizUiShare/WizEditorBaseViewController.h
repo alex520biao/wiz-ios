@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "UIWebView+WizEditor.h"
+#import "VoiceRecognition.h"
+
 @class WizDocument;
 @protocol WizEditorSourceDelegate <NSObject>
 - (NSString*) editorSourcePath:(NSString*)path;
 @end
 
-@interface WizEditorBaseViewController : UIViewController
+@interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate>
 {
     WizDocument* docEdit;
     id<WizEditorSourceDelegate> sourceDelegate;
@@ -23,11 +25,14 @@
     NSURLRequest* urlRequest;
     
     NSString* currentDeleteImagePath;
+    //
+    VoiceRecognition* voiceRecognitionView;
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;
 @property (nonatomic, retain) NSURLRequest* urlRequest;
 @property (nonatomic, retain)  NSString* currentDeleteImagePath;
+@property (nonatomic, retain) VoiceRecognition* voiceRecognitionView;
 //
 - (id) initWithWizDocument:(WizDocument*)doc;
 //
@@ -50,4 +55,11 @@
 - (void) willDeleteImage:(NSString*)sourcePath;
 //
 - (void) resumeLastEditong;
+
+- (NSString*) editingFilePath;
+- (NSString*) editingIndexFilePath;
+- (NSString*) editingMobileFilePath;
+- (NSString*) editingHtmlModelFilePath;
+- (NSString*) editingDocumentModelFilePath;
+
 @end

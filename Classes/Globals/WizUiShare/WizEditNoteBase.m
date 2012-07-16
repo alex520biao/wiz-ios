@@ -15,7 +15,9 @@
 #import "WizFileManager.h"
 #import "WizSettings.h"
 
-
+@class WizDocument;
+@class WizTag;
+@class WizAttachment;
 
 @interface WizEditNoteBase()
 {

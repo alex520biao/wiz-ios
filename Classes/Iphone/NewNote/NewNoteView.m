@@ -56,8 +56,6 @@
 @property  BOOL                                 isNewDocument;
 - (void) addDocumentInfoViewAnimation;
 - (void) addAttachmentsViewAnimation;
-- (void) startVoiceInput;
-- (void) voiceInputOver:(NSString*)result;
 @end
 
 
@@ -568,7 +566,9 @@
     }
     return newBody;
 }
-- (void) startVoiceInput
+
+
+ - (void) prepareForVoiceRecognitionStart
 {
     if ([self.titleTextFiled isFirstResponder]) {
         self.firtResponser = self.titleTextFiled;
@@ -577,24 +577,22 @@
     {
         self.firtResponser = self.bodyTextField;
     }
-    [self.voiceInput startRecognition];
     [self setUserInterfaceEnableSelf:NO];
     [self keyHideOrShow];
 }
 
-
-
-- (void) voiceInputOver:(NSString *)result
+- (void) didVoiceRecognitionEnd:(NSString *)result
 {
     [self setUserInterfaceEnableSelf:YES];
     if (self.firtResponser == self.titleTextFiled) {
         self.titleTextFiled.text = result;
     }
     if (self.firtResponser == self.bodyTextField) {
-      NSString* string =   [self insertStringToOldWithRange:self.bodyTextField.text inserString:result range:self.bodyTextField.selectedRange];
+        NSString* string =   [self insertStringToOldWithRange:self.bodyTextField.text inserString:result range:self.bodyTextField.selectedRange];
         self.bodyTextField.text = string;
     }
 }
+
 -(void) buildInterface
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -613,10 +611,9 @@
     [keyControl addGestureRecognizer:keyHide];
     keyControl.userInteractionEnabled = YES;
     VoiceRecognition* reg = [[VoiceRecognition alloc] initWithFrame:CGRectMake(200, 100, 50 , 25) parentView:self.view];
-    [self addSelcetorToView:@selector(startVoiceInput) :reg.image];
     self.voiceInput = reg;
     self.voiceInput.hidden = YES;
-    reg.owner = self;
+    reg.recognitionDelegate = self;
     [self.view addSubview:reg];
     [reg release];
 }

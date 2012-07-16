@@ -111,7 +111,10 @@
 - (void) prapareForEditLessThan5
 {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"commenEditorLessThan5" withExtension:@"js"];
+//    NSURL* url = [[NSBundle mainBundle] URLForResource:@"editorLess5" withExtension:@"js"];
+
     NSString* string = [NSString stringWithContentsOfURL:url usedEncoding:nil error:nil];
+    
     [self stringByEvaluatingJavaScriptFromString:string];
 }
 - (NSArray*) decodeJsCmd:(NSString*)urlCmd
@@ -142,6 +145,10 @@
     {
         return YES;
     }
+}
+- (void) insertText:(NSString*)text
+{
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"insertText('%@')", text]];
 }
 
 @end

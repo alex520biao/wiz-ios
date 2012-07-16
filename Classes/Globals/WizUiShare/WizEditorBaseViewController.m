@@ -43,13 +43,14 @@ typedef NSInteger WizEditActionSheetTag;
     NSTimer* audioTimer;
     CGFloat currentRecoderTime;
     //
-    
+    //
     UIView* recorderProcessView;
     UILabel* recorderProcessLabel;
     WizRecoderProcessView* recorderProcessLineView;
     
     //
     NSTimer* autoSaveTimer;
+    //
 }
 @property (retain) AVAudioRecorder* audioRecorder;
 @property (retain) AVAudioSession* audioSession;
@@ -67,6 +68,8 @@ typedef NSInteger WizEditActionSheetTag;
 @synthesize urlRequest;
 - (void) dealloc
 {
+    //
+    [voiceRecognitionView release];
     //
     [audioRecorder release];
     [audioSession release];
@@ -129,6 +132,8 @@ typedef NSInteger WizEditActionSheetTag;
         [self buildRecoderProcessView];
         autoSaveTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(saveToLocal) userInfo:nil repeats:YES];
         
+        //
+        
     }
     return self;
 }
@@ -160,9 +165,57 @@ typedef NSInteger WizEditActionSheetTag;
         [self willDeleteImagePhone:sourcePath];
     }
 }
+
+
+- (NSString*)editingFilePath
+{
+    static NSString* editingFilePath=nil;
+    if (nil == editingFilePath) {
+        editingFilePath = [[[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentFileName] retain];
+    }
+    return editingFilePath;
+}
+
+- (NSString*) editingIndexFilePath
+{
+    static NSString* editingFilePath=nil;
+    if (nil == editingFilePath) {
+        editingFilePath = [[[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"index.html"] retain];
+    }
+    return editingFilePath;
+}
+
+- (NSString*) editingMobileFilePath
+{
+    static NSString* editingFilePath=nil;
+    if (nil == editingFilePath) {
+        editingFilePath = [[[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"wiz_mobile.html"] retain];
+    }
+    return editingFilePath;
+}
+
+- (NSString*) editingHtmlModelFilePath
+{
+    static NSString* editingFilePath=nil;
+    if (nil == editingFilePath) {
+        editingFilePath = [[[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentHTMLModelFileName] retain];
+    }
+    return editingFilePath;
+}
+
+- (NSString*) editingDocumentModelFilePath
+{
+    static NSString* editingFilePath=nil;
+    if (nil == editingFilePath) {
+        editingFilePath = [[[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentModelFileName] retain];
+    }
+    return editingFilePath;
+}
+
+
 - (void) saveToLocal
 {
-    NSString* editingFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentModelFileName];
+    NSString* editingFilePath = [self editingDocumentModelFilePath];
     
     NSDictionary* doc = [self.docEdit getModelDictionary];
     
@@ -191,6 +244,10 @@ typedef NSInteger WizEditActionSheetTag;
     {
         return YES;
     }
+    else if ([fileName isEqualToString:WizEditingDocumentModelFileName])
+    {
+        return YES;
+    }
     return NO;
 }
 
@@ -211,8 +268,8 @@ typedef NSInteger WizEditActionSheetTag;
 
 - (void) saveToLocal:(NSString*)body
 {
-    NSString* indexFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"index.html"];
-    NSString* moblieFilePath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:@"wiz_mobile.html"];
+    NSString* indexFilePath = [self editingIndexFilePath];
+    NSString* moblieFilePath = [self editingMobileFilePath];
     
     NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
     [html writeToFile:indexFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
@@ -304,6 +361,7 @@ typedef NSInteger WizEditActionSheetTag;
 {
     DocumentInfoViewController* info = [[DocumentInfoViewController alloc] initWithStyle:UITableViewStyleGrouped];
     info.doc = self.docEdit;
+    info.isEditTheDoc = YES;
     [self.navigationController pushViewController:info animated:YES];
 }
 - (void) buildPhoneNavigationTools
@@ -322,14 +380,7 @@ typedef NSInteger WizEditActionSheetTag;
     [tools addObject:recoder];
     self.navigationItem.rightBarButtonItems = tools;
 }
-- (NSString*) editorModelHtmlPath
-{
-   return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentHTMLModelFileName];
-}
-- (NSString*) editingModelHtmlPath
-{
-    return [ [[WizFileManager shareManager]editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentFileName];
-}
+
 
 - (void) copyJSModelToEditorEnviromentLessThan5:(NSString*)name  type:(NSString*)type
 {
@@ -352,6 +403,10 @@ typedef NSInteger WizEditActionSheetTag;
         };
     }
 }
+- (void) showEditErrorMessage
+{
+    
+}
 
 - (void) buildCommonEditorEnviromentLessThan5
 {
@@ -359,7 +414,7 @@ typedef NSInteger WizEditActionSheetTag;
     [self copyJSModelToEditorEnviromentLessThan5:@"jquery" type:@"js"];
     NSError* error = nil;
     NSString* editorModelPath = [[NSBundle mainBundle] pathForResource:@"editModel" ofType:@"html"];
-    NSString* editorModelHtmlPath = [self editorModelHtmlPath];
+    NSString* editorModelHtmlPath = [self editingHtmlModelFilePath];
     if ([fileManager fileExistsAtPath:editorModelHtmlPath]) {
         if(![fileManager removeItemAtPath:editorModelHtmlPath error:&error]);
         {
@@ -367,7 +422,7 @@ typedef NSInteger WizEditActionSheetTag;
         }
     }
     NSStringEncoding encoding;
-    NSString* string = [NSString stringWithContentsOfFile:editorModelPath usedEncoding:&encoding error:nil];
+    NSString* string = [NSString stringWithContentsOfFile:editorModelPath usedEncoding:&encoding error:&error];
     if (string) {
        if (![string writeToFile:editorModelHtmlPath atomically:YES encoding:encoding error:&error])
        {
@@ -376,65 +431,79 @@ typedef NSInteger WizEditActionSheetTag;
     }
 }
 
+- (BOOL) copySourceFileToEditDirectory:(WizDocument*)doc
+{
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    NSString* documentObjectPath = [fileManager objectFilePath:self.docEdit.guid];
+    NSString* editPath = [fileManager editingTempDirectory];
+    NSError* error = nil;
+    for (NSString* each in [fileManager contentsOfDirectoryAtPath:documentObjectPath error:nil]  ) {
+        NSString* sourcePath = [documentObjectPath stringByAppendingPathComponent:each];
+        NSString* toPath = [editPath stringByAppendingPathComponent:each];
+        if ([fileManager fileExistsAtPath:toPath]) {
+            if (![fileManager removeItemAtPath:toPath error:&error]) {
+                NSLog(@"error %@",error);
+                return NO;
+            };
+        }
+        if(![fileManager copyItemAtPath:sourcePath toPath:toPath error:&error])
+        {
+            NSLog(@"coyp edit source error error is %@",error);
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (BOOL) prepareEditingFileL5:(NSString*)sourcePath
+{
+    NSStringEncoding contentEncoding;
+    NSError* error = nil;
+    NSString* content =[NSString stringWithContentsOfFile:sourcePath usedEncoding:&contentEncoding error:&error];
+    NSString* editingFile = [self editingFilePath];
+    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
+    
+    NSRange  sourceRanger = NSMakeRange(0, content.length);
+    NSArray* bodys = [bodyRegular matchesInString:content options:NSMatchingReportCompletion range:sourceRanger];
+    NSRange bodyRange = NSMakeRange(0, 0);
+    for (NSTextCheckingResult* each in bodys) {
+        if ([each range].length > bodyRange.length) {
+            bodyRange = [each range];
+        }
+    }
+    if (bodyRange.length != 0) {
+        content = [content substringWithRange:bodyRange];
+    }
+    else
+    {
+        return NO;
+    }
+    content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
+    content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
+    content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
+    NSString* modelFile = [self editingHtmlModelFilePath];
+    NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
+    content  =  [modelContent stringByReplacingOccurrencesOfString:@"<body>IOSWizEditor</body>" withString:content];
+    if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
+    {
+        NSLog(@"write error%@",error);
+        return NO;
+    }
+    return YES;
+}
+
 - (NSURL*) buildEditorEnviromentLessThan5
 {
     [self buildCommonEditorEnviromentLessThan5];
     NSURL* ret = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"errorModel" ofType:@"html"]];
     if (self.docEdit)
     {
-        WizFileManager* fileManager = [WizFileManager shareManager];
-        NSString* documentObjectPath = [fileManager objectFilePath:self.docEdit.guid];
-        NSString* editPath = [fileManager editingTempDirectory];
-        NSError* error = nil;
-        for (NSString* each in [fileManager contentsOfDirectoryAtPath:documentObjectPath error:nil]  ) {
-            NSString* sourcePath = [documentObjectPath stringByAppendingPathComponent:each];
-            NSString* toPath = [editPath stringByAppendingPathComponent:each];
-            
-            if ([fileManager fileExistsAtPath:toPath]) {
-                [fileManager removeItemAtPath:toPath error:nil];
-            }
-            if(![fileManager copyItemAtPath:sourcePath toPath:toPath error:&error])
-            {
-                NSLog(@"error is %@",error);
-            }
-        }
-        
-        NSString* path = [editPath stringByAppendingPathComponent:@"index.html"];
-        NSStringEncoding contentEncoding;
-        NSString* content =[NSString stringWithContentsOfFile:path usedEncoding:&contentEncoding error:&error];
-        if (!content) {
-            NSLog(@"%@",error);
-        }
-        NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
-        
-        NSRange  sourceRanger = NSMakeRange(0, content.length);
-        NSArray* bodys = [bodyRegular matchesInString:content options:NSMatchingReportCompletion range:sourceRanger];
-        NSRange bodyRange = NSMakeRange(0, 0);
-        for (NSTextCheckingResult* each in bodys) {
-            if ([each range].length > bodyRange.length) {
-                bodyRange = [each range];
-            }
-        }
-        NSString* editingFile = [self editingModelHtmlPath];
-        
-        NSLog(@"ranger is %d %d",bodyRange.location, bodyRange.length);
-        
-        if (bodyRange.length != 0) {
-            content = [content substringWithRange:bodyRange];
-        }
-        content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
-        content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
-        content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
-        NSString* modelFile = [self editorModelHtmlPath];
-        NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
-        content  =  [modelContent stringByReplacingOccurrencesOfString:@"<body>IOSWizEditor</body>" withString:content];
-        if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
+        if ([self copySourceFileToEditDirectory:self.docEdit])
         {
-            NSLog(@"error %@",error);
+            if ([self prepareEditingFileL5:[self editingIndexFilePath]] ) {
+                ret = [NSURL fileURLWithPath:[self editingFilePath]];
+            }
         }
-        ret = [NSURL fileURLWithPath:editingFile];
-        NSLog(@"%@",ret);
-        
     }
     else
     {
@@ -686,7 +755,6 @@ typedef NSInteger WizEditActionSheetTag;
     [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
     [picker dismissModalViewControllerAnimated:YES];
     //2012-2-26 delete
-    //    UIImageWriteToSavedPhotosAlbum(image, nil, nil,nil);
     [self willAddPhotoDone:fileNamePath];
 }
 
@@ -708,8 +776,6 @@ typedef NSInteger WizEditActionSheetTag;
 {
     [picker dismissModalViewControllerAnimated:YES];
 }
-//
-
 - (void) resumeLastEditong
 {
     WizFileManager* fileManager = [WizFileManager shareManager];
@@ -717,10 +783,11 @@ typedef NSInteger WizEditActionSheetTag;
     NSString* editingFile = [editingPath stringByAppendingPathComponent:WizEditingDocumentFileName];
     NSString* editingDocumentModel = [editingPath stringByAppendingPathComponent:WizEditingDocumentModelFileName];
     self.docEdit = [[[WizDocument alloc] initFromDictionaryModel:[NSDictionary dictionaryWithContentsOfFile:editingDocumentModel]] autorelease];
+    if ([WizGlobals WizDeviceVersion] < 5) {
+        [self prepareEditingFileL5:[self editingIndexFilePath]];
+    }
     self.urlRequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:editingFile]];
 }
-
-
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

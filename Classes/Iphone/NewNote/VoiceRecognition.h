@@ -12,19 +12,26 @@
 #define ENGINE_URL @"http://dev.voicecloud.cn:1028/index.htm"
 #define H_CONTROL_ORIGIN CGPointMake(20, 40)
 
+@protocol WizVoiceRecognitionDelegate <NSObject>
+
+- (void) prepareForVoiceRecognitionStart;
+- (void) didVoiceRecognitionEnd:(NSString*)string;
+
+@end
+
 @interface VoiceRecognition : UIView <IFlyRecognizeControlDelegate>
 {
     IFlyRecognizeControl* iFlyRecongize;
     NSString* resuletString;
     UIImageView* image;
     UIView* parentView;
-    id owner;
+    id<WizVoiceRecognitionDelegate> recognitionDelegate;
 }
 @property (retain) IFlyRecognizeControl* iFlyRecongize;
 @property (nonatomic, retain) NSString* resuletString;
 @property (nonatomic, retain) UIImageView* image;
 @property (nonatomic, retain) UIView* parentView;
-@property (nonatomic, retain)     id owner;
+@property (nonatomic, assign) id<WizVoiceRecognitionDelegate> recognitionDelegate;
 - (void) startRecognition;
 - (id)initWithFrame:(CGRect)frame parentView:(UIView*) view;
 @end

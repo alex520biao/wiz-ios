@@ -149,6 +149,19 @@
 	return [[text substringToIndex:index] trim];
 }
 
+- (NSString*) fromHtml
+{
+    NSMutableString* name = [[NSMutableString alloc] initWithString:self];
+	//
+	[name replaceOccurrencesOfString:@"" withString:@"\r" options:0 range:NSMakeRange(0, [name length])];
+	[name replaceOccurrencesOfString:@"&amp;" withString:@"&" options:0 range:NSMakeRange(0, [name length])];
+	[name replaceOccurrencesOfString:@"&gt;" withString:@"<" options:0 range:NSMakeRange(0, [name length])];
+	[name replaceOccurrencesOfString:@"&lt;" withString:@">" options:0 range:NSMakeRange(0, [name length])];
+	[name replaceOccurrencesOfString:@"<br>" withString:@"\n" options:0 range:NSMakeRange(0, [name length])];
+	[name replaceOccurrencesOfString:@"&nbsp;&nbsp;&nbsp;&nbsp;" withString:@"\t" options:0 range:NSMakeRange(0, [name length])];
+	return [name autorelease];
+}
+
 -(NSString*) toHtml
 {
 	NSMutableString* name = [[NSMutableString alloc] initWithString:self];
@@ -157,7 +170,7 @@
 	[name replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, [name length])];
 	[name replaceOccurrencesOfString:@"<" withString:@"&gt;" options:0 range:NSMakeRange(0, [name length])];
 	[name replaceOccurrencesOfString:@">" withString:@"&lt;" options:0 range:NSMakeRange(0, [name length])];
-	[name replaceOccurrencesOfString:@"\n" withString:@"<br />" options:0 range:NSMakeRange(0, [name length])];
+	[name replaceOccurrencesOfString:@"\n" withString:@"<br>" options:0 range:NSMakeRange(0, [name length])];
 	[name replaceOccurrencesOfString:@"\t" withString:@"&nbsp;&nbsp;&nbsp;&nbsp;" options:0 range:NSMakeRange(0, [name length])];
 	return [name autorelease];
 	
