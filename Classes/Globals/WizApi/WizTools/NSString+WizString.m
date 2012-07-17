@@ -39,14 +39,37 @@
 
 - (NSString*) stringReplaceUseRegular:(NSString *)regex withString:(NSString*)replaceStr
 {
-    NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
-    return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:replaceStr];
+    @try {
+        if (self) {
+            NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
+            return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:replaceStr];
+        }
+
+    }
+    @catch (NSException *exception) {
+        return self;
+    }
+    @finally {
+            
+    }
+    
 }
 
 - (NSString*) stringReplaceUseRegular:(NSString*)regex
 {
-    NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
-    return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:@""];
+    @try {
+        if (self) {
+            NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
+            return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:@""];
+        }
+    }
+    @catch (NSException *exception) {
+        return self;
+    }
+    @finally {
+        
+    }
+    
 }
 
 - (NSDate *) dateFromSqlTimeString

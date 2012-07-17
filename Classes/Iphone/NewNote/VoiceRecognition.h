@@ -23,13 +23,11 @@
 {
     IFlyRecognizeControl* iFlyRecongize;
     NSString* resuletString;
-    UIImageView* image;
     UIView* parentView;
     id<WizVoiceRecognitionDelegate> recognitionDelegate;
 }
 @property (retain) IFlyRecognizeControl* iFlyRecongize;
 @property (nonatomic, retain) NSString* resuletString;
-@property (nonatomic, retain) UIImageView* image;
 @property (nonatomic, retain) UIView* parentView;
 @property (nonatomic, assign) id<WizVoiceRecognitionDelegate> recognitionDelegate;
 - (void) startRecognition;

@@ -9,16 +9,23 @@
 #import "VoiceRecognition.h"
 #import "WizGlobals.h"
 #import "iFlyISR/IFlyRecognizeControl.h"
+
+@interface VoiceRecognition()
+{
+    UIButton* recognitionButton;
+}
+
+@end
+
 @implementation VoiceRecognition
-@synthesize image;
 @synthesize iFlyRecongize;
 @synthesize resuletString;
 @synthesize parentView;
 @synthesize recognitionDelegate;
 - (void) dealloc
 {
-    [image release];
     [iFlyRecongize release];
+    [recognitionButton release];
     [resuletString release];
     [parentView release];
     recognitionDelegate = nil;
@@ -63,18 +70,12 @@
         [self.iFlyRecongize setSampleRate:16000];
         self.iFlyRecongize.delegate = self;
         [initParam release];
-        UIImageView* _image = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
-        _image.image = [UIImage imageNamed:@"voiceInput"];
-        [self addSubview:_image];
-        self.image = _image;
-        [_image release];
         
-        
-        UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(startRecognition)] autorelease];
-        tap.numberOfTapsRequired =1;
-        tap.numberOfTouchesRequired =1;
-        [self addGestureRecognizer:tap];
-        self.userInteractionEnabled = YES;
+        recognitionButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
+        [recognitionButton setImage:[UIImage imageNamed:@"voiceInput"] forState:UIControlStateNormal];
+        [recognitionButton addTarget:self action:@selector(startRecognition) forControlEvents:UIControlEventTouchUpInside];
+       
+        [self addSubview:recognitionButton];
         
     }
     return self;

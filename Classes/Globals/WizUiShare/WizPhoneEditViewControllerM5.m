@@ -72,9 +72,9 @@
     [super viewDidLoad];
     //
     
+    fontToolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:fontToolBar];
    
-    self.voiceRecognitionView = [VoiceRecognition alloc] initWithFrame:<#(CGRect)#> parentView:<#(UIView *)#>
 	// Do any additional setup after loading the view.
 }
 - (void) resumeLastEditong

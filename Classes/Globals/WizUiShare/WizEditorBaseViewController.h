@@ -15,18 +15,20 @@
 - (NSString*) editorSourcePath:(NSString*)path;
 @end
 
-@interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate>
+@interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate, UITextFieldDelegate>
 {
     WizDocument* docEdit;
     id<WizEditorSourceDelegate> sourceDelegate;
     //
     UIWebView* editorWebView;
+    UITextField* titleTextField;
     //
     NSURLRequest* urlRequest;
     
     NSString* currentDeleteImagePath;
     //
     VoiceRecognition* voiceRecognitionView;
+    //
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;
@@ -38,6 +40,7 @@
 //
 - (BOOL) canRecord;
 - (BOOL) startRecord;
+- (BOOL) isRecording;
 - (BOOL) stopRecord;
 - (BOOL) canSnapPhotos;
 - (UIImagePickerController*) selectPhoto:(id<UIImagePickerControllerDelegate, UINavigationControllerDelegate>) parentController;
@@ -62,4 +65,8 @@
 - (NSString*) editingHtmlModelFilePath;
 - (NSString*) editingDocumentModelFilePath;
 
+//
+- (void) resizeBackgrouScrollViewFrame:(CGRect)rect;
+- (void) resizeBackgrouScrollViewStartY:(CGFloat)startY height:(CGFloat)height;
+- (void) prepareForSave;
 @end

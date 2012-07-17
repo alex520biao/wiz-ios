@@ -690,18 +690,7 @@ static WizDbManager* shareDbManager = nil;
     NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
     NSNumber* serverChanged = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
     
-    //
-//#define DataTypeUpdateDocumentGPS_LATITUDE      @"gps_latitude"
-//#define DataTypeUpdateDocumentGPS_LONGTITUDE    @"gps_longitude"
-//#define DataTypeUpdateDocumentGPS_ALTITUDE      @"GPS_ALTITUDE"
-//#define DataTypeUpdateDocumentGPS_DOP           @"GPS_DOP"
-//#define DataTypeUpdateDocumentGPS_ADDRESS       @"GPS_ADDRESS"
-//#define DataTypeUpdateDocumentGPS_COUNTRY       @"GPS_COUNTRY"
-//#define DataTypeUpdateDocumentGPS_LEVEL1        @"GPS_LEVEL1"
-//#define DataTypeUpdateDocumentGPS_LEVEL2        @"GPS_LEVEL2"
-//#define DataTypeUpdateDocumentGPS_LEVEL3        @"GPS_LEVEL3"
-//#define DataTypeUpdateDocumentGPS_DESCRIPTION   @"GPS_DESCRIPTION"
-//#define DataTypeUpdateDocumentREADCOUNT         @"READCOUNT"
+
     NSNumber* nReadCount = [doc valueForKey:DataTypeUpdateDocumentREADCOUNT];
     
     NSNumber* gpsLatitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LATITUDE];
@@ -781,13 +770,17 @@ static WizDbManager* shareDbManager = nil;
     if (nil == serverChanged) {
         data.nServerChanged = 1;
         WizDocument* docExit = [WizDocument documentFromDb:guid];
-        if (nil != docExit && [docExit.dataMd5 isEqualToString:dataMd5]) {
+        if (nil != docExit && ([docExit.dataMd5 isEqualToString:dataMd5] || docExit.localChanged !=0 ))
+        {
             data.nServerChanged = 0;
         }
     }
-    else {
+    else
+    {
         data.nServerChanged = [serverChanged  boolValue];
     }
+    
+    
     BOOL ret =  index.UpdateDocument(data) ? YES : NO;
     [self deleteAbstractByGUID:guid];
     if (data.nServerChanged == 0 || data.nLocalChanged!=0) {

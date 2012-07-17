@@ -21,6 +21,9 @@
     
     NSString* currentEditString;
     NSRange currentEditStringRange;
+    
+    
+    id firstResponserInputView;
 }
 @property (nonatomic, retain) NSString* currentEditString;
 @end
@@ -42,37 +45,50 @@
 - (void) prepareForVoiceRecognitionStart
 {
     [textView resignFirstResponder];
+    [titleTextField resignFirstResponder];
 }
 - (void) didVoiceRecognitionEnd:(NSString *)string
 {
-    NSMutableString* edit;
-    if (self.currentEditString != nil) {
-        [NSMutableString stringWithString:self.currentEditString];
+    if (string == nil) {
+        return;
     }
-    if (edit == nil) {
-        edit = [NSMutableString string];
-    }
-    if (currentEditStringRange.location != NSNotFound && nil!= string) {
-        @try {
-            if (currentEditStringRange.length >0) {
-                [edit replaceCharactersInRange:currentEditStringRange withString:string];
+    NSLog(@"get rec string is %@",string);
+    if ([firstResponserInputView isEqual:textView]) {
+        NSMutableString* edit;
+        if (self.currentEditString != nil) {
+            edit = [NSMutableString stringWithString:self.currentEditString];
+        }
+        if (edit == nil) {
+            edit = [NSMutableString string];
+        }
+        if (currentEditStringRange.location != NSNotFound && nil!= string) {
+            @try {
+                if (currentEditStringRange.length >0) {
+                    [edit replaceCharactersInRange:currentEditStringRange withString:string];
+                }
+                else
+                {
+                    [edit insertString:string atIndex:currentEditStringRange.location];
+                }
             }
-            else
+            @catch (NSException *exception)
             {
-                [edit insertString:string atIndex:currentEditStringRange.location];
+                if ([exception isKindOfClass:[NSRangeException class]])
+                {
+                    [edit insertString:string atIndex:currentEditStringRange.location];
+                }
+            }
+            @finally {
+                [edit insertString:string atIndex:0];
             }
         }
-        @catch (NSException *exception) {
-            if ([exception isKindOfClass:[NSRangeException class]])
-            {
-                [edit insertString:string atIndex:currentEditStringRange.location];
-            }
-        }
-        @finally {
-            [edit insertString:string atIndex:0];
-        }
+        [self changeText:edit];
     }
-    [self changeText:edit];
+    else
+    {
+        titleTextField.text = [titleTextField.text stringByAppendingString:string];
+        [titleTextField becomeFirstResponder];
+    }
 }
 - (void) editorImageDone
 {
@@ -118,46 +134,68 @@
     }
     return NO;
 }
-
+- (void) prepareForSave
+{
+    [textView resignFirstResponder];
+}
 - (void) showEditor:(NSNotification*)nc
 {
     CGRect kbRect = [[[nc userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [self.view addSubview:textView];
-    additionView.frame = CGRectMake(kbRect.size.width-80 , kbRect.origin.y-145, 80, 40);
-    additionView.backgroundColor = [UIColor lightGrayColor];
-    textView.backgroundColor = [UIColor lightGrayColor];
-    textView.frame = CGRectMake(0.0,kbRect.origin.y-107, kbRect.size.width, 44);
-    
-    [self.view bringSubviewToFront:textView];
+
+    if (![titleTextField isFirstResponder]) {
+        additionView.frame = CGRectMake(kbRect.size.width-80 , self.view.frame.size.height - kbRect.size.height-80, 80, 40);
+        textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, kbRect.size.width, 44);
+        [self.view bringSubviewToFront:textView];
+        firstResponserInputView = textView;
+        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-80];
+    }
+    else
+    {
+        firstResponserInputView = titleTextField;
+        additionView.frame = CGRectMake(kbRect.size.width-80 , self.view.frame.size.height - kbRect.size.height- 40, 80, 40);
+        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];
+    }
 }
 
 
 - (void) hideEditor:(NSNotification*)nc
 {
     additionView.frame = CGRectMake(-90, -90, 0, 0);
+    textView.frame = CGRectMake(-90, -90, 0, 0);
+    [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height];
 }
-- (void) textViewDidEndEditing:(UITextView *)textView
+- (void) textViewDidEndEditing:(UITextView *)textView_
 {
-    [editorWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"endFix('%@')",[textView.text toHtml]]];
-    textView.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);
+    [editorWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"endFix('%@')",[textView_.text toHtml]]];
+    CGRect additionFrame = additionView.frame;
+    additionView.frame = CGRectMake(additionFrame.origin.x, additionFrame.origin.y + 40, additionFrame.size.width, additionFrame.size.height);
+    textView_.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);
+    [textView_ resignFirstResponder];
+    firstResponserInputView = textView;
 }
 - (void) hideAddition
 {
     [textView resignFirstResponder];
+    [titleTextField resignFirstResponder];
+}
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    firstResponserInputView = textField;
 }
 - (void) buildAddtionView
 {
      additionView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 0.0)];
     hideTextViewButton = [[UIButton alloc] initWithFrame:CGRectMake(40, 0.0, 40, 40)];
     [hideTextViewButton addTarget:self action:@selector(hideAddition) forControlEvents:UIControlEventTouchUpInside];
-    [hideTextViewButton setTitle:@"H" forState:UIControlStateNormal];
+    [hideTextViewButton setImage:[UIImage imageNamed:@"keyHidden"] forState:UIControlStateNormal];
     [additionView addSubview:hideTextViewButton];
-    
 }
 - (void) buildTextView
 {
     textView = [[UITextView alloc] init];
     textView.delegate = self;
+    textView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
     
     CALayer* layer = textView.layer;
     layer.borderColor = [UIColor brownColor].CGColor;
@@ -185,7 +223,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    textView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:textView];
+    additionView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:additionView];
     
     self.voiceRecognitionView = [[[VoiceRecognition alloc] initWithFrame:CGRectMake(0.0, 0.0, 40, 40) parentView:editorWebView] autorelease];

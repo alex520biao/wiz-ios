@@ -51,14 +51,17 @@ typedef NSInteger WizEditActionSheetTag;
     //
     NSTimer* autoSaveTimer;
     //
+    UIScrollView* backGroudScrollView;
+    //
+    
 }
 @property (retain) AVAudioRecorder* audioRecorder;
 @property (retain) AVAudioSession* audioSession;
 @property (retain) NSTimer* audioTimer;
+
 @end
 
 @implementation WizEditorBaseViewController
-
 @synthesize audioRecorder;
 @synthesize audioSession;
 @synthesize audioTimer;
@@ -89,6 +92,10 @@ typedef NSInteger WizEditActionSheetTag;
     [recorderProcessLabel release];
     [recorderProcessLineView release];
     //
+    [backGroudScrollView release];
+    [titleTextField release];
+    //
+    
     [super dealloc];
 }
 
@@ -98,7 +105,19 @@ typedef NSInteger WizEditActionSheetTag;
 //    NSLog(@"ddd");
 //}
 
+- (void) resizeViewWhenKeyboardHeightChanged:(CGFloat)height
+{
+    
+}
 
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([object isEqual:self]) {
+        if ([keyPath isEqualToString:@"currentKeyboradHeigth"]) {
+            
+        }
+    }
+}
 
 - (void) buildRecoderProcessView
 {
@@ -107,8 +126,6 @@ typedef NSInteger WizEditActionSheetTag;
     recorderProcessLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 35)];
     [recorderProcessView addSubview:recorderProcessLabel];
     recorderProcessLabel.backgroundColor = [UIColor clearColor];
-    
-    
     
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:NSLocalizedString(@"Stop", nil) forState:UIControlStateNormal];
@@ -121,19 +138,56 @@ typedef NSInteger WizEditActionSheetTag;
     [recorderProcessView addSubview:recorderProcessLineView];
 }
 
+- (void) resizeBackgrouScrollViewFrame:(CGRect)rect
+{
+    backGroudScrollView.frame = rect;
+}
+
+- (void) resizeBackgrouScrollViewStartY:(CGFloat)startY height:(CGFloat)height
+{
+    NSLog(@"startY is %f",startY);
+    backGroudScrollView.frame = CGRectMake(0.0, startY, self.view.frame.size.width, height);
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    [editorWebView resignFirstResponder];
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
+        CGRect mainFrame = [[UIScreen mainScreen] bounds];
+        
         attachmentsArray = [[NSMutableArray alloc] init];
-        editorWebView = [[UIWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        editorWebView = [[UIWebView alloc] initWithFrame:mainFrame];
         editorWebView.delegate = self;
         //
         [self buildRecoderProcessView];
         autoSaveTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(saveToLocal) userInfo:nil repeats:YES];
         
+        backGroudScrollView = [[UIScrollView alloc] init];
+        backGroudScrollView.contentSize = mainFrame.size;
+        backGroudScrollView.backgroundColor = [UIColor blackColor];
+        
+        backGroudScrollView.frame = [[UIScreen mainScreen] bounds];
+        editorWebView.frame = CGRectMake(0.0, 30, mainFrame.size.width, mainFrame.size.height -30);
+        editorWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        [backGroudScrollView addSubview:editorWebView];
         //
         
+        titleTextField = [[UITextField alloc] initWithFrame:CGRectMake(0.0, -1, mainFrame.size.width, 31)];
+        titleTextField.delegate = self;
+        titleTextField.backgroundColor = [UIColor whiteColor];
+        titleTextField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        titleTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        [backGroudScrollView addSubview:titleTextField];
+        CALayer* titleLayer = titleTextField.layer;
+        titleLayer.cornerRadius = 2;
+        titleLayer.borderColor = [UIColor lightGrayColor].CGColor;
+        titleLayer.borderWidth = 1;
+        //
     }
     return self;
 }
@@ -251,6 +305,19 @@ typedef NSInteger WizEditActionSheetTag;
     return NO;
 }
 
+BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
+{
+    NSString* fileName = [file fileName];
+    if ([fileName isEqualToString:@"js"]) {
+        return YES;
+    }
+    else if ([fileName isEqualToString:WizEditingDocumentHTMLModelFileName])
+    {
+        return YES;
+    }
+    return NO;
+};
+
 - (void) clearEditorEnviromentLessThan5
 {
     WizFileManager* fileManager = [WizFileManager shareManager];
@@ -258,7 +325,7 @@ typedef NSInteger WizEditActionSheetTag;
     NSError* error = nil;
     for (NSString* each in [fileManager contentsOfDirectoryAtPath:editorPath error:nil])
     {
-        if (![self isEditorEnviromentFile:each] || [each isEqualToString:WizEditingDocumentFileName] ) {
+        if (!isWillNotClearFile(each)) {
             if (![fileManager removeItemAtPath:[editorPath stringByAppendingPathComponent:each] error:&error]) {
                 NSLog(@"error %@",error);
             }
@@ -266,7 +333,7 @@ typedef NSInteger WizEditActionSheetTag;
     }
 }
 
-- (void) saveToLocal:(NSString*)body
+- (void) saveToLocalFile:(NSString*)body
 {
     NSString* indexFilePath = [self editingIndexFilePath];
     NSString* moblieFilePath = [self editingMobileFilePath];
@@ -275,18 +342,22 @@ typedef NSInteger WizEditActionSheetTag;
     [html writeToFile:indexFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
     [html writeToFile:moblieFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
 }
-
+- (void) prepareForSave
+{
+    
+}
 - (void) autoSaveMoreThan5
 {
     NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
-    [self saveToLocal:body];
+    [self saveToLocalFile:body];
 }
 - (void) autoSaveLessThan5
 {
     NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
     body = [body stringReplaceUseRegular:@"<wiz>|</wiz>"];
-    [self saveToLocal:body];
+    [self saveToLocalFile:body];
 }
+
 
 
 - (void) doSaveDocument
@@ -297,21 +368,26 @@ typedef NSInteger WizEditActionSheetTag;
     [fileManager ensurePathExists:docPath];
     [fileManager ensurePathExists:indexFilesPath];
     NSArray* content = [fileManager contentsOfDirectoryAtPath:[fileManager editingTempDirectory] error:nil];
-    for (NSString* each in content) {
-        if (![self isEditorEnviromentFile:each]) {
+    for (NSString* each in content)
+    {
+        if (![self isEditorEnviromentFile:each])
+        {
             NSString* sourcePath = [[fileManager editingTempDirectory] stringByAppendingPathComponent:each];
             NSString* toPath = [docPath stringByAppendingPathComponent:each];
             NSError* error = nil;
-            if ([fileManager fileExistsAtPath:toPath]) {
+            if ([fileManager fileExistsAtPath:toPath])
+            {
                 [fileManager removeItemAtPath:toPath error:nil];
             }
             [fileManager moveItemAtPath:sourcePath toPath:toPath error:&error];
-            if (error) {
+            if (error)
+            {
                 NSLog(@"error %@",error);
             }
         }
     }
     NSLog(@"editor doc is %@",self.docEdit.guid);
+    self.docEdit.title = titleTextField.text==nil?WizStrNoTitle:titleTextField.text;
     [self.docEdit saveWithHtmlBody:@""];
     [self clearEditorEnviromentLessThan5];
 }
@@ -319,6 +395,7 @@ typedef NSInteger WizEditActionSheetTag;
 - (void) saveDocument
 {
     [autoSaveTimer invalidate];
+    [self prepareForSave];
     [self saveToLocal];
     [self doSaveDocument];
     [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -355,6 +432,7 @@ typedef NSInteger WizEditActionSheetTag;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     recorderProcessView.frame = CGRectMake(0.0 , 0.0, 320, 40);
     [self.view addSubview:recorderProcessView];
+    [self resizeBackgrouScrollViewStartY:40 height:backGroudScrollView.frame.size.height];
     [self startRecord];
 }
 - (void) doSetDocumentInfo
@@ -460,6 +538,9 @@ typedef NSInteger WizEditActionSheetTag;
     NSStringEncoding contentEncoding;
     NSError* error = nil;
     NSString* content =[NSString stringWithContentsOfFile:sourcePath usedEncoding:&contentEncoding error:&error];
+    if (!content) {
+        content = @"";
+    }
     NSString* editingFile = [self editingFilePath];
     NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
     
@@ -634,7 +715,8 @@ typedef NSInteger WizEditActionSheetTag;
     [cancelBtn release];
     [saveBtn release];
     //
-    [self.view addSubview:editorWebView];
+    [self.view addSubview:backGroudScrollView];
+    titleTextField.text = self.docEdit.title;
     [editorWebView loadRequest:self.urlRequest];
 }
 
@@ -712,6 +794,14 @@ typedef NSInteger WizEditActionSheetTag;
     recorderProcessView.frame = CGRectMake(-900, 0.0, 0.0, 0.0);
     [editorWebView insertAudio:audioPath];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self resizeBackgrouScrollViewStartY:0.0 height:backGroudScrollView.frame.size.height];
+}
+- (BOOL) isRecording
+{
+    if (nil == self.audioRecorder) {
+        return NO;
+    }
+    return [self.audioRecorder isRecording];
 }
 - (BOOL) stopRecord
 {
