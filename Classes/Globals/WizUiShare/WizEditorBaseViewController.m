@@ -36,7 +36,6 @@ typedef NSInteger WizEditActionSheetTag;
 
 @interface WizEditorBaseViewController () <UIWebViewDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate, WizImageEditDelegate>
 {
-    NSMutableArray* attachmentsArray;
     
     AVAudioRecorder *audioRecorder;
 	AVAudioSession *audioSession;
@@ -787,7 +786,10 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 {
     [attachmentsArray addAttachmentBySourceFile:path];
 }
-
+- (void) checkAttachment
+{
+    
+}
 - (void) willAddAudioDone:(NSString *)audioPath
 {
     [self addAttachmentDone:audioPath];
@@ -819,8 +821,6 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 //
 - (void) willAddPhotoDone:(NSString *)photoPath
 {
-    [self addAttachmentDone:photoPath];
-
     [editorWebView insertImage:photoPath];
 }
 

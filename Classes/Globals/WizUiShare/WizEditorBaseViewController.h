@@ -18,6 +18,7 @@
 @interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate, UITextFieldDelegate>
 {
     WizDocument* docEdit;
+    NSMutableArray* attachmentsArray;
     id<WizEditorSourceDelegate> sourceDelegate;
     //
     UIWebView* editorWebView;

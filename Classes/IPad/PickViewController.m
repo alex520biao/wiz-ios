@@ -65,9 +65,7 @@
         [self.navigationController presentModalViewController:controller animated:YES];
         [newNoteController release];
         [controller release];
-
     }
-    
 //
 }
  
