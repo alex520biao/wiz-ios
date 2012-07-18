@@ -4,14 +4,17 @@
 #import "WizDbManager.h"
 #import "WizFileManager.h"
 #import "WizTempDataBase.h"
+#import "WizGetAbstractOperation.h"
 
 #define DocumentGuid    @"DocumentGuid"
 #define DocumentKbGuid  @"DocumentKbGuid"
 
+#define MaxAbstractThreadCount  2
+
 #define NO_DATA     5211
 #define HAS_DATA    52211
 
-@interface WizAbstractCache()
+@interface WizAbstractCache()<WizAbstractStoreDelegate>
 {
     NSMutableDictionary* data;
     NSMutableDictionary* folderAbstractData;
@@ -19,6 +22,7 @@
     NSMutableArray* needGenAbstractDocuments;
     
     NSMutableArray* needExtractAbstractArray;
+    NSOperationQueue* abstractOperationQueue;
 }
 @property (atomic, retain) NSMutableDictionary* tagsAbstractData;
 @property (atomic, retain) NSMutableDictionary* folderAbstractData;
@@ -89,26 +93,26 @@
     [self.data removeObjectForKey:documentGuid];
 }
 
-- (void) genAbstract
-{
-    while (true) {
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
-        if(nil != documentGuid)
-        {
-            id<WizAbstractDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
-            WizAbstract* abstract = [dataBase abstractOfDocument:documentGuid];
-            NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
-            [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
-            [self.needGenAbstractDocuments removeLastObject];
-        }
-        else
-        {
-            sleep(1);
-        }
-        [pool drain];
-    }
-}
+//- (void) genAbstract
+//{
+//    while (true) {
+//        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+//        NSString* documentGuid = [self.needGenAbstractDocuments lastObject];
+//        if(nil != documentGuid)
+//        {
+//            id<WizAbstractDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
+//            WizAbstract* abstract = [dataBase abstractOfDocument:documentGuid];
+//            NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:documentGuid,@"documentGuid",abstract,@"abstract", nil];
+//            [self performSelectorOnMainThread:@selector(didGenDocumentAbstract:) withObject:dic waitUntilDone:YES];
+//            [self.needGenAbstractDocuments removeLastObject];
+//        }
+//        else
+//        {
+//            sleep(1);
+//        }
+//        [pool drain];
+//    }
+//}
 //
 - (void) genFoldersAbstract
 {
@@ -212,7 +216,15 @@
 {
     [WizNotificationCenter postMessageUpdateCache:documentGuid];
 }
-
+- (void) storeDocumentAbstract:(NSString *)documentGuid abstract:(WizAbstract *)abstract
+{
+    if (nil == abstract)
+    {
+        return;
+    }
+    [self.data setObject:abstract forKey:documentGuid];
+    [self postUpdateCacheMassage:documentGuid];
+}
 - (void) didGenDocumentAbstract:(NSDictionary*)dic
 
 {
@@ -225,18 +237,42 @@
     [self.data setObject:abstract forKey:documentguid];
     [self postUpdateCacheMassage:documentguid];
 }
+//- (void) pushNeedGenAbstractDoument:(NSString*)documentGuid
+//
+//{
+//    @try {
+//        [self.needGenAbstractDocuments addObject:documentGuid];
+//    }
+//    @catch (NSException *exception) {
+//        return;
+//    }
+//    @finally {
+//    }
+//}
 - (void) pushNeedGenAbstractDoument:(NSString*)documentGuid
-
 {
-    @try {
-        [self.needGenAbstractDocuments addObject:documentGuid];
-    }
-    @catch (NSException *exception) {
-        return;
-    }
-    @finally {
-    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (nil == documentGuid) {
+            return;
+        }
+        WizAccountManager* accountManager = [WizAccountManager defaultManager];
+        NSString* activeAccountUserId = [accountManager activeAccountUserId];
+        if (activeAccountUserId == nil) {
+            return;
+        }
+        id<WizAbstractDbDelegate> dataBase = [[WizDbManager shareDbManager] getWizTempDataBase:activeAccountUserId];
+        WizAbstract* abstract = [dataBase abstractOfDocument:documentGuid];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (nil == abstract) {
+                return;
+            }
+            [self.data setObject:abstract forKey:documentGuid];
+            [self postUpdateCacheMassage:documentGuid];
+        });
+    });
 }
+
+
 
 - (WizAbstract*) documentAbstractForIphone:(WizDocument*)document
 {
@@ -263,7 +299,10 @@
         self.needGenAbstractDocuments = [NSMutableArray array];
         self.needExtractAbstractArray = [[[NSMutableArray alloc] init] autorelease];
         [NSThread detachNewThreadSelector:@selector(extractAbstract) toTarget:self withObject:nil];
-        [NSThread detachNewThreadSelector:@selector(genAbstract) toTarget:self withObject:nil];
+        
+        abstractOperationQueue = [[NSOperationQueue alloc] init];
+        [abstractOperationQueue setMaxConcurrentOperationCount:MaxAbstractThreadCount];
+        
     }
     return self;
 }

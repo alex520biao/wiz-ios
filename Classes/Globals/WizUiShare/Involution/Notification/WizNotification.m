@@ -62,22 +62,21 @@
 + (void) postMessage:(NSString*)messageName userInfo:(NSDictionary*)info
 {
     NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    if (info != nil ) {
-        [dic setObject:info   forKey:DataOfUserInfo];
-    }
-    [dic setObject:messageName forKey:DataOfName];
-    [nc performSelectorOnMainThread:@selector(postMessage:) withObject:dic waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [nc postNotificationName:messageName object:nil userInfo:info];
+    });
 }
+
 + (void) postMessageWithName:(NSString*)messageName userInfoObject:(id)infoObject userInfoKey:(NSString*)infoKey
 {
     NSNotificationCenter* nc = [WizNotificationCenter wizShareCenter];
-    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
-    if (infoKey != nil || infoKey != nil) {
-        [dic setObject:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey] forKey:DataOfUserInfo];
-    }
-    [dic setObject:messageName forKey:DataOfName];
-    [nc performSelectorOnMainThread:@selector(postMessage:) withObject:dic waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary* dic = nil;
+        if (infoKey != nil && infoObject!= nil) {
+            dic = [NSDictionary dictionaryWithObject:infoObject forKey:infoKey];
+        }
+        [nc postNotificationName:messageName object:nil userInfo:dic];
+    });
 }
 
 + (void) postSimpleMessageWithName:(NSString*)messageName
