@@ -131,8 +131,12 @@
     UIImageView* imageView = (UIImageView*) cell.accessoryView;
     WizGroup* group = [[self.groupsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = group.kbName;
-    WizAbstract* abs = [dataBase abstractForGroup:group.kbguid];
-    imageView.image = abs.image;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        WizAbstract* abs = [dataBase abstractForGroup:group.kbguid];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            imageView.image = abs.image;
+        });
+    });
     cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last synchronized:%@", nil), [[[WizSettings defaultSettings] groupLastSyncDate:group.kbguid] stringSql]];
     return cell;
 }
