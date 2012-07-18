@@ -406,6 +406,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     }
     NSLog(@"editor doc is %@",self.docEdit.guid);
     self.docEdit.title = titleTextField.text==nil?WizStrNoTitle:titleTextField.text;
+    self.docEdit.attachmentCount = [attachmentsArray count];
     [self.docEdit saveWithHtmlBody:@""];
     [self saveAttachments];
     [self clearEditorEnviromentLessThan5];
@@ -471,13 +472,21 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     UIBarButtonItem* info = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"detail_gray"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doSetDocumentInfo)];
     
     UIBarButtonItem* attachments = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"newNoteAttach_gray"] hightImage:[UIImage imageNamed:@"newNoteAttach_gray"] target:self action:@selector(checkAttachment)];
+   
+    UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     NSMutableArray* tools = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
+    [tools addObject:flex];
     [tools addObject:info];
+    [tools addObject:flex];
     [tools addObject:snap];
+    [tools addObject:flex];
     [tools addObject:select];
+    [tools addObject:flex];
     [tools addObject:recoder];
+    [tools addObject:flex];
     [tools addObject:attachments];
+    [tools addObject:flex];
     self.navigationItem.rightBarButtonItems = tools;
 }
 

@@ -32,6 +32,7 @@
 - (NSString *)URLEncodedString;
 - (NSString*)URLDecodedString;
 - (NSString*) fromHtml;
+- (NSString*) nToHtmlBr;
 //
 - (BOOL) writeToFile:(NSString *)path useUtf8Bom:(BOOL)isWithBom error:(NSError **)error;
 //

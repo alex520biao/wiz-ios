@@ -148,16 +148,16 @@
         textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, kbRect.size.width, 44);
         [self.view bringSubviewToFront:textView];
         firstResponserInputView = textView;
-        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-80];
+        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];
     }
     else
     {
         firstResponserInputView = titleTextField;
         additionView.frame = CGRectMake(kbRect.size.width-80 , self.view.frame.size.height - kbRect.size.height- 40, 80, 40);
-        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];
+        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height];
+
     }
 }
-
 
 - (void) hideEditor:(NSNotification*)nc
 {
@@ -167,7 +167,7 @@
 }
 - (void) textViewDidEndEditing:(UITextView *)textView_
 {
-    [editorWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"endFix('%@')",[textView_.text toHtml]]];
+    [editorWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"endFix('%@')",[textView_.text nToHtmlBr]]];
     CGRect additionFrame = additionView.frame;
     additionView.frame = CGRectMake(additionFrame.origin.x, additionFrame.origin.y + 40, additionFrame.size.width, additionFrame.size.height);
     textView_.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);

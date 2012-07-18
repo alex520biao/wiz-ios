@@ -185,6 +185,11 @@
 	return [name autorelease];
 }
 
+- (NSString*) nToHtmlBr
+{
+    return [self stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
+}
+
 -(NSString*) toHtml
 {
 	NSMutableString* name = [[NSMutableString alloc] initWithString:self];
