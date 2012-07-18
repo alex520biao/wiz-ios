@@ -9,16 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "UIWebView+WizEditor.h"
 #import "VoiceRecognition.h"
-
+#import "WizEditorCheckAttachmentViewController.h"
 @class WizDocument;
 @protocol WizEditorSourceDelegate <NSObject>
 - (NSString*) editorSourcePath:(NSString*)path;
 @end
 
-@interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate, UITextFieldDelegate>
+@interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate, UITextFieldDelegate, WizEditorCheckAttachmentSourceDelegate>
 {
     WizDocument* docEdit;
     NSMutableArray* attachmentsArray;
+    NSMutableArray* deletedAttachmentsArray;
     id<WizEditorSourceDelegate> sourceDelegate;
     //
     UIWebView* editorWebView;
@@ -70,4 +71,5 @@
 - (void) resizeBackgrouScrollViewFrame:(CGRect)rect;
 - (void) resizeBackgrouScrollViewStartY:(CGFloat)startY height:(CGFloat)height;
 - (void) prepareForSave;
+- (void) checkAttachment;
 @end

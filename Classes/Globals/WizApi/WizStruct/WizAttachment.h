@@ -10,6 +10,7 @@
 
 typedef NSInteger WizAttachmentEditType;
 enum {
+    WizAttachmentEditTypeDeleted = -2,
     WizAttachmentEditTypeTempChanged = -1,
     WizAttachmentEditTypeNoChanged  = 0,
     WizAttachmentEditTypeChanged    = 1,

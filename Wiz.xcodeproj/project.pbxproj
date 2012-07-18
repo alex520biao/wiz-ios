@@ -27,6 +27,8 @@
 		4A4F0D261542FEAB00767434 /* WizFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D251542FEAB00767434 /* WizFileManager.m */; };
 		4ADA02901536B9AD005F0ED8 /* WizAbstractCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */; };
 		730013B315AC39A60005D4BE /* WizRecoderProcessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 730013B215AC39A60005D4BE /* WizRecoderProcessView.m */; };
+		730B116C15B6663C00E7575A /* WizEditorCheckAttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 730B116B15B6663C00E7575A /* WizEditorCheckAttachmentViewController.m */; };
+		730B116F15B6706E00E7575A /* WizCheckAttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 730B116E15B6706E00E7575A /* WizCheckAttachmentViewController.m */; };
 		730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1A14F78B8700707A07 /* loginBackgroud.png */; };
 		730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1C14F78B8700707A07 /* loginBackgroud@2x.png */; };
 		730C4C3C156A4E0700A9E7C8 /* iphoneRead.js in Resources */ = {isa = PBXBuildFile; fileRef = 730C4C3A156A4C5200A9E7C8 /* iphoneRead.js */; };
@@ -403,6 +405,10 @@
 		4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAbstractCache.m; sourceTree = "<group>"; };
 		730013B115AC39A60005D4BE /* WizRecoderProcessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizRecoderProcessView.h; sourceTree = "<group>"; };
 		730013B215AC39A60005D4BE /* WizRecoderProcessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizRecoderProcessView.m; sourceTree = "<group>"; };
+		730B116A15B6663C00E7575A /* WizEditorCheckAttachmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditorCheckAttachmentViewController.h; sourceTree = "<group>"; };
+		730B116B15B6663C00E7575A /* WizEditorCheckAttachmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditorCheckAttachmentViewController.m; sourceTree = "<group>"; };
+		730B116D15B6706E00E7575A /* WizCheckAttachmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckAttachmentViewController.h; sourceTree = "<group>"; };
+		730B116E15B6706E00E7575A /* WizCheckAttachmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCheckAttachmentViewController.m; sourceTree = "<group>"; };
 		730B2F1B14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/loginBackgroud.png; sourceTree = "<group>"; };
 		730B2F1D14F78B8700707A07 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/loginBackgroud@2x.png"; sourceTree = "<group>"; };
 		730B2F3214F7920400707A07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/loginBackgroud.png"; sourceTree = "<group>"; };
@@ -1245,6 +1251,10 @@
 				730013B215AC39A60005D4BE /* WizRecoderProcessView.m */,
 				73AC069615AFF612008E6402 /* WizEditorHTMLMutableArray.h */,
 				73AC069715AFF612008E6402 /* WizEditorHTMLMutableArray.m */,
+				730B116A15B6663C00E7575A /* WizEditorCheckAttachmentViewController.h */,
+				730B116B15B6663C00E7575A /* WizEditorCheckAttachmentViewController.m */,
+				730B116D15B6706E00E7575A /* WizCheckAttachmentViewController.h */,
+				730B116E15B6706E00E7575A /* WizCheckAttachmentViewController.m */,
 			);
 			name = WebEditor;
 			sourceTree = "<group>";
@@ -2583,6 +2593,8 @@
 				730013B315AC39A60005D4BE /* WizRecoderProcessView.m in Sources */,
 				73762ADC15AEC33200B86ADF /* WizImageEditViewController.m in Sources */,
 				73AC069815AFF612008E6402 /* WizEditorHTMLMutableArray.m in Sources */,
+				730B116C15B6663C00E7575A /* WizEditorCheckAttachmentViewController.m in Sources */,
+				730B116F15B6706E00E7575A /* WizCheckAttachmentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

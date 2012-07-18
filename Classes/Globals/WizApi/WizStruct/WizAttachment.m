@@ -55,7 +55,10 @@
     NSString* fileType = [filePath fileType];
     self.type = fileType;
     self.title = fileName;
-    if (![[WizFileManager shareManager] moveItemAtPath:filePath toPath:[self attachmentFilePath] error:nil]) {
+    NSError* error = nil;
+    if (![[WizFileManager shareManager] moveItemAtPath:filePath toPath:[self attachmentFilePath] error:&error])
+    {
+        NSLog(@"error! %@",error);
         return NO;
     }
     NSMutableDictionary* attachment = [NSMutableDictionary dictionaryWithCapacity:14];

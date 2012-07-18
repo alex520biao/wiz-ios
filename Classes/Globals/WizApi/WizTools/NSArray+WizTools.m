@@ -43,12 +43,13 @@
         if ([each.description isEqualToString:attachment.description]) {
             return;
         }
-        [self addObject:attachment];
     }
+    [self addObject:attachment];
 }
 - (void) addAttachmentBySourceFile:(NSString *)source
 {
     WizAttachment* attachm = [[WizAttachment alloc] init];
+    attachm.title = [source fileName];
     attachm.description = source;
     attachm.localChanged = WizAttachmentEditTypeTempChanged;
     [self addAttachmentUnique:attachm];

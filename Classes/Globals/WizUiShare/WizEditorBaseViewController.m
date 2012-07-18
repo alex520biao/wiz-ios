@@ -28,6 +28,8 @@
 #define WizEditingDocumentModelFileName  @"editingDocumentModel"
 #define WizEditingDocumentFileName  @"editing.html"
 #define WizEditingDocumentHTMLModelFileName @"editModel.html"
+#define WizEditingDocumentAttachmentDirectory   @"attachment"
+
 enum WizEditActionSheetTag {
     WizEditActionSheetTagCancelSave = 1000,
     WizEditActionSheetTagResumeEditing = 10001
@@ -82,6 +84,7 @@ typedef NSInteger WizEditActionSheetTag;
     //
     [docEdit release];
     [attachmentsArray release];
+    [deletedAttachmentsArray release];
     [editorWebView release];
     //
     sourceDelegate = nil;
@@ -160,6 +163,7 @@ typedef NSInteger WizEditActionSheetTag;
         CGRect mainFrame = [[UIScreen mainScreen] bounds];
         
         attachmentsArray = [[NSMutableArray alloc] init];
+        deletedAttachmentsArray = [[NSMutableArray alloc] init];
         editorWebView = [[UIWebView alloc] initWithFrame:mainFrame];
         editorWebView.delegate = self;
         //
@@ -301,6 +305,10 @@ typedef NSInteger WizEditActionSheetTag;
     {
         return YES;
     }
+    else if ([fileName isEqualToString:WizEditingDocumentAttachmentDirectory])
+    {
+        return YES;
+    }
     return NO;
 }
 
@@ -357,7 +365,18 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self saveToLocalFile:body];
 }
 
-
+- (void) saveAttachments
+{
+    for (WizAttachment* attach in attachmentsArray) {
+        if (attach.localChanged == WizAttachmentEditTypeTempChanged) {
+            attach.documentGuid = self.docEdit.guid;
+            [attach saveData:attach.description];
+        }
+    }
+    for (WizAttachment* each in deletedAttachmentsArray) {
+        [WizAttachment deleteAttachment:each.guid];
+    }
+}
 
 - (void) doSaveDocument
 {
@@ -388,6 +407,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     NSLog(@"editor doc is %@",self.docEdit.guid);
     self.docEdit.title = titleTextField.text==nil?WizStrNoTitle:titleTextField.text;
     [self.docEdit saveWithHtmlBody:@""];
+    [self saveAttachments];
     [self clearEditorEnviromentLessThan5];
 }
 
@@ -450,11 +470,14 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     
     UIBarButtonItem* info = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"detail_gray"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doSetDocumentInfo)];
     
+    UIBarButtonItem* attachments = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"newNoteAttach_gray"] hightImage:[UIImage imageNamed:@"newNoteAttach_gray"] target:self action:@selector(checkAttachment)];
+    
     NSMutableArray* tools = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
     [tools addObject:info];
     [tools addObject:snap];
     [tools addObject:select];
     [tools addObject:recoder];
+    [tools addObject:attachments];
     self.navigationItem.rightBarButtonItems = tools;
 }
 
@@ -745,9 +768,14 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self.audioRecorder updateMeters];
     [recorderProcessLineView setCurrentProcess:(AudioMaxProcess - ABS([self.audioRecorder peakPowerForChannel:0]))];
     
-    NSLog(@"peak power is %f",[self.audioRecorder peakPowerForChannel:0]);
     currentRecoderTime+=0.1f;
     recorderProcessLabel.text = [WizGlobals timerStringFromTimerInver:currentRecoderTime];
+}
+- (NSString*) getAttachmentEditingFileName
+{
+    NSString* attachmentpath = [[[WizFileManager shareManager] editingTempDirectory] stringByAppendingPathComponent:WizEditingDocumentAttachmentDirectory];
+    [[WizFileManager shareManager] ensurePathExists:attachmentpath];
+    return [attachmentpath stringByAppendingPathComponent:[WizGlobals genGUID]];
 }
 
 - (BOOL) startRecord
@@ -760,7 +788,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [settings setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
     [settings setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
     [settings setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
-    NSString* audioFileName = [[[WizFileManager shareManager] getAttachmentSourceFileName] stringByAppendingString:@".aif"];
+    NSString* audioFileName = [[self getAttachmentEditingFileName] stringByAppendingString:@".aif"];
     NSURL* url = [NSURL fileURLWithPath:audioFileName];
     self.audioRecorder = [[[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error ] autorelease];
     if(!self.audioRecorder)
@@ -785,22 +813,36 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) addAttachmentDone:(NSString*)path
 {
     [attachmentsArray addAttachmentBySourceFile:path];
+    NSLog(@"attachments count is %d",[attachmentsArray count]);
+}
+- (NSMutableArray*) sourceAttachmentsArray
+{
+    NSLog(@"a coutn %d",[attachmentsArray count]);
+    return attachmentsArray;
+}
+- (NSMutableArray*) deletedAttachmentsArray
+{
+    return deletedAttachmentsArray;
 }
 - (void) checkAttachment
 {
-    
+    WizEditorCheckAttachmentViewController* checkAttach = [[WizEditorCheckAttachmentViewController alloc] init];
+    checkAttach.attachmetsSourceDelegate = self;
+    [self.navigationController pushViewController:checkAttach animated:YES];
+    [checkAttach release];
 }
 - (void) willAddAudioDone:(NSString *)audioPath
 {
     [self addAttachmentDone:audioPath];
     recorderProcessView.frame = CGRectMake(-900, 0.0, 0.0, 0.0);
-    [editorWebView insertAudio:audioPath];
+//    [editorWebView insertAudio:audioPath];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self resizeBackgrouScrollViewStartY:0.0 height:backGroudScrollView.frame.size.height];
 }
 - (BOOL) isRecording
 {
-    if (nil == self.audioRecorder) {
+    if (nil == self.audioRecorder)
+    {
         return NO;
     }
     return [self.audioRecorder isRecording];
@@ -813,7 +855,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self.audioRecorder stop];
     [self.audioTimer invalidate];
     currentRecoderTime = 0.0f;
-    [self willAddAudioDone:self.audioRecorder.url.absoluteString];
+    [self willAddAudioDone:self.audioRecorder.url.relativePath];
     return YES;
 }
 
@@ -881,6 +923,13 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    static BOOL first = YES;
+    if (first) {
+        NSArray* attachs = [self.docEdit attachments];
+        for (WizAttachment* each in attachs) {
+            [attachmentsArray addWizObjectUnique:each];
+        }
+    }
 }
 - (void) viewDidAppear:(BOOL)animated
 {
