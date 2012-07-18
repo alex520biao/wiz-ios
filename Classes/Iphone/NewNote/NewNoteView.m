@@ -16,6 +16,7 @@
 #import "WizPadCheckAttachments.h"
 #import "WizPadNotificationMessage.h"
 #import "WizSelectTagViewController.h"
+#import "WizEditorBaseViewController.h"
 #import "WizEditItemBackgroudView.h"
 #import "WizNotification.h"
 #define KEYHIDDEN               209
@@ -87,6 +88,30 @@
     [attachmentsTableviewEntryButton release];
     [super dealloc];
 }
+
+- (void) autoSaveDocument
+{
+    [super autoSaveDocument];
+    if (self.docEdit) {
+        NSString* body = [bodyTextField.text toHtml];
+        NSString* title = titleTextFiled.text;
+        self.docEdit.title = title;
+        self.docEdit.localChanged = WizEditDocumentTypeAllChanged;
+        
+        NSString* modelFile = [WizEditorBaseViewController editingDocumentModelFilePath];
+        NSDictionary* dic = [self.docEdit getModelDictionary];
+        if (![dic writeToFile:modelFile atomically:YES]) {
+            NSLog(@"write model error");
+        }
+        NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
+        NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
+        NSError* error = nil;
+        if (![html writeToFile:indexFilePath useUtf8Bom:YES error:&error]) {
+            NSLog(@"error %@",error);
+        }
+    }
+}
+
 - (void) attachmentAddDone
 {
     NSInteger count = [self.attachmentsArray count];
@@ -629,6 +654,7 @@
 -(void) saveDocument
 {
     [self audioStopRecord];
+    [self stopAutoSaveDocument];
     self.docEdit.title = self.titleTextFiled.text;
     NSLog(@"title = %@",self.docEdit.title);
     [self.docEdit saveWithData:self.bodyTextField.text attachments:self.attachmentsArray];
@@ -644,6 +670,7 @@
     else if (buttonIndex == 0)
     {
         [self postSelectedMessageToPicker];
+        [self stopAutoSaveDocument];
         [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
@@ -732,6 +759,7 @@
 {
     [super viewDidAppear:animated];
     [self attachmentAddDone];
+    NSLog(@"doc is %@",self.docEdit);
 }
 - (void) viewWillDisappear:(BOOL)animated
 {

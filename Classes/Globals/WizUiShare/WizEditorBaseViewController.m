@@ -224,7 +224,7 @@ typedef NSInteger WizEditActionSheetTag;
 }
 
 
-- (NSString*)editingFilePath
++ (NSString*)editingFilePath
 {
     static NSString* editingFilePath=nil;
     if (nil == editingFilePath) {
@@ -233,7 +233,7 @@ typedef NSInteger WizEditActionSheetTag;
     return editingFilePath;
 }
 
-- (NSString*) editingIndexFilePath
++ (NSString*) editingIndexFilePath
 {
     static NSString* editingFilePath=nil;
     if (nil == editingFilePath) {
@@ -242,7 +242,7 @@ typedef NSInteger WizEditActionSheetTag;
     return editingFilePath;
 }
 
-- (NSString*) editingMobileFilePath
++ (NSString*) editingMobileFilePath
 {
     static NSString* editingFilePath=nil;
     if (nil == editingFilePath) {
@@ -251,7 +251,7 @@ typedef NSInteger WizEditActionSheetTag;
     return editingFilePath;
 }
 
-- (NSString*) editingHtmlModelFilePath
++ (NSString*) editingHtmlModelFilePath
 {
     static NSString* editingFilePath=nil;
     if (nil == editingFilePath) {
@@ -260,7 +260,7 @@ typedef NSInteger WizEditActionSheetTag;
     return editingFilePath;
 }
 
-- (NSString*) editingDocumentModelFilePath
++ (NSString*) editingDocumentModelFilePath
 {
     static NSString* editingFilePath=nil;
     if (nil == editingFilePath) {
@@ -272,7 +272,7 @@ typedef NSInteger WizEditActionSheetTag;
 
 - (void) saveToLocal
 {
-    NSString* editingFilePath = [self editingDocumentModelFilePath];
+    NSString* editingFilePath = [WizEditorBaseViewController editingDocumentModelFilePath];
     
     NSDictionary* doc = [self.docEdit getModelDictionary];
     
@@ -342,8 +342,8 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 
 - (void) saveToLocalFile:(NSString*)body
 {
-    NSString* indexFilePath = [self editingIndexFilePath];
-    NSString* moblieFilePath = [self editingMobileFilePath];
+    NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
+    NSString* moblieFilePath = [WizEditorBaseViewController editingMobileFilePath];
     
     NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
     [html writeToFile:indexFilePath atomically:YES encoding:NSUTF16StringEncoding error:nil];
@@ -523,7 +523,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self copyJSModelToEditorEnviromentLessThan5:@"jquery" type:@"js"];
     NSError* error = nil;
     NSString* editorModelPath = [[NSBundle mainBundle] pathForResource:@"editModel" ofType:@"html"];
-    NSString* editorModelHtmlPath = [self editingHtmlModelFilePath];
+    NSString* editorModelHtmlPath = [WizEditorBaseViewController editingHtmlModelFilePath];
     if ([fileManager fileExistsAtPath:editorModelHtmlPath]) {
         if(![fileManager removeItemAtPath:editorModelHtmlPath error:&error]);
         {
@@ -572,7 +572,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     if (!content) {
         content = @"";
     }
-    NSString* editingFile = [self editingFilePath];
+    NSString* editingFile = [WizEditorBaseViewController editingFilePath];
     NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
     
     NSRange  sourceRanger = NSMakeRange(0, content.length);
@@ -593,7 +593,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
     content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
     content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
-    NSString* modelFile = [self editingHtmlModelFilePath];
+    NSString* modelFile = [WizEditorBaseViewController editingHtmlModelFilePath];
     NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
     content  =  [modelContent stringByReplacingOccurrencesOfString:@"<body>IOSWizEditor</body>" withString:content];
     if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
@@ -612,8 +612,8 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     {
         if ([self copySourceFileToEditDirectory:self.docEdit])
         {
-            if ([self prepareEditingFileL5:[self editingIndexFilePath]] ) {
-                ret = [NSURL fileURLWithPath:[self editingFilePath]];
+            if ([self prepareEditingFileL5:[WizEditorBaseViewController editingIndexFilePath]] ) {
+                ret = [NSURL fileURLWithPath:[WizEditorBaseViewController editingFilePath]];
             }
         }
     }
@@ -925,7 +925,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     NSString* editingDocumentModel = [editingPath stringByAppendingPathComponent:WizEditingDocumentModelFileName];
     self.docEdit = [[[WizDocument alloc] initFromDictionaryModel:[NSDictionary dictionaryWithContentsOfFile:editingDocumentModel]] autorelease];
     if ([WizGlobals WizDeviceVersion] < 5) {
-        [self prepareEditingFileL5:[self editingIndexFilePath]];
+        [self prepareEditingFileL5:[WizEditorBaseViewController editingIndexFilePath]];
     }
     self.urlRequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:editingFile]];
 }

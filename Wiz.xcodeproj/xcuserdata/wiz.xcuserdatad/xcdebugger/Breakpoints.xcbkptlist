@@ -942,11 +942,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/NewNote/NewNoteView.m"
-         timestampString = "364099597.347922"
+         timestampString = "364300719.207929"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "632"
-         endingLineNumber = "632"
+         startingLineNumber = "658"
+         endingLineNumber = "658"
          landmarkName = "-saveDocument"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1299,6 +1299,32 @@
          startingLineNumber = "64"
          endingLineNumber = "64"
          landmarkName = "-saveData:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Iphone/NewNote/NewNoteView.m"
+         timestampString = "364300719.207929"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "99"
+         endingLineNumber = "99"
+         landmarkName = "-autoSaveDocument"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Iphone/NewNote/NewNoteView.m"
+         timestampString = "364300413.343936"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "94"
+         endingLineNumber = "94"
+         landmarkName = "-autoSaveDocument"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

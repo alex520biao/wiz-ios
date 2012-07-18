@@ -14,7 +14,7 @@
 #import "ELCAlbumPickerController.h"
 #import "WizFileManager.h"
 #import "WizSettings.h"
-
+#import "WizEditorBaseViewController.h"
 @class WizDocument;
 @class WizTag;
 @class WizAttachment;
@@ -26,6 +26,7 @@
     NSTimer* timer;
     NSMutableString* currentRecodingFilePath;
 //    CLLocationManager* locationManager;
+    NSTimer* autoSaveTimer;
 }
 @property (retain) AVAudioRecorder* recorder;
 @property (retain) AVAudioSession* session;
@@ -52,7 +53,31 @@
     [recorder release];
     [super dealloc];
 }
+
+- (void) stopAutoSaveDocument
+{
+    [autoSaveTimer invalidate];
+    NSString* modelFile = [WizEditorBaseViewController editingDocumentModelFilePath];
+    NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
+    WizFileManager* fileManger = [WizFileManager shareManager];
+    NSError* error = nil;
+    if ([fileManger fileExistsAtPath:modelFile]) {
+        if (![fileManger removeItemAtPath:modelFile error:&error]) {
+            NSLog(@"error %@",error);
+        }
+    }
+    if ([fileManger fileExistsAtPath:indexFilePath]) {
+        if (![fileManger removeItemAtPath:indexFilePath error:&error]) {
+            NSLog(@"error %@",error);
+        }
+    }
+}
+
 - (void) attachmentAddDone
+{
+    
+}
+- (void) autoSaveDocument
 {
     
 }
@@ -68,6 +93,8 @@
 //            locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 //            [locationManager startUpdatingLocation];
 //        }
+        
+       autoSaveTimer =  [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(autoSaveDocument) userInfo:nil repeats:YES];
     }
     return self;
 }

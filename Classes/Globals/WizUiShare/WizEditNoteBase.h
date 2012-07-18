@@ -30,4 +30,6 @@
 - (BOOL) selectePhotos;
 - (void) attachmentAddDone;
 - (float) updateTime;
+- (void) stopAutoSaveDocument;
+- (void) autoSaveDocument;
 @end

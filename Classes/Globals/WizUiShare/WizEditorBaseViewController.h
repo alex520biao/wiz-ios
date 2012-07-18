@@ -61,11 +61,11 @@
 //
 - (void) resumeLastEditong;
 
-- (NSString*) editingFilePath;
-- (NSString*) editingIndexFilePath;
-- (NSString*) editingMobileFilePath;
-- (NSString*) editingHtmlModelFilePath;
-- (NSString*) editingDocumentModelFilePath;
++ (NSString*) editingFilePath;
++ (NSString*) editingIndexFilePath;
++ (NSString*) editingMobileFilePath;
++ (NSString*) editingHtmlModelFilePath;
++ (NSString*) editingDocumentModelFilePath;
 
 //
 - (void) resizeBackgrouScrollViewFrame:(CGRect)rect;
