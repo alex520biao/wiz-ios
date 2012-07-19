@@ -22,5 +22,4 @@
 - (WizAccount*) initAccountFromDic:(NSDictionary*)dic;
 - (NSDictionary*) accountDictionaryData;
 - (BOOL) isEqualToAccountDictionaryData:(NSDictionary*)data;
-- (void) updateWizGroup:(WizGroup*)group;
 @end

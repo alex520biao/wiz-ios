@@ -242,10 +242,6 @@
     }
     [self writeSettings:KeyOfAccounts value:array];
 }
-- (void) updateWizGroup:(WizGroup*)group
-{
-    WizAccount* account = [self accountFromLoaclData:[self activeAccountUserId]];
-}
 
 - (WizAccount*) accountFromLoaclData:(NSString*)userId
 {

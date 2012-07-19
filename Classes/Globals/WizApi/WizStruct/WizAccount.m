@@ -68,28 +68,4 @@
     }
     return NO;
 }
-- (void) updateWizGroup:(WizGroup*)group
-{
-    if (!self.groups) {
-        self.groups = [NSArray arrayWithObject:[group dictionaryWithGropuData]];
-    }
-    else {
-        NSMutableArray* array = [NSMutableArray arrayWithArray:self.groups];
-        NSInteger i = 0;
-        for (i = 0; i < [array count]; i++) {
-            NSDictionary* group_ =[array objectAtIndex:i];
-            if ([group isEqualToDictionary:group_]) {
-                [array replaceObjectAtIndex:i withObject:[group dictionaryWithGropuData]];
-                NSLog(@"===");
-                break;
-            }
-        }
-        if (i == [array count]) {
-            [array addObject:[group dictionaryWithGropuData]];
-        }
-        self.groups = array;
-    }
-    NSLog(@"count is %d",[self.groups count]);
-    [[WizAccountManager defaultManager] updateAccount:self];
-}
 @end

@@ -11,8 +11,16 @@
 
 @implementation WizSetting
 
-@dynamic accountUserId;
-@dynamic key;
-@dynamic value;
+@synthesize accountUserId;
+@synthesize key;
+@synthesize value;
+
+- (void) dealloc
+{
+    [accountUserId release];
+    [key release];
+    [value release];
+    [super dealloc];
+}
 
 @end

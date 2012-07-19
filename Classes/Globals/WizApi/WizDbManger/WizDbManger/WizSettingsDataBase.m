@@ -9,7 +9,6 @@
 #import "WizSettingsDataBase.h"
 #import "WizSetting.h"
 #import "WizAccountManager.h"
-#import "WizGroup.h"
 
 #define WizGlobalSetting  @"GLOBAL"
 #define WizGlobalAccountUserId  @"WizGlobalAccountUserId"
