@@ -15,10 +15,8 @@ extern int CELLHEIGHTWITHOUTABSTRACT;
 @interface DocumentListViewCell : UITableViewCell
 {
     WizDocument* doc;
-    WizAbstract* abstractData;
     BOOL showDownloadIndicator;
 }
-@property (atomic, retain) WizAbstract* abstractData;
 @property (atomic, retain) WizDocument* doc;
 @property (atomic, assign) BOOL showDownloadIndicator;
 @end

@@ -33,7 +33,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 @end
 @implementation DocumentListViewCell
 @synthesize doc;
-@synthesize abstractData;
 @synthesize showDownloadIndicator;
 + (UIImage*) documentNoDataImage
 {
@@ -62,9 +61,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     //
     [downloadIndicator release];
     downloadIndicator = nil;
-    //
-    [abstractData release];
-    abstractData = nil;
     //
     [doc release];
     //
@@ -145,33 +141,22 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     return self;
 }
 
-- (void) drawRect:(CGRect)rect
+- (void) fixAllSubViewsFrame:(CGFloat)leftSpace showImage:(BOOL)isShowImage
 {
-    NSInteger leftBreakWidth = 10;
-    NSInteger rightBreakWidth = 90;
-    
-    abstractImageView.frame = CGRectMake(self.frame.size.width-80, 10, 70, 70);
-    abstractImageView.hidden = NO;
-    detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
-    abstractImageView.image = [DocumentListViewCell documentNoDataImage];
-    nameLabel.frame = CGRectMake(leftBreakWidth, 8, self.frame.size.width-rightBreakWidth, 20);
-    timeLabel.frame = CGRectMake(leftBreakWidth, 30, self.frame.size.width-rightBreakWidth, 12);
-    detailLabel.frame = CGRectMake(leftBreakWidth, 42, self.frame.size.width-rightBreakWidth, 40);
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-       
-        id<WizAbstractDbDelegate> abstractDataBase = [WizDbManager shareDbManager] getWizTempDataBase:<#(NSString *)#>
-        
-    });
-    
-    
-    if (nil != self.abstractData && nil ==self.abstractData.image) {
-        abstractImageView.hidden = YES;
+     NSInteger rightBreakWidth = 90;
+    if (!isShowImage) {
         rightBreakWidth = 20;
     }
-    else {
-        
-    }
+    nameLabel.frame = CGRectMake(leftSpace, 8, self.frame.size.width-rightBreakWidth, 20);
+    timeLabel.frame = CGRectMake(leftSpace, 30, self.frame.size.width-rightBreakWidth, 12);
+    detailLabel.frame = CGRectMake(leftSpace, 42, self.frame.size.width-rightBreakWidth, 40);
+    abstractImageView.frame = CGRectMake(self.frame.size.width-80, 10, 70, 70);
+    abstractImageView.hidden = !isShowImage;
+}
+
+- (void) drawRect:(CGRect)rect
+{
+    //
     downloadIndicator.frame = CGRectMake(self.frame.size.width-30, 60, 20, 20);
     if ([[WizSyncManager shareManager] isDownloadingWizobject:self.doc]) {
         [downloadIndicator startAnimating];
@@ -180,19 +165,32 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     {
         [downloadIndicator stopAnimating];
     }
-
-    nameLabel.text = self.doc.title;
-    timeLabel.text = [self.doc.dateModified stringSql];
-    detailLabel.text = self.abstractData.text;
-    if (nil != self.abstractData)
+    [self fixAllSubViewsFrame:10 showImage:YES];
+    //
     {
-        if (nil != self.abstractData.image) {
-            abstractImageView.image = abstractData.image;
-        }
+        nameLabel.text = self.doc.title;
+        timeLabel.text = [self.doc.dateModified stringSql];
+        detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
+        abstractImageView.image = [DocumentListViewCell documentNoDataImage];
     }
-    else {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+        WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (abstract) {
+                detailLabel.text = abstract.text;
+                abstractImageView.image = abstract.image;
+                if (!abstract.image) {
+                    [self fixAllSubViewsFrame:10 showImage:NO];
+                }
+                else
+                {
+                    [self fixAllSubViewsFrame:10 showImage:YES];
+                }
+            }
+        });
         
-    }
+    });
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
