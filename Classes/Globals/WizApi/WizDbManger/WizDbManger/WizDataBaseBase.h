@@ -13,11 +13,9 @@
 {
     FMDatabaseQueue* queue;
     NSString* accountUserId;
-    NSString* kbGuid;
 }
 @property (atomic, readonly) NSString* accountUserId;
-@property (atomic, readonly) NSString* kbGuid;
 @property (atomic, readonly) FMDatabaseQueue* queue;
 - (WizDataBaseBase*) initWithPath:(NSString*)dbPath modelName:(NSString*)modelName;
-- (WizDataBaseBase*) initWithAccountUserId:(NSString*)accountUserId_ kbGuid:(NSString*)kbGuid_    modelName:(NSString*)modelName;
+- (WizDataBaseBase*) initWithAccountUserId:(NSString*)accountUserId_    modelName:(NSString*)modelName;
 @end

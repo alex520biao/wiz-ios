@@ -64,6 +64,7 @@
 - (void)clearCachedStatements;
 - (void)closeOpenResultSets;
 - (BOOL)hasOpenResultSets;
+- (BOOL) initDbWithModel:(NSDictionary*)model;
 
 // encryption methods.  You need to have purchased the sqlite encryption extensions for these to work.
 - (BOOL)setKey:(NSString*)key;
@@ -99,12 +100,14 @@
 - (BOOL)inTransaction;
 - (BOOL)shouldCacheStatements;
 - (void)setShouldCacheStatements:(BOOL)value;
+
 #if SQLITE_VERSION_NUMBER >= 3007000
 - (BOOL)startSavePointWithName:(NSString*)name error:(NSError**)outErr;
 - (BOOL)releaseSavePointWithName:(NSString*)name error:(NSError**)outErr;
 - (BOOL)rollbackToSavePointWithName:(NSString*)name error:(NSError**)outErr;
 - (NSError*)inSavePoint:(void (^)(BOOL *rollback))block;
 #endif
+
 + (BOOL)isSQLiteThreadSafe;
 + (NSString*)sqliteLibVersion;
 
@@ -113,15 +116,19 @@
 - (void)makeFunctionNamed:(NSString*)name maximumArguments:(int)count withBlock:(void (^)(sqlite3_context *context, int argc, sqlite3_value **argv))block;
 
 @end
+
 @interface FMStatement : NSObject {
     sqlite3_stmt *_statement;
     NSString *_query;
     long _useCount;
 }
+
 @property (assign) long useCount;
 @property (retain) NSString *query;
 @property (assign) sqlite3_stmt *statement;
+
 - (void)close;
 - (void)reset;
+
 @end
 

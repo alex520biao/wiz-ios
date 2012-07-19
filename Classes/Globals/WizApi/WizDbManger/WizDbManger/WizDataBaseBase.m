@@ -14,11 +14,9 @@
 @implementation WizDataBaseBase
 @synthesize queue;
 @synthesize accountUserId;
-@synthesize kbGuid;
 - (void) dealloc
 {
     [accountUserId release];
-    [kbGuid release];
     [queue release];
     [super dealloc];
 }
@@ -64,18 +62,9 @@
     }
     return ret;
 }
-
-- (WizDataBaseBase*) initWithAccountUserId:(NSString*)accountUserId_ kbGuid:(NSString*)kbGuid_    modelName:(NSString*)modelName
+- (WizDataBaseBase*) initWithAccountUserId:(NSString *)accountUserId_ modelName:(NSString *)modelName
 {
-    self = [super init];
-    if (self) {
-        NSString* dbPath = [[WizFileManager shareManager] dbPathForAccountUserId:accountUserId_ groupId:kbGuid_];
-        accountUserId = [accountUserId_ retain];
-        kbGuid = [kbGuid_ retain];
-        NSDictionary* model = [self getDataBaseStructFromFile:modelName];
-        queue = [[FMDatabaseQueue alloc] initWithPath:dbPath withModel:model];
-    }
-    return self;
+    return nil;
 }
 
 - (WizDataBaseBase*) initWithPath:(NSString*)dbPath modelName:(NSString*)modelName

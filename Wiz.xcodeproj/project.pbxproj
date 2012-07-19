@@ -56,7 +56,6 @@
 		7316C0CD1574B373000926E9 /* icon_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CB1574B373000926E9 /* icon_share.png */; };
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
 		731E2B2615A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m in Sources */ = {isa = PBXBuildFile; fileRef = 731E2B2515A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m */; };
-		731EFED3157E011500C859E0 /* WizGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 731EFED2157E011500C859E0 /* WizGroup.m */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
 		732951641548F8FC00FA4FAA /* PhRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 732951631548F8FC00FA4FAA /* PhRecentViewController.m */; };
@@ -93,6 +92,8 @@
 		734D046A15B7E61700361CE0 /* WizTempDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045E15B7E61700361CE0 /* WizTempDataBase.m */; };
 		734D047615B7E85A00361CE0 /* WizMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 734D047415B7E85A00361CE0 /* WizMisc.cpp */; };
 		734D047915B7E8A500361CE0 /* WizDeletedGUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D047815B7E8A500361CE0 /* WizDeletedGUID.m */; };
+		734D048015B7EECF00361CE0 /* WizSettingsDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D047F15B7EECD00361CE0 /* WizSettingsDataBase.m */; };
+		734D048315B7F25800361CE0 /* WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D048215B7F25800361CE0 /* WizSetting.m */; };
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
 		735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
@@ -452,8 +453,6 @@
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
 		731E2B2415A4437C007C597D /* WizCommonEditorBaseViewControllerL5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCommonEditorBaseViewControllerL5.h; sourceTree = "<group>"; };
 		731E2B2515A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCommonEditorBaseViewControllerL5.m; sourceTree = "<group>"; };
-		731EFED1157E011400C859E0 /* WizGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizGroup.h; path = WizStruct/WizGroup.h; sourceTree = "<group>"; };
-		731EFED2157E011500C859E0 /* WizGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizGroup.m; path = WizStruct/WizGroup.m; sourceTree = "<group>"; };
 		731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDateBaseDelegate.h; sourceTree = "<group>"; };
 		7321310C15454AD70077F77E /* WizSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettings.h; sourceTree = "<group>"; };
 		7321310D15454AD70077F77E /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
@@ -522,6 +521,10 @@
 		734D047515B7E85A00361CE0 /* WizMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizMisc.h; sourceTree = "<group>"; };
 		734D047715B7E8A500361CE0 /* WizDeletedGUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDeletedGUID.h; sourceTree = "<group>"; };
 		734D047815B7E8A500361CE0 /* WizDeletedGUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDeletedGUID.m; sourceTree = "<group>"; };
+		734D047E15B7EECB00361CE0 /* WizSettingsDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettingsDataBase.h; sourceTree = "<group>"; };
+		734D047F15B7EECD00361CE0 /* WizSettingsDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettingsDataBase.m; sourceTree = "<group>"; };
+		734D048115B7F25700361CE0 /* WizSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSetting.h; sourceTree = "<group>"; };
+		734D048215B7F25800361CE0 /* WizSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSetting.m; sourceTree = "<group>"; };
 		734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WizEditor.h"; sourceTree = "<group>"; };
 		734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+WizEditor.m"; sourceTree = "<group>"; };
 		735136FB15A296BB00797CDF /* UIBarButtonItem+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WizTools.h"; sourceTree = "<group>"; };
@@ -1083,6 +1086,8 @@
 			isa = PBXGroup;
 			children = (
 				734D047715B7E8A500361CE0 /* WizDeletedGUID.h */,
+				734D048115B7F25700361CE0 /* WizSetting.h */,
+				734D048215B7F25800361CE0 /* WizSetting.m */,
 				734D047815B7E8A500361CE0 /* WizDeletedGUID.m */,
 				4A4F0D121542F02200767434 /* WizObject.h */,
 				4A4F0D131542F02200767434 /* WizObject.m */,
@@ -1096,8 +1101,6 @@
 				7321311015454BD50077F77E /* WizAbstract.m */,
 				73A18BF1155B6EED00E1324C /* WizObject+WizSync.h */,
 				73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */,
-				731EFED1157E011400C859E0 /* WizGroup.h */,
-				731EFED2157E011500C859E0 /* WizGroup.m */,
 				731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */,
 				73AFCC15157E0A4A00C48FE1 /* WizAccount.h */,
 				73AFCC16157E0A4A00C48FE1 /* WizAccount.m */,
@@ -1268,6 +1271,8 @@
 			children = (
 				734D044315B7E61600361CE0 /* FMDB */,
 				734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */,
+				734D047E15B7EECB00361CE0 /* WizSettingsDataBase.h */,
+				734D047F15B7EECD00361CE0 /* WizSettingsDataBase.m */,
 				734D045315B7E61700361CE0 /* WizDataBaseBase.h */,
 				734D045415B7E61700361CE0 /* WizDataBaseBase.m */,
 				734D045715B7E61700361CE0 /* WizDbDelegate.h */,
@@ -2618,7 +2623,6 @@
 				739F607815775FF900BBCD84 /* NSMutableDictionary+WizDocument.m in Sources */,
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
 				734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */,
-				731EFED3157E011500C859E0 /* WizGroup.m in Sources */,
 				73AFCC17157E0A4A00C48FE1 /* WizAccount.m in Sources */,
 				7376BBB015A1A17E0034D2F6 /* WizPhoneEditViewControllerM5.m in Sources */,
 				7376BBB315A1A27D0034D2F6 /* WizEditorBaseViewController.m in Sources */,
@@ -2644,6 +2648,8 @@
 				734D046A15B7E61700361CE0 /* WizTempDataBase.m in Sources */,
 				734D047615B7E85A00361CE0 /* WizMisc.cpp in Sources */,
 				734D047915B7E8A500361CE0 /* WizDeletedGUID.m in Sources */,
+				734D048015B7EECF00361CE0 /* WizSettingsDataBase.m in Sources */,
+				734D048315B7F25800361CE0 /* WizSetting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@
 #import "WizAttachment.h"
 #import "CommonString.h"
 #import "WizTag.h"
-
+#import "WizFileManager.h"
 
 #import "WizGlobals.h"
 #import "WizNotification.h"
@@ -36,6 +36,17 @@
 @end
 
 @implementation WizInfoDataBase
+
+
+- (WizDataBaseBase*) initWithAccountUserId:(NSString*)accountUserId_   modelName:(NSString*)modelName
+{
+    NSString* dbPath = [[WizFileManager shareManager] dataBasePath:accountUserId_];
+    self = [super initWithPath:dbPath modelName:modelName];
+    if (self) {
+        
+    }
+    return self;
+}
 
 - (BOOL) isMetaExist:(NSString*)lpszName  withKey:(NSString*) lpszKey
 {

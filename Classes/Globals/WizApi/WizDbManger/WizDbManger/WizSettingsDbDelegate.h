@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-@class WizGroup;
 @protocol WizSettingsDbDelegate <NSObject>
-- (BOOL) updatePrivateGroup:(NSString*)guid accountUserId:(NSString*)userId;
-- (BOOL) updateGroups:(NSArray*)groupsData accountUserId:(NSString*)userId;
-- (WizGroup*) groupFromGuid:(NSString*)kbguid  accountUserId:(NSString*)userId;
-- (NSArray*) groupsByAccountUserId:(NSString*)userId;
-- (BOOL) deleteAccountGroups:(NSString*)userId;
+//- (BOOL) updatePrivateGroup:(NSString*)guid accountUserId:(NSString*)userId;
+//- (BOOL) updateGroups:(NSArray*)groupsData accountUserId:(NSString*)userId;
+//- (WizGroup*) groupFromGuid:(NSString*)kbguid  accountUserId:(NSString*)userId;
+//- (NSArray*) groupsByAccountUserId:(NSString*)userId;
+//- (BOOL) deleteAccountGroups:(NSString*)userId;
 - (WizAccount*) accountFromUserId:(NSString*)userId;
 - (BOOL) updateAccount:(NSString*)userId password:(NSString *)password;
 - (NSArray*) allAccounts;
