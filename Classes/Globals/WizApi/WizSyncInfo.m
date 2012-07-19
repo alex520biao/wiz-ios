@@ -56,19 +56,19 @@
 -(void) onDocumentsByCategory: (id)retObject
 {
 	NSArray* obj = retObject;
-	[self.dbDelegate updateDocuments:obj];
+	[[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
 }
 //
 -(void) onDocumentsByTag: (id)retObject
 {
 	NSArray* obj = retObject;
-	[self.dbDelegate updateDocuments:obj];
+	[[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
 }
 //
 -(void) onDocumentsByKey: (id)retObject
 {
 	NSArray* obj = retObject;
-	[self.dbDelegate updateDocuments:obj];
+	[[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
 }
 -(void) onDownloadAttachmentList:(id)retObject
 {
@@ -77,11 +77,11 @@
     }
     self.syncMessage = WizStrSyncingattachmentlist;
     NSArray* attachArr = [self getArrayFromResponse:retObject];
-    int64_t oldVer = [self.dbDelegate attachmentVersion];
-    [self.dbDelegate updateAttachments:attachArr];
+    int64_t oldVer = [[[WizDbManager shareDbManager] shareDataBase] attachmentVersion];
+    [[[WizDbManager shareDbManager] shareDataBase] updateAttachments:attachArr];
     int64_t newVer = [self newVersion:attachArr];
     if (newVer > oldVer) {
-        [self.dbDelegate setAttachmentVersion:newVer+1];
+        [[[WizDbManager shareDbManager] shareDataBase] setAttachmentVersion:newVer+1];
         [self callDownloadAttachmentList:newVer+1];
     }
     else {
@@ -105,11 +105,11 @@
         return ;
     }
 	NSArray* obj = [self getArrayFromResponse:retObject];
-    int64_t oldVer =[self.dbDelegate documentVersion];
-	[self.dbDelegate updateDocuments:obj];
+    int64_t oldVer =[[[WizDbManager shareDbManager] shareDataBase] documentVersion];
+	[[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [self.dbDelegate setDocumentVersion:newVer+1];
+        [[[WizDbManager shareDbManager] shareDataBase] setDocumentVersion:newVer+1];
         [self callDownloadDocumentList:newVer+1];
     }
     else {
@@ -117,7 +117,7 @@
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
         [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfPadSyncInfoEnd];
-        [self callDownloadAttachmentList:[self.dbDelegate attachmentVersion]];
+        [self callDownloadAttachmentList:[[[WizDbManager shareDbManager] shareDataBase] attachmentVersion]];
         [self didChangeSyncStatue:WizSyncStatueDownloadAttachmentList];
     }
 }
@@ -134,8 +134,8 @@
 	//
 	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
 	//
-	[self.dbDelegate updateLocations:arrCategory];
-    [self callDownloadDocumentList:[self.dbDelegate documentVersion]];
+	[[[WizDbManager shareDbManager] shareDataBase] updateLocations:arrCategory];
+    [self callDownloadDocumentList:[[[WizDbManager shareDbManager] shareDataBase] documentVersion]];
     [self didChangeSyncStatue:WizSyncStatueDownloadDocumentList];
 }
 - (void) onPostTagList:(id)retObject
@@ -143,7 +143,7 @@
     if (!self.busy) {
         return ;
     }
-    for (WizTag* tag in [self.dbDelegate tagsForUpload]) {
+    for (WizTag* tag in [[[WizDbManager shareDbManager] shareDataBase] tagsForUpload]) {
         tag.localChanged = 0;
         [tag save];
     }
@@ -156,16 +156,16 @@
         return ;
     }
 	NSArray* obj = [self getArrayFromResponse:retObject];
-    int64_t oldVer = [self.dbDelegate tagVersion];
-    [self.dbDelegate updateTags:obj];
+    int64_t oldVer = [[[WizDbManager shareDbManager] shareDataBase] tagVersion];
+    [[[WizDbManager shareDbManager] shareDataBase] updateTags:obj];
 
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [self.dbDelegate setTageVersion:newVer+1];
+        [[[WizDbManager shareDbManager] shareDataBase] setTagVersion:newVer+1];
         [self callAllTags:newVer+1];
     }
     else {
-        [self callPostTagList:[self.dbDelegate tagsForUpload]];
+        [self callPostTagList:[[[WizDbManager shareDbManager] shareDataBase] tagsForUpload]];
         [self didChangeSyncStatue:WizSyncStatueUploadTags];
     }
 }
@@ -174,8 +174,8 @@
     if (!self.busy) {
         return ;
     }
-	[self.dbDelegate clearDeletedGUIDs];
-    [self callAllTags:[self.dbDelegate tagVersion]];
+	[[[WizDbManager shareDbManager] shareDataBase] clearDeletedGUIDs];
+    [self callAllTags:[[[WizDbManager shareDbManager] shareDataBase] tagVersion]];
     [self didChangeSyncStatue:WizSyncStatueDownloadTags];
 }
 -(void) onDownloadDeletedList: (id)retObject
@@ -184,7 +184,7 @@
         return ;
     }
     NSArray* arr =[ self getArrayFromResponse:retObject];
-    int64_t oldVer = [self.dbDelegate deletedGUIDVersion];
+    int64_t oldVer = [[[WizDbManager shareDbManager] shareDataBase] deletedGUIDVersion];
 	int64_t newVer = 0;
 	for (NSDictionary* dict in arr)
 	{
@@ -215,12 +215,12 @@
         }
 	}
     if (newVer > oldVer) {
-        [self.dbDelegate setDeletedGUIDVersion:newVer+1];
+        [[[WizDbManager shareDbManager] shareDataBase] setDeletedGUIDVersion:newVer+1];
         [self callDownloadDeletedList:newVer+1];
     }
     else {
         [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
-        NSArray* array = [self.dbDelegate deletedGUIDsForUpload];
+        NSArray* array = [[[WizDbManager shareDbManager] shareDataBase] deletedGUIDsForUpload];
         [self callUploadDeletedGUIDs:array];
     }
 }
@@ -231,7 +231,7 @@
     }
     busy = YES;
     [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
-    return [self callDownloadDeletedList:[self.dbDelegate deletedGUIDVersion]];
+    return [self callDownloadDeletedList:[[[WizDbManager shareDbManager] shareDataBase] deletedGUIDVersion]];
 }
 - (void) onError:(id)retObject
 {

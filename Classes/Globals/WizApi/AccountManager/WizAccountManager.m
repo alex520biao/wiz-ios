@@ -165,19 +165,8 @@
 - (BOOL) registerActiveAccount:(NSString*)userId
 {
     [self setDefalutAccount:userId];
-    WizFileManager* fileManager = [WizFileManager shareManager];
-    WizDbManager* dbManager = [WizDbManager shareDbManager];
-    if(![dbManager openDb:[fileManager dbPath]])
-    {
-        return NO;
-    }
-    if (![dbManager openTempDb:[fileManager tempDbPath]]) {
-        return NO;
-    }
     timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
     [timer fire];
-    WizAbstractCache* cache = [WizAbstractCache shareCache];
-    [cache didChangedAccountUser];
     return YES;
 }
 - (NSString*) activeAccountUserId

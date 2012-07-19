@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "WizApiManagerDelegate.h"
+#import "WizDbDelegate.h"
+
+
 #define WizSyncEndMessage   @""
 
 typedef NSInteger WizSyncStatueCode;
