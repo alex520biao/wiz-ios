@@ -81,6 +81,19 @@
 		734CA13D1504597D002549CB /* LocationTreeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12D1504597D002549CB /* LocationTreeViewCell.m */; };
 		734CA13E1504597D002549CB /* TagsListTreeControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */; };
 		734CA1431504597D002549CB /* TreeViewBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1391504597D002549CB /* TreeViewBaseController.m */; };
+		734D043E15B7C0FE00361CE0 /* WizPadEditViewControllerM5.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D043D15B7C0FE00361CE0 /* WizPadEditViewControllerM5.m */; };
+		734D045F15B7E61700361CE0 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044515B7E61700361CE0 /* FMDatabase.m */; };
+		734D046015B7E61700361CE0 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044715B7E61700361CE0 /* FMDatabaseAdditions.m */; };
+		734D046115B7E61700361CE0 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044915B7E61700361CE0 /* FMDatabasePool.m */; };
+		734D046215B7E61700361CE0 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044B15B7E61700361CE0 /* FMDatabaseQueue.m */; };
+		734D046315B7E61700361CE0 /* fmdb.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044C15B7E61700361CE0 /* fmdb.m */; };
+		734D046415B7E61700361CE0 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044E15B7E61700361CE0 /* FMResultSet.m */; };
+		734D046515B7E61700361CE0 /* WizDataBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 734D045215B7E61700361CE0 /* WizDataBase.mm */; };
+		734D046615B7E61700361CE0 /* WizDataBaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045415B7E61700361CE0 /* WizDataBaseBase.m */; };
+		734D046715B7E61700361CE0 /* WizDataBaseV.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045615B7E61700361CE0 /* WizDataBaseV.m */; };
+		734D046815B7E61700361CE0 /* WizDbManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 734D045915B7E61700361CE0 /* WizDbManager.mm */; };
+		734D046915B7E61700361CE0 /* WizInfoDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045B15B7E61700361CE0 /* WizInfoDataBase.m */; };
+		734D046A15B7E61700361CE0 /* WizTempDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045E15B7E61700361CE0 /* WizTempDataBase.m */; };
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
 		735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
@@ -491,6 +504,34 @@
 		734CA12F1504597D002549CB /* TagsListTreeControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsListTreeControllerNew.m; sourceTree = "<group>"; };
 		734CA1381504597D002549CB /* TreeViewBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewBaseController.h; sourceTree = "<group>"; };
 		734CA1391504597D002549CB /* TreeViewBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewBaseController.m; sourceTree = "<group>"; };
+		734D043C15B7C0FE00361CE0 /* WizPadEditViewControllerM5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditViewControllerM5.h; sourceTree = "<group>"; };
+		734D043D15B7C0FE00361CE0 /* WizPadEditViewControllerM5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditViewControllerM5.m; sourceTree = "<group>"; };
+		734D044415B7E61700361CE0 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		734D044515B7E61700361CE0 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		734D044615B7E61700361CE0 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		734D044715B7E61700361CE0 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		734D044815B7E61700361CE0 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		734D044915B7E61700361CE0 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		734D044A15B7E61700361CE0 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		734D044B15B7E61700361CE0 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		734D044C15B7E61700361CE0 /* fmdb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fmdb.m; sourceTree = "<group>"; };
+		734D044D15B7E61700361CE0 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		734D044E15B7E61700361CE0 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractDbDelegate.h; sourceTree = "<group>"; };
+		734D045115B7E61700361CE0 /* WizDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBase.h; sourceTree = "<group>"; };
+		734D045215B7E61700361CE0 /* WizDataBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizDataBase.mm; sourceTree = "<group>"; };
+		734D045315B7E61700361CE0 /* WizDataBaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBaseBase.h; sourceTree = "<group>"; };
+		734D045415B7E61700361CE0 /* WizDataBaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDataBaseBase.m; sourceTree = "<group>"; };
+		734D045515B7E61700361CE0 /* WizDataBaseV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBaseV.h; sourceTree = "<group>"; };
+		734D045615B7E61700361CE0 /* WizDataBaseV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDataBaseV.m; sourceTree = "<group>"; };
+		734D045715B7E61700361CE0 /* WizDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDbDelegate.h; sourceTree = "<group>"; };
+		734D045815B7E61700361CE0 /* WizDbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDbManager.h; sourceTree = "<group>"; };
+		734D045915B7E61700361CE0 /* WizDbManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizDbManager.mm; sourceTree = "<group>"; };
+		734D045A15B7E61700361CE0 /* WizInfoDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizInfoDataBase.h; sourceTree = "<group>"; };
+		734D045B15B7E61700361CE0 /* WizInfoDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizInfoDataBase.m; sourceTree = "<group>"; };
+		734D045C15B7E61700361CE0 /* WizSettingsDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSettingsDbDelegate.h; sourceTree = "<group>"; };
+		734D045D15B7E61700361CE0 /* WizTempDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTempDataBase.h; sourceTree = "<group>"; };
+		734D045E15B7E61700361CE0 /* WizTempDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTempDataBase.m; sourceTree = "<group>"; };
 		734D53BC157CAB7000BE496E /* UIWebView+WizEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WizEditor.h"; sourceTree = "<group>"; };
 		734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+WizEditor.m"; sourceTree = "<group>"; };
 		735136FB15A296BB00797CDF /* UIBarButtonItem+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WizTools.h"; sourceTree = "<group>"; };
@@ -1230,6 +1271,49 @@
 			name = IpadOldEditor;
 			sourceTree = "<group>";
 		};
+		734D044315B7E61600361CE0 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				734D044415B7E61700361CE0 /* FMDatabase.h */,
+				734D044515B7E61700361CE0 /* FMDatabase.m */,
+				734D044615B7E61700361CE0 /* FMDatabaseAdditions.h */,
+				734D044715B7E61700361CE0 /* FMDatabaseAdditions.m */,
+				734D044815B7E61700361CE0 /* FMDatabasePool.h */,
+				734D044915B7E61700361CE0 /* FMDatabasePool.m */,
+				734D044A15B7E61700361CE0 /* FMDatabaseQueue.h */,
+				734D044B15B7E61700361CE0 /* FMDatabaseQueue.m */,
+				734D044C15B7E61700361CE0 /* fmdb.m */,
+				734D044D15B7E61700361CE0 /* FMResultSet.h */,
+				734D044E15B7E61700361CE0 /* FMResultSet.m */,
+			);
+			name = FMDB;
+			path = ../FMDB;
+			sourceTree = "<group>";
+		};
+		734D044F15B7E61700361CE0 /* WizDbManger */ = {
+			isa = PBXGroup;
+			children = (
+				734D044315B7E61600361CE0 /* FMDB */,
+				734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */,
+				734D045115B7E61700361CE0 /* WizDataBase.h */,
+				734D045215B7E61700361CE0 /* WizDataBase.mm */,
+				734D045315B7E61700361CE0 /* WizDataBaseBase.h */,
+				734D045415B7E61700361CE0 /* WizDataBaseBase.m */,
+				734D045515B7E61700361CE0 /* WizDataBaseV.h */,
+				734D045615B7E61700361CE0 /* WizDataBaseV.m */,
+				734D045715B7E61700361CE0 /* WizDbDelegate.h */,
+				734D045815B7E61700361CE0 /* WizDbManager.h */,
+				734D045915B7E61700361CE0 /* WizDbManager.mm */,
+				734D045A15B7E61700361CE0 /* WizInfoDataBase.h */,
+				734D045B15B7E61700361CE0 /* WizInfoDataBase.m */,
+				734D045C15B7E61700361CE0 /* WizSettingsDbDelegate.h */,
+				734D045D15B7E61700361CE0 /* WizTempDataBase.h */,
+				734D045E15B7E61700361CE0 /* WizTempDataBase.m */,
+			);
+			name = WizDbManger;
+			path = WizDbManger/WizDbManger;
+			sourceTree = "<group>";
+		};
 		734D53B5157CA83100BE496E /* Editor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1497,6 +1581,7 @@
 		73A7842214F8CC22001387F6 /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
+				734D044F15B7E61700361CE0 /* WizDbManger */,
 				73213112154571B60077F77E /* WizDb */,
 				7321310A15454AC60077F77E /* WizSettings */,
 				4A4F0D231542FE7B00767434 /* FileManager */,
@@ -2038,6 +2123,8 @@
 				7376BBAF15A1A17E0034D2F6 /* WizPhoneEditViewControllerM5.m */,
 				73B21E8715AC169F00B1C4B5 /* WizCommonEditorViewControllerM5.h */,
 				73B21E8815AC169F00B1C4B5 /* WizCommonEditorViewControllerM5.m */,
+				734D043C15B7C0FE00361CE0 /* WizPadEditViewControllerM5.h */,
+				734D043D15B7C0FE00361CE0 /* WizPadEditViewControllerM5.m */,
 			);
 			name = CommonEditorM5;
 			sourceTree = "<group>";
@@ -2597,6 +2684,19 @@
 				73AC069815AFF612008E6402 /* WizEditorHTMLMutableArray.m in Sources */,
 				730B116C15B6663C00E7575A /* WizEditorCheckAttachmentViewController.m in Sources */,
 				730B116F15B6706E00E7575A /* WizCheckAttachmentViewController.m in Sources */,
+				734D043E15B7C0FE00361CE0 /* WizPadEditViewControllerM5.m in Sources */,
+				734D045F15B7E61700361CE0 /* FMDatabase.m in Sources */,
+				734D046015B7E61700361CE0 /* FMDatabaseAdditions.m in Sources */,
+				734D046115B7E61700361CE0 /* FMDatabasePool.m in Sources */,
+				734D046215B7E61700361CE0 /* FMDatabaseQueue.m in Sources */,
+				734D046315B7E61700361CE0 /* fmdb.m in Sources */,
+				734D046415B7E61700361CE0 /* FMResultSet.m in Sources */,
+				734D046515B7E61700361CE0 /* WizDataBase.mm in Sources */,
+				734D046615B7E61700361CE0 /* WizDataBaseBase.m in Sources */,
+				734D046715B7E61700361CE0 /* WizDataBaseV.m in Sources */,
+				734D046815B7E61700361CE0 /* WizDbManager.mm in Sources */,
+				734D046915B7E61700361CE0 /* WizInfoDataBase.m in Sources */,
+				734D046A15B7E61700361CE0 /* WizTempDataBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

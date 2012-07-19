@@ -1,33 +1,23 @@
 //
-//  WizPhoneEditViewController.m
+//  WizPadEditViewControllerM5.m
 //  Wiz
 //
-//  Created by wiz on 12-7-2.
+//  Created by wiz on 12-7-19.
 //
 //
 
-#import "WizPhoneEditViewControllerM5.h"
-#import "UIBarButtonItem+WizTools.h"
-#import "WizFileManager.h"
+#import "WizPadEditViewControllerM5.h"
 
-@interface WizPhoneEditViewControllerM5 ()
-{
-    
-}
+@interface WizPadEditViewControllerM5 ()
+
 @end
 
-@implementation WizPhoneEditViewControllerM5
-
-- (void) dealloc
-{
-    [super dealloc];
-}
+@implementation WizPadEditViewControllerM5
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
         
     }
     return self;
@@ -36,8 +26,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //
-   
 	// Do any additional setup after loading the view.
 }
 
@@ -49,7 +37,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 @end

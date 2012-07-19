@@ -1,4 +1,18 @@
 var EditorDivID = 'editedContent';
+var WizNotCmdInditify = "<Wiznote-dzpqzb>";
+var WizNotCmdChangedText = "changedText";
+var WizNotCmdChangedImage = "changedImage";
+var WizDeleteImageSpanName = "WizDeleteImageSpan";
+var currentSelectImage = '';
+function sendCmdToWiznote(cmd,content)
+{
+    var url =WizNotCmdInditify + cmd + WizNotCmdInditify + content;
+    document.location = url;
+}
+function sendChangedTextMessage(content)
+{
+    sendCmdToWiznote(WizNotCmdChangedText,content);
+}
 function getDocumentEditedBodyHtml() {
     return document.body.innerHTML;
 }
@@ -19,9 +33,16 @@ function touchOnImage(e) {
             targ = targ.parentNode
         var tname
         tname = targ.tagName
-        if (tname == 'IMG') {alert(targ.src)};
+        if (tname == 'IMG')
+        {
+            currentSelectImage = targ;
+            sendCmdToWiznote(WizNotCmdChangedImage,targ.src)
+        };
 }
-
+function deleteImage()
+{
+    currentSelectImage.parentElement.removeChild(currentSelectImage);
+}
 function initRootElement() {
     document.body.setAttribute('contentEditable', true);
     document.onmousedown = touchOnImage;
@@ -36,6 +57,7 @@ function insertPhoto(path)
 	
 	root.appendChild(img);
 }
+
 function insertAudio(path)
 {
 	root = getDocumentEditedBody();

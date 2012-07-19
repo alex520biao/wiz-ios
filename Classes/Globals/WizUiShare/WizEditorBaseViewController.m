@@ -208,11 +208,21 @@ typedef NSInteger WizEditNavigationBarItemTag;
 
 - (void) deleteWebInsideImage
 {
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    NSError* error = nil;   
+    if (currentDeleteImagePath) {
+        if ([fileManager fileExistsAtPath:self.currentDeleteImagePath]) {
+            if ([fileManager removeItemAtPath:self.currentDeleteImagePath error:&error]) {
+                NSLog(@"delete image error %@",error);
+            }
+        }
+    }
     [editorWebView deleteImage];
 }
 
 - (void) fixWebInsideImage:(NSString*)filePath
 {
+    self.currentDeleteImagePath = filePath;
     UIActionSheet* action = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Remove Image", nil) delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:NSLocalizedString(@"Remove Image", nil) otherButtonTitles:nil];
     action.tag =  WizEditActionTagFixImage;
     [action showInView:self.view];
@@ -735,13 +745,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 {
     self = [super init];
     if (self) {
-        if (doc) {
-            self.docEdit = doc;
-        }
-        else
-        {
-            self.docEdit = [[[WizDocument alloc] init] autorelease];
-        }
+        self.docEdit = doc;
     }
     return self;
 }

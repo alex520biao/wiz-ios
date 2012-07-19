@@ -29,7 +29,7 @@
 #import "ATMHud.h"
 #import "WizFileManager.h"
 #import "WizPadEditViewControllerL5.h"
-
+#import "WizPadEditViewControllerM5.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -485,14 +485,22 @@
 }
 - (void) onEditCurrentDocument
 {
-    
-    WizPadEditViewControllerL5* newNote = [[WizPadEditViewControllerL5 alloc] initWithWizDocument:self.selectedDocument];
-    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+    WizEditorBaseViewController* editController = nil;
+    if ([WizGlobals WizDeviceVersion] < 5.0) {
+        editController = [[WizPadEditViewControllerL5 alloc] initWithWizDocument:self.selectedDocument];
+        
+    }
+    else
+    {
+        editController = [[WizPadEditViewControllerM5 alloc] initWithWizDocument:self.selectedDocument];
+    }
+    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:editController];
+    [editController release];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
     [self.navigationController presentModalViewController:controller animated:YES];
-    [newNote release];
     [controller release];
+    
     
 //    WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
 //    edit.docEdit = self.selectedDocument;

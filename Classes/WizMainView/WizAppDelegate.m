@@ -27,7 +27,7 @@
 #import "WizPhoneEditorViewControllerL5.h"
 #import "WizPhoneEditViewControllerM5.h"
 #import "WizPadEditViewControllerL5.h"
-
+#import "WizPadEditViewControllerM5.h"
 #define WizAbs(x) x>0?x:-x
 @interface WizAppDelegate()
 {
@@ -64,7 +64,7 @@
         else
         {
             if ([WizGlobals WizDeviceIsPad]) {
-                
+                edit = [[WizPadEditViewControllerM5 alloc] init];
             }
             else
             {
