@@ -13,7 +13,6 @@
 #import "XMLRPCResponse.h"
 #import "WizInfoDataBase.h"
 #import "WizTempDataBase.h"
-#import "wizSettingsDataBase.h"
 
 #define WIZ_ACCOUNTS_SETTINGSFILE   @"WIZ_ACCOUNTS_SETTINGSFILE"
 #define PRIMARAY_KEY    @"PRIMARAY_KEY"
@@ -63,22 +62,7 @@ static WizDbManager* shareDbManager = nil;
 - (id<WizDbDelegate>) shareDataBase
 {
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    NSString* accountKbguid = [[WizAccountManager defaultManager] activeAccountGroupKbguid];
-    return [self getWizDataBase:accountUserId groupId:accountKbguid];
-}
-
-
-- (NSString*) getCurrentThreadId
-{
-    NSString* des = [NSThread currentThread].description;
-    NSInteger end = [des indexOf:@"{"];
-    if (NSNotFound == end) {
-        return  des;
-    }
-    else
-    {
-        return  [des substringToIndex:end];
-    }
+    return [self getWizDataBase:accountUserId];
 }
 
 - (NSString*) dataBaseKeyString:(NSString *)accountUserId groupId:(NSString *)groupId
@@ -86,20 +70,14 @@ static WizDbManager* shareDbManager = nil;
     return [NSString stringWithFormat:@"%@%@",accountUserId,groupId];
 }
 
-- (id<WizDbDelegate>) getNewWizDataBase:(NSString *)accountUserId groupId:(NSString *)groupId
+- (id<WizDbDelegate>) getNewWizDataBase:(NSString *)accountUserId 
 {
     if (nil == accountUserId || [accountUserId isBlock])
     {
         return nil;
     }
     NSString* dbPath = nil;
-    if (!(nil == groupId || [accountUserId isBlock])) {
-         dbPath = [[WizFileManager shareManager]dbPathForAccountUserId:accountUserId groupId:groupId];
-    }
-    else
-    {
-        return nil;
-    }
+    dbPath = [[WizFileManager shareManager] dataBasePath:accountUserId];
     id<WizDbDelegate> dataBase = [[WizInfoDataBase alloc] initWithAccountUserId:accountUserId kbGuid:groupId modelName:@"WizDataBaseModel"];
     [self.dbDataDictionary setObject:dataBase forKey:[self dataBaseKeyString:accountUserId groupId:groupId]];
     return [dataBase autorelease];

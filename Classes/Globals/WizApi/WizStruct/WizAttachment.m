@@ -13,7 +13,7 @@
 
 @implementation WizAttachment
 @synthesize type;
-@synthesize dateMd5;
+@synthesize dataMd5;
 @synthesize description;
 @synthesize dateModified;
 @synthesize documentGuid;
@@ -22,7 +22,7 @@
 - (void) dealloc
 {
     [type release];
-    [dateMd5 release];
+    [dataMd5 release];
     [description release];
     [documentGuid release];
     [super dealloc];
@@ -71,9 +71,9 @@
     if (nil == self.description) {
         self.description = @"";
     }
-    self.dateMd5 = [WizGlobals fileMD5:filePath];
+    self.dataMd5 = [WizGlobals fileMD5:filePath];
     [attachment setObject:self.guid forKey:DataTypeUpdateAttachmentGuid];
-    [attachment setObject:self.dateMd5 forKey:DataTypeUpdateAttachmentDataMd5];
+    [attachment setObject:self.dataMd5 forKey:DataTypeUpdateAttachmentDataMd5];
     [attachment setObject:[NSNumber numberWithBool:0] forKey:DataTypeUpdateAttachmentServerChanged];
     [attachment setObject:[NSNumber numberWithBool:1] forKey:DataTypeUpdateAttachmentLocalChanged];
     [attachment setObject:self.title forKey:DataTypeUpdateAttachmentTitle];

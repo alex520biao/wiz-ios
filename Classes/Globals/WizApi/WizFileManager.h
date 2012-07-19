@@ -13,8 +13,6 @@
 +(NSString*) documentsPath;
 + (id) shareManager;
 - (NSString*) accountPath;
-- (NSString*) dbPath;
-- (NSString*) tempDbPath;
 - (NSString*) objectFilePath:(NSString*)objectGuid;
 - (NSString*) documentIndexFile:(NSString*)documentGUID;
 - (NSString*) documentMobileFile:(NSString*)documentGuid;
@@ -38,4 +36,6 @@
 - (NSString*) editingTempDirectory;
 - (BOOL) clearEditingTempDirectory;
 -(BOOL) ensurePathExists:(NSString*)path;
+- (NSString*) dataBasePath:(NSString*)accountUserId;
+- (NSString*) abstractDataBatabasePath:(NSString*)accountUserId;
 @end

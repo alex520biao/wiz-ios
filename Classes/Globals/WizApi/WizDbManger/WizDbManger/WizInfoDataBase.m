@@ -171,9 +171,6 @@
             doc.gpsDescription = [result stringForColumnIndex:22];
             doc.nReadCount = [result intForColumnIndex:23];
             doc.protected_ = [result intForColumnIndex:24];
-            doc.owner = [result stringForColumnIndex:25];
-            doc.accountUserId = self.accountUserId;
-            doc.kbGuid = self.kbGuid;
             [array addObject:doc];
             [doc release];
         }
@@ -282,7 +279,6 @@
     NSString* gpsLevel2 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL2];
     NSString* gpsLevel3 = [doc valueForKey:DataTypeUpdateDocumentGPS_LEVEL3];
     NSString* gpsDescription  = [doc valueForKey:DataTypeUpdateDocumentGPS_DESCRIPTION];
-    NSString* owner = [doc valueForKey:DataTypeUpdateDocumentOwner];
     
     BOOL serverDocument;
     if (!dateCreated) {
@@ -313,13 +309,13 @@
             }
         }
         [self.queue inDatabase:^(FMDatabase *db) {
-            ret =[db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TITLE=?, DOCUMENT_LOCATION=?, DOCUMENT_URL=?, DOCUMENT_TAG_GUIDS=?, DOCUMENT_TYPE=?, DOCUMENT_FILE_TYPE=?, DT_CREATED=?, DT_MODIFIED=?, DOCUMENT_DATA_MD5=?, ATTACHMENT_COUNT=?, SERVER_CHANGED=?, LOCAL_CHANGED=?, GPS_LATITUDE=?, GPS_LONGTITUDE=?, GPS_ALTITUDE=?, GPS_DOP=?, GPS_ADDRESS=?, GPS_COUNTRY=?, GPS_LEVEL1=?, GPS_LEVEL2=?, GPS_LEVEL3=?, GPS_DESCRIPTION=?, READCOUNT=?, PROTECT=?, OWNER=? where DOCUMENT_GUID= ?",title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,owner,guid];
+            ret =[db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TITLE=?, DOCUMENT_LOCATION=?, DOCUMENT_URL=?, DOCUMENT_TAG_GUIDS=?, DOCUMENT_TYPE=?, DOCUMENT_FILE_TYPE=?, DT_CREATED=?, DT_MODIFIED=?, DOCUMENT_DATA_MD5=?, ATTACHMENT_COUNT=?, SERVER_CHANGED=?, LOCAL_CHANGED=?, GPS_LATITUDE=?, GPS_LONGTITUDE=?, GPS_ALTITUDE=?, GPS_DOP=?, GPS_ADDRESS=?, GPS_COUNTRY=?, GPS_LEVEL1=?, GPS_LEVEL2=?, GPS_LEVEL3=?, GPS_DESCRIPTION=?, READCOUNT=?, PROTECT=? where DOCUMENT_GUID= ?",title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,guid];
         }];
     }
     else
     {
         [self.queue inDatabase:^(FMDatabase *db) {
-           ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT, OWNER) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",guid, title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,owner];
+           ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",guid, title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected];
         }];
     
     }

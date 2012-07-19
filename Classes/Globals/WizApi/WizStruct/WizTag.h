@@ -8,6 +8,14 @@
 
 #import "WizObject.h"
 
+#define DataTypeUpdateTagTitle                  @"tag_name"
+#define DataTypeUpdateTagGuid                   @"tag_guid"
+#define DataTypeUpdateTagParentGuid             @"tag_group_guid"
+#define DataTypeUpdateTagDescription            @"tag_description"
+#define DataTypeUpdateTagVersion                @"version"
+#define DataTypeUpdateTagDtInfoModifed          @"dt_info_modified"
+#define DataTypeUpdateTagLocalchanged           @"local_changed"
+
 @interface WizTag : WizObject
 {
 	NSString* parentGUID;

@@ -83,24 +83,30 @@ static WizFileManager* shareManager = nil;
     }
     return YES;
 }
+- (NSString*) accountPathFor:(NSString*)accountUserId
+{
+    NSString* documentPath = [WizFileManager documentsPath];
+    NSString* accountPath = [documentPath stringByAppendingPathComponent:accountUserId];
+    [self ensureFileExists:accountPath];
+    return accountPath;
+}
 - (NSString*) accountPath
 {
-	NSString* documentPath = [WizFileManager documentsPath];
-	NSString* subPathName = [NSString stringWithFormat:@"%@/", [[WizAccountManager defaultManager] activeAccountUserId]];
-	NSString* path = [documentPath stringByAppendingPathComponent:subPathName];
-	[self ensurePathExists:path];
-	return path;
+	return [self accountPathFor:[[WizAccountManager defaultManager] activeAccountUserId]];
 }
-- (NSString*) dbPath
+
+- (NSString*) dataBasePath:(NSString*)accountUserId
 {
-    NSString* accountPath = [self accountPath];
-	return [accountPath stringByAppendingPathComponent:@"index.db"];
+    NSString* accountPath = [self accountPathFor:accountUserId];
+    return [accountPath stringByAppendingPathComponent:@"index.db"];
 }
-- (NSString*) tempDbPath
+
+- (NSString*) abstractDataBatabasePath:(NSString*)accountUserId
 {
-    NSString* accountPath = [self accountPath];
-	return [accountPath stringByAppendingPathComponent:@"temp.db"];
+    NSString* accountPath = [self accountPathFor:accountPath];
+    return [accountPath stringByAppendingPathComponent:@"temp.db"];
 }
+
 - (NSString*) objectFilePath:(NSString*)objectGuid
 {
 	NSString* accountPath = [self accountPath];
