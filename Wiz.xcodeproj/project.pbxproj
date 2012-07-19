@@ -88,7 +88,6 @@
 		734D046315B7E61700361CE0 /* fmdb.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044C15B7E61700361CE0 /* fmdb.m */; };
 		734D046415B7E61700361CE0 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D044E15B7E61700361CE0 /* FMResultSet.m */; };
 		734D046615B7E61700361CE0 /* WizDataBaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045415B7E61700361CE0 /* WizDataBaseBase.m */; };
-		734D046715B7E61700361CE0 /* WizDataBaseV.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045615B7E61700361CE0 /* WizDataBaseV.m */; };
 		734D046815B7E61700361CE0 /* WizDbManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 734D045915B7E61700361CE0 /* WizDbManager.mm */; };
 		734D046915B7E61700361CE0 /* WizInfoDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045B15B7E61700361CE0 /* WizInfoDataBase.m */; };
 		734D046A15B7E61700361CE0 /* WizTempDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D045E15B7E61700361CE0 /* WizTempDataBase.m */; };
@@ -511,8 +510,6 @@
 		734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractDbDelegate.h; sourceTree = "<group>"; };
 		734D045315B7E61700361CE0 /* WizDataBaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBaseBase.h; sourceTree = "<group>"; };
 		734D045415B7E61700361CE0 /* WizDataBaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDataBaseBase.m; sourceTree = "<group>"; };
-		734D045515B7E61700361CE0 /* WizDataBaseV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBaseV.h; sourceTree = "<group>"; };
-		734D045615B7E61700361CE0 /* WizDataBaseV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDataBaseV.m; sourceTree = "<group>"; };
 		734D045715B7E61700361CE0 /* WizDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDbDelegate.h; sourceTree = "<group>"; };
 		734D045815B7E61700361CE0 /* WizDbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDbManager.h; sourceTree = "<group>"; };
 		734D045915B7E61700361CE0 /* WizDbManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WizDbManager.mm; sourceTree = "<group>"; };
@@ -1273,8 +1270,6 @@
 				734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */,
 				734D045315B7E61700361CE0 /* WizDataBaseBase.h */,
 				734D045415B7E61700361CE0 /* WizDataBaseBase.m */,
-				734D045515B7E61700361CE0 /* WizDataBaseV.h */,
-				734D045615B7E61700361CE0 /* WizDataBaseV.m */,
 				734D045715B7E61700361CE0 /* WizDbDelegate.h */,
 				734D045815B7E61700361CE0 /* WizDbManager.h */,
 				734D045915B7E61700361CE0 /* WizDbManager.mm */,
@@ -2644,7 +2639,6 @@
 				734D046315B7E61700361CE0 /* fmdb.m in Sources */,
 				734D046415B7E61700361CE0 /* FMResultSet.m in Sources */,
 				734D046615B7E61700361CE0 /* WizDataBaseBase.m in Sources */,
-				734D046715B7E61700361CE0 /* WizDataBaseV.m in Sources */,
 				734D046815B7E61700361CE0 /* WizDbManager.mm in Sources */,
 				734D046915B7E61700361CE0 /* WizInfoDataBase.m in Sources */,
 				734D046A15B7E61700361CE0 /* WizTempDataBase.m in Sources */,
