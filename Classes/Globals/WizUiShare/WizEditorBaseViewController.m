@@ -21,7 +21,6 @@
 
 #import "WizRecoderProcessView.h"
 
-#import "WizImageEditViewController.h"
 
 #define AudioMaxProcess  40
 
@@ -36,7 +35,15 @@ enum WizEditActionSheetTag {
     };
 typedef NSInteger WizEditActionSheetTag;
 
-@interface WizEditorBaseViewController () <UIWebViewDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate, WizImageEditDelegate>
+enum WizEditNavigationBarItemTag {
+    WizEditNavigationBarItemTagSnapPhoto = 6592,
+    WizEditNavigationBarItemTagSelectPhoto,
+    WizEditNavigationBarItemTagAttachment,
+    WizEditNavigationBarItemTagInfo,
+    WizEditNavigationBarItemTagRecorder
+    };
+typedef NSInteger WizEditNavigationBarItemTag;
+@interface WizEditorBaseViewController () <UIWebViewDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIActionSheetDelegate, UIPopoverControllerDelegate>
 {
     
     AVAudioRecorder *audioRecorder;
@@ -54,12 +61,13 @@ typedef NSInteger WizEditActionSheetTag;
     //
     UIScrollView* backGroudScrollView;
     //
+    UIPopoverController* currentPoperController;
     
 }
 @property (retain) AVAudioRecorder* audioRecorder;
 @property (retain) AVAudioSession* audioSession;
 @property (retain) NSTimer* audioTimer;
-
+@property (nonatomic, retain) UIPopoverController* currentPoperController;
 @end
 
 @implementation WizEditorBaseViewController
@@ -70,8 +78,10 @@ typedef NSInteger WizEditActionSheetTag;
 @synthesize docEdit;
 @synthesize sourceDelegate;
 @synthesize urlRequest;
+@synthesize currentPoperController;
 - (void) dealloc
 {
+    [currentPoperController release];
     //
     [voiceRecognitionView release];
     //
@@ -123,6 +133,7 @@ typedef NSInteger WizEditActionSheetTag;
 
 - (void) buildRecoderProcessView
 {
+    
     recorderProcessView = [[UIView alloc]init];
     recorderProcessView.backgroundColor = [UIColor brownColor];
     recorderProcessLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 35)];
@@ -147,7 +158,7 @@ typedef NSInteger WizEditActionSheetTag;
 
 - (void) resizeBackgrouScrollViewStartY:(CGFloat)startY height:(CGFloat)height
 {
-    NSLog(@"startY is %f",startY);
+    NSLog(@"startY is %f %f %f \n viewFrame is %f %f",startY,self.view.frame.size.width, height, self.view.frame.size.width,self.view.frame.size.height);
     backGroudScrollView.frame = CGRectMake(0.0, startY, self.view.frame.size.width, height);
 }
 
@@ -195,34 +206,18 @@ typedef NSInteger WizEditActionSheetTag;
     return self;
 }
 
-- (void) willDeleteImagePhone:(NSString*)sourcePath
-{
-    WizImageEditViewController* imageEditor = [[WizImageEditViewController alloc] init];
-    imageEditor.sourcePath = sourcePath;
-    imageEditor.editDelegate = self;
-    [self.navigationController pushViewController:imageEditor animated:YES];
-    [imageEditor release];
-}
-- (void) editorImageDone
+- (void) deleteWebInsideImage
 {
     [editorWebView deleteImage];
 }
 
-- (void) willDeleteImagePad:(NSString*)sourcePath
+- (void) fixWebInsideImage:(NSString*)filePath
 {
-    
+    UIActionSheet* action = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Remove Image", nil) delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:NSLocalizedString(@"Remove Image", nil) otherButtonTitles:nil];
+    action.tag =  WizEditActionTagFixImage;
+    [action showInView:self.view];
+    [action release];
 }
-- (void) willDeleteImage:(NSString*)sourcePath
-{
-    if ([WizGlobals WizDeviceIsPad]) {
-        
-    }
-    else
-    {
-        [self willDeleteImagePhone:sourcePath];
-    }
-}
-
 
 + (NSString*)editingFilePath
 {
@@ -414,6 +409,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 
 - (void) saveDocument
 {
+    [self dismissPoperController];
     [autoSaveTimer invalidate];
     [self prepareForSave];
     [self saveToLocal];
@@ -447,10 +443,50 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self.navigationController presentModalViewController:pick animated:YES];
 }
 
+- (void) doSelectPhotoPad
+{
+    UIImagePickerController* pick = [self selectPhoto:self];
+    self.currentPoperController = [[[UIPopoverController alloc] initWithContentViewController:pick] autorelease];
+    UIBarButtonItem* selectPhotoItem=[self.navigationItem.rightBarButtonItems objectAtIndex:0];
+    for (UIBarButtonItem* each in self.navigationItem.rightBarButtonItems) {
+        if (each.tag == WizEditNavigationBarItemTagSelectPhoto) {
+            selectPhotoItem = each;
+            break;
+        }
+    }
+    [currentPoperController presentPopoverFromBarButtonItem:selectPhotoItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void) doSelectPhoto
+{
+    if ([WizGlobals WizDeviceIsPad]) {
+        [self doSelectPhotoPad];
+    }
+    else
+    {
+        [self doSelectPhotoPhone];
+        
+    }
+}
+
 - (void) doRecorderPhone
 {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    recorderProcessView.frame = CGRectMake(0.0 , 0.0, 320, 40);
+    recorderProcessView.frame = CGRectMake(0.0 , 0.0, self.view.frame.size.width, 40);
+    
+    for (UIView* each in [recorderProcessView subviews]) {
+        if ([each isKindOfClass:[UIButton class]]) {
+            each.frame = CGRectMake(recorderProcessView.frame.size.width-80, 0.0, 80, 40);
+        }
+        else if ([each isKindOfClass:[UILabel class]]) {
+            each.frame = CGRectMake(0.0, 0.0, 80, 40);
+        }
+        else if ([each isKindOfClass:[WizRecoderProcessView class]])
+        {
+            each.frame = CGRectMake(80, 0.0, recorderProcessView.frame.size.width-160, 40);
+        }
+    }
+    
     [self.view addSubview:recorderProcessView];
     [self resizeBackgrouScrollViewStartY:40 height:backGroudScrollView.frame.size.height];
     [self startRecord];
@@ -465,26 +501,37 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) buildPhoneNavigationTools
 {
     UIBarButtonItem* snap = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"attachTakePhotoPad"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doSnapPhotoPhone)];
+    snap.tag = WizEditNavigationBarItemTagSnapPhoto;
     
-    UIBarButtonItem* select = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"attachSelectPhotoPad"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doSelectPhotoPhone)];
+    UIBarButtonItem* select = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"attachSelectPhotoPad"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doSelectPhoto)];
+    select.tag = WizEditNavigationBarItemTagSelectPhoto;
+    
     UIBarButtonItem* recoder = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"attachRecorderPad"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doRecorderPhone)];
+    recoder.tag = WizEditNavigationBarItemTagRecorder;
     
     UIBarButtonItem* info = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"detail_gray"] hightImage:[UIImage imageNamed:@"edit"] target:self action:@selector(doSetDocumentInfo)];
+    info.tag = WizEditNavigationBarItemTagInfo;
     
     UIBarButtonItem* attachments = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"newNoteAttach_gray"] hightImage:[UIImage imageNamed:@"newNoteAttach_gray"] target:self action:@selector(checkAttachment)];
-   
+    attachments.tag = WizEditNavigationBarItemTagAttachment;
+    
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     NSMutableArray* tools = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
     [tools addObject:flex];
     [tools addObject:info];
     [tools addObject:flex];
-    [tools addObject:snap];
-    [tools addObject:flex];
+    if ([self canSnapPhotos]) {
+        [tools addObject:snap];
+        [tools addObject:flex];
+    }
+   
     [tools addObject:select];
     [tools addObject:flex];
-    [tools addObject:recoder];
-    [tools addObject:flex];
+    if ([self canRecord]) {
+        [tools addObject:recoder];
+        [tools addObject:flex];
+    }
     [tools addObject:attachments];
     [tools addObject:flex];
     self.navigationItem.rightBarButtonItems = tools;
@@ -705,24 +752,45 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 }
 - (void) actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    
-    if (buttonIndex == 1) {
-        return;
-    }
-    else if (buttonIndex == 0)
-    {
-        if (autoSaveTimer) {
-            [autoSaveTimer invalidate];
+    if (actionSheet.tag == WizEditActionTagFixImage) {
+        switch (buttonIndex) {
+            case 0:
+                [self deleteWebInsideImage];
+                return;
+            default:
+                return;
         }
-        [self clearEditorEnviromentLessThan5];
-        [self postSelectedMessageToPicker];
-        [self.navigationController dismissModalViewControllerAnimated:YES];
-        
-        NSLog(@"self retain count is %d",[self retainCount]);
+    }
+    else
+    {
+        if (buttonIndex == 1) {
+            return;
+        }
+        else if (buttonIndex == 0)
+        {
+            if (autoSaveTimer) {
+                [autoSaveTimer invalidate];
+            }
+            [self clearEditorEnviromentLessThan5];
+            [self postSelectedMessageToPicker];
+            [self.navigationController dismissModalViewControllerAnimated:YES];
+            
+            NSLog(@"self retain count is %d",[self retainCount]);
+        }
+    }
+    
+}
+
+- (void) dismissPoperController
+{
+    if (currentPoperController) {
+        [currentPoperController dismissPopoverAnimated:YES];
     }
 }
+
 - (void) cancelSaveDocument
 {
+    [self dismissPoperController];
     [self stopRecord];
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     actionSheet.tag = WizEditActionSheetTagCancelSave;

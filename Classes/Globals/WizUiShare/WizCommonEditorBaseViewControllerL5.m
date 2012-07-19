@@ -119,7 +119,7 @@
             NSInteger indexOfFileBom = [content indexOf:fileBom];
             if (NSNotFound != indexOfFileBom) {
                 NSString* path = [content substringFromIndex:indexOfFileBom+fileBom.length];
-                [self willDeleteImage:path];
+                [self fixWebInsideImage:path];
                 self.currentDeleteImagePath = path;
             }
             else
@@ -140,11 +140,11 @@
 }
 - (void) showEditor:(NSNotification*)nc
 {
-    CGRect kbRect = [[[nc userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect kbRect = [[[nc userInfo] objectForKey:UIKeyboardBoundsUserInfoKey] CGRectValue];
     [self.view addSubview:textView];
 
     if (![titleTextField isFirstResponder]) {
-        additionView.frame = CGRectMake(kbRect.size.width-80 , self.view.frame.size.height - kbRect.size.height-80, 80, 40);
+        additionView.frame = CGRectMake(self.view.frame.size.width-80 , self.view.frame.size.height - kbRect.size.height-80, 80, 40);
         textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, kbRect.size.width, 44);
         [self.view bringSubviewToFront:textView];
         firstResponserInputView = textView;

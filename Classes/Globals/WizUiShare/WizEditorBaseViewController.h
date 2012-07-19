@@ -10,6 +10,9 @@
 #import "UIWebView+WizEditor.h"
 #import "VoiceRecognition.h"
 #import "WizEditorCheckAttachmentViewController.h"
+
+#define WizEditActionTagFixImage  4000
+
 @class WizDocument;
 @protocol WizEditorSourceDelegate <NSObject>
 - (NSString*) editorSourcePath:(NSString*)path;
@@ -72,4 +75,6 @@
 - (void) resizeBackgrouScrollViewStartY:(CGFloat)startY height:(CGFloat)height;
 - (void) prepareForSave;
 - (void) checkAttachment;
+//
+- (void) fixWebInsideImage:(NSString*)filePath;
 @end

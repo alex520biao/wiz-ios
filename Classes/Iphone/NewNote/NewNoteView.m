@@ -100,7 +100,8 @@
         
         NSString* modelFile = [WizEditorBaseViewController editingDocumentModelFilePath];
         NSDictionary* dic = [self.docEdit getModelDictionary];
-        if (![dic writeToFile:modelFile atomically:YES]) {
+        if (![dic writeToFile:modelFile atomically:YES])
+        {
             NSLog(@"write model error");
         }
         NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
