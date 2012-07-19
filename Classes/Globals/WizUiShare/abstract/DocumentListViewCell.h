@@ -21,5 +21,4 @@ extern int CELLHEIGHTWITHOUTABSTRACT;
 @property (atomic, retain) WizAbstract* abstractData;
 @property (atomic, retain) WizDocument* doc;
 @property (atomic, assign) BOOL showDownloadIndicator;
-- (void) prepareForAppear;
 @end

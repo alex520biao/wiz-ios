@@ -127,11 +127,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-    NSArray* array = [self.tableView visibleCells];
-    for (DocumentListViewCell* each in array) {
-        [each prepareForAppear];
-    }
 }
 - (void) viewDidDisappear:(BOOL)animated
 {
@@ -146,7 +141,7 @@
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     for (DocumentListViewCell* each in [self.tableView visibleCells]) {
-        [each prepareForAppear];
+        [each setNeedsDisplay];
     }
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -179,7 +174,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
-    [docCell prepareForAppear];
+    [docCell setNeedsDisplay];
 }
 -(UIView*) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {

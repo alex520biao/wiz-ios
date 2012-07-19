@@ -13,6 +13,7 @@
 @interface WizDbManager : NSObject
 + (id) shareDbManager;
 - (id<WizDbDelegate>) shareDataBase;
+- (id<WizAbstractDbDelegate>) shareAbstractDataBase;
 - (id<WizDbDelegate>) getWizDataBase:(NSString*)accountUserId;
 - (id<WizAbstractDbDelegate>) getWizTempDataBase:(NSString*)accountUserId;
 - (id<WizSettingsDbDelegate>) getWizSettingsDataBase;

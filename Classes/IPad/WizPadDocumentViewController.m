@@ -827,7 +827,6 @@
     if ([[WizSyncManager shareManager] isDownloadingWizobject:doc]) {
         [cell setShowDownloadIndicator:YES];
     }
-    [cell performSelectorOnMainThread:@selector(prepareForAppear) withObject:nil waitUntilDone:YES];
     return cell;
 }
 - (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

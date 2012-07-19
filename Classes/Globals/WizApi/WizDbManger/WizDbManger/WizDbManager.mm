@@ -111,6 +111,10 @@ static WizDbManager* shareDbManager = nil;
     }
     return dataBase;
 }
+- (id<WizAbstractDbDelegate>) shareAbstractDataBase
+{
+    return [self getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
+}
 
 - (id<WizAbstractDbDelegate>) getWizTempDataBase:(NSString*)accountUserId
 {
