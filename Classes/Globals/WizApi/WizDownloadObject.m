@@ -115,10 +115,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
         WizDocument* document = (WizDocument*)self.object;
         document.serverChanged = NO;
         [document saveInfo];
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            id<WizAbstractDbDelegate> abstraceDatabase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-            [abstraceDatabase extractSummary:self.object.guid kbGuid:self.kbguid];
-        });
         
     }
     else if ([self.object isKindOfClass:[WizAttachment class]])

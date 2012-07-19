@@ -176,6 +176,11 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
         WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+        if (self.doc.serverChanged ==0 && !abstract) {
+            id<WizAbstractDbDelegate> abstraceDatabase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+            [abstraceDatabase extractSummary:self.doc.guid kbGuid:@""];
+            abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             if (abstract) {
                 detailLabel.text = abstract.text;

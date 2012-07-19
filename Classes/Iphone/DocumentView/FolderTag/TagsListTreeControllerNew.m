@@ -138,12 +138,16 @@
 
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[WizTag fileCountOfTag:cell.treeNode.locationKey]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-                cell.detailTextLabel.text = count;
-        });
-    });
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSInteger fileNumber = [WizTag fileCountOfTag:cell.treeNode.locationKey];
+//        dispatch_async(dispatch_get_main_queue(), ^
+//        {
+            NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),fileNumber];
+            NSLog(@"count is %@",count);
+            cell.detailTextLabel.text = count;
+            NSLog(@"cell detailTextLabel is %@",cell.detailTextLabel.text);
+//        });
+//    });
 
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeTag"];
