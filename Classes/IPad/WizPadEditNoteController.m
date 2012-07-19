@@ -20,6 +20,7 @@
 #import "WizNotification.h"
 #import "WizDbManager.h"
 #import "WizDocument.h"
+#import "WizEditorBaseViewController.h"
 
 #define titleInputTextFieldFrame CGRectMake(0.0,0.0,768,44)
 #define folderLabelFrame CGRectMake(0.0, 45, 768, 44)
@@ -281,17 +282,40 @@
         [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
+- (void) autoSaveDocument
+{
+    if (self.docEdit) {
+        NSString* body = [bodyInputTextView.text toHtml];
+        NSString* title = titleInputTextField.text;
+        self.docEdit.title = title;
+        self.docEdit.localChanged = WizEditDocumentTypeAllChanged;
+        
+        NSString* modelFile = [WizEditorBaseViewController editingDocumentModelFilePath];
+        NSDictionary* dic = [self.docEdit getModelDictionary];
+        if (![dic writeToFile:modelFile atomically:YES])
+        {
+            NSLog(@"write model error");
+        }
+        NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
+        NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
+        NSError* error = nil;
+        if (![html writeToFile:indexFilePath useUtf8Bom:YES error:&error]) {
+            NSLog(@"error %@",error);
+        }
+    }
+}
 
 - (void) cancelSave
 {
+    [self stopAutoSaveDocument];
     [self audioStopRecord];
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
     [actionSheet release];
 }
-
 - (void) saveDocument
 {
+    [self stopAutoSaveDocument];
     [self audioStopRecord];
     self.docEdit.title = titleInputTextField.text;
     [self.docEdit saveWithData:bodyInputTextView.text attachments:self.attachmentsArray];

@@ -97,7 +97,7 @@
 		737B530E151EEA1200CE3656 /* WizIphoneLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737B530C151EEA1200CE3656 /* WizIphoneLoginViewController.m */; };
 		737B5311151EED5800CE3656 /* WizIphoneLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 737B5313151EED5800CE3656 /* WizIphoneLoginViewController.xib */; };
 		737B5318151EFF0900CE3656 /* WizPadLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 737B5319151EFF0900CE3656 /* WizPadLoginViewController.xib */; };
-		737F5CFF15ABD464004D378C /* WizPadEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 737F5CFE15ABD464004D378C /* WizPadEditViewController.m */; };
+		737F5CFF15ABD464004D378C /* WizPadEditViewControllerL5.m in Sources */ = {isa = PBXBuildFile; fileRef = 737F5CFE15ABD464004D378C /* WizPadEditViewControllerL5.m */; };
 		7380F16A15076FAB00668DA8 /* WizCheckAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F16815076FAB00668DA8 /* WizCheckAttachment.m */; };
 		7380F7E4156B4F8800BC59F2 /* CatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F7E3156B4F8800BC59F2 /* CatelogView.m */; };
 		7380F7E7156B500400BC59F2 /* CatelogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7380F7E6156B500400BC59F2 /* CatelogCell.m */; };
@@ -156,7 +156,7 @@
 		73A7859A14F8CC23001387F6 /* WizPadListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A914F8CC22001387F6 /* WizPadListCell.m */; };
 		73A7859B14F8CC23001387F6 /* WizPadListTableControllerBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A784AB14F8CC22001387F6 /* WizPadListTableControllerBase.mm */; };
 		73A7859C14F8CC23001387F6 /* WizPadLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */; };
-		73A7859E14F8CC23001387F6 /* WizPadMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B014F8CC22001387F6 /* WizPadMainViewController.m */; };
+		73A7859E14F8CC23001387F6 /* WizPadEditViewControllerL5.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */; };
 		73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */; };
 		73A785A014F8CC23001387F6 /* WizPadRegisterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B414F8CC22001387F6 /* WizPadRegisterController.m */; };
 		73A785A114F8CC23001387F6 /* WizSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B614F8CC22001387F6 /* WizSearchViewController.m */; };
@@ -521,8 +521,8 @@
 		737B530C151EEA1200CE3656 /* WizIphoneLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizIphoneLoginViewController.m; sourceTree = "<group>"; };
 		737B5312151EED5800CE3656 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WizIphoneLoginViewController.xib; sourceTree = "<group>"; };
 		737B5319151EFF0900CE3656 /* WizPadLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WizPadLoginViewController.xib; sourceTree = "<group>"; };
-		737F5CFD15ABD464004D378C /* WizPadEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditViewController.h; sourceTree = "<group>"; };
-		737F5CFE15ABD464004D378C /* WizPadEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditViewController.m; sourceTree = "<group>"; };
+		737F5CFD15ABD464004D378C /* WizPadEditViewControllerL5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditViewControllerL5.h; sourceTree = "<group>"; };
+		737F5CFE15ABD464004D378C /* WizPadEditViewControllerL5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditViewControllerL5.m; sourceTree = "<group>"; };
 		7380F16715076FAB00668DA8 /* WizCheckAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCheckAttachment.h; sourceTree = "<group>"; };
 		7380F16815076FAB00668DA8 /* WizCheckAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCheckAttachment.m; sourceTree = "<group>"; };
 		7380F7E2156B4F8700BC59F2 /* CatelogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatelogView.h; sourceTree = "<group>"; };
@@ -645,7 +645,7 @@
 		73A784AC14F8CC22001387F6 /* WizPadLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadLoginViewController.h; sourceTree = "<group>"; };
 		73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadLoginViewController.m; sourceTree = "<group>"; };
 		73A784AF14F8CC22001387F6 /* WizPadMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadMainViewController.h; sourceTree = "<group>"; };
-		73A784B014F8CC22001387F6 /* WizPadMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadMainViewController.m; sourceTree = "<group>"; };
+		73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditViewControllerL5.m; sourceTree = "<group>"; };
 		73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WizPadMainViewController.xib; sourceTree = "<group>"; };
 		73A784B214F8CC22001387F6 /* WizPadNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadNotificationMessage.h; sourceTree = "<group>"; };
 		73A784B314F8CC22001387F6 /* WizPadRegisterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadRegisterController.h; sourceTree = "<group>"; };
@@ -1173,8 +1173,8 @@
 				731E2B2515A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m */,
 				7373070E15AACBC5007CBDB7 /* WizPhoneEditorViewControllerL5.h */,
 				7373070F15AACBC6007CBDB7 /* WizPhoneEditorViewControllerL5.m */,
-				737F5CFD15ABD464004D378C /* WizPadEditViewController.h */,
-				737F5CFE15ABD464004D378C /* WizPadEditViewController.m */,
+				737F5CFD15ABD464004D378C /* WizPadEditViewControllerL5.h */,
+				737F5CFE15ABD464004D378C /* WizPadEditViewControllerL5.m */,
 			);
 			name = CommonEditorL5;
 			sourceTree = "<group>";
@@ -1600,7 +1600,7 @@
 				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
 				738637A815173643006A9E16 /* Accounts */,
 				73A784AF14F8CC22001387F6 /* WizPadMainViewController.h */,
-				73A784B014F8CC22001387F6 /* WizPadMainViewController.m */,
+				73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */,
 				73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */,
 				73A784B214F8CC22001387F6 /* WizPadNotificationMessage.h */,
 				73A784B514F8CC22001387F6 /* WizSearchViewController.h */,
@@ -2471,7 +2471,7 @@
 				73A7859A14F8CC23001387F6 /* WizPadListCell.m in Sources */,
 				73A7859B14F8CC23001387F6 /* WizPadListTableControllerBase.mm in Sources */,
 				73A7859C14F8CC23001387F6 /* WizPadLoginViewController.m in Sources */,
-				73A7859E14F8CC23001387F6 /* WizPadMainViewController.m in Sources */,
+				73A7859E14F8CC23001387F6 /* WizPadEditViewControllerL5.m in Sources */,
 				73A785A014F8CC23001387F6 /* WizPadRegisterController.m in Sources */,
 				73A785A114F8CC23001387F6 /* WizSearchViewController.m in Sources */,
 				73A785A414F8CC23001387F6 /* PullRefreshTableViewController.m in Sources */,
@@ -2591,7 +2591,7 @@
 				735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */,
 				731E2B2615A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m in Sources */,
 				7373071015AACBC6007CBDB7 /* WizPhoneEditorViewControllerL5.m in Sources */,
-				737F5CFF15ABD464004D378C /* WizPadEditViewController.m in Sources */,
+				737F5CFF15ABD464004D378C /* WizPadEditViewControllerL5.m in Sources */,
 				73B21E8915AC169F00B1C4B5 /* WizCommonEditorViewControllerM5.m in Sources */,
 				730013B315AC39A60005D4BE /* WizRecoderProcessView.m in Sources */,
 				73AC069815AFF612008E6402 /* WizEditorHTMLMutableArray.m in Sources */,

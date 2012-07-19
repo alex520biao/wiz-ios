@@ -1,18 +1,18 @@
 //
-//  WizPadEditViewController.m
+//  WizPadEditViewControllerL5.m
 //  Wiz
 //
 //  Created by wiz on 12-7-10.
 //
 //
 
-#import "WizPadEditViewController.h"
+#import "WizPadEditViewControllerL5.h"
 
-@interface WizPadEditViewController ()
+@interface WizPadEditViewControllerL5 ()
 
 @end
 
-@implementation WizPadEditViewController
+@implementation WizPadEditViewControllerL5
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

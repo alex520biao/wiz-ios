@@ -28,7 +28,7 @@
 #import "WizSettings.h"
 #import "ATMHud.h"
 #import "WizFileManager.h"
-#import "WizPadEditViewController.h"
+#import "WizPadEditViewControllerL5.h"
 
 
 #define EditTag 1000
@@ -486,7 +486,7 @@
 - (void) onEditCurrentDocument
 {
     
-    WizPadEditViewController* newNote = [[WizPadEditViewController alloc] initWithWizDocument:self.selectedDocument];
+    WizPadEditViewControllerL5* newNote = [[WizPadEditViewControllerL5 alloc] initWithWizDocument:self.selectedDocument];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);

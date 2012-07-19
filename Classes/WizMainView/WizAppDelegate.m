@@ -26,7 +26,7 @@
 #import "WizSettings.h"
 #import "WizPhoneEditorViewControllerL5.h"
 #import "WizPhoneEditViewControllerM5.h"
-
+#import "WizPadEditViewControllerL5.h"
 
 #define WizAbs(x) x>0?x:-x
 @interface WizAppDelegate()
@@ -51,21 +51,15 @@
 - (void) tryResumeLastEdition
 {
     if (![WizGlobals checkLastEditingSaved]) {
-        
+        WizEditorBaseViewController* edit = nil;
         if ([WizGlobals WizDeviceVersion]  < 5) {
             if ([WizGlobals WizDeviceIsPad]) {
-                
+                edit = [[WizPadEditViewControllerL5 alloc] init];
             }
             else
             {
-                WizPhoneEditorViewControllerL5* edit = [[WizPhoneEditorViewControllerL5 alloc] init];
-                [edit resumeLastEditong];
-                UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
-                [edit release];
-                [self.window.rootViewController presentModalViewController:nav animated:YES];
-                [nav release];
+                edit = [[WizPhoneEditorViewControllerL5 alloc] init];
             }
-            NSLog(@"wiznote version is %lld",[[WizGlobals wizNoteVersion] longLongValue]);
         }
         else
         {
@@ -74,14 +68,17 @@
             }
             else
             {
-                WizPhoneEditViewControllerM5* edit = [[WizPhoneEditViewControllerM5 alloc] init];
-                [edit resumeLastEditong];
-                UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
-                [edit release];
-                [self.window.rootViewController presentModalViewController:nav animated:YES];
-                [nav release];
+                 edit = [[WizPhoneEditViewControllerM5 alloc] init];
+                
             }
         }
+        
+        //
+        [edit resumeLastEditong];
+        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
+        [edit release];
+        [self.window.rootViewController presentModalViewController:nav animated:YES];
+        [nav release];
     }
 }
 

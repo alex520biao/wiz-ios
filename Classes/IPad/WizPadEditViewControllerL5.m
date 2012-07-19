@@ -21,7 +21,7 @@
 #import "WizPadTagsViewController.h"
 #import "WizFileManager.h"
 
-#import "WizPadEditViewController.h"
+#import "WizPadEditViewControllerL5.h"
 #define LanscapeTableViewFrame     CGRectMake(0.0, 0.0, 768, 960)
 
 @interface WizPadMainViewController ()
