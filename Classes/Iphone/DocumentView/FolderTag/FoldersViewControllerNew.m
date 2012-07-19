@@ -97,7 +97,7 @@
 
 -(void) reloadAllData
 {
-    NSArray* wizDocumentLoationTemp = [[WizDbManager shareDbManager] allLocationsForTree];
+    NSArray* wizDocumentLoationTemp = [[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree];
     NSMutableArray *wizDocumentLocations =[wizDocumentLoationTemp mutableCopy];
     tree = [[LocationTreeNode alloc]init];
     tree.deep = 0;

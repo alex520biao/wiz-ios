@@ -57,8 +57,11 @@ static WizFileManager* shareManager = nil;
 
 +(NSString*) documentsPath
 {
-	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString* documentDirectory = [paths objectAtIndex:0];
+    static NSString* documentDirectory= nil;
+    if (nil == documentDirectory) {
+        NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        documentDirectory = [[paths objectAtIndex:0] retain];
+    }
 	return documentDirectory;
 }
 
@@ -87,7 +90,7 @@ static WizFileManager* shareManager = nil;
 {
     NSString* documentPath = [WizFileManager documentsPath];
     NSString* accountPath = [documentPath stringByAppendingPathComponent:accountUserId];
-    [self ensureFileExists:accountPath];
+    [self ensurePathExists:accountPath];
     return accountPath;
 }
 - (NSString*) accountPath
@@ -103,7 +106,7 @@ static WizFileManager* shareManager = nil;
 
 - (NSString*) abstractDataBatabasePath:(NSString*)accountUserId
 {
-    NSString* accountPath = [self accountPathFor:accountPath];
+    NSString* accountPath = [WizFileManager documentsPath];
     return [accountPath stringByAppendingPathComponent:@"temp.db"];
 }
 

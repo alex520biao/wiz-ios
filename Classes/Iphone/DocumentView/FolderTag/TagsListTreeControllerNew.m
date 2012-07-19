@@ -59,7 +59,7 @@
 
 - (void) reloadAllData
 {
-    NSArray* tagArray = [[WizDbManager shareDbManager] allTagsForTree];
+    NSArray* tagArray = [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
     tree = [[LocationTreeNode alloc]init] ;
     tree.deep = 0;
     tree.title = @"/";
@@ -138,7 +138,13 @@
 
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
-    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[WizTag fileCountOfTag:cell.treeNode.locationKey]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),[WizTag fileCountOfTag:cell.treeNode.locationKey]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+                cell.detailTextLabel.text = count;
+        });
+    });
+
     if (![cell.treeNode hasChildren]) {
         cell.imageView.image = [UIImage imageNamed:@"treeTag"];
     }

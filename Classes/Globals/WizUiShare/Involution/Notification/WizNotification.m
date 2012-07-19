@@ -27,13 +27,15 @@
 }
 + (void) postMessageWithName:(NSString*)messageName userInfoObject:(id)infoObject userInfoKey:(NSString*)infoKey
 {
-    NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
-    if (infoKey == nil || infoObject == nil) {
-        [nc  postNotificationName:messageName object:nil userInfo:nil];
-    }
-    else {
-        [nc postNotificationName:messageName object:nil userInfo:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey]];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSNotificationCenter* nc = [[WizGlobalData sharedData] wizNotificationCenter];
+        if (infoKey == nil || infoObject == nil) {
+            [nc  postNotificationName:messageName object:nil userInfo:nil];
+        }
+        else {
+            [nc postNotificationName:messageName object:nil userInfo:[NSDictionary dictionaryWithObject:infoObject forKey:infoKey]];
+        }
+    });
 }
 + (void) postSimpleMessageWithName:(NSString*)messageName
 {

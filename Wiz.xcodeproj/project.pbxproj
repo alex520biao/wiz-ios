@@ -31,6 +31,9 @@
 		730B2F1E14F78B8700707A07 /* loginBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1A14F78B8700707A07 /* loginBackgroud.png */; };
 		730B2F1F14F78B8700707A07 /* loginBackgroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 730B2F1C14F78B8700707A07 /* loginBackgroud@2x.png */; };
 		730C4C3C156A4E0700A9E7C8 /* iphoneRead.js in Resources */ = {isa = PBXBuildFile; fileRef = 730C4C3A156A4C5200A9E7C8 /* iphoneRead.js */; };
+		730E698A15B7FD4E00F1B026 /* WizAbstractDataBaseModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 730E698715B7FD4E00F1B026 /* WizAbstractDataBaseModel.plist */; };
+		730E698B15B7FD4E00F1B026 /* WizDataBaseModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 730E698815B7FD4E00F1B026 /* WizDataBaseModel.plist */; };
+		730E698C15B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist in Resources */ = {isa = PBXBuildFile; fileRef = 730E698915B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist */; };
 		730F50FA15623827006E9697 /* WizEditCheckAttachmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 730F50F915623827006E9697 /* WizEditCheckAttachmentViewController.m */; };
 		7311201E14F9026F00193E64 /* detail_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311201614F9026F00193E64 /* detail_gray.png */; };
 		7311201F14F9026F00193E64 /* detail_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311201714F9026F00193E64 /* detail_gray@2x.png */; };
@@ -419,6 +422,9 @@
 		730B2F3214F7920400707A07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/loginBackgroud.png"; sourceTree = "<group>"; };
 		730B2F3314F7920900707A07 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/loginBackgroud@2x.png"; sourceTree = "<group>"; };
 		730C4C3A156A4C5200A9E7C8 /* iphoneRead.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = iphoneRead.js; sourceTree = "<group>"; };
+		730E698715B7FD4E00F1B026 /* WizAbstractDataBaseModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WizAbstractDataBaseModel.plist; sourceTree = "<group>"; };
+		730E698815B7FD4E00F1B026 /* WizDataBaseModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WizDataBaseModel.plist; sourceTree = "<group>"; };
+		730E698915B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WizSettingsDataBaseModel.plist; sourceTree = "<group>"; };
 		730F50F815623827006E9697 /* WizEditCheckAttachmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditCheckAttachmentViewController.h; sourceTree = "<group>"; };
 		730F50F915623827006E9697 /* WizEditCheckAttachmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditCheckAttachmentViewController.m; sourceTree = "<group>"; };
 		7311201614F9026F00193E64 /* detail_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_gray.png; sourceTree = "<group>"; };
@@ -1142,6 +1148,16 @@
 			path = ../WizUiShare;
 			sourceTree = "<group>";
 		};
+		730E698515B7FD2F00F1B026 /* DataBaseModel */ = {
+			isa = PBXGroup;
+			children = (
+				730E698715B7FD4E00F1B026 /* WizAbstractDataBaseModel.plist */,
+				730E698815B7FD4E00F1B026 /* WizDataBaseModel.plist */,
+				730E698915B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist */,
+			);
+			name = DataBaseModel;
+			sourceTree = "<group>";
+		};
 		7316C0BA15748337000926E9 /* MT */ = {
 			isa = PBXGroup;
 			children = (
@@ -1266,6 +1282,7 @@
 		734D044F15B7E61700361CE0 /* WizDbManger */ = {
 			isa = PBXGroup;
 			children = (
+				730E698515B7FD2F00F1B026 /* DataBaseModel */,
 				734D044315B7E61600361CE0 /* FMDB */,
 				734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */,
 				734D047E15B7EECB00361CE0 /* WizSettingsDataBase.h */,
@@ -2468,6 +2485,9 @@
 				7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */,
 				739C193D15A29BF900EA0BCB /* editModel.html in Resources */,
 				7373070C15AABBA5007CBDB7 /* errorModel.html in Resources */,
+				730E698A15B7FD4E00F1B026 /* WizAbstractDataBaseModel.plist in Resources */,
+				730E698B15B7FD4E00F1B026 /* WizDataBaseModel.plist in Resources */,
+				730E698C15B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
