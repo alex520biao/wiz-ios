@@ -23,7 +23,6 @@
 		4495D52314BAB5C00045F1EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */; };
 		4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4497AA7114B1971D002A2E4A /* CoreText.framework */; };
 		4A4F0D141542F02200767434 /* WizObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D131542F02200767434 /* WizObject.m */; };
-		4A4F0D1D1542F35A00767434 /* WizDbManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D1C1542F35A00767434 /* WizDbManager.mm */; };
 		4A4F0D261542FEAB00767434 /* WizFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F0D251542FEAB00767434 /* WizFileManager.m */; };
 		4ADA02901536B9AD005F0ED8 /* WizAbstractCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA028F1536B9AD005F0ED8 /* WizAbstractCache.m */; };
 		730013B315AC39A60005D4BE /* WizRecoderProcessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 730013B215AC39A60005D4BE /* WizRecoderProcessView.m */; };
@@ -135,10 +134,6 @@
 		73A42964157388AE00479A42 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42959157388AE00479A42 /* SBJsonParser.m */; };
 		73A42965157388AE00479A42 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295B157388AE00479A42 /* SBJsonWriter.m */; };
 		73A42966157388AE00479A42 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295E157388AE00479A42 /* Reachability.m */; };
-		73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */; };
-		73A7855814F8CC23001387F6 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841C14F8CC22001387F6 /* index.cpp */; };
-		73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7841E14F8CC22001387F6 /* tempIndex.cpp */; };
-		73A7855A14F8CC23001387F6 /* WizMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842014F8CC22001387F6 /* WizMisc.cpp */; };
 		73A7855B14F8CC23001387F6 /* WizApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842414F8CC22001387F6 /* WizApi.m */; };
 		73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842614F8CC22001387F6 /* WizCreateAccount.m */; };
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
@@ -409,8 +404,6 @@
 		4497AA7114B1971D002A2E4A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4A4F0D121542F02200767434 /* WizObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizObject.h; path = WizStruct/WizObject.h; sourceTree = "<group>"; };
 		4A4F0D131542F02200767434 /* WizObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizObject.m; path = WizStruct/WizObject.m; sourceTree = "<group>"; };
-		4A4F0D1B1542F35900767434 /* WizDbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDbManager.h; path = WizDbManger/WizDbManager.h; sourceTree = "<group>"; };
-		4A4F0D1C1542F35A00767434 /* WizDbManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = WizDbManager.mm; path = WizDbManger/WizDbManager.mm; sourceTree = "<group>"; };
 		4A4F0D241542FEAB00767434 /* WizFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizFileManager.h; sourceTree = "<group>"; };
 		4A4F0D251542FEAB00767434 /* WizFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizFileManager.m; sourceTree = "<group>"; };
 		4ADA028E1536B9AD005F0ED8 /* WizAbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractCache.h; sourceTree = "<group>"; };
@@ -466,7 +459,6 @@
 		7321310D15454AD70077F77E /* WizSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSettings.m; sourceTree = "<group>"; };
 		7321310F15454BD50077F77E /* WizAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstract.h; path = WizStruct/WizAbstract.h; sourceTree = "<group>"; };
 		7321311015454BD50077F77E /* WizAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAbstract.m; path = WizStruct/WizAbstract.m; sourceTree = "<group>"; };
-		73213113154572100077F77E /* WizSettingsDbDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizSettingsDbDelegate.h; path = WizDbManger/WizSettingsDbDelegate.h; sourceTree = "<group>"; };
 		732951621548F8FC00FA4FAA /* PhRecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhRecentViewController.h; path = Classes/Iphone/DocumentList/PhRecentViewController.h; sourceTree = SOURCE_ROOT; };
 		732951631548F8FC00FA4FAA /* PhRecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhRecentViewController.m; path = Classes/Iphone/DocumentList/PhRecentViewController.m; sourceTree = SOURCE_ROOT; };
 		732951691549343E00FA4FAA /* WizSyncDescriptionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSyncDescriptionDelegate.h; path = WizSyncManager/WizSyncDescriptionDelegate.h; sourceTree = "<group>"; };
@@ -480,7 +472,6 @@
 		732CFFA0155CEE5300F9F779 /* box_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "box_empty@2x.png"; sourceTree = "<group>"; };
 		732CFFA1155CEE5300F9F779 /* box_filled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = box_filled.png; sourceTree = "<group>"; };
 		732CFFA2155CEE5300F9F779 /* box_filled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "box_filled@2x.png"; sourceTree = "<group>"; };
-		732FE31C154A423B0047B665 /* WizAbstractDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstractDbDelegate.h; path = WizDbManger/WizAbstractDbDelegate.h; sourceTree = "<group>"; };
 		7330E608157352F6003A14BC /* WizApiManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiManagerDelegate.h; sourceTree = "<group>"; };
 		7330E60915737B7E003A14BC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		73350364156F3C6F00FECA49 /* WizRefreshDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizRefreshDelegate.h; sourceTree = "<group>"; };
@@ -490,7 +481,6 @@
 		7339C823156CE95700F93D6F /* downloadIndicator4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadIndicator4.png; sourceTree = "<group>"; };
 		7346513E154A8B5B001F06A8 /* WizDecorate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDecorate.h; path = abstract/WizDecorate.h; sourceTree = "<group>"; };
 		7346513F154A8B5B001F06A8 /* WizDecorate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDecorate.m; path = abstract/WizDecorate.m; sourceTree = "<group>"; };
-		73467DF71545036500ECF5F9 /* WizDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDbDelegate.h; path = WizDbManger/WizDbDelegate.h; sourceTree = "<group>"; };
 		73467DF9154506AE00ECF5F9 /* WizAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAttachment.h; path = WizStruct/WizAttachment.h; sourceTree = "<group>"; };
 		73467DFA154506AE00ECF5F9 /* WizAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAttachment.m; path = WizStruct/WizAttachment.m; sourceTree = "<group>"; };
 		73494E63157864BA0083463E /* WizPadNewNoteViewNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadNewNoteViewNavigationDelegate.h; path = MainView/WizPadNewNoteViewNavigationDelegate.h; sourceTree = "<group>"; };
@@ -612,14 +602,6 @@
 		73A4295B157388AE00479A42 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		73A4295D157388AE00479A42 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		73A4295E157388AE00479A42 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CppSQLite3.cpp; sourceTree = "<group>"; };
-		73A7841B14F8CC22001387F6 /* CppSQLite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppSQLite3.h; sourceTree = "<group>"; };
-		73A7841C14F8CC22001387F6 /* index.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		73A7841D14F8CC22001387F6 /* index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		73A7841E14F8CC22001387F6 /* tempIndex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tempIndex.cpp; sourceTree = "<group>"; };
-		73A7841F14F8CC22001387F6 /* tempIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tempIndex.h; sourceTree = "<group>"; };
-		73A7842014F8CC22001387F6 /* WizMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WizMisc.cpp; sourceTree = "<group>"; };
-		73A7842114F8CC22001387F6 /* WizMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizMisc.h; sourceTree = "<group>"; };
 		73A7842314F8CC22001387F6 /* WizApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApi.h; sourceTree = "<group>"; };
 		73A7842414F8CC22001387F6 /* WizApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApi.m; sourceTree = "<group>"; };
 		73A7842514F8CC22001387F6 /* WizCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCreateAccount.h; sourceTree = "<group>"; };
@@ -1175,19 +1157,6 @@
 			name = WizSettings;
 			sourceTree = "<group>";
 		};
-		73213112154571B60077F77E /* WizDb */ = {
-			isa = PBXGroup;
-			children = (
-				73A7841914F8CC22001387F6 /* C++ */,
-				4A4F0D1B1542F35900767434 /* WizDbManager.h */,
-				4A4F0D1C1542F35A00767434 /* WizDbManager.mm */,
-				73467DF71545036500ECF5F9 /* WizDbDelegate.h */,
-				73213113154572100077F77E /* WizSettingsDbDelegate.h */,
-				732FE31C154A423B0047B665 /* WizAbstractDbDelegate.h */,
-			);
-			name = WizDb;
-			sourceTree = "<group>";
-		};
 		732403901541191200FDFE16 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1562,27 +1531,10 @@
 			path = Globals;
 			sourceTree = "<group>";
 		};
-		73A7841914F8CC22001387F6 /* C++ */ = {
-			isa = PBXGroup;
-			children = (
-				73A7841A14F8CC22001387F6 /* CppSQLite3.cpp */,
-				73A7841B14F8CC22001387F6 /* CppSQLite3.h */,
-				73A7841C14F8CC22001387F6 /* index.cpp */,
-				73A7841D14F8CC22001387F6 /* index.h */,
-				73A7841E14F8CC22001387F6 /* tempIndex.cpp */,
-				73A7841F14F8CC22001387F6 /* tempIndex.h */,
-				73A7842014F8CC22001387F6 /* WizMisc.cpp */,
-				73A7842114F8CC22001387F6 /* WizMisc.h */,
-			);
-			name = "C++";
-			path = "../C++";
-			sourceTree = "<group>";
-		};
 		73A7842214F8CC22001387F6 /* WizApi */ = {
 			isa = PBXGroup;
 			children = (
 				734D044F15B7E61700361CE0 /* WizDbManger */,
-				73213112154571B60077F77E /* WizDb */,
 				7321310A15454AC60077F77E /* WizSettings */,
 				4A4F0D231542FE7B00767434 /* FileManager */,
 				4A4F0D101542EFCF00767434 /* WizStruct */,
@@ -2524,10 +2476,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73A7855714F8CC23001387F6 /* CppSQLite3.cpp in Sources */,
-				73A7855814F8CC23001387F6 /* index.cpp in Sources */,
-				73A7855914F8CC23001387F6 /* tempIndex.cpp in Sources */,
-				73A7855A14F8CC23001387F6 /* WizMisc.cpp in Sources */,
 				73A7855B14F8CC23001387F6 /* WizApi.m in Sources */,
 				73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */,
 				73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */,
@@ -2616,7 +2564,6 @@
 				73B46D16153E77240049556F /* WizSyncInfo.m in Sources */,
 				73B46D2B153FAAD30049556F /* WizAccountManager.m in Sources */,
 				4A4F0D141542F02200767434 /* WizObject.m in Sources */,
-				4A4F0D1D1542F35A00767434 /* WizDbManager.mm in Sources */,
 				4A4F0D261542FEAB00767434 /* WizFileManager.m in Sources */,
 				736EBAAB1544F76A00D97ACB /* WizDocument.m in Sources */,
 				73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */,
