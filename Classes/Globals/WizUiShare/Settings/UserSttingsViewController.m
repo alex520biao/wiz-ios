@@ -517,17 +517,16 @@ enum WizSettingKind {
 - (void) doClearCache:(NSNumber*)timeInval
 {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    WizDbManager* dbManager = [[WizDbManager alloc] init];
-    WizFileManager* share = [WizFileManager shareManager];
-    [dbManager openDb:[share dbPath]];
-    [dbManager openDb:[share tempDbPath]];
+    WizFileManager* fileManager = [WizFileManager shareManager];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
     WizDocument* document = nil;
     CGFloat time = [timeInval floatValue];
     self.isStopClearCache = NO;
     do
     {
         NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        document = [dbManager documentForClearCacheNext];
+        document = [dataBase documentForClearCacheNext];
         if (document == nil) {
             break;
         }
@@ -535,17 +534,17 @@ enum WizSettingKind {
             break;
         }
         NSLog(@"real timeinterval is %f",[document.dateModified timeIntervalSinceNow]);
-        NSString* path = [share objectFilePath:document.guid];
-        if ([share removeItemAtPath:path error:nil]) {
-            if([dbManager setDocumentServerChanged:document.guid changed:YES])
+        NSString* path = [fileManager objectFilePath:document.guid];
+        if ([fileManager removeItemAtPath:path error:nil]) {
+            if([dataBase setDocumentServerChanged:document.guid changed:YES])
             {
-                [dbManager deleteAbstractByGUID:document.guid];
+                [abstractDataBase deleteAbstractByGUID:document.guid];
                 NSArray* attachments = [document attachments];
                 for (WizAttachment* each in attachments) {
                     NSLog(@"attachment guid is %@",each.guid);
                     if (each.localChanged == 0) {
-                        if ([dbManager setAttachmentServerChanged:each.guid changed:YES]) {
-                            [share removeObjectPath:each.guid];
+                        if ([dataBase setAttachmentServerChanged:each.guid changed:YES]) {
+                            [fileManager removeObjectPath:each.guid];
                         }
                     }
                 }
@@ -554,8 +553,6 @@ enum WizSettingKind {
         [pool drain];
     }
     while (document != nil && !self.isStopClearCache);
-    [dbManager close];
-    [dbManager release];
     [pool drain];
 }
 
