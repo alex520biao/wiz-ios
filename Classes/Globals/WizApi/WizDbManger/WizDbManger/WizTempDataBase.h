@@ -7,8 +7,8 @@
 //
 
 #import "WizDataBaseBase.h"
-#import "WizAbstractDbDelegate.h"
+#import "WizTemporaryDataBaseDelegate.h"
 
-@interface WizTempDataBase : WizDataBaseBase <WizAbstractDbDelegate>
+@interface WizTempDataBase : WizDataBaseBase <WizTemporaryDataBaseDelegate>
 - (BOOL) updateAbstract:(NSString*)text imageData:(NSData*)imageData guid:(NSString*)guid type:(NSString*)type kbguid:(NSString*)kbguid;
 @end

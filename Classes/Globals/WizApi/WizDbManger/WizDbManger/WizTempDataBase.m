@@ -9,6 +9,7 @@
 #import "WizTempDataBase.h"
 #import "WizFileManager.h"
 #import "WizAbstract.h"
+#import "WizAccountManager.h"
 @implementation WizTempDataBase
 
 - (BOOL) isAbstractExist:(NSString*)documentGuid
@@ -145,6 +146,9 @@
         }
     }
     
+    if (kbguid == nil || [kbguid isBlock]) {
+        kbguid = [[WizAccountManager defaultManager] activeAccountUserId];
+    }
     [self updateAbstract:abstractText imageData:[compassImage compressedData] guid:documentGUID type:@"" kbguid:kbguid];
 }
 
@@ -202,6 +206,14 @@
        ret = [db executeUpdate:@"delete from WIZ_ABSTRACT where ABSTRACT_GUID=?",documentGUID];
     }];
     return ret;
+}
+- (BOOL) deleteAbstractsByAccountUserId:(NSString *)accountUserID
+{
+    __block BOOL isSucceess;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        isSucceess = [db executeUpdate:@"delete from WIZ_ABSTRACT where GROUP_KBGUID=?",accountUserID];
+    }];
+    return isSucceess;
 }
 - (BOOL) clearCache
 {

@@ -89,13 +89,13 @@ static WizDbManager* shareDbManager = nil;
     return [dataBase autorelease];
 }
 
-- (id<WizAbstractDbDelegate>) getNewWizTempDataBase:(NSString*)accountUserId
+- (id<WizTemporaryDataBaseDelegate>) getNewWizTempDataBase:(NSString*)accountUserId
 {
     if (nil == accountUserId || [accountUserId isBlock]) {
         return nil;
     }
     NSString* dbPath = [[WizFileManager shareManager] abstractDataBatabasePath:accountUserId];
-    id<WizAbstractDbDelegate> database = [[WizTempDataBase alloc] initWithPath:dbPath modelName:@"WizAbstractDataBaseModel"];
+    id<WizTemporaryDataBaseDelegate> database = [[WizTempDataBase alloc] initWithPath:dbPath modelName:@"WizAbstractDataBaseModel"];
     [self.dbDataDictionary setObject:database forKey:[self abstractBaseKeyString:accountUserId]];
     return [database autorelease];
 }
@@ -116,14 +116,14 @@ static WizDbManager* shareDbManager = nil;
     }
     return dataBase;
 }
-- (id<WizAbstractDbDelegate>) shareAbstractDataBase
+- (id<WizTemporaryDataBaseDelegate>) shareAbstractDataBase
 {
     return [self getWizTempDataBase:[[WizAccountManager defaultManager] activeAccountUserId]];
 }
 
-- (id<WizAbstractDbDelegate>) getWizTempDataBase:(NSString*)accountUserId
+- (id<WizTemporaryDataBaseDelegate>) getWizTempDataBase:(NSString*)accountUserId
 {
-    id<WizAbstractDbDelegate> dataBase = [self.dbDataDictionary objectForKey:[self abstractBaseKeyString:accountUserId]];
+    id<WizTemporaryDataBaseDelegate> dataBase = [self.dbDataDictionary objectForKey:[self abstractBaseKeyString:accountUserId]];
     if (!dataBase) {
         dataBase = [self getNewWizTempDataBase:accountUserId];
     }

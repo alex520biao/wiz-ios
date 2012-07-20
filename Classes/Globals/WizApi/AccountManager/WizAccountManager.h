@@ -17,15 +17,8 @@
 - (BOOL) registerActiveAccount:(NSString*)userId;
 - (NSString*) activeAccountUserId;
 - (void) addAccount: (NSString*)userId password:(NSString*)password;
-- (NSString*) accountProtectPassword;
-- (void) setAccountProtectPassword:(NSString*)password;
 - (void) changeAccountPassword: (NSString*)userId password:(NSString*)password;
 - (void) logoutAccount;
 - (void) removeAccount: (NSString*)userId;
-- (NSString*) registerActiveKbguid:(NSString*)kbguid;
 //
-
-- (void) updateAccount:(WizAccount*)account;
-- (WizAccount*) accountFromLoaclData:(NSString*)userId;
-- (WizAccount*) activeAccount;
 @end
