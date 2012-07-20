@@ -10,7 +10,6 @@
 #import "WizTagCatelogView.h"
 #import "WizUiTypeIndex.h"
 #import "WizNotification.h"
-#import "WizAbstractCache.h"
 @implementation WizPadTagsViewController
 
 - (void) dealloc
@@ -28,7 +27,6 @@
 }
 - (NSArray*) catelogDataSourceArray
 {
-    [[WizAbstractCache shareCache] willGenTagsAbstract];
     NSArray* tags = [WizTag allTags];
     NSMutableArray* arr = [NSMutableArray array];
     for (WizTag* eachTag in tags) {

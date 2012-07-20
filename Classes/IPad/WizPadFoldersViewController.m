@@ -10,7 +10,6 @@
 #import "WizFolderCatelogView.h"
 #import "WizUiTypeIndex.h"
 #import "WizNotification.h"
-#import "WizAbstractCache.h"
 @interface WizPadFoldersViewController ()
 
 @end
@@ -33,7 +32,6 @@
 
 - (NSArray*) catelogDataSourceArray
 {
-    [[WizAbstractCache shareCache] willGenFoldersAbstract];
     NSArray* locationKeys = [WizObject allLocationsForTree];
     NSMutableArray* arr = [NSMutableArray array];
     for (NSString* each in locationKeys) {

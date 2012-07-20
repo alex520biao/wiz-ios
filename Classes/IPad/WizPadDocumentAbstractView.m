@@ -11,7 +11,6 @@
 #import "WizPadNotificationMessage.h"
 #import "WizGlobals.h"
 #import "WizDbManager.h"
-#import "WizAbstractCache.h"
 #import "WizNotification.h"
 #define NameLabelFrame CGRectMake(15, 5, 175, 45)
 #define TimerLabelFrame CGRectMake(15,45,175,20)
@@ -173,24 +172,32 @@
     }
     nameLabel.text = self.doc.title;
     timeLabel.text = [self.doc.dateCreated stringSql];
-    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstractForIphone:self.doc];
-    if (abstract == nil) {
-        detailLabel.text = self.doc.location;
-        detailLabel.frame = AbstractLabelWithImageFrame;
-        abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
-    }
-    else {
-        if (abstract.image == nil) {
-            detailLabel.frame = AbstractLabelWithoutImageFrame;
-            abstractImageView.hidden = YES;
+    detailLabel.text = self.doc.location;
+    detailLabel.frame = AbstractLabelWithImageFrame;
+    abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+        WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+        if (!abstract && self.doc.serverChanged==0) {
+            [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
+            abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }
-        else {
-            detailLabel.frame = AbstractLabelWithImageFrame;
-            abstractImageView.hidden = NO;
-            abstractImageView.image = abstract.image;
+        if (abstract) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (abstract.image == nil) {
+                    detailLabel.frame = AbstractLabelWithoutImageFrame;
+                    abstractImageView.hidden = YES;
+                }
+                else {
+                    detailLabel.frame = AbstractLabelWithImageFrame;
+                    abstractImageView.hidden = NO;
+                    abstractImageView.image = abstract.image;
+                }
+                detailLabel.text = abstract.text;
+            });
         }
-        detailLabel.text = abstract.text;
-    }
+    });
+    
 }
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

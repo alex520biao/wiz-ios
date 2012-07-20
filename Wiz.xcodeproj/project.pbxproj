@@ -507,7 +507,7 @@
 		734D044B15B7E61700361CE0 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
 		734D044D15B7E61700361CE0 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		734D044E15B7E61700361CE0 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAbstractDbDelegate.h; sourceTree = "<group>"; };
+		734D045015B7E61700361CE0 /* WizTemporaryDataBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTemporaryDataBaseDelegate.h; sourceTree = "<group>"; };
 		734D045315B7E61700361CE0 /* WizDataBaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDataBaseBase.h; sourceTree = "<group>"; };
 		734D045415B7E61700361CE0 /* WizDataBaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizDataBaseBase.m; sourceTree = "<group>"; };
 		734D045715B7E61700361CE0 /* WizDbDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizDbDelegate.h; sourceTree = "<group>"; };
@@ -1279,7 +1279,7 @@
 			children = (
 				730E698515B7FD2F00F1B026 /* DataBaseModel */,
 				734D044315B7E61600361CE0 /* FMDB */,
-				734D045015B7E61700361CE0 /* WizAbstractDbDelegate.h */,
+				734D045015B7E61700361CE0 /* WizTemporaryDataBaseDelegate.h */,
 				734D047E15B7EECB00361CE0 /* WizSettingsDataBase.h */,
 				734D047F15B7EECD00361CE0 /* WizSettingsDataBase.m */,
 				734D045315B7E61700361CE0 /* WizDataBaseBase.h */,

@@ -7,8 +7,7 @@
 //
 
 #import "WizTagCatelogView.h"
-#import "WizAbstractCache.h"
-
+#import "WizDbManager.h"
 @implementation WizTagCatelogView
 
 @synthesize wizTag;
@@ -42,9 +41,18 @@
     }
     nameLabel.text =  getTagDisplayName(self.wizTag.title);
     backGroudImageView.image = [UIImage imageNamed:@"tagBackgroud"];
-    NSInteger count =  [WizTag fileCountOfTag:self.wizTag.guid];
-    documentsCountLabel.text = [NSString stringWithFormat:@"%d %@",count,WizStrNotes];
-    detailLabel.text = [[WizAbstractCache shareCache] getTagAbstract:self.wizTag.guid];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+         id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+        NSInteger count =  [dataBase fileCountOfTag:self.wizTag.guid];
+        NSString* noteNumberStr = [NSString stringWithFormat:@"%d %@",count,WizStrNotes];
+        NSString* abstractStr = [dataBase tagAbstractString:self.wizTag.guid];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            documentsCountLabel.text = noteNumberStr;
+             detailLabel.text = abstractStr;
+        });
+       
+    });
+   
 }
 
 @end

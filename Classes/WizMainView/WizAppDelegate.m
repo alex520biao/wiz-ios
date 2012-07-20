@@ -5,7 +5,6 @@
 //  Created by Wei Shijun on 3/7/11.
 //  Copyright 2011 WizBrother. All rights reserved.
 //
-#import "WizAbstractCache.h"
 #import "WizAppDelegate.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
@@ -129,7 +128,6 @@
 }
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    [[WizAbstractCache shareCache] didReceivedMenoryWarning];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if ([[WizSettings defaultSettings] isPasscodeEnable]) {

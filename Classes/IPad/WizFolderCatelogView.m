@@ -7,7 +7,7 @@
 //
 
 #import "WizFolderCatelogView.h"
-#import "WizAbstractCache.h"
+#import "WizDbManager.h"
 
 @implementation WizFolderCatelogView
 @synthesize folderKey;
@@ -38,8 +38,17 @@
         return;
     }
     nameLabel.text = self.folderKey;
-    NSInteger count =  [WizObject fileCountOfLocation:self.folderKey];
-    documentsCountLabel.text = [NSString stringWithFormat:@"%d %@",count,WizStrNotes];
-    detailLabel.text = [[WizAbstractCache shareCache] getFolderAbstract:self.folderKey];
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+        NSInteger count =  [dataBase fileCountOfLocation:self.folderKey];
+        NSString* noteNumberStr = [NSString stringWithFormat:@"%d %@",count,WizStrNotes];
+        NSString* abstractStr = [dataBase folderAbstractString:self.folderKey];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            documentsCountLabel.text = noteNumberStr;
+            detailLabel.text = abstractStr;
+        });
+        
+    });
 }
 @end

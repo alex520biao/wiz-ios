@@ -519,7 +519,7 @@ enum WizSettingKind {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     WizFileManager* fileManager = [WizFileManager shareManager];
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
-    id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+    id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
     WizDocument* document = nil;
     CGFloat time = [timeInval floatValue];
     self.isStopClearCache = NO;

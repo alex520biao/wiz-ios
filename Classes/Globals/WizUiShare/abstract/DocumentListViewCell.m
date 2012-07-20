@@ -10,7 +10,6 @@
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "CommonString.h"
-#import "WizAbstractCache.h"
 #import "WizDecorate.h"
 #import "WizNotification.h"
 #import "WizDbManager.h"
@@ -174,10 +173,10 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         abstractImageView.image = [DocumentListViewCell documentNoDataImage];
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        id<WizAbstractDbDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+        id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
         WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         if (self.doc.serverChanged ==0 && !abstract) {
-            id<WizAbstractDbDelegate> abstraceDatabase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+            id<WizTemporaryDataBaseDelegate> abstraceDatabase = [[WizDbManager shareDbManager] shareAbstractDataBase];
             [abstraceDatabase extractSummary:self.doc.guid kbGuid:@""];
             abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }

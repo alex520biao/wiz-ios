@@ -32,14 +32,12 @@
 
 - (void) selecteDefaultAccount
 {
-    NSArray* accounts = [[WizAccountManager defaultManager] accounts];
-    if ([accounts count] > 0) {
-        NSString* defaultUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-        if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
-            return;
-        }
-        [self didSelectedAccount:defaultUserId];
+    NSString* defaultUserId = [[WizAccountManager defaultManager]activeAccountUserId];
+    if (defaultUserId == nil || [defaultUserId isEqualToString:@""])
+    {
+        return;
     }
+    [self didSelectedAccount:defaultUserId];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

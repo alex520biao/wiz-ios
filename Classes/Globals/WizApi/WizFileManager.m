@@ -106,7 +106,7 @@ static WizFileManager* shareManager = nil;
 
 - (NSString*) abstractDataBatabasePath:(NSString*)accountUserId
 {
-    NSString* accountPath = [WizFileManager documentsPath];
+    NSString* accountPath = [self accountPathFor:accountUserId];
     return [accountPath stringByAppendingPathComponent:@"temp.db"];
 }
 
