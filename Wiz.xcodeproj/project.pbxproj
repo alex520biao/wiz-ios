@@ -1145,7 +1145,6 @@
 				7346513F154A8B5B001F06A8 /* WizDecorate.m */,
 			);
 			name = AbstractCache;
-			path = ../WizUiShare;
 			sourceTree = "<group>";
 		};
 		730E698515B7FD2F00F1B026 /* DataBaseModel */ = {
@@ -1563,7 +1562,6 @@
 				73A7842714F8CC22001387F6 /* WizDictionaryMessage.h */,
 				73A7843814F8CC22001387F6 /* WizGlobalDictionaryKey.h */,
 				73A7843914F8CC22001387F6 /* WizGlobalNotificationMessage.h */,
-				4ADA028D1536B8B3005F0ED8 /* AbstractCache */,
 			);
 			path = WizApi;
 			sourceTree = "<group>";
@@ -1571,6 +1569,7 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				4ADA028D1536B8B3005F0ED8 /* AbstractCache */,
 				735136F915A2969C00797CDF /* WizExtensionTools */,
 				734D53B5157CA83100BE496E /* Editor */,
 				739F607E157772BA00BBCD84 /* MAP */,

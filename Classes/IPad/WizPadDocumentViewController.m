@@ -805,27 +805,17 @@
 }
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
-//    WizDownloadPool* pool = [[WizGlobalData sharedData] globalDownloadPool:accountUserId];
-//    if ([pool documentIsDownloading:doc.guid]) {
-//        [docCell.downloadIndicator startAnimating];
-//    }
-//    else {
-//        [docCell.downloadIndicator stopAnimating];
-//    }
+    WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
+    docCell.doc = doc;
+    [docCell setNeedsDisplay];
 }
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* CellIdentifier = @"DocumentCell";
     DocumentListViewCell *cell = (DocumentListViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (cell == nil) {
         cell = [[[DocumentListViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-    }
-    cell.doc = doc;
-    if ([[WizSyncManager shareManager] isDownloadingWizobject:doc]) {
-        [cell setShowDownloadIndicator:YES];
     }
     return cell;
 }

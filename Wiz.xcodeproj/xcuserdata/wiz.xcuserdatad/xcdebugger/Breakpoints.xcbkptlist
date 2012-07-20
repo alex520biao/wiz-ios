@@ -13,7 +13,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "375"
          endingLineNumber = "375"
-         landmarkName = "-searchDocument"
+         landmarkName = "-searchBarCancelButtonClicked:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -882,7 +882,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "403"
          endingLineNumber = "403"
-         landmarkName = "-downloadDocument"
+         landmarkName = "-displayEncryInfo"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
