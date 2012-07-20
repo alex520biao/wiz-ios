@@ -16,4 +16,7 @@
 - (BOOL) deleteAbstractByGUID:(NSString *)documentGUID;
 - (WizAbstract*) abstractForGroup:(NSString*)kbguid;
 - (BOOL) deleteAbstractsByAccountUserId:(NSString*)accountUserID;
+- (BOOL) updateWizSearch:(NSString*)keywords  notesNumber:(NSInteger)notesNumber isSerchLocal:(BOOL)isSearchLocal;
+- (BOOL) deleteWizSearch:(NSString*)keywords;
+- (NSArray*) allWizSearchs;
 @end

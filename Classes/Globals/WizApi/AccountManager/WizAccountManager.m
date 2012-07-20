@@ -180,4 +180,7 @@
     id<WizSettingsDbDelegate> settingDB = [[WizDbManager shareDbManager] getWizSettingsDataBase];
     [settingDB deleteAccountByUserId:userId];
 }
+
+
+
 @end
