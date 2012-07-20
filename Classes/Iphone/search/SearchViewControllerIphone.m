@@ -86,20 +86,8 @@
 
 - (void) addSearchHistory:(int)count
 {
-    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSNumber numberWithBool:localSearchSwitch.on], @"search_local",
-                         self.currentKeyWords, @"key_words",
-                         [[NSDate date] stringSql] , @"date",
-                         [NSNumber numberWithInt:count], @"count",
-                         nil,nil];
-    NSString* fileNamePath = [[WizFileManager shareManager] searchHistoryFilePath];
-    NSMutableArray* history = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
-    if (!history) {
-        history = [NSMutableArray array];
-    }
-    [history insertObject:dic atIndex:0];
-    [dic writeToFile:fileNamePath atomically:NO];
-    [history writeToFile:fileNamePath atomically:YES];
+    [historyView addSearchHistory:self.currentKeyWords notesNumber:count isSearchLoal:localSearchSwitch.on];
+    
 }
 - (void) didSearchKeywords:(NSString*)keywords isNewSearch:(BOOL)isNewSearch
 {

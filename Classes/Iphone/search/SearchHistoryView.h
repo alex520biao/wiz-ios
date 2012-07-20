@@ -22,4 +22,5 @@
 @property (nonatomic, retain) NSMutableArray* history;
 @property (nonatomic, assign) id <WizSearchHistoryDelegate> historyDelegate;
 - (void) reloadData;
+- (void) addSearchHistory:(NSString*)keyWords notesNumber:(int)count isSearchLoal:(BOOL)isSearchLocal;
 @end

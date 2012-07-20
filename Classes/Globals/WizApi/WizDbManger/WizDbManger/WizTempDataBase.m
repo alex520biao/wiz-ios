@@ -219,4 +219,64 @@
 {
     return YES;
 }
+- (WizSearch*) searchDataFromDb:(NSString*)keywords
+{
+    __block WizSearch* search = nil;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        FMResultSet* searchData = [db executeQuery:@"select SEARCH_NOTE_COUNT, SEARCH_EDIT_DATE,SEARCH_KEYWORDS, SEARCH_ISLOCAL from Wiz_Search where SEARCH_KEYWORDS = ?",keywords];
+        if ([searchData next]) {
+            WizSearch* search_ = [[WizSearch alloc] init];
+            search_.nNotesNumber = [searchData intForColumnIndex:0];
+            search_.searchDate = [searchData dateForColumnIndex:1];
+            search_.keyWords = [searchData stringForColumnIndex:2];
+            search_.isSearchLocal = [searchData boolForColumnIndex:3];
+            search = [search_ autorelease];
+        }
+     [searchData close];
+    }];
+    return search;
+}
+- (BOOL) updateWizSearch:(NSString *)keywords notesNumber:(NSInteger)notesNumber isSerchLocal:(BOOL)isSearchLocal
+{
+    __block BOOL isSuccess;
+    if ([self searchDataFromDb:keywords]) {
+        [self.queue inDatabase:^(FMDatabase *db) {
+            isSuccess = [db executeUpdate:@"update Wiz_Search set SEARCH_NOTE_COUNT=?, SEARCH_EDIT_DATE=?, SEARCH_ISLOCAL=? where SEARCH_KEYWORDS = ?",[NSNumber numberWithInteger:notesNumber], [[NSDate date] stringSql], [NSNumber numberWithBool:isSearchLocal], keywords];
+        }];
+    }
+    else
+    {
+        [self.queue inDatabase:^(FMDatabase *db) {
+            isSuccess = [db executeUpdate:@"insert into Wiz_Search (SEARCH_NOTE_COUNT, SEARCH_EDIT_DATE, SEARCH_ISLOCAL,SEARCH_KEYWORDS) values(?,?,?,?)",[NSNumber numberWithInteger:notesNumber], [[NSDate date] stringSql], [NSNumber numberWithBool:isSearchLocal], keywords];
+        }];
+    }
+    return isSuccess;
+}
+
+- (BOOL) deleteWizSearch:(NSString *)keywords
+{
+    __block BOOL isSuccess;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        isSuccess = [db executeUpdate:@"delete from Wiz_Search where SEARCH_KEYWORDS=?",keywords];
+    }];
+    return isSuccess;
+}
+
+- (NSArray*) allWizSearchs
+{
+    __block NSMutableArray* allSearchs = [NSMutableArray array];
+    [self.queue inDatabase:^(FMDatabase *db) {
+        FMResultSet* searchDatas = [db executeQuery:@"select SEARCH_NOTE_COUNT, SEARCH_EDIT_DATE,SEARCH_KEYWORDS, SEARCH_ISLOCAL from Wiz_Search"];
+        while ([searchDatas next]) {
+            WizSearch* search_ = [[WizSearch alloc] init];
+            search_.nNotesNumber = [searchDatas intForColumnIndex:0];
+            search_.searchDate = [searchDatas dateForColumnIndex:1];
+            search_.keyWords = [searchDatas stringForColumnIndex:2];
+            search_.isSearchLocal = [searchDatas boolForColumnIndex:3];
+            [allSearchs addObject:search_];
+            [search_ release];
+        }
+    }];
+    return allSearchs;
+}
 @end

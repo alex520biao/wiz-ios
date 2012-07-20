@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WizSearch.h"
 
 @class WizAbstract;
 @protocol WizTemporaryDataBaseDelegate <NSObject>

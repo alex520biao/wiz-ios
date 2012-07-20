@@ -377,6 +377,7 @@
 		73EDCC41156C81680077F224 /* WizPadCatelogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EDCC40156C81680077F224 /* WizPadCatelogViewController.m */; };
 		73EEF496153E650300481029 /* WizGlobalError.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EEF495153E650300481029 /* WizGlobalError.m */; };
 		73F116F1155A5ADA00967D4D /* WizSyncMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F116F0155A5ADA00967D4D /* WizSyncMessage.m */; };
+		73F9D2C715B8FFB500F54726 /* WizSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F9D2C615B8FFB500F54726 /* WizSearch.m */; };
 		73FA11CC1557D1CF008B5FDF /* PhFolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */; };
 		73FBB846156C863A008FC4BC /* WizPadFoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FBB845156C863A008FC4BC /* WizPadFoldersViewController.m */; };
 		73FBB851156C888E008FC4BC /* WizFolderCatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FBB850156C888E008FC4BC /* WizFolderCatelogView.m */; };
@@ -958,6 +959,8 @@
 		73EEF495153E650300481029 /* WizGlobalError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizGlobalError.m; sourceTree = "<group>"; };
 		73F116EF155A5AD900967D4D /* WizSyncMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncMessage.h; sourceTree = "<group>"; };
 		73F116F0155A5ADA00967D4D /* WizSyncMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncMessage.m; sourceTree = "<group>"; };
+		73F9D2C515B8FFB500F54726 /* WizSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSearch.h; path = WizStruct/WizSearch.h; sourceTree = "<group>"; };
+		73F9D2C615B8FFB500F54726 /* WizSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSearch.m; path = WizStruct/WizSearch.m; sourceTree = "<group>"; };
 		73FA11CA1557D1CF008B5FDF /* PhFolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhFolderListViewController.h; path = Classes/Iphone/DocumentList/PhFolderListViewController.h; sourceTree = SOURCE_ROOT; };
 		73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PhFolderListViewController.m; path = Classes/Iphone/DocumentList/PhFolderListViewController.m; sourceTree = SOURCE_ROOT; };
 		73FBA14115183C2A0096E54F /* Wiz-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wiz-Info.plist"; sourceTree = "<group>"; };
@@ -1105,6 +1108,8 @@
 				731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */,
 				73AFCC15157E0A4A00C48FE1 /* WizAccount.h */,
 				73AFCC16157E0A4A00C48FE1 /* WizAccount.m */,
+				73F9D2C515B8FFB500F54726 /* WizSearch.h */,
+				73F9D2C615B8FFB500F54726 /* WizSearch.m */,
 			);
 			name = WizStruct;
 			sourceTree = "<group>";
@@ -2660,6 +2665,7 @@
 				734D047915B7E8A500361CE0 /* WizDeletedGUID.m in Sources */,
 				734D048015B7EECF00361CE0 /* WizSettingsDataBase.m in Sources */,
 				734D048315B7F25800361CE0 /* WizSetting.m in Sources */,
+				73F9D2C715B8FFB500F54726 /* WizSearch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

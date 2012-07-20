@@ -15,7 +15,7 @@
 #import "WizAccountManager.h"
 #import "PhSearchResultViewController.h"
 #import "WizFileManager.h"
-
+#import "WizDbManager.h"
 @implementation SearchHistoryView
 @synthesize history;
 @synthesize historyDelegate;
@@ -40,18 +40,27 @@
 }
 - (void) reloadData
 {
-    NSString* fileNamePath = [[WizFileManager shareManager]searchHistoryFilePath];
-    NSMutableArray* historyy = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
-    self.history = historyy;
+    id<WizTemporaryDataBaseDelegate> searchHistoryDataBase =[[WizDbManager shareDbManager] shareAbstractDataBase];
+    NSArray* allSearchs = [searchHistoryDataBase allWizSearchs];
+    if (allSearchs) {
+        self.history = [NSMutableArray arrayWithArray:allSearchs];
+    }
+    else
+    {
+        self.history = [NSMutableArray array];
+    }
     [self.tableView reloadData];
 }
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WizSearch* search = [[self.history objectAtIndex:indexPath.row] retain];
     [self.history removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-    NSString* fileNamePath = [[WizFileManager shareManager]searchHistoryFilePath];
-    [self.history writeToFile:fileNamePath atomically:NO];
+    //
+    id<WizTemporaryDataBaseDelegate> searchHistoryDataBase =[[WizDbManager shareDbManager] shareAbstractDataBase];
+    [searchHistoryDataBase deleteWizSearch:search.keyWords];
+    [search release];
 }
 
 - (void)viewDidLoad
@@ -129,16 +138,12 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
-    NSString* key = [[self.history objectAtIndex:indexPath.row] objectForKey:@"key_words"];
-    NSNumber* count = [[self.history objectAtIndex:indexPath.row] objectForKey:@"count"];
+
+    WizSearch* search = [self.history objectAtIndex:indexPath.row];
     
-    NSString* date = [[self.history objectAtIndex:indexPath.row] objectForKey:@"date"];
-    cell.textLabel.text = key;
-    if (count == nil) {
-        count = [NSNumber numberWithInt:0];
-    }
-    NSString* detailString = [NSString stringWithFormat:NSLocalizedString(@"find %d notes", nil),[count intValue]];
-    NSString* displayStr = [NSString stringWithFormat:@"%@  %@",date,detailString];
+    cell.textLabel.text = search.keyWords;
+    NSString* detailString = [NSString stringWithFormat:NSLocalizedString(@"find %d notes", nil),search.nNotesNumber];
+    NSString* displayStr = [NSString stringWithFormat:@"%@  %@",[search.searchDate stringLocal],detailString];
     cell.detailTextLabel.text = displayStr;
     cell.imageView.image = [UIImage imageNamed:@"barItemSearch"];
     return cell;
@@ -146,10 +151,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* keywords = [[self.history objectAtIndex:indexPath.row] objectForKey:@"key_words"];
+    NSString* keywords = [[self.history objectAtIndex:indexPath.row] keyWords];
 	if (keywords == nil || [keywords length] == 0)
 		return;
     [self.historyDelegate didSelectedSearchHistory:keywords];
 }
 
+- (void) addSearchHistory:(NSString *)keyWords notesNumber:(int)count isSearchLoal:(BOOL)isSearchLocal
+{
+    WizSearch* search = [[WizSearch alloc] init];
+    search.keyWords = keyWords;
+    search.nNotesNumber = count;
+    search.isSearchLocal = isSearchLocal;
+    search.searchDate = [NSDate date];
+    [self.history insertObject:search atIndex:0];
+    [search release];
+    id<WizTemporaryDataBaseDelegate> searchHistoryDataBase =[[WizDbManager shareDbManager] shareAbstractDataBase];
+    [searchHistoryDataBase updateWizSearch:keyWords notesNumber:count isSerchLocal:isSearchLocal];
+    
+}
 @end
