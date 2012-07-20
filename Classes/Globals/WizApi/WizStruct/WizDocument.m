@@ -281,7 +281,7 @@ BOOL isReverseMask(NSInteger mask)
     }
     [doc setObject:self.url forKey:DataTypeUpdateDocumentUrl];
     if (nil == self.location || [self.location isBlock]) {
-        self.location = [[WizSettings defaultSettings] newNoteDefaultFolder];
+        self.location = [[WizSettings defaultSettings] editNoteDefaultFolder];
     }
     [doc setObject:self.location forKey:DataTypeUpdateDocumentLocation];
     if (nil == self.title || [self.title isBlock]) {
@@ -592,14 +592,13 @@ BOOL isReverseMask(NSInteger mask)
         self.type = [doc valueForKey:DataTypeUpdateDocumentType];
         self.fileType = [doc valueForKey:DataTypeUpdateDocumentFileType];
         NSNumber* nAttachmentCount = [doc valueForKey:DataTypeUpdateDocumentAttachmentCount];
-        NSNumber* localChanged_ = [doc valueForKey:DataTypeUpdateDocumentLocalchanged];
         NSNumber* nProtected = [doc valueForKey:DataTypeUpdateDocumentProtected];
-        NSNumber* serverChanged_ = [doc valueForKey:DataTypeUpdateDocumentServerChanged];
         NSNumber* nReadCount_ = [doc valueForKey:DataTypeUpdateDocumentREADCOUNT];
         NSNumber* gpsLatitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LATITUDE];
         NSNumber* gpsLongtitue = [doc valueForKey:DataTypeUpdateDocumentGPS_LONGTITUDE];
         NSNumber* gpsAltitue    = [doc valueForKey:DataTypeUpdateDocumentGPS_ALTITUDE];
         NSNumber* gpsDop_        = [doc valueForKey:DataTypeUpdateDocumentGPS_DOP];
+        
         
         
         if (nProtected) {

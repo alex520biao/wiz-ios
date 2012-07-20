@@ -42,7 +42,7 @@
 {
     self = [super init];
     if (self) {
-        self.dbDataDictionary = [[NSMutableDictionary alloc] init];
+        dbDataDictionary = [[NSMutableDictionary alloc] init];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(clearDataBase) name:MessageTypeOfMemeoryWarning];
     }
     return self;
@@ -82,8 +82,6 @@ static WizDbManager* shareDbManager = nil;
     {
         return nil;
     }
-    NSString* dbPath = nil;
-    dbPath = [[WizFileManager shareManager] dataBasePath:accountUserId];
     id<WizDbDelegate> dataBase = [[WizInfoDataBase alloc] initWithAccountUserId:accountUserId modelName:@"WizDataBaseModel"];
     [self.dbDataDictionary setObject:dataBase forKey:[self dataBaseKeyString:accountUserId]];
     return [dataBase autorelease];

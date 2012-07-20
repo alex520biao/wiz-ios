@@ -40,14 +40,14 @@ function focusEditor()
 {
     document.getElementById(EditorDivID).focus();
 }
-function initRootElement() {
-    var span = document.createElement("div");
-    span.setAttribute("id", EditorDivID);
-    span.setAttribute("contenteditable", "true")
-    span.innerHTML = document.body.innerHTML;
-    document.body.innerHTML = '';
-    document.body.appendChild(span);
-}
+//function initRootElement() {
+//    var span = document.createElement("div");
+//    span.setAttribute("id", EditorDivID);
+//    span.setAttribute("contenteditable", "true")
+//    span.innerHTML = document.body.innerHTML;
+//    document.body.innerHTML = '';
+//    document.body.appendChild(span);
+//}
 function insertPhoto(path)
 {
 	root = document.body;

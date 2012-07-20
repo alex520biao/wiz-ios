@@ -280,14 +280,14 @@ static WizSettings* defaultSettings = nil;
 }
 
 //
-- (BOOL) setNewNoteDefaultFolder:(NSString*)folder
+- (BOOL) setEditNoteDefaultFolder:(NSString*)folder
 {
-    return [self.settingsDbDelegate setNewNoteDefaultFolder:folder];
+    return [self.settingsDbDelegate setEditNoteDefaultFolder:folder];
 }
 
-- (NSString*) newNoteDefaultFolder
+- (NSString*) editNoteDefaultFolder
 {
-    return [self.settingsDbDelegate newNoteDefaultFolder];
+    return [self.settingsDbDelegate editNoteDefaultFolder];
 }
 
 @end

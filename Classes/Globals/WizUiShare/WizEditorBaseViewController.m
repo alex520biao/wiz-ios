@@ -507,6 +507,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     info.doc = self.docEdit;
     info.isEditTheDoc = YES;
     [self.navigationController pushViewController:info animated:YES];
+    [info release];
 }
 - (void) buildPhoneNavigationTools
 {
@@ -545,6 +546,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [tools addObject:attachments];
     [tools addObject:flex];
     self.navigationItem.rightBarButtonItems = tools;
+    [flex release];
 }
 
 

@@ -68,8 +68,8 @@
 - (BOOL) setLastSynchronizedDate:(NSDate*)date;
 - (NSDate*) lastSynchronizedDate;
 //
-- (BOOL) setNewNoteDefaultFolder:(NSString*)folder;
-- (NSString*) newNoteDefaultFolder;
+- (BOOL) setEditNoteDefaultFolder:(NSString*)folder;
+- (NSString*) editNoteDefaultFolder;
 
 //
 - (NSString*) defaultAccountUserId;

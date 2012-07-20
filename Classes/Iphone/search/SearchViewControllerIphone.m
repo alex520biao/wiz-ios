@@ -161,10 +161,7 @@
         [WizGlobals showAlertView:WizStrSearch message:WizStrLoading delegate:self retView:&alert];
         waitAlertView = alert;
 	}
-    
 }
-
-
 
 - (void) searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {

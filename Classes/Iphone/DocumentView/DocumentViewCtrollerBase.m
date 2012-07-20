@@ -267,7 +267,7 @@
 }
 - (void)editCurrentDocument
 {
-    
+    self.isEdit = YES;
     if ([WizGlobals WizDeviceVersion] <5 ) {
         WizPhoneEditorViewControllerL5* newNoteController = [[WizPhoneEditorViewControllerL5 alloc] initWithWizDocument:self.doc];
         UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
@@ -408,40 +408,6 @@
     self.web.scalesPageToFit = YES;
     NSString* documentFileName = [self.doc documentWillLoadFile];
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
-//    if ([[WizSettings defaultSettings] isMoblieView]) {
-//        [self setDeviceWidth];
-//        if (![self.doc isExistMobileViewFile]) {
-//            NSString* documentType = self.doc.type;
-//            if (documentType!=nil) {
-//                if ([documentType compare:@"webnote" options:NSCaseInsensitiveSearch] == 0) {
-//                    [self setZoomWidth];
-//                }
-//            }
-//            else
-//            {
-//                NSString* url = self.doc.url;
-//                if (url != nil && url.length > 4) {
-//                    if ([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] == 0) {
-//                        [self setZoomWidth];
-//                    }
-//                }
-//            }
-//            
-//        }
-//    }
-//    else {
-//        [self setZoomWidth];
-//        NSString* url = self.doc.url;
-//        NSString* type = self.doc.type;
-//        if ((url == nil || [url isEqualToString:@""])  || ((type == nil || [type isEqualToString:@""]) && url.length>4) ||(([[url substringToIndex:4] compare:@"http" options:NSCaseInsensitiveSearch] != 0) && ([type compare:@"webnote" options:NSCaseInsensitiveSearch] != 0))) {
-//            [self setDeviceWidth];
-//        }
-//        if ([type isEqualToString:@"webnote"]) {
-//            if ([self.doc isNewWebnote]) {
-//                [self setDeviceWidth];
-//            }
-//        }
-//    }
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLCacheStorageAllowed timeoutInterval:40.0f];
     [self.web loadRequest:req];
     [req release];
@@ -476,7 +442,6 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return YES;
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -499,6 +464,11 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if (self.isEdit) {
+        [self.web reload];
+        self.doc = [WizDocument documentFromDb:self.doc.guid];
+        self.isEdit = NO;
+    }
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
         attachmentCountBadgeView.frame = AttachmentCountBadgeViewPotraitFrame;
@@ -508,12 +478,6 @@
         attachmentCountBadgeView.hidden = YES;
     }
     self.title = self.doc.title;
-    if (self.isEdit) {
-        [self.web reload];
-        self.title = self.doc.title;
-        self.isEdit = NO;
-    }
-    
     NSString* documentFileName = [self.doc documentIndexFile];
     if (self.doc.protected_) {
         [self displayEncryInfo];
@@ -552,7 +516,7 @@
 }
 - (void) buildToolBar
 {
-    UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editDocument)];
+    UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editCurrentDocument)];
     
     UIBarButtonItem* info = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"detail"] style:UIBarButtonItemStyleBordered target:self action:@selector(viewDocumentInfo)];
     

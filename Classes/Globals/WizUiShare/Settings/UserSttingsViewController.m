@@ -89,12 +89,12 @@ enum WizSettingKind {
 
 - (NSString*) selectedFolderOld
 {
-    return [[WizSettings defaultSettings] newNoteDefaultFolder];
+    return [[WizSettings defaultSettings] editNoteDefaultFolder];
 }
 
 - (void) didSelectedFolderString:(NSString *)folderString
 {
-    [[WizSettings defaultSettings] setNewNoteDefaultFolder:folderString];
+    [[WizSettings defaultSettings] setEditNoteDefaultFolder:folderString];
 }
 - (void) selectDefaultNewNoteFolder
 {
@@ -410,7 +410,7 @@ enum WizSettingKind {
     {
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.textLabel.text = NSLocalizedString(@"Default Folder", nil);
-        cell.detailTextLabel.text = [WizGlobals  folderStringToLocal:[[WizSettings defaultSettings] newNoteDefaultFolder]];
+        cell.detailTextLabel.text = [WizGlobals  folderStringToLocal:[[WizSettings defaultSettings] editNoteDefaultFolder]];
     }
     else if ([indexPath isEqualToSectionAndRow:4 row:1])
     {

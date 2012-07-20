@@ -38,7 +38,7 @@
 #define ConnectServerOnlyByWif         @"ConnectServerOnlyByWif"
 #define AutomicSync                     @"AutomicSync"
 #define LastSynchronizedDate            @"LastSynchronizedDate"
-#define NewNoteDefaultFolder            @"NewNoteDefaultFolder"
+#define EditNoteDefaultFolder            @"EditNoteDefaultFolder"
 #define DefaultAccountUserID            @"DefaultAccountUserID"
 #define DefaultGroupKbGuid              @"DefaultGroupKbGuid"
 #define SettingsTypeOfLastSyncDate      @"SettingsTypeOfLastSyncDate"
@@ -536,22 +536,22 @@
 }
 
 //
-- (BOOL) setNewNoteDefaultFolder:(NSString *)folder
+- (BOOL) setEditNoteDefaultFolder:(NSString *)folder
 {
     if (folder == nil) {
         return NO;
     }
-    return [self setUserInfo:NewNoteDefaultFolder info:folder];
+    return [self setUserInfo:EditNoteDefaultFolder info:folder];
 }
-- (NSString*) newNoteDefaultFolder
+- (NSString*) editNoteDefaultFolder
 {
-    NSString* folder = [self userInfo:NewNoteDefaultFolder];
+    NSString* folder = [self userInfo:EditNoteDefaultFolder];
     if (folder ==  nil || [folder isBlock]) {
         NSString* defaultFolder = @"/My Notes/";
-        [self setNewNoteDefaultFolder:folder];
+        [self setEditNoteDefaultFolder:folder];
         return defaultFolder;
     }
-    return [folder retain];
+        return [self userInfo:EditNoteDefaultFolder];
 }
 
 
