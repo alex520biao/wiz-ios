@@ -224,6 +224,10 @@
         self.isNewTag = YES;
         [tag release];
     }
+    else
+    {
+        self.isNewTag = NO;
+    }
     return [self.searchedTags count];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
