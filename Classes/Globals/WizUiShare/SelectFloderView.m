@@ -281,7 +281,12 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     NSString* location = [NSString stringWithFormat:@"/%@/",self.searchBar.text];
-    [self didSelectedFolder:location];
+    if (![self checkFolderIsExist:location]) {
+        [self.allFloders insertObject:location atIndex:0];
+    }
+    [self.selectedFloder removeLastObject];
+    [self.selectedFloder addObject:location];
+    [self.selectDelegate didSelectedFolderString:location];
     [self.tableView reloadData];
     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
 }
