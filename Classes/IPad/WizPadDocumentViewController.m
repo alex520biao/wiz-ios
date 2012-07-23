@@ -224,7 +224,13 @@
     messageController.messageComposeDelegate = self;
     NSString* title = [NSString stringWithFormat:@"%@ %@",self.selectedDocument.title,WizStrShareByWiz];
     [messageController setTitle:title];
-    [messageController setBody:[[webView bodyText] stringByAppendingFormat:@"\n%@",WizStrShareByWiz]];
+    NSString* shareBodyText = [webView bodyText];
+    
+    if (shareBodyText != nil && shareBodyText.length > 100) {
+        shareBodyText = [shareBodyText substringToIndex:100];
+    }
+    shareBodyText = [NSString stringWithFormat:@"%@\n%@",shareBodyText,WizStrShareByEms];
+    [messageController setBody:shareBodyText];
     [self presentModalViewController:messageController animated:YES];
     [messageController release];
 }
@@ -525,6 +531,10 @@
 }
 - (IBAction) editCurrentDocument: (id)sender
 {
+    if ([WizGlobals WizDeviceVersion] < 5.0 && ![WizCommonEditorBaseViewControllerL5 canEditingDocumentwithEditorL5:self.selectedDocument]) {
+        [self editCurrentDocumentUsingOldEditor];
+        return;
+    }
     WizEditorBaseViewController* editController = nil;
     if ([WizGlobals WizDeviceVersion] < 5.0) {
         editController = [[WizPadEditViewControllerL5 alloc] initWithWizDocument:self.selectedDocument];

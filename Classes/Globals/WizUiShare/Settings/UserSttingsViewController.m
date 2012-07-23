@@ -139,7 +139,7 @@ enum WizSettingKind {
         [self.mobileViewCell.valueSwitch addTarget:self action:@selector(setMobileView) forControlEvents:UIControlEventValueChanged];
         //
         self.connectViaWifiCell = [WizSwitchCell switchCell];
-        self.connectViaWifiCell.textLabel.text = NSLocalizedString(@"Sync Only By Wifi", nil);
+        self.connectViaWifiCell.textLabel.text = NSLocalizedString(@"Sync Only By WIFI", nil);
         [self.connectViaWifiCell.valueSwitch addTarget:self action:@selector(setConnectViaWifi) forControlEvents:UIControlEventValueChanged];
         //
         self.protectCell = [WizSwitchCell switchCell];
