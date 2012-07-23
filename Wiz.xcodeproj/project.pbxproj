@@ -2748,8 +2748,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = WizNote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2768,8 +2768,8 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizGroup;
-				PROVISIONING_PROFILE = "E0CFE4E7-A34B-4911-99C8-58457270910D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0CFE4E7-A34B-4911-99C8-58457270910D";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2787,8 +2787,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = WizNote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2805,8 +2805,8 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizGroup;
-				PROVISIONING_PROFILE = "E0CFE4E7-A34B-4911-99C8-58457270910D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0CFE4E7-A34B-4911-99C8-58457270910D";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2852,8 +2852,8 @@
 				);
 				CODE_SIGN_ENTITLEMENTS = WizNote.entitlements;
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				COPY_PHASE_STRIP = YES;
@@ -2871,8 +2871,8 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizGroup;
-				PROVISIONING_PROFILE = "E0CFE4E7-A34B-4911-99C8-58457270910D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0CFE4E7-A34B-4911-99C8-58457270910D";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

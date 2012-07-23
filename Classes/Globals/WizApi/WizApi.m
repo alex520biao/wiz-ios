@@ -16,6 +16,7 @@
 #import "WizSyncManager.h"
 #import "WizSetting.h"
 #import "WizSettings.h"
+#import "WizGlobalError.h"
 
 #define SyncMethod_ClientLogin                  @"accounts.clientLogin"
 #define SyncMethod_ClientLogout                 @"accounts.clientLogout"
