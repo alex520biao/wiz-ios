@@ -666,6 +666,9 @@
     [self.queue inDatabase:^(FMDatabase *db) {
         ret= [db executeUpdate:@"delete from WIZ_DOCUMENT where DOCUMENT_GUID=?",documentGUID];
     }];
+    if (ret) {
+        [self addDeletedGUIDRecord:documentGUID type:WizDocumentKeyString];
+    }
     return ret;
 }
 

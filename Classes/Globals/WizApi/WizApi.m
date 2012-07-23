@@ -428,6 +428,11 @@
 {
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
+    for (id deletedGuid in deleteGuids) {
+        if (deletedGuid isKindOfClass:[WizDeletedGUID class]) {
+            accountURL
+        }
+    }
 	[postParams setObject:deleteGuids forKey:@"deleteds"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadDeletedList args:args];
@@ -440,7 +445,7 @@
     [postParams setObject:oldPassword forKey:TypeOfChangePasswordOldPassword];
     [postParams setObject:newPassword forKey:TypeOfChangePasswordNewPassword];
     [self addCommonParams:postParams];
-    NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+    NSArray *args = [NSArray arrayWithObjects:postParams, nil];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_ChangeAccountPassword args:args];
 }
 
