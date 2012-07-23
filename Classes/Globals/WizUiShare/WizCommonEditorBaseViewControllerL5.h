@@ -9,5 +9,5 @@
 #import "WizEditorBaseViewController.h"
 
 @interface WizCommonEditorBaseViewControllerL5 : WizEditorBaseViewController
-
++ (BOOL) canEditingDocumentwithEditorL5:(WizDocument*)doc;
 @end

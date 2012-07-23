@@ -222,6 +222,7 @@
 }
 - (void)viewDidLoad
 {
+    self.urlRequest = [NSURLRequest requestWithURL:[self buildEditorEnviromentLessThan5]];
     [super viewDidLoad];
     textView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:textView];
@@ -231,22 +232,52 @@
     self.voiceRecognitionView = [[[VoiceRecognition alloc] initWithFrame:CGRectMake(0.0, 0.0, 40, 40) parentView:editorWebView] autorelease];
     self.voiceRecognitionView.recognitionDelegate = self;
     [additionView addSubview:self.voiceRecognitionView];
-	// Do any additional setup after loading the view.
 
 }
 
 
++ (BOOL) canEditingDocumentwithEditorL5:(WizDocument*)doc
+{
+    if (doc == nil) {
+        return NO;
+    }
+    NSString* indexFile = [doc documentIndexFile];
+    NSError* error = nil;
+    NSString* indexString = [NSString stringWithContentsOfFile:indexFile usedEncoding:nil error:&error];
+    if(error)
+    {
+        NSLog(@"error %@",error);
+    }
+    NSRange  sourceRanger = NSMakeRange(0, indexString.length);
+    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
+    NSArray* bodys = [bodyRegular matchesInString:indexString options:NSMatchingReportCompletion range:sourceRanger];
+    NSRange bodyRange = NSMakeRange(0, 0);
+    for (NSTextCheckingResult* each in bodys) {
+        if ([each range].length > bodyRange.length) {
+            bodyRange = [each range];
+        }
+    }
+    if (bodyRange.length != 0) {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
 - (id) initWithWizDocument:(WizDocument *)doc
 {
     self = [super initWithWizDocument:doc];
     if (self) {
-        self.urlRequest = [NSURLRequest requestWithURL:[self buildEditorEnviromentLessThan5]];
     }
     return self;
 }
 - (void)viewDidUnload
 {
+    
     [super viewDidUnload];
+
+
     // Release any retained subviews of the main view.
 }
 

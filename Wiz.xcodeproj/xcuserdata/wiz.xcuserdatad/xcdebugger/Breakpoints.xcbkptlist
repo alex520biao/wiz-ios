@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
-         timestampString = "364364860.731972"
+         timestampString = "364709424.60021"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "375"
-         endingLineNumber = "375"
+         startingLineNumber = "393"
+         endingLineNumber = "393"
          landmarkName = "-searchBarCancelButtonClicked:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -877,11 +877,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
-         timestampString = "364364860.731972"
+         timestampString = "364709424.60021"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "403"
-         endingLineNumber = "403"
+         startingLineNumber = "421"
+         endingLineNumber = "421"
          landmarkName = "-displayEncryInfo"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1020,11 +1020,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
-         timestampString = "364364860.731972"
+         timestampString = "364709019.635421"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "281"
-         endingLineNumber = "281"
+         startingLineNumber = "307"
+         endingLineNumber = "307"
          landmarkName = "-editCurrentDocument"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1325,19 +1325,6 @@
          startingLineNumber = "116"
          endingLineNumber = "116"
          landmarkName = "-prapareForEditLessThan5"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/UIWebView+WizEditor.m"
-         timestampString = "364364742.186411"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "106"
-         endingLineNumber = "106"
-         landmarkName = "-prapareForEdit"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1728,6 +1715,19 @@
          startingLineNumber = "188"
          endingLineNumber = "188"
          landmarkName = "-searchTableView:cellForRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizUiShare/UIWebView+WizEditor.m"
+         timestampString = "364709611.967833"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "108"
+         endingLineNumber = "108"
+         landmarkName = "-prapareForEdit"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

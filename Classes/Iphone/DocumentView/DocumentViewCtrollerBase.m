@@ -265,15 +265,41 @@
 {
     return [self.web bodyText];
 }
+
+- (void) editCurrentDocumentUsingOldEditor
+{
+    NewNoteView* newNote= [[NewNoteView alloc]init];
+    WizDocument* edit = self.doc;
+    newNote.docEdit = edit;
+    NSMutableArray* array =[NSMutableArray array];
+    if ([self.doc.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.doc.type isEqualToString:WizDocumentTypeImageKeyString] || [self.doc.type isEqualToString:WizDocumentTypeNoteKeyString]) {
+        [array addObjectsFromArray:[self.doc existPhotoAndAudio]];
+    }
+    [array addObjectsFromArray:[self.doc attachments]];
+    [newNote prepareForEdit:[self.web bodyText] attachments:array];
+    UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
+    [self.navigationController presentModalViewController:controller animated:YES];
+    [newNote release];
+    [controller release];
+    self.isEdit = YES;
+}
+
+
 - (void)editCurrentDocument
 {
     self.isEdit = YES;
     if ([WizGlobals WizDeviceVersion] <5 ) {
-        WizPhoneEditorViewControllerL5* newNoteController = [[WizPhoneEditorViewControllerL5 alloc] initWithWizDocument:self.doc];
-        UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
-        [self.navigationController presentModalViewController:controller animated:YES];
-        [newNoteController release];
-        [controller release];
+        if ([WizCommonEditorBaseViewControllerL5 canEditingDocumentwithEditorL5:self.doc]) {
+            WizPhoneEditorViewControllerL5* newNoteController = [[WizPhoneEditorViewControllerL5 alloc] initWithWizDocument:self.doc];
+            UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNoteController];
+            [self.navigationController presentModalViewController:controller animated:YES];
+            [newNoteController release];
+            [controller release];
+        }
+        else
+        {
+            [self editDocument];
+        }
     }
     else
     {
@@ -296,7 +322,7 @@
     }
 	if( buttonIndex == 0 ) //Edit
 	{
-		[self editCurrentDocument];
+		[self editCurrentDocumentUsingOldEditor];
 	}
 }
 
@@ -309,10 +335,6 @@
 
 - (void) editDocument
 {
-	BOOL b = [web containImages];
-	//
-	if (b || ![self.doc.type isEqualToString:WizDocumentTypeNoteKeyString])
-	{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote 
 														message:WizStrIfyouchoosetoeditthisdocument
 													   delegate:self 
@@ -321,11 +343,7 @@
 		
 		[alert show];
 		[alert release];
-	}
-	else 
-	{
-		[self editCurrentDocument];
-	}
+
 }
 
 - (void) downloadProcess:(NSNotification*) nc

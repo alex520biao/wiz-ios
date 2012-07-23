@@ -405,7 +405,7 @@ BOOL isReverseMask(NSInteger mask)
         }
     }
     [tableContensString appendString:@"</ul>"];
-    NSString* html = [NSString stringWithFormat:@"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">  </style></head>%@<body contentEditable=true>%@</body></html>",[self titleHtmlString:_title],tableContensString];
+    NSString* html = [NSString stringWithFormat:@"<html>%@<body>%@</body></html>",[self titleHtmlString:_title],tableContensString];
     return html;
 }
 - (BOOL) saveWithHtmlBody:(NSString*)body
