@@ -367,8 +367,10 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 }
 - (void) autoSaveLessThan5
 {
-    NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"];
-    body = [body stringReplaceUseRegular:@"<wiz>|</wiz>"];
+    NSString* body = [editorWebView stringByEvaluatingJavaScriptFromString:@"documentEditedBody()"];
+    body = [body stringReplaceUseRegular:@"<wiz[^>]*>|</wiz>"];
+    body = [body stringReplaceUseRegular:@"<div[^>]*WizStartInsertDivIndentity[^>]*></div>"];
+    body = [body stringReplaceUseRegular:@"<div[^>]*WizEndInsertDivIndentity[^>]*></div>"];
     [self saveToLocalFile:body];
 }
 

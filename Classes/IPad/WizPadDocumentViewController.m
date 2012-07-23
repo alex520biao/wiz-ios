@@ -226,8 +226,8 @@
     [messageController setTitle:title];
     NSString* shareBodyText = [webView bodyText];
     
-    if (shareBodyText != nil && shareBodyText.length > 100) {
-        shareBodyText = [shareBodyText substringToIndex:100];
+    if (shareBodyText != nil && shareBodyText.length > 60) {
+        shareBodyText = [shareBodyText substringToIndex:60];
     }
     shareBodyText = [NSString stringWithFormat:@"%@\n%@",shareBodyText,WizStrShareByEms];
     [messageController setBody:shareBodyText];

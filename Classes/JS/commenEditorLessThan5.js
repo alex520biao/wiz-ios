@@ -5,6 +5,10 @@ var WizNotCmdChangedImage = "changedImage";
 var WizDeleteImageSpanName = "WizDeleteImageSpan";
 var needChangedNode = '';
 var currentSelectImage ='';
+var WizStartInsertDivIndentity = "WizStartInsertDivIndentity";
+var WizStartInsertWizIndentity = "WizStartInsertWizIndentity";
+var WizEndInsertDivIndentity = "WizEndInsertDivIndentity";
+var WizEndInsertWizIndentity = "WizEndInsertWizIndentity";
 
 function sendCmdToWiznote(cmd,content)
 {
@@ -23,12 +27,56 @@ $(function() {
                  });
   });
 
+function isElementIdEqule(element,compareId)
+{
+    if(element.hasAttribute('id'))
+    {
+        if(element.attributes.getNamedItem('id').value == compareId)
+            return true;
+        else
+            return false;
+    }
+    else
+    {
+        return false;
+    }
+}
 function clearjquery() {
     $('*').unbind();
 }
 function endFix(result) {
-    needChangedNode.innerHTML = result;
+    if(isElementIdEqule(needChangedNode, WizStartInsertDivIndentity))
+    {
+       startWiz =  document.getElementById(WizStartInsertWizIndentity);
+        startWiz.innerHTML = result + '<br>' + startWiz.innerHTML;
+    }
+    else if(isElementIdEqule(needChangedNode, WizEndInsertDivIndentity))
+    {
+        endWiz = document.getElementById(WizEndInsertWizIndentity);
+        endWiz.innerHTML = endWiz.innerHTML + '<br>' + result;
+    }
+    else
+    {
+        needChangedNode.innerHTML = result;
+    }
 }
+
+function clearWizEditorEnviroment()
+{
+    startWiz = document.getElementById(WizStartInsertDivIndentity);
+    startWiz.parentNode.removeChild(startWiz);
+    
+    endWiz = document.getElementById(WizEndInsertDivIndentity);
+    endWiz.parentNode.removeChild(endWiz);
+
+}
+
+function documentEditedBody()
+{
+    return document.body.innerHTML;
+}
+
+
 function getDocumentEditedBodyHtml() {
     return document.getElementById(EditorDivID).innerHTML;
 }
