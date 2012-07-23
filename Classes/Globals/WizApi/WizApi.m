@@ -496,7 +496,22 @@
 {
 	NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
 	[self addCommonParams:postParams];
-	[postParams setObject:deleteGuids forKey:@"deleteds"];
+    NSMutableArray* deletedArray = [NSMutableArray array];
+    for (id deletedGuid in deleteGuids) {
+        if ([deletedGuid isKindOfClass:[WizDeletedGUID class]]) {
+            WizDeletedGUID* deletedObject = (WizDeletedGUID*)deletedGuid;
+            
+            NSMutableDictionary* deletedObjectDic = [NSMutableDictionary dictionaryWithCapacity:3];
+            [deletedObjectDic setObject:deletedObject.guid forKey:@"deleted_guid"];
+            [deletedObjectDic setObject:deletedObject.type forKey:@"guid_type"];
+            [deletedObjectDic setObject:[deletedObject.dateDeleted dateFromSqlTimeString]  forKey:@"dt_deleted"];
+            
+            [deletedArray addObject:deletedObjectDic];
+        }
+    }
+    if ([deletedArray count]) {
+        [postParams setObject:deletedArray forKey:@"deleteds"];
+    }
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_UploadDeletedList args:args];
 }

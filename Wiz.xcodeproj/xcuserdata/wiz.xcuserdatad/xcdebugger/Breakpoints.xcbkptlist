@@ -760,11 +760,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizApi.m"
-         timestampString = "362561183.929116"
+         timestampString = "364704794.392501"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "592"
-         endingLineNumber = "592"
+         startingLineNumber = "607"
+         endingLineNumber = "607"
          landmarkName = "-onError:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -922,19 +922,6 @@
          startingLineNumber = "519"
          endingLineNumber = "519"
          landmarkName = "+reportError:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizApi.m"
-         timestampString = "364700732.439736"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "500"
-         endingLineNumber = "500"
-         landmarkName = "-callUploadDeletedGUIDs:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
