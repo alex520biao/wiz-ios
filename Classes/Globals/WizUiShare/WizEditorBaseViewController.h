@@ -10,7 +10,7 @@
 #import "UIWebView+WizEditor.h"
 #import "VoiceRecognition.h"
 #import "WizEditorCheckAttachmentViewController.h"
-
+#import "WizPadEditorNavigationDelegate.h"
 #define WizEditActionTagFixImage  4000
 
 @class WizDocument;
@@ -34,12 +34,14 @@
     //
     VoiceRecognition* voiceRecognitionView;
     //
+    id<WizPadEditorNavigationDelegate> padEditorNavigationDelegate;
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;
 @property (nonatomic, retain) NSURLRequest* urlRequest;
 @property (nonatomic, retain)  NSString* currentDeleteImagePath;
 @property (nonatomic, retain) VoiceRecognition* voiceRecognitionView;
+@property (nonatomic, retain) id<WizPadEditorNavigationDelegate> padEditorNavigationDelegate;
 //
 - (id) initWithWizDocument:(WizDocument*)doc;
 //

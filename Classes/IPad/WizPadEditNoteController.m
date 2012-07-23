@@ -52,9 +52,11 @@
 @implementation WizPadEditNoteController
 @synthesize currentPopoverController;
 @synthesize navigateDelegate;
+@synthesize editorNavigateDelegate;
 
 - (void) dealloc
 {
+    editorNavigateDelegate = nil;
     navigateDelegate = nil;
     [WizNotificationCenter removeObserver:self];
     [timerView release];
@@ -321,6 +323,7 @@
     [self.docEdit saveWithData:bodyInputTextView.text attachments:self.attachmentsArray];
     [self.navigationController dismissModalViewControllerAnimated:YES];
     [self.navigateDelegate newNoteWillDisappear];
+    [self.editorNavigateDelegate didEditCurrentDocumentDone];
 }
 
 - (float) updateTime

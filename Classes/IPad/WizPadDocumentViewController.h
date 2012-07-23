@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "WizPadCheckAttachmentDelegate.h"
+#import "WizPadEditorNavigationDelegate.h"
 @class UIBadgeView;
 
-@interface WizPadDocumentViewController : UIViewController <UIActionSheetDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,WizPadCheckAttachmentDelegate,UIWebViewDelegate,UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate>
+@interface WizPadDocumentViewController : UIViewController <UIActionSheetDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,WizPadCheckAttachmentDelegate,UIWebViewDelegate,UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate, WizPadEditorNavigationDelegate>
 {
     NSUInteger listType;
     NSString* documentListKey;

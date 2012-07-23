@@ -485,7 +485,7 @@
 		7346513F154A8B5B001F06A8 /* WizDecorate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDecorate.m; path = abstract/WizDecorate.m; sourceTree = "<group>"; };
 		73467DF9154506AE00ECF5F9 /* WizAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAttachment.h; path = WizStruct/WizAttachment.h; sourceTree = "<group>"; };
 		73467DFA154506AE00ECF5F9 /* WizAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAttachment.m; path = WizStruct/WizAttachment.m; sourceTree = "<group>"; };
-		73494E63157864BA0083463E /* WizPadNewNoteViewNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadNewNoteViewNavigationDelegate.h; path = MainView/WizPadNewNoteViewNavigationDelegate.h; sourceTree = "<group>"; };
+		73494E63157864BA0083463E /* WizPadNewNoteViewNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadNewNoteViewNavigationDelegate.h; path = ../../IPad/MainView/WizPadNewNoteViewNavigationDelegate.h; sourceTree = "<group>"; };
 		734CA1281504597D002549CB /* FoldersViewControllerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewControllerNew.h; sourceTree = "<group>"; };
 		734CA1291504597D002549CB /* FoldersViewControllerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewControllerNew.m; sourceTree = "<group>"; };
 		734CA12A1504597D002549CB /* LocationTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTreeNode.h; sourceTree = "<group>"; };
@@ -565,7 +565,7 @@
 		7380F7E3156B4F8800BC59F2 /* CatelogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatelogView.m; sourceTree = "<group>"; };
 		7380F7E5156B500400BC59F2 /* CatelogCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatelogCell.h; sourceTree = "<group>"; };
 		7380F7E6156B500400BC59F2 /* CatelogCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatelogCell.m; sourceTree = "<group>"; };
-		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadCheckAttachments.m; sourceTree = "<group>"; };
+		73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadCheckAttachments.m; path = ../../IPad/WizPadCheckAttachments.m; sourceTree = "<group>"; };
 		73810CDD14FB256E00BEBADC /* WizCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizCheckAttachments.h; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.h; sourceTree = SOURCE_ROOT; };
 		73810CDE14FB256F00BEBADC /* WizCheckAttachments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizCheckAttachments.m; path = Classes/Globals/WizUiShare/attachmentView/WizCheckAttachments.m; sourceTree = SOURCE_ROOT; };
 		738611481558BD86005C710C /* PhTagListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhTagListViewController.h; path = Classes/Iphone/DocumentList/PhTagListViewController.h; sourceTree = SOURCE_ROOT; };
@@ -657,15 +657,15 @@
 		73A7849514F8CC22001387F6 /* PickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickViewController.m; path = ../../IPad/PickViewController.m; sourceTree = "<group>"; };
 		73A7849614F8CC22001387F6 /* WizAddAcountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizAddAcountViewController.h; sourceTree = "<group>"; };
 		73A7849714F8CC22001387F6 /* WizAddAcountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizAddAcountViewController.m; sourceTree = "<group>"; };
-		73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadCheckAttachments.h; sourceTree = "<group>"; };
+		73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadCheckAttachments.h; path = ../../IPad/WizPadCheckAttachments.h; sourceTree = "<group>"; };
 		73A7849C14F8CC22001387F6 /* WizPadDocumentAbstractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentAbstractView.h; sourceTree = "<group>"; };
 		73A7849D14F8CC22001387F6 /* WizPadDocumentAbstractView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentAbstractView.m; sourceTree = "<group>"; };
 		73A784A214F8CC22001387F6 /* WizPadDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadDocumentViewController.h; sourceTree = "<group>"; };
 		73A784A314F8CC22001387F6 /* WizPadDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadDocumentViewController.m; sourceTree = "<group>"; };
-		73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditNoteController.h; sourceTree = "<group>"; };
-		73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditNoteController.m; sourceTree = "<group>"; };
-		73A784A614F8CC22001387F6 /* WizPadEditTagTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditTagTextFiled.h; sourceTree = "<group>"; };
-		73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditTagTextFiled.m; sourceTree = "<group>"; };
+		73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadEditNoteController.h; path = ../../IPad/WizPadEditNoteController.h; sourceTree = "<group>"; };
+		73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadEditNoteController.m; path = ../../IPad/WizPadEditNoteController.m; sourceTree = "<group>"; };
+		73A784A614F8CC22001387F6 /* WizPadEditTagTextFiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadEditTagTextFiled.h; path = ../../IPad/WizPadEditTagTextFiled.h; sourceTree = "<group>"; };
+		73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadEditTagTextFiled.m; path = ../../IPad/WizPadEditTagTextFiled.m; sourceTree = "<group>"; };
 		73A784A814F8CC22001387F6 /* WizPadListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadListCell.h; sourceTree = "<group>"; };
 		73A784A914F8CC22001387F6 /* WizPadListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadListCell.m; sourceTree = "<group>"; };
 		73A784AA14F8CC22001387F6 /* WizPadListTableControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadListTableControllerBase.h; sourceTree = "<group>"; };
@@ -921,6 +921,7 @@
 		73C59EE1151C25B500715995 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		73C59EE4151C290500715995 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		73CAAA1C14EA388500D5FF9B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		73CEF05015BD2C7F00016164 /* WizPadEditorNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadEditorNavigationDelegate.h; sourceTree = "<group>"; };
 		73D0986D15B0194100B42B5E /* editorLess5.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = editorLess5.js; sourceTree = "<group>"; };
 		73D455AD154508AB0003103F /* WizTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizTag.h; path = WizStruct/WizTag.h; sourceTree = "<group>"; };
 		73D455AE154508AB0003103F /* WizTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizTag.m; path = WizStruct/WizTag.m; sourceTree = "<group>"; };
@@ -1254,6 +1255,13 @@
 		734D043B15B7BBF200361CE0 /* IpadOldEditor */ = {
 			isa = PBXGroup;
 			children = (
+				73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */,
+				73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */,
+				73494E63157864BA0083463E /* WizPadNewNoteViewNavigationDelegate.h */,
+				73A784A614F8CC22001387F6 /* WizPadEditTagTextFiled.h */,
+				73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */,
+				73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */,
+				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
 			);
 			name = IpadOldEditor;
 			sourceTree = "<group>";
@@ -1304,6 +1312,7 @@
 		734D53B5157CA83100BE496E /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				73CEF05015BD2C7F00016164 /* WizPadEditorNavigationDelegate.h */,
 				734D043B15B7BBF200361CE0 /* IpadOldEditor */,
 				73B21E8615AC164900B1C4B5 /* CommonEditorM5 */,
 				73386C6D15A44020006831FC /* CommonEditorL5 */,
@@ -1646,13 +1655,6 @@
 				73C1488115240304000675BA /* DocumentAbs */,
 				73C14880152402E0000675BA /* Category */,
 				73C1487E152402D3000675BA /* DocumentView */,
-				73A784A414F8CC22001387F6 /* WizPadEditNoteController.h */,
-				73A784A514F8CC22001387F6 /* WizPadEditNoteController.m */,
-				73494E63157864BA0083463E /* WizPadNewNoteViewNavigationDelegate.h */,
-				73A784A614F8CC22001387F6 /* WizPadEditTagTextFiled.h */,
-				73A784A714F8CC22001387F6 /* WizPadEditTagTextFiled.m */,
-				73A7849A14F8CC22001387F6 /* WizPadCheckAttachments.h */,
-				73810CD814FB222000BEBADC /* WizPadCheckAttachments.m */,
 				738637A815173643006A9E16 /* Accounts */,
 				73A784AF14F8CC22001387F6 /* WizPadMainViewController.h */,
 				73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */,

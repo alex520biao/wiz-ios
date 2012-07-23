@@ -10,11 +10,15 @@
 #import "WizSelectTagViewController.h"
 #import "WizFolderSelectDelegate.h"
 #import "WizPadNewNoteViewNavigationDelegate.h"
+#import "WizPadEditorNavigationDelegate.h"
+
 @class UIBadgeView;
 @interface WizPadEditNoteController : WizEditNoteBase <UIActionSheetDelegate,UIScrollViewDelegate,UIPopoverControllerDelegate,UITextFieldDelegate,WizSelectTagDelegate,WizFolderSelectDelegate>
 {
     id <WizPadNewNoteViewNavigationDelegate> navigateDelegate;
+    id <WizPadEditorNavigationDelegate> editorNavigateDelegate;
 }
+@property (nonatomic, assign) id <WizPadEditorNavigationDelegate> editorNavigateDelegate;
 @property (nonatomic, assign) id <WizPadNewNoteViewNavigationDelegate> navigateDelegate;
 - (void) prepareForEdit:(NSString*)body attachments:(NSArray*)attachments;
 @end

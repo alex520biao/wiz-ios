@@ -79,8 +79,10 @@ typedef NSInteger WizEditNavigationBarItemTag;
 @synthesize sourceDelegate;
 @synthesize urlRequest;
 @synthesize currentPoperController;
+@synthesize padEditorNavigationDelegate;
 - (void) dealloc
 {
+    padEditorNavigationDelegate = nil;
     [currentPoperController release];
     //
     [voiceRecognitionView release];
@@ -425,6 +427,9 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self saveToLocal];
     [self doSaveDocument];
     [self.navigationController dismissModalViewControllerAnimated:YES];
+    if (self.padEditorNavigationDelegate) {
+        [self.padEditorNavigationDelegate didEditCurrentDocumentDone];
+    }
 }
 
 - (void) changeFonts
@@ -654,7 +659,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
     NSString* modelFile = [WizEditorBaseViewController editingHtmlModelFilePath];
     NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
-    content  =  [modelContent stringByReplacingOccurrencesOfString:@"<body>IOSWizEditor</body>" withString:content];
+    content  =  [modelContent stringByReplacingOccurrencesOfString:@"IOSWizEditor" withString:content];
     if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
     {
         NSLog(@"write error%@",error);
@@ -815,7 +820,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     self.navigationItem.leftBarButtonItem = cancelBtn;
     self.navigationItem.rightBarButtonItem = saveBtn;
     
-    [self buildPhoneNavigationTools];
+//    [self buildPhoneNavigationTools];
     
     [cancelBtn release];
     [saveBtn release];

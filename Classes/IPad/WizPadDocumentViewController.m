@@ -483,7 +483,47 @@
 {
     [webView reload];
 }
-- (void) onEditCurrentDocument
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == EditTag) {
+        if( buttonIndex == 0 ) //Edit
+        {
+            WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
+            edit.docEdit = self.selectedDocument;
+            NSMutableArray* array = [NSMutableArray arrayWithCapacity:2];
+            if ([self.selectedDocument.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeImageKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeNoteKeyString]) {
+                [array addObjectsFromArray:[self.selectedDocument existPhotoAndAudio]];
+            }
+            [edit prepareForEdit:[webView bodyText] attachments:array];
+            UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
+            [edit release];
+            nav.modalPresentationStyle = UIModalPresentationPageSheet;
+            [self.navigationController presentModalViewController:nav animated:YES];
+            [nav release];
+        }
+    }
+    
+}
+
+- (void) editCurrentDocumentUsingOldEditor
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
+                                                    message:WizStrIfyouchoosetoeditthisdocument
+                                                   delegate:self
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
+    alert.delegate = self;
+    alert.tag = EditTag;
+    [alert show];
+    [alert release];
+}
+
+- (void) didEditCurrentDocumentDone
+{
+    [webView reload];
+}
+- (IBAction) editCurrentDocument: (id)sender
 {
     WizEditorBaseViewController* editController = nil;
     if ([WizGlobals WizDeviceVersion] < 5.0) {
@@ -495,57 +535,12 @@
         editController = [[WizPadEditViewControllerM5 alloc] initWithWizDocument:self.selectedDocument];
     }
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:editController];
+    editController.padEditorNavigationDelegate = self;
     [editController release];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
     [self.navigationController presentModalViewController:controller animated:YES];
     [controller release];
-    
-    
-//    WizPadEditNoteController* edit = [[WizPadEditNoteController alloc] init];
-//    edit.docEdit = self.selectedDocument;
-//    NSMutableArray* array = [NSMutableArray arrayWithCapacity:2];
-//    if ([self.selectedDocument.type isEqualToString:WizDocumentTypeAudioKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeImageKeyString] || [self.selectedDocument.type isEqualToString:WizDocumentTypeNoteKeyString]) {
-//        [array addObjectsFromArray:[self.selectedDocument existPhotoAndAudio]];
-//    }
-//    [edit prepareForEdit:[webView bodyText] attachments:array];
-//    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
-//    [edit release];
-//    nav.modalPresentationStyle = UIModalPresentationPageSheet;
-//    [self.navigationController presentModalViewController:nav animated:YES];
-//    [nav release];
-}
-
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == EditTag) {
-        if( buttonIndex == 0 ) //Edit
-        {
-            [self onEditCurrentDocument];
-        }
-    }
-    
-}
-
-- (IBAction) editCurrentDocument: (id)sender
-{
-    BOOL b = [webView containImages];
-    if (b || ![self.selectedDocument.type isEqualToString:@"note"])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:WizStrEditNote
-                                                        message:WizStrIfyouchoosetoeditthisdocument 
-                                                       delegate:self
-                                              cancelButtonTitle:nil 
-                                              otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
-        alert.delegate = self;
-        alert.tag = EditTag;
-        [alert show];
-        [alert release];
-    }
-    else 
-    {
-        [self onEditCurrentDocument];
-    }
 }
 - (void) didPushCheckAttachmentViewController:(UIViewController *)attachement
 {
