@@ -79,4 +79,5 @@
 - (void) checkAttachment;
 //
 - (void) fixWebInsideImage:(NSString*)filePath;
+- (void) fixWebHttpInsideImage;
 @end

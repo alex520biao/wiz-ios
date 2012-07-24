@@ -35,6 +35,8 @@
 #define SyncMethod_GetAttachmentList            @"attachment.getList"
 #define SyncMethod_GetUserInfo                  @"wiz.getInfo"
 #define SyncMethod_GetGropKbGuids               @"accounts.getGroupKbList"
+#define SyncMethod_GetAllObjectVersion          @"wiz.getVersion"
+
 
 @implementation WizApi
 @synthesize token;
@@ -181,6 +183,10 @@
         {
             [delegate onCallGetGropList:ret];
         }
+        else if ([method isEqualToString:SyncMethod_GetAllObjectVersion])
+        {
+            [delegate onGetAllObjectVersion:ret];
+        }
         else
 		{
 			[WizGlobals reportErrorWithString:NSLocalizedString(@"Unknown xml-rpc method!", nil)];
@@ -290,6 +296,14 @@
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAllTags args:args];
+}
+
+- (BOOL) callGetAllObjectVersion
+{
+    NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+	[self addCommonParams:postParams];
+	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAllObjectVersion args:args];
 }
 
 -(BOOL) callPostTagList:(NSArray*)tagList

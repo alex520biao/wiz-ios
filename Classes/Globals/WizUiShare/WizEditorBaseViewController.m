@@ -230,6 +230,10 @@ typedef NSInteger WizEditNavigationBarItemTag;
     [action showInView:self.view];
     [action release];
 }
+- (void) fixWebHttpInsideImage
+{
+    [self fixWebInsideImage:nil];
+}
 
 + (NSString*)editingFilePath
 {

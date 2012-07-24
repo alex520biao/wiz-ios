@@ -124,7 +124,7 @@
             }
             else
             {
-                
+                [self fixWebHttpInsideImage];
             }
         }
     }

@@ -13,6 +13,20 @@
 #import "WizNotification.h"
 #import "WizSettings.h"
 
+static NSString* WizSyncVersionDocument     = @"document_version";
+static NSString* WizSyncVersionAttachment   = @"attachment_version";
+static NSString* WizSyncVersionTag          = @"tag_version";
+static NSString* WizSyncVersionDeleted      = @"deleted_version";
+
+@interface WizSyncInfo ()
+{
+    NSInteger  documentVersion;
+    NSInteger attachmentVersion;
+    NSInteger deletedVersion;
+    NSInteger tagVersion;
+}
+@end
+
 @implementation WizSyncInfo
 @synthesize dbDelegate;
 
@@ -70,6 +84,14 @@
 	NSArray* obj = retObject;
 	[[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
 }
+
+- (void) syncEnd
+{
+     busy = NO;
+    [self.apiManagerDelegate didApiSyncDone:self];
+    [self didChangeSyncStatue:WizSyncStatueEndSyncInfo];
+    [[WizSettings defaultSettings] setLastSynchronizedDate:[NSDate date]];
+}
 -(void) onDownloadAttachmentList:(id)retObject
 {
     if (!self.busy) {
@@ -87,20 +109,41 @@
         [self callDownloadAttachmentList:newVer+1];
     }
     else {
-        NSArray* ups = [WizDocument documentForUpload];
-        for (WizDocument* each in ups) {
-            [each upload];
-        }
-        NSArray* documents = [WizDocument documentsForCache];
-        for (WizDocument * each in documents) {
-            [each download];
-        }
+        [self uploadAllDocumentsAndAttachments];
     }
-    busy = NO;
-    [self.apiManagerDelegate didApiSyncDone:self];
-    [self didChangeSyncStatue:WizSyncStatueEndSyncInfo];
-    [[WizSettings defaultSettings] setLastSynchronizedDate:[NSDate date]];
+   
+    
 }
+- (void) uploadAllDocumentsAndAttachments
+{
+    [self syncEnd];
+    NSArray* ups = [WizDocument documentForUpload];
+    for (WizDocument* each in ups) {
+        [each upload];
+    }
+    NSArray* documents = [WizDocument documentsForCache];
+    for (WizDocument * each in documents) {
+        [each download];
+    }
+}
+- (BOOL) callDownloadAttachmentList:(int64_t)version
+{
+    NSLog(@"server attachment %d local %lld",attachmentVersion, version);
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+    [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfPadSyncInfoEnd];
+    [self didChangeSyncStatue:WizSyncStatueDownloadAttachmentList];
+    if (version < attachmentVersion) {
+        return [super callDownloadAttachmentList:version];
+    }
+    else
+    {
+        [self uploadAllDocumentsAndAttachments];
+        return YES;
+    }
+}
+
 -(void) onDownloadDocumentList: (id)retObject
 {
     if (!self.busy) {
@@ -112,50 +155,64 @@
         [[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
     });
 	
-	
     int64_t newVer = [self newVersion:obj];
     if (newVer > oldVer) {
-        [[[WizDbManager shareDbManager] shareDataBase] setDocumentVersion:newVer+1];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [[[WizDbManager shareDbManager] shareDataBase] setDocumentVersion:newVer+1];
+        });
         [self callDownloadDocumentList:newVer+1];
     }
     else {
-        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
-        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
-        [WizNotificationCenter postMessageWithName:MessageTypeOfPadTableViewListChangedOrder userInfoObject:nil userInfoKey:nil];
-        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfPadSyncInfoEnd];
         [self callDownloadAttachmentList:[[[WizDbManager shareDbManager] shareDataBase] attachmentVersion]];
-        [self didChangeSyncStatue:WizSyncStatueDownloadAttachmentList];
+
     }
 }
+
+- (BOOL) callDownloadDocumentList:(int64_t)version
+{
+    NSLog(@"server document %d local %lld",documentVersion, version);
+
+    if (version < documentVersion) {
+        [self didChangeSyncStatue:WizSyncStatueDownloadDocumentList];
+        return [super callDownloadDocumentList:version];
+    }
+    else
+    {
+        return [self callDownloadAttachmentList:[[[WizDbManager shareDbManager] shareDataBase] attachmentVersion]];
+    }
+}
+
 - (void) onAllCategories: (id)retObject
 {
     if (!self.busy) {
         return ;
     }
-	NSDictionary* obj = retObject;
-	//
-	// save values returned by getUserInfo into current blog
-	NSString* categories = [obj valueForKey:@"categories"];
-	categories = [categories stringByAppendingString:@"*/My Mobiles/"];
-	//
-	NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
+
 	//
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSDictionary* obj = retObject;
+        NSString* categories = [obj valueForKey:@"categories"];
+        categories = [categories stringByAppendingString:@"*/My Mobiles/"];
+        //
+        NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
+        //
         [[[WizDbManager shareDbManager] shareDataBase] updateLocations:arrCategory];
     });
 	
     [self callDownloadDocumentList:[[[WizDbManager shareDbManager] shareDataBase] documentVersion]];
-    [self didChangeSyncStatue:WizSyncStatueDownloadDocumentList];
+
 }
 - (void) onPostTagList:(id)retObject
 {
     if (!self.busy) {
         return ;
     }
-    for (WizTag* tag in [[[WizDbManager shareDbManager] shareDataBase] tagsForUpload]) {
-        tag.localChanged = 0;
-        [tag save];
-    }
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (WizTag* tag in [[[WizDbManager shareDbManager] shareDataBase] tagsForUpload]) {
+            tag.localChanged = 0;
+            [tag save];
+        }
+    });
     [self callAllCategories];
     [self didChangeSyncStatue:WizSyncStatueDownloadFolder];
 }
@@ -177,10 +234,36 @@
         [self callAllTags:newVer+1];
     }
     else {
-        [self callPostTagList:[[[WizDbManager shareDbManager] shareDataBase] tagsForUpload]];
-        [self didChangeSyncStatue:WizSyncStatueUploadTags];
+        [self uploadAllTags];
+
     }
 }
+- (BOOL) uploadAllTags
+{
+    NSArray* tagsForUpload = [[[WizDbManager shareDbManager] shareDataBase] tagsForUpload];
+    if ([tagsForUpload count]) {
+        [self didChangeSyncStatue:WizSyncStatueUploadTags];
+        return [self callPostTagList:tagsForUpload];
+    }
+    else
+    {
+        return [self callAllCategories];
+    }
+}
+
+- (BOOL) callAllTags:(int64_t)version
+{
+    NSLog(@"server tag is %d  local %lld",tagVersion, version);
+    if (version < tagVersion) {
+         [self didChangeSyncStatue:WizSyncStatueDownloadTags];
+        return [super callAllTags:version];
+    }
+    else
+    {
+        return [self uploadAllTags];
+    }
+}
+
 -(void) onUploadDeletedGUIDs: (id)retObjec
 {
     if (!self.busy) {
@@ -188,7 +271,7 @@
     }
 	[[[WizDbManager shareDbManager] shareDataBase] clearDeletedGUIDs];
     [self callAllTags:[[[WizDbManager shareDbManager] shareDataBase] tagVersion]];
-    [self didChangeSyncStatue:WizSyncStatueDownloadTags];
+   
 }
 -(void) onDownloadDeletedList: (id)retObject
 {
@@ -229,10 +312,48 @@
         [self callDownloadDeletedList:newVer+1];
     }
     else {
-        [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
-        NSArray* array = [[[WizDbManager shareDbManager] shareDataBase] deletedGUIDsForUpload];
-        [self callUploadDeletedGUIDs:array];
+        [self uploadDeletedGuids];
     }
+}
+
+- (BOOL) uploadDeletedGuids
+{
+    [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
+    NSArray* array = [[[WizDbManager shareDbManager] shareDataBase] deletedGUIDsForUpload];
+    if ([array count]) {
+        return [self callUploadDeletedGUIDs:array];
+    }
+    else
+    {
+        return [self callAllTags:[[[WizDbManager shareDbManager] shareDataBase] tagVersion]];
+    }
+}
+
+- (BOOL) callDownloadDeletedList:(int64_t)version
+{
+    NSLog(@"server deleted Version is %d  local is %lld",deletedVersion, version);
+    if (version <  deletedVersion)
+    {
+        [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
+        return [super callDownloadDeletedList:version];
+    }
+    else
+    {
+        return [self uploadDeletedGuids];
+    }
+}
+- (void) onGetAllObjectVersion:(id)retObject
+{
+    if ([retObject isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* versionDic = (NSDictionary*)retObject;
+        //local version is always plus 1
+        documentVersion     = [[versionDic valueForKey:WizSyncVersionDocument]      integerValue]+1;
+        attachmentVersion   = [[versionDic valueForKey:WizSyncVersionAttachment]    integerValue]+1;
+        tagVersion          = [[versionDic valueForKey:WizSyncVersionTag]           integerValue]+1;
+        deletedVersion      = [[versionDic valueForKey:WizSyncVersionDeleted]       integerValue]+1;
+    }
+    NSLog(@"%d %d %d %d",documentVersion, attachmentVersion, tagVersion, deletedVersion);
+    [self callDownloadDeletedList:[[[WizDbManager shareDbManager] shareDataBase] deletedGUIDVersion]];
 }
 - (BOOL) start
 {
@@ -241,8 +362,8 @@
         return NO;
     }
     busy = YES;
-    [self didChangeSyncStatue:WizSyncStatueDownloadDeletedItems];
-    return [self callDownloadDeletedList:[[[WizDbManager shareDbManager] shareDataBase] deletedGUIDVersion]];
+
+    return [self callGetAllObjectVersion];
 }
 - (void) onError:(id)retObject
 {
