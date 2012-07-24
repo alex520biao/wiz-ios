@@ -1410,11 +1410,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizDbManger/WizDbManger/WizInfoDataBase.m"
-         timestampString = "364794525.34266"
+         timestampString = "364804338.486963"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "719"
-         endingLineNumber = "719"
+         startingLineNumber = "733"
+         endingLineNumber = "733"
          landmarkName = "-updateLocations:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1832,19 +1832,6 @@
          startingLineNumber = "169"
          endingLineNumber = "169"
          landmarkName = "-logoutAccount"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizDbManger/WizDbManger/WizInfoDataBase.m"
-         timestampString = "364794525.34266"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "314"
-         endingLineNumber = "314"
-         landmarkName = "-updateDocument:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
