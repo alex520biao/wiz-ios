@@ -143,9 +143,16 @@
 {
     MFMessageComposeViewController* messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
-    NSString* title = [NSString stringWithFormat:@"%@ %@",self.doc.title,WizStrShareByWiz];
+    NSString* title = [NSString stringWithFormat:@"%@....%@",self.doc.title,WizStrShareByWiz];
     [messageController setTitle:title];
-    [messageController setBody:[[web bodyText] stringByAppendingFormat:@"\n%@",WizStrShareByWiz]];
+    NSString* shareBodyText = [web bodyText];
+    
+    if (shareBodyText != nil && shareBodyText.length > 60)
+    {
+        shareBodyText = [shareBodyText substringToIndex:60];
+    }
+    shareBodyText = [NSString stringWithFormat:@"%@\n%@",shareBodyText,WizStrShareByEms];
+    [messageController setBody:shareBodyText];
     [self presentModalViewController:messageController animated:YES];
     [messageController release];
 }

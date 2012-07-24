@@ -54,7 +54,9 @@
 
 - (void) stopAutoSaveDocument
 {
-    [autoSaveTimer invalidate];
+    if (autoSaveTimer) {
+        [autoSaveTimer invalidate];
+    }
     NSString* modelFile = [WizEditorBaseViewController editingDocumentModelFilePath];
     NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
     WizFileManager* fileManger = [WizFileManager shareManager];

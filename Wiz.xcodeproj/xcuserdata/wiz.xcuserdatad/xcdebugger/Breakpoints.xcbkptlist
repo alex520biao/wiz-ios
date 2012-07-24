@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
-         timestampString = "364709424.60021"
+         timestampString = "364811306.858343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "393"
-         endingLineNumber = "393"
+         startingLineNumber = "400"
+         endingLineNumber = "400"
          landmarkName = "-searchBarCancelButtonClicked:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -851,11 +851,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
-         timestampString = "364709424.60021"
+         timestampString = "364811306.858343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "421"
-         endingLineNumber = "421"
+         startingLineNumber = "428"
+         endingLineNumber = "428"
          landmarkName = "-displayEncryInfo"
          landmarkType = "5">
       </FileBreakpoint>
@@ -994,11 +994,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/DocumentViewCtrollerBase.m"
-         timestampString = "364709019.635421"
+         timestampString = "364811306.858343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "307"
-         endingLineNumber = "307"
+         startingLineNumber = "314"
+         endingLineNumber = "314"
          landmarkName = "-editCurrentDocument"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1553,11 +1553,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/AccountManager/WizAccountManager.m"
-         timestampString = "364443217.406931"
+         timestampString = "364814863.732898"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
+         startingLineNumber = "83"
+         endingLineNumber = "83"
          landmarkName = "-init"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1826,11 +1826,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/AccountManager/WizAccountManager.m"
-         timestampString = "364793271.748874"
+         timestampString = "364814863.732898"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "169"
-         endingLineNumber = "169"
+         startingLineNumber = "175"
+         endingLineNumber = "175"
          landmarkName = "-logoutAccount"
          landmarkType = "5">
       </FileBreakpoint>

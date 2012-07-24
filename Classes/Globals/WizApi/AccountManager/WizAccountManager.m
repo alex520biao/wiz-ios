@@ -64,6 +64,10 @@
                 [settingDataBase setWizDefaultAccountUserId:defaultUserId];
             }
         }
+        NSError* error = nil;
+        if (![fileManager removeItemAtPath:accountsFilePath error:&error]) {
+            NSLog(@"error %@",error);
+        }
     }
 }
 //over
@@ -163,7 +167,9 @@
 
 - (void) logoutAccount
 {
-    [timer invalidate];
+    if (timer) {
+        [timer invalidate];
+    }
     WizSyncManager* sync = [WizSyncManager shareManager];
     [sync resignActive];
     [self setDefalutAccount:@""];
