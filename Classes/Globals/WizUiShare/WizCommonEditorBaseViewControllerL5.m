@@ -63,7 +63,8 @@
         }
         if (currentEditStringRange.location != NSNotFound && nil!= string) {
             @try {
-                if (currentEditStringRange.length >0) {
+                if (currentEditStringRange.length >0)
+                {
                     [edit replaceCharactersInRange:currentEditStringRange withString:string];
                 }
                 else
@@ -78,7 +79,8 @@
                     [edit insertString:string atIndex:currentEditStringRange.location];
                 }
             }
-            @finally {
+            @finally
+            {
                 [edit insertString:string atIndex:0];
             }
         }

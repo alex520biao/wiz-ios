@@ -198,6 +198,9 @@
 - (BOOL) updateAccount:(NSString*)userId password:(NSString *)password
 {
     __block BOOL ret;
+    if (userId) {
+        userId = [userId lowercaseString];
+    }
     if ([self accountFromUserId:userId]) {
         [queue inDatabase:^(FMDatabase *db) {
             ret = [db executeUpdate:@"update WizAccount set ACCOUNT_PASSWORD=? where ACCOUNT_USERID=?",userId, password];

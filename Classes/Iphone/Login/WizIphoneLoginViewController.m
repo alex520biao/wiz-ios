@@ -15,6 +15,7 @@
 #import "WizGlobals.h"
 #import "PickViewController.h"
 #import "WizAccountManager.h"
+#import "WizDbManager.h"
 @interface WizIphoneLoginViewController ()
 {
     BOOL firstLoad;
@@ -32,7 +33,7 @@
 
 - (void) selecteDefaultAccount
 {
-    NSString* defaultUserId = [[WizAccountManager defaultManager]activeAccountUserId];
+    NSString* defaultUserId = [[[WizDbManager shareDbManager] getWizSettingsDataBase] defaultAccountUserId];
     if (defaultUserId == nil || [defaultUserId isEqualToString:@""])
     {
         return;
