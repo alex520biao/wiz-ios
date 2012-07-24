@@ -538,34 +538,33 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     attachments.tag = WizEditNavigationBarItemTagAttachment;
     
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    NSMutableArray* tools = [NSMutableArray array];
+    [tools addObject:flex];
+    [tools addObject:info];
+    [tools addObject:flex];
+    if ([self canSnapPhotos]) {
+        [tools addObject:snap];
+        [tools addObject:flex];
+    }
     
-    if ([WizGlobals WizDeviceVersion] > 5.0) {
-        NSMutableArray* tools = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
+    [tools addObject:select];
+    [tools addObject:flex];
+    if ([self canRecord]) {
+        [tools addObject:recoder];
         [tools addObject:flex];
-        [tools addObject:info];
-        [tools addObject:flex];
-        if ([self canSnapPhotos]) {
-            [tools addObject:snap];
-            [tools addObject:flex];
-        }
-        
-        [tools addObject:select];
-        [tools addObject:flex];
-        if ([self canRecord]) {
-            [tools addObject:recoder];
-            [tools addObject:flex];
-        }
-        [tools addObject:attachments];
-        [tools addObject:flex];
+    }
+    [tools addObject:attachments];
+    [tools addObject:flex];
+    if ([WizGlobals WizDeviceVersion] >= 5.0)
+    {
+        [tools insertObject:self.navigationItem.rightBarButtonItem atIndex:0];
         self.navigationItem.rightBarButtonItems = tools;
     }
     else
     {
-        UIToolbar* navigationToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 44)];
-        navigationToolBar.items = [NSArray arrayWithObjects:
-                                   info,
-                                   snap
-                                   ,nil];
+        UIToolbar* navigationToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 40)];
+        navigationToolBar.items = tools;
+        navigationToolBar.backgroundColor = [UIColor clearColor];
         self.navigationItem.titleView = navigationToolBar;
     }
    
@@ -838,7 +837,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     self.navigationItem.leftBarButtonItem = cancelBtn;
     self.navigationItem.rightBarButtonItem = saveBtn;
     
-//    [self buildPhoneNavigationTools];
+    [self buildPhoneNavigationTools];
     
     [cancelBtn release];
     [saveBtn release];
