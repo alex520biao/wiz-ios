@@ -72,7 +72,7 @@
         }
         else
         {
-            [WizGlobals reportError:[NSError errorWithDomain:WizErrorDomain code:6666 userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"There is no interner connection and it can.t login!", nil) forKey:NSLocalizedDescriptionKey]]];
+            [WizGlobals reportError:[NSError errorWithDomain:WizErrorDomain code:6666 userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"There is no internet connection and it can't login!", nil) forKey:NSLocalizedDescriptionKey]]];
             [self.verifyDelegate didVerifyAccountFaild];
         }
          busy = NO;

@@ -287,7 +287,6 @@
 
 - (void)editCurrentDocument
 {
-    self.isEdit = YES;
     if ([WizGlobals WizDeviceVersion] <5 ) {
         if ([WizCommonEditorBaseViewControllerL5 canEditingDocumentwithEditorL5:self.doc]) {
             WizPhoneEditorViewControllerL5* newNoteController = [[WizPhoneEditorViewControllerL5 alloc] initWithWizDocument:self.doc];
@@ -475,6 +474,7 @@
     }
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
+        attachmentCountBadgeView.hidden = NO;
         attachmentCountBadgeView.frame = AttachmentCountBadgeViewPotraitFrame;
         attachmentCountBadgeView.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
     }
@@ -541,8 +541,6 @@
     [search release];
     [shareItem release];
     [self setToolbarItems:array];
-    
-    
 }
 
 - (void)viewDidLoad

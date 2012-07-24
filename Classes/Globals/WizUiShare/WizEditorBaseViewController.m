@@ -47,7 +47,6 @@ typedef NSInteger WizEditNavigationBarItemTag;
 {
     
     AVAudioRecorder *audioRecorder;
-	AVAudioSession *audioSession;
     NSTimer* audioTimer;
     CGFloat currentRecoderTime;
     //
@@ -65,14 +64,12 @@ typedef NSInteger WizEditNavigationBarItemTag;
     
 }
 @property (retain) AVAudioRecorder* audioRecorder;
-@property (retain) AVAudioSession* audioSession;
 @property (retain) NSTimer* audioTimer;
 @property (nonatomic, retain) UIPopoverController* currentPoperController;
 @end
 
 @implementation WizEditorBaseViewController
 @synthesize audioRecorder;
-@synthesize audioSession;
 @synthesize audioTimer;
 @synthesize currentDeleteImagePath;
 @synthesize docEdit;
@@ -88,10 +85,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
     [voiceRecognitionView release];
     //
     [audioRecorder release];
-    [audioSession release];
-    
     //
-
     [audioTimer release];
     //
     [docEdit release];
