@@ -10,8 +10,6 @@
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
 #import "WizApi.h"
-#import "ELCImagePickerController.h"
-#import "ELCAlbumPickerController.h"
 #import "WizFileManager.h"
 #import "WizSettings.h"
 #import "WizEditorBaseViewController.h"
@@ -211,32 +209,13 @@
 
 -(BOOL) selectePhotos
 {
-    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];
-	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
-    [albumController setParent:elcPicker];
-	[elcPicker setDelegate:self];
-    [albumController release];
-    [self.navigationController presentModalViewController:elcPicker animated:YES];
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentModalViewController:picker animated:YES];
     return YES;
 }
 
-- (void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker
-{
-    [picker dismissModalViewControllerAnimated:YES];
-}
-- (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
-    NSLog(@"image quality %lld",[[WizSettings defaultSettings] imageQualityValue]);
-    for(NSDictionary* each in info)
-    {
-        UIImage* image = [each objectForKey:UIImagePickerControllerOriginalImage];
-        image = [image compressedImage:[[WizSettings defaultSettings] imageQualityValue]];
-        NSString* fileNamePath = [[[WizFileManager shareManager] getAttachmentSourceFileName] stringByAppendingString:@".jpg"];
-        [UIImageJPEGRepresentation(image, 1.0) writeToFile:fileNamePath atomically:YES];
-        [self.attachmentsArray addAttachmentBySourceFile:fileNamePath];
-    }
-    [self attachmentAddDone];
-    [self elcImagePickerControllerDidCancel:picker];
-}
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissModalViewControllerAnimated:YES];

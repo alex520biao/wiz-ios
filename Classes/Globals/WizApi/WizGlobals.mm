@@ -49,7 +49,7 @@ static NSArray* htmlArray;
 
 + (float) WizDeviceVersion
 {
-    return 5.0f;
+    return 4.0f;
 //    return [[[UIDevice currentDevice] systemVersion] floatValue];
 }
 

@@ -406,13 +406,16 @@
 }
 - (BOOL) selectePhotos
 {
-    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];
-	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
-    [albumController setParent:elcPicker];
-	[elcPicker setDelegate:self];
-    [albumController release];
-    [self popverViewController:elcPicker fromRect:CGRectMake(630, 0.0, 0.1, 10) permittedArrowDirections:UIPopoverArrowDirectionUp];
-    [currentPopoverController setContentViewController:elcPicker animated:YES];
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];
+//	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
+//    [albumController setParent:elcPicker];
+//	[elcPicker setDelegate:self];
+//    [albumController release];
+    [self popverViewController:picker fromRect:CGRectMake(630, 0.0, 0.1, 10) permittedArrowDirections:UIPopoverArrowDirectionUp];
+//    [currentPopoverController setContentViewController:elcPicker animated:YES];
     return YES;
 }
 - (void) buildNavigtionTitleView

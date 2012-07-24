@@ -13,8 +13,6 @@
 #import "VoiceRecognition.h"
 
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
-@class ELCImagePickerController;
-@class WizDocument;
 @interface WizEditNoteBase : UIViewController<AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizVoiceRecognitionDelegate>
 {
     WizDocument* docEdit;

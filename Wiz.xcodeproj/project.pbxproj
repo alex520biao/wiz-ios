@@ -181,15 +181,6 @@
 		73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784F414F8CC22001387F6 /* SearchViewControllerIphone.m */; };
 		73A785BF14F8CC23001387F6 /* SearchWebView.js in Resources */ = {isa = PBXBuildFile; fileRef = 73A784F714F8CC22001387F6 /* SearchWebView.js */; };
 		73A785C014F8CC23001387F6 /* CloudReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784FB14F8CC22001387F6 /* CloudReview.m */; };
-		73A785C114F8CC23001387F6 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784FE14F8CC22001387F6 /* ELCAlbumPickerController.m */; };
-		73A785C214F8CC23001387F6 /* ELCAlbumPickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784FF14F8CC22001387F6 /* ELCAlbumPickerController.xib */; };
-		73A785C314F8CC23001387F6 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7850114F8CC22001387F6 /* ELCAsset.m */; };
-		73A785C414F8CC23001387F6 /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7850314F8CC22001387F6 /* ELCAssetCell.m */; };
-		73A785C514F8CC23001387F6 /* ELCAssetPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7850414F8CC22001387F6 /* ELCAssetPicker.xib */; };
-		73A785C614F8CC23001387F6 /* ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7850614F8CC22001387F6 /* ELCAssetTablePicker.m */; };
-		73A785C714F8CC23001387F6 /* ELCAssetTablePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7850714F8CC22001387F6 /* ELCAssetTablePicker.xib */; };
-		73A785C814F8CC23001387F6 /* ELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7850914F8CC22001387F6 /* ELCImagePickerController.m */; };
-		73A785C914F8CC23001387F6 /* ELCImagePickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A7850A14F8CC22001387F6 /* ELCImagePickerController.xib */; };
 		73A785CA14F8CC23001387F6 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 73A7850D14F8CC22001387F6 /* ioapi.c */; };
 		73A785CB14F8CC23001387F6 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 73A7850F14F8CC22001387F6 /* mztools.c */; };
 		73A785CC14F8CC23001387F6 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 73A7851114F8CC22001387F6 /* unzip.c */; };
@@ -701,20 +692,6 @@
 		73A784F714F8CC22001387F6 /* SearchWebView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SearchWebView.js; sourceTree = "<group>"; };
 		73A784FA14F8CC22001387F6 /* CloudReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudReview.h; sourceTree = "<group>"; };
 		73A784FB14F8CC22001387F6 /* CloudReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudReview.m; sourceTree = "<group>"; };
-		73A784FD14F8CC22001387F6 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
-		73A784FE14F8CC22001387F6 /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
-		73A784FF14F8CC22001387F6 /* ELCAlbumPickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAlbumPickerController.xib; sourceTree = "<group>"; };
-		73A7850014F8CC22001387F6 /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
-		73A7850114F8CC22001387F6 /* ELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAsset.m; sourceTree = "<group>"; };
-		73A7850214F8CC22001387F6 /* ELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetCell.h; sourceTree = "<group>"; };
-		73A7850314F8CC22001387F6 /* ELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetCell.m; sourceTree = "<group>"; };
-		73A7850414F8CC22001387F6 /* ELCAssetPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAssetPicker.xib; sourceTree = "<group>"; };
-		73A7850514F8CC22001387F6 /* ELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetTablePicker.h; sourceTree = "<group>"; };
-		73A7850614F8CC22001387F6 /* ELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetTablePicker.m; sourceTree = "<group>"; };
-		73A7850714F8CC22001387F6 /* ELCAssetTablePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAssetTablePicker.xib; sourceTree = "<group>"; };
-		73A7850814F8CC22001387F6 /* ELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCImagePickerController.h; sourceTree = "<group>"; };
-		73A7850914F8CC22001387F6 /* ELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCImagePickerController.m; sourceTree = "<group>"; };
-		73A7850A14F8CC22001387F6 /* ELCImagePickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCImagePickerController.xib; sourceTree = "<group>"; };
 		73A7850C14F8CC22001387F6 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		73A7850D14F8CC22001387F6 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		73A7850E14F8CC22001387F6 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -1772,7 +1749,6 @@
 				73C0A40F156A39B2002EDFE4 /* ATMHud */,
 				736DEA521552843D00633B89 /* MBProcessHUD */,
 				73A784F914F8CC22001387F6 /* CloudReview */,
-				73A784FC14F8CC22001387F6 /* ElcMutilSeleted */,
 				73A7850B14F8CC22001387F6 /* minizip */,
 				73A7851714F8CC22001387F6 /* NSDateAddtion */,
 				73A7851C14F8CC22001387F6 /* Pinyin */,
@@ -1792,27 +1768,6 @@
 				73A784FB14F8CC22001387F6 /* CloudReview.m */,
 			);
 			path = CloudReview;
-			sourceTree = "<group>";
-		};
-		73A784FC14F8CC22001387F6 /* ElcMutilSeleted */ = {
-			isa = PBXGroup;
-			children = (
-				73A784FD14F8CC22001387F6 /* ELCAlbumPickerController.h */,
-				73A784FE14F8CC22001387F6 /* ELCAlbumPickerController.m */,
-				73A784FF14F8CC22001387F6 /* ELCAlbumPickerController.xib */,
-				73A7850014F8CC22001387F6 /* ELCAsset.h */,
-				73A7850114F8CC22001387F6 /* ELCAsset.m */,
-				73A7850214F8CC22001387F6 /* ELCAssetCell.h */,
-				73A7850314F8CC22001387F6 /* ELCAssetCell.m */,
-				73A7850414F8CC22001387F6 /* ELCAssetPicker.xib */,
-				73A7850514F8CC22001387F6 /* ELCAssetTablePicker.h */,
-				73A7850614F8CC22001387F6 /* ELCAssetTablePicker.m */,
-				73A7850714F8CC22001387F6 /* ELCAssetTablePicker.xib */,
-				73A7850814F8CC22001387F6 /* ELCImagePickerController.h */,
-				73A7850914F8CC22001387F6 /* ELCImagePickerController.m */,
-				73A7850A14F8CC22001387F6 /* ELCImagePickerController.xib */,
-			);
-			path = ElcMutilSeleted;
 			sourceTree = "<group>";
 		};
 		73A7850B14F8CC22001387F6 /* minizip */ = {
@@ -2316,10 +2271,6 @@
 				737B5318151EFF0900CE3656 /* WizPadLoginViewController.xib in Resources */,
 				73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */,
 				73A785BA14F8CC23001387F6 /* NewWelcomePage.xib in Resources */,
-				73A785C214F8CC23001387F6 /* ELCAlbumPickerController.xib in Resources */,
-				73A785C514F8CC23001387F6 /* ELCAssetPicker.xib in Resources */,
-				73A785C714F8CC23001387F6 /* ELCAssetTablePicker.xib in Resources */,
-				73A785C914F8CC23001387F6 /* ELCImagePickerController.xib in Resources */,
 				73A785E114F8CC23001387F6 /* MainWindow-iPad.xib in Resources */,
 				73A785E214F8CC23001387F6 /* MainWindow.xib in Resources */,
 				73A7867314F8CD5D001387F6 /* arrow.png in Resources */,
@@ -2541,11 +2492,6 @@
 				73A785BC14F8CC23001387F6 /* SearchHistoryView.m in Sources */,
 				73A785BE14F8CC23001387F6 /* SearchViewControllerIphone.m in Sources */,
 				73A785C014F8CC23001387F6 /* CloudReview.m in Sources */,
-				73A785C114F8CC23001387F6 /* ELCAlbumPickerController.m in Sources */,
-				73A785C314F8CC23001387F6 /* ELCAsset.m in Sources */,
-				73A785C414F8CC23001387F6 /* ELCAssetCell.m in Sources */,
-				73A785C614F8CC23001387F6 /* ELCAssetTablePicker.m in Sources */,
-				73A785C814F8CC23001387F6 /* ELCImagePickerController.m in Sources */,
 				73A785CA14F8CC23001387F6 /* ioapi.c in Sources */,
 				73A785CB14F8CC23001387F6 /* mztools.c in Sources */,
 				73A785CC14F8CC23001387F6 /* unzip.c in Sources */,
