@@ -156,7 +156,8 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
     });
 	
     int64_t newVer = [self newVersion:obj];
-    if (newVer > oldVer) {
+    NSLog(@"document newVer is %lld",newVer);
+    if (newVer >= oldVer) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             [[[WizDbManager shareDbManager] shareDataBase] setDocumentVersion:newVer+1];
         });

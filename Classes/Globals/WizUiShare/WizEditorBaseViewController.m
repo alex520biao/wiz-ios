@@ -539,24 +539,36 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    NSMutableArray* tools = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
-    [tools addObject:flex];
-    [tools addObject:info];
-    [tools addObject:flex];
-    if ([self canSnapPhotos]) {
-        [tools addObject:snap];
+    if ([WizGlobals WizDeviceVersion] > 5.0) {
+        NSMutableArray* tools = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
         [tools addObject:flex];
+        [tools addObject:info];
+        [tools addObject:flex];
+        if ([self canSnapPhotos]) {
+            [tools addObject:snap];
+            [tools addObject:flex];
+        }
+        
+        [tools addObject:select];
+        [tools addObject:flex];
+        if ([self canRecord]) {
+            [tools addObject:recoder];
+            [tools addObject:flex];
+        }
+        [tools addObject:attachments];
+        [tools addObject:flex];
+        self.navigationItem.rightBarButtonItems = tools;
+    }
+    else
+    {
+        UIToolbar* navigationToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 0.0, 200, 44)];
+        navigationToolBar.items = [NSArray arrayWithObjects:
+                                   info,
+                                   snap
+                                   ,nil];
+        self.navigationItem.titleView = navigationToolBar;
     }
    
-    [tools addObject:select];
-    [tools addObject:flex];
-    if ([self canRecord]) {
-        [tools addObject:recoder];
-        [tools addObject:flex];
-    }
-    [tools addObject:attachments];
-    [tools addObject:flex];
-    self.navigationItem.rightBarButtonItems = tools;
     [flex release];
 }
 
