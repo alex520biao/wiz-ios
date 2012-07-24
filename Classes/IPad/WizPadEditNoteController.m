@@ -14,8 +14,6 @@
 #import "WizPadNotificationMessage.h"
 #import "WizDictionaryMessage.h"
 #import "UIBadgeView.h"
-#import "ELCImagePickerController.h"
-#import "ELCAlbumPickerController.h"
 #import "WizPadCheckAttachments.h"
 #import "WizNotification.h"
 #import "WizDbManager.h"
@@ -409,13 +407,7 @@
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//    ELCAlbumPickerController *albumController = [[ELCAlbumPickerController alloc] initWithNibName:@"ELCAlbumPickerController" bundle:[NSBundle mainBundle]];
-//	ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initWithRootViewController:albumController];
-//    [albumController setParent:elcPicker];
-//	[elcPicker setDelegate:self];
-//    [albumController release];
     [self popverViewController:picker fromRect:CGRectMake(630, 0.0, 0.1, 10) permittedArrowDirections:UIPopoverArrowDirectionUp];
-//    [currentPopoverController setContentViewController:elcPicker animated:YES];
     return YES;
 }
 - (void) buildNavigtionTitleView
