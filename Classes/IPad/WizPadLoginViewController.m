@@ -16,6 +16,7 @@
 #import "WizNotification.h"
 #import "WizPadMainViewController.h"
 #import "WizAccountManager.h"
+#import "WizDbManager.h"
 
 @implementation WizPadLoginViewController
 @synthesize loginButton;
@@ -90,7 +91,7 @@
 
 - (void) selecteDefaultAccount
 {
-    NSString* defaultUserId = [[WizAccountManager defaultManager] activeAccountUserId];
+    NSString* defaultUserId = [[[WizDbManager shareDbManager] getWizSettingsDataBase] defaultAccountUserId];
     if (defaultUserId == nil || [defaultUserId isEqualToString:@""]) {
         return;
     }
