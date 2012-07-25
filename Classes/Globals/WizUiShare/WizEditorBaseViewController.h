@@ -11,6 +11,8 @@
 #import "VoiceRecognition.h"
 #import "WizEditorCheckAttachmentViewController.h"
 #import "WizPadEditorNavigationDelegate.h"
+#import "UIBadgeView.h"
+
 #define WizEditActionTagFixImage  4000
 
 @class WizDocument;
@@ -35,6 +37,7 @@
     VoiceRecognition* voiceRecognitionView;
     //
     id<WizPadEditorNavigationDelegate> padEditorNavigationDelegate;
+    UIBadgeView* attachmentCountView;
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;

@@ -54,7 +54,6 @@ typedef NSInteger WizEditNavigationBarItemTag;
     UIView* recorderProcessView;
     UILabel* recorderProcessLabel;
     WizRecoderProcessView* recorderProcessLineView;
-    
     //
     NSTimer* autoSaveTimer;
     //
@@ -104,6 +103,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
     [titleTextField release];
     //
     
+    [attachmentCountView release];
     [super dealloc];
 }
 
@@ -198,6 +198,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
         titleLayer.borderColor = [UIColor lightGrayColor].CGColor;
         titleLayer.borderWidth = 1;
         //
+        attachmentCountView = [[UIBadgeView alloc] init];
     }
     return self;
 }
@@ -530,6 +531,9 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     
     UIBarButtonItem* attachments = [UIBarButtonItem barButtonItem:[UIImage imageNamed:@"newNoteAttach_gray"] hightImage:[UIImage imageNamed:@"newNoteAttach_gray"] target:self action:@selector(checkAttachment)];
     attachments.tag = WizEditNavigationBarItemTagAttachment;
+    attachmentCountView.frame = CGRectMake(20, -10, 20, 20);
+    attachmentCountView.badgeString = @"0";
+    [attachments.customView addSubview:attachmentCountView];
     
     UIBarButtonItem* flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSMutableArray* tools = [NSMutableArray array];
@@ -912,7 +916,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) addAttachmentDone:(NSString*)path
 {
     [attachmentsArray addAttachmentBySourceFile:path];
-    NSLog(@"attachments count is %d",[attachmentsArray count]);
+    attachmentCountView.badgeString = [NSString stringWithFormat:@"%d",[attachmentsArray count]];
 }
 - (NSMutableArray*) sourceAttachmentsArray
 {
