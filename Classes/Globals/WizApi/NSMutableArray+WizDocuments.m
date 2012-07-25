@@ -320,16 +320,34 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (NSIndexPath*) indexPathOfWizDocument:(WizDocument*) doc
 {
     NSInteger order = [[WizSettings defaultSettings] userTablelistViewOption];
+    NSLog(@"table older is %d",order);
     for (int i = 0 ; i < [self count] ; i++) {
         NSMutableArray* section = [self objectAtIndex:i];
-        NSInteger index = [section indexOfObject:doc inSortedRange:NSMakeRange(0, [section count]) options:NSBinarySearchingFirstEqual usingComparator:
-                           (NSComparator)^(WizDocument* doc1)
-                           {
-                               return [doc1 compareDocument:doc mask:order];
-                           }];
-        if (index != NSNotFound) {
-            return [NSIndexPath indexPathForRow:index inSection:i];
+        NSLog(@"section count is %d",[section count]);
+        for (int j=0; j < [section count]; j ++) {
+            WizDocument* comparedDoc = [section objectAtIndex:j];
+            if ([doc.guid isEqualToString:comparedDoc.guid]) {
+                return [NSIndexPath indexPathForRow:j inSection:i];
+            }
         }
+//        NSInteger index = [section indexOfObject:doc inSortedRange:NSMakeRange(0, [section count]) options:NSBinarySearchingFirstEqual usingComparator:
+//                           (NSComparator)^(WizDocument* doc1)
+//                           {
+//                               NSLog(@"doc %@  doc1 %@",doc.guid, doc1.guid);
+//                               if ([doc1.guid isEqualToString:doc.guid])
+//                               {
+//                                   NSLog(@"(((((((((((((((((((");
+//                                   return 0;
+//                               }
+//                               else
+//                               {
+//                                   return -1;
+//                               }
+////                               return [doc1 compareDocument:doc mask:order];
+//                           }];
+//        if (index != NSNotFound) {
+//            return [NSIndexPath indexPathForRow:index inSection:i];
+//        }
     }
     return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
 }
@@ -339,6 +357,11 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     NSIndexPath* indexPath = [self indexPathOfWizDocument:doc];
     if(indexPath.row != NSNotFound && indexPath.section != NSNotFound)
     {
+        WizDocument* docOld = [[self objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        if (![docOld.guid isEqualToString:doc.guid]) {
+            
+            NSLog(@"******************************  download done object is not qual to the replaced! old%@ new%@",docOld.guid, doc.guid);
+        }
         [[self objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:doc];
         return indexPath;
     }
