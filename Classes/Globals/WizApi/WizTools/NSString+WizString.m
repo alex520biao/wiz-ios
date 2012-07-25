@@ -74,7 +74,11 @@
 
 - (NSDate *) dateFromSqlTimeString
 {
-	NSDateFormatter* formatter = [NSDate shareSqlDataFormater];
+    static NSDateFormatter* formatter = nil;
+    if (!formatter) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    }
     @synchronized(formatter)
     {
         if (self.length < 19) {

@@ -326,28 +326,11 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         NSLog(@"section count is %d",[section count]);
         for (int j=0; j < [section count]; j ++) {
             WizDocument* comparedDoc = [section objectAtIndex:j];
-            if ([doc.guid isEqualToString:comparedDoc.guid]) {
+            if ([doc.guid isEqualToString:comparedDoc.guid])
+            {
                 return [NSIndexPath indexPathForRow:j inSection:i];
             }
         }
-//        NSInteger index = [section indexOfObject:doc inSortedRange:NSMakeRange(0, [section count]) options:NSBinarySearchingFirstEqual usingComparator:
-//                           (NSComparator)^(WizDocument* doc1)
-//                           {
-//                               NSLog(@"doc %@  doc1 %@",doc.guid, doc1.guid);
-//                               if ([doc1.guid isEqualToString:doc.guid])
-//                               {
-//                                   NSLog(@"(((((((((((((((((((");
-//                                   return 0;
-//                               }
-//                               else
-//                               {
-//                                   return -1;
-//                               }
-////                               return [doc1 compareDocument:doc mask:order];
-//                           }];
-//        if (index != NSNotFound) {
-//            return [NSIndexPath indexPathForRow:index inSection:i];
-//        }
     }
     return [NSIndexPath indexPathForRow:NSNotFound inSection:NSNotFound];
 }

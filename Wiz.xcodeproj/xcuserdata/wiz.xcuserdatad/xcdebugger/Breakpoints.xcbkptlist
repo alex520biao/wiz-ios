@@ -528,11 +528,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/NSMutableArray+WizDocuments.m"
-         timestampString = "364879869.149633"
+         timestampString = "364881894.728071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "423"
-         endingLineNumber = "423"
+         startingLineNumber = "406"
+         endingLineNumber = "406"
          landmarkName = "-insertDocument:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -554,11 +554,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/NSMutableArray+WizDocuments.m"
-         timestampString = "364879869.149633"
+         timestampString = "364881894.728071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "427"
-         endingLineNumber = "427"
+         startingLineNumber = "410"
+         endingLineNumber = "410"
          landmarkName = "-insertDocument:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -567,11 +567,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/NSMutableArray+WizDocuments.m"
-         timestampString = "364879869.149633"
+         timestampString = "364881894.728071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "435"
-         endingLineNumber = "435">
+         startingLineNumber = "418"
+         endingLineNumber = "418">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1130,19 +1130,6 @@
          startingLineNumber = "175"
          endingLineNumber = "175"
          landmarkName = "-textViewDidEndEditing:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/WizTools/NSString+WizString.m"
-         timestampString = "364207499.836398"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "67"
-         endingLineNumber = "67"
-         landmarkName = "-stringReplaceUseRegular:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1832,19 +1819,6 @@
          startingLineNumber = "618"
          endingLineNumber = "618"
          landmarkName = "-downloadDocumentDone:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizApi/NSMutableArray+WizDocuments.m"
-         timestampString = "364879869.149633"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "363"
-         endingLineNumber = "363"
-         landmarkName = "-updateDocument:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
