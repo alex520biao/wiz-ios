@@ -164,7 +164,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     {
         [downloadIndicator stopAnimating];
     }
-    [self fixAllSubViewsFrame:10 showImage:YES];
     //
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -191,6 +190,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             }
             else
             {
+                [self fixAllSubViewsFrame:10 showImage:YES];
                 detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
                 abstractImageView.image = [DocumentListViewCell documentNoDataImage];
             }

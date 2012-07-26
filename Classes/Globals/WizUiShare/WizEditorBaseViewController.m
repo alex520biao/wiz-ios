@@ -414,6 +414,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     }
     NSLog(@"editor doc is %@",self.docEdit.guid);
     self.docEdit.title = titleTextField.text==nil?WizStrNoTitle:titleTextField.text;
+    NSLog(@"attachment count is %d",[attachmentsArray count]);
     self.docEdit.attachmentCount = [attachmentsArray count];
     [self.docEdit saveWithHtmlBody:@""];
     [self saveAttachments];

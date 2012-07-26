@@ -30,6 +30,7 @@
 #import "WizFileManager.h"
 #import "WizPadEditViewControllerL5.h"
 #import "WizPadEditViewControllerM5.h"
+#import "WizDbManager.h"
 
 #define EditTag 1000
 #define NOSUPPOURTALERT 1201
@@ -175,6 +176,9 @@
         kOrderIndex = -1;
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
+        
+        attachmentCountBadge = [[UIBadgeView alloc] init];
+        
     }
     return self;
 }
@@ -596,6 +600,7 @@
     
     UIBarButtonItem* attachment = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"newNoteAttach_gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(checkAttachment)];
     
+    
     UIBarButtonItem* detail = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"detail_gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(checkDocumentDtail)];
     
     
@@ -692,19 +697,33 @@
     [alert release];
     return;
 }
+- (void) showDocumentAttachmentCount:(WizDocument*)doc
+{
+        NSInteger attachmentsCount = doc.attachmentCount;
+        if (attachmentsCount > 0) {
+            
+            NSInteger itemsCount = [self.toolbarItems count];
+            float perWidth = self.view.frame.size.width / itemsCount;
+            attachmentCountBadge.frame = CGRectMake(perWidth*5.5+35, -10, 20, 20);
+            [self.navigationController.toolbar addSubview:attachmentCountBadge];
+            
+            attachmentCountBadge.hidden = NO;
+            attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
+        }
+        else {
+            attachmentCountBadge.hidden = YES;
+        }
+}
+
 - (void) didSelectedDocument:(WizDocument*)doc
 {
     self.selectedDocument = doc;
     documentNameLabel.text = doc.title;
     [webView loadHTMLString:@"" baseURL:nil];
-    NSUInteger attachmentsCount = doc.attachmentCount;
-    if (attachmentsCount > 0) {
-        attachmentCountBadge.hidden = NO;
-        attachmentCountBadge.badgeString = [NSString stringWithFormat:@"%d",attachmentsCount];
-    }
-    else {
-        attachmentCountBadge.hidden = YES;
-    }
+    [self showDocumentAttachmentCount:doc];
+    
+    
+    
     if (doc.serverChanged) {
         [self downloadDocument:doc];
 
@@ -808,6 +827,7 @@
         self.readWidth = 704;
     }
     [self loadReadJs];
+    [self showDocumentAttachmentCount:self.selectedDocument];
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

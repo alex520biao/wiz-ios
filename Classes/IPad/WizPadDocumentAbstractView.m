@@ -170,11 +170,7 @@
     {
         return;
     }
-    nameLabel.text = self.doc.title;
-    timeLabel.text = [self.doc.dateCreated stringSql];
-    detailLabel.text = self.doc.location;
-    detailLabel.frame = AbstractLabelWithImageFrame;
-    abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
         WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
@@ -182,20 +178,30 @@
             [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
             abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }
-        if (abstract) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (abstract.image == nil) {
-                    detailLabel.frame = AbstractLabelWithoutImageFrame;
-                    abstractImageView.hidden = YES;
+                nameLabel.text = self.doc.title;
+                timeLabel.text = [self.doc.dateCreated stringSql];
+                if (abstract) {
+                    if (abstract.image == nil) {
+                        detailLabel.frame = AbstractLabelWithoutImageFrame;
+                        abstractImageView.hidden = YES;
+                    }
+                    else {
+                        detailLabel.frame = AbstractLabelWithImageFrame;
+                        abstractImageView.hidden = NO;
+                        abstractImageView.image = abstract.image;
+                    }
+                    detailLabel.text = abstract.text;
                 }
-                else {
+                else
+                {
+
+                    detailLabel.text = self.doc.location;
                     detailLabel.frame = AbstractLabelWithImageFrame;
                     abstractImageView.hidden = NO;
-                    abstractImageView.image = abstract.image;
+                    abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
                 }
-                detailLabel.text = abstract.text;
             });
-        }
     });
     
 }
