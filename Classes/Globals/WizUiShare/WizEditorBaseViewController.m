@@ -57,7 +57,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
     //
     NSTimer* autoSaveTimer;
     //
-    UIScrollView* backGroudScrollView;
+    
     //
     UIPopoverController* currentPoperController;
     
@@ -801,6 +801,9 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
             [self postSelectedMessageToPicker];
             [self.navigationController dismissModalViewControllerAnimated:YES];
             
+            if (self.padEditorNavigationDelegate) {
+                [self.padEditorNavigationDelegate didEditCurrentDocumentCancel];
+            }
             NSLog(@"self retain count is %d",[self retainCount]);
         }
     }

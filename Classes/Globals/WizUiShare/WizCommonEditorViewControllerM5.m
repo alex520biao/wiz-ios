@@ -10,21 +10,12 @@
 #import "WizFileManager.h"
 @interface WizCommonEditorViewControllerM5 ()
 {
-    UIToolbar* fontToolBar;
+   
 }
 @end
 
 @implementation WizCommonEditorViewControllerM5
-- (void) showFontTools:(NSNotification*)nc
-{
-    CGRect kbRect = [[[nc userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    fontToolBar.frame = CGRectMake(0.0,self.view.frame.size.height-kbRect.size.height-44, kbRect.size.width, 44);
-}
 
-- (void) hideFontTools:(NSNotification*)nc
-{
-    fontToolBar.frame = CGRectMake(-120, -120, 0, 0);
-}
 - (void) dealloc
 {
     [fontToolBar release];
@@ -35,8 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showFontTools:) name:UIKeyboardDidShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideFontTools:) name:UIKeyboardWillHideNotification object:nil];
+
         
         //
         fontToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(-50, -52, 0, 0)];
@@ -57,6 +47,8 @@
         [fonPlus release];
         [fontSub release];
         [flexItem release];
+
+
     }
     return self;
 }
@@ -113,8 +105,6 @@
 {
     [super viewDidLoad];
     
-    fontToolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [self.view addSubview:fontToolBar];
 
 	// Do any additional setup after loading the view.
 }

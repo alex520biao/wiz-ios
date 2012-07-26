@@ -202,7 +202,7 @@
 
 - (NSArray*) recentDocuments
 {
-    return [self documentsArrayWithWhereFiled:@"order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 300" arguments:nil];
+    return [self documentsArrayWithWhereFiled:@"order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 100" arguments:nil];
 }
 
 - (NSArray*) documentForUpload

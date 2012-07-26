@@ -38,6 +38,7 @@
     //
     id<WizPadEditorNavigationDelegate> padEditorNavigationDelegate;
     UIBadgeView* attachmentCountView;
+    UIScrollView* backGroudScrollView;
 }
 @property (nonatomic, retain) WizDocument* docEdit;
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;

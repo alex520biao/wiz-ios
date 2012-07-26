@@ -10,4 +10,5 @@
 
 @protocol WizPadEditorNavigationDelegate <NSObject>
 - (void) didEditCurrentDocumentDone;
+- (void) didEditCurrentDocumentCancel;
 @end

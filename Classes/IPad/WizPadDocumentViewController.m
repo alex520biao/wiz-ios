@@ -488,6 +488,7 @@
 - (void) onEditDone
 {
     [webView reload];
+    [self shrinkDocumentWebView];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -507,6 +508,10 @@
             nav.modalPresentationStyle = UIModalPresentationPageSheet;
             [self.navigationController presentModalViewController:nav animated:YES];
             [nav release];
+            if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+                [self zoomDocumentWebView];
+            }
+            
         }
     }
     
@@ -524,10 +529,19 @@
     [alert show];
     [alert release];
 }
-
+- (void) didEditCurrentDocumentCancel
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        [self shrinkDocumentWebView];
+    }
+}
 - (void) didEditCurrentDocumentDone
 {
     [webView reload];
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        [self shrinkDocumentWebView];
+    }
+    
 }
 - (IBAction) editCurrentDocument: (id)sender
 {
@@ -551,6 +565,10 @@
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
     [self.navigationController presentModalViewController:controller animated:YES];
     [controller release];
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+         [self zoomDocumentWebView];
+    }
+   
 }
 - (void) didPushCheckAttachmentViewController:(UIViewController *)attachement
 {
@@ -642,16 +660,20 @@
 }
 - (void) downloadDocument:(WizDocument*)document
 {
+    editItem.enabled = NO;
+    shareItem.enabled = NO;
     WizSyncManager* share = [WizSyncManager shareManager];
     [share downloadWizObject:document];
     [webView loadRequest:nil];
 }
 - (void) checkDocument:(WizDocument*)document
 {
+    editItem.enabled = YES;
+    shareItem.enabled = YES;
     NSString* documentFileName = [document documentWillLoadFile];
-    if (![[WizFileManager shareManager] fileExistsAtPath:documentFileName]) {
-        [self downloadDocument:document];
-    }
+//    if (![[WizFileManager shareManager] fileExistsAtPath:[document documentIndexFile]]) {
+//        [self downloadDocument:document];
+//    }
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     [webView loadRequest:req];
@@ -685,6 +707,7 @@
     }
     if (doc.serverChanged) {
         [self downloadDocument:doc];
+
     }
     else {
         [self checkDocument:doc];

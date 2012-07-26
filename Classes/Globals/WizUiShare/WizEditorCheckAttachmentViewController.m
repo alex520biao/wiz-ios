@@ -43,7 +43,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -86,7 +86,7 @@
         }
         else
         {
-            cell.detailTextLabel.text = NSLocalizedString(@"Tap to download and check", nil);
+            cell.detailTextLabel.text = NSLocalizedString(@"It is not downloaded.", nil);
         }
     }
     else

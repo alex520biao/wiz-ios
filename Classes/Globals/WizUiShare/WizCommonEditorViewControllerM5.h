@@ -9,5 +9,7 @@
 #import "WizEditorBaseViewController.h"
 
 @interface WizCommonEditorViewControllerM5 : WizEditorBaseViewController
-
+{
+     UIToolbar* fontToolBar;
+}
 @end
