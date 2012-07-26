@@ -16,17 +16,22 @@
 #define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
 #define SyncDataOfSyncSearch    @"SyncDataOfSyncSearch"
 
-@implementation NSMutableDictionary (Wizself)
+#define MaxSyncUploaderCount    3
+#define MaxSyncDownloadCount    4
 
+@implementation NSMutableDictionary (Wizself)
+- (NSMutableArray*) allUploaders
+{
+    NSMutableArray* array = [self valueForKey:SyncDataOfUploader];
+    if (array == nil) {
+        array = [NSMutableArray arrayWithCapacity:MaxSyncUploaderCount];
+        [self setObject:array forKey:SyncDataOfUploader];
+    }
+    return array;
+}
 - (WizUploadObjet*) shareUploader
 {
-    id data = [self valueForKey:SyncDataOfUploader];
-    if (nil == data || ![data isKindOfClass:[WizUploadObjet class]]) {
-        data = [[WizUploadObjet alloc] init];
-        [self setObject:data forKey:SyncDataOfUploader];
-        [data release];
-    }
-    return data;
+    return nil;
 }
 - (WizDownloadObject*) shareDownloader
 {

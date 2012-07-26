@@ -13,16 +13,14 @@
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizDbManager.h"
+#import "WizAccountManager.h"
 
-NSString* SyncMethod_DownloadProcessPartBeginWithGuid = @"DownloadProcessPartBegin";
-NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd";
 //
 #define DownloadPartSize      256*1024
 @interface WizDownloadObject ()
 {
     WizObject* object;
     NSFileHandle* fileHandle;
-    NSMutableArray* downloadQueque;
 }
 @property (nonatomic, retain) WizObject* object;
 @property (nonatomic, retain) NSFileHandle* fileHandle;
@@ -31,21 +29,19 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 @implementation WizDownloadObject
 @synthesize object;
 @synthesize fileHandle;
+@synthesize sourceDelegate;
 -(void) dealloc {
     if (nil != fileHandle) {
         [fileHandle closeFile];
         [fileHandle release];
     }
     [object release];
-    [downloadQueque release];
-    downloadQueque = nil;
     [super dealloc];
 }
 - (id) init
 {
     self = [super init];
     if (self) {
-        downloadQueque = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -80,7 +76,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
                 return;
             }
         }
-        [downloadQueque removeAllObjects];
         [WizGlobals reportError:retObject];
         attempts = WizNetWorkMaxAttempts;
     }
@@ -92,6 +87,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 }
 - (BOOL) start;
 {
+    NSLog(@"api url is %@",self.apiURL);
     busy = YES;
     if (self.object == nil) {
         busy = NO;
@@ -111,20 +107,18 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 
 - (void) downloadDone
 {
-    if ([self.object isKindOfClass:[WizDocument class]]) {
-        WizDocument* document = (WizDocument*)self.object;
-        document.serverChanged = NO;
-        [document saveInfo];
-        
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    if ([self.object isKindOfClass:[WizDocument class]])
+    {
+        [dataBase setDocumentServerChanged:self.object.guid changed:NO];
     }
     else if ([self.object isKindOfClass:[WizAttachment class]])
     {
-        [WizAttachment setAttachServerChanged:self.object.guid changed:NO];
+        [dataBase setAttachmentServerChanged:self.object.guid changed:NO];
     }
     //
     busy = NO;
     attempts = WizNetWorkMaxAttempts;
-    NSLog(@"download done!***************************");
     self.syncMessage = WizSyncEndMessage;
     NSString* guid = [NSString stringWithString:self.object.guid];
     NSString* download = NSLocalizedString(@"Download", nil);
@@ -132,8 +126,7 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     self.object = nil;
     [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
     [WizNotificationCenter postMessageDownloadDone:guid];
-    
-    if ([downloadQueque count]) {
+    if ([self.sourceDelegate willDownloandNext]) {
         [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
         [self startDownload];
     }
@@ -145,11 +138,6 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
 {
     if (nil != self.object) {
         if ([self.object.guid isEqualToString:wizObject.guid]) {
-            return YES;
-        }
-    }
-    for (WizObject* each in downloadQueque) {
-        if ([each.guid isEqualToString:wizObject.guid]) {
             return YES;
         }
     }
@@ -193,27 +181,21 @@ NSString* SyncMethod_DownloadProcessPartEndWithGuid   = @"DownloadProcessPartEnd
     if (busy) {
         return NO;
     }
-    if ([downloadQueque count] == 0) {
+    
+    WizObject* downlodObject = [self.sourceDelegate nextWizObjectForDownload];
+    static int i = 0;
+    NSLog(@"source delegate %@ download object %@ %d",self.sourceDelegate , downlodObject, i++);
+    if (!downlodObject) {
         return NO;
     }
-    self.object = [downloadQueque lastObject];
-    [downloadQueque removeLastObject];
+    self.object = downlodObject;
     return [self start];
-}
-- (BOOL) downloadWizObject:(WizObject*)wizObject
-{
-    if (nil != self.object) {
-        if ([wizObject.guid isEqualToString:self.object.guid]) {
-            return [self startDownload];
-        }
-    }
-    [downloadQueque addWizObjectUnique:wizObject];
-    return [self startDownload];
 }
 - (void) stopDownload
 {
-    [downloadQueque removeAllObjects];
     [self cancel];
     self.object = nil;
+    self.sourceDelegate = nil;
+    busy = NO;
 }
 @end

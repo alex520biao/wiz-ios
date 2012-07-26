@@ -15,6 +15,8 @@
 #import "WizSettings.h"
 #import "MTStatusBarOverlay.h"
 #import "WizSyncSearch.h"
+#import "WizShareSyncObjectCache.h"
+
 //
 #define ServerUrlFile           @"config.dat"
 //
@@ -37,17 +39,6 @@
 
 @interface WizSyncManager ()
 {
-    NSMutableArray* errorQueque;
-    NSMutableArray* workQueque;
-    
-    NSMutableDictionary* syncData;
-    
-    WizDownloadObject* downloader;
-    WizUploadObjet* uploader;
-    WizSyncInfo*    syncInfoer;
-    WizRefreshToken* refresher;
-    WizSyncSearch* searcher;
-    
     NSTimer* restartTimer;
     NSURL* serverUrl;
     NSURL* apiUrl;
@@ -70,12 +61,15 @@ static WizSyncManager* shareManager;
 
 - (BOOL) isSyncing
 {
-    for (WizApi* each in workQueque) {
+    for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allWorkWizApi]) {
         if (each.busy) {
             return YES;
         }
     }
-    if (refresher.busy) {
+    if ([[[WizShareSyncObjectCache shareSyncObjectCache] shareRefreshTokener] busy]) {
+        return YES;
+    }
+    if ([[[WizShareSyncObjectCache shareSyncObjectCache] allErrorWizApi] count]) {
         return YES;
     }
     return NO;
@@ -92,18 +86,9 @@ static WizSyncManager* shareManager;
 }
 - (void) dealloc
 {
-    [errorQueque release];
-    [syncData release];
     [restartTimer release];
     displayDelegate = nil;
     
-    downloader = nil;
-    uploader = nil;
-    refresher = nil;
-    syncInfoer = nil;
-    
-    [workQueque release];
-    workQueque = nil;
     [super dealloc];
 }
 - (void) loadServerUrl
@@ -131,26 +116,7 @@ static WizSyncManager* shareManager;
 {
     self = [super init];
     if (self) {
-        syncData = [[NSMutableDictionary alloc] init];
-        //
-        downloader = [syncData shareDownloader];
-        downloader.apiManagerDelegate = self;
-        //
-        uploader = [syncData shareUploader];
-        uploader.apiManagerDelegate = self;
-        //
-        refresher = [syncData shareRefreshTokener];
-        refresher.apiManagerDelegate = self;
-        //
-        syncInfoer = [syncData shareSyncInfo];
-        syncInfoer.apiManagerDelegate = self;
-        //
-        searcher = [syncData shareSearch];
-        searcher.apiManagerDelegate = self;
-        //
-        errorQueque = [[NSMutableArray alloc] init];
-        workQueque = [[NSMutableArray alloc] init];
-        //
+
         self.token = WizStrName;
         self.kbGuid = WizStrName;
         [self loadServerUrl];
@@ -160,8 +126,7 @@ static WizSyncManager* shareManager;
 //
 - (void) restartSync
 {
-    NSLog(@"error api count is %d",[errorQueque count]);
-    for (WizApi* each in errorQueque) {
+    for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allErrorWizApi]) {
         if ([each isKindOfClass:[WizRefreshToken class]]) {
             continue;
         }
@@ -177,8 +142,9 @@ static WizSyncManager* shareManager;
         [self addSyncToken:each];
         NSLog(@"%@",each);
         [each start];
+        [[WizShareSyncObjectCache shareSyncObjectCache] clearErrorWizApi:each];
     }
-    [errorQueque removeAllObjects];
+    [[WizShareSyncObjectCache shareSyncObjectCache] clearAllErrorWizApi];
 }
 
 - (void) didRefreshToken:(NSDictionary*)dic
@@ -194,22 +160,21 @@ static WizSyncManager* shareManager;
 }
 - (void) pauseAllSync
 {
-    for (WizApi* each in workQueque)
+    for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allWorkWizApi])
     {
         if ([each isKindOfClass:[WizRefreshToken class]])
         {
             continue;
         }
-        if (!each.busy)  [errorQueque addObjectUnique:each];
+        if (!each.busy)
+            [[WizShareSyncObjectCache shareSyncObjectCache] addErrorWizApi:each];
     }
-    for(WizApi* each in errorQueque)
-{
-    [workQueque removeObject:each];
-}
 }
 - (void) refreshToken
 {
+    WizRefreshToken* refresher = [[WizShareSyncObjectCache shareSyncObjectCache] shareRefreshTokener];
     refresher.refreshDelegate = self;
+    refresher.apiManagerDelegate = self;
     [refresher start];
 }
 - (BOOL) addSyncToken:(WizApi*)api
@@ -217,7 +182,8 @@ static WizSyncManager* shareManager;
     api.token = self.token;
     api.kbguid = self.kbGuid;
     api.apiURL = self.apiUrl;
-    [workQueque addObjectUnique:api];
+    api.apiManagerDelegate = self;
+    [[WizShareSyncObjectCache shareSyncObjectCache] addWorkWizApi:api];
     return YES;
 }
 - (void) didChangedStatue:(WizApi *)api statue:(NSInteger)statue
@@ -231,9 +197,8 @@ static WizSyncManager* shareManager;
 }
 - (void) didApiSyncDone:(WizApi *)api
 {
-    [workQueque removeObject:api];
+    [[WizShareSyncObjectCache shareSyncObjectCache] clearWorkWizApi:api];
     [self.displayDelegate didChangedSyncDescription:nil];
-    NSLog(@"work count is %d",[workQueque count]);
 }
 
 - (void) didApiSyncError:(WizApi *)api error:(NSError *)error
@@ -256,40 +221,49 @@ static WizSyncManager* shareManager;
 //
 - (BOOL) isUploadingWizObject:(WizObject*)wizobject
 {
-    return [uploader isUploadWizObject:wizobject];
+    return [[WizShareSyncObjectCache shareSyncObjectCache] isUploadingWizObject:wizobject];
 }
 - (BOOL) uploadWizObject:(WizObject*)object
 {
-    [self addSyncToken:uploader];
-    return [uploader uploadWizObject:object];
+    WizShareSyncObjectCache* share = [WizShareSyncObjectCache shareSyncObjectCache];
+    [share addShouldUploadWizObject:object];
+    WizUploadObjet* uploader = [share shareUploadTool];
+    if (uploader) {
+        uploader.apiManagerDelegate = self;
+        [self addSyncToken:uploader];
+        [uploader startUpload];
+    }
+    return YES;
 }
 
 - (BOOL) isDownloadingWizobject:(WizObject*)object
 {
-    return [downloader isDownloadWizObject:object];
+    return [[WizShareSyncObjectCache shareSyncObjectCache] isDownloadingWizObject:object];
 }
 - (void) downloadWizObject:(WizObject*)object
 {
-    [self addSyncToken:downloader];
-    [downloader downloadWizObject:object];
+    WizShareSyncObjectCache* share = [WizShareSyncObjectCache shareSyncObjectCache];
+    WizDownloadObject* downloader = [share shareDownloadTool];
+    [share addShouldDownloadWizObject:object];
+    if (downloader) {
+        downloader.apiManagerDelegate = self;
+        [self addSyncToken:downloader];
+        [downloader startDownload];
+    }
 }
 //
 - (BOOL) startSyncInfo
 {
-    [self addSyncToken:syncInfoer];
-    return [syncInfoer start];
+    WizSyncInfo* shareSyncInfoer = [[WizShareSyncObjectCache shareSyncObjectCache] shareSyncInfo];
+    shareSyncInfoer.apiManagerDelegate = self;
+    [self addSyncToken:shareSyncInfoer];
+    return [shareSyncInfoer start];
 }
 //
 
 - (void) stopSync
 {
-    [workQueque removeAllObjects];
-    [errorQueque removeAllObjects];
-    [uploader stopUpload];
-    [downloader stopDownload];
-    [syncInfoer cancel];
-    [refresher cancel];
-    [searcher cancel];
+    [[WizShareSyncObjectCache shareSyncObjectCache] stopAllWizApi];
 
 }
 
@@ -302,6 +276,8 @@ static WizSyncManager* shareManager;
 
 - (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate
 {
+    WizSyncSearch* searcher = [[WizShareSyncObjectCache shareSyncObjectCache] shareSearch];
+    searcher.apiManagerDelegate = self;
     [searcher setSearchDelegate:searchDelegate];
     searcher.keyWord = keywords;
     [self addSyncToken:searcher];

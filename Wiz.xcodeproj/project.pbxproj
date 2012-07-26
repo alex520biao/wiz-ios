@@ -97,6 +97,7 @@
 		734D048315B7F25800361CE0 /* WizSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D048215B7F25800361CE0 /* WizSetting.m */; };
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
 		735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */; };
+		7355FCD415BFDCC800CE6D7A /* WizShareSyncObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355FCD315BFDCC800CE6D7A /* WizShareSyncObjectCache.m */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
 		7362ABA2156B86C700513E96 /* WizTagCatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362ABA1156B86C700513E96 /* WizTagCatelogView.m */; };
 		736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DEA541552843D00633B89 /* MBProgressHUD.m */; };
@@ -522,6 +523,9 @@
 		734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+WizEditor.m"; sourceTree = "<group>"; };
 		735136FB15A296BB00797CDF /* UIBarButtonItem+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WizTools.h"; sourceTree = "<group>"; };
 		735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WizTools.m"; sourceTree = "<group>"; };
+		7355FCD015BFD8DE00CE6D7A /* WizSyncObjectSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncObjectSourceDelegate.h; sourceTree = "<group>"; };
+		7355FCD215BFDCC800CE6D7A /* WizShareSyncObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizShareSyncObjectCache.h; sourceTree = "<group>"; };
+		7355FCD315BFDCC800CE6D7A /* WizShareSyncObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizShareSyncObjectCache.m; sourceTree = "<group>"; };
 		735C1B95153C218100A80353 /* WizSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncManager.h; sourceTree = "<group>"; };
 		735C1B96153C218100A80353 /* WizSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncManager.m; sourceTree = "<group>"; };
 		7362ABA0156B86C700513E96 /* WizTagCatelogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTagCatelogView.h; sourceTree = "<group>"; };
@@ -1336,6 +1340,8 @@
 				73E76477153D6FBA0089D5FF /* RefreshToken */,
 				735C1B95153C218100A80353 /* WizSyncManager.h */,
 				735C1B96153C218100A80353 /* WizSyncManager.m */,
+				7355FCD215BFDCC800CE6D7A /* WizShareSyncObjectCache.h */,
+				7355FCD315BFDCC800CE6D7A /* WizShareSyncObjectCache.m */,
 				732951691549343E00FA4FAA /* WizSyncDescriptionDelegate.h */,
 				73A7842314F8CC22001387F6 /* WizApi.h */,
 				73A7842414F8CC22001387F6 /* WizApi.m */,
@@ -2059,6 +2065,7 @@
 		73B46D18153E7AA90049556F /* DataSync */ = {
 			isa = PBXGroup;
 			children = (
+				7355FCD015BFD8DE00CE6D7A /* WizSyncObjectSourceDelegate.h */,
 				73A7844C14F8CC22001387F6 /* WizUploadObjet.h */,
 				73A7844D14F8CC22001387F6 /* WizUploadObjet.m */,
 				73A7843014F8CC22001387F6 /* WizDownloadObject.h */,
@@ -2613,6 +2620,7 @@
 				734D048015B7EECF00361CE0 /* WizSettingsDataBase.m in Sources */,
 				734D048315B7F25800361CE0 /* WizSetting.m in Sources */,
 				73F9D2C715B8FFB500F54726 /* WizSearch.m in Sources */,
+				7355FCD415BFDCC800CE6D7A /* WizShareSyncObjectCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

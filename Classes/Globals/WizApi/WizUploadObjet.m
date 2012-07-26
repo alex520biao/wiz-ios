@@ -15,6 +15,8 @@
 #import "WizNotification.h"
 #import "WizFileManager.h"
 #import "WizSyncManager.h"
+#import "WizDbManager.h"
+#import "WizAccountManager.h"
 #define UploadPartSize  (262144)
 
 @protocol WizUploadObjectDelegate
@@ -30,8 +32,6 @@
     NSFileHandle*   uploadFildHandel;
     WizObject*      uploadObject;
     NSInteger       uploadFileSize;
-    
-    NSMutableArray* uploadQueque;
 }
 @property                           NSInteger         sumUploadPartCount;
 @property                           NSInteger           uploadFileSize;
@@ -39,7 +39,6 @@
 @property       (nonatomic, retain) NSFileHandle* uploadFildHandel;
 @property       (nonatomic, retain) NSString* currentUploadTempFilePath;
 @property       (nonatomic, retain) WizObject* uploadObject;
-@property       (nonatomic, retain) NSMutableArray* uploadQueque;
 - (void) onUploadObjectSucceedAndCleanTemp;
 - (BOOL) startUpload;
 @end
@@ -49,19 +48,18 @@
 @synthesize uploadObjMd5;
 @synthesize uploadFildHandel;
 @synthesize uploadObject;
-@synthesize uploadQueque;
 @synthesize uploadFileSize;
+@synthesize sourceDelegate;
 -(void) dealloc
 {
     if (nil != uploadFildHandel) {
         [uploadFildHandel closeFile];
         [uploadFildHandel release];
     }
+    sourceDelegate = nil;
     [uploadObjMd5 release];
     [uploadObject release];
     [currentUploadTempFilePath release];
-    [uploadQueque release];
-    uploadQueque = nil;
     [super dealloc];
 }
 
@@ -69,7 +67,6 @@
 {
     self = [super init];
     if (self) {
-        uploadQueque = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -175,15 +172,15 @@
 
 - (void) onDocumentPostSimpleData:(id)retObject
 {
-    WizDocument* eidt = (WizDocument*)self.uploadObject;
-    eidt.localChanged = WizEditDocumentTypeNoChanged;
-    [eidt saveInfo];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    [dataBase setDocumentLocalChanged:self.uploadObject.guid changed:WizEditDocumentTypeNoChanged];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 
 - (void) onAttachmentPostSimpleData:(id)retObject
 {
-    [WizAttachment setAttachmentLocalChanged:self.uploadObject.guid changed:NO];
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    [dataBase setAttachmentLocalChanged:self.uploadObject.guid changed:NO];
     [self onUploadObjectSucceedAndCleanTemp];
 }
 -(void) onError: (id)retObject
@@ -203,7 +200,7 @@
     self.uploadObject = nil;
     busy = NO;
     self.syncMessage = WizSyncEndMessage;
-    if ([uploadQueque count]) {
+    if ([self.sourceDelegate willUploadNext]) {
         [self didChangeSyncStatue:WizSyncStatueUploadEnd];
         [self startUpload];
     }
@@ -219,9 +216,6 @@
             return YES;
         }
     }
-    if ([uploadQueque hasWizObject:object]) {
-        return YES;
-    }
     return NO;
 }
 - (BOOL) startUpload
@@ -229,32 +223,20 @@
     if (self.busy) {
         return NO;
     }
-    if (0 == [uploadQueque count])
+    WizObject* object = [self.sourceDelegate nextWizObjectForUpload];
+    if (!object)
     {
         return NO;
     }
     [self didChangeSyncStatue:WizSyncStatueUploadBegin];
-    self.uploadObject = [uploadQueque objectAtIndex:0];
-    [uploadQueque removeObjectAtIndex:0];
+    self.uploadObject = object;
     return [self start];
 }
 
-- (BOOL) uploadWizObject:(WizObject *)wizobject
-{
-    if ([self isUploadWizObject:wizobject]) {
-        return YES;
-    }
-    [uploadQueque addWizObjectUnique:wizobject];
-    NSLog(@"uploadQueue count is %d",[uploadQueque count]);
-    return  [self startUpload];
-}
 - (void) stopUpload
 {
     [self cancel];
-    [uploadQueque removeAllObjects];
     self.uploadObject = nil;
     busy = NO;
-    self.syncMessage = WizSyncEndMessage;
-    [self.apiManagerDelegate didApiSyncDone:self];
 }
 @end  
