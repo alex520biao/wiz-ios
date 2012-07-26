@@ -40,6 +40,8 @@
     float width = self.frame.size.width;
     float currentWidth = width/maxProcess*currentProcess;
     indicatorView.frame = CGRectMake(currentWidth, 0.0, 2, self.frame.size.height);
+    
+    NSLog(@"the indicatorView frame is %f %f %f %f",indicatorView.frame.size.width,indicatorView.frame.size.height, indicatorView.frame.origin.x, indicatorView.frame.origin.y );
 }
 - (void) dealloc
 {
