@@ -76,7 +76,12 @@
         [edit resumeLastEditong];
         UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:edit];
         [edit release];
+        if ([WizGlobals WizDeviceIsPad]) {
+            nav.modalPresentationStyle = UIModalPresentationPageSheet;
+            nav.view.frame = CGRectMake(0.0, 0.0, 1024, 768);
+        }
         [self.window.rootViewController presentModalViewController:nav animated:YES];
+        
         [nav release];
     }
 }

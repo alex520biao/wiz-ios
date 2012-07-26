@@ -167,7 +167,7 @@
 		73A7859A14F8CC23001387F6 /* WizPadListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784A914F8CC22001387F6 /* WizPadListCell.m */; };
 		73A7859B14F8CC23001387F6 /* WizPadListTableControllerBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73A784AB14F8CC22001387F6 /* WizPadListTableControllerBase.mm */; };
 		73A7859C14F8CC23001387F6 /* WizPadLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */; };
-		73A7859E14F8CC23001387F6 /* WizPadEditViewControllerL5.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */; };
+		73A7859E14F8CC23001387F6 /* WizPadMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B014F8CC22001387F6 /* WizPadMainViewController.m */; };
 		73A7859F14F8CC23001387F6 /* WizPadMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */; };
 		73A785A014F8CC23001387F6 /* WizPadRegisterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B414F8CC22001387F6 /* WizPadRegisterController.m */; };
 		73A785A114F8CC23001387F6 /* WizSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A784B614F8CC22001387F6 /* WizSearchViewController.m */; };
@@ -668,7 +668,7 @@
 		73A784AC14F8CC22001387F6 /* WizPadLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadLoginViewController.h; sourceTree = "<group>"; };
 		73A784AD14F8CC22001387F6 /* WizPadLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadLoginViewController.m; sourceTree = "<group>"; };
 		73A784AF14F8CC22001387F6 /* WizPadMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadMainViewController.h; sourceTree = "<group>"; };
-		73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadEditViewControllerL5.m; sourceTree = "<group>"; };
+		73A784B014F8CC22001387F6 /* WizPadMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadMainViewController.m; sourceTree = "<group>"; };
 		73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WizPadMainViewController.xib; sourceTree = "<group>"; };
 		73A784B214F8CC22001387F6 /* WizPadNotificationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadNotificationMessage.h; sourceTree = "<group>"; };
 		73A784B314F8CC22001387F6 /* WizPadRegisterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadRegisterController.h; sourceTree = "<group>"; };
@@ -1640,7 +1640,7 @@
 				73C1487E152402D3000675BA /* DocumentView */,
 				738637A815173643006A9E16 /* Accounts */,
 				73A784AF14F8CC22001387F6 /* WizPadMainViewController.h */,
-				73A784B014F8CC22001387F6 /* WizPadEditViewControllerL5.m */,
+				73A784B014F8CC22001387F6 /* WizPadMainViewController.m */,
 				73A784B114F8CC22001387F6 /* WizPadMainViewController.xib */,
 				73A784B214F8CC22001387F6 /* WizPadNotificationMessage.h */,
 				73A784B514F8CC22001387F6 /* WizSearchViewController.h */,
@@ -2487,7 +2487,7 @@
 				73A7859A14F8CC23001387F6 /* WizPadListCell.m in Sources */,
 				73A7859B14F8CC23001387F6 /* WizPadListTableControllerBase.mm in Sources */,
 				73A7859C14F8CC23001387F6 /* WizPadLoginViewController.m in Sources */,
-				73A7859E14F8CC23001387F6 /* WizPadEditViewControllerL5.m in Sources */,
+				73A7859E14F8CC23001387F6 /* WizPadMainViewController.m in Sources */,
 				73A785A014F8CC23001387F6 /* WizPadRegisterController.m in Sources */,
 				73A785A114F8CC23001387F6 /* WizSearchViewController.m in Sources */,
 				73A785A414F8CC23001387F6 /* PullRefreshTableViewController.m in Sources */,

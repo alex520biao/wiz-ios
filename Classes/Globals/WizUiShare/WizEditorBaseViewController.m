@@ -192,7 +192,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
         titleTextField.backgroundColor = [UIColor whiteColor];
         titleTextField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         titleTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        [backGroudScrollView addSubview:titleTextField];
+
         CALayer* titleLayer = titleTextField.layer;
         titleLayer.cornerRadius = 2;
         titleLayer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -836,6 +836,8 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     self.navigationItem.rightBarButtonItem = saveBtn;
     
     [self buildPhoneNavigationTools];
+    titleTextField.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 31);
+    [backGroudScrollView addSubview:titleTextField];
     
     [cancelBtn release];
     [saveBtn release];
@@ -913,10 +915,14 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     currentRecoderTime = 0.0f;
     return YES;
 }
+- (void) showAttachmentCount
+{
+    attachmentCountView.badgeString = [NSString stringWithFormat:@"%d",[attachmentsArray count]];
+}
 - (void) addAttachmentDone:(NSString*)path
 {
     [attachmentsArray addAttachmentBySourceFile:path];
-    attachmentCountView.badgeString = [NSString stringWithFormat:@"%d",[attachmentsArray count]];
+    [self showAttachmentCount];
 }
 - (NSMutableArray*) sourceAttachmentsArray
 {
@@ -1037,6 +1043,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self showAttachmentCount];
 }
 
 @end
