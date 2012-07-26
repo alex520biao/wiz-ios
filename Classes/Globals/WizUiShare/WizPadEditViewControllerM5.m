@@ -26,10 +26,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    titleTextField.frame = CGRectMake(0.0, 44, self.view.frame.size.width, 31);
-    editorWebView.frame = CGRectMake(0.0, 44, self.view.frame.size.width, self.view.frame.size.height-44-31);
     fontToolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    fontToolBar.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 44);
+    fontToolBar.frame = CGRectMake(0.0, 0.0, backGroudScrollView.frame.size.width, 44);
+    titleTextField.frame = CGRectMake(0.0, 44, backGroudScrollView.frame.size.width, 31);
+    editorWebView.frame = CGRectMake(0.0, 44+31, backGroudScrollView.frame.size.width, self.view.frame.size.height-44-31);
+
+    fontToolBar.tintColor = [UIColor lightGrayColor];
+    fontToolBar.translucent = YES;
     [backGroudScrollView addSubview:fontToolBar];
 
 	// Do any additional setup after loading the view.

@@ -16,7 +16,7 @@
 #define SyncDataOfSyncInfo      @"SyncDataOfSyncInfo"
 #define SyncDataOfSyncSearch    @"SyncDataOfSyncSearch"
 
-#define MaxSyncUploaderCount    3
+#define MaxSyncUploaderCount    1
 #define MaxSyncDownloadCount    4
 
 @interface WizShareSyncObjectCache ()

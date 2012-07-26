@@ -166,12 +166,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     }
     [self fixAllSubViewsFrame:10 showImage:YES];
     //
-    {
-        nameLabel.text = self.doc.title;
-        timeLabel.text = [self.doc.dateModified stringSql];
-        detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
-        abstractImageView.image = [DocumentListViewCell documentNoDataImage];
-    }
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
         WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
@@ -181,6 +176,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            nameLabel.text = self.doc.title;
+            timeLabel.text = [self.doc.dateModified stringSql];
             if (abstract) {
                 detailLabel.text = abstract.text;
                 abstractImageView.image = abstract.image;
@@ -191,6 +188,11 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
                 {
                     [self fixAllSubViewsFrame:10 showImage:YES];
                 }
+            }
+            else
+            {
+                detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
+                abstractImageView.image = [DocumentListViewCell documentNoDataImage];
             }
         });
         
