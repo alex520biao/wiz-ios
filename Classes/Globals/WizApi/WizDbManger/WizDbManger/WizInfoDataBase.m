@@ -15,6 +15,7 @@
 
 #import "WizGlobals.h"
 #import "WizNotification.h"
+#import <QuartzCore/QuartzCore.h>
 #define KeyOfSyncVersion                        @"SYNC_VERSION"
 #define KeyOfSyncVersionDocument                @"DOCUMENT"
 #define KeyOfSyncVersionDeletedGuid             @"DELETED_GUID"
@@ -336,6 +337,8 @@
 
     }
     __block BOOL ret;
+    
+
     if (docExist)
     {
         [self.queue inDatabase:^(FMDatabase *db) {
