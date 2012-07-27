@@ -265,6 +265,7 @@
     return ret;
 }
 
+
 //
 - (BOOL) updateDocument:(NSDictionary *)doc
 {
@@ -313,38 +314,94 @@
         serverDocument = NO;
     }
     WizDocument* docExist = [self documentFromGUID:guid];
+//    
+//    if (serverDocument) {
+//        if (docExist) {
+//            if (![docExist.dataMd5 isEqualToString:dataMd5]) {
+//                if (docExist.localChanged)
+//                {
+//                    localChanged = [NSNumber numberWithInt:docExist.localChanged];
+//                    serverChanged = @0;
+//                }
+//                else
+//                {
+//                    localChanged = @0;
+//                    serverChanged = @1;
+//                }
+//            }
+//            else
+//            {
+//                localChanged = @0;
+//                serverChanged = @0;
+//            }
+//        }
+//        else
+//        {
+//            serverChanged = @1;
+//            localChanged = @0;
+//        }
+//
+//    }
     
-    if (serverDocument) {
-        if (docExist) {
-            if (![docExist.dataMd5 isEqualToString:dataMd5]) {
-                if (docExist.localChanged) {
-                    localChanged = [NSNumber numberWithInt:docExist.localChanged];
-                    serverChanged = @0;
-                }
-                else
-                {
-                    localChanged = @0;
-                    serverChanged = @1;
-                }
-            }
-            else
-            {
-                localChanged = @0;
-                serverChanged = @0;
-            }
-        }
-        else
-        {
-            serverChanged = @1;
-            localChanged = @0;
-        }
-
-    }
     __block BOOL ret;
     
 
     if (docExist)
     {
+        if (serverDocument) {
+            switch (docExist.localChanged) {
+                case WizEditDocumentTypeNoChanged:
+                    if ([docExist.dataMd5 isEqualToString:dataMd5]) {
+                        serverChanged = @0;
+                        localChanged = @0;
+                    }
+                    else
+                    {
+                        serverChanged = @1;
+                        localChanged = @0;
+                    }
+                    break;
+                case WizEditDocumentTypeInfoChanged:
+                case WizEditDocumentTypeAllChanged:
+                {
+                    if ([dateModified isEarlierThanDate:docExist.dateModified]) {
+                        title = docExist.title;
+                        location = docExist.location;
+                        dataMd5 = docExist.dataMd5;
+                        url = docExist.url;
+                        tagGUIDs = docExist.tagGuids;
+                        dateCreated = docExist.dateCreated;
+                        dateModified = docExist.dateModified;
+                        type = docExist.type;
+                        fileType = docExist.fileType;
+                        nAttachmentCount =  [NSNumber numberWithInt:docExist.attachmentCount];
+                        localChanged = [NSNumber numberWithInt:docExist.localChanged];
+                        nProtected = [NSNumber numberWithBool:docExist.protected_];
+                        serverChanged = @0;
+                        nReadCount = [NSNumber numberWithInt:docExist.nReadCount];
+                        gpsLatitue = [NSNumber numberWithFloat:docExist.gpsLatitude];
+                         gpsLongtitue = [NSNumber numberWithFloat:docExist.gpsLongtitude];
+                         gpsAltitue    = [NSNumber numberWithFloat:docExist.gpsAltitude];
+                         gpsDop        = [NSNumber numberWithFloat:docExist.gpsDop];
+                         gpsAddress  = docExist.gpsAddress;
+                         gpsCountry = docExist.gpsCountry;
+                         gpsLevel1 = docExist.gpsLevel1;
+                         gpsLevel2 = docExist.gpsLevel2;
+                         gpsLevel3 = docExist.gpsLevel3;
+                         gpsDescription  = docExist.gpsDescription;
+                    }
+                    else
+                    {
+                        localChanged = @0;
+                        serverChanged = @1;
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+        
         [self.queue inDatabase:^(FMDatabase *db) {
             ret =[db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TITLE=?, DOCUMENT_LOCATION=?, DOCUMENT_URL=?, DOCUMENT_TAG_GUIDS=?, DOCUMENT_TYPE=?, DOCUMENT_FILE_TYPE=?, DT_CREATED=?, DT_MODIFIED=?, DOCUMENT_DATA_MD5=?, ATTACHMENT_COUNT=?, SERVER_CHANGED=?, LOCAL_CHANGED=?, GPS_LATITUDE=?, GPS_LONGTITUDE=?, GPS_ALTITUDE=?, GPS_DOP=?, GPS_ADDRESS=?, GPS_COUNTRY=?, GPS_LEVEL1=?, GPS_LEVEL2=?, GPS_LEVEL3=?, GPS_DESCRIPTION=?, READCOUNT=?, PROTECT=? where DOCUMENT_GUID= ?",title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected,guid];
         }];

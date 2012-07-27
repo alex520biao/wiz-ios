@@ -338,6 +338,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 - (NSIndexPath*) updateDocument:(WizDocument*)doc
 {
     NSIndexPath* indexPath = [self indexPathOfWizDocument:doc];
+    NSLog(@"edit doc location is %@",doc.location);
     if(indexPath.row != NSNotFound && indexPath.section != NSNotFound)
     {
         WizDocument* docOld = [[self objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];

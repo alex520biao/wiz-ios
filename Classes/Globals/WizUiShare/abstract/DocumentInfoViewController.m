@@ -111,7 +111,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    if (!isEditTheDoc) {
+    if (!self.isEditTheDoc) {
         if (docChanged) {
             self.doc.localChanged = WizEditDocumentTypeInfoChanged;
             [self.doc saveInfo];

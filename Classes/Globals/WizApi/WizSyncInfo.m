@@ -306,7 +306,7 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
         }
     });
 	
-    if (newVer > oldVer)
+    if (newVer >= oldVer)
     {
         [[[WizDbManager shareDbManager] shareDataBase] setDeletedGUIDVersion:newVer+1];
         [self callDownloadDeletedList:newVer+1];
