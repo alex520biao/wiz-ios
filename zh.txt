@@ -1,4 +1,5 @@
 "%d notes"="%d 个笔记";
+"(Conflicted copy)"="(冲突备份)";
 "About WizNote"="关于为知笔记";
 "Account"="账号";
 "Account %@ has already exists!"="账号 %@ 已经存在!";
@@ -48,6 +49,7 @@
 "Delete"="删除";
 "Detail"="详细信息";
 "Do not download"="不下载";
+"Document format was too complex and can not be edited, and will use the old editor.If you choose to edit this note, images and text-formatting will be lost. Continue?"="文档格式太复杂无法使用新编辑器编辑，使用旧编辑器编辑将会丢失格式和图片，是否继续编辑？";
 "Does not download any notes automatic"="不自动下载任何笔记数据";
 "Download"="下载";
 "Download Space"="下载间隔";
@@ -70,6 +72,7 @@
 "If you choose to edit this note, images and text-formatting will be lost."="如果您选择编辑当前文档，图片和文字格式等将会丢失。";
 "Image size"="笔记图片大小";
 "Invalid password!"="密码错误！";
+"It is not downloaded."="没有下载";
 "Large"="大";
 "Last synchronized: "="最后同步时间：";
 "List"="列表";
@@ -85,6 +88,7 @@
 "Mobile View"="手机视图";
 "Mobile view"="手机视图查看";
 "My Drafts"="我的草稿";
+"My Emails"="我的邮件";
 "My Events"="我的事件";
 "My Journals"="我的日记";
 "My Mobiles"="我的手机";
@@ -158,7 +162,7 @@
 "Stop"="停止";
 "Switch accounts"="切换账号";
 "Sync"="同步";
-"Sync Only By WIFI"="只通过无线网络同步";
+"Sync Only By WIFI"="只通过WIFI同步";
 "Sync already in progress, please wait..."="已经在同步中，请耐心等待...";
 "Sync attachments"="同步附件";
 "Sync error"="同步错误";
@@ -187,7 +191,8 @@
 "The password is wrong!"="密码错误！";
 "The password you supplied don't match!"="你输入的两次密码不匹配！";
 "There is no application can open this file."="您的系统中没有可以打开这种类型文件的程序！";
-"There is no interner connection and it can.t login!"="";
+"There is no interner connection and it can.t login!"="当前没有网络连接，无法登陆！";
+"There is no internet connection and it can't login!"="没有网络连接，暂时不能登陆！";
 "There is no note in this folder"="此文件夹下没有笔记！";
 "There is no note in this tag"="此标签下没有笔记！";
 "This version of WizNote does not support decryption!"="本版本不支持笔记加密解密！请使用PC客户端查看笔记。";

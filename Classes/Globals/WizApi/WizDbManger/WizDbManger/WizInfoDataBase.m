@@ -361,7 +361,6 @@
                     }
                     break;
                 case WizEditDocumentTypeInfoChanged:
-                case WizEditDocumentTypeAllChanged:
                 {
                     if ([dateModified isEarlierThanDate:docExist.dateModified]) {
                         title = docExist.title;
@@ -396,6 +395,61 @@
                     }
                     break;
                 }
+                case WizEditDocumentTypeAllChanged:
+                {
+                    {
+                        serverChanged = @1;
+                        localChanged = @0;
+                    }
+                    NSString* backupGuid = [WizGlobals genGUID];
+                    NSString* backupTitle = [docExist.title stringByAppendingString:NSLocalizedString(@"(Conflicted copy)", nil)];
+                    WizFileManager* fileManager = [WizFileManager shareManager];
+                    NSString* backupPath = [fileManager objectFilePath:backupGuid];
+                    NSError* error = nil;
+                    NSString* sourcePath = [fileManager objectFilePath:docExist.guid];
+                    NSArray* contentItems = [fileManager contentsOfDirectoryAtPath:sourcePath error:&error];
+                    if (nil == contentItems || [contentItems count] ==0) {
+                        NSLog(@"backup error %@",error);
+                        break;
+                    }
+                    for (NSString* eachItem in contentItems) {
+                        NSString* sourceItemPath = [sourcePath stringByAppendingPathComponent:eachItem];
+                        NSString* aimItemPath = [backupPath stringByAppendingPathComponent:eachItem];
+                        if (![fileManager copyItemAtPath:sourceItemPath toPath:aimItemPath error:&error]) {
+                            NSLog(@"copy backup error %@",error);
+                        }
+                    }
+
+                    [self.queue inDatabase:^(FMDatabase *db) {
+                        ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                              backupGuid,
+                              backupTitle,
+                              docExist.location,
+                              docExist.url,
+                              docExist.tagGuids,
+                              docExist.type,
+                              docExist.fileType,
+                              [docExist.dateCreated stringSql],
+                              [docExist.dateModified stringSql],
+                              docExist.dataMd5,
+                              [NSNumber numberWithInt:docExist.attachmentCount],
+                              @0,
+                              [NSNumber numberWithInt:WizEditDocumentTypeAllChanged],
+                              [NSNumber numberWithDouble:docExist.gpsLatitude],
+                              [NSNumber numberWithDouble:docExist.gpsLongtitude],
+                              [NSNumber numberWithDouble:docExist.gpsAltitude],
+                              [NSNumber numberWithDouble:docExist.gpsDop],
+                              gpsAddress,
+                              gpsCountry,
+                              gpsLevel1,
+                              gpsLevel2 ,
+                              gpsLevel3,
+                              gpsDescription,
+                              [NSNumber numberWithInt:docExist.nReadCount],
+                              [NSNumber numberWithBool:docExist.protected_]];
+                    }];
+                    break;
+                }
                 default:
                     break;
             }
@@ -414,7 +468,6 @@
             localChanged = @0;
         }
         [self.queue inDatabase:^(FMDatabase *db) {
-            NSLog(@"docguid is %@",guid);
            ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",guid, title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected];
         }];
     

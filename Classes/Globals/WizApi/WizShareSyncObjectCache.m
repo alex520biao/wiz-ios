@@ -138,7 +138,6 @@
 - (WizRefreshToken*) shareRefreshTokener
 {
     WizRefreshToken* data = [shareSyncTools valueForKey:SyncDataOfRefreshToken];
-    NSLog(@"refresh data %@",data);
     if (nil == nil || ![data isKindOfClass:[WizRefreshToken class]]) {
         data = [[WizRefreshToken alloc] init];
         [data setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];

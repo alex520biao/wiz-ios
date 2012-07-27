@@ -66,7 +66,7 @@
 #define WizStrUploadsuccessfully                            NSLocalizedString(@"Upload successfully", nil)
 #define WizStrUploadingnotes                                NSLocalizedString(@"Uploading notes", nil)
 #define WizStrContinueediting                               NSLocalizedString(@"Continue editing", nil)
-#define WizStrIfyouchoosetoeditthisdocument                 NSLocalizedString(@"Document format was too complex and can not be edited, and will use the old editor.If you choose to edit this note, images and text-formatting will be lost.", nil)
+#define WizStrIfyouchoosetoeditthisdocument                 NSLocalizedString(@"Document format was too complex and can not be edited, and will use the old editor.If you choose to edit this note, images and text-formatting will be lost. Continue?", nil)
 #define WizStrThisversionofWizNotdoesnotsupportdecryption   NSLocalizedString(@"This version of WizNote does not support decryption!", nil)
 #define WizStrAccounthasalreadyexists                       NSLocalizedString(@"Account %@ has already exists!", nil)
 #define WizStrFailedtoopenaccountdata                       NSLocalizedString(@"Cannot open account data!", nil)
