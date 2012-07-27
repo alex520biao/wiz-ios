@@ -98,6 +98,8 @@
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
 		735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */; };
 		7355FCD415BFDCC800CE6D7A /* WizShareSyncObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355FCD315BFDCC800CE6D7A /* WizShareSyncObjectCache.m */; };
+		7357F34E15C24C560042A083 /* ipadPlaceHolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 7357F34C15C24C560042A083 /* ipadPlaceHolder.png */; };
+		7357F34F15C24C560042A083 /* ipadPlaceHolder@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7357F34D15C24C560042A083 /* ipadPlaceHolder@x2.png */; };
 		735C1B97153C218100A80353 /* WizSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 735C1B96153C218100A80353 /* WizSyncManager.m */; };
 		7362ABA2156B86C700513E96 /* WizTagCatelogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7362ABA1156B86C700513E96 /* WizTagCatelogView.m */; };
 		736DEA551552843D00633B89 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DEA541552843D00633B89 /* MBProgressHUD.m */; };
@@ -527,6 +529,8 @@
 		7355FCD015BFD8DE00CE6D7A /* WizSyncObjectSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncObjectSourceDelegate.h; sourceTree = "<group>"; };
 		7355FCD215BFDCC800CE6D7A /* WizShareSyncObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizShareSyncObjectCache.h; sourceTree = "<group>"; };
 		7355FCD315BFDCC800CE6D7A /* WizShareSyncObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizShareSyncObjectCache.m; sourceTree = "<group>"; };
+		7357F34C15C24C560042A083 /* ipadPlaceHolder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipadPlaceHolder.png; sourceTree = "<group>"; };
+		7357F34D15C24C560042A083 /* ipadPlaceHolder@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ipadPlaceHolder@x2.png"; sourceTree = "<group>"; };
 		735C1B95153C218100A80353 /* WizSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncManager.h; sourceTree = "<group>"; };
 		735C1B96153C218100A80353 /* WizSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizSyncManager.m; sourceTree = "<group>"; };
 		7362ABA0156B86C700513E96 /* WizTagCatelogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTagCatelogView.h; sourceTree = "<group>"; };
@@ -2015,6 +2019,8 @@
 		73A7866214F8CD5D001387F6 /* ipad */ = {
 			isa = PBXGroup;
 			children = (
+				7357F34C15C24C560042A083 /* ipadPlaceHolder.png */,
+				7357F34D15C24C560042A083 /* ipadPlaceHolder@x2.png */,
 				73A7866314F8CD5D001387F6 /* documentViewAttachment@2x.png */,
 				73A7866414F8CD5D001387F6 /* documentViewDetail@2x.png */,
 				73A7866514F8CD5D001387F6 /* documentViewEdit@2x.png */,
@@ -2451,6 +2457,8 @@
 				730E698B15B7FD4E00F1B026 /* WizDataBaseModel.plist in Resources */,
 				730E698C15B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist in Resources */,
 				73CF6F6015C153A70062AEA5 /* emoji in Resources */,
+				7357F34E15C24C560042A083 /* ipadPlaceHolder.png in Resources */,
+				7357F34F15C24C560042A083 /* ipadPlaceHolder@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

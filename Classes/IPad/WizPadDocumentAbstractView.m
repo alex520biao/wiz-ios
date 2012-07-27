@@ -199,7 +199,7 @@
                     detailLabel.text = self.doc.location;
                     detailLabel.frame = AbstractLabelWithImageFrame;
                     abstractImageView.hidden = NO;
-                    abstractImageView.image = [UIImage imageNamed:@"documentWithoutData"];
+                    abstractImageView.image = [UIImage imageNamed:@"ipadPlaceHolder"];
                 }
             });
     });
