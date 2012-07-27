@@ -18,4 +18,5 @@
 @property (atomic, readonly) FMDatabaseQueue* queue;
 - (WizDataBaseBase*) initWithPath:(NSString*)dbPath modelName:(NSString*)modelName;
 - (WizDataBaseBase*) initWithAccountUserId:(NSString*)accountUserId_    modelName:(NSString*)modelName;
+- (void) close;
 @end

@@ -174,28 +174,27 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             [abstraceDatabase extractSummary:self.doc.guid kbGuid:@""];
             abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            nameLabel.text = self.doc.title;
-            timeLabel.text = [self.doc.dateModified stringSql];
-            if (abstract) {
-                detailLabel.text = abstract.text;
-                abstractImageView.image = abstract.image;
-                if (!abstract.image) {
-                    [self fixAllSubViewsFrame:10 showImage:NO];
-                }
-                else
-                {
-                    [self fixAllSubViewsFrame:10 showImage:YES];
-                }
-            }
-            else
-            {
-                [self fixAllSubViewsFrame:10 showImage:YES];
-                detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
-                abstractImageView.image = [DocumentListViewCell documentNoDataImage];
-            }
-        });
-        
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                        nameLabel.text = self.doc.title;
+                        timeLabel.text = [self.doc.dateModified stringSql];
+                        if (abstract) {
+                            detailLabel.text = abstract.text;
+                            abstractImageView.image = abstract.image;
+                            if (!abstract.image) {
+                                [self fixAllSubViewsFrame:10 showImage:NO];
+                            }
+                            else
+                            {
+                                [self fixAllSubViewsFrame:10 showImage:YES];
+                            }
+                        }
+                        else
+                        {
+                            [self fixAllSubViewsFrame:10 showImage:YES];
+                            detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
+                            abstractImageView.image = [DocumentListViewCell documentNoDataImage];
+                        }
+                    });
     });
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

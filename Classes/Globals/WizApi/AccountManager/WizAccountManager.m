@@ -170,6 +170,7 @@
     if (timer) {
         [timer invalidate];
     }
+    [[WizDbManager shareDbManager] removeUnactiveDatabase:self.activeAccountUserId_];
     WizSyncManager* sync = [WizSyncManager shareManager];
     [sync resignActive];
     [self setDefalutAccount:@""];

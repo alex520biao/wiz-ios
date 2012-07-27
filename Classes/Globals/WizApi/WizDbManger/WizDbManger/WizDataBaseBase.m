@@ -77,5 +77,8 @@
     return self;
 }
 
-
+- (void) close
+{
+    [queue close];
+}
 @end

@@ -12,6 +12,7 @@
 #import "CommonString.h"
 #import "WizTag.h"
 #import "WizFileManager.h"
+#import "WizDbManager.h"
 
 #import "WizGlobals.h"
 #import "WizNotification.h"
@@ -268,6 +269,9 @@
 - (BOOL) updateDocument:(NSDictionary *)doc
 {
     NSString*  guid = [doc valueForKey:DataTypeUpdateDocumentGUID];
+    if (!guid) {
+        return NO;
+    }
 	NSString*  title =[doc valueForKey:DataTypeUpdateDocumentTitle];
 	NSString*  location = [doc valueForKey:DataTypeUpdateDocumentLocation];
 	NSString*  dataMd5 = [doc valueForKey:DataTypeUpdateDocumentDataMd5];
@@ -353,6 +357,8 @@
         }];
     
     }
+    id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+    [abstractDataBase deleteAbstractByGUID:guid];
     return ret;
 }
 

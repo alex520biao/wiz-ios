@@ -139,17 +139,18 @@ static WizDbManager* shareDbManager = nil;
 
 - (void) removeUnactiveDatabase:(NSString*)userId
 {
-    for (NSString* each in [self.dbDataDictionary allKeys]) {
+    NSArray* allDataBaseKeys = [[[self.dbDataDictionary allKeys] copy] autorelease];
+    for (NSString* each in allDataBaseKeys) {
         if ([each isEqualToString:WIZ_ACCOUNTS_SETTINGSFILE]) {
             continue;
         }
-        [self.dbDataDictionary removeObjectForKey:each];
+        if ([each indexOf:userId] != NSNotFound) {
+           WizDataBaseBase* dataBase = [self.dbDataDictionary objectForKey:each];
+            [dataBase close];
+            [self.dbDataDictionary removeObjectForKey:each];
+        }
     }
-    NSLog(@"keys count is %d",[[self.dbDataDictionary allKeys] count]);
-    for(NSString* each in [self.dbDataDictionary allKeys])
-    {
-        NSLog(@"%@",each);
-    }
+    NSLog(@"%@",self.dbDataDictionary);
 }
 
 @end
