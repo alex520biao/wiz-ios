@@ -100,7 +100,7 @@
         detailLabel.backgroundColor = [UIColor clearColor];
         detailLabel.font = [UIFont systemFontOfSize:13];
         
-        [WizNotificationCenter addObserverForUpdateCache:self selector:@selector(didUpdateCache:)];
+//        [WizNotificationCenter addObserverForUpdateCache:self selector:@selector(didUpdateCache:)];
     }
     return self;
 }
@@ -180,6 +180,7 @@
         }
             dispatch_async(dispatch_get_main_queue(), ^{
                 nameLabel.text = self.doc.title;
+
                 timeLabel.text = [self.doc.dateCreated stringSql];
                 if (abstract) {
                     if (abstract.image == nil) {
@@ -200,6 +201,7 @@
                     detailLabel.frame = AbstractLabelWithImageFrame;
                     abstractImageView.hidden = NO;
                     abstractImageView.image = [UIImage imageNamed:@"ipadPlaceHolder"];
+                   
                 }
             });
     });

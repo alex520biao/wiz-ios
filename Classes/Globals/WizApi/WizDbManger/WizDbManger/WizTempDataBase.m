@@ -38,7 +38,6 @@
         return;
     }
     NSString* abstractText = nil;
-    NSLog(@"%@",sourceFilePath);
     NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
     NSString* removeTitle = [sourceStr stringReplaceUseRegular:@"<title.*title>"];
     NSString* removeStyle = [removeTitle stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];

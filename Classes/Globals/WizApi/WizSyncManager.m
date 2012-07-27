@@ -140,7 +140,6 @@ static WizSyncManager* shareManager;
             }
         }
         [self addSyncToken:each];
-        NSLog(@"%@",each);
         [each start];
         [[WizShareSyncObjectCache shareSyncObjectCache] clearErrorWizApi:each];
     }
@@ -207,6 +206,14 @@ static WizSyncManager* shareManager;
     if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain]) {
         [self pauseAllSync];
         [self refreshToken];
+    }
+    else if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet)
+    {
+        [[WizShareSyncObjectCache shareSyncObjectCache] clearAllWorkWizApi];
+        [[WizShareSyncObjectCache shareSyncObjectCache] clearAllErrorWizApi];
+        if (self.displayDelegate) {
+            [self.displayDelegate didChangedSyncDescription:nil];
+        }
     }
 }
 

@@ -174,7 +174,6 @@
 - (NSArray*) accountsWithWhereField:(NSString*)whereField args:(NSArray*)args
 {
     NSString* sql = [NSString stringWithFormat:@"select ACCOUNT_PASSWORD, ACCOUNT_USERID from WizAccount %@",whereField];
-    NSLog(@"account sql %@",sql);
     __block NSMutableArray* array = [NSMutableArray array];
     [queue inDatabase:^(FMDatabase *db) {
         FMResultSet* result = [db executeQuery:sql withArgumentsInArray:args];
@@ -200,6 +199,9 @@
     __block BOOL ret;
     if (userId) {
         userId = [userId lowercaseString];
+    }
+    if (![WizGlobals checkPasswordIsEncrypt:password]) {
+        password = [WizGlobals encryptPassword:password];
     }
     if ([self accountFromUserId:userId]) {
         [queue inDatabase:^(FMDatabase *db) {

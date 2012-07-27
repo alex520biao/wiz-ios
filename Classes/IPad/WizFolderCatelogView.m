@@ -37,7 +37,7 @@
     if (nil == self.folderKey) {
         return;
     }
-    nameLabel.text = self.folderKey;
+    nameLabel.text = [WizGlobals folderStringToLocal:self.folderKey];
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];

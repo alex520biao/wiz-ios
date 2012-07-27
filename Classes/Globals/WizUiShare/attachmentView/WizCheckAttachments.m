@@ -197,7 +197,6 @@
 
     WizCheckAttachment* check = [[WizCheckAttachment alloc] initWithNibName:nil bundle:nil];;
     NSURL* url = [self getAttachmentFileURL:attachment];
-    NSLog(@"%@",url);
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     check.req = req;
     [req release];

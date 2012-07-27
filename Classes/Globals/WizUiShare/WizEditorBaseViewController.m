@@ -412,9 +412,26 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
             }
         }
     }
-    NSLog(@"editor doc is %@",self.docEdit.guid);
-    self.docEdit.title = titleTextField.text==nil?WizStrNoTitle:titleTextField.text;
-    NSLog(@"attachment count is %d",[attachmentsArray count]);
+    NSString* bodyText = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerText"];
+    
+    if (nil == titleTextField.text || [titleTextField.text isBlock] || [self.title isEqualToString:WizStrNoTitle])
+    {
+        if (bodyText && ![bodyText isBlock]) {
+            if (bodyText.length > 20) {
+                bodyText = [bodyText substringToIndex:20];
+            }
+            self.docEdit.title = bodyText;
+        }
+        else
+        {
+            self.docEdit.title = WizStrNoTitle;
+        }
+        
+    }
+    else
+    {
+        self.docEdit.title = titleTextField.text;
+    }
     self.docEdit.attachmentCount = [attachmentsArray count];
     [self.docEdit saveWithHtmlBody:@""];
     [self saveAttachments];

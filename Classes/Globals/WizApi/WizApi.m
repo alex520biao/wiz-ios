@@ -567,7 +567,11 @@
 	{
         [WizGlobals toLog:[NSString stringWithFormat:@"%@",retObject]];
         NSError* error = (NSError*)retObject;
-        if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet) {
+            [WizGlobals reportError:error];
+            [self.apiManagerDelegate didApiSyncError:self error:error];
+        }
+        else if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain])
         {
             [self.apiManagerDelegate didApiSyncError:self error:error];
         }
@@ -584,6 +588,7 @@
             [self cancel];
         }
         else if (error.code == NSUserCancelError && [error.domain isEqualToString:WizErrorDomain]) {
+            [self.apiManagerDelegate didApiSyncDone:self];
             NSLog(@"canced ---------------------");
             return;
         }

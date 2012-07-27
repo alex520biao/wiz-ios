@@ -114,7 +114,6 @@
     NSString* url = self.selectedDocument.url;
     NSString* type = self.selectedDocument.type;
     NSString* width = [NSString stringWithFormat:@"%dpx",self.readWidth];
-    NSLog(@"width is %@",width);
     if ([[WizSettings defaultSettings] isMoblieView])
     {
         [webView setCurrentPageWidth:width];
@@ -644,7 +643,7 @@
     }
      document.serverChanged = NO;
     NSIndexPath* index = [self.documentsArray updateDocument:document];
-    if (nil != index) {
+    if (nil != index && index.section != NSNotFound) {
         [documentList beginUpdates];
         [documentList reloadRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationFade];
         [documentList endUpdates];
@@ -737,10 +736,10 @@
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     [self didSelectedDocument:doc];
-    [tableView beginUpdates];
-    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    [tableView endUpdates];
-    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+//    [tableView beginUpdates];
+//    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    [tableView endUpdates];
+//    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     
 }
 - (void) viewDidAppear:(BOOL)animated
@@ -858,6 +857,7 @@
     docCell.doc = doc;
     [docCell setNeedsDisplay];
 }
+
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* CellIdentifier = @"DocumentCell";

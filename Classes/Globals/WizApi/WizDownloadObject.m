@@ -87,7 +87,6 @@
 }
 - (BOOL) start;
 {
-    NSLog(@"api url is %@",self.apiURL);
     busy = YES;
     if (self.object == nil) {
         busy = NO;
@@ -169,7 +168,6 @@
             }
             else
             {
-                NSLog(@"download done and will update the data!");
                 [[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid] objectGuid:self.object.guid];
                 [self downloadDone];
             }
@@ -184,7 +182,6 @@
     
     WizObject* downlodObject = [self.sourceDelegate nextWizObjectForDownload];
     static int i = 0;
-    NSLog(@"source delegate %@ download object %@ %d",self.sourceDelegate , downlodObject, i++);
     if (!downlodObject) {
         return NO;
     }
