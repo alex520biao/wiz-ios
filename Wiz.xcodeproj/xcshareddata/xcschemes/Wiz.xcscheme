@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0430"
+   LastUpgradeVersion = "0440"
    version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "Wiz.app"
+               BuildableName = "WizNote.app"
                BlueprintName = "Wiz"
                ReferencedContainer = "container:Wiz.xcodeproj">
             </BuildableReference>
@@ -40,12 +40,13 @@
       buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      enableOpenGLFrameCaptureMode = "0"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Wiz.app"
+            BuildableName = "WizNote.app"
             BlueprintName = "Wiz"
             ReferencedContainer = "container:Wiz.xcodeproj">
          </BuildableReference>
@@ -72,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "Wiz.app"
+            BuildableName = "WizNote.app"
             BlueprintName = "Wiz"
             ReferencedContainer = "container:Wiz.xcodeproj">
          </BuildableReference>

@@ -5,4 +5,11 @@
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
+    #import "CommonString.h"
+    #import "WizGlobals.h"
+    #import "WizDocument.h"
+    #import "WizAttachment.h"
+    #import "WizTag.h"
+    #import "WizAbstract.h"
+    #import "WizAccount.h"
 #endif
