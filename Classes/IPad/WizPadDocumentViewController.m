@@ -414,8 +414,15 @@
     [WizGlobals decorateViewWithShadowAndBorder:headerView];
 }
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    attachmentCountBadge.hidden = YES;
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
+    attachmentCountBadge.hidden = NO;
     [self.navigationController setToolbarHidden:NO animated:YES];
     [super viewWillAppear:animated];
     [self setViewsFrame];
