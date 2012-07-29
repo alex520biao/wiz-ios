@@ -177,7 +177,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }
        dispatch_async(dispatch_get_main_queue(), ^{
-           NSLog(@"self %@ doc guid%@ \n title %@ ",self, doc.guid, doc.title);
             if (abstract) {
                 detailLabel.text = abstract.text;
                 abstractImageView.image = abstract.image;

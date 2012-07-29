@@ -135,14 +135,14 @@
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    for (DocumentListViewCell* each in [self.tableView visibleCells]) {
-        [each setNeedsDisplay];
-    }
+    //    for (DocumentListViewCell* each in [self.tableView visibleCells]) {
+//        [each setNeedsDisplay];
+//    }
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

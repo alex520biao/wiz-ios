@@ -822,7 +822,6 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
             if (self.padEditorNavigationDelegate) {
                 [self.padEditorNavigationDelegate didEditCurrentDocumentCancel];
             }
-            NSLog(@"self retain count is %d",[self retainCount]);
         }
     }
     

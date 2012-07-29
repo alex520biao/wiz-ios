@@ -127,7 +127,6 @@
     {
         self.sumUploadPartCount++;
     }
-    NSLog(@"upload sum count is %@ %d",self.uploadObject.guid,self.sumUploadPartCount);
     [self.uploadFildHandel seekToFileOffset:0];
     self.currentUploadTempFilePath = zip;
     return [self uploadNextPart];

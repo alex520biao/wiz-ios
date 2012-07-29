@@ -143,7 +143,6 @@
 //        dispatch_async(dispatch_get_main_queue(), ^
 //        {
             NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),fileNumber];
-            NSLog(@"count is %@",count);
             cell.detailTextLabel.text = count;
             NSLog(@"cell detailTextLabel is %@",cell.detailTextLabel.text);
 //        });
