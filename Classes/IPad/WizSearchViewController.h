@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface WizSearchViewController : UITableViewController <UISearchBarDelegate,UISearchDisplayDelegate>
 {
     UISearchBar* searchBar;

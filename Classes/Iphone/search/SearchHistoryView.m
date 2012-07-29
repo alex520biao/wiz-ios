@@ -150,7 +150,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* keywords = [[self.history objectAtIndex:indexPath.row] keyWords];
+    WizSearch* search = [self.history objectAtIndex:indexPath.row];
+    NSString* keywords = search.keyWords;
 	if (keywords == nil || [keywords length] == 0)
 		return;
     [self.historyDelegate didSelectedSearchHistory:keywords];

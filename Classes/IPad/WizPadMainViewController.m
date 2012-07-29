@@ -188,20 +188,12 @@
 }
 - (void) addSearchHistory:(NSString*)keyWords  count:(NSInteger)count
 {
-    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSNumber numberWithBool:YES], @"search_local",
-                         keyWords, @"key_words",
-                         [[NSDate date] stringSql] , @"date",
-                         [NSNumber numberWithInt:count], @"count",
-                         nil,nil];
-    NSString* fileNamePath = [[WizFileManager shareManager] searchHistoryFilePath];
-    NSMutableArray* history = [NSMutableArray arrayWithContentsOfFile:fileNamePath];
-    if (!history) {
-        history = [NSMutableArray array];
+    if (self.currentPoperController) {
+        if ([self.currentPoperController.contentViewController isKindOfClass:[SearchHistoryView class]]) {
+            SearchHistoryView* searchView = (SearchHistoryView*)self.currentPoperController.contentViewController;
+            [searchView addSearchHistory:keyWords notesNumber:count isSearchLoal:YES];
+        }
     }
-    [history insertObject:dic atIndex:0];
-    [dic writeToFile:fileNamePath atomically:NO];
-    [history writeToFile:fileNamePath atomically:YES];
 }
 - (void) didSelectedSearchHistory:(NSString *)keyWords
 {
