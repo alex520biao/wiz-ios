@@ -88,7 +88,8 @@
 - (BOOL) start;
 {
     busy = YES;
-    if (self.object == nil) {
+    if (self.object == nil)
+    {
         busy = NO;
         return NO;
     }
@@ -168,8 +169,16 @@
             }
             else
             {
-                [[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid] objectGuid:self.object.guid];
-                [self downloadDone];
+                static int i =0;
+                i++;
+                if (![[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid] objectGuid:self.object.guid] ) {
+                    NSLog(@"can not unzip the archive %@  %@ %d",self.object.guid, self.object.title, i);
+                }
+                else
+                {
+                    [self.fileHandle closeFile];
+                    [self downloadDone];
+                }
             }
         }
     }
@@ -181,7 +190,6 @@
     }
     
     WizObject* downlodObject = [self.sourceDelegate nextWizObjectForDownload];
-    static int i = 0;
     if (!downlodObject) {
         return NO;
     }

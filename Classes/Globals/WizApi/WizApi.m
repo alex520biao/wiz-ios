@@ -152,12 +152,10 @@
         else if([method isEqualToString:SyncMethod_DownloadObject])
         {
             [delegate onDownloadObject:ret];
-            return;
         }
         else if([method isEqualToString:SyncMethod_UploadObject])
         {
             [delegate onUploadObjectData:ret];
-            return;
         }
         else if([method isEqualToString:SyncMethod_GetAttachmentList])
         {
