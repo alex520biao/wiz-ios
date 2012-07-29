@@ -269,7 +269,7 @@
         while ([searchDatas next]) {
             WizSearch* search_ = [[WizSearch alloc] init];
             search_.nNotesNumber = [searchDatas intForColumnIndex:0];
-            search_.searchDate = [searchDatas dateForColumnIndex:1];
+            search_.searchDate = [[searchDatas stringForColumnIndex:1] dateFromSqlTimeString];
             search_.keyWords = [searchDatas stringForColumnIndex:2];
             search_.isSearchLocal = [searchDatas boolForColumnIndex:3];
             [allSearchs addObject:search_];

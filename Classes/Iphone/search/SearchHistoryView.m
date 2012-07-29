@@ -140,7 +140,6 @@
     }
 
     WizSearch* search = [self.history objectAtIndex:indexPath.row];
-    
     cell.textLabel.text = search.keyWords;
     NSString* detailString = [NSString stringWithFormat:NSLocalizedString(@"find %d notes", nil),search.nNotesNumber];
     NSString* displayStr = [NSString stringWithFormat:@"%@  %@",[search.searchDate stringLocal],detailString];

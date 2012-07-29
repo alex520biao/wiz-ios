@@ -812,11 +812,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "855"
-         endingLineNumber = "855"
+         startingLineNumber = "854"
+         endingLineNumber = "854"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -903,11 +903,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "870"
-         endingLineNumber = "870"
+         startingLineNumber = "869"
+         endingLineNumber = "869"
          landmarkName = "@implementation WizEditorBaseViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -916,11 +916,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "899"
-         endingLineNumber = "899"
+         startingLineNumber = "898"
+         endingLineNumber = "898"
          landmarkName = "-updateTime"
          landmarkType = "5">
       </FileBreakpoint>
@@ -929,11 +929,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "986"
-         endingLineNumber = "986"
+         startingLineNumber = "985"
+         endingLineNumber = "985"
          landmarkName = "-stopRecord"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1150,11 +1150,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "952"
-         endingLineNumber = "952"
+         startingLineNumber = "951"
+         endingLineNumber = "951"
          landmarkName = "-sourceAttachmentsArray"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1163,11 +1163,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "956"
-         endingLineNumber = "956"
+         startingLineNumber = "955"
+         endingLineNumber = "955"
          landmarkName = "-deletedAttachmentsArray"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1306,11 +1306,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1012"
-         endingLineNumber = "1012"
+         startingLineNumber = "1011"
+         endingLineNumber = "1011"
          landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1475,11 +1475,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Iphone/DocumentView/FolderTag/TagsListTreeControllerNew.m"
-         timestampString = "364384888.42832"
+         timestampString = "365236813.661126"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "147"
-         endingLineNumber = "147"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
          landmarkName = "-setDetail:"
          landmarkType = "5">
       </FileBreakpoint>
