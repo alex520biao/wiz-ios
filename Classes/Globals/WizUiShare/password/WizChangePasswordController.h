@@ -14,12 +14,10 @@
     WizInputView* oldPassword;
     WizInputView* passwordNew;
     WizInputView* passwordConfirmNew;
-    NSString* accountUserId;
     UIAlertView* waitAlert;
 }
 @property (nonatomic, retain) WizInputView* oldPassword;
 @property (nonatomic, retain) WizInputView* passwordNew;
 @property (nonatomic, retain) WizInputView* passwordConfirmNew;
-@property (nonatomic, retain) NSString* accountUserId;
 @property (nonatomic, retain) UIAlertView* waitAlert;
 @end

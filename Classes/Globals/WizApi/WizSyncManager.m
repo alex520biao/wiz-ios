@@ -207,7 +207,8 @@ static WizSyncManager* shareManager;
         [self pauseAllSync];
         [self refreshToken];
     }
-    else if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet)
+    else if (([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorNotConnectedToInternet)
+             || ([error.domain isEqualToString:WizErrorDomain] && error.code == WizErrorCodeCancelFixPassword))
     {
         [[WizShareSyncObjectCache shareSyncObjectCache] clearAllWorkWizApi];
         [[WizShareSyncObjectCache shareSyncObjectCache] clearAllErrorWizApi];

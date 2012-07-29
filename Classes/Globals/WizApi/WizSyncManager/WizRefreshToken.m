@@ -33,11 +33,16 @@
             }
         }
     }
+    else
+    {
+        [self.apiManagerDelegate didApiSyncError:self error:[WizGlobalError cancelFixPasswordError]];
+    }
 }
 - (void) onError:(id)retObject
 {
     busy = NO;
     NSError* error = (NSError*)retObject;
+    NSLog(@"refresh token error %@",retObject);
     if (error.code == CodeOfTokenUnActiveError && [error.domain isEqualToString:WizErrorDomain]) {
         
         UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid password!", nil)

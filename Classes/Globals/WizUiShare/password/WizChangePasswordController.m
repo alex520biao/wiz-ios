@@ -20,12 +20,10 @@
 @synthesize oldPassword;
 @synthesize passwordConfirmNew;
 @synthesize passwordNew;
-@synthesize accountUserId;
 @synthesize waitAlert;
 - (void) dealloc
 {
     [waitAlert release];
-    [accountUserId release];
     [oldPassword release];
     [passwordNew release];
     [passwordConfirmNew release];
@@ -75,7 +73,7 @@
 {
     [self.waitAlert dismissWithClickedButtonIndex:0 animated:YES];
     NSString* pwNewStr = self.passwordNew.textInputField.text;
-    [[WizAccountManager defaultManager] changeAccountPassword:self.accountUserId password:pwNewStr];
+    [[WizAccountManager defaultManager] changeAccountPassword:[[WizAccountManager defaultManager]activeAccountUserId] password:pwNewStr];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

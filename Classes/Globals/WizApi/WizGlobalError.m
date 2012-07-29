@@ -13,4 +13,8 @@
 {
     return [NSError errorWithDomain:WizErrorDomain code:CodeOfTokenUnActiveError userInfo:nil];
 }
++ (NSError*) cancelFixPasswordError
+{
+    return [NSError errorWithDomain:WizErrorDomain code:WizErrorCodeCancelFixPassword userInfo:nil];
+}
 @end

@@ -109,7 +109,6 @@
 - (int64_t) syncVersion:(NSString*)type
 {
     NSString* verString = [self getMeta:KeyOfSyncVersion withKey:type];
-    NSLog(@"%@ version %@",type, verString);
     if (verString) {
         return [verString longLongValue];
     }

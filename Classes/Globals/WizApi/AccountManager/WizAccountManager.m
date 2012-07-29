@@ -162,6 +162,7 @@
 -(void) changeAccountPassword: (NSString*)userId password:(NSString*)password
 {
     id<WizSettingsDbDelegate> settingDB = [[WizDbManager shareDbManager] getWizSettingsDataBase];
+    NSLog(@"accountuserid %@ password is %@  md5 is %@",userId,password, [WizGlobals encryptPassword:password]);
     [settingDB updateAccount:userId password:password];
 }
 
