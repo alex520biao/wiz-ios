@@ -280,7 +280,7 @@
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar_
 {
-    if (searchBar_.text == nil || [searchBar_.text isEqualToString:@""]) {
+    if (searchBar_.text == nil || [[searchBar_.text trim] isEqualToString:@""]) {
         return;
     }
     NSString* location = [NSString stringWithFormat:@"/%@/",self.searchBar.text];
@@ -303,7 +303,7 @@
         if([cc isKindOfClass:[UIButton class]])
         {
             UIButton *btn = (UIButton *)cc;
-            if (searchText != nil && ![searchText isEqualToString:@""]) {
+            if (searchText != nil && ![[searchText trim] isEqualToString:@""]) {
                 [btn setTitle:WizStrAddFloder forState:UIControlStateNormal];
             }
             else
