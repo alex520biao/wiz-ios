@@ -216,7 +216,7 @@
     self.searchedTags = [NSMutableArray arrayWithArray:nameIn];
     NSPredicate* searchFullName = [NSPredicate predicateWithFormat:@"title = %@",self.searchBar.text];
     NSArray* predicateArray = [[self allTags] filteredArrayUsingPredicate:searchFullName];
-    if([predicateArray count]==0)
+    if([predicateArray count]==0 && ![[self.searchBar.text trim] isEqualToString:@""])
     {
         WizTag* tag =[[WizTag alloc]init];
         tag.title = self.searchBar.text;
