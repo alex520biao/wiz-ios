@@ -157,7 +157,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     if (0 == indexPath.row) {
-        cell.textLabel.text = WizStrName;
+        cell.textLabel.text = WizStrTitle;
         cell.detailTextLabel.text = doc.title;
     }
     
@@ -186,7 +186,6 @@
 //        cell.textLabel.text = WizStrLocation;
 //        cell.detailTextLabel.text = self.doc.gpsDescription;
 //    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void) showMap
@@ -197,9 +196,20 @@
     
     [map release];
 }
+- (void) changeTitle
+{
+    
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (1 == indexPath.row) {
+    if (0 == indexPath.row)
+    {
+        if (!self.isEditTheDoc)
+        {
+            [self changeTitle];
+        }
+    }
+    else if (1 == indexPath.row) {
         [self tagViewSelect];
     }
     else if ( 2 == indexPath.row)

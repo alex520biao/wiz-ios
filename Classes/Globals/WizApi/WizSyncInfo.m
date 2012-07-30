@@ -190,27 +190,6 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
         return [self callDownloadAttachmentList:[[[WizDbManager shareDbManager] shareDataBase] attachmentVersion]];
     }
 }
-
-- (void) onAllCategories: (id)retObject
-{
-    if (!self.busy) {
-        return ;
-    }
-
-	//
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSDictionary* obj = retObject;
-        NSString* categories = [obj valueForKey:@"categories"];
-        categories = [categories stringByAppendingString:@"*/My Mobiles/"];
-        //
-        NSArray* arrCategory = [categories componentsSeparatedByString:@"*"];
-        //
-        [[[WizDbManager shareDbManager] shareDataBase] updateLocations:arrCategory];
-    });
-	
-    [self callDownloadDocumentList:[[[WizDbManager shareDbManager] shareDataBase] documentVersion]];
-
-}
 - (void) onPostTagList:(id)retObject
 {
     if (!self.busy) {
@@ -222,8 +201,7 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
             [tag save];
         }
     });
-    [self callAllCategories];
-    [self didChangeSyncStatue:WizSyncStatueDownloadFolder];
+    [self callDownloadDocumentList:[[[WizDbManager shareDbManager] shareDataBase] documentVersion]];
 }
 -(void) onAllTags: (id)retObject
 {
@@ -257,7 +235,7 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
     }
     else
     {
-        return [self callAllCategories];
+        return  [self callDownloadDocumentList:[[[WizDbManager shareDbManager] shareDataBase] documentVersion]];
     }
 }
 
