@@ -736,7 +736,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 
 - (NSURL*) buildEditorEnviromentMoreThan5
 {
-    NSURL* ret = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"errorModel" ofType:@"html"]];
+    NSURL* ret = nil;
     WizFileManager* fileManager = [WizFileManager shareManager];
     NSString* editPath = [fileManager editingTempDirectory];
     NSString* editingFilePath = [editPath stringByAppendingPathComponent:WizEditingDocumentFileName];

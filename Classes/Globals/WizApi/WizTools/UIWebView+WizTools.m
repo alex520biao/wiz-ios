@@ -75,7 +75,7 @@
 //	NSString* script = @"function getBodyText() { var body = document.body; if (!body) return ""; if (body.innerText) return body.innerText;  return \"\"; } getBodyText();";
 	//
     NSString* script = @"function getBodyText() { var body = document.body; if (!body) return ""; if (body.innerText) return body.innerText;  return \"\"; } getBodyText();";
-	NSMutableString* ret = [NSMutableString stringWithString: [self stringByEvaluatingJavaScriptFromString:script]];
+    NSString* ret = [self stringByEvaluatingJavaScriptFromString:script];
 	if (!ret)
 		return @"";
 	//

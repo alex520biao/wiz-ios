@@ -177,6 +177,9 @@
 
 - (NSString*) fromHtml
 {
+    if (!self) {
+        return nil;
+    }
     NSMutableString* name = [[NSMutableString alloc] initWithString:self];
 	//
 	[name replaceOccurrencesOfString:@"" withString:@"\r" options:0 range:NSMakeRange(0, [name length])];
@@ -195,6 +198,9 @@
 
 -(NSString*) toHtml
 {
+    if (!self) {
+        return nil;
+    }
 	NSMutableString* name = [[NSMutableString alloc] initWithString:self];
 	//
 	[name replaceOccurrencesOfString:@"\r" withString:@"" options:0 range:NSMakeRange(0, [name length])];
