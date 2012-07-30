@@ -42,6 +42,33 @@
     });
     return share;
 }
++ (UILabel*) noDocumentsLabel
+{
+    static UILabel* noDocumentsLabel = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        noDocumentsLabel = [[UILabel alloc] init];
+        noDocumentsLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        noDocumentsLabel.textAlignment  = UITextAlignmentCenter;
+        noDocumentsLabel.backgroundColor = [UIColor clearColor];
+    });
+    return noDocumentsLabel;
+}
++ (UIView*) noDocumentsBackGroudView
+{
+    static UIView* noDocumentsBackgroudView = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        CGRect backgroudViewFrame = [[UIScreen mainScreen] bounds];
+        noDocumentsBackgroudView = [[UIView alloc] initWithFrame:backgroudViewFrame];
+        noDocumentsBackgroudView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
+        UILabel* noDocumentsLabel = [WizTableViewController noDocumentsLabel];
+        noDocumentsLabel.frame = CGRectMake(50, 80, 200, 200);
+        [noDocumentsBackgroudView addSubview:noDocumentsLabel];
+    });
+    return noDocumentsBackgroudView;
+}
+
 - (void) showActivity
 {
     self.navigationItem.rightBarButtonItem = [WizTableViewController syncBarButtonItem];
@@ -127,6 +154,16 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    if ([self.tableSourceArray documentsCount] == 0) {
+        UIView* noDocumentsView = [WizTableViewController noDocumentsBackGroudView];
+
+        self.tableView.backgroundView = noDocumentsView;
+    }
+    else
+    {
+        self.tableView.backgroundView = nil;
+    }
 }
 - (void) viewDidDisappear:(BOOL)animated
 {

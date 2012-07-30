@@ -127,6 +127,17 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 }
 @end
 @implementation NSMutableArray (WizDocuments)
+- (NSInteger) documentsCount
+{
+    if (nil == self) {
+        return 0;
+    }
+    int sum = 0;
+    for (NSArray* each in self) {
+        sum += [each count];
+    }
+    return sum;
+}
 - (NSMutableArray*) sourceArray
 {
     NSMutableArray* array = [NSMutableArray array];

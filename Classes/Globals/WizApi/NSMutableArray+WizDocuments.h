@@ -18,4 +18,5 @@ typedef NSMutableArray WizDocumentsMutableArray;
 - (NSIndexPath*) removeDocument:(WizDocument*)doc;
 - (NSIndexPath*) insertDocument:(WizDocument*)doc;
 - (NSIndexPath*) indexPathOfWizDocument:(WizDocument*) doc;
+- (NSInteger)  documentsCount;
 @end

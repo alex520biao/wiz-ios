@@ -23,5 +23,7 @@
 - (NSArray*) reloadAllDocument;
 - (NSInteger) documentsCount;
 - (void) reloadAllData;
++ (UILabel*) noDocumentsLabel;
++ (UIView*) noDocumentsBackGroudView;
 @end
 

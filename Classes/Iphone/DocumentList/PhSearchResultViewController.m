@@ -55,7 +55,14 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
-
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([self.tableSourceArray documentsCount] == 0) {
+        UILabel* noDocumentsLabel = [WizTableViewController noDocumentsLabel];
+        noDocumentsLabel.text = NSLocalizedString(@"Search results is empty", nil);
+    }
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

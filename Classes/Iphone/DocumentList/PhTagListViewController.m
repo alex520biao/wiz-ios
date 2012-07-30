@@ -65,6 +65,14 @@
     [super viewWillAppear:animated];
     
 }
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([self.tableSourceArray documentsCount] == 0) {
+        UILabel* noDocumentsLabel = [WizTableViewController noDocumentsLabel];
+        noDocumentsLabel.text = NSLocalizedString(@"This tag is empty", nil);
+    }
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
