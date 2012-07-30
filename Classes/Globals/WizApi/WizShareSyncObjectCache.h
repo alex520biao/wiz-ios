@@ -33,4 +33,5 @@
 - (void) clearAllErrorWizApi;
 - (void) clearAllWorkWizApi;
 - (void) stopAllWizApi;
+- (void) removeSyncingWizObject:(WizObject*)obj;
 @end

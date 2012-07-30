@@ -17,6 +17,8 @@
 #import "WizSettings.h"
 #import "WizAttachment.h"
 #import "CommonString.h"
+#import "WizShareSyncObjectCache.h"
+
 BOOL isReverseMask(NSInteger mask)
 {
     if (mask %2 == 0) {
@@ -235,6 +237,7 @@ BOOL isReverseMask(NSInteger mask)
     [fileManager removeObjectPath:document.guid];
     id<WizDbDelegate> db = [[WizDbManager shareDbManager] shareDataBase];
     [db deleteDocument:document.guid];
+    [[WizShareSyncObjectCache shareSyncObjectCache] removeSyncingWizObject:document];
     [WizNotificationCenter postDeleteDocumentMassage:document];
 }
 //
