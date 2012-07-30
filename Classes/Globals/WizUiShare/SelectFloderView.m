@@ -278,8 +278,11 @@
         [self searchTableView:tableView didSelectRowAtIndexPath:indexPath];
     }
 }
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar_
 {
+    if (searchBar_.text == nil || [searchBar_.text isEqualToString:@""]) {
+        return;
+    }
     NSString* location = [NSString stringWithFormat:@"/%@/",self.searchBar.text];
     if (![self checkFolderIsExist:location]) {
         [self.allFloders insertObject:location atIndex:0];
@@ -290,7 +293,9 @@
     [self.tableView reloadData];
     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
 }
-- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+
+
+- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     self.searchBar.showsCancelButton = YES;
     for(id cc in [self.searchBar subviews])
@@ -298,7 +303,13 @@
         if([cc isKindOfClass:[UIButton class]])
         {
             UIButton *btn = (UIButton *)cc;
-            [btn setTitle:NSLocalizedString(@"Add", nil) forState:UIControlStateNormal];
+            if (searchText != nil && ![searchText isEqualToString:@""]) {
+                [btn setTitle:WizStrAddFloder forState:UIControlStateNormal];
+            }
+            else
+            {
+                [btn setTitle:WizStrCancel forState:UIControlStateNormal];
+            }
         }
     }
 }
