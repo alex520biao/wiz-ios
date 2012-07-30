@@ -86,7 +86,6 @@
 - (BOOL) setMeta:(NSString*)lpszName  key:(NSString*)lpszKey value:(NSString*)value
 {
     __block BOOL ret;
-    NSLog(@"set meta");
     if (![self isMetaExist:lpszName withKey:lpszKey])
     {
         [self.queue inDatabase:^(FMDatabase *db) {

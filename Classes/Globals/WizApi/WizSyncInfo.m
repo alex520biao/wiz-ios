@@ -160,7 +160,6 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
     });
 	
     int64_t newVer = [self newVersion:obj];
-    NSLog(@"document newVer is %lld",newVer);
     if (newVer >= oldVer) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             [[[WizDbManager shareDbManager] shareDataBase] setDocumentVersion:newVer+1];
@@ -168,6 +167,11 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
         [self callDownloadDocumentList:newVer+1];
     }
     else {
+        if (newVer == 0 && documentVersion!=0) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                [[[WizDbManager shareDbManager] shareDataBase] setDocumentVersion:documentVersion];
+            });
+        }
         [self callDownloadAttachmentList:[[[WizDbManager shareDbManager] shareDataBase] attachmentVersion]];
 
     }
@@ -231,16 +235,17 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [[[WizDbManager shareDbManager] shareDataBase] updateTags:obj];
     });
-    
-
     int64_t newVer = [self newVersion:obj];
-    if (newVer > oldVer) {
+    NSLog(@"tag version is  %lld",newVer);
+    if (newVer >= oldVer) {
         [[[WizDbManager shareDbManager] shareDataBase] setTagVersion:newVer+1];
         [self callAllTags:newVer+1];
     }
     else {
+        if (newVer == 0 && tagVersion!=0) {
+            [[[WizDbManager shareDbManager] shareDataBase] setTagVersion:tagVersion];
+        }
         [self uploadAllTags];
-
     }
 }
 - (BOOL) uploadAllTags
