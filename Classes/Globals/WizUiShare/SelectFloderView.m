@@ -297,6 +297,9 @@
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    
+    NSLog(@"origin text is %@ will changed text is %@",self.searchBar.text, searchText);
+    
     self.searchBar.showsCancelButton = YES;
     for(id cc in [self.searchBar subviews])
     {

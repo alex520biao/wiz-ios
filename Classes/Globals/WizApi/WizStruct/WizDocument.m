@@ -240,7 +240,6 @@ BOOL isReverseMask(NSInteger mask)
     [[WizShareSyncObjectCache shareSyncObjectCache] removeSyncingWizObject:document];
     [WizNotificationCenter postDeleteDocumentMassage:document];
 }
-//
 
 - (NSArray*) attachments
 {
