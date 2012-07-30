@@ -70,6 +70,7 @@
 		}
 		//
 		self.retData = [[[NSMutableData alloc] init] autorelease];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	}
 	
 	return self;
@@ -125,7 +126,7 @@
 
 - (void)connection: (NSURLConnection *)connection didFailWithError: (NSError *)error
 {
-	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	if ([self.delegate respondsToSelector: @selector(xmlrpcDone:isSucceeded:retObject:forMethod:)])
 	{
 		[self.delegate xmlrpcDone: self isSucceeded: NO retObject:error forMethod: [self.request method]];
@@ -135,6 +136,7 @@
 
 - (void)connectionDidFinishLoading: (NSURLConnection *)connection
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	if ([self.delegate respondsToSelector: @selector(xmlrpcDone:isSucceeded:retObject:forMethod:)])
 	{
 		XMLRPCResponse *response = [[XMLRPCResponse alloc] initWithData: self.retData];

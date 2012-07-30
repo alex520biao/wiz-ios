@@ -98,7 +98,6 @@
 }
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	if (succeeded && ![ret isKindOfClass:[NSError class]])
 	{
 		if ([method isEqualToString:SyncMethod_ClientLogin])
@@ -217,7 +216,6 @@
 	//
 	self.connectionXmlrpc = [XMLRPCConnection sendAsynchronousXMLRPCRequest:request delegate:self];
 	//
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[request release];
 	//
     if(nil != self.connectionXmlrpc)
@@ -349,7 +347,7 @@
     [postParams setObject:[NSNumber numberWithInt:[self listCount]] forKey:@"count"];
     [postParams setObject:[NSNumber numberWithInt:0] forKey:@"first"];
     [postParams setObject:[NSNumber numberWithInt:version] forKey:@"version"];
-    NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
+    NSArray *args = [NSArray arrayWithObjects:postParams, nil];
 	//
 	return [self executeXmlRpc:self.apiURL method:SyncMethod_GetAttachmentList args:args];
 }

@@ -104,11 +104,15 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
          [[[WizDbManager shareDbManager] shareDataBase] updateAttachments:attachArr];
     });
     int64_t newVer = [self newVersion:attachArr];
-    if (newVer > oldVer) {
+    if (newVer >= oldVer) {
         [[[WizDbManager shareDbManager] shareDataBase] setAttachmentVersion:newVer+1];
         [self callDownloadAttachmentList:newVer+1];
     }
-    else {
+    else
+    {
+        if (newVer == 0 && attachmentVersion !=0) {
+            [[[WizDbManager shareDbManager] shareDataBase] setAttachmentVersion:attachmentVersion];
+        }
         [self uploadAllDocumentsAndAttachments];
     }
    

@@ -770,8 +770,6 @@
             [array addObject:deleteGuid];
             [deleteGuid release];
         }
-        NSLog(@"array %@ %@",array,sql);
-        
         [result close];
     }];
     
