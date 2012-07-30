@@ -33,4 +33,5 @@
 - (NSArray*) decodeJsCmd:(NSString*)urlCmd;
 //
 - (BOOL) deleteImage;
+- (BOOL) containImages;
 @end

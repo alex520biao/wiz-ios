@@ -151,5 +151,19 @@
 {
     [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"insertText('%@')", text]];
 }
-
+- (BOOL) containImages
+{
+	NSString* script = @"function containImages() { var images = document.images; return (images && images.length > 0) ? \"1\" : \"0\"; } containImages();";
+	//
+	NSString* ret = [self stringByEvaluatingJavaScriptFromString:script];
+	//
+	if (!ret)
+		return NO;
+	if ([ret isEqualToString:@"1"])
+		return YES;
+	if ([ret isEqualToString:@"0"])
+		return NO;
+	//
+	return NO;
+}
 @end

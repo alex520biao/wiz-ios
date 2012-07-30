@@ -386,6 +386,16 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     }
 }
 
+- (BOOL) containsAudio
+{
+    for (WizAttachment* each in attachmentsArray) {
+        if ([WizGlobals checkAttachmentTypeIsAudio:[each.title fileType]]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void) doSaveDocument
 {
     WizFileManager* fileManager = [WizFileManager shareManager];
@@ -414,19 +424,31 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     }
     NSString* bodyText = [editorWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerText"];
     
-    if (nil == titleTextField.text || [titleTextField.text isBlock] || [self.title isEqualToString:WizStrNoTitle])
+    if (nil == titleTextField.text || [titleTextField.text isBlock] || [titleTextField.text isEqualToString:WizStrNoTitle])
     {
         if (bodyText && ![bodyText isBlock]) {
-            if (bodyText.length > 20) {
-                bodyText = [bodyText substringToIndex:20];
-            }
-            self.docEdit.title = bodyText;
+                if (bodyText.length > 20) {
+                    bodyText = [bodyText substringToIndex:20];
+                }
+                self.docEdit.title = bodyText;
         }
         else
         {
-            self.docEdit.title = WizStrNoTitle;
+            BOOL containsImage = [editorWebView containImages];
+            BOOL containsAudio = [self containsAudio];
+            if (containsAudio && !containsImage) {
+                self.docEdit.title = [NSString stringWithFormat:@"%@ %@",WizStrNewDocumentTitleAudio, [[NSDate date] stringLocal]];
+            }
+            else if(!containsAudio && containsImage)
+            {
+                self.docEdit.title = [NSString stringWithFormat:@"%@ %@",WizStrNewDocumentTitleImage, [[NSDate date] stringLocal]];
+            }
+            else
+            {
+                self.docEdit.title = [NSString stringWithFormat:@"%@ %@",WizStrNewDocumentTitleNoTitle, [[NSDate date] stringLocal]];
+            }
+            
         }
-        
     }
     else
     {

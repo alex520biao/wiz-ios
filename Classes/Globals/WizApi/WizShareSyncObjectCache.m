@@ -324,6 +324,8 @@
 {
     [workQueque removeAllObjects];
     [errorQueque removeAllObjects];
+    [uploadObjectsQueque removeAllObjects];
+    [downadObjectsQueque removeAllObjects];
     for (WizUploadObjet* uploader in [self allUploadTools]) {
         [uploader stopUpload];
     }

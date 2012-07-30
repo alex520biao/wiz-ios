@@ -273,8 +273,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "503"
          endingLineNumber = "503"
-         landmarkName = "@implementation WizApi"
-         landmarkType = "3">
+         landmarkName = "-callCreateAccount:password:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -661,8 +661,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "535"
          endingLineNumber = "535"
-         landmarkName = "-callAttachmentPostSimpleData:dataMd5:ziwMd5:"
-         landmarkType = "5">
+         landmarkName = "@implementation WizApi"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -747,11 +747,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365236813.661126"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "854"
-         endingLineNumber = "854"
+         startingLineNumber = "876"
+         endingLineNumber = "876"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -838,11 +838,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365236813.661126"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "869"
-         endingLineNumber = "869"
+         startingLineNumber = "891"
+         endingLineNumber = "891"
          landmarkName = "@implementation WizEditorBaseViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -851,11 +851,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365236813.661126"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "898"
-         endingLineNumber = "898"
+         startingLineNumber = "920"
+         endingLineNumber = "920"
          landmarkName = "-updateTime"
          landmarkType = "5">
       </FileBreakpoint>
@@ -864,11 +864,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365236813.661126"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "985"
-         endingLineNumber = "985"
+         startingLineNumber = "1007"
+         endingLineNumber = "1007"
          landmarkName = "-stopRecord"
          landmarkType = "5">
       </FileBreakpoint>
@@ -890,11 +890,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "364884467.892208"
+         timestampString = "365327711.948444"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "406"
-         endingLineNumber = "406"
+         startingLineNumber = "416"
+         endingLineNumber = "416"
          landmarkName = "-doSaveDocument"
          landmarkType = "5">
       </FileBreakpoint>
@@ -916,11 +916,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "793"
-         endingLineNumber = "793"
+         startingLineNumber = "815"
+         endingLineNumber = "815"
          landmarkName = "-postSelectedMessageToPicker"
          landmarkType = "5">
       </FileBreakpoint>
@@ -954,19 +954,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/UIWebView+WizEditor.m"
-         timestampString = "364125424.629753"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "119"
-         endingLineNumber = "119"
-         landmarkName = "-prapareForEditLessThan5"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizCommonEditorBaseViewController.m"
          timestampString = "363865219.000093"
          startingColumnNumber = "9223372036854775807"
@@ -981,11 +968,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "612"
-         endingLineNumber = "612"
+         startingLineNumber = "634"
+         endingLineNumber = "634"
          landmarkName = "-showEditErrorMessage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -994,11 +981,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "729"
-         endingLineNumber = "729"
+         startingLineNumber = "751"
+         endingLineNumber = "751"
          landmarkName = "-buildEditorEnviromentLessThan5"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1007,11 +994,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "753"
-         endingLineNumber = "753"
+         startingLineNumber = "775"
+         endingLineNumber = "775"
          landmarkName = "-buildEditorEnviromentMoreThan5"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1085,11 +1072,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365236813.661126"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "951"
-         endingLineNumber = "951"
+         startingLineNumber = "973"
+         endingLineNumber = "973"
          landmarkName = "-sourceAttachmentsArray"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1098,11 +1085,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365236813.661126"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "955"
-         endingLineNumber = "955"
+         startingLineNumber = "977"
+         endingLineNumber = "977"
          landmarkName = "-deletedAttachmentsArray"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1188,25 +1175,12 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/UIWebView+WizEditor.m"
-         timestampString = "364364741.246743"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "116"
-         endingLineNumber = "116"
-         landmarkName = "-prapareForEditLessThan5"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "736"
-         endingLineNumber = "736"
+         startingLineNumber = "758"
+         endingLineNumber = "758"
          landmarkName = "@implementation WizEditorBaseViewController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -1228,11 +1202,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
+         timestampString = "365327873.253071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "772"
-         endingLineNumber = "772"
+         startingLineNumber = "794"
+         endingLineNumber = "794"
          landmarkName = "-buildEditorEnviromentMoreThan5"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1513,19 +1487,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/UIWebView+WizEditor.m"
-         timestampString = "364709611.967833"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
-         landmarkName = "-prapareForEdit"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizSyncInfo.m"
          timestampString = "364794023.466644"
          startingColumnNumber = "9223372036854775807"
@@ -1773,19 +1734,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
-         timestampString = "365071742.238887"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "436"
-         endingLineNumber = "436"
-         landmarkName = "-doSaveDocument"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizApi/WizDbManger/WizDbManger/WizInfoDataBase.m"
          timestampString = "365241141.571258"
          startingColumnNumber = "9223372036854775807"
@@ -1975,6 +1923,19 @@
          startingLineNumber = "166"
          endingLineNumber = "166"
          landmarkName = "-changeAccountPassword:password:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Classes/Globals/WizUiShare/WizCommonEditorViewControllerM5.m"
+         timestampString = "365327962.299143"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "97"
+         endingLineNumber = "97"
+         landmarkName = "-resumeLastEditong"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
