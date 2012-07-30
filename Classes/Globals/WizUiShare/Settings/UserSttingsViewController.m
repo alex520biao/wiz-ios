@@ -533,7 +533,6 @@ enum WizSettingKind {
         if (ABS([document.dateModified timeIntervalSinceNow]) < time) {
             break;
         }
-        NSLog(@"real timeinterval is %f",[document.dateModified timeIntervalSinceNow]);
         NSString* path = [fileManager objectFilePath:document.guid];
         if ([fileManager removeItemAtPath:path error:nil]) {
             if([dataBase setDocumentServerChanged:document.guid changed:YES])
@@ -541,7 +540,6 @@ enum WizSettingKind {
                 [abstractDataBase deleteAbstractByGUID:document.guid];
                 NSArray* attachments = [document attachments];
                 for (WizAttachment* each in attachments) {
-                    NSLog(@"attachment guid is %@",each.guid);
                     if (each.localChanged == 0) {
                         if ([dataBase setAttachmentServerChanged:each.guid changed:YES]) {
                             [fileManager removeObjectPath:each.guid];
