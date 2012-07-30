@@ -56,31 +56,39 @@
 
 
 - (void)addPullToRefreshHeader {
-    refreshHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, 320, REFRESH_HEADER_HEIGHT)];
+    refreshHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, self.view.frame.size.width, REFRESH_HEADER_HEIGHT)];
     refreshHeaderView.backgroundColor = [UIColor clearColor];
-
-    refreshLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.0, 320, REFRESH_HEADER_HEIGHT)];
+    refreshHeaderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    
+    refreshLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0.0, self.view.frame.size.width , REFRESH_HEADER_HEIGHT)];
     refreshLabel.backgroundColor = [UIColor clearColor];
     refreshLabel.font = [UIFont boldSystemFontOfSize:12.0];
-    refreshLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+    refreshLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     refreshLabel.textAlignment = UITextAlignmentCenter;
-
-    refreshDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(50 , REFRESH_HEADER_HEIGHT/2 -7, 220, REFRESH_HEADER_HEIGHT/2)];
+    
+    refreshDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(50 , REFRESH_HEADER_HEIGHT/2 -7, self.view.frame.size.width - 100, REFRESH_HEADER_HEIGHT/2)];
     refreshDetailLabel.backgroundColor = [UIColor clearColor];
     [refreshDetailLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
     refreshDetailLabel.textAlignment = UITextAlignmentCenter;
+    refreshDetailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    
     refreshArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow.png"]];
     refreshArrow.frame = CGRectMake((REFRESH_HEADER_HEIGHT - 27) / 2,
                                     (REFRESH_HEADER_HEIGHT - 44) / 2,
                                     27, 44);
-
+    
+    
     refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     refreshSpinner.frame = CGRectMake((REFRESH_HEADER_HEIGHT - 20) / 2, (REFRESH_HEADER_HEIGHT - 20) / 2, 20, 20);
     refreshSpinner.hidesWhenStopped = YES;
     
-    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(270, 5, 40, 40)];
+    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(refreshHeaderView.frame.size.width -40, 5, 40, 40)];
+    
     [btn setImage:[UIImage imageNamed:@"icon_sync_home_cancel"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(stopSyncing) forControlEvents:UIControlEventTouchUpInside];
+    btn.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [refreshHeaderView addSubview:btn];
     [btn release];
     [refreshHeaderView addSubview:refreshLabel];
