@@ -84,6 +84,13 @@
         NSNumber* userLevel = [userInfo objectForKey:@"user_level"];
         NSString* userLevelName = [userInfo objectForKey:@"user_level_name"];
         NSString* userType = [userInfo objectForKey:@"user_type"];
+        NSDictionary* userData = [userInfo objectForKey:@"user"];
+        NSString* userEmail = [userData objectForKey:@"email"];
+        NSLog(@"userEmail is %@",userEmail);
+        if (![[userEmail lowercaseString] isEqualToString:[[WizAccountManager defaultManager]activeAccountUserId]]) {
+            [self.apiManagerDelegate didApiSyncDone:self];
+            return;
+        }
         WizSettings* defalutSettings = [WizSettings defaultSettings];
         [defalutSettings setUserPoints:[userPoints longLongValue]];
         [defalutSettings setUserLevel:[userLevel longLongValue]];
@@ -97,5 +104,10 @@
         [urlAPI release];
     }
     
+}
+- (void) cancel
+{
+    [super cancel];
+    self.refreshDelegate = nil;
 }
 @end

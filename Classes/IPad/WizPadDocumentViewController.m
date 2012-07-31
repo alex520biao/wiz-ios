@@ -724,12 +724,14 @@
 - (void) didSelectedDocument:(WizDocument*)doc
 {
     self.selectedDocument = doc;
+    
+    if (doc.protected_) {
+        [self  displayEncryInfo];
+        return;
+    }
     documentNameLabel.text = doc.title;
     [webView loadHTMLString:@"" baseURL:nil];
     [self showDocumentAttachmentCount:doc];
-    
-    
-    
     if (doc.serverChanged) {
         [self downloadDocument:doc];
 
