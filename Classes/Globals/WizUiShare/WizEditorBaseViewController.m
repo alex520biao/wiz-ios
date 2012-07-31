@@ -503,11 +503,25 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 {
     UIImagePickerController* pick = [self selectPhoto:self];
     self.currentPoperController = [[[UIPopoverController alloc] initWithContentViewController:pick] autorelease];
-    UIBarButtonItem* selectPhotoItem=[self.navigationItem.rightBarButtonItems objectAtIndex:0];
-    for (UIBarButtonItem* each in self.navigationItem.rightBarButtonItems) {
-        if (each.tag == WizEditNavigationBarItemTagSelectPhoto) {
-            selectPhotoItem = each;
-            break;
+    UIBarButtonItem* selectPhotoItem=self.navigationItem.rightBarButtonItem;
+    if ([WizGlobals WizDeviceVersion] < 5.0) {
+        UIView* titleView = self.navigationItem.titleView;
+        if ([titleView isKindOfClass:[UIToolbar class]]) {
+            UIToolbar* titleToolBar = (UIToolbar*)titleView;
+            for (UIBarButtonItem* eachItem in titleToolBar.items) {
+                if (eachItem.tag == WizEditNavigationBarItemTagSelectPhoto) {
+                    selectPhotoItem = eachItem;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (UIBarButtonItem* each in self.navigationItem.rightBarButtonItems) {
+            if (each.tag == WizEditNavigationBarItemTagSelectPhoto) {
+                selectPhotoItem = each;
+                break;
+            }
         }
     }
     [currentPoperController presentPopoverFromBarButtonItem:selectPhotoItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
@@ -604,6 +618,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
         navigationToolBar.items = tools;
         navigationToolBar.backgroundColor = [UIColor clearColor];
         self.navigationItem.titleView = navigationToolBar;
+        [navigationToolBar release];
     }
    
     [flex release];
@@ -1039,6 +1054,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [picker dismissModalViewControllerAnimated:YES];
     //2012-2-26 delete
     [self willAddPhotoDone:fileNamePath];
+    [self.currentPoperController dismissPopoverAnimated:YES];
 }
 
 - (UIImagePickerController*) selectPhoto:(id<UIImagePickerControllerDelegate, UINavigationControllerDelegate>) parentController

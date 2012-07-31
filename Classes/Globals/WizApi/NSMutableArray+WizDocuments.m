@@ -282,7 +282,6 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     for (int docIndex = 0; docIndex < (NSInteger)[sourceArray count] -1; docIndex++) {
         WizDocument* doc1 = [sourceArray objectAtIndex:docIndex];
         WizDocument* doc2 = [sourceArray objectAtIndex:docIndex+1];
-        [doc1 compareToGroup:doc2 mask:indexOrder];
         if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
             [currentSection addObject:doc1];
             [self addObject:currentSection];
@@ -292,40 +291,10 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
             [currentSection addObject:doc1];
         }
     }
+    if ([sourceArray lastObject]) {
+        [currentSection addObject:[sourceArray lastObject]];
+    }
     [self addObject:currentSection];
-//    for (int docIndx = 0; docIndx < [sourceArray count];) {
-//        @try {
-//            WizDocument* doc1 = [sourceArray objectAtIndex:docIndx];
-//            WizDocument* doc2 = [sourceArray objectAtIndex:docIndx+1];
-//            if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
-//                NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
-//                NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
-//                [self addObject:arr];
-//                count = docIndx+1;
-//            }
-//            docIndx++;
-//        }
-//        @catch (NSException *exception) {
-//            if (docIndx == [sourceArray count]-1) {
-//                WizDocument* doc1= [sourceArray objectAtIndex:[sourceArray count]-2];
-//                WizDocument* doc2 = [sourceArray lastObject];
-//                if ([doc1 compareToGroup:doc2 mask:indexOrder] != 0) {
-//                    NSMutableArray* arr = [NSMutableArray arrayWithObject:doc2];
-//                    [self addObject:arr];
-//                }
-//                else {
-//                    NSArray* subArr = [sourceArray subarrayWithRange:NSMakeRange(count, docIndx-count+1)];
-//                    NSMutableArray* arr = [NSMutableArray arrayWithArray:subArr];
-//                    [self addObject:arr];
-//                }
-//            }
-//            docIndx++;
-//            count = docIndx;
-//            continue;
-//        }
-//        @finally {
-//        }
-//    }
 }
 
 - (NSIndexPath*) indexPathOfWizDocument:(WizDocument*) doc

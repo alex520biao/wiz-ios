@@ -284,7 +284,10 @@
 {
     NSString* str = [self userInfo:ImageQuality];
     if(!str)
-        return 300;
+    {
+        [self setImageQualityValue:WizImageQualityOrigin];
+        return WizImageQualityOrigin;
+    }
     else
         return [str longLongValue];
 }

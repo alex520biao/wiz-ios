@@ -219,7 +219,7 @@
     if([predicateArray count]==0 && ![[self.searchBar.text trim] isEqualToString:@""])
     {
         WizTag* tag =[[WizTag alloc]init];
-        tag.title = self.searchBar.text;
+        tag.title = [self.searchBar.text trim];
         [self.searchedTags insertObject:tag atIndex:0];
         self.isNewTag = YES;
         [tag release];

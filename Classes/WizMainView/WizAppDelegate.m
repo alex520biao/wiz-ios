@@ -133,6 +133,7 @@
 }
 - (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
+    NSLog(@"memory waring");
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if ([[WizSettings defaultSettings] isPasscodeEnable]) {

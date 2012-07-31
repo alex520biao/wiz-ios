@@ -107,7 +107,8 @@ static WizSettings* defaultSettings = nil;
 {
     int64_t ret = [self.settingsDbDelegate userTablelistViewOption];
     if (ret < 1) {
-        [self setUserTableListViewOption:2];
+        [self setUserTableListViewOption:kOrderReverseDate];
+        return kOrderReverseDate;
     }
     return [self.settingsDbDelegate userTablelistViewOption];
 }

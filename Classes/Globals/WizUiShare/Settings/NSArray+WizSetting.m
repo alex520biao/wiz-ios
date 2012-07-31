@@ -7,7 +7,7 @@
 //
 
 #import "NSArray+WizSetting.h"
-
+#import "WizSettingsDataBase.h"
 #define WizSettingValue     @"WizSettingValue"
 #define WizSettingDescription     @"WizSettingDescription"
 @implementation NSArray (WizSetting)
@@ -31,10 +31,10 @@
 + (NSArray*) imageQulityArray
 {
     return [NSArray arrayWithObjects:
-            [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Original", nil),WizSettingDescription, [NSNumber numberWithInt:1024], WizSettingValue, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"High", nil),WizSettingDescription, [NSNumber numberWithInt:1024], WizSettingValue ,nil] ,
-            [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Medium", nil),WizSettingDescription, [NSNumber numberWithInt:600], WizSettingValue, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys: NSLocalizedString(@"Low", nil),WizSettingDescription, [NSNumber numberWithInt:300], WizSettingValue, nil] ,
+            [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Original", nil),WizSettingDescription, [NSNumber numberWithInt:WizImageQualityOrigin], WizSettingValue, nil],
+            [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"High", nil),WizSettingDescription, [NSNumber numberWithInt:WizImageQualityLarge], WizSettingValue ,nil] ,
+            [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Medium", nil),WizSettingDescription, [NSNumber numberWithInt:WizImageQualityMiddle], WizSettingValue, nil],
+            [NSDictionary dictionaryWithObjectsAndKeys: NSLocalizedString(@"Low", nil),WizSettingDescription, [NSNumber numberWithInt:WizImageQualitySmall], WizSettingValue, nil] ,
             nil];
 
 }

@@ -283,7 +283,7 @@
     if (searchBar_.text == nil || [[searchBar_.text trim] isEqualToString:@""]) {
         return;
     }
-    NSString* location = [NSString stringWithFormat:@"/%@/",self.searchBar.text];
+    NSString* location = [NSString stringWithFormat:@"/%@/",[self.searchBar.text trim]];
     if (![self checkFolderIsExist:location]) {
         [self.allFloders insertObject:location atIndex:0];
     }
@@ -297,9 +297,6 @@
 
 - (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    
-    NSLog(@"origin text is %@ will changed text is %@",self.searchBar.text, searchText);
-    
     self.searchBar.showsCancelButton = YES;
     for(id cc in [self.searchBar subviews])
     {

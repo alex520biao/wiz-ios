@@ -260,6 +260,7 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
 	[[[WizDbManager shareDbManager] shareDataBase] clearDeletedGUIDs];
     [self callAllTags:[[[WizDbManager shareDbManager] shareDataBase] tagVersion]];
 }
+
 -(void) onDownloadDeletedList: (id)retObject
 {
     if (!self.busy) {

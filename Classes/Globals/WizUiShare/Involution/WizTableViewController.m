@@ -157,7 +157,6 @@
 
     if ([self.tableSourceArray documentsCount] == 0) {
         UIView* noDocumentsView = [WizTableViewController noDocumentsBackGroudView];
-
         self.tableView.backgroundView = noDocumentsView;
     }
     else
