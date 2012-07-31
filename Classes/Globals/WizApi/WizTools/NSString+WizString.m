@@ -231,6 +231,22 @@
     return result;
 }
 
+- (BOOL) checkHasInvaildCharacters
+{
+    static NSRegularExpression* regular = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSError* error = nil;
+        regular = [[NSRegularExpression regularExpressionWithPattern:@"[\\,/,:,<,>,*,?,\",&,\"]" options:NSRegularExpressionCaseInsensitive error:&error] retain];
+        NSLog(@"regular %@",regular);
+    });
+    NSArray* regularArray = [regular  matchesInString:self options:0 range:NSMakeRange(0, self.length)];
+    if (regularArray && [regularArray count]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (BOOL) writeToFile:(NSString *)path useUtf8Bom:(BOOL)isWithBom error:(NSError **)error
 {
     

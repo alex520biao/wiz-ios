@@ -23,4 +23,5 @@ enum WizErrorCode {
 @interface WizGlobalError : NSObject
 + (NSError*) tokenUnActiveError;
 + (NSError*) cancelFixPasswordError;
++ (NSError*) folderInvalidCharacterError:(NSString*)errorText;
 @end

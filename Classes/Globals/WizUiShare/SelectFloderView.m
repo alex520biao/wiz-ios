@@ -62,7 +62,6 @@
         [tableView endUpdates];
         [self.tableView reloadData];
     }
-    [self.searchDisplayController setActive:NO animated:YES];
 }
 - (void) buildSeachView
 {
@@ -285,7 +284,8 @@
     if (searchBar_.text == nil || [[searchBar_.text trim] isEqualToString:@""]) {
         return;
     }
-    NSString* location = [NSString stringWithFormat:@"/%@/",[self.searchBar.text trim]];
+    NSString* locationString = [[searchBar_.text trim] stringReplaceUseRegular:@"[\\,/,:,<,>,*,?,\",&,\"]"];
+    NSString* location = [NSString stringWithFormat:@"/%@/",locationString];
     if (![self checkFolderIsExist:location]) {
         [self.allFloders insertObject:location atIndex:0];
     }
@@ -297,9 +297,19 @@
 }
 
 
-- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void) searchBar:(UISearchBar *)searchBar_ textDidChange:(NSString *)searchText
 {
+    
+    NSLog(@"the search text is %@",searchText);
     self.searchBar.showsCancelButton = YES;
+    if (searchText == nil) {
+        return;
+    }
+    
+    if ([searchText checkHasInvaildCharacters]) {
+        [WizGlobals reportError:[WizGlobalError folderInvalidCharacterError:searchText]];
+        searchBar_.text = [searchText stringReplaceUseRegular:@"[\\,/,:,<,>,*,?,\",&,\"]"];
+    }
     for(id cc in [self.searchBar subviews])
     {
         if([cc isKindOfClass:[UIButton class]])

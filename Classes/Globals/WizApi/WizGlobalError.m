@@ -17,4 +17,12 @@
 {
     return [NSError errorWithDomain:WizErrorDomain code:WizErrorCodeCancelFixPassword userInfo:nil];
 }
++ (NSError*) folderInvalidCharacterError:(NSString*)errorText
+{
+    if (errorText) {
+        errorText = [errorText stringReplaceUseRegular:@"[^[\\,/,:,<,>,*,?,\",&,\"]]" withString:@""];
+    }
+    return  [NSError errorWithDomain:WizErrorDomain code:9999 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@:\"%@\"",NSLocalizedString(@"Invalid character", nil),errorText] forKey:NSLocalizedDescriptionKey]];
+}
+
 @end

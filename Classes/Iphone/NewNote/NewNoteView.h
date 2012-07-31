@@ -16,8 +16,3 @@
 @interface NewNoteView : WizEditNoteBase <UIActionSheetDelegate,AVAudioRecorderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate,WizSelectTagDelegate,WizFolderSelectDelegate,MBProgressHUDDelegate>
 - (void) prepareForEdit:(NSString*)body attachments:(NSArray*)attachments;
 @end
-
-
-
-
-
