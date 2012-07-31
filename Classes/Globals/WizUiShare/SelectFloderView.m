@@ -57,7 +57,9 @@
     }
     else {
         [self didSelectedFolder:folder];
+        [tableView beginUpdates];
         [tableView reloadData];
+        [tableView endUpdates];
         [self.tableView reloadData];
     }
     [self.searchDisplayController setActive:NO animated:YES];

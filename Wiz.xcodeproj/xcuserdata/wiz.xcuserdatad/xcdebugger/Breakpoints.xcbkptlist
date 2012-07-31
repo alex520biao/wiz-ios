@@ -850,19 +850,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/WizCommonEditorViewControllerM5.m"
-         timestampString = "364967485.30146"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
-         landmarkName = "@implementation WizCommonEditorViewControllerM5"
-         landmarkType = "3">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/WizEditorBaseViewController.m"
          timestampString = "365327711.948444"
          startingColumnNumber = "9223372036854775807"
@@ -1410,11 +1397,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/SelectFloderView.m"
-         timestampString = "364707199.713813"
+         timestampString = "365399433.384343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "161"
-         endingLineNumber = "161"
+         startingLineNumber = "160"
+         endingLineNumber = "160"
          landmarkName = "-searchTableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1423,11 +1410,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/SelectFloderView.m"
-         timestampString = "364707199.713813"
+         timestampString = "365399433.384343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "169"
-         endingLineNumber = "169"
+         startingLineNumber = "168"
+         endingLineNumber = "168"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1436,11 +1423,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/Globals/WizUiShare/SelectFloderView.m"
-         timestampString = "364707199.713813"
+         timestampString = "365399433.384343"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "188"
-         endingLineNumber = "188"
+         startingLineNumber = "187"
+         endingLineNumber = "187"
          landmarkName = "-searchTableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1819,19 +1806,6 @@
          startingLineNumber = "166"
          endingLineNumber = "166"
          landmarkName = "-changeAccountPassword:password:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/Globals/WizUiShare/WizCommonEditorViewControllerM5.m"
-         timestampString = "365327962.299143"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "97"
-         endingLineNumber = "97"
-         landmarkName = "-resumeLastEditong"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
