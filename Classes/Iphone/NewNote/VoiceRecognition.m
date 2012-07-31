@@ -62,7 +62,15 @@
         NSString *initParam = [[NSString alloc] initWithFormat:
                                @"server_url=%@,appid=%@",ENGINE_URL,APPID];
         // 识别控件
-        IFlyRecognizeControl* recg  = [[IFlyRecognizeControl alloc] initWithOrigin:H_CONTROL_ORIGIN theInitParam:initParam];
+        
+        IFlyRecognizeControl* recg  = nil;
+        if ([WizGlobals WizDeviceIsPad]) {
+           recg = [[IFlyRecognizeControl alloc] initWithOrigin:CGPointMake(284, 284) theInitParam:initParam];
+        }
+        else
+        {
+            recg = [[IFlyRecognizeControl alloc] initWithOrigin:H_CONTROL_ORIGIN theInitParam:initParam];
+        }
         self.iFlyRecongize = recg;
         [recg release];
         [pView addSubview:self.iFlyRecongize];
