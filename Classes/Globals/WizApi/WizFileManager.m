@@ -107,7 +107,7 @@ static WizFileManager* shareManager = nil;
 - (NSString*) abstractDataBatabasePath:(NSString*)accountUserId
 {
     NSString* accountPath = [self accountPathFor:accountUserId];
-    return [accountPath stringByAppendingPathComponent:@"temp.db"];
+    return [accountPath stringByAppendingPathComponent:@"tempAbs.db"];
 }
 
 - (NSString*) objectFilePath:(NSString*)objectGuid
@@ -262,7 +262,7 @@ static WizFileManager* shareManager = nil;
         if ([fileName isEqualToString:@"index.db"]) {
             continue;
         }
-        if ([fileName isEqualToString:@"temp.db"]) {
+        if ([fileName isEqualToString:@"tempAbs.db"]) {
             continue;
         }
         NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];

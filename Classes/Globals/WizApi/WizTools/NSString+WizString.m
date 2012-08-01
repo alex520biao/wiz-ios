@@ -87,8 +87,6 @@
          NSDate* date = [formatter dateFromString:self];
         return date ;
     }
-	
-        
 }
 //
 -(NSString*) trim

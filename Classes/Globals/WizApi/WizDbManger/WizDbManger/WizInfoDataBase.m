@@ -395,6 +395,9 @@
                 }
                 case WizEditDocumentTypeAllChanged:
                 {
+                    if ([dataMd5 isEqualToString:docExist.dataMd5]) {
+                        break;
+                    }
                     {
                         serverChanged = @1;
                         localChanged = @0;
