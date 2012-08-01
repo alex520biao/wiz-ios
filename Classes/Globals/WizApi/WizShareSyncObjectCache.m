@@ -227,22 +227,18 @@
 
 - (void) addShouldDownloadWizObject:(WizObject*)obj
 {
-    for (WizObject* each in downadObjectsQueque) {
-        if ([each.guid isEqualToString:obj.guid]) {
-            return;
-        }
-    }
-    [downadObjectsQueque addObject:obj];
+    if ([self isDownloadingWizObject:obj]) {
+        return;
+    } ;
+    [downadObjectsQueque addWizObjectUnique:obj];
 }
 
 - (void) addShouldUploadWizObject:(WizObject*)obj
 {
-    for (WizObject* each in uploadObjectsQueque) {
-        if ([each.guid isEqualToString:obj.guid]) {
-            return;
-        }
+    if ([self isUploadingWizObject:obj]) {
+        return;
     }
-    [uploadObjectsQueque addObject:obj];
+    [uploadObjectsQueque addWizObjectUnique:obj];
 }
 - (WizObject*) nextWizObjectForDownload
 {

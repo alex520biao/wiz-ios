@@ -172,7 +172,7 @@
                 static int i =0;
                 i++;
                 if (![[WizFileManager shareManager] updateObjectDataByPath:[[WizFileManager shareManager] downloadObjectTempFilePath:self.object.guid] objectGuid:self.object.guid] ) {
-                    NSLog(@"can not unzip the archive %@  %@ %d",self.object.guid, self.object.title, i);
+                    [self onError:[NSError errorWithDomain:NSParseErrorDomain code:NSParseErrorCode userInfo:nil]];
                 }
                 else
                 {
