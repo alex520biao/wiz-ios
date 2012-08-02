@@ -243,7 +243,11 @@
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:bodyInputTextView cache:YES];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    bodyInputTextView.frame = CGRectMake(0.0, 135, 768, bodyInputTextView.frame.size.height-width+backgroudScrollView.contentOffset.y);
+    CGFloat viewHeight = bodyInputTextView.frame.size.height-width+backgroudScrollView.contentOffset.y;
+    if (viewHeight < 200) {
+        viewHeight = 200;
+    }
+    bodyInputTextView.frame = CGRectMake(0.0, 135, 768, viewHeight);
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         bodyInputViewHeigth = bodyInputTextViewFrame.size.height-width;
     }
@@ -298,6 +302,8 @@
         }
         NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
         NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
+        
+        NSLog(@"html %@",html);
         NSError* error = nil;
         if (![html writeToFile:indexFilePath useUtf8Bom:YES error:&error]) {
             NSLog(@"error %@",error);

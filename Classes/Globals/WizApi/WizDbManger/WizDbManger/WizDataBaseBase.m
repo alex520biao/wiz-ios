@@ -72,7 +72,7 @@
     self = [super init];
     if (self) {
         NSDictionary* model = [self getDataBaseStructFromFile:modelName];
-        queue = [[FMDatabaseQueue alloc] initWithPath:dbPath withModel:model];
+         queue = [[FMDatabaseQueue alloc] initWithPath:dbPath withModel:model];
     }
     return self;
 }

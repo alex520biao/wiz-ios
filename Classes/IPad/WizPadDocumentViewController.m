@@ -316,6 +316,7 @@
     [self.navigationController presentModalViewController:controller animated:YES];
     [newNote release];
     [controller release];
+    [self zoomDocumentWebView];
 }
 - (void) popTheDocumentList
 {

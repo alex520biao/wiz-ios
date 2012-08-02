@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Wiz_Search</key>
+	<key>Wiz_SEARCH</key>
 	<dict>
 		<key>SEARCH_NOTE_COUNT</key>
 		<string>int</string>

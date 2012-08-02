@@ -501,6 +501,8 @@ BOOL isReverseMask(NSInteger mask)
     NSString* documentIndex = [self documentIndexFile];
     [html writeToFile:documentIndex atomically:YES encoding:NSUTF16StringEncoding error:nil];
     [html writeToFile:[self documentMobileFile] atomically:YES encoding:NSUTF16StringEncoding error:nil];
+    
+    
     self.dataMd5 = [self localDataMd5];
     self.localChanged = WizEditDocumentTypeAllChanged;
     [self saveInfo];

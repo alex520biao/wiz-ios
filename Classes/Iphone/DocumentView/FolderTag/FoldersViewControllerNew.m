@@ -183,4 +183,11 @@
     }
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.tableView.tableFooterView != nil) {
+        self.tableView.tableFooterView.frame= CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]]);
+    }
+}
 @end

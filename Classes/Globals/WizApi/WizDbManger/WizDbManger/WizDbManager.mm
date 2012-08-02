@@ -132,7 +132,10 @@ static WizDbManager* shareDbManager = nil;
 {
     id<WizSettingsDbDelegate> dataBase = [self.dbDataDictionary objectForKey:WIZ_ACCOUNTS_SETTINGSFILE];
     if (!dataBase) {
-        dataBase = [self getNewWizSettingsDataBase];
+        @synchronized(dataBase)
+        {
+             dataBase = [self getNewWizSettingsDataBase];
+        }
     }
     return dataBase;
 }
