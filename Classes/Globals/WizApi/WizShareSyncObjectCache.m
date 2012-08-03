@@ -115,8 +115,8 @@
 - (WizDownloadObject*) shareDownloadTool
 {
     NSMutableArray* allDownloadTools = [self allDownloadTools];
-    for (WizDownloadObject* downloader in allDownloadTools) {
-          NSLog(@"downloader is %@ busy %d",downloader, downloader.busy);
+    for (WizDownloadObject* downloader in allDownloadTools)
+    {
         for (WizApi* each in errorQueque) {
             NSLog(@"error %@",each);
         }
@@ -348,15 +348,17 @@
     [errorQueque removeAllObjects];
     [uploadObjectsQueque removeAllObjects];
     [downadObjectsQueque removeAllObjects];
-    for (WizUploadObjet* uploader in [self allUploadTools]) {
+    for (WizUploadObjet* uploader in [self allUploadTools])
+    {
         [uploader stopUpload];
     }
-    for (WizDownloadObject* downloader in [self allDownloadTools]) {
+    for (WizDownloadObject* downloader in [self allDownloadTools])
+    {
         [downloader stopDownload];
     }
-
     [[self shareSearch] cancel];
     [[self shareRefreshTokener] cancel];
+    [self shareRefreshTokener].apiManagerDelegate = nil;
     [[self shareSyncInfo] cancel];
 }
 @end

@@ -219,7 +219,6 @@
     if (self.selectedIndex == 2) {
         [self setSelectedIndex:0];
     }
-//    [self setSelectedIndex:0];
 }
 
 - (void) viewWillDisappear:(BOOL)animated

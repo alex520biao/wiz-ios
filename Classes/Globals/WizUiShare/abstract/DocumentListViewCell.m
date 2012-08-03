@@ -172,8 +172,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
         WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         if (self.doc.serverChanged ==0 && !abstract) {
-            id<WizTemporaryDataBaseDelegate> abstraceDatabase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-            [abstraceDatabase extractSummary:self.doc.guid kbGuid:@""];
+            [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
             abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
         }
        dispatch_async(dispatch_get_main_queue(), ^{

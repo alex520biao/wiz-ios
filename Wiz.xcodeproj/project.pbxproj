@@ -57,6 +57,7 @@
 		7316C0CA1574AD20000926E9 /* downloadIndicator5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */; };
 		7316C0CD1574B373000926E9 /* icon_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CB1574B373000926E9 /* icon_share.png */; };
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
+		731BCECF15CB7A2900464B59 /* WizAbstractCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 731BCECE15CB7A2900464B59 /* WizAbstractCache.m */; };
 		731E2B2615A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m in Sources */ = {isa = PBXBuildFile; fileRef = 731E2B2515A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
 		7321311115454BD50077F77E /* WizAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321311015454BD50077F77E /* WizAbstract.m */; };
@@ -448,6 +449,8 @@
 		7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator5@2x.png"; sourceTree = "<group>"; };
 		7316C0CB1574B373000926E9 /* icon_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_share.png; sourceTree = "<group>"; };
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
+		731BCECD15CB7A2900464B59 /* WizAbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstractCache.h; path = abstract/WizAbstractCache.h; sourceTree = "<group>"; };
+		731BCECE15CB7A2900464B59 /* WizAbstractCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAbstractCache.m; path = abstract/WizAbstractCache.m; sourceTree = "<group>"; };
 		731E2B2415A4437C007C597D /* WizCommonEditorBaseViewControllerL5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCommonEditorBaseViewControllerL5.h; sourceTree = "<group>"; };
 		731E2B2515A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizCommonEditorBaseViewControllerL5.m; sourceTree = "<group>"; };
 		731EFED4157E024600C859E0 /* WizGroupDateBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizGroupDateBaseDelegate.h; sourceTree = "<group>"; };
@@ -1129,6 +1132,8 @@
 				73A7845114F8CC22001387F6 /* abstract */,
 				7346513E154A8B5B001F06A8 /* WizDecorate.h */,
 				7346513F154A8B5B001F06A8 /* WizDecorate.m */,
+				731BCECD15CB7A2900464B59 /* WizAbstractCache.h */,
+				731BCECE15CB7A2900464B59 /* WizAbstractCache.m */,
 			);
 			name = AbstractCache;
 			sourceTree = "<group>";
@@ -2629,6 +2634,7 @@
 				734D048315B7F25800361CE0 /* WizSetting.m in Sources */,
 				73F9D2C715B8FFB500F54726 /* WizSearch.m in Sources */,
 				7355FCD415BFDCC800CE6D7A /* WizShareSyncObjectCache.m in Sources */,
+				731BCECF15CB7A2900464B59 /* WizAbstractCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2819,8 +2825,8 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Shijun";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Shijun";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2831,7 +2837,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-fobjc-arc";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "C7FC224D-E31E-4088-B346-E37929BF38D6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2883,7 +2889,7 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Shijun (27EH4P352L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2893,7 +2899,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_LDFLAGS = "-fobjc-arc";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "C7FC224D-E31E-4088-B346-E37929BF38D6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2907,8 +2913,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;

@@ -41,6 +41,8 @@
 @synthesize currentPoperController;
 - (void) dealloc
 {
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self];
     [currentPoperController release];
     [mainSegment release];
     //
@@ -295,8 +297,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

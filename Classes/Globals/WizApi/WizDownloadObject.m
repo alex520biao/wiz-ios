@@ -107,6 +107,10 @@
 
 - (void) downloadDone
 {
+    if (self.object == nil) {
+        [self didChangeSyncStatue:WizSyncStatueDownloadEnd];
+        return;
+    }
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
     if ([self.object isKindOfClass:[WizDocument class]])
     {

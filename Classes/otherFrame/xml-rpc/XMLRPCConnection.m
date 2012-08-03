@@ -51,7 +51,8 @@
 {
 	if (self = [super init])
 	{
-		self.connection = [[[NSURLConnection alloc] initWithRequest: [req request] delegate: self] autorelease];
+        
+		self.connection = [NSURLConnection connectionWithRequest:[req request] delegate: self];
 		self.delegate = callback;
 		self.request = req;
 		//
@@ -90,12 +91,8 @@
 - (void)cancel
 {
     [self.connection cancel];
+    NSLog(@"url connection is %@",self.connection);
     self.connection = nil;
-//    if (self.delegate)
-//    {
-//        NSError* error= [NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil];
-//        [self.delegate xmlrpcDone: self isSucceeded: NO retObject:error forMethod: [self.request method]];
-//    }
     self.delegate = nil;
 }
 
@@ -103,6 +100,7 @@
 
 - (void)dealloc
 {
+    
 	[connection release];
     connection = nil;
 	[delegate release];

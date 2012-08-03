@@ -17,6 +17,7 @@
 #import "WizSyncSearch.h"
 #import "WizShareSyncObjectCache.h"
 
+#import "WizAccountManager.h"
 //
 #define ServerUrlFile           @"config.dat"
 //
@@ -126,6 +127,12 @@ static WizSyncManager* shareManager;
 //
 - (void) restartSync
 {
+    NSString* activeAccountUserId = [[WizAccountManager  defaultManager] activeAccountUserId];
+    if (activeAccountUserId == nil || [activeAccountUserId isEqualToString:@""])
+    {
+        NSLog(@"ddd");
+        return;
+    }
     for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allErrorWizApi]) {
         if ([each isKindOfClass:[WizRefreshToken class]]) {
             continue;

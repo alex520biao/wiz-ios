@@ -8,6 +8,33 @@
 
 #import "WizSearch.h"
 
+
+@interface WizSSS : NSProxy
+- (void) test;
+@end
+
+@implementation WizSSS
+
+- (void) test{
+    
+}
+
+@end
+
+
+@interface WizS : WizSSS
+
+@end
+
+@implementation WizS
+
+- (void) test
+{
+    
+}
+
+@end
+
 @implementation WizSearch
 @synthesize isSearchLocal;
 @synthesize keyWords;
@@ -20,3 +47,4 @@
     [super dealloc];
 }
 @end
+

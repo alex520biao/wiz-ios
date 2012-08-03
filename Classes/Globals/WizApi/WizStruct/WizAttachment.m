@@ -25,6 +25,7 @@
     [dataMd5 release];
     [description release];
     [documentGuid release];
+    [dateModified release];
     [super dealloc];
 }
 - (NSString*) attachmentFilePath

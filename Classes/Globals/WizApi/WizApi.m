@@ -399,10 +399,10 @@
     NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
     [self addCommonParams:postParams];
     if (object.guid == nil) {
-        NSDictionary* dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"download guid is nill",NSLocalizedDescriptionKey,nil];
-        NSError* error = [NSError errorWithDomain:WizErrorDomain code:WizGuidIsNilErrorCode userInfo:dictionary];
-        [self onError:error];
-        [dictionary release];
+//        NSDictionary* dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"download guid is nill",NSLocalizedDescriptionKey,nil];
+//        NSError* error = [NSError errorWithDomain:WizErrorDomain code:WizGuidIsNilErrorCode userInfo:dictionary];
+//        [self onError:error];
+//        [dictionary release];
         return NO;
     }
     [postParams setObject:object.guid forKey:@"obj_guid"];

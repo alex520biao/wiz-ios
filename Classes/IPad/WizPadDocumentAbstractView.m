@@ -113,81 +113,31 @@
     [self.selectedDelegate didSelectedDocument:self.doc];
 }
 
-//- (void) setDocument:(WizDocument*) document
-//{
-//    self.doc = document;
-//    self.nameLabel.text = @"";
-//    self.abstractImageView.image = nil;
-//    self.nameLabel.text = document.title;
-//    NSMutableAttributedString* abstractString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",self.doc.dateModified]];
-//    [abstractString addAttribute:(NSString*)kCTForegroundColorAttributeName value:(id)[UIColor blueColor].CGColor range:NSMakeRange(0, abstractString.length)];
-//    float startPointX = 10.0f;
-//    if (YES) {
-//        WizAbstract* abstract = [[WizDbManager shareDbManager] abstractOfDocument:document.guid];
-//        NSMutableAttributedString* abstractText = [[NSMutableAttributedString alloc] initWithString:abstract.text];
-//        NSRange textRange =NSMakeRange(0, abstractText.length);
-//        [abstractText addAttributes:[[WizGlobalData sharedData] attributesForAbstractViewParagraphPad]  range:textRange];
-//        [abstractString appendAttributedString:abstractText];
-//         if (nil != abstract.image) {
-//            self.abstractImageView.frame = AbstractImageviewFrame;
-//            self.abstractImageView.image = abstract.image;
-//            self.abstractImageView.frame= CGRectMake(0.0, 0.0, abstract.image.size.width , abstract.image.size.height);
-//            self.abstractImageView.center = CGPointMake(102.5, 187.5);
-//        }else
-//        {
-//            self.abstractImageView.frame = CGRectMake(startPointX, 0.0, 0.0, 0.0);
-//        }
-//        [abstractText release];
-//    }
-//    else
-//    {
-//        NSString* folder = [NSString stringWithFormat:@"%@:%@\n",WizStrFolders,self.doc.location == nil? @"":[WizGlobals folderStringToLocal:self.doc.location]];
-//        NSString* tagstr = [NSString stringWithFormat:@"%@:",WizStrTags];
-//        NSArray* tags = [self.doc tagDatas];
-//        for (WizTag* each in tags) {
-//            NSString* tagName = getTagDisplayName(each.title);
-//            tagstr = [tagstr stringByAppendingFormat:@"%@|",tagName];
-//        }
-//        if (![tagstr isEqualToString:[NSString stringWithFormat:@"%@:",WizStrTags]]) {
-//            if (tagstr != nil && tagstr.length > 1) {
-//                tagstr = [tagstr substringToIndex:tagstr.length-1];
-//                folder = [folder stringByAppendingString:tagstr];
-//            }
-//            
-//            
-//        }
-//        NSMutableAttributedString* detail = [[NSMutableAttributedString alloc] initWithString:folder attributes:[WizPadDocumentAbstractView detailDecorator]];
-//        [abstractString appendAttributedString:detail];
-//        [detail release];
-//        self.abstractImageView.image = nil;
-//    }
-//    [abstractString release];
-//    self.userInteractionEnabled = YES;
-//}
 - (void) drawRect:(CGRect)rect
 {
     if(self.doc == nil)
     {
         return;
     }
-
+    nameLabel.text = self.doc.title;
+    timeLabel.text = [self.doc.dateCreated stringSql];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-        WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-        if (!abstract && self.doc.serverChanged==0) {
-            [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
-            abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-        }
+            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+            id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+            WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+            if (!abstract && self.doc.serverChanged==0) {
+                [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
+                abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
-                nameLabel.text = self.doc.title;
-
-                timeLabel.text = [self.doc.dateCreated stringSql];
-                if (abstract) {
+                if (abstract)
+                {
                     if (abstract.image == nil) {
                         detailLabel.frame = AbstractLabelWithoutImageFrame;
                         abstractImageView.hidden = YES;
                     }
-                    else {
+                    else
+                    {
                         detailLabel.frame = AbstractLabelWithImageFrame;
                         abstractImageView.hidden = NO;
                         abstractImageView.image = abstract.image;
@@ -196,14 +146,13 @@
                 }
                 else
                 {
-
                     detailLabel.text = self.doc.location;
                     detailLabel.frame = AbstractLabelWithImageFrame;
                     abstractImageView.hidden = NO;
                     abstractImageView.image = [UIImage imageNamed:@"ipadPlaceHolder"];
-                   
                 }
             });
+        [pool drain];
     });
     
 }

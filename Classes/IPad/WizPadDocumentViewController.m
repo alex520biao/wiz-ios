@@ -82,6 +82,7 @@
 @synthesize readWidth;
 - (void) dealloc
 {
+     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //
     editItem = nil;
     newNoteItem = nil;
@@ -819,7 +820,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

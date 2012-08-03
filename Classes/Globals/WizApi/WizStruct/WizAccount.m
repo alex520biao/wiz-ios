@@ -15,6 +15,14 @@
 @synthesize userId;
 @synthesize password;
 @synthesize groups;
+- (void) dealloc
+{
+    [userId release];
+    [password release];
+    [groups release];
+    [super dealloc];
+}
+
 - (WizAccount*) initWithUserId:(NSString*)userId_  password:(NSString*)password_  kgguids:(NSArray*)kbguids_
 {
     self = [super init];

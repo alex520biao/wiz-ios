@@ -75,6 +75,7 @@
 @synthesize voiceInput;
 -(void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [firtResponser release];
     [titleTextFiled release];
     [bodyTextField release];
@@ -784,7 +785,7 @@
 
 - (void)viewDidUnload
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

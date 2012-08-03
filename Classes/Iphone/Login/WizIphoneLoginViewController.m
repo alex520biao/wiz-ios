@@ -23,6 +23,12 @@
 @end
 
 @implementation WizIphoneLoginViewController
+- (void) dealloc
+{
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
+}
+
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
@@ -76,7 +82,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [WizNotificationCenter removeObserver:self];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

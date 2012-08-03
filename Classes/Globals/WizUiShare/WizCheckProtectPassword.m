@@ -101,7 +101,7 @@
 }
 - (void) viewDidUnload
 {
-    
+    [super viewDidUnload];
 }
 - (void) makeSure:(NSNotification*)nc
 {

@@ -284,6 +284,9 @@
 }
 - (void) reloadAccountsTable:(NSString*)match
 {
+    if (match == nil) {
+        return;
+    }
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"SELF like %@",match];
     NSArray* nameIn = [[[WizAccountManager defaultManager] accounts] filteredArrayUsingPredicate:predicate];
     self.fitAccounts = [NSMutableArray arrayWithArray:nameIn];

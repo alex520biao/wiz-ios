@@ -10,4 +10,11 @@
 @implementation WizAbstract
 @synthesize image;
 @synthesize text;
+
+- (void) dealloc
+{
+    [image release];
+    [text release];
+    [super dealloc];
+}
 @end
