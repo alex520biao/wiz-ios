@@ -37,6 +37,12 @@
 #define SyncMethod_GetGropKbGuids               @"accounts.getGroupKbList"
 #define SyncMethod_GetAllObjectVersion          @"wiz.getVersion"
 
+@interface WizApi ()
+{
+    BOOL isCanceled;
+}
+@end
+
 
 @implementation WizApi
 @synthesize token;
@@ -66,6 +72,7 @@
 {
     self = [super init];
     if (self) {
+        isCanceled = NO;
         self.delegate = self;
         attempts = WizNetWorkMaxAttempts;
         [self addObserver:self forKeyPath:@"syncMessage" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
@@ -98,6 +105,9 @@
 }
 - (void)xmlrpcDone: (XMLRPCConnection *)connection isSucceeded: (BOOL)succeeded retObject: (id)ret forMethod: (NSString *)method
 {
+    if (isCanceled) {
+        return;
+    }
 	if (succeeded && ![ret isKindOfClass:[NSError class]])
 	{
 		if ([method isEqualToString:SyncMethod_ClientLogin])
@@ -206,6 +216,7 @@
 
 -(BOOL)executeXmlRpc: (NSURL*) url method: (NSString*)method args:(id)args
 {
+    isCanceled = NO;
 	XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithHost:url];
 	if (!request)
     {
@@ -605,6 +616,7 @@
 -(void) cancel
 {
     busy = NO;
+    isCanceled = YES;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     if (self.connectionXmlrpc)
     {

@@ -201,28 +201,37 @@
 
 - (void) removeSyncingWizObject:(WizObject*)obj
 {
-    NSInteger index = NSNotFound;
-    for (int i = 0; i < [downadObjectsQueque count]; i++) {
-        WizObject* downloadingObject = [downadObjectsQueque objectAtIndex:i];
-        if ([downloadingObject.guid isEqualToString:obj.guid]) {
-            index = i ;
-            break;
+    @try {
+        NSInteger index = NSNotFound;
+        for (int i = 0; i < [downadObjectsQueque count]; i++) {
+            WizObject* downloadingObject = [downadObjectsQueque objectAtIndex:i];
+            if ([downloadingObject.guid isEqualToString:obj.guid]) {
+                index = i ;
+                break;
+            }
+        }
+        if (index != NSNotFound) {
+            [downadObjectsQueque removeObjectAtIndex:index];
+        }
+        index = NSNotFound;
+        for (int i = 0; i < [uploadObjectsQueque count]; i++) {
+            WizObject* uploadingObject = [uploadObjectsQueque objectAtIndex:i];
+            if ([uploadingObject.guid isEqualToString:obj.guid]) {
+                index = i ;
+                break;
+            }
+        }
+        if (index != NSNotFound) {
+            [downadObjectsQueque removeObjectAtIndex:index];
         }
     }
-    if (index != NSNotFound) {
-        [downadObjectsQueque removeObjectAtIndex:index];
+    @catch (NSException *exception) {
+        
     }
-    index = NSNotFound;
-    for (int i = 0; i < [uploadObjectsQueque count]; i++) {
-        WizObject* uploadingObject = [uploadObjectsQueque objectAtIndex:i];
-        if ([uploadingObject.guid isEqualToString:obj.guid]) {
-            index = i ;
-            break;
-        }
+    @finally {
+        
     }
-    if (index != NSNotFound) {
-        [downadObjectsQueque removeObjectAtIndex:index];
-    }
+    
 }
 
 - (void) addShouldDownloadWizObject:(WizObject*)obj

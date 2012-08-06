@@ -39,4 +39,5 @@
 - (NSInteger) indexOf:(NSString *)find compareOptions:(NSStringCompareOptions)mask;
 
 - (BOOL) checkHasInvaildCharacters;
+- (NSString*) processHtml;
 @end

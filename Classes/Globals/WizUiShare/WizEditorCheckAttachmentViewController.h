@@ -10,6 +10,7 @@
 @protocol WizEditorCheckAttachmentSourceDelegate
 - (NSMutableArray*) sourceAttachmentsArray;
 - (NSMutableArray*) deletedAttachmentsArray;
+- (void) deletedAttachmentsDone;
 @end
 @interface WizEditorCheckAttachmentViewController : UITableViewController
 {

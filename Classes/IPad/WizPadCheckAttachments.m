@@ -12,9 +12,10 @@
 
 @implementation WizPadCheckAttachments
 @synthesize source;
-
+@synthesize delegate;
 - (void) dealloc
 {
+    delegate = nil;
     [source release];
     [super dealloc];
 }
@@ -119,6 +120,7 @@
         }
         [self.source removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [self.delegate didRemoveAttachmentsDone];
     }
 }
 

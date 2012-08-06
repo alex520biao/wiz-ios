@@ -79,12 +79,25 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
-        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:0.5];
-        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, 480, 1)];
-        breakView.image = [UIImage imageNamed:@"separetorLine"];
+//        self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
+//        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:0.5];
+//        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, self.contentView.frame.size.width, 1)];
+//        breakView.image = [UIImage imageNamed:@"separetorLine"];
+//        breakView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//        [self addSubview:breakView];
+//        [breakView release];
+        
+        UIView* breakView = [[UIView alloc] initWithFrame:CGRectMake(0, CELLHEIGHTWITHABSTRACT -1, self.contentView.frame.size.width, 1)];
+        breakView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:0.5];
+        breakView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self addSubview:breakView];
+        
+        CALayer* contentLayer = breakView.layer;
+        contentLayer.shadowColor = [UIColor blackColor].CGColor;
+        contentLayer.shadowOffset = CGSizeMake(self.contentView.frame.size.width, 1);
+        
         [breakView release];
+        
         CALayer* selfLayer = [self.selectedBackgroundView layer];
         selfLayer.borderColor = [UIColor grayColor].CGColor;
         selfLayer.borderWidth = 0.5f;
@@ -137,6 +150,11 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         downloadIndicator.animationImages = images;
         downloadIndicator.animationDuration = 0.8;
         [self.contentView addSubview:downloadIndicator];
+        
+        
+        //
+
+        
     }
     return self;
 }

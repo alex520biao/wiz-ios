@@ -703,33 +703,33 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     NSStringEncoding contentEncoding;
     NSError* error = nil;
     NSString* content =[NSString stringWithContentsOfFile:sourcePath usedEncoding:&contentEncoding error:&error];
-    if (!content) {
-        content = @"";
-    }
+//    if (!content) {
+//        content = @"";
+//    }
     NSString* editingFile = [WizEditorBaseViewController editingFilePath];
-    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
-    
-    NSRange  sourceRanger = NSMakeRange(0, content.length);
-    NSArray* bodys = [bodyRegular matchesInString:content options:NSMatchingReportCompletion range:sourceRanger];
-    NSRange bodyRange = NSMakeRange(0, 0);
-    for (NSTextCheckingResult* each in bodys) {
-        if ([each range].length > bodyRange.length) {
-            bodyRange = [each range];
-        }
-    }
-    if (bodyRange.length != 0) {
-        content = [content substringWithRange:bodyRange];
-    }
-    else
-    {
-        return NO;
-    }
-    content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
-    content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
-    content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
+//    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
+//    
+//    NSRange  sourceRanger = NSMakeRange(0, content.length);
+//    NSArray* bodys = [bodyRegular matchesInString:content options:NSMatchingReportCompletion range:sourceRanger];
+//    NSRange bodyRange = NSMakeRange(0, 0);
+//    for (NSTextCheckingResult* each in bodys) {
+//        if ([each range].length > bodyRange.length) {
+//            bodyRange = [each range];
+//        }
+//    }
+//    if (bodyRange.length != 0) {
+//        content = [content substringWithRange:bodyRange];
+//    }
+//    else
+//    {
+//        return NO;
+//    }
+//    content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
+//    content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
+//    content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
     NSString* modelFile = [WizEditorBaseViewController editingHtmlModelFilePath];
     NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
-    content  =  [modelContent stringByReplacingOccurrencesOfString:@"IOSWizEditor" withString:content];
+    content  =  [modelContent stringByReplacingOccurrencesOfString:@"IOSWizEditor" withString:[content processHtml]];
     if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
     {
         NSLog(@"write error%@",error);
@@ -894,6 +894,8 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     
     [self buildPhoneNavigationTools];
     titleTextField.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, 31);
+    
+    NSLog(@"view width is %f",self.view.frame.size.width);
     [backGroudScrollView addSubview:titleTextField];
     
     [cancelBtn release];
@@ -990,6 +992,11 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 {
     return deletedAttachmentsArray;
 }
+- (void) deletedAttachmentsDone
+{
+    [self  showAttachmentCount];
+}
+
 - (void) checkAttachment
 {
     WizEditorCheckAttachmentViewController* checkAttach = [[WizEditorCheckAttachmentViewController alloc] init];

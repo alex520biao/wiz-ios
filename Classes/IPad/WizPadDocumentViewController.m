@@ -744,14 +744,10 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     [self didSelectedDocument:doc];
-//    [tableView beginUpdates];
-//    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//    [tableView endUpdates];
-//    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    
 }
 - (void) viewDidAppear:(BOOL)animated
 {
@@ -771,7 +767,8 @@
     }
     else {
         if ([self.documentsArray count] >0) {
-            if ([[self.documentsArray objectAtIndex:0] count] > 0) {
+            if ([[self.documentsArray objectAtIndex:0] count] > 0)
+            {
                 [self tableView:documentList didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
             }
         }

@@ -115,7 +115,8 @@
         [[self.attachmetsSourceDelegate deletedAttachmentsArray] addObject:attachment];
         [[self.attachmetsSourceDelegate sourceAttachmentsArray] removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }    
+        [self.attachmetsSourceDelegate deletedAttachmentsDone];
+    }
 }
 
 

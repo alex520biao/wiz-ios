@@ -7,8 +7,172 @@
 //
 
 #import "NSString+WizString.h"
+#import <wchar.h>
+#import <string>
+
+bool IsScriptOrStyle(const wchar_t* p)
+{
+	if (*p == 's' || *p == 'S')
+	{
+		p++;
+		if (*p == 'c' || *p == 'C')
+		{
+			p++;
+			//
+			if (*p == 'r' || *p == 'R')
+			{
+				p++;
+				if (*p == 'i' || *p == 'I')
+				{
+					p++;
+					if (*p == 'p' || *p == 'P')
+					{
+						p++;
+						if (*p == 't' || *p == 'T')
+						{
+							p++;
+							if (isspace(*p)
+								|| *p == '>')
+							{
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		else if (*p == 't' || *p == 'T')
+		{
+			p++;
+			if (*p == 'y' || *p == 'Y')
+			{
+				p++;
+				//
+				if (*p == 'l' || *p == 'L')
+				{
+					p++;
+					if (*p == 'e' || *p == 'E')
+					{
+						p++;
+						if (isspace(*p)
+                            || *p == '>')
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+	}
+	//
+	return false;
+}
+//
+bool IsSpaceString(const wchar_t* pTextBegin, const wchar_t* pTextEnd)
+{
+	while (pTextBegin < pTextEnd)
+	{
+		if (*pTextBegin == ' '
+			|| *pTextBegin == '\t'
+			|| *pTextBegin == '\r'
+			|| *pTextBegin == '\r')
+		{
+			pTextBegin++;
+			continue;
+		}
+		//
+		return false;
+	}
+	//
+	return true;
+}
+//
+bool IsInScriptOrStyleTag(const wchar_t* p, const wchar_t* pTextBegin)
+{
+	while (pTextBegin >= p)
+	{
+		if (*pTextBegin == '<')
+		{
+			pTextBegin++;
+			return IsScriptOrStyle(pTextBegin);
+		}
+		else
+		{
+			pTextBegin--;
+		}
+	}
+	//
+	return false;
+}
+//
+bool FindTextBegin(const wchar_t* p, const wchar_t*& pTextBegin, const wchar_t*& pTextEnd)
+{
+	const wchar_t* pBegin = p;
+	//
+	while (1)
+	{
+		p = wcschr(p, '>');
+		if (NULL == p)
+			return false;
+		//
+		p++;
+		pTextBegin = p;
+		//
+		pTextEnd = wcschr(pTextBegin, '<');
+		if (NULL == pTextEnd)
+			return false;
+		//
+		p = pTextEnd;
+		//
+		if (pTextEnd - pTextBegin <= 1)	//empty text tag
+			continue;
+		//
+		if (IsSpaceString(pTextBegin, pTextEnd))
+			continue;
+		//
+		if (IsInScriptOrStyleTag(pBegin, pTextBegin))
+			continue;
+		//
+		return true;
+	}
+}
+
+
+void AddWizTagToHtml(std::wstring& html)
+{
+	std::wstring strRet;
+	strRet.reserve(html.length() * 2);
+	//
+	const wchar_t* p = html.c_str();
+	//
+	while (1)
+	{
+		const wchar_t* pTextBegin = NULL;
+		const wchar_t* pTextEnd = NULL;
+		//
+		if (FindTextBegin(p, pTextBegin, pTextEnd))
+		{
+			strRet += std::wstring(p, pTextBegin);
+			//
+			strRet += L"<wiz>" + std::wstring(pTextBegin, pTextEnd) + L"</wiz>";
+			//
+			p = pTextEnd;
+			//
+			continue;
+		}
+		else
+		{
+			strRet += p;
+			break;
+		}
+	}
+	//
+	html = strRet;
+}
+
 
 @implementation NSString (WizString)
+
 
 - (NSComparisonResult) compareFirstCharacter:(NSString*)string
 {
@@ -262,4 +426,24 @@
     [fileNamger createFileAtPath:path contents:data attributes:nil];
     return YES;
 }
++(NSString*)getStringFromWChar:(const wchar_t*) inStr
+{
+    return [[[NSString alloc] initWithBytes:inStr length:wcslen(inStr) encoding:NSUTF32LittleEndianStringEncoding] autorelease];
+}
+
+- (wchar_t*)getWCharFromString
+{
+    return (wchar_t*) [self cStringUsingEncoding:NSUTF32StringEncoding];
+}
+
+- (NSString*) processHtml
+{
+    if (nil == self) {
+        return nil;
+    }
+    std::wstring str = [self getWCharFromString];
+    AddWizTagToHtml(str);
+    return [NSString getStringFromWChar:str.c_str()];
+}
+
 @end

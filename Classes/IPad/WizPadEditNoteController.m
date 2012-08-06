@@ -29,7 +29,7 @@
 #define backgroudScrollViewPotraitFrame CGRectMake(0.0,0.0,768,1024)
 
 
-@interface WizPadEditNoteController ()
+@interface WizPadEditNoteController () <WizPadCheckAttachmentsDelegate>
 {
     UITextView* bodyInputTextView;
     UITextField* titleInputTextField;
@@ -72,7 +72,6 @@
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteAttachments:) name:MessageOfDeleteAttachments object:nil];
         [self buildView];
     }
     return self;
@@ -391,12 +390,22 @@
 }
 - (void) attachmentAddDone
 {
+    if (currentPopoverController) {
+        [currentPopoverController dismissPopoverAnimated:YES];
+    }
     [self displayAttachmentsCount];
 }
+
+- (void) didRemoveAttachmentsDone
+{
+    [self displayAttachmentsCount];
+}
+
 - (void) checkAttachments:(id)sender
 {
     WizPadCheckAttachments* checkAttachments = [[WizPadCheckAttachments alloc] init];
     checkAttachments.source = self.attachmentsArray;
+    checkAttachments.delegate = self;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:checkAttachments];
     [checkAttachments release];
     [self popverViewController:nav fromRect:CGRectMake(630, 0.0, 0.1, 10) permittedArrowDirections:UIPopoverArrowDirectionUp];

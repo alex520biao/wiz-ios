@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol WizPadCheckAttachmentsDelegate <NSObject>
+- (void) didRemoveAttachmentsDone;
+@end
+
 @interface WizPadCheckAttachments : UITableViewController
 {
     NSMutableArray* source;
+    id<WizPadCheckAttachmentsDelegate>  delegate;
 }
 @property (nonatomic, retain) NSMutableArray* source;
+@property (nonatomic, assign) id<WizPadCheckAttachmentsDelegate>  delegate;
 @end

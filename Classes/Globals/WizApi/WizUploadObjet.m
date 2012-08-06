@@ -193,17 +193,21 @@
         [WizGlobals reportError:retObject];
     }
 }
-//
+
+
+
 -(void) onUploadObjectSucceedAndCleanTemp
 {
     self.uploadObject = nil;
     busy = NO;
     self.syncMessage = WizSyncEndMessage;
-    if ([self.sourceDelegate willUploadNext]) {
+    if ([self.sourceDelegate willUploadNext])
+    {
         [self didChangeSyncStatue:WizSyncStatueUploadEnd];
         [self startUpload];
     }
-    else {
+    else
+    {
         [self.apiManagerDelegate didApiSyncDone:self];
     }
 }
