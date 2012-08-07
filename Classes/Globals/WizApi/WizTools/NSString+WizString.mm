@@ -10,6 +10,7 @@
 #import <wchar.h>
 #import <string>
 #import <stdio.h>
+#import <stdlib.h>
 
 bool IsScriptOrStyle(const wchar_t* p)
 {
@@ -142,6 +143,7 @@ bool FindTextBegin(const wchar_t* p, const wchar_t*& pTextBegin, const wchar_t*&
 void AddWizTagToHtml(std::wstring& html)
 {
 	std::wstring strRet;
+    
 	strRet.reserve(html.length() * 2);
 	//
 	const wchar_t* p = html.c_str();
@@ -429,12 +431,33 @@ void AddWizTagToHtml(std::wstring& html)
 }
 +(NSString*)getStringFromWChar:(const wchar_t*) inStr
 {
-    return [[[NSString alloc] initWithBytes:inStr length:wcslen(inStr)*sizeof(wchar_t) encoding:NSUTF32LittleEndianStringEncoding] autorelease];
+    setlocale(LC_CTYPE, "UTF-8");
+    int strLength = wcslen(inStr);
+    int bufferSize = (strLength+1)*4;
+    char *stTmp = (char*)malloc(bufferSize);
+    memset(stTmp, 0, bufferSize);
+    wcstombs(stTmp, inStr, strLength);
+    NSString* ret = [[[NSString alloc] initWithBytes:stTmp length:strlen(stTmp) encoding:NSUTF8StringEncoding] autorelease];
+    free(stTmp);
+    return ret;
 }
 
-- (wchar_t*)getWCharFromString
+- (std::wstring) getWCharFromString
 {
-    return (wchar_t*) [self cStringUsingEncoding:NSUTF32StringEncoding];
+
+    const char  *cString;
+    cString = [self cStringUsingEncoding:NSUTF8StringEncoding];
+    setlocale(LC_CTYPE, "UTF-8");
+    int iLength = mbstowcs(NULL, cString, 0);
+    int bufferSize = (iLength+1)*sizeof(wchar_t);
+    wchar_t *stTmp = (wchar_t*)malloc(bufferSize);
+    memset(stTmp, 0, bufferSize);
+    mbstowcs(stTmp, cString, iLength);
+    stTmp[iLength] = 0;
+        printf("begin %ls",stTmp);
+    std::wstring wstr(stTmp);
+    free(stTmp);
+    return wstr;
 }
 
 NSRange (^htmlTagRangeClose)(NSString*, NSString*) = ^(NSString* string,NSString* tag)
@@ -478,7 +501,6 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
 - (NSString*) getBody
 {
     NSRange  bodyRange = htmlTagRangeClose(self,@"body");
-    NSString* body = nil;
     if (bodyRange.length == 0 ) {
         NSInteger  lastIndexOfHtml = [self lastIndexOf:@"</html>"];
         NSInteger lastIndexOfHead = [self lastIndexOf:@"</head>"];
@@ -495,7 +517,7 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
                 subStartPos = htmlRange.location + htmlRange.length;
             }
         }
-        return [self substringWithRange:NSMakeRange(subStartPos, subEndPos-subStartPos)];
+        return [NSString stringWithFormat:@"<body>%@</body>",[self substringWithRange:NSMakeRange(subStartPos, subEndPos-subStartPos)]];
     }
     return [self substringWithRange:bodyRange];
 }
@@ -505,7 +527,6 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
         return nil;
     }
     std::wstring str = [[self getBody] getWCharFromString];
-    printf("************ sdfasdfasdfsdfsadfsdfsa");
     AddWizTagToHtml(str);
     return [[NSString getStringFromWChar:str.c_str()] stringReplaceUseRegular:@"<body[^>]*>"];
 }

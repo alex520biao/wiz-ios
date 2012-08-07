@@ -709,8 +709,6 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     NSString* modelFile = [WizEditorBaseViewController editingHtmlModelFilePath];
     NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
     
-    NSLog(@"content is %@",[content processHtml]);
-    
     content  =  [modelContent stringByReplacingOccurrencesOfString:@"IOSWizEditor" withString:[content processHtml]];
     NSLog(@"%@",content);
     if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
