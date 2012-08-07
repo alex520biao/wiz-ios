@@ -20,8 +20,10 @@
 @synthesize tree, displayNodes;
 @synthesize closedImage;
 @synthesize expandImage;
+@synthesize tableFooterRemindView;
 - (void) dealloc
 {
+    self.tableFooterRemindView = nil;
     [tree release];
     [displayNodes release];
 	[locations release];
@@ -99,6 +101,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableFooterRemindView = [[WizTreeRemindView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 90)];
 }
 
 - (void)viewDidUnload

@@ -109,6 +109,9 @@
     [LocationTreeNode getLocationNodes:self.tree :self.displayNodes];
     [self setNodeRow];
     [self.tableView reloadData];
+    
+    self.tableFooterRemindView.frame = CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]]);
+    self.tableView.tableFooterView = self.tableFooterRemindView;
 }
 
 - (void) viewDidLoad
@@ -116,24 +119,16 @@
     [super viewDidLoad];
     self.closedImage = [UIImage imageNamed:@"treePlus"];
     self.expandImage = [UIImage imageNamed:@"treeCut"];
+    
+    self.tableFooterRemindView.imageView.image = [UIImage imageNamed:@"tagTableFooter"];
+    self.tableFooterRemindView.textLabel.text = NSLocalizedString(@"Tap on a tag above to see all notes with that tag. Make your notes easier to find by creating and assinging more tags.", nil);
+    
+
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]])];
-    UIImageView* searchFooter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tagTableFooter"]];
-    [footerView addSubview:searchFooter];
-    self.tableView.tableFooterView = footerView;
-    footerView.backgroundColor = [UIColor colorWithRed:235.0/255.0 green:235.0/255.0 blue:235.0/255.0 alpha:1.0];
-    [searchFooter release];
-    [footerView release];
-    UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(90, 0, 200, 100)];
-    remind.text = NSLocalizedString(@"Tap on a tag above to see all notes with that tag. Make your notes easier to find by creating and assinging more tags.", nil);
-    remind.backgroundColor = [UIColor clearColor];
-    remind.textColor = [UIColor grayColor];
-    [searchFooter addSubview:remind];
-    [remind release];
 }
 
 - (void) setDetail:(LocationTreeViewCell *)cell
@@ -144,7 +139,6 @@
 //        {
             NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),fileNumber];
             cell.detailTextLabel.text = count;
-            NSLog(@"cell detailTextLabel is %@",cell.detailTextLabel.text);
 //        });
 //    });
 

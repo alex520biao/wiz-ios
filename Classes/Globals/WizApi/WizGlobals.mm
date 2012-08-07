@@ -656,3 +656,23 @@ BOOL WizDeviceIsPad(void)
 	BOOL b = DeviceIsPad(); 
 	return b;
 }
+
+
+#ifdef __cplusplus
+
+class WizTestTime {
+    NSDate* begain;
+    
+public:
+    WizTestTime()
+    {
+        begain = [[NSDate date] retain];
+    }
+    ~WizTestTime()
+    {
+        NSDate* end = [NSDate date];
+        NSLog(@"duration time is %f",[end timeIntervalSinceDate:begain]);
+        [begain release];
+    }
+};
+#endif

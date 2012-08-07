@@ -12,6 +12,8 @@
 #import "WizGlobals.h"
 #import "WizDbManager.h"
 #import "WizNotification.h"
+#import "WizAbstractCache.h"
+
 #define NameLabelFrame CGRectMake(15, 5, 175, 45)
 #define TimerLabelFrame CGRectMake(15,45,175,20)
 
@@ -56,19 +58,58 @@
     view.userInteractionEnabled = YES;
 }
 
-- (void) didUpdateCache:(NSNotification*)nc
+- (void) updateView
 {
-    if (nil == doc) {
+    if(self.doc == nil)
+    {
         return;
     }
-    NSString* documentGuid = [WizNotificationCenter getDocumentGUIDFromNc:nc];
-    if (documentGuid == nil) {
-        return;
-    }
-    if (![documentGuid isEqualToString:self.doc.guid]) {
-        return;
-    }
-    [self setNeedsDisplay];
+    detailLabel.text = nil;
+    abstractImageView.image = nil;
+    
+    nameLabel.text = self.doc.title;
+    timeLabel.text = [self.doc.dateCreated stringSql];
+    void (^drawNeedDisplays)(WizAbstract*) = ^(WizAbstract* abstract)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (abstract)
+            {
+                if (abstract.image == nil) {
+                    detailLabel.frame = AbstractLabelWithoutImageFrame;
+                    abstractImageView.hidden = YES;
+                }
+                else
+                {
+                    detailLabel.frame = AbstractLabelWithImageFrame;
+                    abstractImageView.hidden = NO;
+                    abstractImageView.image = abstract.image;
+                }
+                detailLabel.text = abstract.text;
+            }
+            else
+            {
+                detailLabel.text = self.doc.location;
+                detailLabel.frame = AbstractLabelWithImageFrame;
+                abstractImageView.hidden = NO;
+                abstractImageView.image = [UIImage imageNamed:@"ipadPlaceHolder"];
+            }
+        });
+    };
+    
+    drawNeedDisplays([[WizAbstractCache shareCache] documentAbstract:self.doc.guid]);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+        id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+        WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+        if (!abstract && self.doc.serverChanged==0) {
+            [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
+            abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+        }
+        drawNeedDisplays(abstract);
+        [pool drain];
+    });
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -99,8 +140,6 @@
         detailLabel.numberOfLines = 0;
         detailLabel.backgroundColor = [UIColor clearColor];
         detailLabel.font = [UIFont systemFontOfSize:13];
-        
-//        [WizNotificationCenter addObserverForUpdateCache:self selector:@selector(didUpdateCache:)];
     }
     return self;
 }
@@ -113,49 +152,6 @@
     [self.selectedDelegate didSelectedDocument:self.doc];
 }
 
-- (void) drawRect:(CGRect)rect
-{
-    if(self.doc == nil)
-    {
-        return;
-    }
-    nameLabel.text = self.doc.title;
-    timeLabel.text = [self.doc.dateCreated stringSql];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-            id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-            WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-            if (!abstract && self.doc.serverChanged==0) {
-                [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
-                abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (abstract)
-                {
-                    if (abstract.image == nil) {
-                        detailLabel.frame = AbstractLabelWithoutImageFrame;
-                        abstractImageView.hidden = YES;
-                    }
-                    else
-                    {
-                        detailLabel.frame = AbstractLabelWithImageFrame;
-                        abstractImageView.hidden = NO;
-                        abstractImageView.image = abstract.image;
-                    }
-                    detailLabel.text = abstract.text;
-                }
-                else
-                {
-                    detailLabel.text = self.doc.location;
-                    detailLabel.frame = AbstractLabelWithImageFrame;
-                    abstractImageView.hidden = NO;
-                    abstractImageView.image = [UIImage imageNamed:@"ipadPlaceHolder"];
-                }
-            });
-        [pool drain];
-    });
-    
-}
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     self.backgroundColor = [UIColor blueColor];

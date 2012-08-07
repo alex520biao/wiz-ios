@@ -120,11 +120,9 @@
     NSInteger documentsCount =0;
     if (UIInterfaceOrientationIsLandscape(willInterfaceOrientation)) {
         documentsCount = 4;
-        NSLog(@"current interface is landscape");
     }
     else
     {
-        NSLog(@"current interface is patrait");
         documentsCount = 3;
     }
     NSUInteger needLength = documentsCount*(indexPath.row+1);
@@ -136,7 +134,6 @@
     else {
         docRange = NSMakeRange(documentsCount*indexPath.row, documentsCount);
     }
-    NSLog(@"index docRange is %d %d",docRange.location, docRange.length);
     cellArray = [dataArray subarrayWithRange:docRange];
     [cell setCatelogViewContents:cellArray];
     return cell;

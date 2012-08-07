@@ -69,27 +69,18 @@
     return self;
 }
 
-- (WizAbstract*)  documentAbstract:(WizDocument*)document  decorateView:(id)decorateView
+- (WizAbstract*)  documentAbstract:(NSString*)documentGuid
 {
-    
-    WizAbstract* abstract = [abstractCache objectForKey:document.guid];
-    if (abstract == nil) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-            WizAbstract* abstract = [abstractDataBase abstractOfDocument:document.guid];
-            if (document.serverChanged ==0 && !abstract) {
-                [abstractDataBase extractSummary:document.guid kbGuid:@""];
-                abstract = [abstractDataBase abstractOfDocument:document.guid];
-            }
-            if (abstract != nil) {
-                [abstractCache setObject:abstract forKey:document.guid];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [decorateView setNeedsDisplay];
-                });
-            }
+    return [abstractCache objectForKey:documentGuid];
+}
 
-        });
-    }
-    return abstract;
+- (void) addDocumentAbstract:(NSString*)documentGuid  abstract:(WizAbstract*)abstract
+{
+    [abstractCache setObject:documentGuid forKey:abstractCache];
+}
+
+- (void) clearCacheForDocument:(NSString*)documentGuid
+{
+    [abstractCache removeObjectForKey:documentGuid];
 }
 @end

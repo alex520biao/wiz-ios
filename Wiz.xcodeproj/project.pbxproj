@@ -48,6 +48,7 @@
 		7311620814F5091D007EC8AC /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311620A14F5091D007EC8AC /* Default-Landscape~ipad.png */; };
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
+		7313B02C15D0C5AC009CA7C1 /* WizTreeRemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7313B02B15D0C5AC009CA7C1 /* WizTreeRemindView.m */; };
 		7316C0BD15748337000926E9 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 7316C0BC15748337000926E9 /* MTStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7316C0C51574AD20000926E9 /* downloadIndicator1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0BF1574AD20000926E9 /* downloadIndicator1@2x.png */; };
 		7316C0C61574AD20000926E9 /* downloadIndicator2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0C01574AD20000926E9 /* downloadIndicator2@2x.png */; };
@@ -439,6 +440,8 @@
 		7311621414F50AC0007EC8AC /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = English.lproj/Default.png; sourceTree = "<group>"; };
 		7311621614F50AC4007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default@2x.png"; sourceTree = "<group>"; };
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
+		7313B02A15D0C5AC009CA7C1 /* WizTreeRemindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTreeRemindView.h; sourceTree = "<group>"; };
+		7313B02B15D0C5AC009CA7C1 /* WizTreeRemindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTreeRemindView.m; sourceTree = "<group>"; };
 		7316C0BB15748337000926E9 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		7316C0BC15748337000926E9 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		7316C0BF1574AD20000926E9 /* downloadIndicator1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator1@2x.png"; sourceTree = "<group>"; };
@@ -1237,6 +1240,8 @@
 				734CA12D1504597D002549CB /* LocationTreeViewCell.m */,
 				734CA1381504597D002549CB /* TreeViewBaseController.h */,
 				734CA1391504597D002549CB /* TreeViewBaseController.m */,
+				7313B02A15D0C5AC009CA7C1 /* WizTreeRemindView.h */,
+				7313B02B15D0C5AC009CA7C1 /* WizTreeRemindView.m */,
 			);
 			name = FolderTag;
 			path = DocumentView/FolderTag;
@@ -2635,6 +2640,7 @@
 				73F9D2C715B8FFB500F54726 /* WizSearch.m in Sources */,
 				7355FCD415BFDCC800CE6D7A /* WizShareSyncObjectCache.m in Sources */,
 				731BCECF15CB7A2900464B59 /* WizAbstractCache.m in Sources */,
+				7313B02C15D0C5AC009CA7C1 /* WizTreeRemindView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

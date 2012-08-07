@@ -29,25 +29,27 @@
     [super dealloc];
 }
 
-- (void) drawRect:(CGRect)rect
+- (void) updateDoc
 {
     for (int i = 0; i < [documents count]; i++) {
         
         WizDocument* doc = [documents objectAtIndex:i];
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
         abst.doc = doc;
-        abst.alpha = 1.0f;
-        [abst setNeedsDisplay];
+        abst.hidden = NO;
+        [abst updateView];
+//        [abst setNeedsDisplay];
     }
     for (int i =[documents count]; i < 4; i++) {
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
-        abst.alpha = 0.0f;
+        abst.hidden = YES;
     }
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         self.backgroundColor = [UIColor grayColor];
@@ -60,6 +62,7 @@
             abstractView.selectedDelegate = self;
             [abstractView release];
         }
+      
     }
     return self;
 }

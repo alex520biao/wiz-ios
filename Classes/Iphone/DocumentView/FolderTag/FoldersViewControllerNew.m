@@ -125,6 +125,9 @@
     [LocationTreeNode getLocationNodes:tree :self.displayNodes];
     [self setNodeRow];
 	[[self tableView] reloadData];
+    
+    self.tableFooterRemindView.frame = CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]]);
+    self.tableView.tableFooterView = self.tableFooterRemindView;
 }
 - (void) viewDidLoad
 {
@@ -132,19 +135,11 @@
     self.title = WizStrFolders;
     self.closedImage = [UIImage imageNamed:@"treePlus"];
     self.expandImage = [UIImage imageNamed:@"treeCut"];
-    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]])];
-    UIImageView* searchFooter = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"folderTableFooter"]];
-    [footerView addSubview:searchFooter];
-    self.tableView.tableFooterView = footerView;
-    footerView.backgroundColor = [UIColor colorWithRed:235.0/255.0 green:235.0/255.0 blue:235.0/255.0 alpha:1.0];
-    [searchFooter release];
-    [footerView release];
-    UITextView* remind = [[UITextView alloc] initWithFrame:CGRectMake(90, 0, 200, 100)];
-    remind.text = NSLocalizedString(@"Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use.", nil);
-    remind.backgroundColor = [UIColor clearColor];
-    remind.textColor = [UIColor grayColor];
-    [searchFooter addSubview:remind];
-    [remind release];
+    
+
+    self.tableFooterRemindView.imageView.image = [UIImage imageNamed:@"folderTableFooter"];
+    self.tableFooterRemindView.textLabel.text = NSLocalizedString(@"Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use.", nil);
+
 }
 - (void) setDetail:(LocationTreeViewCell *)cell
 {
@@ -186,8 +181,6 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.tableView.tableFooterView != nil) {
-        self.tableView.tableFooterView.frame= CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[self.displayNodes count]]);
-    }
+
 }
 @end

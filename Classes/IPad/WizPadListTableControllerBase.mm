@@ -22,6 +22,22 @@
 #import "WizUiTypeIndex.h"
 #import "WizSyncManager.h"
 
+class WizTestTime {
+    NSDate* begain;
+    
+public:
+    WizTestTime()
+    {
+        begain = [[NSDate date] retain];
+    }
+    ~WizTestTime()
+    {
+        NSDate* end = [NSDate date];
+        NSLog(@"duration time is %f",[end timeIntervalSinceDate:begain]);
+        [begain release];
+    }
+};
+
 @interface WizPadListTableControllerBase ()
 {
     UILabel* userRemindLabel;
@@ -239,6 +255,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDate* date1 = [NSDate date];
     static NSString *CellIdentifier = @"WizPadAbstractCell";
     WizPadListCell *cell = (WizPadListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -265,11 +282,15 @@
     }
     cellArray = [sectionArray subarrayWithRange:docRange];
     cell.documents = cellArray;
+    [cell updateDoc];
+    NSDate* date2 = [NSDate date];
+    NSLog(@"create item time is %f",[date2 timeIntervalSinceDate:date1]);
+  
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [cell setNeedsDisplay];
+    
 }
 
 #pragma mark - Table view delegate

@@ -21,4 +21,6 @@
 }
 @property (assign) id <WizPadCellSelectedDocumentDelegate> selectedDelegate;
 @property (nonatomic, retain) NSArray* documents;
+
+- (void) updateDoc;
 @end

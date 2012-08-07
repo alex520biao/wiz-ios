@@ -10,6 +10,7 @@
 #import "WizFileManager.h"
 #import "WizAbstract.h"
 #import "WizAccountManager.h"
+#import "WizAbstractCache.h"
 @implementation WizTempDataBase
 
 - (BOOL) isAbstractExist:(NSString*)documentGuid
@@ -204,6 +205,7 @@
     [self.queue inDatabase:^(FMDatabase *db) {
        ret = [db executeUpdate:@"delete from WIZ_ABSTRACT where ABSTRACT_GUID=?",documentGUID];
     }];
+    [[WizAbstractCache shareCache] clearCacheForDocument:documentGUID];
     return ret;
 }
 - (BOOL) deleteAbstractsByAccountUserId:(NSString *)accountUserID

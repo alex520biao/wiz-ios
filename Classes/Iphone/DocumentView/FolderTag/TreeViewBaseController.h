@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "LocationTreeViewCell.h"
+#import "WizTreeRemindView.h"
+
 @class LocationTreeNode;
 @protocol WizTreeViewBaseMethod <NSObject>
 
@@ -23,6 +25,8 @@
     UIImage* expandImage;
     UIImage* closedImage;
     BOOL isWillReloadAllData;
+
+    WizTreeRemindView* tableFooterRemindView;
 }
 @property (assign)  BOOL isWillReloadAllData;
 @property (nonatomic, retain) NSArray* locations;
@@ -30,6 +34,8 @@
 @property(nonatomic,retain) LocationTreeNode* tree;
 @property(nonatomic,retain) UIImage* expandImage;
 @property(nonatomic,retain) UIImage* closedImage;
+@property (nonatomic ,retain) WizTreeRemindView* tableFooterRemindView;
+
 -(void) setNodeRow;
 - (void) willReloadAllData;
 @end

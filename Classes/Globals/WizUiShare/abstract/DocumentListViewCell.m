@@ -14,6 +14,7 @@
 #import "WizNotification.h"
 #import "WizDbManager.h"
 #import "WizSyncManager.h"
+#import "WizAbstractCache.h"
 
 //#define CellWithImageFrame CGRectMake(8,8,225,74)
 //#define CellWithoutImageFrame CGRectMake(8,8,300,74)
@@ -170,6 +171,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     detailLabel.frame = CGRectMake(leftSpace, 42, self.frame.size.width-rightBreakWidth, 40);
     abstractImageView.frame = CGRectMake(self.frame.size.width-80, 10, 70, 70);
     abstractImageView.hidden = !isShowImage;
+    
 }
 
 - (void) drawRect:(CGRect)rect
@@ -186,33 +188,55 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     //
     nameLabel.text = self.doc.title;
     timeLabel.text = [self.doc.dateModified stringSql];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-        WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-        if (self.doc.serverChanged ==0 && !abstract) {
-            [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
-            abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+    detailLabel.text = nil;
+    abstractImageView.image = nil;
+    [self fixAllSubViewsFrame:10 showImage:NO];
+    
+    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
+    if (abstract) {
+        detailLabel.text = abstract.text;
+        abstractImageView.image = abstract.image;
+        if (!abstract.image) {
+            [self fixAllSubViewsFrame:10 showImage:NO];
         }
-       dispatch_async(dispatch_get_main_queue(), ^{
-            if (abstract) {
-                detailLabel.text = abstract.text;
-                abstractImageView.image = abstract.image;
-                if (!abstract.image) {
-                    [self fixAllSubViewsFrame:10 showImage:NO];
+        else
+        {
+            [self fixAllSubViewsFrame:10 showImage:YES];
+        }
+    }
+    else
+    {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+            WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+            if (self.doc.serverChanged ==0 && !abstract) {
+                [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
+                abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (abstract) {
+                    [[WizAbstractCache shareCache] addDocumentAbstract:self.doc.guid abstract:abstract];
+                    detailLabel.text = abstract.text;
+                    abstractImageView.image = abstract.image;
+                    if (!abstract.image) {
+                        [self fixAllSubViewsFrame:10 showImage:NO];
+                    }
+                    else
+                    {
+                        [self fixAllSubViewsFrame:10 showImage:YES];
+                    }
                 }
                 else
                 {
                     [self fixAllSubViewsFrame:10 showImage:YES];
+                    detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
+                    abstractImageView.image = [DocumentListViewCell documentNoDataImage];
                 }
-            }
-            else
-            {
-                [self fixAllSubViewsFrame:10 showImage:YES];
-                detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
-                abstractImageView.image = [DocumentListViewCell documentNoDataImage];
-            }
+            });
         });
-    });
+
+    }
+
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

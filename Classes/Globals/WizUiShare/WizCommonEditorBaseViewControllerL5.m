@@ -147,7 +147,7 @@
 
     if (![titleTextField isFirstResponder]) {
         additionView.frame = CGRectMake(self.view.frame.size.width-80 , self.view.frame.size.height - kbRect.size.height-80, 80, 40);
-        textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, kbRect.size.width, 44);
+        textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, [[UIScreen mainScreen] bounds].size.width, 44);
         [self.view bringSubviewToFront:textView];
         firstResponserInputView = textView;
         [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];

@@ -18,4 +18,5 @@
 }
 @property (assign) id <WizPadDocumentAbstractViewSelectedDelegate> selectedDelegate;
 @property (nonatomic, retain) WizDocument* doc;
+- (void) updateView;
 @end

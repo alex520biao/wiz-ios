@@ -407,11 +407,6 @@
     [zoomOrShrinkButton setImage:[UIImage imageNamed:@"zoom"] forState:UIControlStateNormal];
     documentNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 0.0, 680, 44)];
     [headerView addSubview:documentNameLabel];
-    UILabel* countLabel = [[UILabel  alloc] initWithFrame:CGRectMake(0.0, 5, 230, 20)];
-    countLabel.textAlignment = UITextAlignmentCenter;
-    countLabel.textColor = [UIColor grayColor];
-    documentList.tableHeaderView = countLabel;
-    [countLabel release];
     //
     [WizGlobals decorateViewWithShadowAndBorder:headerView];
 }
