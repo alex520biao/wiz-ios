@@ -240,32 +240,33 @@
 
 + (BOOL) canEditingDocumentwithEditorL5:(WizDocument*)doc
 {
-    if (doc == nil) {
-        return NO;
-    }
-    NSString* indexFile = [doc documentIndexFile];
-    NSError* error = nil;
-    NSString* indexString = [NSString stringWithContentsOfFile:indexFile usedEncoding:nil error:&error];
-    if(error)
-    {
-        NSLog(@"error %@",error);
-    }
-    NSRange  sourceRanger = NSMakeRange(0, indexString.length);
-    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
-    NSArray* bodys = [bodyRegular matchesInString:indexString options:NSMatchingReportCompletion range:sourceRanger];
-    NSRange bodyRange = NSMakeRange(0, 0);
-    for (NSTextCheckingResult* each in bodys) {
-        if ([each range].length > bodyRange.length) {
-            bodyRange = [each range];
-        }
-    }
-    if (bodyRange.length != 0) {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+    return YES;
+//    if (doc == nil) {
+//        return NO;
+//    }
+//    NSString* indexFile = [doc documentIndexFile];
+//    NSError* error = nil;
+//    NSString* indexString = [NSString stringWithContentsOfFile:indexFile usedEncoding:nil error:&error];
+//    if(error)
+//    {
+//        NSLog(@"error %@",error);
+//    }
+//    NSRange  sourceRanger = NSMakeRange(0, indexString.length);
+//    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
+//    NSArray* bodys = [bodyRegular matchesInString:indexString options:NSMatchingReportCompletion range:sourceRanger];
+//    NSRange bodyRange = NSMakeRange(0, 0);
+//    for (NSTextCheckingResult* each in bodys) {
+//        if ([each range].length > bodyRange.length) {
+//            bodyRange = [each range];
+//        }
+//    }
+//    if (bodyRange.length != 0) {
+//        return YES;
+//    }
+//    else
+//    {
+//        return NO;
+//    }
 }
 - (id) initWithWizDocument:(WizDocument *)doc
 {

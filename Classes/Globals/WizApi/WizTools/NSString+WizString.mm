@@ -9,6 +9,7 @@
 #import "NSString+WizString.h"
 #import <wchar.h>
 #import <string>
+#import <stdio.h>
 
 bool IsScriptOrStyle(const wchar_t* p)
 {
@@ -75,7 +76,7 @@ bool IsSpaceString(const wchar_t* pTextBegin, const wchar_t* pTextEnd)
 		if (*pTextBegin == ' '
 			|| *pTextBegin == '\t'
 			|| *pTextBegin == '\r'
-			|| *pTextBegin == '\r')
+			|| *pTextBegin == '\n')
 		{
 			pTextBegin++;
 			continue;
@@ -274,7 +275,7 @@ void AddWizTagToHtml(std::wstring& html)
 }
 -(int) indexOf:(NSString*)find
 {
-	NSRange range = [self rangeOfString:find];
+	NSRange range = [self rangeOfString:find options:NSCaseInsensitiveSearch];
 	if (range.location == NSNotFound)
 		return NSNotFound;
 	//
@@ -297,7 +298,7 @@ void AddWizTagToHtml(std::wstring& html)
 }
 -(int) lastIndexOf:(NSString*)find
 {
-	NSRange range = [self rangeOfString:find options:NSBackwardsSearch];
+	NSRange range = [self rangeOfString:find options:NSBackwardsSearch|NSCaseInsensitiveSearch];
 	if (range.location == NSNotFound)
 		return NSNotFound;
 	//
@@ -428,7 +429,7 @@ void AddWizTagToHtml(std::wstring& html)
 }
 +(NSString*)getStringFromWChar:(const wchar_t*) inStr
 {
-    return [[[NSString alloc] initWithBytes:inStr length:wcslen(inStr) encoding:NSUTF32LittleEndianStringEncoding] autorelease];
+    return [[[NSString alloc] initWithBytes:inStr length:wcslen(inStr)*sizeof(wchar_t) encoding:NSUTF32LittleEndianStringEncoding] autorelease];
 }
 
 - (wchar_t*)getWCharFromString
@@ -436,14 +437,76 @@ void AddWizTagToHtml(std::wstring& html)
     return (wchar_t*) [self cStringUsingEncoding:NSUTF32StringEncoding];
 }
 
+NSRange (^htmlTagRangeClose)(NSString*, NSString*) = ^(NSString* string,NSString* tag)
+{
+    if( nil == string)
+    {
+        return NSMakeRange(NSNotFound, NSNotFound);
+    }
+    NSString* patterns = [NSString stringWithFormat:@"<%@[^>]*>([\\s\\S]*)</%@>",tag,tag];
+    NSRegularExpression*  headRegular = [NSRegularExpression regularExpressionWithPattern:patterns options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange headRange = NSMakeRange(0, 0);
+    NSArray* heads = [headRegular matchesInString:string options:NSMatchingReportCompletion range:NSMakeRange(0, string.length)];
+    for (NSTextCheckingResult* eachResult in heads)
+    {
+        if ([eachResult range].length > headRange.length)
+        {
+            headRange = [eachResult range];
+        }
+    }
+    
+    NSLog(@"start %d length %d",headRange.location, headRange.length);
+    return headRange;
+};
+
+NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSString* tag,BOOL needFirst)
+{
+    if( nil == string)
+    {
+        return NSMakeRange(NSNotFound, NSNotFound);
+    }
+    NSString* patterns = [NSString stringWithFormat:@"%@",tag];
+    NSRegularExpression*  headRegular = [NSRegularExpression regularExpressionWithPattern:patterns options:NSRegularExpressionCaseInsensitive error:nil];
+    NSArray* heads = [headRegular matchesInString:string options:NSMatchingReportCompletion range:NSMakeRange(0, string.length)];
+    if(heads && [heads count])
+    {
+        return [[heads objectAtIndex:0] range];
+    }
+    return NSMakeRange(NSNotFound, NSNotFound);
+};
+
+- (NSString*) getBody
+{
+    NSRange  bodyRange = htmlTagRangeClose(self,@"body");
+    if (bodyRange.length == 0 ) {
+        NSInteger  lastIndexOfHtml = [self lastIndexOf:@"</html>"];
+        NSInteger lastIndexOfHead = [self lastIndexOf:@"</head>"];
+        NSRange htmlRange = indexOfHtmlTag(self,@"<html[^>]*>",YES);
+        NSInteger subStartPos = 0;
+        NSInteger subEndPos = lastIndexOfHtml == NSNotFound? self.length:lastIndexOfHtml;
+        //
+        if (lastIndexOfHead != NSNotFound) {
+            subStartPos = lastIndexOfHead + 7;
+        }
+        else
+        {
+            if (htmlRange.length != NSNotFound) {
+                subStartPos = htmlRange.location + htmlRange.length;
+            }
+        }
+        return [NSString stringWithFormat:@"<body>%@</body>",[self substringWithRange:NSMakeRange(subStartPos, subEndPos-subStartPos)]];
+    }
+    return [self substringWithRange:bodyRange];
+}
 - (NSString*) processHtml
 {
     if (nil == self) {
         return nil;
     }
-    std::wstring str = [self getWCharFromString];
+    std::wstring str = [[self getBody] getWCharFromString];
+    printf("************ sdfasdfasdfsdfsadfsdfsa");
     AddWizTagToHtml(str);
-    return [NSString getStringFromWChar:str.c_str()];
+    return [[NSString getStringFromWChar:str.c_str()] stringReplaceUseRegular:@"<body[^>]*>"];
 }
 
 @end

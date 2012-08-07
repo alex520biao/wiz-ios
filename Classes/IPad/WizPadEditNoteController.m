@@ -301,8 +301,6 @@
         }
         NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
         NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
-        
-        NSLog(@"html %@",html);
         NSError* error = nil;
         if (![html writeToFile:indexFilePath useUtf8Bom:YES error:&error]) {
             NSLog(@"error %@",error);

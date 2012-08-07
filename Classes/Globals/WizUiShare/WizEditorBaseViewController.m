@@ -129,7 +129,6 @@ typedef NSInteger WizEditNavigationBarItemTag;
 
 - (void) buildRecoderProcessView
 {
-    
     recorderProcessView = [[UIView alloc]init];
     recorderProcessView.backgroundColor = [UIColor brownColor];
     recorderProcessLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 80, 35)];
@@ -703,33 +702,17 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     NSStringEncoding contentEncoding;
     NSError* error = nil;
     NSString* content =[NSString stringWithContentsOfFile:sourcePath usedEncoding:&contentEncoding error:&error];
-//    if (!content) {
-//        content = @"";
-//    }
+    if (!content) {
+        content = @"";
+    }
     NSString* editingFile = [WizEditorBaseViewController editingFilePath];
-//    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
-//    
-//    NSRange  sourceRanger = NSMakeRange(0, content.length);
-//    NSArray* bodys = [bodyRegular matchesInString:content options:NSMatchingReportCompletion range:sourceRanger];
-//    NSRange bodyRange = NSMakeRange(0, 0);
-//    for (NSTextCheckingResult* each in bodys) {
-//        if ([each range].length > bodyRange.length) {
-//            bodyRange = [each range];
-//        }
-//    }
-//    if (bodyRange.length != 0) {
-//        content = [content substringWithRange:bodyRange];
-//    }
-//    else
-//    {
-//        return NO;
-//    }
-//    content = [content stringReplaceUseRegular:@"(<[^>]*>)" withString:@"</wiz>$1<wiz>"];
-//    content = [content substringWithRange:NSMakeRange(6, content.length -6 -5)];
-//    content = [content stringReplaceUseRegular:@"<wiz></wiz>"];
     NSString* modelFile = [WizEditorBaseViewController editingHtmlModelFilePath];
     NSMutableString* modelContent = [NSMutableString stringWithContentsOfFile:modelFile usedEncoding:nil error:&error];
+    
+    NSLog(@"content is %@",[content processHtml]);
+    
     content  =  [modelContent stringByReplacingOccurrencesOfString:@"IOSWizEditor" withString:[content processHtml]];
+    NSLog(@"%@",content);
     if (![content writeToFile:editingFile useUtf8Bom:YES error:&error])
     {
         NSLog(@"write error%@",error);
