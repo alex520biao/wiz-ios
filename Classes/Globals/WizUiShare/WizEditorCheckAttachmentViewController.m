@@ -114,7 +114,7 @@
         WizAttachment* attachment = [[self.attachmetsSourceDelegate sourceAttachmentsArray] objectAtIndex:indexPath.row];
         [[self.attachmetsSourceDelegate deletedAttachmentsArray] addObject:attachment];
         [[self.attachmetsSourceDelegate sourceAttachmentsArray] removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.attachmetsSourceDelegate deletedAttachmentsDone];
     }
 }

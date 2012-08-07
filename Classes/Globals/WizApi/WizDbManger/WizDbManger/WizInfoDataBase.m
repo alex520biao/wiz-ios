@@ -318,24 +318,24 @@
 //                if (docExist.localChanged)
 //                {
 //                    localChanged = [NSNumber numberWithInt:docExist.localChanged];
-//                    serverChanged = @0;
+//                    serverChanged = [NSNumber numberWithInt:0];
 //                }
 //                else
 //                {
-//                    localChanged = @0;
-//                    serverChanged = @1;
+//                    localChanged = [NSNumber numberWithInt:0];
+//                    serverChanged = [NSNumber numberWithInt:1];
 //                }
 //            }
 //            else
 //            {
-//                localChanged = @0;
-//                serverChanged = @0;
+//                localChanged = [NSNumber numberWithInt:0];
+//                serverChanged = [NSNumber numberWithInt:0];
 //            }
 //        }
 //        else
 //        {
-//            serverChanged = @1;
-//            localChanged = @0;
+//            serverChanged = [NSNumber numberWithInt:1];
+//            localChanged = [NSNumber numberWithInt:0];
 //        }
 //
 //    }
@@ -349,13 +349,13 @@
             switch (docExist.localChanged) {
                 case WizEditDocumentTypeNoChanged:
                     if ([docExist.dataMd5 isEqualToString:dataMd5]) {
-                        serverChanged = @0;
-                        localChanged = @0;
+                        serverChanged = [NSNumber numberWithInt:0];
+                        localChanged = [NSNumber numberWithInt:0];
                     }
                     else
                     {
-                        serverChanged = @1;
-                        localChanged = @0;
+                        serverChanged = [NSNumber numberWithInt:1];
+                        localChanged = [NSNumber numberWithInt:0];
                     }
                     break;
                 case WizEditDocumentTypeInfoChanged:
@@ -373,7 +373,7 @@
                         nAttachmentCount =  [NSNumber numberWithInt:docExist.attachmentCount];
                         localChanged = [NSNumber numberWithInt:docExist.localChanged];
                         nProtected = [NSNumber numberWithBool:docExist.protected_];
-                        serverChanged = @0;
+                        serverChanged = [NSNumber numberWithInt:0];
                         nReadCount = [NSNumber numberWithInt:docExist.nReadCount];
                         gpsLatitue = [NSNumber numberWithFloat:docExist.gpsLatitude];
                          gpsLongtitue = [NSNumber numberWithFloat:docExist.gpsLongtitude];
@@ -388,8 +388,8 @@
                     }
                     else
                     {
-                        localChanged = @0;
-                        serverChanged = @1;
+                        localChanged = [NSNumber numberWithInt:0];
+                        serverChanged = [NSNumber numberWithInt:1];
                     }
                     break;
                 }
@@ -399,8 +399,8 @@
                         break;
                     }
                     {
-                        serverChanged = @1;
-                        localChanged = @0;
+                        serverChanged = [NSNumber numberWithInt:1];
+                        localChanged = [NSNumber numberWithInt:0];
                     }
                     NSString* backupGuid = [WizGlobals genGUID];
                     NSString* backupTitle = [docExist.title stringByAppendingString:NSLocalizedString(@"(Conflicted copy)", nil)];
@@ -434,7 +434,7 @@
                               [docExist.dateModified stringSql],
                               docExist.dataMd5,
                               [NSNumber numberWithInt:docExist.attachmentCount],
-                              @0,
+                              [NSNumber numberWithInt:0],
                               [NSNumber numberWithInt:WizEditDocumentTypeAllChanged],
                               [NSNumber numberWithDouble:docExist.gpsLatitude],
                               [NSNumber numberWithDouble:docExist.gpsLongtitude],
@@ -463,10 +463,10 @@
     else
     {
         if (nil == serverChanged) {
-            serverChanged = @1;
+            serverChanged = [NSNumber numberWithInt:1];
         }
         if (nil == localChanged) {
-            localChanged = @0;
+            localChanged = [NSNumber numberWithInt:0];
         }
         [self.queue inDatabase:^(FMDatabase *db) {
            ret= [db executeUpdate:@"insert into WIZ_DOCUMENT (DOCUMENT_GUID, DOCUMENT_TITLE, DOCUMENT_LOCATION, DOCUMENT_URL, DOCUMENT_TAG_GUIDS, DOCUMENT_TYPE, DOCUMENT_FILE_TYPE, DT_CREATED, DT_MODIFIED, DOCUMENT_DATA_MD5, ATTACHMENT_COUNT, SERVER_CHANGED, LOCAL_CHANGED,GPS_LATITUDE ,GPS_LONGTITUDE ,GPS_ALTITUDE ,GPS_DOP ,GPS_ADDRESS ,GPS_COUNTRY ,GPS_LEVEL1 ,GPS_LEVEL2 ,GPS_LEVEL3 ,GPS_DESCRIPTION ,READCOUNT ,PROTECT) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",guid, title, location, url, tagGUIDs, type, fileType, [dateCreated stringSql], [dateModified stringSql],dataMd5, nAttachmentCount, serverChanged, localChanged, gpsLatitue, gpsLongtitue, gpsAltitue, gpsDop, gpsAddress, gpsCountry, gpsLevel1, gpsLevel2 , gpsLevel3, gpsDescription, nReadCount, nProtected];
