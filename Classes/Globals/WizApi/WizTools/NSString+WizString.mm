@@ -206,7 +206,7 @@ void AddWizTagToHtml(std::wstring& html)
 {
     @try {
         if (self) {
-            NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:0 error:nil];
+            NSRegularExpression* reg = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:nil];
             return [reg stringByReplacingMatchesInString:self options:0 range:NSMakeRange(0, self.length) withTemplate:replaceStr];
         }
 
@@ -478,6 +478,7 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
 - (NSString*) getBody
 {
     NSRange  bodyRange = htmlTagRangeClose(self,@"body");
+    NSString* body = nil;
     if (bodyRange.length == 0 ) {
         NSInteger  lastIndexOfHtml = [self lastIndexOf:@"</html>"];
         NSInteger lastIndexOfHead = [self lastIndexOf:@"</head>"];
@@ -494,7 +495,7 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
                 subStartPos = htmlRange.location + htmlRange.length;
             }
         }
-        return [NSString stringWithFormat:@"<body>%@</body>",[self substringWithRange:NSMakeRange(subStartPos, subEndPos-subStartPos)]];
+        return [self substringWithRange:NSMakeRange(subStartPos, subEndPos-subStartPos)];
     }
     return [self substringWithRange:bodyRange];
 }
