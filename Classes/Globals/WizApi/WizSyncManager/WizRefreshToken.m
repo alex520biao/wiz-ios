@@ -108,5 +108,6 @@
 {
     [super cancel];
     self.refreshDelegate = nil;
+    [self.apiManagerDelegate didApiSyncError:self error:nil];
 }
 @end

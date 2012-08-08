@@ -224,6 +224,10 @@ static WizSyncManager* shareManager;
             [self.displayDelegate didChangedSyncDescription:nil];
         }
     }
+    
+    if ([api isKindOfClass:[WizRefreshToken class]]) {
+        [self.displayDelegate didChangedSyncDescription:nil];
+    }
 }
 
 - (void) didChangedSyncDescriptorMessage:(NSString *)descriptorMessage

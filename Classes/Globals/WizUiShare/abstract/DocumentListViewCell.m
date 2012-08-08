@@ -80,16 +80,9 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-//        self.selectedBackgroundView = [[[UIView alloc] init] autorelease];
-//        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:0.5];
-//        UIImageView* breakView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 89, self.contentView.frame.size.width, 1)];
-//        breakView.image = [UIImage imageNamed:@"separetorLine"];
-//        breakView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        [self addSubview:breakView];
-//        [breakView release];
         
         UIView* breakView = [[UIView alloc] initWithFrame:CGRectMake(0, CELLHEIGHTWITHABSTRACT -1, self.contentView.frame.size.width, 1)];
-        breakView.backgroundColor = [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:0.5];
+        breakView.backgroundColor = [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:0.6];
         breakView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self addSubview:breakView];
         

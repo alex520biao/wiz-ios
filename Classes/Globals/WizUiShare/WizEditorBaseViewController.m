@@ -876,9 +876,6 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [self buildPhoneNavigationTools];
     titleTextField.frame = CGRectMake(0.0, 0.0, [[UIScreen mainScreen] bounds].size.width, 31);
     
-    NSLog(@"frame width is %f",[[UIScreen mainScreen] bounds].size.width);
-    
-    NSLog(@"view width is %f",self.view.frame.size.width);
     [backGroudScrollView addSubview:titleTextField];
     
     [cancelBtn release];
