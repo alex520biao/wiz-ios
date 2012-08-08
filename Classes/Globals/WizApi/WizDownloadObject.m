@@ -14,7 +14,7 @@
 #import "WizFileManager.h"
 #import "WizDbManager.h"
 #import "WizAccountManager.h"
-
+#import "WizAbstractCache.h"
 //
 #define DownloadPartSize      256*1024
 @interface WizDownloadObject ()
@@ -115,11 +115,13 @@
     if ([self.object isKindOfClass:[WizDocument class]])
     {
         [dataBase setDocumentServerChanged:self.object.guid changed:NO];
+        [[WizAbstractCache shareCache] clearCacheForDocument:self.object.guid];
     }
     else if ([self.object isKindOfClass:[WizAttachment class]])
     {
         [dataBase setAttachmentServerChanged:self.object.guid changed:NO];
     }
+
     //
     busy = NO;
     attempts = WizNetWorkMaxAttempts;
