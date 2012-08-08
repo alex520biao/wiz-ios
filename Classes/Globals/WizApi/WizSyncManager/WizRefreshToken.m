@@ -103,7 +103,6 @@
         self.apiURL = urlAPI;
         [urlAPI release];
     }
-    
 }
 - (void) cancel
 {

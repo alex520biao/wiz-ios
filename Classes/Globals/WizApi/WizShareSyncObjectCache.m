@@ -357,6 +357,8 @@
     [errorQueque removeAllObjects];
     [uploadObjectsQueque removeAllObjects];
     [downadObjectsQueque removeAllObjects];
+
+    
     for (WizUploadObjet* uploader in [self allUploadTools])
     {
         [uploader stopUpload];
@@ -365,9 +367,15 @@
     {
         [downloader stopDownload];
     }
+    
+
+    
     [[self shareSearch] cancel];
     [[self shareRefreshTokener] cancel];
     [self shareRefreshTokener].apiManagerDelegate = nil;
     [[self shareSyncInfo] cancel];
+    
+    
+    [[self allDownloadTools] removeAllObjects];
 }
 @end

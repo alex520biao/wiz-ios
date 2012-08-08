@@ -130,7 +130,8 @@ static WizSyncManager* shareManager;
     NSString* activeAccountUserId = [[WizAccountManager  defaultManager] activeAccountUserId];
     if (activeAccountUserId == nil || [activeAccountUserId isEqualToString:@""])
     {
-        NSLog(@"ddd");
+        NSLog(@"nil activeAcccountUserId");
+        [self resignActive];
         return;
     }
     for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allErrorWizApi]) {

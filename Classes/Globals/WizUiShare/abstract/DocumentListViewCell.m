@@ -151,10 +151,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         downloadIndicator.animationImages = images;
         downloadIndicator.animationDuration = 0.8;
         [self.contentView addSubview:downloadIndicator];
-        
-        
+    
         //
-
         
     }
     return self;

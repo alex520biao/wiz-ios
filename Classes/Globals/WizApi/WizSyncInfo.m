@@ -306,6 +306,9 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
 
 - (BOOL) uploadDeletedGuids
 {
+    if (!self.busy) {
+        return NO;
+    }
     [self didChangeSyncStatue:WizSyncStatueUploadloadDeletedItems];
     NSArray* array = [[[WizDbManager shareDbManager] shareDataBase] deletedGUIDsForUpload];
     if ([array count]) {
@@ -319,6 +322,9 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
 
 - (BOOL) callDownloadDeletedList:(int64_t)version
 {
+    if (!self.busy) {
+        return NO;
+    }
     NSLog(@"server deleted Version is %d  local is %lld",deletedVersion, version);
     if (version <  deletedVersion)
     {

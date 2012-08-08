@@ -768,6 +768,26 @@
             }
         }
     }
+    
+    switch (self.listType) {
+        case WizPadCheckDocumentSourceTypeOfFolder:
+            self.title = [WizGlobals folderStringToLocal:self.documentListKey];
+            break;
+        case WizPadCheckDocumentSourceTypeOfRecent:
+            self.title = WizStrRecentNotes;
+            break;
+        case WizPadCheckDocumentSourceTypeOfTag:
+            if (nil != self.documentListKey) {
+                WizTag* tag = [WizTag tagFromDb:self.documentListKey];
+                self.title = getTagDisplayName(tag.title);
+            }
+            break;
+        case WizPadCheckDocumentSourceTypeOfSearch:
+            self.title = [NSString stringWithFormat:NSLocalizedString(@"Search : %@", nil),self.documentListKey];
+            break;
+        default:
+            break;
+    }
 }
 - (void) viewDidDisappear:(BOOL)animated
 {
@@ -859,6 +879,7 @@
     DocumentListViewCell* docCell = (DocumentListViewCell*)cell;
     docCell.doc = doc;
     [docCell setNeedsDisplay];
+    
 }
 
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
