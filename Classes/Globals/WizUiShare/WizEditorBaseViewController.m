@@ -884,6 +884,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     [cancelBtn release];
     [saveBtn release];
     //
+    backGroudScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:backGroudScrollView];
     titleTextField.text = self.docEdit.title;
     [editorWebView loadRequest:self.urlRequest];
