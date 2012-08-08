@@ -115,7 +115,7 @@
     if ([self.object isKindOfClass:[WizDocument class]])
     {
         [dataBase setDocumentServerChanged:self.object.guid changed:NO];
-        [[WizAbstractCache shareCache] clearCacheForDocument:self.object.guid];
+            [[WizAbstractCache shareCache] clearCacheForDocument:self.object.guid];
     }
     else if ([self.object isKindOfClass:[WizAttachment class]])
     {

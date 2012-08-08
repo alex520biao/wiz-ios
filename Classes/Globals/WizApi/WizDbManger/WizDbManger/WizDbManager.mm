@@ -59,11 +59,15 @@ static WizDbManager* shareDbManager = nil;
         return shareDbManager;
     }
 }
+
+
+
 // over
 - (id<WizDbDelegate>) shareDataBase
 {
     NSString* accountUserId = [[WizAccountManager defaultManager] activeAccountUserId];
-    return [self getWizDataBase:accountUserId];
+    id<WizDbDelegate> ret = [self getWizDataBase:accountUserId];
+    return ret;
 }
 
 - (NSString*) dataBaseKeyString:(NSString *)accountUserId

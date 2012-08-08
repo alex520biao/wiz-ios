@@ -72,7 +72,6 @@
 - (WizAbstract*)  documentAbstract:(NSString*)documentGuid
 {
     WizAbstract* abstract = [abstractCache objectForKey:documentGuid];
-    NSLog(@"abstract is %@ %@",documentGuid,abstract);
     return abstract;
 }
 

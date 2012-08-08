@@ -461,6 +461,15 @@ BOOL isReverseMask(NSInteger mask)
                 textBody = @"";
             }
         }
+        else if ([WizGlobals checkAttachmentTypeIsHtml:attachmentType])
+        {
+            NSError* error = nil;
+            textBody = [NSString stringWithContentsOfFile:sourcePath usedEncoding:nil error:&error];
+            if(error)
+            {
+                textBody = @"";
+            }
+        }
         else {
             [each saveData:each.description];
             NSString* device = [[UIDevice currentDevice] name];

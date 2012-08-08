@@ -630,6 +630,7 @@
         }
         [self onError:[NSError errorWithDomain:WizErrorDomain code:NSUserCancelError userInfo:nil]];
     }
+    [self.apiManagerDelegate didApiSyncDone:self];
 }
 - (void) didChangeSyncStatue:(WizSyncStatueCode)statue
 {

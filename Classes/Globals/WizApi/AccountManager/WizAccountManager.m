@@ -138,6 +138,18 @@
     [settingDataBase setWizDefaultAccountUserId:accountUserId];
     self.activeAccountUserId_ = accountUserId;
 }
+
+- (void) addUserIndicationDocument
+{
+//    NSString* indicationGuid = @"2b611a2e-1b3b-4e8b-845a-dc6271cae3d0";
+//    WizDocument* documentExist = [WizDocument documentFromDb:indicationGuid];
+//    if (nil == documentExist) {
+//        WizDocument* documentNew = [[WizDocument alloc] init];
+//        documentNew.guid = indicationGuid;
+//        [documentNew saveWithData:@"sdfasdfasdf" attachments:nil];
+//        [documentNew release];
+//    }
+}
 - (BOOL) registerActiveAccount:(NSString*)userId
 {
     [self setDefalutAccount:userId];
@@ -145,6 +157,7 @@
     [timer fire];
     // 避免初始化摘要数据库多线程争抢
     [[WizDbManager shareDbManager] shareAbstractDataBase];
+    [self addUserIndicationDocument];
     return YES;
 }
 - (NSString*) activeAccountUserId

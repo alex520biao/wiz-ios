@@ -303,4 +303,5 @@ static WizSyncManager* shareManager;
     [self addSyncToken:searcher];
     [searcher start];
 }
+
 @end
