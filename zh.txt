@@ -49,6 +49,7 @@
 "Delete"="删除";
 "Detail"="详细信息";
 "Do not download"="不下载";
+"Document format was too complex and can not be edited, and will use the old editor.If you choose to edit this note, images and text-formatting will be lost."="笔记格式过于复杂无法使用新编辑器编辑，如果您继续编辑将会丢失图片和格式，是否继续？";
 "Document format was too complex and can not be edited, and will use the old editor.If you choose to edit this note, images and text-formatting will be lost. Continue?"="文档格式太复杂无法使用新编辑器编辑，使用旧编辑器编辑将会丢失格式和图片，是否继续编辑？";
 "Does not download any notes automatic"="不自动下载任何笔记数据";
 "Download"="下载";
@@ -62,6 +63,7 @@
 "Edit note"="编辑笔记";
 "Email"="邮箱";
 "Error"="错误";
+"Failed to save image"="保存图片失败";
 "Feedback"="反馈";
 "Folders"="文件夹";
 "Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use."="文件夹允许您按照自己喜好的方式来管理您的笔记。并且您的文件夹将会与每一版本的为知笔记同步。";
@@ -140,6 +142,7 @@
 "Search"="搜索";
 "Search local notes only"="只搜索本地数据";
 "Search result"="搜索结果";
+"Search results is empty"="搜索结果为空";
 "Select an album"="选择一个相册";
 "Selected folders"="选中的文件夹";
 "Selected tags"="选中的标签";
@@ -195,6 +198,8 @@
 "There is no internet connection and it can't login!"="没有网络连接，暂时不能登陆！";
 "There is no note in this folder"="此文件夹下没有笔记！";
 "There is no note in this tag"="此标签下没有笔记！";
+"This floder is empty"="该文件夹下没有笔记";
+"This tag is empty"="该标签下没有笔记";
 "This version of WizNote does not support decryption!"="本版本不支持笔记加密解密！请使用PC客户端查看笔记。";
 "Title"="标题";
 "Title (Reverse)"="标题（逆序）";
