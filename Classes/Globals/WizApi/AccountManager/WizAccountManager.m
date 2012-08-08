@@ -143,6 +143,8 @@
     [self setDefalutAccount:userId];
     timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
     [timer fire];
+    // 避免初始化摘要数据库多线程争抢
+    [[WizDbManager shareDbManager] shareAbstractDataBase];
     return YES;
 }
 - (NSString*) activeAccountUserId

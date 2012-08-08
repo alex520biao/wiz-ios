@@ -139,6 +139,44 @@ bool FindTextBegin(const wchar_t* p, const wchar_t*& pTextBegin, const wchar_t*&
 	}
 }
 
+void FindAllText(std::wstring& html, int maxSize)
+{
+    std::wstring strRet;
+    if (maxSize > 0) {
+        strRet.reserve(maxSize * 2);
+    }
+    else
+    {
+        strRet.reserve(html.length());
+    }
+	//
+	const wchar_t* p = html.c_str();
+	//
+	while (1)
+	{
+		const wchar_t* pTextBegin = NULL;
+		const wchar_t* pTextEnd = NULL;
+		//
+		if (FindTextBegin(p, pTextBegin, pTextEnd))
+		{
+			//
+			strRet =  std::wstring(L" ") + std::wstring(pTextBegin, pTextEnd);
+            if (strRet.length() >= maxSize && maxSize > 0) {
+                break;
+            }
+			//
+			p = pTextEnd;
+			//
+			continue;
+		}
+		else
+		{
+			break;
+		}
+	}
+	//
+	html = strRet;
+}
 
 void AddWizTagToHtml(std::wstring& html)
 {
@@ -375,7 +413,6 @@ void AddWizTagToHtml(std::wstring& html)
 	[name replaceOccurrencesOfString:@"\n" withString:@"<br>" options:0 range:NSMakeRange(0, [name length])];
 	[name replaceOccurrencesOfString:@"\t" withString:@"&nbsp;&nbsp;&nbsp;&nbsp;" options:0 range:NSMakeRange(0, [name length])];
     [name replaceOccurrencesOfString:@" " withString:@"&nbsp;" options:0 range:NSMakeRange(0, [name length])];
-    NSLog(@"%@ \n %@",self,name);
     
 	return [name autorelease];
 	
@@ -454,7 +491,6 @@ void AddWizTagToHtml(std::wstring& html)
     memset(stTmp, 0, bufferSize);
     mbstowcs(stTmp, cString, iLength);
     stTmp[iLength] = 0;
-        printf("begin %ls",stTmp);
     std::wstring wstr(stTmp);
     free(stTmp);
     return wstr;
@@ -478,7 +514,6 @@ NSRange (^htmlTagRangeClose)(NSString*, NSString*) = ^(NSString* string,NSString
         }
     }
     
-    NSLog(@"start %d length %d",headRange.location, headRange.length);
     return headRange;
 };
 
@@ -531,4 +566,13 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
     return [[NSString getStringFromWChar:str.c_str()] stringReplaceUseRegular:@"<body[^>]*>"];
 }
 
+- (NSString*) htmlToText:(int)maxSize
+{
+    if (nil == self) {
+        return nil;
+    }
+    std::wstring str = [[self getBody] getWCharFromString];
+    FindAllText(str, maxSize);
+    return [NSString getStringFromWChar:str.c_str()];
+}
 @end

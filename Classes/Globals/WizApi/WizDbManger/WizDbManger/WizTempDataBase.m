@@ -31,125 +31,150 @@
     return ret;
 }
 
+- (BOOL) imageIsAD:(int)imageArea
+{
+    if (imageArea <= 32* 32) {
+        return YES;
+    }
+    if (imageArea == 468*60) {
+        return YES;
+    }
+    if (imageArea == 170*60) {
+        return YES;
+    }
+    if (imageArea == 234*60) {
+        return YES;
+    }
+    if (imageArea == 88*31) {
+        return YES;
+    }
+    if (imageArea == 120*60) {
+        return YES;
+    }
+    if (imageArea == 120*90) {
+        return YES;
+    }
+    if (imageArea == 120*120) {
+        return YES;
+    }
+    if (imageArea == 360*300) {
+        return YES;
+    }
+    if (imageArea == 392*72) {
+        return YES;
+    }
+    if (imageArea == 125*125) {
+        return YES;
+    }
+    if (imageArea == 770*100) {
+        return YES;
+    }
+    if (imageArea == 80*80) {
+        return YES;
+    }
+    if (imageArea == 750*550) {
+        return YES;
+    }
+    if (imageArea == 130* 200) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void) extractSummary:(NSString *)documentGUID  kbGuid:(NSString*)kbguid
 {
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    [self extractSummaryCall:(NSString *)documentGUID  kbGuid:(NSString*)kbguid];
+    [pool drain];
+}
+- (void) extractSummaryCall:(NSString *)documentGUID  kbGuid:(NSString*)kbguid
+{
+ 
     BOOL WizDeviceIsPad = [WizGlobals WizDeviceIsPad];
     NSString* sourceFilePath = [[WizFileManager shareManager] documentIndexFile:documentGUID];
+
     if (![[NSFileManager defaultManager] fileExistsAtPath:sourceFilePath]) {
         return;
     }
     NSString* abstractText = nil;
-    NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
-    NSString* removeTitle = [sourceStr stringReplaceUseRegular:@"<title.*title>"];
-    NSString* removeStyle = [removeTitle stringReplaceUseRegular:@"<style[^>]*?>[\\s\\S]*?<\\/style>"];
-    NSString* removeScript = [removeStyle stringReplaceUseRegular:@"<script[^>]*?>[\\s\\S]*?<\\/script>"];
-    NSString* removeHtmlSpace = [removeScript stringReplaceUseRegular:@"&(.*?);"];
-    NSString* removeOhterCharacter = [removeHtmlSpace stringReplaceUseRegular:@"&#(.*?);" ];
-    NSString* removeBlock = [removeOhterCharacter stringReplaceUseRegular:@"\\s{2,}|\\ \\;"];
-    NSString* removeCOntrol = [removeBlock stringReplaceUseRegular:@"/\n" ];
-    NSString* prepareStr = [removeCOntrol stringReplaceUseRegular:@"<[^>]*>" ];
-    NSString* destStr = [prepareStr stringReplaceUseRegular:@"'"];
-    if (destStr == nil || [destStr isEqualToString:@""]) {
-        destStr = @"";
-    }
-    if (WizDeviceIsPad) {
-        NSRange range = NSMakeRange(0, 100);
-        if (abstractText.length <= 100) {
-            range = NSMakeRange(0, destStr.length);
+    if ([WizGlobals fileLength:sourceFilePath] < 1024*1024) {
+
+        NSString* sourceStr = [NSString stringWithContentsOfFile:sourceFilePath usedEncoding:nil error:nil];
+        if (sourceStr.length > 1024*50) {
+            sourceStr = [sourceStr substringToIndex:1024*50];
         }
-        abstractText = [destStr substringWithRange:range];
+        NSString* removeHtmlSpace = [sourceStr stringReplaceUseRegular:@"&(.*?);" withString:@" "];
+        NSString* destStr = [removeHtmlSpace htmlToText:140];
+        if (destStr == nil || [destStr isEqualToString:@""]) {
+            destStr = @"";
+        }
+        if (WizDeviceIsPad) {
+            NSRange range = NSMakeRange(0, 70);
+            if (destStr.length <= 70) {
+                range = NSMakeRange(0, destStr.length);
+            }
+            abstractText = [destStr substringWithRange:range];
+        }
+        else
+        {
+            NSRange range = NSMakeRange(0, 70);
+            if (destStr.length <= 70) {
+                range = NSMakeRange(0, destStr.length);
+            }
+            abstractText = [destStr substringWithRange:range];
+        }
     }
     else
     {
-        NSRange range = NSMakeRange(0, 100);
-        if (abstractText.length <= 100) {
-            range = NSMakeRange(0, destStr.length);
-        }
-        abstractText = [destStr substringWithRange:range];
+        NSLog(@"the file name is %@",sourceFilePath);
     }
-    NSString* sourceImagePath = [[WizFileManager shareManager] documentIndexFilesPath:documentGUID];
+
+
+      NSString* sourceImagePath = [[WizFileManager shareManager] documentIndexFilesPath:documentGUID];
     NSArray* imageFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:sourceImagePath  error:nil];
-    //    NSString* maxImageFilePath = nil;
-    UIImage* maxImage = nil;
-    float maxImageArea = 0;
+    
+    NSString* maxImageFilePath = nil;
+    int maxImageSize = 0;
     for (NSString* each in imageFiles) {
         NSArray* typeArry = [each componentsSeparatedByString:@"."];
         if ([WizGlobals checkAttachmentTypeIsImage:[typeArry lastObject]]) {
             NSString* sourceImageFilePath = [sourceImagePath stringByAppendingPathComponent:each];
-            //            unsigned long long int currentImageFileLength = [[fileAttributers objectForKey:NSFileSize] unsignedLongLongValue];
-            UIImage* currentImage = [UIImage imageWithContentsOfFile:sourceImageFilePath];
-            float imageArea = currentImage.size.width*currentImage.size.height;
-            
-            if (imageArea <= 32* 32) {
-                continue;
+            int fileSize = [WizGlobals fileLength:sourceFilePath];
+            if (fileSize > maxImageSize && fileSize < 1024*1024) {
+                maxImageFilePath = sourceImageFilePath;
             }
-            if (imageArea == 468*60) {
-                continue;
-            }
-            if (imageArea == 170*60) {
-                continue;
-            }
-            if (imageArea == 234*60) {
-                continue;
-            }
-            if (imageArea == 88*31) {
-                continue;
-            }
-            if (imageArea == 120*60) {
-                continue;
-            }
-            if (imageArea == 120*90) {
-                continue;
-            }
-            if (imageArea == 120*120) {
-                continue;
-            }
-            if (imageArea == 360*300) {
-                continue;
-            }
-            if (imageArea == 392*72) {
-                continue;
-            }
-            if (imageArea == 125*125) {
-                continue;
-            }
-            if (imageArea == 770*100) {         
-                continue;
-            }
-            if (imageArea == 80*80) {
-                continue;
-            }
-            if (imageArea == 750*550) {
-                continue;
-            }
-            if (imageArea == 130* 200) {
-                continue;
-            }
-            maxImage = imageArea > maxImageArea  ? currentImage: maxImage;
-            maxImageArea = imageArea > maxImageArea ? imageArea:maxImageArea;
         }
     }
     UIImage* compassImage = nil;
-    //    UIImage* compassImageBig = nil;
-    if (nil != maxImage) {
-        float compassWidth=0;
-        float compassHeight = 0;
+    
+    //
+    if (nil != maxImageFilePath) {
+        float compassWidth=140;
+        float compassHeight = 140;
         if (WizDeviceIsPad) {
-            compassWidth = 175;
-            compassHeight = 85;
-            compassImage = [maxImage wizCompressedImageWidth:compassWidth height:compassHeight];
-            //            compassImageBig = [maxImage wizCompressedImageWidth:140 height:140];
+            compassWidth = 350;
+            compassHeight = 170;
         }
-        else
+        UIImage* image = [[UIImage alloc] initWithContentsOfFile:maxImageFilePath];
+        
+        if (nil != image)
         {
-            compassImage = [maxImage wizCompressedImageWidth:140 height:140];
+            if (image.size.height >= compassHeight && image.size.width >= compassWidth) {
+                 compassImage = [image wizCompressedImageWidth:compassWidth height:compassHeight];
+            }
+            [image release];
         }
     }
+
     
     if (kbguid == nil || [kbguid isBlock]) {
         kbguid = [[WizAccountManager defaultManager] activeAccountUserId];
     }
-    [self updateAbstract:abstractText imageData:[compassImage compressedData] guid:documentGUID type:@"" kbguid:kbguid];
+    NSData* imageData = nil;
+    if (nil != compassImage) {
+        imageData = [compassImage compressedData];
+    }
+    [self updateAbstract:abstractText imageData:imageData guid:documentGUID type:@"" kbguid:kbguid];
 }
 
 - (BOOL) updateAbstract:(NSString*)text imageData:(NSData*)imageData guid:(NSString*)guid type:(NSString*)type kbguid:(NSString*)kbguid

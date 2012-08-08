@@ -64,15 +64,9 @@
     {
         return;
     }
-    detailLabel.text = nil;
-    abstractImageView.image = nil;
-    
-    nameLabel.text = self.doc.title;
-    timeLabel.text = [self.doc.dateCreated stringSql];
-    void (^drawNeedDisplays)(WizAbstract*) = ^(WizAbstract* abstract)
+    //
+    void (^drawAbstractNeedDisplays)(WizAbstract*) = ^(WizAbstract* abstract)
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
             if (abstract)
             {
                 if (abstract.image == nil) {
@@ -92,24 +86,40 @@
                 detailLabel.text = self.doc.location;
                 detailLabel.frame = AbstractLabelWithImageFrame;
                 abstractImageView.hidden = NO;
-                abstractImageView.image = [UIImage imageNamed:@"ipadPlaceHolder"];
+
             }
-        });
     };
     
-    drawNeedDisplays([[WizAbstractCache shareCache] documentAbstract:self.doc.guid]);
+    //
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-        id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
-        WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-        if (!abstract && self.doc.serverChanged==0) {
-            [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
-            abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
-        }
-        drawNeedDisplays(abstract);
-        [pool drain];
-    });
+    nameLabel.text = self.doc.title;
+    timeLabel.text = [self.doc.dateCreated stringSql];
+    
+    //
+    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
+    drawAbstractNeedDisplays(abstract);
+    //
+    if (!abstract)
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+            id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
+            WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+            if (!abstract && self.doc.serverChanged==0) {
+                [abstractDataBase extractSummary:self.doc.guid kbGuid:@""];
+                abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
+            }
+           
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[WizAbstractCache shareCache] addDocumentAbstract:self.doc abstract:abstract];
+                if (nil != abstract) {
+                    drawAbstractNeedDisplays(abstract);
+                }
+
+            });
+            [pool drain];
+        });
+    }
 }
 
 - (id)initWithFrame:(CGRect)frame

@@ -11,6 +11,6 @@
 @interface WizAbstractCache : NSObject
 + (id) shareCache;
 - (WizAbstract*)  documentAbstract:(NSString*)documentGuid;
-- (void) addDocumentAbstract:(NSString*)documentGuid  abstract:(WizAbstract*)abstract;
+- (void) addDocumentAbstract:(WizDocument*)document   abstract:(WizAbstract*)abstract;
 - (void) clearCacheForDocument:(NSString*)documentGuid;
 @end

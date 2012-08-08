@@ -71,12 +71,41 @@
 
 - (WizAbstract*)  documentAbstract:(NSString*)documentGuid
 {
-    return [abstractCache objectForKey:documentGuid];
+    WizAbstract* abstract = [abstractCache objectForKey:documentGuid];
+    NSLog(@"abstract is %@ %@",documentGuid,abstract);
+    return abstract;
 }
 
-- (void) addDocumentAbstract:(NSString*)documentGuid  abstract:(WizAbstract*)abstract
+- (void) addDocumentAbstract:(WizDocument*)document   abstract:(WizAbstract*)abstract
 {
-    [abstractCache setObject:documentGuid forKey:abstractCache];
+    if (nil != abstract) {
+       [abstractCache setObject:abstract forKey:document.guid];
+        return;
+    }
+    
+
+    WizAbstract* tempAbstract = [[WizAbstract alloc] init];
+    if ([WizGlobals WizDeviceIsPad]) {
+        static UIImage* ipadPlaceHolderImage = nil;
+        if (nil == ipadPlaceHolderImage) {
+            ipadPlaceHolderImage = [UIImage imageNamed:@"ipadPlaceHolder"];
+        }
+        tempAbstract.image = ipadPlaceHolderImage;
+    }
+    else
+    {
+        static UIImage* placeHoderImage;
+        @synchronized (placeHoderImage)
+        {
+            if (nil == placeHoderImage) {
+                placeHoderImage = [[UIImage imageNamed:@"documentWithoutData"] retain];
+            }
+        }
+        tempAbstract.image = placeHoderImage;
+    }
+    tempAbstract.text = [WizGlobals folderStringToLocal:document.location];
+    [abstractCache setObject:tempAbstract forKey:document.guid];
+    [tempAbstract release];
 }
 
 - (void) clearCacheForDocument:(NSString*)documentGuid

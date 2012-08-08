@@ -255,7 +255,6 @@ public:
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDate* date1 = [NSDate date];
     static NSString *CellIdentifier = @"WizPadAbstractCell";
     WizPadListCell *cell = (WizPadListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -283,8 +282,6 @@ public:
     cellArray = [sectionArray subarrayWithRange:docRange];
     cell.documents = cellArray;
     [cell updateDoc];
-    NSDate* date2 = [NSDate date];
-    NSLog(@"create item time is %f",[date2 timeIntervalSinceDate:date1]);
   
     return cell;
 }

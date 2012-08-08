@@ -40,4 +40,6 @@
 
 - (BOOL) checkHasInvaildCharacters;
 - (NSString*) processHtml;
+- (NSString*) htmlToText:(int)maxSize;
+//
 @end
