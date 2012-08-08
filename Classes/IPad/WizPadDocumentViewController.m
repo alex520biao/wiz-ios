@@ -492,10 +492,19 @@
     [pop release];
     [infoView release];
 }
+
+- (void) reloadSelectedDocument
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        [self shrinkDocumentWebView];
+    }
+    self.selectedDocument = [WizDocument documentFromDb:self.selectedDocument.guid];
+    [self didSelectedDocument:self.selectedDocument];
+}
+
 - (void) onEditDone
 {
-    [webView reload];
-    [self shrinkDocumentWebView];
+    [self reloadSelectedDocument];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -542,12 +551,12 @@
         [self shrinkDocumentWebView];
     }
 }
+
+
+
 - (void) didEditCurrentDocumentDone
 {
-    [webView reload];
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        [self shrinkDocumentWebView];
-    }
+    [self reloadSelectedDocument];
     
 }
 - (IBAction) editCurrentDocument: (id)sender
