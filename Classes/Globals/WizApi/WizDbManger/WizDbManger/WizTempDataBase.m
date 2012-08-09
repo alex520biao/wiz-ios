@@ -103,8 +103,9 @@
         if (sourceStr.length > 1024*50) {
             sourceStr = [sourceStr substringToIndex:1024*50];
         }
-        NSString* removeHtmlSpace = [sourceStr stringReplaceUseRegular:@"&(.*?);" withString:@" "];
-        NSString* destStr = [removeHtmlSpace htmlToText:140];
+        NSString* destStr = [sourceStr htmlToText:140];
+        destStr = [destStr stringReplaceUseRegular:@"&(.*?);" withString:@""];
+        
         if (destStr == nil || [destStr isEqualToString:@""]) {
             destStr = @"";
         }

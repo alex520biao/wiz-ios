@@ -544,6 +544,11 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     }
 }
 
+- (void) fixSubviewsWhenRecorder
+{
+    
+}
+
 - (void) doRecorderPhone
 {
     [self.navigationController setNavigationBarHidden:YES animated:YES];

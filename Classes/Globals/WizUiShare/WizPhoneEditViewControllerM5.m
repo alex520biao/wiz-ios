@@ -51,7 +51,7 @@
 {
     [super viewDidLoad];
     //
-    fontToolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    fontToolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:fontToolBar];
    
 	// Do any additional setup after loading the view.

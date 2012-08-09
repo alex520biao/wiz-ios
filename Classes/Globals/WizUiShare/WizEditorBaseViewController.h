@@ -84,4 +84,6 @@
 //
 - (void) fixWebInsideImage:(NSString*)filePath;
 - (void) fixWebHttpInsideImage;
+
+- (void) fixSubviewsWhenRecorder;
 @end

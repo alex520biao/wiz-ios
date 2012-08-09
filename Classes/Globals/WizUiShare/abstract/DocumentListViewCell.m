@@ -193,6 +193,9 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         {
             [self fixAllSubViewsFrame:10 showImage:YES];
         }
+        
+        NSLog(@"abstract is %@",abstract.text);
+        
     }
     else
     {
