@@ -183,7 +183,8 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     [self fixAllSubViewsFrame:10 showImage:NO];
     
     WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
-    if (abstract) {
+    if (abstract)
+    {
         detailLabel.text = abstract.text;
         abstractImageView.image = abstract.image;
         if (!abstract.image) {
@@ -193,9 +194,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         {
             [self fixAllSubViewsFrame:10 showImage:YES];
         }
-        
-        NSLog(@"abstract is %@",abstract.text);
-        
     }
     else
     {
@@ -231,9 +229,7 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
                 }
             });
         });
-
     }
-
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
