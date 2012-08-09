@@ -103,15 +103,14 @@
         if (sourceStr.length > 1024*50) {
             sourceStr = [sourceStr substringToIndex:1024*50];
         }
-        NSString* destStr = [sourceStr htmlToText:140];
-        destStr = [destStr stringReplaceUseRegular:@"&(.*?);" withString:@""];
-        
+        NSString* destStr = [sourceStr htmlToText:200];
+        destStr = [destStr stringReplaceUseRegular:@"&(.*?);|\\s|/\n" withString:@""];
         if (destStr == nil || [destStr isEqualToString:@""]) {
             destStr = @"";
         }
         if (WizDeviceIsPad) {
-            NSRange range = NSMakeRange(0, 70);
-            if (destStr.length <= 70) {
+            NSRange range = NSMakeRange(0, 100);
+            if (destStr.length <= 100) {
                 range = NSMakeRange(0, destStr.length);
             }
             abstractText = [destStr substringWithRange:range];
