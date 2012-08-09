@@ -297,8 +297,8 @@ public:
 }
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSArray* array = [self.tableArray objectAtIndex:section];
-    return [array description];
+    NSMutableArray* array = [self.tableArray objectAtIndex:section];
+    return [array arrayTitle];
 }
 
 // interface  orientation

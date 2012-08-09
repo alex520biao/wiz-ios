@@ -880,7 +880,7 @@
 
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [[self.documentsArray objectAtIndex:section] description];
+    return [[self.documentsArray objectAtIndex:section] arrayTitle];
 }
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {

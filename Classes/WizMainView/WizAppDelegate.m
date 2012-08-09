@@ -27,6 +27,10 @@
 #import "WizPhoneEditViewControllerM5.h"
 #import "WizPadEditViewControllerL5.h"
 #import "WizPadEditViewControllerM5.h"
+
+
+#define WizYouMengAppKey  @"5022381b527015151f00000d"
+
 #define WizAbs(x) x>0?x:-x
 @interface WizAppDelegate()
 {

@@ -19,4 +19,5 @@ typedef NSMutableArray WizDocumentsMutableArray;
 - (NSIndexPath*) insertDocument:(WizDocument*)doc;
 - (NSIndexPath*) indexPathOfWizDocument:(WizDocument*) doc;
 - (NSInteger)  documentsCount;
+- (NSString*) arrayTitle;
 @end

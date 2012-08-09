@@ -108,7 +108,7 @@
 }
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [[self.tableSourceArray objectAtIndex:section] description];
+    return [[self.tableSourceArray objectAtIndex:section] arrayTitle];
 }
 - (void) stopSyncing
 {

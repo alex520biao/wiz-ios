@@ -146,7 +146,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
     }
     return array;
 }
-- (NSString*) description
+- (NSString*) arrayTitle
 {
     if ([self count] > 0 && [[self lastObject] isKindOfClass:[WizDocument class]]) {
         WizDocument* doc = (WizDocument*)[self objectAtIndex:0];

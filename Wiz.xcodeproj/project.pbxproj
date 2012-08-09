@@ -13,7 +13,6 @@
 		3072578E132496BB009DA753 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072578D132496BB009DA753 /* libxml2.dylib */; };
 		30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072578F132496C1009DA753 /* libsqlite3.dylib */; };
 		30F7799F133A12BA0096FF74 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30F7799E133A12BA0096FF74 /* Localizable.strings */; };
-		442D1E8A1484D2AB00DC7221 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 442D1E891484D2AB00DC7221 /* libz.1.2.5.dylib */; };
 		4488C0E114AC5C17001C162D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4488C0E014AC5C17001C162D /* libicucore.dylib */; };
 		448E16531475037500E1D10A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448E16521475037500E1D10A /* AVFoundation.framework */; };
 		4490D61F14824B990091E3C0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4490D61E14824B990091E3C0 /* AssetsLibrary.framework */; };
@@ -76,6 +75,7 @@
 		7339C825156CE95700F93D6F /* downloadIndicator2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7339C821156CE95700F93D6F /* downloadIndicator2.png */; };
 		7339C826156CE95700F93D6F /* downloadIndicator3.png in Resources */ = {isa = PBXBuildFile; fileRef = 7339C822156CE95700F93D6F /* downloadIndicator3.png */; };
 		7339C827156CE95700F93D6F /* downloadIndicator4.png in Resources */ = {isa = PBXBuildFile; fileRef = 7339C823156CE95700F93D6F /* downloadIndicator4.png */; };
+		733D7C5815D272A8000943B9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 733D7C5715D272A8000943B9 /* libz.dylib */; };
 		73465140154A8B5B001F06A8 /* WizDecorate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7346513F154A8B5B001F06A8 /* WizDecorate.m */; };
 		73467DFB154506AE00ECF5F9 /* WizAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 73467DFA154506AE00ECF5F9 /* WizAttachment.m */; };
 		734CA13B1504597D002549CB /* FoldersViewControllerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 734CA1291504597D002549CB /* FoldersViewControllerNew.m */; };
@@ -481,6 +481,7 @@
 		7339C821156CE95700F93D6F /* downloadIndicator2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadIndicator2.png; sourceTree = "<group>"; };
 		7339C822156CE95700F93D6F /* downloadIndicator3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadIndicator3.png; sourceTree = "<group>"; };
 		7339C823156CE95700F93D6F /* downloadIndicator4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadIndicator4.png; sourceTree = "<group>"; };
+		733D7C5715D272A8000943B9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		7346513E154A8B5B001F06A8 /* WizDecorate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizDecorate.h; path = abstract/WizDecorate.h; sourceTree = "<group>"; };
 		7346513F154A8B5B001F06A8 /* WizDecorate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizDecorate.m; path = abstract/WizDecorate.m; sourceTree = "<group>"; };
 		73467DF9154506AE00ECF5F9 /* WizAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAttachment.h; path = WizStruct/WizAttachment.h; sourceTree = "<group>"; };
@@ -972,6 +973,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				733D7C5815D272A8000943B9 /* libz.dylib in Frameworks */,
 				7376C069157381A900DE74D3 /* MapKit.framework in Frameworks */,
 				7330E60A15737B7F003A14BC /* CoreLocation.framework in Frameworks */,
 				4497AA7214B1971D002A2E4A /* CoreText.framework in Frameworks */,
@@ -981,7 +983,6 @@
 				4495D51F14BAB5600045F1EA /* AudioToolbox.framework in Frameworks */,
 				4488C0E114AC5C17001C162D /* libicucore.dylib in Frameworks */,
 				4495588A148614130014072A /* QuartzCore.framework in Frameworks */,
-				442D1E8A1484D2AB00DC7221 /* libz.1.2.5.dylib in Frameworks */,
 				4490D61F14824B990091E3C0 /* AssetsLibrary.framework in Frameworks */,
 				448E16531475037500E1D10A /* AVFoundation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -1008,6 +1009,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				733D7C5715D272A8000943B9 /* libz.dylib */,
 				7376C068157381A900DE74D3 /* MapKit.framework */,
 				73A7840714F8CC22001387F6 /* Classes */,
 				73A784F814F8CC22001387F6 /* otherFrame */,
@@ -2774,7 +2776,10 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes/otherFrame/youmeng\"",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "";
@@ -2811,7 +2816,10 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes/otherFrame/youmeng\"",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "";
@@ -2876,7 +2884,10 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes/otherFrame/youmeng\"",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "";

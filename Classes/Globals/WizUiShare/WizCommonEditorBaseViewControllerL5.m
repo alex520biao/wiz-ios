@@ -147,7 +147,7 @@
 
     if (![titleTextField isFirstResponder]) {
         additionView.frame = CGRectMake(self.view.frame.size.width-80 , self.view.frame.size.height - kbRect.size.height-80, 80, 40);
-        textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, [[UIScreen mainScreen] bounds].size.width, 44);
+        textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 150, [[UIScreen mainScreen] bounds].size.width, 154);
         [self.view bringSubviewToFront:textView];
         firstResponserInputView = textView;
         [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];
@@ -198,7 +198,7 @@
     textView = [[UITextView alloc] init];
     textView.delegate = self;
     textView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
-    
+    textView.font = [UIFont systemFontOfSize:14];
     CALayer* layer = textView.layer;
     layer.borderColor = [UIColor brownColor].CGColor;
     layer.borderWidth = 0.5f;
