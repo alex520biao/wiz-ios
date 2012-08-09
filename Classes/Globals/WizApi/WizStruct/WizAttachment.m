@@ -86,6 +86,12 @@
 + (void) deleteAttachment:(NSString*)attachmentGuid
 {
     [[[WizDbManager shareDbManager] shareDataBase] deleteAttachment:attachmentGuid];
+    NSString* attachmentPath = [[WizFileManager shareManager] objectFilePath:attachmentGuid];
+    
+    NSError* error = nil;
+    if (![[WizFileManager shareManager] removeItemAtPath:attachmentPath error:&error]) {
+        NSLog(@"error %@",error);
+    }
 }
 + (WizAttachment*) attachmentFromDb:(NSString *)attachmentGuid
 {

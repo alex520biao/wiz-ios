@@ -17,6 +17,7 @@
 #import "WizDocument.h"
 #import "WizGlobals.h"
 #import "UIBarButtonItem+WizTools.h"
+#import "WizDbManager.h"
 #import "DocumentInfoViewController.h"
 
 #import "WizRecoderProcessView.h"
@@ -61,6 +62,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
     //
     UIPopoverController* currentPoperController;
     
+    BOOL firstAppear;
 }
 @property (retain) AVAudioRecorder* audioRecorder;
 @property (retain) NSTimer* audioTimer;
@@ -167,7 +169,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
     if (self) {
         
         CGRect mainFrame = [[UIScreen mainScreen] bounds];
-        
+        firstAppear = YES;
         attachmentsArray = [[NSMutableArray alloc] init];
         deletedAttachmentsArray = [[NSMutableArray alloc] init];
         editorWebView = [[UIWebView alloc] initWithFrame:mainFrame];
@@ -452,6 +454,10 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     else
     {
         self.docEdit.title = titleTextField.text;
+    }
+    for (WizAttachment* eachAttach in deletedAttachmentsArray) {
+        [WizAttachment deleteAttachment:eachAttach.guid];
+        [[[WizDbManager shareDbManager] shareDataBase] addDeletedGUIDRecord:eachAttach.guid type:WizAttachmentKeyString];
     }
     self.docEdit.attachmentCount = [attachmentsArray count];
     [self.docEdit saveWithHtmlBody:@""];
@@ -1078,12 +1084,12 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    static BOOL first = YES;
-    if (first) {
+    if (firstAppear) {
         NSArray* attachs = [self.docEdit attachments];
         for (WizAttachment* each in attachs) {
             [attachmentsArray addWizObjectUnique:each];
         }
+        firstAppear = NO;
     }
 }
 - (void) viewDidAppear:(BOOL)animated

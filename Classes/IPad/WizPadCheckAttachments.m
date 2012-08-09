@@ -9,6 +9,7 @@
 #import "WizPadCheckAttachments.h"
 #import "WizPadNotificationMessage.h"
 #import "WizFileManager.h"
+#import "WizDbManager.h"
 
 @implementation WizPadCheckAttachments
 @synthesize source;
@@ -117,6 +118,7 @@
         }
         else {
             [WizAttachment deleteAttachment:attachment.guid];
+            [[[WizDbManager shareDbManager] shareDataBase] addDeletedGUIDRecord:attachment.guid type:WizAttachmentKeyString];
         }
         [self.source removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
