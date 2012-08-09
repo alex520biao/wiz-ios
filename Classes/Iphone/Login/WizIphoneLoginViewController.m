@@ -52,6 +52,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         firstLoad = YES;
+        [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
     }
     return self;
 }
@@ -76,7 +77,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [WizNotificationCenter addObserverForPadSelectedAccount:self selector:@selector(selectAccount:)];
+
 }
 
 - (void)viewDidUnload

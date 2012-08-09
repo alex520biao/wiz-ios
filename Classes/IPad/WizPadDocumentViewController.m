@@ -83,6 +83,7 @@
 - (void) dealloc
 {
      [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPoperview) name:MessageOfCheckAttachment object:nil];
     //
     editItem = nil;
     newNoteItem = nil;
@@ -836,7 +837,7 @@
     [self buildHeaderView];
     [self buildWebView];
     [self buildToolBar];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPoperview) name:MessageOfCheckAttachment object:nil];
+
 }
 - (void)viewDidUnload
 {
