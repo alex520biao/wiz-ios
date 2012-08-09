@@ -74,6 +74,45 @@
     self = [super init];
     if (self) {
         [WizNotificationCenter addObserverForIphoneSetupAccount:self selector:@selector(setupAccount)];
+        PhRecentViewController* recent = [[PhRecentViewController alloc]init] ;
+        UINavigationController* recentController = [[UINavigationController alloc]init];
+        [recentController pushViewController:recent animated:NO];
+        recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
+        [recent release];
+        //
+        FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];
+        UINavigationController* folderController = [[UINavigationController alloc] init] ;
+        [folderController  pushViewController:folderView animated:NO];
+        folderView.title = WizStrFolders;
+        folderController.tabBarItem.image = [UIImage imageNamed:@"barItemFolde"];
+        [folderView release];
+        
+        TagsListTreeControllerNew* tagView = [[TagsListTreeControllerNew alloc] init];
+        UINavigationController* tagController = [[UINavigationController alloc] init];
+        tagView.title = WizStrTags;
+        [tagController pushViewController:tagView animated:NO];
+        tagController.tabBarItem.image = [UIImage imageNamed:@"barItemTag"];
+        [tagView release];
+        
+        SearchViewControllerIphone *searchView = [[SearchViewControllerIphone alloc] init];
+        UINavigationController* searchController = [[UINavigationController alloc]initWithRootViewController:searchView ];
+        searchController.title = WizStrSearch;
+        searchController.tabBarItem.image = [UIImage imageNamed:@"barItemSearch"];
+        [searchView release];
+        
+        UIImageView* view = [[UIImageView alloc] init] ;
+        UINavigationController* emptyController = [[UINavigationController alloc]init];
+        emptyController.title = NSLocalizedString(@"New", nil);
+        emptyController.tabBarItem.tag = 1000;
+        emptyController.tabBarItem.image = [UIImage imageNamed:@"barItemNewNote"];
+        [emptyController.view addSubview:view];
+        [view release];
+        self.viewControllers = [NSArray arrayWithObjects:recentController,folderController, emptyController, tagController ,searchController, nil];
+        [recentController release];
+        [folderController release];
+        [emptyController release];
+        [tagController release];
+        [searchController release];
     }
     return self;
 }
@@ -102,28 +141,15 @@
      [super viewDidAppear:animated];
     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
     
-//    if ([WizGlobals checkLastEditingSaved]) {
-//        UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"The last editing document not be saved, are you resume editing?", nil) delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:NSLocalizedString(@"Resume", nil), nil] autorelease];
-//        [alert show];
-//    }
 }
  
 - (void)didReceiveMemoryWarning
 {
-         // Releases the view if it doesn't have a superview.
-//         [super didReceiveMemoryWarning];
-         
-         // Release any cached data, images, etc that aren't in use.
+    [super didReceiveMemoryWarning];
 }
  
  #pragma mark   View lifecycle
  
-//- (void) selectedView:(NSNotification*)nc
-//{
-//    NSDictionary* userInfo = [nc userInfo];
-//    NSNumber* index = [userInfo valueForKey:TypeOfMainPickerViewIndex];
-//    [self setSelectedIndex:[index intValue]];
-//}
 - (void) popSelf
 {
     [self.navigationController popViewControllerAnimated:NO];
@@ -139,45 +165,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    PhRecentViewController* recent = [[PhRecentViewController alloc]init] ;
-    UINavigationController* recentController = [[UINavigationController alloc]init];
-    [recentController pushViewController:recent animated:NO];
-    recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
-    [recent release];
-    //
-    FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];
-    UINavigationController* folderController = [[UINavigationController alloc] init] ;
-    [folderController  pushViewController:folderView animated:NO];
-    folderView.title = WizStrFolders;
-    folderController.tabBarItem.image = [UIImage imageNamed:@"barItemFolde"];
-    [folderView release];
-
-    TagsListTreeControllerNew* tagView = [[TagsListTreeControllerNew alloc] init];
-    UINavigationController* tagController = [[UINavigationController alloc] init];
-    tagView.title = WizStrTags;
-    [tagController pushViewController:tagView animated:NO];
-    tagController.tabBarItem.image = [UIImage imageNamed:@"barItemTag"];
-    [tagView release];
     
-    SearchViewControllerIphone *searchView = [[SearchViewControllerIphone alloc] init];
-    UINavigationController* searchController = [[UINavigationController alloc]initWithRootViewController:searchView ];
-    searchController.title = WizStrSearch;
-    searchController.tabBarItem.image = [UIImage imageNamed:@"barItemSearch"];
-    [searchView release];
-    
-    UIImageView* view = [[UIImageView alloc] init] ;
-    UINavigationController* emptyController = [[UINavigationController alloc]init];
-    emptyController.title = NSLocalizedString(@"New", nil);
-    emptyController.tabBarItem.tag = 1000;
-    emptyController.tabBarItem.image = [UIImage imageNamed:@"barItemNewNote"];
-    [emptyController.view addSubview:view];
-    [view release];
-    self.viewControllers = [NSArray arrayWithObjects:recentController,folderController, emptyController, tagController ,searchController, nil];
-    [recentController release];
-    [folderController release];
-    [emptyController release];
-    [tagController release];
-    [searchController release];
     [[self.tabBarController.view viewWithTag:101]setHidden:NO];
     
 }
@@ -189,8 +177,6 @@
  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-         // Return YES for supported orientations
-//         return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
  

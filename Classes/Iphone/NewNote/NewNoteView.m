@@ -704,6 +704,8 @@
         self.navigationItem.leftBarButtonItem = cancelButton;
         [editButton release];
         [cancelButton release];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        self.view.autoresizesSubviews = YES;
     }
     return self;
 }
@@ -734,8 +736,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    self.view.autoresizesSubviews = YES;
+
 }
 - (void) prepareForEdit:(NSString*)body attachments:(NSArray*)attachments
 {
