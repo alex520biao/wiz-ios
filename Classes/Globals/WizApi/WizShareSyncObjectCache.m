@@ -270,12 +270,33 @@
     }
 }
 
+- (NSInteger) indexOfNextWizDocumentForUpload
+{
+    for (int i = 0; i < [uploadObjectsQueque count]; i++) {
+        WizObject* object = [uploadObjectsQueque objectAtIndex:i];
+        if ([object isKindOfClass:[WizDocument class]]) {
+            return i;
+        }
+    }
+    return NSNotFound;
+}
+
 - (WizObject*) nextWizObjectForUpload
 {
-    if ([uploadObjectsQueque count]) {
-        WizObject* shouldUploadObject = [[uploadObjectsQueque lastObject] retain];
-        [uploadObjectsQueque removeLastObject];
-        return [shouldUploadObject autorelease];
+    @synchronized(uploadObjectsQueque)
+    {
+        NSInteger indexOfNextDocument = [self indexOfNextWizDocumentForUpload];
+        if (indexOfNextDocument != NSNotFound) {
+            WizObject* object = [[uploadObjectsQueque objectAtIndex:indexOfNextDocument] retain];
+            [uploadObjectsQueque removeObjectAtIndex:indexOfNextDocument];
+            return [object autorelease];
+        }
+
+        if ([uploadObjectsQueque count]) {
+            WizObject* shouldUploadObject = [[uploadObjectsQueque lastObject] retain];
+            [uploadObjectsQueque removeLastObject];
+            return [shouldUploadObject autorelease];
+        }
     }
     return nil;
 }
