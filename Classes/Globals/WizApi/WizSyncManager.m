@@ -182,6 +182,7 @@ static WizSyncManager* shareManager;
     WizRefreshToken* refresher = [[WizShareSyncObjectCache shareSyncObjectCache] shareRefreshTokener];
     refresher.refreshDelegate = self;
     refresher.apiManagerDelegate = self;
+    NSLog(@"apiManagerDelegate is %@",refresher.apiManagerDelegate);
     [refresher start];
 }
 - (BOOL) addSyncToken:(WizApi*)api

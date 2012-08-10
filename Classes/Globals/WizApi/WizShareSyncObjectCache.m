@@ -374,12 +374,10 @@
 }
 - (void) stopAllWizApi
 {
-    [workQueque removeAllObjects];
-    [errorQueque removeAllObjects];
-    [uploadObjectsQueque removeAllObjects];
-    [downadObjectsQueque removeAllObjects];
-
-    
+    [[self shareSearch] cancel];
+    [[self shareRefreshTokener] cancel];
+    [self shareRefreshTokener].apiManagerDelegate = nil;
+    [[self shareSyncInfo] cancel];
     for (WizUploadObjet* uploader in [self allUploadTools])
     {
         [uploader stopUpload];
@@ -388,15 +386,12 @@
     {
         [downloader stopDownload];
     }
-    
+    [workQueque removeAllObjects];
+    [errorQueque removeAllObjects];
+    [uploadObjectsQueque removeAllObjects];
+    [downadObjectsQueque removeAllObjects];
 
-    
-    [[self shareSearch] cancel];
-    [[self shareRefreshTokener] cancel];
-    [self shareRefreshTokener].apiManagerDelegate = nil;
-    [[self shareSyncInfo] cancel];
-    
-    
+
     [[self allDownloadTools] removeAllObjects];
 }
 @end

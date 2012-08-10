@@ -10,7 +10,7 @@
 @implementation WizAbstract
 @synthesize image;
 @synthesize text;
-
+@synthesize placAbstract;
 - (void) dealloc
 {
     [image release];

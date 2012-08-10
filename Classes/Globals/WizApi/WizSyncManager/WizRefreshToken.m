@@ -106,8 +106,10 @@
 }
 - (void) cancel
 {
+    NSLog(@"self.apiManagerDelegate %@",self.apiManagerDelegate);
     [super cancel];
     self.refreshDelegate = nil;
+    NSLog(@"self.apiManagerDelegate %@",self.apiManagerDelegate);
     [self.apiManagerDelegate didApiSyncError:self error:nil];
 }
 @end

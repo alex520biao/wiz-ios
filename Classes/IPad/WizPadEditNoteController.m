@@ -86,7 +86,7 @@
 }
 - (void) didSelectedFolderString:(NSString *)folderString
 {
-    folderTextField.text = folderString;
+    folderTextField.text = [WizGlobals folderStringToLocal:folderString];
     self.docEdit.location = folderString;
 }
 - (NSString*) selectedFolderOld
@@ -503,7 +503,7 @@
     }
     else {
         titleInputTextField.text = docEdit.title;
-        folderTextField.text = self.docEdit.location;
+        folderTextField.text =  [WizGlobals folderStringToLocal:self.docEdit.location];
         tagTextField.text = [self.docEdit tagDisplayString];
     }
 }

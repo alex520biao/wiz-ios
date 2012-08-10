@@ -64,9 +64,12 @@
     {
         return;
     }
+    abstractImageView.image = nil;
+    detailLabel.text = nil;
     //
-    void (^drawAbstractNeedDisplays)(WizAbstract*) = ^(WizAbstract* abstract)
+    void (^drawAbstractNeedDisplays)(void) = ^()
     {
+        WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
             if (abstract)
             {
                 if (abstract.image == nil) {
@@ -96,9 +99,10 @@
     timeLabel.text = [self.doc.dateCreated stringSql];
     
     //
-    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
-    drawAbstractNeedDisplays(abstract);
+
+    drawAbstractNeedDisplays();
     //
+    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
     if (!abstract)
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -112,9 +116,7 @@
            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[WizAbstractCache shareCache] addDocumentAbstract:self.doc abstract:abstract];
-                if (nil != abstract) {
-                    drawAbstractNeedDisplays(abstract);
-                }
+                drawAbstractNeedDisplays();
 
             });
             [pool drain];

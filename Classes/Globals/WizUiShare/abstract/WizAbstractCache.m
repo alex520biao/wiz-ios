@@ -78,11 +78,10 @@
 - (void) addDocumentAbstract:(WizDocument*)document   abstract:(WizAbstract*)abstract
 {
     if (nil != abstract) {
+        abstract.placAbstract = NO;
        [abstractCache setObject:abstract forKey:document.guid];
         return;
     }
-    
-
     WizAbstract* tempAbstract = [[WizAbstract alloc] init];
     if ([WizGlobals WizDeviceIsPad]) {
         static UIImage* ipadPlaceHolderImage = nil;
@@ -103,6 +102,7 @@
         tempAbstract.image = placeHoderImage;
     }
     tempAbstract.text = [WizGlobals folderStringToLocal:document.location];
+    abstract.placAbstract = YES;
     [abstractCache setObject:tempAbstract forKey:document.guid];
     [tempAbstract release];
 }

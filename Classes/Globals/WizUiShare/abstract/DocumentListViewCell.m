@@ -179,11 +179,11 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
     //
     nameLabel.text = self.doc.title;
     timeLabel.text = [self.doc.dateModified stringSql];
-
+    detailLabel.text = nil;
+    abstractImageView.image = nil;
     [self fixAllSubViewsFrame:10 showImage:NO];
     
-    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
-    if (abstract)
+    void (^showAbstract)(WizAbstract* abstract) = ^(WizAbstract* abstract)
     {
         detailLabel.text = abstract.text;
         abstractImageView.image = abstract.image;
@@ -194,12 +194,11 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         {
             [self fixAllSubViewsFrame:10 showImage:YES];
         }
-    }
-    else
+
+    };
+    
+    void (^generateAbstract)() = ^()
     {
-        detailLabel.text = nil;
-        abstractImageView.image = nil;
-        //
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             id<WizTemporaryDataBaseDelegate> abstractDataBase = [[WizDbManager shareDbManager] shareAbstractDataBase];
             WizAbstract* abstract = [abstractDataBase abstractOfDocument:self.doc.guid];
@@ -209,26 +208,22 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[WizAbstractCache shareCache] addDocumentAbstract:self.doc abstract:abstract];
-                if (abstract) {
-                    
-                    detailLabel.text = abstract.text;
-                    abstractImageView.image = abstract.image;
-                    if (!abstract.image) {
-                        [self fixAllSubViewsFrame:10 showImage:NO];
-                    }
-                    else
-                    {
-                        [self fixAllSubViewsFrame:10 showImage:YES];
-                    }
-                }
-                else
-                {
-                    [self fixAllSubViewsFrame:10 showImage:YES];
-                    detailLabel.text = [WizGlobals folderStringToLocal:self.doc.location];
-                    abstractImageView.image = [DocumentListViewCell documentNoDataImage];
-                }
+                WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
+                showAbstract(abstract);
             });
         });
+    };
+    
+    WizAbstract* abstract = [[WizAbstractCache shareCache] documentAbstract:self.doc.guid];
+    if (abstract) {
+        showAbstract(abstract);
+        if (abstract.placAbstract == YES && self.doc.serverChanged == 0) {
+            generateAbstract();
+        }
+    }
+    else
+    {
+        generateAbstract();
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

@@ -131,14 +131,7 @@
     [check release];
     [nav release];
 }
-- (void)applicationWillEnterForeground:(UIApplication *)application 
-{
-    
-}
-- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
-{
-    NSLog(@"memory waring");
-}
+
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if ([[WizSettings defaultSettings] isPasscodeEnable]) {
         [self accountProtect];

@@ -11,7 +11,9 @@
 {
     UIImage* image;
     NSString* text;
+    BOOL   placAbstract;
 }
 @property (nonatomic, retain) UIImage* image;
 @property (nonatomic, retain) NSString* text;
+@property (nonatomic, assign) BOOL   placAbstract;
 @end

@@ -329,22 +329,25 @@
     if (indexPath.row ==0 && isNewTag) {
         WizTag* tag = [self.searchedTags objectAtIndex:0];
         [tag save];
-        [self selectedTag:tag];
+        [[tags objectAtIndex:0] insertObject:tag atIndex:0];
+        [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
         [[self allTags] insertObject:tag atIndex:0];
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationTop];
-        [self.tableView endUpdates];
         self.isNewTag = NO;
+        [self.searchBar resignFirstResponder];
+        self.searchBar.searchResultsButtonSelected = YES;
         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
     }
     else
     {
         WizTag* tag = [self.searchedTags objectAtIndex:indexPath.row];
         if (![self checkTagIsSeleted:tag]) {
-            [self selectedTag:tag];
+            [[tags objectAtIndex:0] insertObject:tag atIndex:0];
+            [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
         }
         else {
-            [self unselectedTag:tag];
+            NSUInteger indexOfSelected = [self tagIndexAtSelected:tag];
+            [[tags objectAtIndex:0] removeObjectAtIndex:indexOfSelected];
+            [self.selectDelegate didSelectedTags:[self.tags objectAtIndex:0]];
         }
     }
     [self.searchDisplayController.searchResultsTableView beginUpdates];

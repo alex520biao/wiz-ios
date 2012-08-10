@@ -112,6 +112,8 @@
 }
 - (void) stopSyncing
 {
+    [self showSyncButton];
+    [self stopLoading];
     [[WizSyncManager shareManager] stopSync];
 }
 - (void) didChangedSyncDescription:(NSString *)description
