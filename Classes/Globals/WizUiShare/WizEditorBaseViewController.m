@@ -990,7 +990,6 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 }
 - (NSMutableArray*) sourceAttachmentsArray
 {
-    NSLog(@"a coutn %d",[attachmentsArray count]);
     return attachmentsArray;
 }
 - (NSMutableArray*) deletedAttachmentsArray

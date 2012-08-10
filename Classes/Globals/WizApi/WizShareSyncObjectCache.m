@@ -138,13 +138,14 @@
 - (WizRefreshToken*) shareRefreshTokener
 {
     WizRefreshToken* data = [shareSyncTools valueForKey:SyncDataOfRefreshToken];
-    if (nil == nil || ![data isKindOfClass:[WizRefreshToken class]]) {
-        data = [[WizRefreshToken alloc] init];
-        [data setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];
-        [shareSyncTools setObject:data forKey:SyncDataOfRefreshToken];
-        [data release];
+    if (nil != data && [data isKindOfClass:[WizRefreshToken class]]) {
+        return data;
     }
-    return data;
+    WizRefreshToken*   refresheTokener = [[WizRefreshToken alloc] init];
+    [refresheTokener setAccountURL:[[WizSettings defaultSettings] wizServerUrl]];
+    [shareSyncTools setObject:refresheTokener forKey:SyncDataOfRefreshToken];
+    [refresheTokener release];
+    return refresheTokener;
 }
 - (WizSyncSearch*) shareSearch
 {

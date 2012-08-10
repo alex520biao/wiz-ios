@@ -101,7 +101,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableFooterRemindView = [[WizTreeRemindView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 90)];
+    self.tableFooterRemindView = [[[WizTreeRemindView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 90)] autorelease];
 }
 
 - (void)viewDidUnload
