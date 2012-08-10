@@ -157,6 +157,19 @@ typedef NSInteger WizEditNavigationBarItemTag;
 {
     NSLog(@"startY is %f %f %f \n viewFrame is %f %f",startY,self.view.frame.size.width, height, self.view.frame.size.width,self.view.frame.size.height);
     backGroudScrollView.frame = CGRectMake(0.0, startY, self.view.frame.size.width, height);
+    backGroudScrollView.contentSize = CGSizeMake(self.view.frame.size.width, height);
+}
+
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if ([WizGlobals WizDeviceIsPad]) {
+        float currentHeight = UIInterfaceOrientationIsLandscape(self.interfaceOrientation)?768:1024;
+        float Height = self.view.frame.size.height > currentHeight?self.view.frame.size.height:currentHeight;
+        backGroudScrollView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, Height);
+        backGroudScrollView.contentSize = CGSizeMake(self.view.frame.size.width, Height);
+    }
+
 }
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField

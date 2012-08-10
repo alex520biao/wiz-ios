@@ -10,10 +10,14 @@
 #import "NSString+WizString.h"
 #import <QuartzCore/QuartzCore.h>
 
+enum WizEditorFirstResponser {
+     WizEditorFirstResponserTitleTextFile= 1,
+    WizEditorFirstResponserChangeTextView = 2
+    };
 
 @interface WizCommonEditorBaseViewControllerL5 () <UITextViewDelegate>
 {
-    UITextView* textView;
+    UITextView* changeTextView;
     UIView* additionView;
     
     UIButton* hideTextViewButton;
@@ -23,9 +27,10 @@
     NSRange currentEditStringRange;
     
     
-    id firstResponserInputView;
+    enum WizEditorFirstResponser firstResponserInputView;
 }
 @property (nonatomic, retain) NSString* currentEditString;
+@property (nonatomic, retain) UITextView* changeTextView;
 @end
 
 @implementation WizCommonEditorBaseViewControllerL5
@@ -33,7 +38,7 @@
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [textView release];
+    self.changeTextView = nil;
     [currentEditString release];
     [super dealloc];
 }
@@ -44,7 +49,9 @@
 }
 - (void) prepareForVoiceRecognitionStart
 {
-    [textView resignFirstResponder];
+    if (self.changeTextView) {
+        [self.changeTextView resignFirstResponder];
+    }
     [titleTextField resignFirstResponder];
 }
 - (void) didVoiceRecognitionEnd:(NSString *)string
@@ -53,43 +60,49 @@
         return;
     }
     NSLog(@"get rec string is %@",string);
-    if ([firstResponserInputView isEqual:textView]) {
-        NSMutableString* edit;
-        if (self.currentEditString != nil) {
-            edit = [NSMutableString stringWithString:self.currentEditString];
-        }
-        if (edit == nil) {
-            edit = [NSMutableString string];
-        }
-        if (currentEditStringRange.location != NSNotFound && nil!= string) {
-            @try {
-                if (currentEditStringRange.length >0)
-                {
-                    [edit replaceCharactersInRange:currentEditStringRange withString:string];
+    switch (firstResponserInputView) {
+        case WizEditorFirstResponserChangeTextView:
+        {
+            NSMutableString* edit;
+            if (self.currentEditString != nil) {
+                edit = [NSMutableString stringWithString:self.currentEditString];
+            }
+            if (edit == nil) {
+                edit = [NSMutableString string];
+            }
+            if (currentEditStringRange.location != NSNotFound && nil!= string) {
+                @try {
+                    if (currentEditStringRange.length >0)
+                    {
+                        [edit replaceCharactersInRange:currentEditStringRange withString:string];
+                    }
+                    else
+                    {
+                        [edit insertString:string atIndex:currentEditStringRange.location];
+                    }
                 }
-                else
+                @catch (NSException *exception)
                 {
-                    [edit insertString:string atIndex:currentEditStringRange.location];
+                    if ([exception isKindOfClass:[NSRangeException class]])
+                    {
+                        [edit insertString:string atIndex:currentEditStringRange.location];
+                    }
+                }
+                @finally
+                {
+                    [edit insertString:string atIndex:0];
                 }
             }
-            @catch (NSException *exception)
-            {
-                if ([exception isKindOfClass:[NSRangeException class]])
-                {
-                    [edit insertString:string atIndex:currentEditStringRange.location];
-                }
-            }
-            @finally
-            {
-                [edit insertString:string atIndex:0];
-            }
+            [self changeText:edit];
         }
-        [self changeText:edit];
-    }
-    else
-    {
-        titleTextField.text = [titleTextField.text stringByAppendingString:string];
-        [titleTextField becomeFirstResponder];
+            break;
+        case WizEditorFirstResponserTitleTextFile:
+        {
+            titleTextField.text = [titleTextField.text stringByAppendingString:string];
+            [titleTextField becomeFirstResponder];
+        }
+        default:
+            break;
     }
 }
 - (void) editorImageDone
@@ -100,9 +113,10 @@
 
 - (void) changeText:(NSString*)text
 {
-    textView.text =text;
+    [self buildTextView];
+    self.changeTextView.text =text;
     self.currentEditString = text;
-    [textView becomeFirstResponder];
+    [self.changeTextView becomeFirstResponder];
 } 
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -138,40 +152,42 @@
 }
 - (void) prepareForSave
 {
-    [textView resignFirstResponder];
+    if (self.changeTextView) {
+        [self.changeTextView resignFirstResponder];
+    }
 }
 - (void) showEditor:(NSNotification*)nc
 {
     CGRect kbRect = [[[nc userInfo] objectForKey:UIKeyboardBoundsUserInfoKey] CGRectValue];
-    [self.view addSubview:textView];
-
     if (![titleTextField isFirstResponder]) {
         if ([WizGlobals WizDeviceIsPad]) {
-            additionView.frame = CGRectMake(self.view.frame.size.width-80 , self.view.frame.size.height - kbRect.size.height-230, 80, 40);
-            textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 150, [[UIScreen mainScreen] bounds].size.width, 154);
+            additionView.frame = CGRectMake(self.view.frame.size.width-80 , self.view.frame.size.height - kbRect.size.height-190, 80, 40);
+            self.changeTextView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 150, [[UIScreen mainScreen] bounds].size.width, 154);
+            [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height];
         }
        else
        {
            additionView.frame = CGRectMake(self.view.frame.size.width-80 , self.view.frame.size.height - kbRect.size.height-80, 80, 40);
-           textView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, [[UIScreen mainScreen] bounds].size.width, 44);
+           self.changeTextView.frame = CGRectMake(0.0,self.view.frame.size.height - kbRect.size.height - 40, [[UIScreen mainScreen] bounds].size.width, 44);
+           [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];
        }
-        [self.view bringSubviewToFront:textView];
-        firstResponserInputView = textView;
-        [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height-40];
+        [self.view bringSubviewToFront:self.changeTextView];
+        firstResponserInputView = WizEditorFirstResponserChangeTextView;
     }
     else
     {
-        firstResponserInputView = titleTextField;
+        firstResponserInputView = WizEditorFirstResponserTitleTextFile;
         additionView.frame = CGRectMake(kbRect.size.width-80 , self.view.frame.size.height - kbRect.size.height- 40, 80, 40);
         [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height - kbRect.size.height];
-
     }
 }
 
 - (void) hideEditor:(NSNotification*)nc
 {
     additionView.frame = CGRectMake(-90, -90, 0, 0);
-    textView.frame = CGRectMake(-90, -90, 0, 0);
+    if (self.changeTextView) {
+       self.changeTextView.frame = CGRectMake(-90, -90, 0, 0); 
+    }
     [self resizeBackgrouScrollViewStartY:[self isRecording]?40:0 height:self.view.frame.size.height];
 }
 - (void) textViewDidEndEditing:(UITextView *)textView_
@@ -181,17 +197,21 @@
     additionView.frame = CGRectMake(additionFrame.origin.x, additionFrame.origin.y + 40, additionFrame.size.width, additionFrame.size.height);
     textView_.frame = CGRectMake(0.0, 0.0, 0.0, 0.0);
     [textView_ resignFirstResponder];
-    firstResponserInputView = textView;
+    firstResponserInputView = WizEditorFirstResponserChangeTextView;
 }
 - (void) hideAddition
 {
-    [textView resignFirstResponder];
+    if (self.changeTextView) {
+        [self.changeTextView resignFirstResponder];
+    }
     [titleTextField resignFirstResponder];
 }
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    firstResponserInputView = textField;
+    firstResponserInputView = WizEditorFirstResponserTitleTextFile;
 }
+
+
 - (void) buildAddtionView
 {
      additionView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, 0.0)];
@@ -202,23 +222,30 @@
 }
 - (void) buildTextView
 {
-    textView = [[UITextView alloc] init];
-    textView.delegate = self;
-    textView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
-    textView.font = [UIFont systemFontOfSize:14];
-    CALayer* layer = textView.layer;
+    if (self.changeTextView) {
+        [self.changeTextView removeFromSuperview];
+    }
+    self.changeTextView = nil;
+    self.changeTextView = [[UITextView alloc] init];
+    self.changeTextView.delegate = self;
+    self.changeTextView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
+    self.changeTextView.font = [UIFont systemFontOfSize:16];
+    CALayer* layer = self.changeTextView.layer;
     layer.borderColor = [UIColor brownColor].CGColor;
     layer.borderWidth = 0.5f;
     layer.shadowColor = [UIColor blackColor].CGColor;
     layer.shadowOffset = CGSizeMake(2, 2);
     layer.cornerRadius = 3;
+    self.changeTextView.textColor = [UIColor blackColor];
+    self.changeTextView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    [self.view addSubview:self.changeTextView];
     
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [self buildTextView];
+//        [self buildTextView];
         [self buildAddtionView];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showEditor:) name:UIKeyboardDidShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideEditor:) name:UIKeyboardWillHideNotification object:nil];
@@ -233,8 +260,7 @@
 {
     self.urlRequest = [NSURLRequest requestWithURL:[self buildEditorEnviromentLessThan5]];
     [super viewDidLoad];
-    textView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    [self.view addSubview:textView];
+
     additionView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:additionView];
     
@@ -248,32 +274,6 @@
 + (BOOL) canEditingDocumentwithEditorL5:(WizDocument*)doc
 {
     return YES;
-//    if (doc == nil) {
-//        return NO;
-//    }
-//    NSString* indexFile = [doc documentIndexFile];
-//    NSError* error = nil;
-//    NSString* indexString = [NSString stringWithContentsOfFile:indexFile usedEncoding:nil error:&error];
-//    if(error)
-//    {
-//        NSLog(@"error %@",error);
-//    }
-//    NSRange  sourceRanger = NSMakeRange(0, indexString.length);
-//    NSRegularExpression* bodyRegular = [NSRegularExpression regularExpressionWithPattern:@"<body[^>]*>[\\s\\S]*</body>" options:NSCaseInsensitivePredicateOption error:nil];
-//    NSArray* bodys = [bodyRegular matchesInString:indexString options:NSMatchingReportCompletion range:sourceRanger];
-//    NSRange bodyRange = NSMakeRange(0, 0);
-//    for (NSTextCheckingResult* each in bodys) {
-//        if ([each range].length > bodyRange.length) {
-//            bodyRange = [each range];
-//        }
-//    }
-//    if (bodyRange.length != 0) {
-//        return YES;
-//    }
-//    else
-//    {
-//        return NO;
-//    }
 }
 - (id) initWithWizDocument:(WizDocument *)doc
 {
