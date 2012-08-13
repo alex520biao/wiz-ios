@@ -78,6 +78,19 @@ typedef NSInteger WizEditNavigationBarItemTag;
 @synthesize urlRequest;
 @synthesize currentPoperController;
 @synthesize padEditorNavigationDelegate;
+//null function
+- (void) willDeleteImage:(NSString *)sourcePath
+{
+    
+}
+- (void) prepareForVoiceRecognitionStart
+{
+    
+}
+- (void) didVoiceRecognitionEnd:(NSString *)string
+{
+    
+}
 - (void) dealloc
 {
     padEditorNavigationDelegate = nil;

@@ -226,7 +226,7 @@ enum WizEditorFirstResponser {
         [self.changeTextView removeFromSuperview];
     }
     self.changeTextView = nil;
-    self.changeTextView = [[UITextView alloc] init];
+    self.changeTextView = [[[UITextView alloc] init] autorelease];
     self.changeTextView.delegate = self;
     self.changeTextView.backgroundColor = [UIColor colorWithRed:215.0/255 green:215.0/255 blue:215.0/255 alpha:1.0];
     self.changeTextView.font = [UIFont systemFontOfSize:16];

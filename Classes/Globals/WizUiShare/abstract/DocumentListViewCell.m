@@ -194,7 +194,6 @@ int CELLHEIGHTWITHOUTABSTRACT = 50;
         {
             [self fixAllSubViewsFrame:10 showImage:YES];
         }
-
     };
     
     void (^generateAbstract)() = ^()

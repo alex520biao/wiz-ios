@@ -109,7 +109,6 @@
     window.rootViewController = root;
     [root release];
     [self.window makeKeyAndVisible];
-    
     [self tryResumeLastEdition];
 }
 

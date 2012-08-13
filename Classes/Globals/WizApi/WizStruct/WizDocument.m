@@ -340,9 +340,7 @@ BOOL isReverseMask(NSInteger mask)
 
 - (BOOL) saveInfo
 {
-    
     NSDictionary* doc = [self getModelDictionary];
-   
     if ([[[WizDbManager shareDbManager] shareDataBase] updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
         return YES;
@@ -350,6 +348,7 @@ BOOL isReverseMask(NSInteger mask)
     else {
         return NO;
     }
+
 }
 
 - (void) upload

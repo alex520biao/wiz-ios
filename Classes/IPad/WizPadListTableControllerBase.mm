@@ -42,6 +42,7 @@ public:
 {
     UILabel* userRemindLabel;
     UIActivityIndicatorView* syncIndicator;
+    BOOL isFirstLogin;
 }
 @end
 
@@ -87,6 +88,8 @@ public:
 
         userRemindLabel.textColor = [UIColor lightTextColor];
         userRemindLabel.font= [UIFont systemFontOfSize:35];
+        
+        isFirstLogin = YES;
     }
     return self;
 }
@@ -158,7 +161,6 @@ public:
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -173,6 +175,10 @@ public:
         [self reloadAllData];
     }
     [self.tableView reloadData];
+    if (isFirstLogin) {
+        [[WizSyncManager shareManager] automicSyncData];
+        isFirstLogin = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

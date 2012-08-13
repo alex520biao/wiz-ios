@@ -34,7 +34,6 @@
 - (NSInteger) activeAccountFolderSize;
 //
 - (NSString*) editingTempDirectory;
-- (BOOL) clearEditingTempDirectory;
 -(BOOL) ensurePathExists:(NSString*)path;
 - (NSString*) dataBasePath:(NSString*)accountUserId;
 - (NSString*) abstractDataBatabasePath:(NSString*)accountUserId;

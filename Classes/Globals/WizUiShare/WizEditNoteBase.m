@@ -41,6 +41,17 @@
 @synthesize currentRecodingFilePath;
 @synthesize currentTime;
 @synthesize attachmentsArray;
+
+//null function
+- (void) prepareForVoiceRecognitionStart
+{
+    
+}
+- (void) didVoiceRecognitionEnd:(NSString *)string
+{
+    
+}
+
 - (void) dealloc
 {
 //    [locationManager release];

@@ -30,14 +30,11 @@
 @interface WizAccountManager()
 {
     NSString* activeAccountUserId_;
-    NSTimer* timer;
 }
-@property (nonatomic, retain) NSTimer* timer;
 @property (atomic, retain) NSString* activeAccountUserId_;
 @end
 
 @implementation WizAccountManager
-@synthesize timer;
 @synthesize activeAccountUserId_;
 //upgrade from 3.1.1
 - (void) upgradePreDataToNewDbModel
@@ -153,11 +150,9 @@
 - (BOOL) registerActiveAccount:(NSString*)userId
 {
     [self setDefalutAccount:userId];
-    timer = [NSTimer scheduledTimerWithTimeInterval:600 target:[WizSyncManager shareManager] selector:@selector(automicSyncData) userInfo:nil repeats:YES];
-    [timer fire];
-    // 避免初始化摘要数据库多线程争抢
+
+//    // 避免初始化摘要数据库多线程争抢
     [[WizDbManager shareDbManager] shareAbstractDataBase];
-    [self addUserIndicationDocument];
     return YES;
 }
 - (NSString*) activeAccountUserId
@@ -183,9 +178,6 @@
 
 - (void) logoutAccount
 {
-    if (timer) {
-        [timer invalidate];
-    }
     [[WizDbManager shareDbManager] removeUnactiveDatabase:self.activeAccountUserId_];
     WizSyncManager* sync = [WizSyncManager shareManager];
     [sync resignActive];

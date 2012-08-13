@@ -11,7 +11,9 @@
 #import "WizSyncManager.h"
 
 @interface PhRecentViewController ()
-
+{
+    BOOL isFirstLogin;
+}
 @end
 
 @implementation PhRecentViewController
@@ -20,6 +22,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        isFirstLogin = YES;
     }
     return self;
 }
@@ -42,6 +45,15 @@
     self.navigationItem.leftBarButtonItem = item;
     self.title = WizStrRecentNotes;
     [item release];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    if (isFirstLogin) {
+        [[WizSyncManager shareManager] automicSyncData];
+        isFirstLogin = NO;
+    }
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidUnload

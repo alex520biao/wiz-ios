@@ -96,6 +96,7 @@
 {
     [super viewWillAppear:animated];
     self.attachments = [NSMutableArray arrayWithArray:[self.doc attachments]];
+    self.title = NSLocalizedString(@"Attachments", nil);
 }
 
 - (void)viewDidAppear:(BOOL)animated
