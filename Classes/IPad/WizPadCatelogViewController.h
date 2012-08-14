@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "CatelogCell.h"
 #import "WizPadViewDocumentDelegate.h"
+#import "WizSegmentOrientationDelegate.h"
+#import "WizSegmentTableViewControllerBase.h"
 
-@interface WizPadCatelogViewController : UITableViewController <WizCatelogCellViewDeleage>
+@interface WizPadCatelogViewController : WizSegmentTableViewControllerBase <WizCatelogCellViewDeleage>
 {
     id <WizPadViewDocumentDelegate> checkDelegate;
 }

@@ -18,6 +18,9 @@
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 
+//
+#import "WizPadViewController.h"
+
 @implementation WizPadLoginViewController
 @synthesize loginButton;
 @synthesize backgroudView;
@@ -84,7 +87,7 @@
 - (void) didSelectedAccount:(NSString*)accountUserId
 {
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
-    WizPadMainViewController* pad = [[WizPadMainViewController alloc] init];
+    WizPadViewController* pad = [[WizPadViewController alloc] init];
     [self.navigationController pushViewController:pad animated:YES];
     [pad release];
 }

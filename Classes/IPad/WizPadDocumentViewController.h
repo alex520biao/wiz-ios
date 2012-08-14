@@ -10,6 +10,7 @@
 #import <MessageUI/MessageUI.h>
 #import "WizPadCheckAttachmentDelegate.h"
 #import "WizPadEditorNavigationDelegate.h"
+#import "WizUiTypeIndex.h"
 @class UIBadgeView;
 
 @interface WizPadDocumentViewController : UIViewController <UIActionSheetDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,WizPadCheckAttachmentDelegate,UIWebViewDelegate,UITableViewDelegate, UITableViewDataSource,UIAlertViewDelegate, WizPadEditorNavigationDelegate>

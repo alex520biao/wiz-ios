@@ -107,7 +107,6 @@
 }
 - (void) newNote
 {
-
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;

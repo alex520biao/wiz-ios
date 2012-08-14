@@ -154,7 +154,6 @@ public:
 {
     [super viewDidLoad];
     self.tableView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
-    self.isLandscape = UIInterfaceOrientationIsLandscape((self.interfaceOrientation));
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
@@ -166,6 +165,9 @@ public:
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if ([[UIDevice currentDevice] orientation] != self.interfaceOrientation) {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -207,13 +209,18 @@ public:
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger count = 0;
-    if (self.isLandscape) {
+    
+    
+    
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         count = 4;
    }
     else
     {
         count = 3;
     }
+    
     if ([[self.tableArray objectAtIndex:section] count]%count>0) {
         return  [[self.tableArray objectAtIndex:section] count]/count+1;
     }
@@ -268,7 +275,7 @@ public:
         cell.selectedDelegate = self;
     }
     NSUInteger documentsCount=0;
-    if (self.isLandscape) {
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         documentsCount = 4;
     }
     else
@@ -291,11 +298,6 @@ public:
   
     return cell;
 }
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
 #pragma mark - Table view delegate
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -315,7 +317,6 @@ public:
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    self.isLandscape = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES ];
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
