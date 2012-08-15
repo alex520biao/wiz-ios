@@ -46,9 +46,10 @@
 
     tag.checkDelegate = self;
     
-    NSArray* array = [NSArray arrayWithObjects:folder,tag, nil];
-    NSArray* titles = @[ WizStrFolders,WizStrTags ];
+    NSArray* array = [NSArray arrayWithObjects:base,folder,tag, nil];
+    NSArray* titles = @[WizStrRecentNotes ,WizStrFolders,WizStrTags ];
     self = [super initWithViewControllers:array titles:titles];
+    [base release];
     [tag release];
     [folder release];
     

@@ -26,6 +26,9 @@
 #import <UIKit/UIKit.h>
 #import "ATMHud.h"
 
+
+
+
 #define NOSUPPOURTALERT 199
 
 #define AttachmentCountBadgeViewLandscapeFrame CGRectMake(150  ,0.0 , 20, 20)
@@ -559,6 +562,7 @@
     [self.downloadActivity setActivity:YES];
     [self.downloadActivity show];
     [self buildToolBar];
+    
 }
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {

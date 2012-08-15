@@ -24,15 +24,12 @@
     [super dealloc];
 }
 
-- (void) didChangeOrientation:(NSNotification*)nc
-{
-    NSLog(@"nc is %@",nc);
-}
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeOrientation:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    if (self)
+    {
+        
     }
     return self;
 }
@@ -91,8 +88,6 @@
     {
         count = 3;
     }
-    
-    NSLog(@"current interface is %d , notes count is %d",self.interfaceOrientation, count);
     
     if ([dataArray  count]%count>0) {
         return  [dataArray count]/count+1;

@@ -115,7 +115,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Crashlytics startWithAPIKey:@"ce913e9eceb62de8dd75d62054dad6096abf38c2"];
     [self initRootNavigation];
-
     return YES;
 }
 
@@ -143,6 +142,7 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+    
 }
 
 
