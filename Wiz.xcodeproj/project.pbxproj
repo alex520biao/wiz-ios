@@ -337,6 +337,11 @@
 		73A786FB14F8CD5D001387F6 /* about@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867014F8CD5D001387F6 /* about@x2.png */; };
 		73A786FC14F8CD5D001387F6 /* icon_512.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867114F8CD5D001387F6 /* icon_512.jpg */; };
 		73A786FD14F8CD5D001387F6 /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867214F8CD5D001387F6 /* icon_ipad.png */; };
+		73A8C62515DC9301005A0B66 /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C62415DC9301005A0B66 /* TreeNode.m */; };
+		73A8C63115DCEA1B005A0B66 /* WizPadAllNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C62F15DCEA1B005A0B66 /* WizPadAllNotesViewController.m */; };
+		73A8C63215DCEA1B005A0B66 /* WizPadAllNotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */; };
+		73A8C63515DCEF01005A0B66 /* WizPadTreeTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */; };
+		73A8C63815DCFA13005A0B66 /* WizPadTreeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */; };
 		73AC069815AFF612008E6402 /* WizEditorHTMLMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AC069715AFF612008E6402 /* WizEditorHTMLMutableArray.m */; };
 		73AFCC17157E0A4A00C48FE1 /* WizAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCC16157E0A4A00C48FE1 /* WizAccount.m */; };
 		73B21E8515ABE75200B1C4B5 /* commenEditorLessThan5.js in Resources */ = {isa = PBXBuildFile; fileRef = 73B21E8415ABE75200B1C4B5 /* commenEditorLessThan5.js */; };
@@ -884,6 +889,15 @@
 		73A7867014F8CD5D001387F6 /* about@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@x2.png"; sourceTree = "<group>"; };
 		73A7867114F8CD5D001387F6 /* icon_512.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = icon_512.jpg; sourceTree = "<group>"; };
 		73A7867214F8CD5D001387F6 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		73A8C62315DC9301005A0B66 /* TreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TreeNode.h; path = WizTreeTable/TreeNode.h; sourceTree = "<group>"; };
+		73A8C62415DC9301005A0B66 /* TreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TreeNode.m; path = WizTreeTable/TreeNode.m; sourceTree = "<group>"; };
+		73A8C62E15DCEA1B005A0B66 /* WizPadAllNotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadAllNotesViewController.h; path = IPad/IpadNewUI/WizPadAllNotesViewController.h; sourceTree = "<group>"; };
+		73A8C62F15DCEA1B005A0B66 /* WizPadAllNotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadAllNotesViewController.m; path = IPad/IpadNewUI/WizPadAllNotesViewController.m; sourceTree = "<group>"; };
+		73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WizPadAllNotesViewController.xib; path = IPad/IpadNewUI/WizPadAllNotesViewController.xib; sourceTree = "<group>"; };
+		73A8C63315DCEF01005A0B66 /* WizPadTreeTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadTreeTableHeaderView.h; path = IPad/IpadNewUI/WizPadTreeTableHeaderView.h; sourceTree = "<group>"; };
+		73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadTreeTableHeaderView.m; path = IPad/IpadNewUI/WizPadTreeTableHeaderView.m; sourceTree = "<group>"; };
+		73A8C63615DCFA13005A0B66 /* WizPadTreeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadTreeTableCell.h; path = Globals/WizUiShare/WizTreeTable/WizPadTreeTableCell.h; sourceTree = "<group>"; };
+		73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadTreeTableCell.m; path = Globals/WizUiShare/WizTreeTable/WizPadTreeTableCell.m; sourceTree = "<group>"; };
 		73AC069615AFF612008E6402 /* WizEditorHTMLMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditorHTMLMutableArray.h; sourceTree = "<group>"; };
 		73AC069715AFF612008E6402 /* WizEditorHTMLMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditorHTMLMutableArray.m; sourceTree = "<group>"; };
 		73AFCC15157E0A4A00C48FE1 /* WizAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccount.h; path = WizStruct/WizAccount.h; sourceTree = "<group>"; };
@@ -1561,6 +1575,13 @@
 				73F4366015DA46CE00C09449 /* WizSegmentOrientationDelegate.h */,
 				73F4366115DA4A9500C09449 /* WizSegmentTableViewControllerBase.h */,
 				73F4366215DA4A9500C09449 /* WizSegmentTableViewControllerBase.m */,
+				73A8C62E15DCEA1B005A0B66 /* WizPadAllNotesViewController.h */,
+				73A8C62F15DCEA1B005A0B66 /* WizPadAllNotesViewController.m */,
+				73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */,
+				73A8C63315DCEF01005A0B66 /* WizPadTreeTableHeaderView.h */,
+				73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */,
+				73A8C63615DCFA13005A0B66 /* WizPadTreeTableCell.h */,
+				73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */,
 			);
 			name = IpadNewUI;
 			sourceTree = "<group>";
@@ -1606,6 +1627,7 @@
 		73A7845014F8CC22001387F6 /* WizUiShare */ = {
 			isa = PBXGroup;
 			children = (
+				73AD5CB415DB898000D5A355 /* WizTreeTable */,
 				4ADA028D1536B8B3005F0ED8 /* AbstractCache */,
 				735136F915A2969C00797CDF /* WizExtensionTools */,
 				734D53B5157CA83100BE496E /* Editor */,
@@ -2097,6 +2119,23 @@
 			path = Resources/Share;
 			sourceTree = "<group>";
 		};
+		73AD5CB415DB898000D5A355 /* WizTreeTable */ = {
+			isa = PBXGroup;
+			children = (
+				73AD5CE115DB9F2E00D5A355 /* TreeBase */,
+			);
+			name = WizTreeTable;
+			sourceTree = "<group>";
+		};
+		73AD5CE115DB9F2E00D5A355 /* TreeBase */ = {
+			isa = PBXGroup;
+			children = (
+				73A8C62315DC9301005A0B66 /* TreeNode.h */,
+				73A8C62415DC9301005A0B66 /* TreeNode.m */,
+			);
+			name = TreeBase;
+			sourceTree = "<group>";
+		};
 		73B21E8615AC164900B1C4B5 /* CommonEditorM5 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2505,6 +2544,7 @@
 				730E698C15B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist in Resources */,
 				7357F34E15C24C560042A083 /* ipadPlaceHolder.png in Resources */,
 				7357F34F15C24C560042A083 /* ipadPlaceHolder@x2.png in Resources */,
+				73A8C63215DCEA1B005A0B66 /* WizPadAllNotesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2513,14 +2553,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		73F4366615DA4DCB00C09449 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "./Crashlytics.framework/run ce913e9eceb62de8dd75d62054dad6096abf38c2";
 		};
@@ -2700,6 +2740,10 @@
 				73F4365415D9FB7200C09449 /* WizSegmentedViewController.m in Sources */,
 				73F4365715D9FC1700C09449 /* WizPadViewController.m in Sources */,
 				73F4366315DA4A9500C09449 /* WizSegmentTableViewControllerBase.m in Sources */,
+				73A8C62515DC9301005A0B66 /* TreeNode.m in Sources */,
+				73A8C63115DCEA1B005A0B66 /* WizPadAllNotesViewController.m in Sources */,
+				73A8C63515DCEF01005A0B66 /* WizPadTreeTableHeaderView.m in Sources */,
+				73A8C63815DCFA13005A0B66 /* WizPadTreeTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

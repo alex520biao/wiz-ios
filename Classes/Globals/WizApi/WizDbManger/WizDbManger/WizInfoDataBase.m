@@ -690,7 +690,7 @@
     NSArray* section = [rest filteredArrayUsingPredicate:predicate];
     [rest filterUsingPredicate:rpredicate];
     for (WizTag* each in section) {
-        each.namePath = [parentTag.namePath stringByAppendingFormat:@"%@/",each.title];
+        each.namePath = [parentTag.namePath stringByAppendingFormat:@"%@/",each.guid];
         [self genTagNamePath:each rest:rest];
     }
 }
@@ -703,14 +703,14 @@
     NSMutableArray* rest =[NSMutableArray arrayWithArray:[array filteredArrayUsingPredicate:predicate]];
     
     for (WizTag* each in root) {
-        each.namePath = [NSString stringWithFormat:@"/%@/",each.title];
+        each.namePath = [NSString stringWithFormat:@"/%@/",each.guid];
         [self genTagNamePath:each rest:rest];
     }
 }
 - (NSArray*) allTagsForTree
 {
     NSMutableArray* allTags =[NSMutableArray arrayWithArray:[self tagsArrayWithWhereField:@"" args:nil]];
-//    [self getTagNamePath:allTags];
+    [self getTagNamePath:allTags];
     return allTags;
 }
 

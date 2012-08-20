@@ -15,6 +15,10 @@
 #import "SearchHistoryView.h"
 #import "WizPadDocumentViewController.h"
 #import "WizPadViewDocumentDelegate.h"
+//
+#import "WizPadAllNotesViewController.h"
+//
+#import "WizPadAllNotesViewController.h"
 
 @interface WizPadViewController () <UIPopoverControllerDelegate,UISearchBarDelegate,WizSettingsParentNavigationDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
 {
@@ -29,6 +33,9 @@
 
 - (void)dealloc
 {
+    if (self.currentPoperController) {
+        [self.currentPoperController dismissPopoverAnimated:NO];
+    }
     self.currentPoperController = nil;
     [super dealloc];
 }
@@ -41,18 +48,19 @@
     WizPadFoldersViewController* folder = [[WizPadFoldersViewController alloc] init];
 
     folder.checkDelegate = self;
-    
     WizPadTagsViewController *tag = [[WizPadTagsViewController alloc] init];
-
     tag.checkDelegate = self;
     
-    NSArray* array = [NSArray arrayWithObjects:base,folder,tag, nil];
-    NSArray* titles = @[WizStrRecentNotes ,WizStrFolders,WizStrTags ];
+    WizPadAllNotesViewController* treeTable = [[WizPadAllNotesViewController alloc] initWithNibName:@"WizPadAllNotesViewController" bundle:nil];
+    
+    
+    NSArray* array = [NSArray arrayWithObjects:base,folder,tag,treeTable, nil];
+    NSArray* titles = @[WizStrRecentNotes ,WizStrFolders,WizStrTags,NSLocalizedString(@"Tree", nil) ];
     self = [super initWithViewControllers:array titles:titles];
     [base release];
     [tag release];
     [folder release];
-    
+    [treeTable release];
     if (self) {
         
     }

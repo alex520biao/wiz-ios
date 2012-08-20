@@ -10,7 +10,24 @@
 
 
 @implementation LocationTreeNode
-@synthesize parentLocationNode, title, locationKey, expanded, hidden, children, row;
+@synthesize parentLocationNode;
+@synthesize title;
+@synthesize locationKey;
+@synthesize expanded;
+@synthesize hidden;
+@synthesize children;
+@synthesize row;
+
+
+- (void) dealloc
+{
+    self.parentLocationNode = nil;
+    self.children = nil;
+    self.title = nil;
+    self.locationKey = nil;
+    [super dealloc];
+}
+
 -(id) init {
     if(self = [super init]) {
         parentLocationNode = nil;

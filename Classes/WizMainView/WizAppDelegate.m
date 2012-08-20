@@ -29,7 +29,7 @@
 #import "WizPadEditViewControllerM5.h"
 #import <Crashlytics/Crashlytics.h>
 
-#define WizYouMengAppKey  @"5022381b527015151f00000d"
+
 
 #define WizAbs(x) x>0?x:-x
 @interface WizAppDelegate()
