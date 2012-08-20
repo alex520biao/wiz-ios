@@ -138,14 +138,7 @@
 
 - (void) addUserIndicationDocument
 {
-//    NSString* indicationGuid = @"2b611a2e-1b3b-4e8b-845a-dc6271cae3d0";
-//    WizDocument* documentExist = [WizDocument documentFromDb:indicationGuid];
-//    if (nil == documentExist) {
-//        WizDocument* documentNew = [[WizDocument alloc] init];
-//        documentNew.guid = indicationGuid;
-//        [documentNew saveWithData:@"sdfasdfasdf" attachments:nil];
-//        [documentNew release];
-//    }
+    
 }
 - (BOOL) registerActiveAccount:(NSString*)userId
 {

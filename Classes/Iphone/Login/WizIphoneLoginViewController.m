@@ -94,7 +94,8 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    if (firstLoad) {
+    if (firstLoad)
+    {
         [self selecteDefaultAccount];
         firstLoad = NO;
     }

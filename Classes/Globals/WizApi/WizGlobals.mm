@@ -266,6 +266,9 @@ static NSArray* htmlArray;
 
 +(NSString*) iso8601TimeToStringSqlTimeString:(NSString*) str
 {
+    if (nil == str) {
+        return @"2012-01-01 00:00:00";
+    }
 	NSMutableString* val = [[NSMutableString alloc] initWithString:str];
 	//XXXXXXXXTXX:XX:XX
 	[val replaceOccurrencesOfString:@"T" withString:@" " options:0 range:NSMakeRange(0, [val length])];
@@ -414,13 +417,7 @@ static NSArray* htmlArray;
 
 + (NSURL*) wizServerUrl
 {
-//    return [[NSURL alloc] initWithString:@"http://192.168.79.1:8800/wiz/xmlrpc"];
-//    NSString* url = [[WizSettings defaultSettings] wizServerUrl];
-//    NSLog(@"url %@",url);
-//    return [[[NSURL alloc] initWithString:url] autorelease];
-//    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
     return [[[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"] autorelease];
-//    return [[NSURL alloc] initWithString:@"http://110.75.189.20:8080/wiz/xmlrpc"];
 }
 +(NSString*) dateToLocalString: (NSDate*)date
 {

@@ -86,7 +86,7 @@
     if ([WizGlobals WizDeviceIsPad]) {
         static UIImage* ipadPlaceHolderImage = nil;
         if (nil == ipadPlaceHolderImage) {
-            ipadPlaceHolderImage = [UIImage imageNamed:@"ipadPlaceHolder"];
+            ipadPlaceHolderImage = [[UIImage imageNamed:@"ipadPlaceHolder"] retain];
         }
         tempAbstract.image = ipadPlaceHolderImage;
     }
