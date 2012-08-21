@@ -101,7 +101,7 @@ void UncaughtExceptionHandler(NSException *exception)
     
     NSString *urlStr = [NSString stringWithFormat:@"错误详情:\n%@\n--------------------------\n%@\n>---------------------\n%@", name,reason,[arr componentsJoinedByString:@"\n"]];
     
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://mywiz.cn/crash"]];
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://crash.wiz.cn/ios"]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[urlStr dataUsingEncoding:NSUTF8StringEncoding]];
     NSError* error = nil;
