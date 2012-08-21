@@ -80,8 +80,10 @@
 @synthesize selectedDocument;
 @synthesize currentPopoverController;
 @synthesize readWidth;
+@synthesize initDocument;
 - (void) dealloc
 {
+    [initDocument release];
      [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPoperview) name:MessageOfCheckAttachment object:nil];
     //
@@ -436,11 +438,9 @@
     switch (self.listType) {
         case WizPadCheckDocumentSourceTypeOfRecent:
         {
-            if ([self.documentsArray count] == 0) {
-                NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument recentDocuments]];
-                [self.documentsArray addObject:array];
-                [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
-            }
+            NSMutableArray* array = [NSMutableArray arrayWithArray:[WizDocument recentDocuments]];
+            [self.documentsArray addObject:array];
+            [self.documentsArray sortDocumentByOrder:[[WizSettings defaultSettings] userTablelistViewOption]];
             break;
         }
         case WizPadCheckDocumentSourceTypeOfFolder:
@@ -761,14 +761,12 @@
         [self loadArraySource];
     }
     
-    if (WizPadCheckDocumentSourceTypeOfRecent == self.listType) {
-        WizDocument* document = [WizDocument documentFromDb:self.documentListKey];
-        if (document != nil) {
-            NSIndexPath* indexPath = [self.documentsArray indexPathOfWizDocument:document];
-            if (indexPath != nil && indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
-                [self tableView:documentList didSelectRowAtIndexPath:indexPath];
-            }
+    if (self.initDocument != nil) {
+        NSIndexPath* indexPath = [self.documentsArray indexPathOfWizDocument:self.initDocument];
+        if (indexPath != nil && indexPath.row != NSNotFound && indexPath.section != NSNotFound) {
+            [self tableView:documentList didSelectRowAtIndexPath:indexPath];
         }
+        self.initDocument = nil;
     }
     else {
         if ([self.documentsArray count] >0) {

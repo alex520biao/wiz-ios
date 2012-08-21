@@ -318,8 +318,7 @@
 
 - (NSString *)encodeDate: (NSDate *)date
 {
-//	NSString *buffer = [date descriptionWithCalendarFormat: @"%Y%m%dT%H:%M:%S"
-//		timeZone: nil locale: nil];
+
 
 	NSCalendar *cal = [NSCalendar currentCalendar];	
 	NSDateComponents *comps = [cal components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit

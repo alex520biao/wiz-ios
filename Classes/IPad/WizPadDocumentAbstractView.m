@@ -14,12 +14,6 @@
 #import "WizNotification.h"
 #import "WizAbstractCache.h"
 
-#define NameLabelFrame CGRectMake(15, 5, 175, 45)
-#define TimerLabelFrame CGRectMake(15,45,175,20)
-
-#define AbstractLabelWithoutImageFrame CGRectMake(15, 65, 175, 180)
-#define AbstractLabelWithImageFrame CGRectMake(15, 65, 175, 80)
-#define AbstractImageviewFrame CGRectMake(15, 145, 175, 85)
 
 @interface WizPadDocumentAbstractView()
 {
@@ -66,6 +60,20 @@
     }
     abstractImageView.image = nil;
     detailLabel.text = nil;
+    float width = self.frame.size.width;
+    float height = self.frame.size.height;
+    float contentStartX = 0.07*width;
+    float contentWidth = width - contentStartX*2;
+    float nameLabelStartY = 0.02*height;
+    float nameLabelHeight = 0.08*height;
+    float timerLabelHeight = 0.08*height;
+    float abstractLabelWithImageHeight = 0.32*height;
+    float abstractLabelWithoutImageHeight = 0.72*height;
+    float abstractImageHeight = 0.34*height;
+    
+    nameLabel.frame = CGRectMake(contentStartX, nameLabelStartY, contentWidth, nameLabelHeight);
+    timeLabel.frame = CGRectMake(contentStartX, nameLabelHeight + nameLabelStartY, contentWidth, timerLabelHeight);
+    abstractImageView.frame = CGRectMake(contentStartX, height - abstractImageHeight, contentWidth, abstractImageHeight);
     //
     void (^drawAbstractNeedDisplays)(void) = ^()
     {
@@ -73,12 +81,12 @@
             if (abstract)
             {
                 if (abstract.image == nil) {
-                    detailLabel.frame = AbstractLabelWithoutImageFrame;
+                    detailLabel.frame =  CGRectMake(contentStartX, nameLabelStartY + nameLabelHeight + timerLabelHeight, contentWidth, abstractLabelWithoutImageHeight);
                     abstractImageView.hidden = YES;
                 }
                 else
                 {
-                    detailLabel.frame = AbstractLabelWithImageFrame;
+                    detailLabel.frame = CGRectMake(contentStartX, nameLabelStartY + nameLabelHeight + timerLabelHeight, contentWidth, abstractLabelWithImageHeight);
                     abstractImageView.hidden = NO;
                     abstractImageView.image = abstract.image;
                 }
@@ -87,7 +95,7 @@
             else
             {
                 detailLabel.text = self.doc.location;
-                detailLabel.frame = AbstractLabelWithImageFrame;
+                detailLabel.frame = CGRectMake(contentStartX, nameLabelStartY + nameLabelHeight + timerLabelHeight, contentWidth, abstractLabelWithImageHeight);
                 abstractImageView.hidden = NO;
 
             }
@@ -133,21 +141,21 @@
         backgroudView.frame = CGRectMake(-7.5, 0.0, frame.size.width+15, frame.size.height+15);
         [self addSubview:backgroudView];
         [backgroudView release];
-        nameLabel = [[UILabel alloc] initWithFrame:NameLabelFrame];
+        nameLabel = [[UILabel alloc] init];
         nameLabel.numberOfLines = 0;
         [self addSubview:nameLabel];
         [nameLabel setFont:[UIFont boldSystemFontOfSize:15]];
         nameLabel.backgroundColor = [UIColor clearColor];
-        abstractImageView = [[UIImageView alloc] initWithFrame:AbstractImageviewFrame];
+        abstractImageView = [[UIImageView alloc] init];
         [self addSubview:abstractImageView];
         abstractImageView.image = [UIImage imageNamed:@"documentBack"];
-        timeLabel = [[UILabel alloc] initWithFrame:TimerLabelFrame];
+        timeLabel = [[UILabel alloc] init];
         timeLabel.backgroundColor = [UIColor clearColor];
         timeLabel.font = [UIFont systemFontOfSize:12];
         timeLabel.textColor = [UIColor lightGrayColor];
         [self addSubview:timeLabel];
         [self addSelcetorToView:@selector(didSelectedDocument) :self];
-        detailLabel = [[UILabel alloc] initWithFrame:AbstractLabelWithoutImageFrame];
+        detailLabel = [[UILabel alloc] init];
         [self addSubview:detailLabel];
         detailLabel.numberOfLines = 0;
         detailLabel.backgroundColor = [UIColor clearColor];

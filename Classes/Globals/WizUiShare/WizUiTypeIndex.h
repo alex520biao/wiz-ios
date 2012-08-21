@@ -8,7 +8,10 @@
 
 #ifndef Wiz_WizUiTypeIndex_h
 #define Wiz_WizUiTypeIndex_h
-    
+
+
+
+#endif
 enum WizPadCheckDocumentSourceType
 {
     WizPadCheckDocumentSourceTypeOfRecent   = 1,
@@ -16,4 +19,3 @@ enum WizPadCheckDocumentSourceType
     WizPadCheckDocumentSourceTypeOfFolder   = 3,
     WizPadCheckDocumentSourceTypeOfSearch   = 4
 };
-#endif

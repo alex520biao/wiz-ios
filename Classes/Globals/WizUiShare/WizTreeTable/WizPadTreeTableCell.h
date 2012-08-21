@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TreeNode.h"
-
+#define WizTreeViewTagKeyString         @"treeTag"
+#define WizTreeViewFolderKeyString      @"treeLocation"
 @protocol WizPadTreeTableCellDelegate <NSObject>
 
 - (void) onExpandedNode:(TreeNode*)node;

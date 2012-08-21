@@ -62,6 +62,7 @@
 
 - (void) drawRect:(CGRect)rect
 {
+    detailLabel.text = nil;
     CGFloat indentationLevel = 20* (self.treeNode.deep-1);
     expandedButton.frame = CGRectMake(indentationLevel, 0.0, 60, 40);
     titleLabel.frame = CGRectMake(60+indentationLevel, 0.0, 160, 20);
@@ -82,6 +83,25 @@
     {
         expandedButton.backgroundColor = [UIColor whiteColor];
     }
+    if([self.treeNode.strType isEqualToString:WizTreeViewFolderKeyString])
+    {
+        NSInteger currentCount = [WizObject fileCountOfLocation:self.treeNode.keyString];
+        NSInteger totalCount = [WizObject filecountWithChildOfLocation:self.treeNode.keyString];
+        if (currentCount != totalCount) {
+            detailLabel.text = [NSString stringWithFormat:@"%d/%d",currentCount,totalCount];
+        }
+        else {
+            detailLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),currentCount];
+        }
+    }
+    else if ([self.treeNode.strType isEqualToString:WizTreeViewTagKeyString])
+    {
+        NSInteger fileNumber = [WizTag fileCountOfTag:self.treeNode.keyString];
+        NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),fileNumber];
+        detailLabel.text = count;
+    }
+
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

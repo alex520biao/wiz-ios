@@ -14,7 +14,6 @@
 
 #import "WizPadNotificationMessage.h"
 #import "WizNotification.h"
-#import "WizPadMainViewController.h"
 #import "WizAccountManager.h"
 #import "WizDbManager.h"
 

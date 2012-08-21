@@ -230,7 +230,7 @@ public:
 }
 - (void) didSelectedDocument:(WizDocument*)doc
 {
-    [self.checkDocumentDelegate checkDocument:WizPadCheckDocumentSourceTypeOfRecent keyWords:doc.guid sourceArray:self.tableArray];
+    [self.checkDocumentDelegate checkDocument:WizPadCheckDocumentSourceTypeOfRecent keyWords:doc.guid selectedDocument:doc];
 }
 - (void)updateDocument:(NSNotification*)nc
 {
@@ -271,7 +271,8 @@ public:
     static NSString *CellIdentifier = @"WizPadAbstractCell";
     WizPadListCell *cell = (WizPadListCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[WizPadListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        static CGSize detailSize = CGSizeMake(205, 300);
+        cell = [[[WizPadListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier detailViewSize:detailSize] autorelease];
         cell.selectedDelegate = self;
     }
     NSUInteger documentsCount=0;

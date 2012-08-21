@@ -32,7 +32,7 @@
 @implementation NSString(db)
 - (NSString*) sqlLikeString
 {
-    return [NSString stringWithFormat:@"%@%@%@",@"%",self,@"%"];
+    return [NSString stringWithFormat:@"%@%@",self,@"%"];
 }
 
 @end
@@ -915,7 +915,8 @@
 {
     __block NSInteger count = 0;
     [self.queue inDatabase:^(FMDatabase *db) {
-        FMResultSet* result = [db executeQuery:@"select count(*) from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS like ?",[tagGUID sqlLikeString]];
+        NSString* tagLikeString = [NSString stringWithFormat:@"%@%@%@",@"%",tagGUID,@"%"];
+        FMResultSet* result = [db executeQuery:@"select count(*) from WIZ_DOCUMENT where DOCUMENT_TAG_GUIDS like ?",tagLikeString];
         if ([result next]) {
             count = [result intForColumnIndex:0];
         }

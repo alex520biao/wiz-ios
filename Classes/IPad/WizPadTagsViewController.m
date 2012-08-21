@@ -18,10 +18,16 @@
     [super dealloc];
 }
 
+- (void) willReloadTagTable
+{
+    [self reloadAllData];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
+         [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadTagTable) name:MessageTypeOfUpdateTagTable];
     }
     return self;
 }
@@ -50,7 +56,7 @@
 - (void) didSelectedCateLogViewForKey:(id)keyWords
 {
     WizTag* tag = (WizTag*)keyWords;
-    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfTag keyWords:tag.guid sourceArray:nil];
+    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfTag keyWords:tag.guid selectedDocument:nil];
 }
 
 - (void) setContentForCatelogView:(id)content catelogView:(CatelogView *)view

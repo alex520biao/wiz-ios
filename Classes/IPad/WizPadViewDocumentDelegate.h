@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "WizUiTypeIndex.h"
 @protocol WizPadViewDocumentDelegate <NSObject>
-- (void) checkDocument:(NSInteger)type  keyWords:(NSString*)keyWords sourceArray:(NSMutableArray*)sourceArray;
+- (void) checkDocument:(NSInteger)type  keyWords:(NSString*)keyWords  selectedDocument:(WizDocument*)document;
 @end

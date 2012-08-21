@@ -38,14 +38,13 @@
         abst.doc = doc;
         abst.hidden = NO;
         [abst updateView];
-//        [abst setNeedsDisplay];
     }
     for (int i =[documents count]; i < 4; i++) {
         WizPadDocumentAbstractView* abst = [self.abstractArray objectAtIndex:i];
         abst.hidden = YES;
     }
 }
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier  detailViewSize:(CGSize)detailSize
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -56,7 +55,7 @@
         self.accessoryType = UITableViewCellAccessoryNone;
         self.abstractArray = [NSMutableArray arrayWithCapacity:4];
         for (int i = 0; i < 4; i++) {
-            WizPadDocumentAbstractView* abstractView = [[WizPadDocumentAbstractView alloc] initWithFrame:CGRectMake(35*(i+1)+205*i, 15, 205, PADABSTRACTVELLHEIGTH-50)];
+            WizPadDocumentAbstractView* abstractView = [[WizPadDocumentAbstractView alloc] initWithFrame:CGRectMake(35*(i+1)+detailSize.width*i, 15, detailSize.width, detailSize.height-50)];
             [self.contentView addSubview:abstractView];
             [self.abstractArray addObject:abstractView];
             abstractView.selectedDelegate = self;
@@ -70,8 +69,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 - (void) didSelectedDocument:(WizDocument *)doc
 {

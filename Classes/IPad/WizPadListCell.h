@@ -21,6 +21,6 @@
 }
 @property (assign) id <WizPadCellSelectedDocumentDelegate> selectedDelegate;
 @property (nonatomic, retain) NSArray* documents;
-
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier  detailViewSize:(CGSize)detailSize;
 - (void) updateDoc;
 @end

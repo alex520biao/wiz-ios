@@ -21,11 +21,15 @@
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
+- (void) willReloadFolderTable
+{
+    [self reloadAllData];
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(willReloadFolderTable) name:MessageTypeOfUpdateFolderTable];
     }
     return self;
 }
@@ -55,7 +59,7 @@
 - (void) didSelectedCateLogViewForKey:(id)keyWords
 {
     NSString* folder = (NSString*)keyWords;
-    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfFolder keyWords:folder sourceArray:nil];
+    [self.checkDelegate checkDocument:WizPadCheckDocumentSourceTypeOfFolder keyWords:folder selectedDocument:nil];
 }
 
 - (void) setContentForCatelogView:(id)content catelogView:(CatelogView *)view

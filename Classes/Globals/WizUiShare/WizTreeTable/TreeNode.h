@@ -25,6 +25,7 @@
 @property (nonatomic, readonly) NSMutableArray* childrenNodes;
 @property (nonatomic, assign) BOOL isExpanded;
 @property (nonatomic, retain) NSString*       keyPath;
+@property (nonatomic, retain) NSString*     strType;
 
 - (void) addChildTreeNode:(TreeNode*)node;
 - (void) removeChildTreeNode:(TreeNode*)node;

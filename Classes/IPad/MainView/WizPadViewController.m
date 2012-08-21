@@ -52,7 +52,7 @@
     tag.checkDelegate = self;
     
     WizPadAllNotesViewController* treeTable = [[WizPadAllNotesViewController alloc] initWithNibName:@"WizPadAllNotesViewController" bundle:nil];
-    
+    treeTable.checkDocuementDelegate = self;
     
     NSArray* array = [NSArray arrayWithObjects:base,folder,tag,treeTable, nil];
     NSArray* titles = @[WizStrRecentNotes ,WizStrFolders,WizStrTags,NSLocalizedString(@"Tree", nil) ];
@@ -146,20 +146,12 @@
     self.currentPoperController = nil;
 }
 //check document
-- (void) checkDocument:(NSInteger)type keyWords:(NSString *)keyWords sourceArray:(NSMutableArray *)sourceArray
+- (void) checkDocument:(NSInteger)type keyWords:(NSString *)keyWords selectedDocument:(WizDocument *)document
 {
     WizPadDocumentViewController* check = [[WizPadDocumentViewController alloc] init];
     check.listType = type;
     check.documentListKey = keyWords;
-    if (WizPadCheckDocumentSourceTypeOfRecent == type) {
-        NSMutableArray* source = [[NSMutableArray alloc] init];
-        for (NSMutableArray* each in sourceArray) {
-            NSMutableArray* array = [NSMutableArray arrayWithArray:each];
-            [source addObject:array];
-        }
-        check.documentsArray = source;
-        [source release];
-    }
+    check.initDocument = document;
     [self.navigationController pushViewController:check animated:YES];
     [check release];
 }
@@ -208,7 +200,7 @@
 }
 - (void) didSelectedSearchHistory:(NSString *)keyWords
 {
-    [self checkDocument:WizPadCheckDocumentSourceTypeOfSearch keyWords:keyWords sourceArray:nil];
+    [self checkDocument:WizPadCheckDocumentSourceTypeOfSearch keyWords:keyWords selectedDocument:nil];
 }
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
@@ -228,7 +220,7 @@
 {
     NSArray* documents = [WizDocument documentsByKey:searchBar.text];
     [self addSearchHistory:searchBar.text count:[documents count]];
-    [self checkDocument:WizPadCheckDocumentSourceTypeOfSearch keyWords:searchBar.text sourceArray:nil];
+    [self checkDocument:WizPadCheckDocumentSourceTypeOfSearch keyWords:searchBar.text selectedDocument:nil];
     searchBar.text = @"";
 }
 

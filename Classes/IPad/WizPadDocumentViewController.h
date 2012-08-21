@@ -18,10 +18,12 @@
     NSUInteger listType;
     NSString* documentListKey;
     NSMutableArray* documentsArray;
+    WizDocument* initDocument;
 }
 @property  NSUInteger listType;
 @property (nonatomic, retain) NSString* documentListKey;
 @property (nonatomic, retain) NSMutableArray* documentsArray;
+@property (nonatomic, retain) WizDocument* initDocument;
 - (void) shrinkDocumentWebView;
 - (void) zoomDocumentWebView;
 @end

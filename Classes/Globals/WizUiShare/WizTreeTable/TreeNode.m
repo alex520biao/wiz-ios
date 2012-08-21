@@ -16,8 +16,10 @@
 @synthesize isExpanded;
 @synthesize title;
 @synthesize keyPath;
+@synthesize strType;
 - (void) dealloc
 {
+    [strType release];
     self.keyPath = nil;
     self.parentTreeNode = nil;
     self.keyString = nil;
@@ -88,7 +90,6 @@
 
 - (void) displayDescription
 {
-    NSLog(@"key is %@  %d",self.keyString, self.deep);
     for (TreeNode* each in childrenNodes_) {
         [each displayDescription];
     }
