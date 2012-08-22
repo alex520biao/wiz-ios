@@ -290,16 +290,15 @@
 - (NSString*)stringForColumnIndex:(int)columnIdx {
     
     if (sqlite3_column_type([_statement statement], columnIdx) == SQLITE_NULL || (columnIdx < 0)) {
-        return nil;
+        return @"";
     }
     
     const char *c = (const char *)sqlite3_column_text([_statement statement], columnIdx);
     
     if (!c) {
         // null row.
-        return nil;
+        return @"";
     }
-    
     return [NSString stringWithUTF8String:c];
 }
 

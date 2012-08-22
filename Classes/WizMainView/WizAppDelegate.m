@@ -27,9 +27,6 @@
 #import "WizPhoneEditViewControllerM5.h"
 #import "WizPadEditViewControllerL5.h"
 #import "WizPadEditViewControllerM5.h"
-#import <Crashlytics/Crashlytics.h>
-
-
 
 #define WizAbs(x) x>0?x:-x
 @interface WizAppDelegate()
@@ -112,7 +109,6 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Crashlytics startWithAPIKey:@"ce913e9eceb62de8dd75d62054dad6096abf38c2"];
     [self initRootNavigation];
     return YES;
 }
@@ -174,7 +170,6 @@
         [doc release];
         return YES;
     }
-
     return NO;
 }
 

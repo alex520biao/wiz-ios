@@ -379,7 +379,6 @@
 		73F4365415D9FB7200C09449 /* WizSegmentedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F4365315D9FB7200C09449 /* WizSegmentedViewController.m */; };
 		73F4365715D9FC1700C09449 /* WizPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F4365615D9FC1700C09449 /* WizPadViewController.m */; };
 		73F4366315DA4A9500C09449 /* WizSegmentTableViewControllerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F4366215DA4A9500C09449 /* WizSegmentTableViewControllerBase.m */; };
-		73F4366515DA4DC600C09449 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F4366415DA4DC600C09449 /* Crashlytics.framework */; };
 		73F9D2C715B8FFB500F54726 /* WizSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 73F9D2C615B8FFB500F54726 /* WizSearch.m */; };
 		73FA11CC1557D1CF008B5FDF /* PhFolderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FA11CB1557D1CF008B5FDF /* PhFolderListViewController.m */; };
 		73FBB846156C863A008FC4BC /* WizPadFoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73FBB845156C863A008FC4BC /* WizPadFoldersViewController.m */; };
@@ -972,7 +971,6 @@
 		73F4366015DA46CE00C09449 /* WizSegmentOrientationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizSegmentOrientationDelegate.h; path = IPad/IpadNewUI/WizSegmentOrientationDelegate.h; sourceTree = "<group>"; };
 		73F4366115DA4A9500C09449 /* WizSegmentTableViewControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSegmentTableViewControllerBase.h; path = IPad/IpadNewUI/WizSegmentTableViewControllerBase.h; sourceTree = "<group>"; };
 		73F4366215DA4A9500C09449 /* WizSegmentTableViewControllerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSegmentTableViewControllerBase.m; path = IPad/IpadNewUI/WizSegmentTableViewControllerBase.m; sourceTree = "<group>"; };
-		73F4366415DA4DC600C09449 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		73F9D2C515B8FFB500F54726 /* WizSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizSearch.h; path = WizStruct/WizSearch.h; sourceTree = "<group>"; };
 		73F9D2C615B8FFB500F54726 /* WizSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizSearch.m; path = WizStruct/WizSearch.m; sourceTree = "<group>"; };
 		73FA11CA1557D1CF008B5FDF /* PhFolderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhFolderListViewController.h; path = Classes/Iphone/DocumentList/PhFolderListViewController.h; sourceTree = SOURCE_ROOT; };
@@ -1013,7 +1011,6 @@
 				30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */,
 				73A4295F157388AE00479A42 /* iFlyISR.framework in Frameworks */,
 				73A42960157388AE00479A42 /* iFlyTTS.framework in Frameworks */,
-				73F4366515DA4DC600C09449 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1031,7 +1028,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				73F4366415DA4DC600C09449 /* Crashlytics.framework */,
 				733D7C5715D272A8000943B9 /* libz.dylib */,
 				7376C068157381A900DE74D3 /* MapKit.framework */,
 				73A7840714F8CC22001387F6 /* Classes */,
