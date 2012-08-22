@@ -69,12 +69,52 @@ enum WizPadTreeKeyIndex
     }
     [self reloadDetailData:array];
 }
-
+- (void) onDeleteDocument:(NSNotification*)nc
+{
+    WizDocument* doc = [WizNotificationCenter getWizDocumentFromNc:nc];
+    if (nil == doc)
+    {
+        NSLog(@"nil");
+        return;
+    }
+    NSIndexPath* indexPath = [self.documentsMutableArray removeDocument:doc];
+    if (nil != indexPath) {
+        if (WizDeletedSectionIndex == indexPath.row) {
+            [self.detailTableView beginUpdates];
+            [self.detailTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [self.detailTableView endUpdates];
+        }
+        else {
+            [self.detailTableView beginUpdates];
+            [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [self.detailTableView endUpdates];
+        }
+    }
+}
+- (void)updateDocument:(NSNotification*)nc
+{
+    NSString* documentGUID = [WizNotificationCenter getDocumentGUIDFromNc:nc];
+    if (documentGUID == nil) {
+        return;
+    }
+    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
+    if (doc == nil) {
+        return;
+    }
+    NSIndexPath* updatePath = [self.documentsMutableArray updateDocument:doc];
+    if (updatePath == nil) {
+        return;
+    }
+    [self.detailTableView beginUpdates];
+    [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:updatePath.section] withRowAnimation:UITableViewRowAnimationFade];
+    [self.detailTableView endUpdates];
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadFolderTootNode) name:MessageTypeOfUpdateFolderTable];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadTagRootNode) name:MessageTypeOfUpdateTagTable];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllDetailData) name:MessageTypeOfPadTableViewListChangedOrder];
