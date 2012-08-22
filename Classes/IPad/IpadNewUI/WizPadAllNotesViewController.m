@@ -379,7 +379,7 @@ enum WizPadTreeKeyIndex
     }
     else
     {
-        return 26;
+        return 30;
     }
 }
 
