@@ -5,6 +5,9 @@
 //  Created by Wei Shijun on 3/7/11.
 //  Copyright 2011 WizBrother. All rights reserved.
 //
+
+#import "MobClick.h"
+
 #import "WizAppDelegate.h"
 #import "WizGlobalData.h"
 #import "WizGlobals.h"
@@ -124,8 +127,11 @@ void UncaughtExceptionHandler(NSException *exception)
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSSetUncaughtExceptionHandler (&UncaughtExceptionHandler);
+//    NSSetUncaughtExceptionHandler (&UncaughtExceptionHandler);
+    
+    [MobClick startWithAppkey:@"5022381b527015151f00000d" reportPolicy:REALTIME channelId:nil];
     [self initRootNavigation];
+    
     return YES;
 }
 
