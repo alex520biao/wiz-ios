@@ -86,6 +86,21 @@
         [nav release];
     }
 }
+void UncaughtExceptionHandler(NSException *exception)
+{
+    NSArray *arr = [exception callStackSymbols];
+    NSString *reason = [exception reason];
+    NSString *name = [exception name];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"错误详情:\n%@\n--------------------------\n%@\n>---------------------\n%@", name,reason,[arr componentsJoinedByString:@"\n"]];
+    
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://mywiz.cn/crash"]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[urlStr dataUsingEncoding:NSUTF8StringEncoding]];
+    NSError* error = nil;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+}
+
 
 - (void) initRootNavigation
 {
@@ -109,6 +124,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSSetUncaughtExceptionHandler (&UncaughtExceptionHandler);
     [self initRootNavigation];
     return YES;
 }
