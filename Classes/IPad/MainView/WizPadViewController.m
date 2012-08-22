@@ -20,21 +20,6 @@
 //
 #import "WizPadAllNotesViewController.h"
 
-@interface NSMutableDictionary (WizTree)
-- (NSArray*) getAllChildren:(NSString*)treeNodeId;
-- (NSArray*) getExpandedChilder:(NSString*)treeNodeId;
-- (BOOL) isTreeNodeExpanded:(NSString*)treeNodeId;
-- (void) clodeTreeNode:(NSString*) treeNodeId;
-@end
-
-
-@implementation NSMutableDictionary (WizTree)
-
-- (void) getAllChilren:(NSString*)treeNodeId
-{
-    
-}
-@end
 
 
 @interface WizPadViewController () <UIPopoverControllerDelegate,UISearchBarDelegate,WizSettingsParentNavigationDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>

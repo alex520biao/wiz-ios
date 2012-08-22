@@ -18,6 +18,106 @@
 #import "WizSettings.h"
 #import "NSMutableArray+WizDocuments.h"
 #import "WizNotification.h"
+@interface WizTreeNode : NSObject
+@property (nonatomic, retain)  NSObject*   keyObject;
+@property (nonatomic, assign)   BOOL        expanded;
+@property (nonatomic, retain)   NSString*   parentTreeNodeId;
+@end
+
+@implementation WizTreeNode
+@synthesize keyObject;
+@synthesize expanded;
+@synthesize parentTreeNodeId;
+- (void) dealloc
+{
+    [keyObject release];
+    [parentTreeNodeId release];
+    [super dealloc];
+}
+
+@end
+
+@interface NSMutableDictionary (WizTree)
+- (NSArray*) getAllChildren:(NSString*)treeNodeId;
+- (NSArray*) getExpandedChildren:(NSString*)treeNodeId;
+- (BOOL) isTreeNodeExpanded:(NSString*)treeNodeId;
+- (void) clodeOrExpandTreeNode:(NSString*) treeNodeId;
+- (NSInteger) getTreeNodeDeep:(NSString*)treeNodeId;
+@end
+
+@implementation NSMutableDictionary (WizTree)
+
+- (void) clodeOrExpandTreeNode:(NSString *)treeNodeId
+{
+    WizTreeNode* node = [self valueForKey:treeNodeId];
+    node.expanded = !node.expanded;
+}
+
+- (BOOL) isTreeNodeExpanded:(NSString *)treeNodeId
+{
+    WizTreeNode* node = [self valueForKey:treeNodeId];
+    return node.expanded;
+}
+
+- (NSArray*) getExpandedChildren:(NSString *)treeNodeId
+{
+    BOOL isExpanded = [self isTreeNodeExpanded:treeNodeId];
+    NSMutableArray* expandedArray = [NSMutableArray array];
+    if (isExpanded) {
+        NSArray* children = [self getChildren:treeNodeId];
+        for (NSString* each in children) {
+            [expandedArray addObject:each];
+            NSArray* childrenExpandedNodes = [self getExpandedChildren:each];
+            if ([childrenExpandedNodes count]) {
+                [expandedArray addObjectsFromArray:childrenExpandedNodes];
+            }
+        }
+    }
+    return expandedArray;
+}
+
+- (NSArray*) getChildren:(NSString*)treeNodeId
+{
+    NSMutableArray* children = [NSMutableArray array];
+    for (NSString* eachKey in [self allKeys]) {
+        WizTreeNode* node = [self valueForKey:eachKey];
+        if ([node.parentTreeNodeId isEqualToString:treeNodeId]) {
+            [children addObject:eachKey];
+        }
+    }
+    return children;
+}
+
+- (NSArray*) getAllChildren:(NSString*)treeNodeId
+{
+    NSMutableArray* children = [NSMutableArray arrayWithArray:[self getChildren:treeNodeId]];
+    for (NSString* eachKey in children) {
+        NSArray* array = [self getAllChildren:eachKey];
+        [children addObjectsFromArray:array];
+    }
+    return children;
+}
+- (NSString*) getParentNode:(NSString*)treeNodeId
+{
+    WizTreeNode* node = [self valueForKey:treeNodeId];
+    if (node) {
+        return node.parentTreeNodeId;
+    }
+    return nil;
+}
+
+- (NSInteger) getTreeNodeDeep:(NSString *)treeNodeId
+{
+    NSInteger deep = 0;
+    NSString* parentNodeId = [self getParentNode:treeNodeId];
+    while (parentNodeId != nil) {
+        deep++;
+        parentNodeId = [self getParentNode:treeNodeId];
+    }
+    return deep;
+}
+
+@end
 
 enum WizPadTreeKeyIndex
 {
@@ -26,35 +126,33 @@ enum WizPadTreeKeyIndex
 };
 @interface WizPadAllNotesViewController () <WizPadTableHeaderDeleage, WizPadTreeTableCellDelegate, WizPadCellSelectedDocumentDelegate>
 {
-    NSMutableArray*  rootNodes;
-    NSMutableArray*  needDisplayNodes;
+    NSMutableDictionary* tagTreeNodes;
+    NSMutableDictionary* folderTreeNodes;
+    
+    NSMutableArray* needDisplayNodes;
     
     NSMutableArray* documentsMutableArray;
-    
-    TreeNode*  lastSelectedTreeNode;
 }
-@property (nonatomic, retain)  NSMutableArray* documentsMutableArray;
-@property (nonatomic, retain) TreeNode*  lastSelectedTreeNode;
-
+@property (nonatomic, retain) NSMutableArray* documentsMutableArray;
 - (void) reloadFolderTootNode;
 - (void) reloadTagRootNode;
 @end
 
 @implementation WizPadAllNotesViewController
-@synthesize documentsMutableArray;
 @synthesize masterTableView;
 @synthesize detailTableView;
-@synthesize lastSelectedTreeNode;
 @synthesize checkDocuementDelegate;
+@synthesize documentsMutableArray;
 - (void) dealloc
 {
-    checkDocuementDelegate = nil;
-    [lastSelectedTreeNode release];
     [documentsMutableArray release];
-    [rootNodes release];
+    checkDocuementDelegate = nil;
     [needDisplayNodes release];
     [masterTableView release];
     [detailTableView release];
+    
+    [tagTreeNodes release];
+    [folderTreeNodes release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -64,88 +162,41 @@ enum WizPadTreeKeyIndex
         
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadFolderTootNode) name:MessageTypeOfUpdateFolderTable];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadTagRootNode) name:MessageTypeOfUpdateTagTable];
-        rootNodes = [[NSMutableArray alloc] init];
-        needDisplayNodes = [[NSMutableArray alloc] init];
+
+        tagTreeNodes = [[NSMutableDictionary alloc] initWithCapacity:100];
+        folderTreeNodes = [[NSMutableDictionary alloc] initWithCapacity:100];
         
+        needDisplayNodes = [[NSMutableArray alloc] initWithCapacity:2];
         [needDisplayNodes addObject:[NSMutableArray array]];
         [needDisplayNodes addObject:[NSMutableArray array]];
-        
-        TreeNode* tagRootNode = [[[TreeNode alloc] init] autorelease];
-        tagRootNode.title   = WizStrTags;
-        tagRootNode.keyString = WizTreeViewTagKeyString;
-        tagRootNode.isExpanded = YES;
-        [rootNodes addObject:tagRootNode];
-        
-        TreeNode* folderRootNode = [[[TreeNode alloc] init] autorelease];
-        folderRootNode.title   = WizStrFolders;
-        folderRootNode.keyString = WizTreeViewFolderKeyString;
-        folderRootNode.isExpanded = YES;
-        [rootNodes addObject:folderRootNode];
         
         documentsMutableArray = [[NSMutableArray alloc] init];
-        
     }
     return self;
-}
-- (TreeNode*) findRootNode:(NSString*)keyString
-{
-    if ([rootNodes count] == 0) {
-        return nil;
-    }
-    for (TreeNode* each in rootNodes) {
-        if ([each.keyString isEqualToString:keyString]) {
-            return each;
-        }
-    }
-    return nil;
-}
-- (void) addTagTreeNodeToParent:(WizTag*)tag   rootNode:(TreeNode*)root  allTags:(NSArray*)allTags
-{
-    TreeNode* node = [[TreeNode alloc] init];
-    node.title = getTagDisplayName(tag.title);
-    node.keyString = tag.guid;
-    node.isExpanded = NO;
-    node.strType = WizTreeViewTagKeyString;
-    if (tag.parentGUID == nil || [tag.parentGUID isEqual:@""]) {
-        [root addChildTreeNode:node];
-    }
-    else
-    {
-        TreeNode* parentNode = [root childNodeFromKeyString:tag.parentGUID];
-        if(nil != parentNode)
-        {
-            [parentNode addChildTreeNode:node];
-        }
-        else
-        {
-            WizTag* parent = nil;
-            for (WizTag* each in allTags) {
-                if ([each.guid isEqualToString:tag.parentGUID]) {
-                    parent = each;
-                }
-            }
-            [self addTagTreeNodeToParent:parent rootNode:root allTags:allTags];
-            parentNode = [root childNodeFromKeyString:parent.parentGUID];
-            [parentNode addChildTreeNode:node];
-        }
-    }
-    [node release];
 }
 
 - (void) reloadTagRootNode
 {
     NSArray* tagArray = [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
-    TreeNode* tagRootNode = [self findRootNode:WizTreeViewTagKeyString];
-    
-    [tagRootNode removeAllChildrenNodes];
-    
+    [tagTreeNodes removeAllObjects];
     for (WizTag* each in tagArray) {
-        [self addTagTreeNodeToParent:each rootNode:tagRootNode allTags:tagArray];
+        WizTreeNode* treeNode = [[WizTreeNode alloc] init];
+        treeNode.parentTreeNodeId = (each.parentGUID == nil || [each.parentGUID isEqualToString:@""]) ? nil : each.parentGUID;
+        if (treeNode.parentTreeNodeId) {
+            treeNode.expanded = NO;
+            treeNode.parentTreeNodeId = WizTreeViewTagKeyString;
+        }
+        else
+        {
+            treeNode.expanded = YES;
+        }
+        
+        treeNode.keyObject = each;
+        [tagTreeNodes setObject:treeNode forKey:each.guid];
     }
     NSMutableArray* tagsArray = [needDisplayNodes objectAtIndex:WizPadTreeTagIndex];
     [tagsArray removeAllObjects];
-    [tagsArray addObjectsFromArray:[tagRootNode allExpandedChildrenNodes]];
-    
+    [tagsArray addObjectsFromArray:[tagTreeNodes getExpandedChildren:WizTreeViewTagKeyString]];
     [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
     
 }
@@ -185,22 +236,22 @@ enum WizPadTreeKeyIndex
 }
 - (void) reloadFolderTootNode
 {
-    NSArray* allFolders = [[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree];
-    TreeNode* folderRootNode = [self findRootNode:WizTreeViewFolderKeyString];
-    
-    for (NSString* folderString in allFolders) {
-        if ([folderString isEqualToString:@"/Deleted Items/"]) {
-            continue;
-        }
-        NSArray* breakLocation = [folderString componentsSeparatedByString:@"/"];
-        [self makeSureParentExisted:breakLocation rootNode:folderRootNode];
-    }
-    NSMutableArray* folderArray = [needDisplayNodes objectAtIndex:WizpadTreeFolderIndex];
-    [folderArray removeAllObjects];
-    [folderArray addObjectsFromArray:[folderRootNode allExpandedChildrenNodes]];
-    [folderRootNode displayDescription];
-
-    [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    NSArray* allFolders = [[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree];
+//    TreeNode* folderRootNode = [self findRootNode:WizTreeViewFolderKeyString];
+//    
+//    for (NSString* folderString in allFolders) {
+//        if ([folderString isEqualToString:@"/Deleted Items/"]) {
+//            continue;
+//        }
+//        NSArray* breakLocation = [folderString componentsSeparatedByString:@"/"];
+//        [self makeSureParentExisted:breakLocation rootNode:folderRootNode];
+//    }
+//    NSMutableArray* folderArray = [needDisplayNodes objectAtIndex:WizpadTreeFolderIndex];
+//    [folderArray removeAllObjects];
+//    [folderArray addObjectsFromArray:[folderRootNode allExpandedChildrenNodes]];
+//    [folderRootNode displayDescription];
+//
+//    [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)viewDidLoad
@@ -231,7 +282,6 @@ enum WizPadTreeKeyIndex
     }
     else
     {
-        NSLog(@"))))))section count is %d",[self.documentsMutableArray count]);
         return [self.documentsMutableArray count];
     }
 }
@@ -278,8 +328,9 @@ enum WizPadTreeKeyIndex
             cell = [[[WizPadTreeTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             cell.delegate = self;
         }
-        TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.treeNode = node;
+        
+        NSString* key = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        cell.titleLabel.text = key;
         return cell;
     }
     else
@@ -327,9 +378,9 @@ enum WizPadTreeKeyIndex
     {
         switch (section) {
             case WizpadTreeFolderIndex:
-                return [[self findRootNode:WizTreeViewFolderKeyString] title];
+                return WizStrFolders;
             case WizPadTreeTagIndex:
-                return [[self findRootNode:WizTreeViewTagKeyString] title];
+                return WizStrTags;
             default:
                 return @"";
         }
@@ -347,20 +398,11 @@ enum WizPadTreeKeyIndex
 {
     if ([tableView isEqual:masterTableView])
     {
-        TreeNode* treeNode = nil;
-        switch (section) {
-            case WizpadTreeFolderIndex:
-                treeNode = [self findRootNode:WizTreeViewFolderKeyString];
-                break;
-                
-            default:
-                treeNode = [self findRootNode:WizTreeViewTagKeyString];
-                break;
-        }
+
         WizPadTreeTableHeaderView* titleView = [[WizPadTreeTableHeaderView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 30)];
         titleView.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];
         titleView.delegate = self;
-        titleView.treeNode = treeNode;
+        titleView.treeNode = nil;
         
 
         
@@ -493,7 +535,6 @@ enum WizPadTreeKeyIndex
 {
     if ([tableView isEqual:masterTableView]) {
         TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        self.lastSelectedTreeNode = node;
         NSLog(@"node %@ %@",node.keyString, node.keyPath);
         
         switch (indexPath.section) {
@@ -515,17 +556,17 @@ enum WizPadTreeKeyIndex
 
 - (void) didPadCellDidSelectedDocument:(WizDocument *)doc
 {
-    NSLog(@"selected node type is %@",self.lastSelectedTreeNode.strType);
-    NSInteger checkType = WizPadCheckDocumentSourceTypeOfRecent;
-    if ([self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewFolderKeyString]) {
-        checkType = WizPadCheckDocumentSourceTypeOfFolder;
-    }
-    else if ([self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewTagKeyString])
-    {
-        checkType = WizPadCheckDocumentSourceTypeOfTag;
-    }
-    
-    [self.checkDocuementDelegate checkDocument:checkType keyWords:self.lastSelectedTreeNode.keyString selectedDocument:doc];
+//    NSLog(@"selected node type is %@",self.lastSelectedTreeNode.strType);
+//    NSInteger checkType = WizPadCheckDocumentSourceTypeOfRecent;
+//    if ([self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewFolderKeyString]) {
+//        checkType = WizPadCheckDocumentSourceTypeOfFolder;
+//    }
+//    else if ([self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewTagKeyString])
+//    {
+//        checkType = WizPadCheckDocumentSourceTypeOfTag;
+//    }
+//    
+//    [self.checkDocuementDelegate checkDocument:checkType keyWords:self.lastSelectedTreeNode.keyString selectedDocument:doc];
 }
 
 @end
