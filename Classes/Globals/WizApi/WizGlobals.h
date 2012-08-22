@@ -16,6 +16,7 @@
 #import "NSIndexPath+WizTools.h"
 #import "NSMutableDictionary+WizDocument.h"
 //#define _DEBUG
+#define _DEBUG
 #ifdef _DEBUG
 #define NSLog(s,...) ;
 #else

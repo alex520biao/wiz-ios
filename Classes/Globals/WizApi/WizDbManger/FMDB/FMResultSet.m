@@ -296,6 +296,7 @@
     const char *c = (const char *)sqlite3_column_text([_statement statement], columnIdx);
     
     if (!c) {
+    if (!c || !(*c)) {
         // null row.
         return @"";
     }

@@ -531,6 +531,7 @@
     [postParams setObjectNotNull:[NSNumber numberWithInt:doc.attachmentCount] forKey:@"document_attachment_count"];
     [postParams setObjectNotNull:[NSNumber numberWithFloat:doc.gpsLatitude] forKey:@"gps_latitude"];
     [postParams setObjectNotNull:[NSNumber numberWithFloat:doc.gpsLongtitude] forKey:@"gps_longitude"];
+
     NSString* tags = [NSString stringWithString:doc.tagGuids];
     NSString* ss = [tags stringByReplacingOccurrencesOfString:@"*" withString:@";"];
     if(tags != nil)

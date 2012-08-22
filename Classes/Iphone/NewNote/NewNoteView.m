@@ -405,6 +405,7 @@
 - (void) didSelectedTags:(NSArray*)tags
 {
     NSMutableString* tagsGuid = [NSMutableString stringWithCapacity:0];
+    NSMutableString* tagsGuid = [NSMutableString stringWithCapacity:100];
     for (WizTag* tag in tags) {
         [tagsGuid appendFormat:@"%@*",tag.guid];
     }

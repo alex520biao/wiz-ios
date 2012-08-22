@@ -14,6 +14,7 @@
 + (NSString *)encodeXMLCharactersIn:(NSString *)source {
 	
 	if ( ![source isKindOfClass:[NSString class]] ||!source )
+	if (!source || ![source isKindOfClass:[NSString class]]  )
 		return @"";	
 	
 	NSString *result = [NSString stringWithString:source];
@@ -42,6 +43,7 @@
 	
 	
 	if ( ![source isKindOfClass:[NSString class]] ||!source )
+	if (!source || ![source isKindOfClass:[NSString class]] )
 		return @"";	
 
 	NSString *result = [NSString stringWithString:source];
