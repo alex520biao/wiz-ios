@@ -43,7 +43,8 @@ function deleteImage()
 {
     currentSelectImage.parentElement.removeChild(currentSelectImage);
 }
-function initRootElement() {
+function initRootElement()
+{
     document.body.setAttribute('contentEditable', true);
     document.onmousedown = touchOnImage;
 }

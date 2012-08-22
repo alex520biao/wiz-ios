@@ -710,7 +710,6 @@
 - (NSArray*) allTagsForTree
 {
     NSMutableArray* allTags =[NSMutableArray arrayWithArray:[self tagsArrayWithWhereField:@"" args:nil]];
-    [self getTagNamePath:allTags];
     return allTags;
 }
 

@@ -48,6 +48,7 @@ enum WizPadTreeKeyIndex
 @synthesize checkDocuementDelegate;
 - (void) dealloc
 {
+    [WizNotificationCenter removeObserver:self];
     checkDocuementDelegate = nil;
     [lastSelectedTreeNode release];
     [documentsMutableArray release];
@@ -145,9 +146,9 @@ enum WizPadTreeKeyIndex
     NSMutableArray* tagsArray = [needDisplayNodes objectAtIndex:WizPadTreeTagIndex];
     [tagsArray removeAllObjects];
     [tagsArray addObjectsFromArray:[tagRootNode allExpandedChildrenNodes]];
-    
-    [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+    [self.masterTableView beginUpdates];
+    [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizPadTreeTagIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.masterTableView endUpdates];
 }
 - (NSString*) restructLoactionKey:(NSArray*)locationArray  maxIndex:(int)index
 {

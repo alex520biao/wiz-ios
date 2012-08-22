@@ -74,7 +74,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -86,8 +86,8 @@
     UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
 
     NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem, nil];
-    [self.navigationController setToolbarHidden:NO];
-    [self.navigationController setToolbarItems:arr];
+
+    [self setToolbarItems:arr];
     
     NSLog(@"self.toolbar %@",self.navigationController.toolbar);
     
@@ -115,6 +115,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self buildNavigationItems];
     [self buildToolBar];
+
 	// Do any additional setup after loading the view.
 }
 
@@ -129,9 +130,14 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self buildToolBar];
-}
 
+}
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self buildToolBar];
+    [self.navigationController setToolbarHidden:NO];
+}
 //poper
 - (void) popoverController:(UIViewController*)controller fromBarButtonItem:(UIBarButtonItem*)item permittedArrowDirections:(UIPopoverArrowDirection)arrowDirection
 {

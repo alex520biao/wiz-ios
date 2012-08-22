@@ -155,6 +155,7 @@ public:
     [super viewDidLoad];
     self.tableView.backgroundColor= [UIColor scrollViewTexturedBackgroundColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
 }
 
 - (void)viewDidUnload
