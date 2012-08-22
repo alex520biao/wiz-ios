@@ -13,7 +13,6 @@
 
 + (NSString *)encodeXMLCharactersIn:(NSString *)source {
 	
-	if ( ![source isKindOfClass:[NSString class]] ||!source )
 	if (!source || ![source isKindOfClass:[NSString class]]  )
 		return @"";	
 	
@@ -42,7 +41,6 @@
 + (NSString *) decodeXMLCharactersIn:(NSString *)source {
 	
 	
-	if ( ![source isKindOfClass:[NSString class]] ||!source )
 	if (!source || ![source isKindOfClass:[NSString class]] )
 		return @"";	
 
