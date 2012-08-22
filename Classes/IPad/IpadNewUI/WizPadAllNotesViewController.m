@@ -17,7 +17,7 @@
 
 #import "WizSettings.h"
 #import "NSMutableArray+WizDocuments.h"
-
+#import "WizNotification.h"
 
 enum WizPadTreeKeyIndex
 {
@@ -35,6 +35,9 @@ enum WizPadTreeKeyIndex
 }
 @property (nonatomic, retain)  NSMutableArray* documentsMutableArray;
 @property (nonatomic, retain) TreeNode*  lastSelectedTreeNode;
+
+- (void) reloadFolderTootNode;
+- (void) reloadTagRootNode;
 @end
 
 @implementation WizPadAllNotesViewController
@@ -59,7 +62,8 @@ enum WizPadTreeKeyIndex
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadFolderTootNode) name:MessageTypeOfUpdateFolderTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadTagRootNode) name:MessageTypeOfUpdateTagTable];
         rootNodes = [[NSMutableArray alloc] init];
         needDisplayNodes = [[NSMutableArray alloc] init];
         
@@ -133,12 +137,16 @@ enum WizPadTreeKeyIndex
     NSArray* tagArray = [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
     TreeNode* tagRootNode = [self findRootNode:WizTreeViewTagKeyString];
     
-    NSLog(@"tag %@",tagRootNode);
+    [tagRootNode removeAllChildrenNodes];
+    
     for (WizTag* each in tagArray) {
         [self addTagTreeNodeToParent:each rootNode:tagRootNode allTags:tagArray];
     }
     NSMutableArray* tagsArray = [needDisplayNodes objectAtIndex:WizPadTreeTagIndex];
+    [tagsArray removeAllObjects];
     [tagsArray addObjectsFromArray:[tagRootNode allExpandedChildrenNodes]];
+    
+    [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
     
 }
 - (NSString*) restructLoactionKey:(NSArray*)locationArray  maxIndex:(int)index
@@ -179,6 +187,7 @@ enum WizPadTreeKeyIndex
 {
     NSArray* allFolders = [[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree];
     TreeNode* folderRootNode = [self findRootNode:WizTreeViewFolderKeyString];
+    
     for (NSString* folderString in allFolders) {
         if ([folderString isEqualToString:@"/Deleted Items/"]) {
             continue;
@@ -187,8 +196,11 @@ enum WizPadTreeKeyIndex
         [self makeSureParentExisted:breakLocation rootNode:folderRootNode];
     }
     NSMutableArray* folderArray = [needDisplayNodes objectAtIndex:WizpadTreeFolderIndex];
+    [folderArray removeAllObjects];
     [folderArray addObjectsFromArray:[folderRootNode allExpandedChildrenNodes]];
     [folderRootNode displayDescription];
+
+    [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)viewDidLoad

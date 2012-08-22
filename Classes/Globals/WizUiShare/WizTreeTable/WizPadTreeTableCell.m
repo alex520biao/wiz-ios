@@ -8,6 +8,8 @@
 
 #import "WizPadTreeTableCell.h"
 
+#define WizTreeMaxDeep 7
+
 @interface WizPadTreeTableCell ()
 
 @end
@@ -27,18 +29,28 @@
     [detailLabel release];
     [super dealloc];
 }
-- (void) didExpanded
+
+- (void) showExpandedIndicatory
 {
-    [self.delegate onExpandedNode:self.treeNode];
     if ([self.treeNode.childrenNodes count]) {
         if (!self.treeNode.isExpanded) {
-            expandedButton.backgroundColor = [UIColor greenColor];
+            [expandedButton setImage:[UIImage imageNamed:@"treePlus"] forState:UIControlStateNormal];
         }
         else
         {
-            expandedButton.backgroundColor = [UIColor blueColor];
+            [expandedButton setImage:[UIImage imageNamed:@"treeCut"] forState:UIControlStateNormal];
         }
     }
+    else
+    {
+        [expandedButton setImage:nil forState:UIControlStateNormal];
+    }
+}
+
+- (void) didExpanded
+{
+    [self.delegate onExpandedNode:self.treeNode];
+    [self showExpandedIndicatory];
 
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -51,10 +63,14 @@
         [expandedButton addTarget:self action:@selector(didExpanded) forControlEvents:UIControlEventTouchUpInside];
         
         titleLabel = [[UILabel alloc] init];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont systemFontOfSize:16];
+        
         [self.contentView addSubview:titleLabel];
         detailLabel = [[UILabel alloc] init];
+        detailLabel.font = [UIFont systemFontOfSize:13];
+        detailLabel.textColor = [UIColor lightGrayColor];
         [self.contentView addSubview:detailLabel];
-
 
     }
     return self;
@@ -63,26 +79,19 @@
 - (void) drawRect:(CGRect)rect
 {
     detailLabel.text = nil;
-    CGFloat indentationLevel = 20* (self.treeNode.deep-1);
-    expandedButton.frame = CGRectMake(indentationLevel, 0.0, 60, 40);
-    titleLabel.frame = CGRectMake(60+indentationLevel, 0.0, 160, 20);
-    detailLabel.frame = CGRectMake(60+indentationLevel, 20, 160, 20);
-    titleLabel.text = self.treeNode.title;
     
     
-    if ([self.treeNode.childrenNodes count]) {
-        if (!self.treeNode.isExpanded) {
-            expandedButton.backgroundColor = [UIColor greenColor];
-        }
-        else
-        {
-            expandedButton.backgroundColor = [UIColor blueColor];
-        }
-    }
-    else
-    {
-        expandedButton.backgroundColor = [UIColor whiteColor];
-    }
+    CGFloat indentationLevel = 20* ((self.treeNode.deep-1) > WizTreeMaxDeep ? WizTreeMaxDeep : (self.treeNode.deep-1));
+    static float  buttonWith = 44;
+    expandedButton.frame = CGRectMake(indentationLevel, 0.0, buttonWith, buttonWith);
+    
+    
+    titleLabel.frame = CGRectMake(buttonWith+indentationLevel, 0.0, self.frame.size.width - buttonWith - indentationLevel, 25);
+    detailLabel.frame = CGRectMake(buttonWith+indentationLevel, 25, self.frame.size.width - buttonWith - indentationLevel, 15);
+
+    
+    [self showExpandedIndicatory];
+
     if([self.treeNode.strType isEqualToString:WizTreeViewFolderKeyString])
     {
         NSInteger currentCount = [WizObject fileCountOfLocation:self.treeNode.keyString];
@@ -93,14 +102,16 @@
         else {
             detailLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),currentCount];
         }
+        titleLabel.text = [WizGlobals folderStringToLocal:self.treeNode.title];
     }
     else if ([self.treeNode.strType isEqualToString:WizTreeViewTagKeyString])
     {
         NSInteger fileNumber = [WizTag fileCountOfTag:self.treeNode.keyString];
         NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),fileNumber];
         detailLabel.text = count;
+        titleLabel.text = getTagDisplayName(self.treeNode.title);
     }
-
+    
     
 }
 

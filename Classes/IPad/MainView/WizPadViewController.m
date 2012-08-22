@@ -20,6 +20,23 @@
 //
 #import "WizPadAllNotesViewController.h"
 
+@interface NSMutableDictionary (WizTree)
+- (NSArray*) getAllChildren:(NSString*)treeNodeId;
+- (NSArray*) getExpandedChilder:(NSString*)treeNodeId;
+- (BOOL) isTreeNodeExpanded:(NSString*)treeNodeId;
+- (void) clodeTreeNode:(NSString*) treeNodeId;
+@end
+
+
+@implementation NSMutableDictionary (WizTree)
+
+- (void) getAllChilren:(NSString*)treeNodeId
+{
+    
+}
+@end
+
+
 @interface WizPadViewController () <UIPopoverControllerDelegate,UISearchBarDelegate,WizSettingsParentNavigationDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
 {
     UIPopoverController* currentPoperController;
@@ -54,8 +71,8 @@
     WizPadAllNotesViewController* treeTable = [[WizPadAllNotesViewController alloc] initWithNibName:@"WizPadAllNotesViewController" bundle:nil];
     treeTable.checkDocuementDelegate = self;
     
-    NSArray* array = [NSArray arrayWithObjects:base,folder,tag,treeTable, nil];
-    NSArray* titles = @[WizStrRecentNotes ,WizStrFolders,WizStrTags,NSLocalizedString(@"Tree", nil) ];
+    NSArray* array = [NSArray arrayWithObjects:base,treeTable,folder,tag, nil];
+    NSArray* titles = @[WizStrRecentNotes ,NSLocalizedString(@"All Notes", nil),WizStrFolders,WizStrTags ];
     self = [super initWithViewControllers:array titles:titles];
     [base release];
     [tag release];
@@ -84,9 +101,12 @@
     UIBarButtonItem* newNoteItem = [[UIBarButtonItem alloc] initWithTitle:WizStrNewNote style:UIBarButtonItemStyleBordered target:self action:@selector(newNote)];
 
     NSArray* arr = [NSArray arrayWithObjects:newNoteItem,flexSpaceItem, nil];
-    [self setToolbarItems:arr];
-    [newNoteItem release];
+    [self.navigationController setToolbarHidden:NO];
+    [self.navigationController setToolbarItems:arr];
     
+    NSLog(@"self.toolbar %@",self.navigationController.toolbar);
+    
+    [newNoteItem release];
     [flexSpaceItem release];
 }
 
@@ -123,8 +143,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setToolbarHidden:NO animated:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self buildToolBar];
 }
 
 //poper

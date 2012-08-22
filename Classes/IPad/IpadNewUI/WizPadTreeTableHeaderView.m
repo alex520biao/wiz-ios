@@ -8,6 +8,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "WizPadTreeTableHeaderView.h"
 
+@interface WizPadTreeTableHeaderView ()
+{
+    UIImageView*  expandedImageView;
+}
+@end
+
 @implementation WizPadTreeTableHeaderView
 @synthesize titleLabel;
 @synthesize delegate;
@@ -17,12 +23,25 @@
     self.treeNode = nil;
     delegate = nil;
     [titleLabel release];
+    [expandedImageView release];
     [super dealloc];
+}
+
+- (void) showExpandedIndicatory
+{
+    if (self.treeNode.isExpanded) {
+        expandedImageView.image =[UIImage imageNamed:@"treeCut"];
+    }
+    else
+    {
+        expandedImageView.image = [UIImage imageNamed:@"treePlus"];
+    }
 }
 
 - (void) didSelected
 {
     [self.delegate didSelectedHeader:self forTreeNode:self.treeNode];
+    [self showExpandedIndicatory];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -36,6 +55,9 @@
         [self addSubview:titleLabel];
         titleLabel.backgroundColor = [UIColor clearColor];
         
+        expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 40, 40)];
+        [self addSubview:expandedImageView];
+        expandedImageView.image = [UIImage imageNamed:@"treeCut"];
         UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelected)] autorelease];
         tap.numberOfTapsRequired =1;
         tap.numberOfTouchesRequired =1;
@@ -47,13 +69,14 @@
     return self;
 }
 
-/*
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
+    [self showExpandedIndicatory];
 }
-*/
+
 
 @end

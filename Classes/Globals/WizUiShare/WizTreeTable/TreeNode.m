@@ -90,6 +90,7 @@
 
 - (void) displayDescription
 {
+    NSLog(@"self.title is %@",self.title);
     for (TreeNode* each in childrenNodes_) {
         [each displayDescription];
     }
