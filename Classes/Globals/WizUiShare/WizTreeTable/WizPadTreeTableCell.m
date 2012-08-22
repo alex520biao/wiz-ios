@@ -34,11 +34,11 @@
 {
     if ([self.treeNode.childrenNodes count]) {
         if (!self.treeNode.isExpanded) {
-            [expandedButton setImage:[UIImage imageNamed:@"treePlus"] forState:UIControlStateNormal];
+            [expandedButton setImage:[UIImage imageNamed:@"treeClosed"] forState:UIControlStateNormal];
         }
         else
         {
-            [expandedButton setImage:[UIImage imageNamed:@"treeCut"] forState:UIControlStateNormal];
+            [expandedButton setImage:[UIImage imageNamed:@"treeOpened"] forState:UIControlStateNormal];
         }
     }
     else
@@ -111,8 +111,6 @@
         detailLabel.text = count;
         titleLabel.text = getTagDisplayName(self.treeNode.title);
     }
-    
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

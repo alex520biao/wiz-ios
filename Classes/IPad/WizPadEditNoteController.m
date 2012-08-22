@@ -54,6 +54,7 @@
 
 - (void) dealloc
 {
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
     editorNavigateDelegate = nil;
     navigateDelegate = nil;
     [WizNotificationCenter removeObserver:self];

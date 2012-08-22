@@ -236,7 +236,13 @@
 }
 -(void) addCommonParams: (NSMutableDictionary*)postParams
 {
-	[postParams setObject:@"iphone" forKey:@"client_type"];
+    if ([WizGlobals WizDeviceIsPad]) {
+        [postParams setObject:@"ipad" forKey:@"client_type"];
+    }
+	else
+    {
+        [postParams setObject:@"iphone" forKey:@"client_type"];
+    }
 	[postParams setObject:@"normal" forKey:@"program_type"];
 //	[postParams setObject:[NSNumber numberWithInt:3] forKey:@"api_version"];
     // new version 4

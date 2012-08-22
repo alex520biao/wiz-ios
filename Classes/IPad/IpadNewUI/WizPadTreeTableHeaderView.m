@@ -30,11 +30,11 @@
 - (void) showExpandedIndicatory
 {
     if (self.treeNode.isExpanded) {
-        expandedImageView.image =[UIImage imageNamed:@"treeCut"];
+        expandedImageView.image =[UIImage imageNamed:@"treeHeaderOpened"];
     }
     else
     {
-        expandedImageView.image = [UIImage imageNamed:@"treePlus"];
+        expandedImageView.image = [UIImage imageNamed:@"treeHeaderClosed"];
     }
 }
 
@@ -57,7 +57,7 @@
         
         expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 40, 40)];
         [self addSubview:expandedImageView];
-        expandedImageView.image = [UIImage imageNamed:@"treeCut"];
+        expandedImageView.image = [UIImage imageNamed:@"treeHeaderOpened"];
         UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelected)] autorelease];
         tap.numberOfTapsRequired =1;
         tap.numberOfTouchesRequired =1;

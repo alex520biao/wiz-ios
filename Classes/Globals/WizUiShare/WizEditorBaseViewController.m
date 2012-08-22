@@ -22,13 +22,15 @@
 
 #import "WizRecoderProcessView.h"
 
-
+#import "WizNotification.h"
 #define AudioMaxProcess  40
 
 #define WizEditingDocumentModelFileName  @"editingDocumentModel"
 #define WizEditingDocumentFileName  @"editing.html"
 #define WizEditingDocumentHTMLModelFileName @"editModel.html"
 #define WizEditingDocumentAttachmentDirectory   @"attachment"
+
+
 
 enum WizEditActionSheetTag {
     WizEditActionSheetTagCancelSave = 1000,
@@ -93,6 +95,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
 }
 - (void) dealloc
 {
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
     padEditorNavigationDelegate = nil;
     [currentPoperController release];
     //
