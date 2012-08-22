@@ -22,21 +22,6 @@
 #import "WizUiTypeIndex.h"
 #import "WizSyncManager.h"
 
-class WizTestTime {
-    NSDate* begain;
-    
-public:
-    WizTestTime()
-    {
-        begain = [[NSDate date] retain];
-    }
-    ~WizTestTime()
-    {
-        NSDate* end = [NSDate date];
-        NSLog(@"duration time is %f",[end timeIntervalSinceDate:begain]);
-        [begain release];
-    }
-};
 
 @interface WizPadListTableControllerBase ()
 {

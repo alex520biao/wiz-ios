@@ -19,6 +19,8 @@
 #import "NSMutableArray+WizDocuments.h"
 #import "WizNotification.h"
 
+#define WizTreeSectionHeaderViewHeight  40
+
 enum WizPadTreeKeyIndex
 {
     WizPadTreeTagIndex = 1,
@@ -58,6 +60,16 @@ enum WizPadTreeKeyIndex
     [detailTableView release];
     [super dealloc];
 }
+
+- (void) reloadAllDetailData
+{
+    NSMutableArray* array = [NSMutableArray arrayWithCapacity:50];
+    for (NSArray* eachArray in self.documentsMutableArray) {
+        [array addObjectsFromArray:eachArray];
+    }
+    [self reloadDetailData:array];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -65,6 +77,7 @@ enum WizPadTreeKeyIndex
         
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadFolderTootNode) name:MessageTypeOfUpdateFolderTable];
         [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadTagRootNode) name:MessageTypeOfUpdateTagTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllDetailData) name:MessageTypeOfPadTableViewListChangedOrder];
         rootNodes = [[NSMutableArray alloc] init];
         needDisplayNodes = [[NSMutableArray alloc] init];
         
@@ -358,7 +371,7 @@ enum WizPadTreeKeyIndex
                 treeNode = [self findRootNode:WizTreeViewTagKeyString];
                 break;
         }
-        WizPadTreeTableHeaderView* titleView = [[WizPadTreeTableHeaderView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 30)];
+        WizPadTreeTableHeaderView* titleView = [[WizPadTreeTableHeaderView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, WizTreeSectionHeaderViewHeight)];
         titleView.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];
         titleView.delegate = self;
         titleView.treeNode = treeNode;
@@ -375,7 +388,7 @@ enum WizPadTreeKeyIndex
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if ([tableView isEqual:masterTableView]) {
-        return 30;
+        return WizTreeSectionHeaderViewHeight;
     }
     else
     {

@@ -55,7 +55,7 @@
         [self addSubview:titleLabel];
         titleLabel.backgroundColor = [UIColor clearColor];
         
-        expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 30, 30)];
+        expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 40, 40)];
         [self addSubview:expandedImageView];
         expandedImageView.image = [UIImage imageNamed:@"treeCut"];
         UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelected)] autorelease];
