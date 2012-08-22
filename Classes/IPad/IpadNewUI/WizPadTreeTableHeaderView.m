@@ -62,9 +62,7 @@
         tap.numberOfTapsRequired =1;
         tap.numberOfTouchesRequired =1;
         [self addGestureRecognizer:tap];
-        
         self.alpha = 0.8;
-        
     }
     return self;
 }
@@ -72,11 +70,6 @@
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-    [self showExpandedIndicatory];
-}
 
 
 @end
