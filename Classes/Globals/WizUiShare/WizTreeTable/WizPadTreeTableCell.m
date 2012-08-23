@@ -32,6 +32,7 @@
 
 - (void) showExpandedIndicatory
 {
+    [self bringSubviewToFront:expandedButton];
     if ([self.treeNode.childrenNodes count]) {
         if (!self.treeNode.isExpanded) {
             [expandedButton setImage:[UIImage imageNamed:@"treeClosed"] forState:UIControlStateNormal];
@@ -61,6 +62,7 @@
         [self.contentView addSubview:expandedButton];
         expandedButton.backgroundColor = [UIColor whiteColor];
         [expandedButton addTarget:self action:@selector(didExpanded) forControlEvents:UIControlEventTouchUpInside];
+        expandedButton.backgroundColor = [UIColor clearColor];
         
         titleLabel = [[UILabel alloc] init];
         titleLabel.backgroundColor = [UIColor clearColor];
@@ -71,6 +73,9 @@
         detailLabel.font = [UIFont systemFontOfSize:13];
         detailLabel.textColor = [UIColor lightGrayColor];
         [self.contentView addSubview:detailLabel];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        detailLabel.backgroundColor = [UIColor clearColor];
 
     }
     return self;
@@ -116,8 +121,13 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    if (selected) {
+        self.contentView.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:0.5];
+    }
+    else
+    {
+        self.contentView.backgroundColor = [UIColor whiteColor];
+    }
 }
 
 @end

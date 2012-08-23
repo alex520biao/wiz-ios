@@ -41,8 +41,10 @@
     UIImageView* timerView;
     BOOL isNewDocument;
     UIBadgeView* attachmentsCountView;
+    
+    UIActionSheet* currentActionSheet;
 }
-
+@property (nonatomic, retain) UIActionSheet* currentActionSheet;
 @property (nonatomic, retain) UIPopoverController* currentPopoverController;
 @end
 
@@ -51,7 +53,7 @@
 @synthesize currentPopoverController;
 @synthesize navigateDelegate;
 @synthesize editorNavigateDelegate;
-
+@synthesize currentActionSheet;
 - (void) dealloc
 {
     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
@@ -65,6 +67,7 @@
     [tagTextField release];
     [folderTextField release];
     [backgroudScrollView release];
+    [currentActionSheet release];
     [super dealloc];
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -283,6 +286,8 @@
     }
     else if (buttonIndex == 0)
     {
+        [self stopAutoSaveDocument];
+        [self audioStopRecord];
         [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
@@ -303,7 +308,8 @@
         NSString* indexFilePath = [WizEditorBaseViewController editingIndexFilePath];
         NSString* html = [NSString stringWithFormat:@"<html><body>%@</body></html>",body];
         NSError* error = nil;
-        if (![html writeToFile:indexFilePath useUtf8Bom:YES error:&error]) {
+        if (![html writeToFile:indexFilePath useUtf8Bom:YES error:&error])
+        {
             NSLog(@"error %@",error);
         }
     }
@@ -311,10 +317,12 @@
 
 - (void) cancelSave
 {
-    [self stopAutoSaveDocument];
-    [self audioStopRecord];
+    if (self.currentActionSheet) {
+        [self.currentActionSheet dismissWithClickedButtonIndex:1 animated:NO];
+    }
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+    self.currentActionSheet = actionSheet;
     [actionSheet release];
 }
 - (void) saveDocument

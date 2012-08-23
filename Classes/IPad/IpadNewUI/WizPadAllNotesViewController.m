@@ -19,7 +19,7 @@
 #import "NSMutableArray+WizDocuments.h"
 #import "WizNotification.h"
 
-#define WizTreeSectionHeaderViewHeight  40
+#define WizTreeSectionHeaderViewHeight  30
 
 enum WizPadTreeKeyIndex
 {
@@ -34,6 +34,8 @@ enum WizPadTreeKeyIndex
     NSMutableArray* documentsMutableArray;
     
     TreeNode*  lastSelectedTreeNode;
+    
+
 }
 @property (nonatomic, retain)  NSMutableArray* documentsMutableArray;
 @property (nonatomic, retain) TreeNode*  lastSelectedTreeNode;
@@ -48,6 +50,7 @@ enum WizPadTreeKeyIndex
 @synthesize detailTableView;
 @synthesize lastSelectedTreeNode;
 @synthesize checkDocuementDelegate;
+
 - (void) dealloc
 {
     [WizNotificationCenter removeObserver:self];
@@ -581,5 +584,19 @@ enum WizPadTreeKeyIndex
     
     [self.checkDocuementDelegate checkDocument:checkType keyWords:self.lastSelectedTreeNode.keyString selectedDocument:doc];
 }
-
+//
+- (NSString*) folderForNewNote
+{
+    if (self.lastSelectedTreeNode && [self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewFolderKeyString]) {
+        return self.lastSelectedTreeNode.keyString;
+    }
+    return nil;
+}
+- (NSString*) tagGuidForNewNote
+{
+    if (self.lastSelectedTreeNode && [self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewTagKeyString]) {
+        return self.lastSelectedTreeNode.keyString;
+    }
+    return nil;
+}
 @end

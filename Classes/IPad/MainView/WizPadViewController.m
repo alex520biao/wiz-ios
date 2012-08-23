@@ -25,13 +25,15 @@
 @interface WizPadViewController () <UIPopoverControllerDelegate,UISearchBarDelegate,WizSettingsParentNavigationDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
 {
     UIPopoverController* currentPoperController;
+        id<WizPadNewNoteTagAndFolderDelegate> noteNewDelegate;
 }
 @property (nonatomic, retain) UIPopoverController* currentPoperController;
+@property (nonatomic, assign) id<WizPadNewNoteTagAndFolderDelegate> noteNewDelegate;
 @end
 
 @implementation WizPadViewController
 @synthesize currentPoperController;
-
+@synthesize noteNewDelegate;
 
 - (void)dealloc
 {
@@ -39,6 +41,7 @@
         [self.currentPoperController dismissPopoverAnimated:NO];
     }
     self.currentPoperController = nil;
+    noteNewDelegate = nil;
     [super dealloc];
 }
 
@@ -59,14 +62,14 @@
     NSArray* array = [NSArray arrayWithObjects:base,treeTable,folder,tag, nil];
     NSArray* titles = @[WizStrRecentNotes ,NSLocalizedString(@"All Notes", nil),WizStrFolders,WizStrTags ];
     self = [super initWithViewControllers:array titles:titles];
+
+    if (self) {
+        self.noteNewDelegate = treeTable;
+    }
     [base release];
     [tag release];
     [folder release];
     [treeTable release];
-    if (self) {
-        
-    }
-    
     return self;
 }
 
@@ -192,6 +195,14 @@
 {
     
     WizPadEditNoteController* newNote = [[WizPadEditNoteController alloc] init];
+    WizDocument* document = [[WizDocument alloc] init];
+    
+    document.location = [self.noteNewDelegate folderForNewNote];
+    document.tagGuids = [self.noteNewDelegate tagGuidForNewNote];
+    newNote.docEdit = document;
+    
+    
+    [document release];
     UINavigationController* controller = [[UINavigationController alloc] initWithRootViewController:newNote];
     controller.modalPresentationStyle = UIModalPresentationPageSheet;
     controller.view.frame = CGRectMake(0.0, 0.0, 1024, 768);

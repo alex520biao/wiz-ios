@@ -65,10 +65,13 @@ typedef NSInteger WizEditNavigationBarItemTag;
     UIPopoverController* currentPoperController;
     
     BOOL firstAppear;
+    //
+    UIActionSheet* currentActionSheet;
 }
 @property (retain) AVAudioRecorder* audioRecorder;
 @property (retain) NSTimer* audioTimer;
 @property (nonatomic, retain) UIPopoverController* currentPoperController;
+@property (nonatomic, retain) UIActionSheet* currentActionSheet;
 @end
 
 @implementation WizEditorBaseViewController
@@ -80,6 +83,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
 @synthesize urlRequest;
 @synthesize currentPoperController;
 @synthesize padEditorNavigationDelegate;
+@synthesize currentActionSheet;
 //null function
 - (void) willDeleteImage:(NSString *)sourcePath
 {
@@ -122,6 +126,8 @@ typedef NSInteger WizEditNavigationBarItemTag;
     //
     
     [attachmentCountView release];
+    //
+    [currentActionSheet release];
     [super dealloc];
 }
 
@@ -873,6 +879,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
             if (autoSaveTimer) {
                 [autoSaveTimer invalidate];
             }
+            [self stopRecord];
             [self clearEditorEnviromentLessThan5];
             [self postSelectedMessageToPicker];
             [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -895,10 +902,13 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
 - (void) cancelSaveDocument
 {
     [self dismissPoperController];
-    [self stopRecord];
+    if (self.currentActionSheet) {
+        [self.currentActionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    }
     UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:WizStrAreyousureyouwanttoquit delegate:self cancelButtonTitle:WizStrCancel destructiveButtonTitle:WizStrQuitwithoutsaving otherButtonTitles:nil, nil];
     actionSheet.tag = WizEditActionSheetTagCancelSave;
     [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+    self.currentActionSheet = actionSheet;
     [actionSheet release];
 }
 - (void)viewDidLoad
