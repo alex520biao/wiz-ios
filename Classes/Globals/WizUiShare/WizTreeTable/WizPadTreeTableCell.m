@@ -122,7 +122,7 @@
 {
     [super setSelected:selected animated:animated];
     if (selected) {
-        self.contentView.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:0.5];
+        self.contentView.backgroundColor = [UIColor blueColor];
     }
     else
     {
