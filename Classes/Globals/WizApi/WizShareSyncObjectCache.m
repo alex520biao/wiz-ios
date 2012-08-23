@@ -8,6 +8,8 @@
 
 #import "WizShareSyncObjectCache.h"
 
+#import "WizDbManager.h"
+
 #import "WizSetting.h"
 #import "WizSettings.h"
 #define SyncDataOfUploader      @"SyncDataOfUploader"
@@ -262,6 +264,14 @@
 
 - (BOOL) willDownloandNext
 {
+//    id<WizDbDelegate> shareDataBase = [[WizDbManager shareDbManager] shareDataBase];
+//    WizDocument* document = [shareDataBase documentForDownloadNext];
+//    if (document) {
+//        int64_t durationDownload = [[WizSettings defaultSettings] durationForDownloadDocument];
+//        if (ABS([document.dateModified timeIntervalSinceNow]) < durationDownload* 86400) {
+//            [downadObjectsQueque addObject:document];
+//        }
+//    }
     if ([downadObjectsQueque count]) {
         return YES;
     }

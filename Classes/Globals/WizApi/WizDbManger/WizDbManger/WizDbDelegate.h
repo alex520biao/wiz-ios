@@ -48,6 +48,7 @@
 - (NSArray*) documentForUpload;
 - (NSArray*) documentsForCache:(NSInteger)duration;
 - (WizDocument*) documentForClearCacheNext;
+- (WizDocument*) documentForDownloadNext;
 
 - (BOOL) setDocumentServerChanged:(NSString*)guid changed:(BOOL)changed;
 - (BOOL) setDocumentLocalChanged:(NSString*)guid  changed:(WizEditDocumentType)changed;

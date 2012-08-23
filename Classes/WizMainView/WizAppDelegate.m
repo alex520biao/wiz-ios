@@ -129,7 +129,7 @@ void UncaughtExceptionHandler(NSException *exception)
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 //    NSSetUncaughtExceptionHandler (&UncaughtExceptionHandler);
     
-    [MobClick startWithAppkey:@"5022381b527015151f00000d" reportPolicy:REALTIME channelId:nil];
+    [MobClick startWithAppkey:@"5035a384527015152f000114" reportPolicy:REALTIME channelId:nil];
     [self initRootNavigation];
     
     return YES;

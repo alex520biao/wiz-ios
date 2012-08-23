@@ -191,6 +191,7 @@
     return array;
 }
 
+
 - (WizDocument*) documentFromGUID:(NSString *)documentGUID
 {
     if (nil == documentGUID) {
@@ -208,6 +209,15 @@
 - (NSArray*) documentForUpload
 {
     return [self documentsArrayWithWhereFiled:@"where LOCAL_CHANGED !=0 " arguments:nil];
+}
+
+- (WizDocument*) documentForDownloadNext
+{
+    NSArray* array = [self documentsArrayWithWhereFiled:@"where SERVER_CHANGED != 0 order by max(DT_CREATED, DT_MODIFIED) desc limit 0, 1" arguments:nil];
+    if (array) {
+        return [array lastObject];
+    }
+    return 0;
 }
 
 - (NSArray*) documentsByKey:(NSString *)keywords
