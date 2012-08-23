@@ -134,7 +134,7 @@
     
     float width = [segementdControl numberOfSegments] * WizSegmentItemWidth;
     
-    segementdControl.frame = CGRectMake(0.0, 0.0, width, 40);
+    segementdControl.frame = CGRectMake(0.0, 0.0, width, 35);
     segementdControl.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.navigationItem.titleView = segementdControl;
     //
