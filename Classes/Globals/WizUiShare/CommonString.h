@@ -97,15 +97,25 @@
 
 #define WizStrShareByEmail               NSLocalizedString(@"Share By Email",nil)
 #define WizStrShareByEms                 NSLocalizedString(@"Share By Sms",nil)
-#define WizstrShareImagesByEmail            NSLocalizedString(@"Share Images By Email",nil)
+#define WizstrShareImagesByEmail         NSLocalizedString(@"Share Images By Email",nil)
 #define WizStrShareByWiz                 NSLocalizedString(@"Share By WizNote",nil)
 
 //
 #define WizStrClearCache                NSLocalizedString(@"Clear Cache",nil)
 #define WizStrBeforeToday               NSLocalizedString(@"Before today",nil)
 #define WizStrBeforeAWeek               NSLocalizedString(@"Before a week",nil)
-#define WizStrBeforeAMonth               NSLocalizedString(@"Before a month",nil)
+#define WizStrBeforeAMonth              NSLocalizedString(@"Before a month",nil)
 #define WizStrAll                       NSLocalizedString(@"All",nil)
 #define WizStrLocation                  NSLocalizedString(@"Location",nil)
 
+
+
+//
+#define WizStrMyContacts            NSLocalizedString(@"My Contacts",nil)    //我的联系人
+#define WizStrMyPhotos              NSLocalizedString(@"My Photos",nil)    //我的照片
+#define WizStrDeletedItem           NSLocalizedString(@"Deleted Items", nil)    //已删除
+#define WizStrMyTasks               NSLocalizedString(@"My Tasks",nil)    //我的任务
+#define WizStrMyStickyNotes         NSLocalizedString(@"My Sticky Notes", nil)    //我的桌面便笺
+#define WizStrInbox                 NSLocalizedString(@"Inbox", nil)    //收集箱  （在我的任务里面）
+#define WizStrCompleted             NSLocalizedString(@"Completed", nil)    //已完成    （在我的任务里面）
 NSString* getTagDisplayName(NSString* tagName);

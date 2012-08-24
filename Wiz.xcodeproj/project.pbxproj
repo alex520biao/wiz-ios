@@ -365,7 +365,7 @@
 		73D751A215E4D4DE003194DD /* treeHeaderOpened.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D7519A15E4D4DE003194DD /* treeHeaderOpened.png */; };
 		73D751A315E4D4DE003194DD /* treeClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D7519B15E4D4DE003194DD /* treeClosed.png */; };
 		73D751A415E4D4DE003194DD /* treeHeaderOpened@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D7519C15E4D4DE003194DD /* treeHeaderOpened@2x.png */; };
-		73D751A515E4D4DE003194DD /* treeCloseed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D7519D15E4D4DE003194DD /* treeCloseed@2x.png */; };
+		73D751A515E4D4DE003194DD /* treeClosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D7519D15E4D4DE003194DD /* treeClosed@2x.png */; };
 		73D751AA15E4E59D003194DD /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D751A815E4E59D003194DD /* libMobClickLibrary.a */; };
 		73E05167156B85BF0064A353 /* WizPadTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E05166156B85BF0064A353 /* WizPadTagsViewController.m */; };
 		73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E3D3C115E71F3E00EB788C /* treeSectionHeaderBackgroud.png */; };
@@ -944,7 +944,7 @@
 		73D7519A15E4D4DE003194DD /* treeHeaderOpened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeHeaderOpened.png; sourceTree = "<group>"; };
 		73D7519B15E4D4DE003194DD /* treeClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeClosed.png; sourceTree = "<group>"; };
 		73D7519C15E4D4DE003194DD /* treeHeaderOpened@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "treeHeaderOpened@2x.png"; sourceTree = "<group>"; };
-		73D7519D15E4D4DE003194DD /* treeCloseed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "treeCloseed@2x.png"; sourceTree = "<group>"; };
+		73D7519D15E4D4DE003194DD /* treeClosed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "treeClosed@2x.png"; sourceTree = "<group>"; };
 		73D751A815E4E59D003194DD /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		73D751A915E4E59D003194DD /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		73DD153A156122DB00DBC350 /* WizSelectTagDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSelectTagDelegate.h; sourceTree = "<group>"; };
@@ -2278,7 +2278,7 @@
 				73D7519A15E4D4DE003194DD /* treeHeaderOpened.png */,
 				73D7519C15E4D4DE003194DD /* treeHeaderOpened@2x.png */,
 				73D7519B15E4D4DE003194DD /* treeClosed.png */,
-				73D7519D15E4D4DE003194DD /* treeCloseed@2x.png */,
+				73D7519D15E4D4DE003194DD /* treeClosed@2x.png */,
 			);
 			path = treeArrow;
 			sourceTree = "<group>";
@@ -2580,7 +2580,7 @@
 				73D751A215E4D4DE003194DD /* treeHeaderOpened.png in Resources */,
 				73D751A315E4D4DE003194DD /* treeClosed.png in Resources */,
 				73D751A415E4D4DE003194DD /* treeHeaderOpened@2x.png in Resources */,
-				73D751A515E4D4DE003194DD /* treeCloseed@2x.png in Resources */,
+				73D751A515E4D4DE003194DD /* treeClosed@2x.png in Resources */,
 				73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2922,8 +2922,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3051,8 +3051,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;

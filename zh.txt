@@ -1,4 +1,4 @@
-"%d notes"="%d 个笔记";
+"%d notes"="%d 条笔记";
 "(Conflicted copy)"="(冲突备份)";
 "About WizNote"="关于为知笔记";
 "Account"="账号";
@@ -8,6 +8,7 @@
 "Add New Account"="添加新账号";
 "Add by %@"="通过%@添加";
 "All"="全部";
+"All Notes"="全部笔记";
 "All folders"="所有文件夹";
 "All tags"="所有标签";
 "All the cache files will be deleted, are you sure?"="你将删除所有的缓存文件，确定吗？";
@@ -73,6 +74,7 @@
 "Home"="主页面";
 "If you choose to edit this note, images and text-formatting will be lost."="如果您选择编辑当前文档，图片和文字格式等将会丢失。";
 "Image size"="笔记图片大小";
+"Invalid character"="非法字符";
 "Invalid password!"="密码错误！";
 "It is not downloaded."="没有下载";
 "Large"="大";
@@ -140,6 +142,7 @@
 "Resume"="恢复";
 "Save"="保存";
 "Search"="搜索";
+"Search : %@"="搜索：%@";
 "Search local notes only"="只搜索本地数据";
 "Search result"="搜索结果";
 "Search results is empty"="搜索结果为空";

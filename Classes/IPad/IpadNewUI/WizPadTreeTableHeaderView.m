@@ -58,17 +58,15 @@
         
         expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 30, 30)];
         [self addSubview:expandedImageView];
-        expandedImageView.image = [UIImage imageNamed:@"treeHeaderOpened"];
         UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelected)] autorelease];
         tap.numberOfTapsRequired =1;
         tap.numberOfTouchesRequired =1;
         [self addGestureRecognizer:tap];
+        
         self.alpha = 0.8;
     }
     return self;
 }
-
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 

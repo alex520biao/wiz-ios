@@ -417,7 +417,7 @@ enum WizPadTreeKeyIndex
         titleView.delegate = self;
         titleView.treeNode = treeNode;
         
-
+        [titleView showExpandedIndicatory];
         
         return [titleView autorelease];
     }

@@ -76,6 +76,11 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         detailLabel.backgroundColor = [UIColor clearColor];
+        
+        UIView* selectedView = [[UIView alloc] init];
+        selectedView.backgroundColor = [UIColor brownColor];
+        self.selectedBackgroundView = selectedView;
+        [selectedView release];
 
 
     }
@@ -85,8 +90,7 @@
 - (void) drawRect:(CGRect)rect
 {
     detailLabel.text = nil;
-    
-    
+
     CGFloat indentationLevel = 20* ((self.treeNode.deep-1) > WizTreeMaxDeep ? WizTreeMaxDeep : (self.treeNode.deep-1));
     static float  buttonWith = 44;
     expandedButton.frame = CGRectMake(indentationLevel, 0.0, buttonWith, buttonWith);
