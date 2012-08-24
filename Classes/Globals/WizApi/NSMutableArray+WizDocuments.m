@@ -321,6 +321,7 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
         if (![docOld.guid isEqualToString:doc.guid]) {
             
             NSLog(@"******************************  download done object is not qual to the replaced! old%@ new%@",docOld.guid, doc.guid);
+            return nil;
         }
         [[self objectAtIndex:indexPath.section] replaceObjectAtIndex:indexPath.row withObject:doc];
         return indexPath;
