@@ -48,7 +48,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tableSectionHeader"]];
+        UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"treeSectionHeaderBackgroud"]];
         imageView.frame = CGRectMake(0.0, 0.0, frame.size.width, frame.size.height);
         [self addSubview:imageView];
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, frame.size.width-10, frame.size.height)];

@@ -57,9 +57,6 @@
     }
     else {
         [self didSelectedFolder:folder];
-        [tableView beginUpdates];
-        [tableView reloadData];
-        [tableView endUpdates];
         [self.tableView reloadData];
     }
 }

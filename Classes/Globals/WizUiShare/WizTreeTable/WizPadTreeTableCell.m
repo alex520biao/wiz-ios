@@ -108,7 +108,7 @@
         else {
             detailLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),currentCount];
         }
-        titleLabel.text = [WizGlobals folderStringToLocal:self.treeNode.title];
+        titleLabel.text = NSLocalizedString(self.treeNode.title, nil) ;
     }
     else if ([self.treeNode.strType isEqualToString:WizTreeViewTagKeyString])
     {

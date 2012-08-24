@@ -348,45 +348,48 @@ NSComparisonResult ReverseComparisonResult(NSComparisonResult result)
 
 - (NSIndexPath*) insertDocument:(WizDocument*)doc
 {
-    @try {
-        if (doc == nil) {
-            return nil;
-        }
-        if ([self count]) {
-            if ([[self  lastObject] count]) {
-                WizDocument* lastDoc = [[self lastObject] lastObject];
-                if ([doc.dateModified isEarlierThanDate:lastDoc.dateModified]) {
-                    return nil;
+    @synchronized(self)
+    {
+        @try {
+            if (doc == nil) {
+                return nil;
+            }
+            if ([self count]) {
+                if ([[self  lastObject] count]) {
+                    WizDocument* lastDoc = [[self lastObject] lastObject];
+                    if ([doc.dateModified isEarlierThanDate:lastDoc.dateModified]) {
+                        return nil;
+                    }
                 }
             }
-        }
-        NSInteger order = [[WizSettings defaultSettings] userTablelistViewOption];
-        NSInteger section = NSNotFound;
-        for (int i = 0; i < [self count]; i++) {
-            NSMutableArray* array  = [self objectAtIndex:i];
-            WizDocument* doc1 = [array objectAtIndex:0];
-            if (![doc compareToGroup:doc1 mask:order]) {
-                section = i;
+            NSInteger order = [[WizSettings defaultSettings] userTablelistViewOption];
+            NSInteger section = NSNotFound;
+            for (int i = 0; i < [self count]; i++) {
+                NSMutableArray* array  = [self objectAtIndex:i];
+                WizDocument* doc1 = [array objectAtIndex:0];
+                if (![doc compareToGroup:doc1 mask:order]) {
+                    section = i;
+                }
             }
+            if (NSNotFound != section) {
+                NSMutableArray* arr = [self objectAtIndex:section];
+                [arr insertObject:doc atIndex:0];
+                return [NSIndexPath indexPathForRow:0 inSection:section];
+            }
+            else {
+                NSMutableArray* arr = [NSMutableArray array];
+                [arr addObject:doc];
+                [self insertObject:arr atIndex:0];
+                return [NSIndexPath indexPathForRow:0 inSection:WizNewSectionIndex];
+            }
+            return nil;
         }
-        if (NSNotFound != section) {
-            NSMutableArray* arr = [self objectAtIndex:section];
-            [arr insertObject:doc atIndex:0];
-            return [NSIndexPath indexPathForRow:0 inSection:section];
+        @catch (NSException *exception) {
+            return nil;
         }
-        else {
-            NSMutableArray* arr = [NSMutableArray array];
-            [arr addObject:doc];
-            [self insertObject:arr atIndex:0];
-            return [NSIndexPath indexPathForRow:0 inSection:WizNewSectionIndex];
+        @finally {
+            
         }
-        return nil;
-    }
-    @catch (NSException *exception) {
-        return nil;
-    }
-    @finally {
-        
     }
 }
 @end

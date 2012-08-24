@@ -285,36 +285,38 @@
 
 - (void) updateDocument:(NSNotification*)nc
 {
-    NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
-    if (documentGUID == nil) {
-        return;
-    }
-    WizDocument* doc = [WizDocument documentFromDb:documentGUID];
-    if (nil == doc) {
-        return;
-    }
-    NSIndexPath* indexPath = [self.tableSourceArray updateDocument:doc];
-    if (nil != indexPath) {
-        [self.tableView beginUpdates];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
-        [self.tableView endUpdates];
-    }
-    else {
-        indexPath = [self.tableSourceArray insertDocument:doc];
-        if (nil == indexPath) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString* documentGUID = [WizNotificationCenter getNewDocumentGUIDFromMessage:nc];
+        if (documentGUID == nil) {
             return;
         }
-        if (indexPath.section == WizNewSectionIndex) {
+        WizDocument* doc = [WizDocument documentFromDb:documentGUID];
+        if (nil == doc) {
+            return;
+        }
+        NSIndexPath* indexPath = [self.tableSourceArray updateDocument:doc];
+        if (nil != indexPath) {
             [self.tableView beginUpdates];
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
             [self.tableView endUpdates];
         }
         else {
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
-            [self.tableView endUpdates];
+            indexPath = [self.tableSourceArray insertDocument:doc];
+            if (nil == indexPath) {
+                return;
+            }
+            if (indexPath.section == WizNewSectionIndex) {
+                [self.tableView beginUpdates];
+                [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];
+                [self.tableView endUpdates];
+            }
+            else {
+                [self.tableView beginUpdates];
+                [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                [self.tableView endUpdates];
+            }
         }
-    }
+    });
 }
 - (id)initWithStyle:(UITableViewStyle)style
 {

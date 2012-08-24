@@ -8,7 +8,7 @@
 #import "WizSegmentTableViewControllerBase.h"
 #import "WizSegmentedViewController.h"
 #define WizSegmentViewChangedDurationTime  0.5
-#define WizSegmentItemWidth                 100
+#define WizSegmentItemWidth                 80
 
 @interface WizSegmentedViewController ()
 {
@@ -134,7 +134,7 @@
     
     float width = [segementdControl numberOfSegments] * WizSegmentItemWidth;
     
-    segementdControl.frame = CGRectMake(0.0, 0.0, width, 35);
+    segementdControl.frame = CGRectMake(0.0, 0.0, width, 30);
     segementdControl.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.navigationItem.titleView = segementdControl;
     //
