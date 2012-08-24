@@ -127,12 +127,17 @@
 {
     [super setSelected:selected animated:animated];
     if (selected) {
-        self.contentView.backgroundColor = [UIColor blueColor];
-        titleLabel.textColor = [UIColor whiteColor];
+        static UIImageView* selectedView = nil;
+        if (nil == selectedView) {
+            selectedView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"treeCellSelected"]] retain];
+        }
+        self.backgroundView = selectedView;
+        titleLabel.textColor = [UIColor lightTextColor];
+        
     }
     else
     {
-        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.backgroundView = nil;
         titleLabel.textColor = [UIColor blackColor];
     }
 }
