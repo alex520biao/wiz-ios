@@ -51,7 +51,8 @@
         UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tableSectionHeader"]];
         imageView.frame = CGRectMake(0.0, 0.0, frame.size.width, frame.size.height);
         [self addSubview:imageView];
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, frame.size.width, frame.size.height)];
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, frame.size.width-10, frame.size.height)];
+        titleLabel.font = [UIFont systemFontOfSize:16];
         [self addSubview:titleLabel];
         titleLabel.backgroundColor = [UIColor clearColor];
         

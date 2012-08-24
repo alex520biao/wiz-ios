@@ -32,10 +32,7 @@ enum WizPadTreeKeyIndex
     NSMutableArray*  needDisplayNodes;
     
     NSMutableArray* documentsMutableArray;
-    
     TreeNode*  lastSelectedTreeNode;
-    
-
 }
 @property (nonatomic, retain)  NSMutableArray* documentsMutableArray;
 @property (nonatomic, retain) TreeNode*  lastSelectedTreeNode;
@@ -337,6 +334,7 @@ enum WizPadTreeKeyIndex
         }
         TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         cell.treeNode = node;
+        [cell showExpandedIndicatory];
         return cell;
     }
     else

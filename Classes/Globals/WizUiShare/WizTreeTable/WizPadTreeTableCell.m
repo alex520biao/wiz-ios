@@ -77,6 +77,7 @@
         
         detailLabel.backgroundColor = [UIColor clearColor];
 
+
     }
     return self;
 }
@@ -123,10 +124,12 @@
     [super setSelected:selected animated:animated];
     if (selected) {
         self.contentView.backgroundColor = [UIColor blueColor];
+        titleLabel.textColor = [UIColor whiteColor];
     }
     else
     {
         self.contentView.backgroundColor = [UIColor whiteColor];
+        titleLabel.textColor = [UIColor blackColor];
     }
 }
 

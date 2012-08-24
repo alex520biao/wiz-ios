@@ -29,4 +29,5 @@
 @property (nonatomic,  retain)   UILabel*    detailLabel;
 @property (nonatomic, retain) TreeNode* treeNode;
 @property (nonatomic, assign)  id<WizPadTreeTableCellDelegate> delegate;
+- (void) showExpandedIndicatory;
 @end

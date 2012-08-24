@@ -218,6 +218,7 @@ static NSArray* htmlArray;
         NSString* localStr = NSLocalizedString(each, nil);
         [ret appendFormat:@"/%@",localStr];
     }
+    [ret appendString:@"/"];
     return ret;
 }
 

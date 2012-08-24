@@ -1595,12 +1595,12 @@
 				73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */,
 			);
 			name = IpadNewUI;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		73A7840714F8CC22001387F6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				73A6C9C415D8AC3100548CF8 /* IpadNewUI */,
 				73A7841814F8CC22001387F6 /* Globals */,
 				73A7848414F8CC22001387F6 /* IPad */,
 				73A784B714F8CC22001387F6 /* Iphone */,
@@ -1712,6 +1712,7 @@
 		73A7848414F8CC22001387F6 /* IPad */ = {
 			isa = PBXGroup;
 			children = (
+				73A6C9C415D8AC3100548CF8 /* IpadNewUI */,
 				73F4365815DA316500C09449 /* WizPadList */,
 				737675B5156644B40061FFCF /* WizGridView */,
 				73C1488115240304000675BA /* DocumentAbs */,
@@ -2925,8 +2926,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2963,8 +2964,8 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2992,8 +2993,8 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
 				COPY_PHASE_STRIP = YES;
@@ -3054,8 +3055,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
