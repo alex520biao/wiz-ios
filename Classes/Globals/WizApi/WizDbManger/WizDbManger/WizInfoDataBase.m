@@ -930,7 +930,7 @@
             }
             [dic setObject:location forKey:location];
         }
-        [dic setObject:@"/My Mobiles/" forKey:@"/My Mobiles/"];
+        [dic setObject:@"/My Notes/" forKey:@"/My Notes/"];
         [result close];
     }];
     return [dic allValues];

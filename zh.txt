@@ -38,6 +38,7 @@
 "Clear cache"="清除缓存";
 "Clearing Cache ..."="清除缓存";
 "Close without saving"="不保存就退出";
+"Completed"="已完成";
 "Confirm"="确认";
 "Continue editing"="继续编辑";
 "Create an Account"="创建账号";
@@ -48,6 +49,9 @@
 "Date modified (Reverse)"="修改日期（逆序）";
 "Default Folder"="默认目录";
 "Delete"="删除";
+"Delete Folder"="删除文件夹";
+"Deleted Items"="已删除";
+"Deleting %@ is not allowed!"="不允许删除文件夹--%@";
 "Detail"="详细信息";
 "Do not download"="不下载";
 "Document format was too complex and can not be edited, and will use the old editor.If you choose to edit this note, images and text-formatting will be lost."="笔记格式过于复杂无法使用新编辑器编辑，如果您继续编辑将会丢失图片和格式，是否继续？";
@@ -74,6 +78,7 @@
 "Home"="主页面";
 "If you choose to edit this note, images and text-formatting will be lost."="如果您选择编辑当前文档，图片和文字格式等将会丢失。";
 "Image size"="笔记图片大小";
+"Inbox"="收集箱";
 "Invalid character"="非法字符";
 "Invalid password!"="密码错误！";
 "It is not downloaded."="没有下载";
@@ -91,12 +96,16 @@
 "Medium"="中等";
 "Mobile View"="手机视图";
 "Mobile view"="手机视图查看";
+"My Contacts"="我的联系人";
 "My Drafts"="我的草稿";
 "My Emails"="我的邮件";
 "My Events"="我的事件";
 "My Journals"="我的日记";
 "My Mobiles"="我的手机";
 "My Notes"="我的笔记";
+"My Photos"="我的照片";
+"My Sticky Notes"="我的桌面便签";
+"My Tasks"="我的任务";
 "Name"="名称";
 "New"="新建";
 "New note"="新建笔记";
@@ -226,6 +235,7 @@
 "You can pull down to sync notes or tap the plus (+) icon to create a new a note"="请下拉以同步您在服务器的笔记，或者单击新建按钮（＋）来新建笔记。";
 "You don't have any notes.\n Tap new note to get started!"="您没有任何笔记。\n单击新建笔记以开始。";
 "You have successfully changed your password"="您的密码已经成功修改！";
+"You will delete the folder %@ and nots in it, are you sure?"="您将删除文件夹“%@”和它下面的笔记，是否继续删除？";
 "Your advice"="您的建议：";
 "download successfully"="下载成功";
 "find %d notes"="找到 %d 个文件";

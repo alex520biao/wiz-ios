@@ -19,6 +19,8 @@
 #import "NSMutableArray+WizDocuments.h"
 #import "WizNotification.h"
 
+#define WizDeletedTagViewTag    7845
+
 #define WizTreeSectionHeaderViewHeight  30
 
 enum WizPadTreeKeyIndex
@@ -251,9 +253,13 @@ enum WizPadTreeKeyIndex
 }
 - (void) reloadFolderTootNode
 {
+    if (isIgnoreReloadFolder) {
+        isIgnoreReloadFolder = NO;
+        return;
+    }
     NSArray* allFolders = [[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree];
     TreeNode* folderRootNode = [self findRootNode:WizTreeViewFolderKeyString];
-    
+    [folderRootNode removeAllChildrenNodes];
     for (NSString* folderString in allFolders) {
         if ([folderString isEqualToString:@"/Deleted Items/"]) {
             continue;
@@ -264,7 +270,6 @@ enum WizPadTreeKeyIndex
     NSMutableArray* folderArray = [needDisplayNodes objectAtIndex:WizpadTreeFolderIndex];
     [folderArray removeAllObjects];
     [folderArray addObjectsFromArray:[folderRootNode allExpandedChildrenNodes]];
-    [folderRootNode displayDescription];
 
     [self.masterTableView reloadSections:[NSIndexSet indexSetWithIndex:WizpadTreeFolderIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -690,7 +695,7 @@ enum WizPadTreeKeyIndex
         blocs(eachNode);
     }
     blocs(node);
-    isIgnoreReloadTag = YES;
+
     endBlock();
     [[needDisplayNodes objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
     [self.masterTableView beginUpdates];
@@ -705,48 +710,77 @@ enum WizPadTreeKeyIndex
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        if (alertView.tag = 9090) {
-            if (self.lastDeletedIndexPath != nil) {
-                [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode *node) {
-                    [WizObject deleteFolder:node.keyString];
+         if (self.lastDeletedIndexPath != nil) {
+            if (alertView.tag = 9090) {
+               
+                    [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode *node) {
+                        [WizObject deleteFolder:node.keyString];
+                    }
+                     andEndBlocks:^{
+                         isIgnoreReloadFolder = YES;
+                         [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
+                     }];
                 }
-                 andEndBlocks:^{
-                     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
-                 }];
-            }
         }
-
+        else if (alertView.tag = WizDeletedTagViewTag)
+        {
+            [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode * node){
+                [WizTag deleteLocalTag:node.keyString];
+            }
+                    andEndBlocks:^{
+                        isIgnoreReloadTag = YES;
+                        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+                    } ];
+        }
     }
 }
 
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([tableView isEqual:self.detailTableView]) {
+        return;
+    }
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 
         if (indexPath.section  == WizpadTreeFolderIndex) {
             
+            if ([node.keyString isEqualToString:@"/My Notes/"]) {
+                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),WizStrMyNotes]];
+                return;
+            }
 
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
-                                                            message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title]
+                                                            message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and notes in it, are you sure?", nil),[WizGlobals folderStringToLocal:node.title]]
                                                            delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
             alert.tag = 9090;
             [alert show];
             [alert release];
-            self.lastDeletedIndexPath = indexPath;
+
 
         }
         else if (indexPath.section == WizPadTreeTagIndex)
         {
-            [self deleteTreeNode:indexPath useingBlock:^(TreeNode * node){
-                [WizTag deleteLocalTag:node.keyString];
-              }
-             andEndBlocks:^{
-                 [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
-             } ];
+            
+            if ([node.title isEqualToString:WizTagPublic]) {
+                [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),WizTagPublic]];
+                return;
+            }
+            
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
+                                                            message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the tag %@ , are you sure?", nil), getTagDisplayName(node.title)]
+                                                           delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
+            alert.tag = WizDeletedTagViewTag;
+            [alert show];
+            [alert release];
+            self.lastDeletedIndexPath = indexPath;
+            
+
         }
+        self.lastDeletedIndexPath = indexPath;
     }
+    
     else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
         
@@ -758,5 +792,14 @@ enum WizPadTreeKeyIndex
 //    tableView.editing = YES;
 //    return YES;
 //}
+
+- (BOOL) tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([tableView isEqual:self.masterTableView]) {
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

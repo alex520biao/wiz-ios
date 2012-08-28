@@ -24,6 +24,9 @@
 #import "PhRecentViewController.h"
 #import "WizGlobals.h"
 #import "WizPhoneEditViewControllerM5.h"
+
+
+#import "WizIphoneFolderController.h"
  #define NEWNOTEENTRY 101
 
 @interface PickerViewController ()<UIAlertViewDelegate>
@@ -80,13 +83,14 @@
         recentController.tabBarItem.image = [UIImage imageNamed:@"barItemRecent"];
         [recent release];
         //
-        FoldersViewControllerNew* folderView = [[FoldersViewControllerNew alloc] init];
+
+        WizIphoneFolderController* folderView = [[WizIphoneFolderController alloc] initWithRootTreeNode:@"Folder"];
         UINavigationController* folderController = [[UINavigationController alloc] init] ;
         [folderController  pushViewController:folderView animated:NO];
         folderView.title = WizStrFolders;
         folderController.tabBarItem.image = [UIImage imageNamed:@"barItemFolde"];
         [folderView release];
-        
+        //
         TagsListTreeControllerNew* tagView = [[TagsListTreeControllerNew alloc] init];
         UINavigationController* tagController = [[UINavigationController alloc] init];
         tagView.title = WizStrTags;

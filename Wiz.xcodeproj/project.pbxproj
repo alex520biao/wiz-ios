@@ -48,6 +48,8 @@
 		7311621014F50ABB007EC8AC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621214F50ABB007EC8AC /* Default@2x.png */; };
 		7311621314F50AC0007EC8AC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7311621514F50AC0007EC8AC /* Default.png */; };
 		7313B02C15D0C5AC009CA7C1 /* WizTreeRemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7313B02B15D0C5AC009CA7C1 /* WizTreeRemindView.m */; };
+		7316B25D15ECB3BD00923005 /* WizIphoneTreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7316B25C15ECB3BD00923005 /* WizIphoneTreeController.m */; };
+		7316B26015ECB73200923005 /* WizIphoneFolderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7316B25F15ECB73200923005 /* WizIphoneFolderController.m */; };
 		7316C0BD15748337000926E9 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 7316C0BC15748337000926E9 /* MTStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		7316C0C51574AD20000926E9 /* downloadIndicator1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0BF1574AD20000926E9 /* downloadIndicator1@2x.png */; };
 		7316C0C61574AD20000926E9 /* downloadIndicator2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0C01574AD20000926E9 /* downloadIndicator2@2x.png */; };
@@ -459,6 +461,10 @@
 		7311621714F50AC9007EC8AC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default.png"; sourceTree = "<group>"; };
 		7313B02A15D0C5AC009CA7C1 /* WizTreeRemindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTreeRemindView.h; sourceTree = "<group>"; };
 		7313B02B15D0C5AC009CA7C1 /* WizTreeRemindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTreeRemindView.m; sourceTree = "<group>"; };
+		7316B25B15ECB3BD00923005 /* WizIphoneTreeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizIphoneTreeController.h; path = Iphone/FolderTag/WizIphoneTreeController.h; sourceTree = "<group>"; };
+		7316B25C15ECB3BD00923005 /* WizIphoneTreeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizIphoneTreeController.m; path = Iphone/FolderTag/WizIphoneTreeController.m; sourceTree = "<group>"; };
+		7316B25E15ECB73200923005 /* WizIphoneFolderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizIphoneFolderController.h; sourceTree = "<group>"; };
+		7316B25F15ECB73200923005 /* WizIphoneFolderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizIphoneFolderController.m; sourceTree = "<group>"; };
 		7316C0BB15748337000926E9 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		7316C0BC15748337000926E9 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		7316C0BF1574AD20000926E9 /* downloadIndicator1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator1@2x.png"; sourceTree = "<group>"; };
@@ -1204,6 +1210,17 @@
 			name = WizCore;
 			sourceTree = "<group>";
 		};
+		7316B25715ECAE4700923005 /* FolderTags(Tree) */ = {
+			isa = PBXGroup;
+			children = (
+				7316B25B15ECB3BD00923005 /* WizIphoneTreeController.h */,
+				7316B25C15ECB3BD00923005 /* WizIphoneTreeController.m */,
+				7316B25E15ECB73200923005 /* WizIphoneFolderController.h */,
+				7316B25F15ECB73200923005 /* WizIphoneFolderController.m */,
+			);
+			name = "FolderTags(Tree)";
+			sourceTree = "<group>";
+		};
 		7316C0BA15748337000926E9 /* MT */ = {
 			isa = PBXGroup;
 			children = (
@@ -1619,6 +1636,7 @@
 		73A6C9C415D8AC3100548CF8 /* IpadNewUI */ = {
 			isa = PBXGroup;
 			children = (
+				7316B25715ECAE4700923005 /* FolderTags(Tree) */,
 				73533D8615EB21FC00757602 /* AllNotes(tree) */,
 				73533D8515EB21ED00757602 /* mainView */,
 			);
@@ -2802,6 +2820,8 @@
 				73A8C63515DCEF01005A0B66 /* WizPadTreeTableHeaderView.m in Sources */,
 				73A8C63815DCFA13005A0B66 /* WizPadTreeTableCell.m in Sources */,
 				73533DDC15EB687A00757602 /* WizTree.m in Sources */,
+				7316B25D15ECB3BD00923005 /* WizIphoneTreeController.m in Sources */,
+				7316B26015ECB73200923005 /* WizIphoneFolderController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2960,8 +2980,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3027,7 +3047,7 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
@@ -3089,8 +3109,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
