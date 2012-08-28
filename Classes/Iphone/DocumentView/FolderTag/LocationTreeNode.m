@@ -80,6 +80,18 @@
     [self.children removeObjectAtIndex:index];
 
 }
+- (NSArray*) allChildren
+{
+    NSMutableArray* array = [NSMutableArray arrayWithCapacity:5];
+    for (LocationTreeNode* node in children) {
+        [array addObject:node];
+        NSArray* childs = [node allChildren];
+        if ([array count]) {
+            [array addObjectsFromArray:childs];
+        }
+    }
+    return array;
+}
 
 +(LocationTreeNode*) findNodeByKey:(NSString *)_key :(LocationTreeNode *)node{
     if([_key isEqualToString:[node locationKey]] ){

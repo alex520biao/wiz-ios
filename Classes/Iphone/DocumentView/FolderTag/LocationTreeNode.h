@@ -36,6 +36,7 @@
 -(void) addChild:(LocationTreeNode*) child;
 -(int) childrenCount;
 - (void) removeChild:(LocationTreeNode*)childNode;
+- (NSArray*) allChildren;
 +(LocationTreeNode*) findNodeByKey:(NSString*)_key :(LocationTreeNode*) node;
 +(void) getLocationNodes:(LocationTreeNode*) root: (NSMutableArray*) array;
 +(void) childrenHidden:(LocationTreeNode*) root;

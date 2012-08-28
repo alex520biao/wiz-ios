@@ -575,4 +575,40 @@ NSRange (^indexOfHtmlTag)(NSString*, NSString*, BOOL) = ^(NSString* string,NSStr
     FindAllText(str, maxSize);
     return [NSString getStringFromWChar:str.c_str()];
 }
+
+- (NSArray*) sperateTagGuids
+{
+    NSArray* array = [self componentsSeparatedByString:@"*"];
+    return array;
+}
+
+- (NSString*) constructTagGuids:(NSArray*)tags
+{
+    NSMutableString* tagGuids = [NSMutableString string];
+    for (int i = 0; i < [tags count]; ++i) {
+        NSString* guid = [ tags objectAtIndex:i];
+        [tagGuids appendString:guid];
+        if (i != [tags count] - 1) {
+            [tagGuids appendString:@"*"];
+        }
+    }
+    return tagGuids;
+}
+
+- (NSString*) removeTagguid:(NSString *)tagGuid
+{
+    NSMutableArray* tags = [NSMutableArray arrayWithArray:[self sperateTagGuids]];
+    NSInteger indexOfTag = NSNotFound;
+    for (int i = 0; i < [tags count]; ++i) {
+        if ([[tags objectAtIndex:i] isEqualToString:tagGuid]) {
+            indexOfTag = i;
+            break;
+        }
+    }
+    if (indexOfTag != NSNotFound) {
+        [tags removeObjectAtIndex:indexOfTag];
+    }
+    return [self constructTagGuids:tags];
+}
+
 @end

@@ -42,4 +42,6 @@
 - (NSString*) processHtml;
 - (NSString*) htmlToText:(int)maxSize;
 //
+- (NSArray*)  sperateTagGuids;
+- (NSString*)  removeTagguid:(NSString*)tagGuid;
 @end

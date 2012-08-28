@@ -43,4 +43,13 @@
     }
     return self;
 }
++ (void) deleteFolder:(NSString*)folderKey
+{
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    NSArray* documents = [dataBase documentsByLocation:folderKey];
+    for (WizDocument* doc in documents) {
+        [WizDocument deleteDocument:doc];
+    }
+    
+}
 @end

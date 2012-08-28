@@ -77,4 +77,8 @@
 {
     return [[[WizDbManager shareDbManager] shareDataBase]fileCountOfTag:tagGuid];
 }
++ (BOOL) deleteLocalTag:(NSString*)tagGuid
+{
+    return [[[WizDbManager shareDbManager] shareDataBase] deleteLocalTag:tagGuid];
+}
 @end

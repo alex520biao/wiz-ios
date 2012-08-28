@@ -44,7 +44,7 @@
 }
 -(void)onExpand:(LocationTreeNode*)node{
    
-    
+
     if(!node.expanded)
     {
         for( int i = node.row+1; i < [displayNodes count];) 
@@ -54,7 +54,9 @@
             if(![LocationTreeNode isChildToNode:node :each] )  break;
             [displayNodes removeObject:each];
             NSArray* delteIndexPathAttay = [[NSArray alloc] initWithObjects:index, nil];
+            [self.tableView beginUpdates];
             [self.tableView deleteRowsAtIndexPaths:delteIndexPathAttay withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
             [delteIndexPathAttay release];
             [self setNodeRow];
         }
@@ -72,7 +74,9 @@
                 NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
                 [displayNodes insertObject:each atIndex:i];
                 NSArray* insertIndexPathArray = [[NSArray alloc] initWithObjects:index, nil];
+                [self.tableView beginUpdates];
                 [self.tableView insertRowsAtIndexPaths:insertIndexPathArray withRowAnimation:UITableViewRowAnimationTop];
+                [self.tableView endUpdates];
                 [insertIndexPathArray release];
                 i++;
                 

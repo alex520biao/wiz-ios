@@ -26,17 +26,20 @@ enum WizPadTreeKeyIndex
     WizPadTreeTagIndex = 1,
     WizpadTreeFolderIndex = 0
 };
-@interface WizPadAllNotesViewController () <WizPadTableHeaderDeleage, WizPadTreeTableCellDelegate, WizPadCellSelectedDocumentDelegate>
+@interface WizPadAllNotesViewController () <WizPadTableHeaderDeleage, WizPadTreeTableCellDelegate, WizPadCellSelectedDocumentDelegate, UIAlertViewDelegate>
 {
     NSMutableArray*  rootNodes;
     NSMutableArray*  needDisplayNodes;
     
     NSMutableArray* documentsMutableArray;
     TreeNode*  lastSelectedTreeNode;
+    
+    BOOL  isIgnoreReloadTag;
+    BOOL isIgnoreReloadFolder;
 }
 @property (nonatomic, retain)  NSMutableArray* documentsMutableArray;
 @property (nonatomic, retain) TreeNode*  lastSelectedTreeNode;
-
+@property (nonatomic, retain) NSIndexPath* lastDeletedIndexPath;
 - (void) reloadFolderTootNode;
 - (void) reloadTagRootNode;
 @end
@@ -47,6 +50,7 @@ enum WizPadTreeKeyIndex
 @synthesize detailTableView;
 @synthesize lastSelectedTreeNode;
 @synthesize checkDocuementDelegate;
+@synthesize lastDeletedIndexPath;
 
 - (void) dealloc
 {
@@ -58,6 +62,7 @@ enum WizPadTreeKeyIndex
     [needDisplayNodes release];
     [masterTableView release];
     [detailTableView release];
+    [lastDeletedIndexPath release];
     [super dealloc];
 }
 
@@ -138,6 +143,9 @@ enum WizPadTreeKeyIndex
         
         documentsMutableArray = [[NSMutableArray alloc] init];
         
+        isIgnoreReloadFolder = NO;
+        isIgnoreReloadTag = NO;
+        
     }
     return self;
 }
@@ -188,6 +196,10 @@ enum WizPadTreeKeyIndex
 
 - (void) reloadTagRootNode
 {
+    if (isIgnoreReloadTag) {
+        isIgnoreReloadTag = NO;
+        return;
+    }
     NSArray* tagArray = [[[WizDbManager shareDbManager] shareDataBase] allTagsForTree];
     TreeNode* tagRootNode = [self findRootNode:WizTreeViewTagKeyString];
     
@@ -333,7 +345,7 @@ enum WizPadTreeKeyIndex
             cell.delegate = self;
         }
         TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.treeNode = node;
+        cell.strTreeNodeKey = node.keyString;
         [cell showExpandedIndicatory];
         return cell;
     }
@@ -597,4 +609,154 @@ enum WizPadTreeKeyIndex
     }
     return nil;
 }
+
+- (TreeNode*) findTreeNodeByKey:(NSString*)strKey
+{
+    TreeNode* node = [[self findRootNode:WizTreeViewFolderKeyString] childNodeFromKeyString:strKey];
+    if (node) {
+        return node;
+    }
+    node = [[self findRootNode:WizTreeViewTagKeyString] childNodeFromKeyString:strKey];
+    if (node) {
+        return node;
+    }
+    return nil;
+}
+
+- (NSInteger) treeNodeDeep:(NSString *)strKey
+{
+    TreeNode* node = [self findTreeNodeByKey:strKey];
+    if (node) {
+        return node.deep;
+    }
+    return 0;
+}
+- (void) onExpandedNodeByKey:(NSString *)strKey
+{
+    TreeNode* node = [self findTreeNodeByKey:strKey];
+    if (node) {
+        [self onExpandedNode:node];
+    }
+}
+- (void) showExpandedIndicatory:(WizPadTreeTableCell *)cell
+{
+    TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
+    if ([node.childrenNodes count]) {
+        if (!node.isExpanded) {
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treeClosed"] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treeOpened"] forState:UIControlStateNormal];
+        }
+    }
+    else
+    {
+        [cell.expandedButton setImage:nil forState:UIControlStateNormal];
+    }
+}
+- (void) decorateTreeCell:(WizPadTreeTableCell *)cell
+{
+    TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
+    if ([node.strType isEqualToString:WizTreeViewFolderKeyString]) {
+        NSInteger currentCount = [WizObject fileCountOfLocation:node.keyString];
+        NSInteger totalCount = [WizObject filecountWithChildOfLocation:node.keyString];
+        if (currentCount != totalCount) {
+            cell.detailLabel.text = [NSString stringWithFormat:@"%d/%d",currentCount,totalCount];
+        }
+        else {
+            cell.detailLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),currentCount];
+        }
+        cell.titleLabel.text = NSLocalizedString(node.title, nil) ;
+    }
+    else if ([node.strType isEqualToString:WizTreeViewTagKeyString])
+    {
+        NSInteger fileNumber = [WizTag fileCountOfTag:node.keyString];
+        NSString* count = [NSString stringWithFormat:NSLocalizedString(@"%d notes", nil),fileNumber];
+        cell.detailLabel.text = count;
+        cell.titleLabel.text = getTagDisplayName(node.title);
+    }
+}
+
+- (void) deleteTreeNode:(NSIndexPath*)indexPath  useingBlock:(void (^)(TreeNode* node) )blocs  andEndBlocks:(void(^)(void))endBlock
+{
+    TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [node.parentTreeNode removeChildTreeNode:node];
+    if (node.isExpanded) {
+        [self onExpandedNode:node];
+    }
+    NSArray* tags = [node allChildren];
+    for (TreeNode* eachNode in tags) {
+        blocs(eachNode);
+    }
+    blocs(node);
+    isIgnoreReloadTag = YES;
+    endBlock();
+    [[needDisplayNodes objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+    [self.masterTableView beginUpdates];
+    [self.masterTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (indexPath.row > 0) {
+        [self.masterTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row -1 inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    [self.masterTableView endUpdates];
+}
+
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        if (alertView.tag = 9090) {
+            if (self.lastDeletedIndexPath != nil) {
+                [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode *node) {
+                    [WizObject deleteFolder:node.keyString];
+                }
+                 andEndBlocks:^{
+                     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
+                 }];
+            }
+        }
+
+    }
+}
+
+
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+
+        if (indexPath.section  == WizpadTreeFolderIndex) {
+            
+
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
+                                                            message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title]
+                                                           delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
+            alert.tag = 9090;
+            [alert show];
+            [alert release];
+            self.lastDeletedIndexPath = indexPath;
+
+        }
+        else if (indexPath.section == WizPadTreeTagIndex)
+        {
+            [self deleteTreeNode:indexPath useingBlock:^(TreeNode * node){
+                [WizTag deleteLocalTag:node.keyString];
+              }
+             andEndBlocks:^{
+                 [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+             } ];
+        }
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        
+    }
+}
+
+//- (BOOL) tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    tableView.editing = YES;
+//    return YES;
+//}
+
 @end

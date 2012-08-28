@@ -10,24 +10,22 @@
 #import "TreeNode.h"
 #define WizTreeViewTagKeyString         @"treeTag"
 #define WizTreeViewFolderKeyString      @"treeLocation"
+
+@class WizPadTreeTableCell;
 @protocol WizPadTreeTableCellDelegate <NSObject>
 
-- (void) onExpandedNode:(TreeNode*)node;
+- (void) showExpandedIndicatory:(WizPadTreeTableCell*)cell;
+- (void) onExpandedNodeByKey:(NSString*)strKey;
+- (NSInteger) treeNodeDeep:(NSString*)strKey;
+- (void) decorateTreeCell:(WizPadTreeTableCell*)cell;
 
 @end
 
 @interface WizPadTreeTableCell : UITableViewCell
-{
-    TreeNode* treeNode;
-    UIButton*  expandedButton;
-    UILabel*  titleLabel;
-    UILabel*    detailLabel;
-    id<WizPadTreeTableCellDelegate> delegate;
-}
-@property (nonatomic,  retain)     UIButton*  expandedButton;
-@property (nonatomic,  retain)   UILabel*  titleLabel;
-@property (nonatomic,  retain)   UILabel*    detailLabel;
-@property (nonatomic, retain) TreeNode* treeNode;
-@property (nonatomic, assign)  id<WizPadTreeTableCellDelegate> delegate;
+@property (nonatomic, retain)  UIButton*                        expandedButton;
+@property (nonatomic, retain)  UILabel*                         titleLabel;
+@property (nonatomic, retain)  UILabel*                         detailLabel;
+@property (nonatomic, retain)  NSString*                        strTreeNodeKey;
+@property (nonatomic, assign)  id<WizPadTreeTableCellDelegate>  delegate;
 - (void) showExpandedIndicatory;
 @end

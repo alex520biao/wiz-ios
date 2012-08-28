@@ -27,14 +27,11 @@
 - (int64_t) attachmentVersion;
 - (BOOL) setAttachmentVersion:(int64_t)ver;
 //
-- (BOOL) updateDocuments:(NSArray *)documents;
-- (NSArray*) recentDocuments;
-- (WizDocument*) documentFromGUID:(NSString *)guid;
-- (NSArray*) documentsByTag: (NSString*)tagGUID;
-- (NSArray*) documentsByKey: (NSString*)keywords;
 - (BOOL) addDeletedGUIDRecord: (NSString*)guid type:(NSString*)type;
 - (BOOL) deleteAttachment:(NSString *)attachGuid;
 - (BOOL) deleteTag:(NSString*)tagGuid;
+- (BOOL) deleteLocalTag:(NSString*)tagGuid;
+
 - (BOOL) deleteDocument:(NSString*)documentGUID;
 
 //document
@@ -52,6 +49,7 @@
 
 - (BOOL) setDocumentServerChanged:(NSString*)guid changed:(BOOL)changed;
 - (BOOL) setDocumentLocalChanged:(NSString*)guid  changed:(WizEditDocumentType)changed;
+- (BOOL) changedDocumentTags:(NSString*)documentGuid  tags:(NSString*)tags;
 //tag
 - (NSArray*) allTagsForTree;
 - (BOOL) updateTag: (NSDictionary*) tag;

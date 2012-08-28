@@ -62,7 +62,6 @@
         tap.numberOfTapsRequired =1;
         tap.numberOfTouchesRequired =1;
         [self addGestureRecognizer:tap];
-        
         self.alpha = 0.8;
     }
     return self;

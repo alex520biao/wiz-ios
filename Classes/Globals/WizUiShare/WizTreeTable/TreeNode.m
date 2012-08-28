@@ -83,6 +83,19 @@
     return expandedChildren;
 }
 
+- (NSArray*) allChildren
+{
+    NSMutableArray* array = [NSMutableArray array];
+    for (TreeNode* treeNode in childrenNodes_) {
+        [array addObject:treeNode];
+        NSArray* arrayChild = [treeNode allChildren];
+        if (arrayChild) {
+            [array addObjectsFromArray:arrayChild];
+        }
+    }
+    return array;
+}
+
 - (void) removeAllChildrenNodes
 {
     [childrenNodes_ removeAllObjects];

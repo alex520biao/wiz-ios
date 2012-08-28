@@ -100,6 +100,7 @@ typedef NSInteger WizEditNavigationBarItemTag;
 - (void) dealloc
 {
     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
     padEditorNavigationDelegate = nil;
     [currentPoperController release];
     //

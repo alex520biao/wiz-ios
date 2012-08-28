@@ -35,4 +35,5 @@
 + (NSArray*) allTags;
 + (NSInteger) fileCountOfTag:(NSString*)tagGuid;
 - (NSString*) tagAbstract;
++ (BOOL) deleteLocalTag:(NSString*)tagGuid;
 @end

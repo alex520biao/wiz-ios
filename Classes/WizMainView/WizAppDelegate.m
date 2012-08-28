@@ -131,7 +131,6 @@ void UncaughtExceptionHandler(NSException *exception)
     
     [MobClick startWithAppkey:@"5035a384527015152f000114" reportPolicy:REALTIME channelId:nil];
     [self initRootNavigation];
-    
     return YES;
 }
 

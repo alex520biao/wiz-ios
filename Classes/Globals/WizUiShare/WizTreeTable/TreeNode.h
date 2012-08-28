@@ -32,6 +32,6 @@
 - (NSArray*) allExpandedChildrenNodes;
 - (void) removeAllChildrenNodes;
 - (TreeNode*) childNodeFromKeyString:(NSString*)key;
-
 - (void) displayDescription;
+- (NSArray*) allChildren;
 @end

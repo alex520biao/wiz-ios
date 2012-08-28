@@ -271,7 +271,26 @@
     }
     return ret;
 }
+//
 
+- (BOOL) changedDocumentTags:(NSString *)documentGuid tags:(NSString *)tags
+{
+    __block BOOL isSucceed = NO;
+    WizDocument* document = [self documentFromGUID:documentGuid];
+    [self.queue inDatabase:^(FMDatabase *db) {
+        if (document && document.serverChanged == 0) {
+            NSInteger localChanged = document.localChanged == WizEditDocumentTypeAllChanged ? WizEditDocumentTypeAllChanged: WizEditDocumentTypeInfoChanged;
+            isSucceed = [db executeUpdate:@"update WIZ_DOCUMENT set DOCUMENT_TAG_GUIDS=? , LOCAL_CHANGED=? where DOCUMENT_GUID = ?",
+            tags,
+            [NSNumber numberWithInt:localChanged],
+           documentGuid];
+        };
+    }];
+    if (isSucceed) {
+        [WizNotificationCenter postUpdateDocument:documentGuid];
+    }
+    return isSucceed;
+}
 
 //
 - (BOOL) updateDocument:(NSDictionary *)doc
@@ -821,10 +840,35 @@
     return ret;
 }
 
+- (BOOL) deleteLocalTag:(NSString *)tagGuid
+{
+    NSArray* documents = [self documentsByTag:tagGuid];
+    for (WizDocument* eachDoc in documents) {
+        NSString* tagGuids = eachDoc.tagGuids;
+        if (tagGuids != nil && eachDoc.serverChanged == 0) {
+            tagGuids = [tagGuids removeTagguid:tagGuid];
+            [self changedDocumentTags:eachDoc.guid tags:tagGuids];
+        }
+    }
+    
+    __block BOOL ret;
+    [self.queue inDatabase:^(FMDatabase *db)
+     {
+         ret= [db executeUpdate:@"delete from WIZ_TAG where TAG_GUID=?",tagGuid];
+     }];
+    
+    if (ret) {
+        [self addDeletedGUIDRecord:tagGuid type:@"tag"];
+    }
+    
+    return ret;
+}
+
 - (BOOL) deleteTag:(NSString *)tagGuid
 {
     __block BOOL ret;
-    [self.queue inDatabase:^(FMDatabase *db) {
+    [self.queue inDatabase:^(FMDatabase *db)
+    {
         ret= [db executeUpdate:@"delete from WIZ_TAG where TAG_GUID=?",tagGuid];
     }];
     return ret;

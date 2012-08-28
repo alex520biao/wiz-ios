@@ -162,10 +162,36 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WizTag* tag =  [WizTag tagFromDb:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];;
+    WizTag* tag =  [WizTag tagFromDb:[[self.displayNodes objectAtIndex:indexPath.row] locationKey]];
     PhTagListViewController* tagView = [[PhTagListViewController alloc] initWithTagGuid:tag.guid];
     [self.navigationController pushViewController:tagView animated:YES];
     [tagView release];
+}
+
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        LocationTreeNode* node = [self.displayNodes objectAtIndex:indexPath.row];
+        [self onExpand:node];
+//        NSArray* nodeChildren =[node allChildren];
+//        
+//        for (LocationTreeNode* each in nodeChildren) {
+//            NSString* tagGuid = each.locationKey;
+//            [WizTag deleteLocalTag:tagGuid];
+//        }
+//        
+//        [node.parentLocationNode removeChild:node];
+//         NSString* tagGuid =[node locationKey];
+//        [WizTag deleteLocalTag:tagGuid];
+//        
+//        [self.displayNodes removeObjectAtIndex:indexPath.row];
+//                
+//        [tableView beginUpdates];
+//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [tableView endUpdates];
+        
+    }
 }
 
 @end

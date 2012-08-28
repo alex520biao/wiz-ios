@@ -19,4 +19,5 @@
 + (int) fileCountOfLocation:(NSString *)location;
 + (NSArray*) allLocationsForTree;
 + (NSString*) folderAbstract:(NSString*)folderKey;
++ (void) deleteFolder:(NSString*)folderKey;
 @end
