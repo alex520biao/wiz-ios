@@ -290,7 +290,6 @@
     [self.selectedFloder addObject:location];
     [self.selectDelegate didSelectedFolderString:location];
     [self.tableView reloadData];
-    [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
 }
 
 

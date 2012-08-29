@@ -335,7 +335,7 @@
         self.isNewTag = NO;
         [self.searchBar resignFirstResponder];
         self.searchBar.searchResultsButtonSelected = YES;
-        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+        
     }
     else
     {

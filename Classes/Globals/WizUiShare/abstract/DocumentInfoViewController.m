@@ -16,6 +16,8 @@
 #import "WizPhoneNotificationMessage.h"
 #import "WizDbManager.h"
 #import "WizMapViewController.h"
+
+#import "WizNotification.h"
 @interface DocumentInfoViewController()
 {
     BOOL docChanged;
@@ -26,6 +28,15 @@
 @synthesize doc;
 -(void) dealloc
 {
+    if (!self.isEditTheDoc) {
+        if (docChanged) {
+            self.doc.localChanged = WizEditDocumentTypeInfoChanged;
+            [self.doc saveInfo];
+            [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
+            [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+            docChanged = NO;
+        }
+    }
     [doc release];
     [super dealloc];
     
@@ -111,13 +122,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    if (!self.isEditTheDoc) {
-        if (docChanged) {
-            self.doc.localChanged = WizEditDocumentTypeInfoChanged;
-            [self.doc saveInfo];
-            docChanged = NO;
-        }
-    }
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

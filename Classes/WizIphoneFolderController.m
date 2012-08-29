@@ -69,7 +69,6 @@
 - (void) reloadFolderTootNode
 {
     NSArray* allFolders = [[[WizDbManager shareDbManager] shareDataBase] allLocationsForTree];
-    NSLog(@"root is %@ \n ",rootTreeNode);
     for (NSString* folderString in allFolders) {
         if ([folderString isEqualToString:@"/Deleted Items/"]) {
             continue;
@@ -77,7 +76,6 @@
         NSArray* breakLocation = [folderString componentsSeparatedByString:@"/"];
         [self makeSureParentExisted:breakLocation rootNode:rootTreeNode];
     }
-    
 }
 - (void) reloadAllTreeNodes
 {

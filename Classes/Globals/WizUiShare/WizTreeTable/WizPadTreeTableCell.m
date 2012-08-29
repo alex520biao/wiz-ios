@@ -60,16 +60,12 @@
         detailLabel.font = [UIFont systemFontOfSize:13];
         detailLabel.textColor = [UIColor lightGrayColor];
         [self.contentView addSubview:detailLabel];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        if ([WizGlobals WizDeviceIsPad]) {
+            self.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
         
         detailLabel.backgroundColor = [UIColor clearColor];
         
-        UIView* selectedView = [[UIView alloc] init];
-        selectedView.backgroundColor = [UIColor brownColor];
-        self.selectedBackgroundView = selectedView;
-        [selectedView release];
-
-
     }
     return self;
 }
@@ -91,20 +87,22 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    [super setSelected:selected animated:animated];
-    if (selected) {
-        static UIImageView* selectedView = nil;
-        if (nil == selectedView) {
-            selectedView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"treeCellSelected"]] retain];
+    if ([WizGlobals WizDeviceIsPad]) {
+        if (selected) {
+            static UIImageView* selectedView = nil;
+            if (nil == selectedView) {
+                selectedView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"treeCellSelected"]] retain];
+            }
+            self.backgroundView = selectedView;
+            titleLabel.textColor = [UIColor lightTextColor];
+            
         }
-        self.backgroundView = selectedView;
-        titleLabel.textColor = [UIColor lightTextColor];
-        
+        else
+        {
+            self.backgroundView = nil;
+            titleLabel.textColor = [UIColor blackColor];
+        }
     }
-    else
-    {
-        self.backgroundView = nil;
-        titleLabel.textColor = [UIColor blackColor];
-    }
+    [super setSelected:selected animated:animated];
 }
 @end
