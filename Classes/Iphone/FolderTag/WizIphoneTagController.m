@@ -115,7 +115,7 @@
         return;
     }
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
-                                                    message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title]
+                                                    message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the tag %@ , are you sure?", nil), getTagDisplayName(node.title)]
                                                    delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
     alert.tag = 9090;
     [alert show];
