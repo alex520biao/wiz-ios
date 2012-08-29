@@ -27,6 +27,8 @@
 
 
 #import "WizIphoneFolderController.h"
+#import "WizIphoneTagController.h"
+
  #define NEWNOTEENTRY 101
 
 @interface PickerViewController ()<UIAlertViewDelegate>
@@ -91,7 +93,7 @@
         folderController.tabBarItem.image = [UIImage imageNamed:@"barItemFolde"];
         [folderView release];
         //
-        TagsListTreeControllerNew* tagView = [[TagsListTreeControllerNew alloc] init];
+        WizIphoneTagController* tagView = [[WizIphoneTagController alloc] initWithRootTreeNode:@"Tag"];
         UINavigationController* tagController = [[UINavigationController alloc] init];
         tagView.title = WizStrTags;
         [tagController pushViewController:tagView animated:NO];

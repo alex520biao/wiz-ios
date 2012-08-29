@@ -373,6 +373,7 @@
 		73D751A515E4D4DE003194DD /* treeClosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73D7519D15E4D4DE003194DD /* treeClosed@2x.png */; };
 		73D751AA15E4E59D003194DD /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D751A815E4E59D003194DD /* libMobClickLibrary.a */; };
 		73E05167156B85BF0064A353 /* WizPadTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E05166156B85BF0064A353 /* WizPadTagsViewController.m */; };
+		73E23F7515EDBA1800D5D4BC /* WizIphoneTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E23F7415EDBA1800D5D4BC /* WizIphoneTagController.m */; };
 		73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E3D3C115E71F3E00EB788C /* treeSectionHeaderBackgroud.png */; };
 		73E4462A155CB429004077AF /* NSIndexPath+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E44629155CB429004077AF /* NSIndexPath+WizTools.m */; };
 		73E5DB751550C7E800CC3562 /* WizString.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E5DB741550C7E800CC3562 /* WizString.m */; };
@@ -964,6 +965,8 @@
 		73DD153B156126E500DBC350 /* WizEidtNoteSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEidtNoteSourceDelegate.h; sourceTree = "<group>"; };
 		73E05165156B85BF0064A353 /* WizPadTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadTagsViewController.h; sourceTree = "<group>"; };
 		73E05166156B85BF0064A353 /* WizPadTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadTagsViewController.m; sourceTree = "<group>"; };
+		73E23F7315EDBA1800D5D4BC /* WizIphoneTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizIphoneTagController.h; path = Iphone/FolderTag/WizIphoneTagController.h; sourceTree = "<group>"; };
+		73E23F7415EDBA1800D5D4BC /* WizIphoneTagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizIphoneTagController.m; path = Iphone/FolderTag/WizIphoneTagController.m; sourceTree = "<group>"; };
 		73E3D3C115E71F3E00EB788C /* treeSectionHeaderBackgroud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeSectionHeaderBackgroud.png; sourceTree = "<group>"; };
 		73E44628155CB429004077AF /* NSIndexPath+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+WizTools.h"; sourceTree = "<group>"; };
 		73E44629155CB429004077AF /* NSIndexPath+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+WizTools.m"; sourceTree = "<group>"; };
@@ -1217,6 +1220,8 @@
 				7316B25C15ECB3BD00923005 /* WizIphoneTreeController.m */,
 				7316B25E15ECB73200923005 /* WizIphoneFolderController.h */,
 				7316B25F15ECB73200923005 /* WizIphoneFolderController.m */,
+				73E23F7315EDBA1800D5D4BC /* WizIphoneTagController.h */,
+				73E23F7415EDBA1800D5D4BC /* WizIphoneTagController.m */,
 			);
 			name = "FolderTags(Tree)";
 			sourceTree = "<group>";
@@ -2822,6 +2827,7 @@
 				73533DDC15EB687A00757602 /* WizTree.m in Sources */,
 				7316B25D15ECB3BD00923005 /* WizIphoneTreeController.m in Sources */,
 				7316B26015ECB73200923005 /* WizIphoneFolderController.m in Sources */,
+				73E23F7515EDBA1800D5D4BC /* WizIphoneTagController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

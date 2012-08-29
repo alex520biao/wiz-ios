@@ -13,8 +13,10 @@
 @end
 
 @implementation WizIphoneTreeController
+@synthesize deleteLastPath;
 - (void) dealloc
 {
+    [deleteLastPath  release];
     [rootTreeNode release];
     [needDisplayTreeNodes release];
     [super dealloc];
@@ -143,11 +145,12 @@
     
 }
 
+- (UIImage*) placeHolderImage
+{
+    return nil;
+}
 - (void) showExpandedIndicatory:(WizPadTreeTableCell*)cell
 {
-    
-    NSLog(@"cell keystring is %@",cell.strTreeNodeKey);
-    
     TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
     if ([node.childrenNodes count]) {
         if (!node.isExpanded) {
@@ -160,7 +163,7 @@
     }
     else
     {
-        [cell.expandedButton setImage:nil forState:UIControlStateNormal];
+        [cell.expandedButton setImage:[self placeHolderImage] forState:UIControlStateNormal];
     }
 }
 - (void) onExpandedNodeByKey:(NSString*)strKey

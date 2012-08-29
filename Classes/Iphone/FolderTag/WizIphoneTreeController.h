@@ -14,10 +14,12 @@
     TreeNode* rootTreeNode;
     NSMutableArray* needDisplayTreeNodes;
 }
+@property (nonatomic, retain) NSIndexPath* deleteLastPath;
 - (id) initWithRootTreeNode:(NSString *)nodeKey;
 - (void) reloadAllTreeNodes;
 - (void) deleteTreeNodeContentData:(NSString*)key;
 - (void) willDeleteTreeNode:(NSIndexPath*)indexPath;
 - (void) deleteTreeNode:(NSIndexPath*)indexPath;
 - (void) reloadAllData;
+- (UIImage*) placeHolderImage;
 @end

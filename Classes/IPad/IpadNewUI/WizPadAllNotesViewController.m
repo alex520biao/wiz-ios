@@ -787,12 +787,6 @@ enum WizPadTreeKeyIndex
     }
 }
 
-//- (BOOL) tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    tableView.editing = YES;
-//    return YES;
-//}
-
 - (BOOL) tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([tableView isEqual:self.masterTableView]) {

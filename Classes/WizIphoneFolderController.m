@@ -12,15 +12,15 @@
 #import "PhFolderListViewController.h"
 
 @interface WizIphoneFolderController () <UIAlertViewDelegate>
-@property (nonatomic, retain) NSIndexPath* deleteLastPath;
+
 @end
 
 @implementation WizIphoneFolderController
-@synthesize deleteLastPath;
+
 
 - (void) dealloc
 {
-    [deleteLastPath release];
+    [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
 
@@ -118,7 +118,13 @@
 }
 - (void) willDeleteTreeNode:(NSIndexPath *)indexPath
 {
+    
     TreeNode* node = [needDisplayTreeNodes objectAtIndex:indexPath.row];
+    
+    if ([node.keyString isEqualToString:@"/My Notes/"]) {
+        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),WizStrMyNotes]];
+        return;
+    }
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
                                                     message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title]
                                                    delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
@@ -126,6 +132,10 @@
     [alert show];
     [alert release];
     self.deleteLastPath = indexPath;
+}
+- (UIImage*) placeHolderImage
+{
+    return [UIImage imageNamed:@"treeFolder"];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
