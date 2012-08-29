@@ -136,7 +136,14 @@
         [tagView release];
     }
 }
-
+- (UIImage*) tableFootRemindImage
+{
+    return [UIImage imageNamed:@"tagTableFooter"];
+}
+- (NSString*) tableFootRemindString
+{
+    return NSLocalizedString(@"Tap on a tag above to see all notes with that tag. Make your notes easier to find by creating and assinging more tags.", nil);
+}
 
 
 @end

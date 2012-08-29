@@ -9,7 +9,9 @@
 #import "WizIphoneTreeController.h"
 
 @interface WizIphoneTreeController () 
-
+{
+    WizTreeRemindView* tableFootRemindView;
+}
 @end
 
 @implementation WizIphoneTreeController
@@ -19,6 +21,7 @@
     [deleteLastPath  release];
     [rootTreeNode release];
     [needDisplayTreeNodes release];
+    [tableFootRemindView release];
     [super dealloc];
 }
 - (id) initWithRootTreeNode:(NSString *)nodeKey
@@ -31,6 +34,7 @@
         folderRootNode.isExpanded = YES;
         rootTreeNode = folderRootNode;
         needDisplayTreeNodes = [[NSMutableArray array] retain];
+        tableFootRemindView = [[WizTreeRemindView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 100)];
     }
     return self;
 }
@@ -40,12 +44,31 @@
     
 }
 
+
+
+- (UIImage*) tableFootRemindImage
+{
+    return nil;
+}
+- (NSString*) tableFootRemindString
+{
+    return nil;
+}
+
+- (void) resizeTableFooterRemindView
+{
+    tableFootRemindView.frame = CGRectMake(0.0, 0.0, 320, [WizGlobals heightForWizTableFooter:[needDisplayTreeNodes count]]);
+    
+    self.tableView.tableFooterView = tableFootRemindView;
+}
 - (void) reloadAllData
 {
     [self reloadAllTreeNodes];
     [needDisplayTreeNodes removeAllObjects];
     [needDisplayTreeNodes addObjectsFromArray:[rootTreeNode allExpandedChildrenNodes]];
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    [self resizeTableFooterRemindView];
+  
 }
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -65,6 +88,7 @@
     if (nil == cell) {
         cell = [[[WizPadTreeTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.delegate = self;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     TreeNode* node = [needDisplayTreeNodes objectAtIndex:indexPath.row];
     cell.strTreeNodeKey = node.keyString;
@@ -186,7 +210,8 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"array is %@",needDisplayTreeNodes);
+    tableFootRemindView.imageView.image = [self tableFootRemindImage];
+    tableFootRemindView.textLabel.text = [self tableFootRemindString];
     [self reloadAllData];
 }
 - (void) deleteTreeNodeContentData:(NSString*)key
@@ -218,6 +243,8 @@
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row -1 inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [self.tableView endUpdates];
+    
+    [self resizeTableFooterRemindView];
 }
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

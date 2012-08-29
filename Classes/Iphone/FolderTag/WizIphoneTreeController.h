@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TreeNode.h"
 #import "WizPadTreeTableCell.h"
+#import "WizTreeRemindView.h"
 @interface WizIphoneTreeController : UITableViewController<WizPadTreeTableCellDelegate>
 {
     TreeNode* rootTreeNode;
@@ -21,5 +22,7 @@
 - (void) willDeleteTreeNode:(NSIndexPath*)indexPath;
 - (void) deleteTreeNode:(NSIndexPath*)indexPath;
 - (void) reloadAllData;
-- (UIImage*) placeHolderImage;
+//
+- (UIImage*) tableFootRemindImage;
+- (NSString*) tableFootRemindString;
 @end

@@ -145,5 +145,13 @@
         [folder release];
     }
 }
+- (UIImage*) tableFootRemindImage
+{
+    return [UIImage imageNamed:@"folderTableFooter"];
+}
 
+- (NSString*) tableFootRemindString
+{
+    return NSLocalizedString(@"Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use.", nil);
+}
 @end
