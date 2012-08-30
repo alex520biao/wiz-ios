@@ -107,8 +107,11 @@
             }
             self.backgroundView = selectedView;
             titleLabel.textColor = [UIColor lightTextColor];
-            addNewTreeNodeButton.frame = CGRectMake(self.frame.size.width -50, 0.0, 45, self.frame.size.height);
-            addNewTreeNodeButton.hidden = NO;
+            if (self.strTreeNodeKey != nil) {
+                addNewTreeNodeButton.frame = CGRectMake(self.frame.size.width -50, 0.0, 45, self.frame.size.height);
+                
+                addNewTreeNodeButton.hidden = NO;
+            }
         }
         else
         {

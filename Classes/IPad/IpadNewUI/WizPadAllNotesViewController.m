@@ -31,7 +31,7 @@ enum WizPadTreeKeyIndex
     WizPadTreeTagIndex = 1,
     WizpadTreeFolderIndex = 0
 };
-@interface WizPadAllNotesViewController () <WizPadTableHeaderDeleage, WizPadTreeTableCellDelegate, WizPadCellSelectedDocumentDelegate, UIAlertViewDelegate>
+@interface WizPadAllNotesViewController () <WizPadTableHeaderDeleage, WizPadTreeTableCellDelegate, WizPadCellSelectedDocumentDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 {
     NSMutableArray*  rootNodes;
     NSMutableArray*  needDisplayNodes;
@@ -137,12 +137,14 @@ enum WizPadTreeKeyIndex
         TreeNode* tagRootNode = [[[TreeNode alloc] init] autorelease];
         tagRootNode.title   = WizStrTags;
         tagRootNode.keyString = WizTreeViewTagKeyString;
+        tagRootNode.strType = WizTreeViewTagKeyString;
         tagRootNode.isExpanded = YES;
         [rootNodes addObject:tagRootNode];
         
         TreeNode* folderRootNode = [[[TreeNode alloc] init] autorelease];
         folderRootNode.title   = WizStrFolders;
         folderRootNode.keyString = WizTreeViewFolderKeyString;
+        folderRootNode.strType = WizTreeViewFolderKeyString;
         folderRootNode.isExpanded = YES;
         [rootNodes addObject:folderRootNode];
         
@@ -624,6 +626,15 @@ enum WizPadTreeKeyIndex
 
 - (TreeNode*) findTreeNodeByKey:(NSString*)strKey
 {
+    
+    if ([strKey isEqualToString:WizTreeViewFolderKeyString]) {
+        return [self findRootNode:WizTreeViewFolderKeyString];
+    }
+    else if ([strKey isEqualToString:WizTreeViewTagKeyString])
+    {
+        return [self findRootNode:WizTreeViewTagKeyString];
+    }
+    
     TreeNode* node = [[self findRootNode:WizTreeViewFolderKeyString] childNodeFromKeyString:strKey];
     if (node) {
         return node;
@@ -712,28 +723,44 @@ enum WizPadTreeKeyIndex
     }
     [self.masterTableView endUpdates];
 }
-- (void) addNewTagFromTootNode:(TreeNode*)node  title:(NSString*)title
+- (void) addNodeFromRootNode:(TreeNode*)node  title:(NSString*)title
 {
     if (node.isExpanded) {
         [self onExpandedNode:node];
     }
-    
-    WizTag* tag = [[WizTag alloc] init];
-    tag.guid = [WizGlobals genGUID];
-    tag.title = title;
-    tag.parentGUID = node.keyString;
-    [tag save];
-    TreeNode* nodeAdded = [[TreeNode alloc] init];
-    nodeAdded.title = title;
-    nodeAdded.strType = WizTreeViewTagKeyString;
-    nodeAdded.keyString = tag.guid;
-    [node addChildTreeNode:nodeAdded];
+    if ([node.strType isEqualToString:WizTreeViewTagKeyString]) {
+        NSString* parentGuid = [node.keyString isEqualToString:WizTreeViewTagKeyString] ? nil : node.keyString;
+        WizTag* tag = [[WizTag alloc] init];
+        tag.guid = [WizGlobals genGUID];
+        tag.title = title;
+        tag.parentGUID = parentGuid;
+        [tag save];
+        TreeNode* nodeAdded = [[TreeNode alloc] init];
+        nodeAdded.title = title;
+        nodeAdded.strType = WizTreeViewTagKeyString;
+        nodeAdded.keyString = tag.guid;
+        [node addChildTreeNode:nodeAdded];
+    }
+    else if ([node.strType isEqualToString:WizTreeViewFolderKeyString])
+    {
+        NSString* parentPath = [node.keyString isEqualToString:WizTreeViewFolderKeyString] ? @"/" : node.keyString;
+        
+        NSString* path = [NSString stringWithFormat:@"%@%@/",parentPath,title];
+        
+        [WizObject addLocalFolder:path];
+        TreeNode* nodeAdded = [[TreeNode alloc] init];
+        nodeAdded.title = path;
+        nodeAdded.strType = WizTreeViewFolderKeyString;
+        nodeAdded.keyString = path;
+        [node addChildTreeNode:nodeAdded];
+    }
+
     [self onExpandedNode:node];
     
-    TreeNode* tagRoot = [self findRootNode:WizTreeViewTagKeyString];
-    [tagRoot displayDescription];
+    [node displayDescription];
 
 }
+
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -780,14 +807,7 @@ enum WizPadTreeKeyIndex
                     }
                 }
             }
-            if(alertView.tag == WizAddNewFolderViewTag)
-            {
-                
-            }
-            else if (alertView.tag == WizAddNewTagViewTag)
-            {
-                [self addNewTagFromTootNode:self.lastSelectedTreeNode title:title];
-            }
+            [self addNodeFromRootNode:self.lastSelectedTreeNode title:title];
         }
 
     }
@@ -851,7 +871,19 @@ enum WizPadTreeKeyIndex
     return NO;
 }
 
+- (void) addNewTreeNodeFrom:(NSString *)strNodeKey
+{
+    TreeNode* node = [self findRootNode:strNodeKey];
+    if (node != nil) {
+        self.lastSelectedTreeNode = node;
+        [self didSelectedTheNewTreeNodeButton:strNodeKey];
+    }
 
+}
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return [string checkHasInvaildCharacters];
+}
 - (void) didSelectedTheNewTreeNodeButton:(NSString *)strTreeNodeKey
 {
     TreeNode* node = [self findTreeNodeByKey:strTreeNodeKey];
@@ -872,7 +904,7 @@ enum WizPadTreeKeyIndex
         nAlertViewTag = WizAddNewFolderViewTag;
     }
     UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
-                                                     message:@"\n\n"
+                                                     message:@"\n\n\n"
                                                     delegate:nil
                                            cancelButtonTitle:WizStrCancel
                                            otherButtonTitles:WizStrOK, nil];
@@ -881,7 +913,9 @@ enum WizPadTreeKeyIndex
     [textField setBackgroundColor:[UIColor whiteColor]];
     [textField setPlaceholder:strAlertPlaceHolder];
     [prompt addSubview:textField];
+    textField.delegate = self;
     [textField release];
+    
     [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
     prompt.delegate = self;
     [prompt show];

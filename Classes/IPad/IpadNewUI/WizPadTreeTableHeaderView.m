@@ -11,6 +11,7 @@
 @interface WizPadTreeTableHeaderView ()
 {
     UIImageView*  expandedImageView;
+    UIButton* addNewTreeNodeBtn;
 }
 @end
 
@@ -22,6 +23,7 @@
 {
     self.treeNode = nil;
     delegate = nil;
+    [addNewTreeNodeBtn release];
     [titleLabel release];
     [expandedImageView release];
     [super dealloc];
@@ -36,12 +38,17 @@
     {
         expandedImageView.image = [UIImage imageNamed:@"treeHeaderClosed"];
     }
+    [addNewTreeNodeBtn setImage:[UIImage imageNamed:@"about"] forState:UIControlStateNormal];
 }
 
 - (void) didSelected
 {
     [self.delegate didSelectedHeader:self forTreeNode:self.treeNode];
     [self showExpandedIndicatory];
+}
+- (void) addNewTreeNode
+{
+    [self.delegate addNewTreeNodeFrom:self.treeNode.keyString];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -51,17 +58,23 @@
         UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"treeSectionHeaderBackgroud"]];
         imageView.frame = CGRectMake(0.0, 0.0, frame.size.width, frame.size.height);
         [self addSubview:imageView];
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0.0, frame.size.width-10, frame.size.height)];
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0.0, frame.size.width-80, frame.size.height)];
         titleLabel.font = [UIFont systemFontOfSize:16];
         [self addSubview:titleLabel];
         titleLabel.backgroundColor = [UIColor clearColor];
-        
-        expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 30, 30)];
+        //
+        expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0.0, 30, 30)];
+        expandedImageView.userInteractionEnabled = YES;
         [self addSubview:expandedImageView];
+        //
+        addNewTreeNodeBtn = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width - 40, 0.0, 30, 30)];
+        [self addSubview:addNewTreeNodeBtn];
+        [addNewTreeNodeBtn addTarget:self action:@selector(addNewTreeNode) forControlEvents:UIControlEventTouchUpInside];
+        //
         UITapGestureRecognizer* tap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelected)] autorelease];
         tap.numberOfTapsRequired =1;
         tap.numberOfTouchesRequired =1;
-        [self addGestureRecognizer:tap];
+        [expandedImageView addGestureRecognizer:tap];
         self.alpha = 0.8;
     }
     return self;

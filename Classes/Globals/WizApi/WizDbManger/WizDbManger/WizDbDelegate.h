@@ -76,4 +76,6 @@
 - (int) fileCountOfLocation:(NSString *)location;
 - (int) filecountWithChildOfLocation:(NSString*) location;
 - (NSString*) folderAbstractString:(NSString*)folderKey;
+- (BOOL) updateLocalFolder:(NSString*)folder;
+- (BOOL) deleteLocalFolder:(NSString*)folder;
 @end

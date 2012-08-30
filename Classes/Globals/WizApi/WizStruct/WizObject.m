@@ -50,6 +50,13 @@
     for (WizDocument* doc in documents) {
         [WizDocument deleteDocument:doc];
     }
+    [dataBase deleteLocalFolder:folderKey];
     
+}
+
++ (BOOL) addLocalFolder:(NSString*)folder
+{
+    id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
+    return [dataBase updateLocalFolder:folder];
 }
 @end

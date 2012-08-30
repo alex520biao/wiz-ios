@@ -20,4 +20,5 @@
 + (NSArray*) allLocationsForTree;
 + (NSString*) folderAbstract:(NSString*)folderKey;
 + (void) deleteFolder:(NSString*)folderKey;
++ (BOOL) addLocalFolder:(NSString*)folder;
 @end

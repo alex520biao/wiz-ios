@@ -917,9 +917,52 @@
     return YES;
 }
 
+- (NSArray*) allLocalFolders
+{
+    __block NSMutableArray* array = [NSMutableArray array];
+    [self.queue inDatabase:^(FMDatabase *db) {
+        FMResultSet* result = [db executeQuery:@"select FOLDER_TITLE from WIZ_LOCAL_FOLDER "];
+        while ([result next]) {
+            NSString* location = [result stringForColumnIndex:0];
+            
+            NSLog(@"location is %@",location);
+            if (!location || [location isEqualToString:@""]) {
+                continue;
+            }
+            [array addObject:location];
+        }
+        [result close];
+    }];
+    return array;
+}
+
+- (BOOL) updateLocalFolder:(NSString*)folder
+{
+    NSArray* folders = [self allLocalFolders];
+    for (NSString* each in folders) {
+        if ([each isEqualToString:folder]) {
+            return YES;
+        }
+    }
+    __block BOOL ret = NO;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        ret = [db executeUpdate:@"insert into WIZ_LOCAL_FOLDER(FOLDER_TITLE) values(?)",folder];
+    }];
+    return ret;
+}
+
+- (BOOL) deleteLocalFolder:(NSString*)folder
+{
+    __block BOOL isSuc = NO;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        isSuc = [db executeUpdate:@"delete from WIZ_LOCAL_FOLDER where FOLDER_TITLE=?",folder];
+    }];
+    return isSuc;
+}
+
 - (NSArray*) allLocationsForTree
 {
-    __block NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    __block NSMutableArray* dic = [NSMutableArray array];
     [self.queue inDatabase:^(FMDatabase *db) {
         FMResultSet* result = [db executeQuery:@"select distinct DOCUMENT_LOCATION from WIZ_DOCUMENT"];
         
@@ -928,12 +971,13 @@
             if (!location) {
                 continue;
             }
-            [dic setObject:location forKey:location];
+            [dic addObject:location];
         }
-        [dic setObject:@"/My Notes/" forKey:@"/My Notes/"];
+        [dic addObject:@"/My Notes/"];
         [result close];
     }];
-    return [dic allValues];
+    [dic addObjectsFromArray:[self allLocalFolders]];
+    return dic;
 }
 
 //

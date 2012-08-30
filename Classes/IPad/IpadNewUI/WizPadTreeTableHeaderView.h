@@ -11,6 +11,7 @@
 @class WizPadTreeTableHeaderView;
 @protocol WizPadTableHeaderDeleage <NSObject>
 - (void) didSelectedHeader:(WizPadTreeTableHeaderView*)header forTreeNode:(TreeNode*)node;
+- (void) addNewTreeNodeFrom:(NSString*)strNodeKey;
 @end
 
 @interface WizPadTreeTableHeaderView : UIView

@@ -128,5 +128,12 @@
 		<key>PROTECT</key>
 		<string>int</string>
 	</dict>
+	<key>WIZ_LOCAL_FOLDER</key>
+	<dict>
+		<key>PRIMARAY_KEY</key>
+		<string>FOLDER_TITLE</string>
+		<key>FOLDER_TITLE</key>
+		<string>varchar(768)</string>
+	</dict>
 </dict>
 </plist>
