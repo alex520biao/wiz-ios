@@ -18,6 +18,8 @@
 - (void) onExpandedNodeByKey:(NSString*)strKey;
 - (NSInteger) treeNodeDeep:(NSString*)strKey;
 - (void) decorateTreeCell:(WizPadTreeTableCell*)cell;
+
+- (void) didSelectedTheNewTreeNodeButton:(NSString*)strTreeNodeKey;
 @end
 
 @interface WizPadTreeTableCell : UITableViewCell

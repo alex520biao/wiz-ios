@@ -103,6 +103,7 @@
 
 - (void) displayDescription
 {
+    NSLog(@"self is %@ , %@",self.title,self.keyString);
     for (TreeNode* each in childrenNodes_) {
         [each displayDescription];
     }

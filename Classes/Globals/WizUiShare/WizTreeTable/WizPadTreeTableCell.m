@@ -11,7 +11,9 @@
 #define WizTreeMaxDeep 7
 
 @interface WizPadTreeTableCell ()
-
+{
+    UIButton* addNewTreeNodeButton;
+}
 @end
 
 @implementation WizPadTreeTableCell
@@ -26,9 +28,13 @@
     [expandedButton release];
     [titleLabel release];
     [detailLabel release];
+    [addNewTreeNodeButton release];
     [super dealloc];
 }
-
+- (void) addNewTreeNode
+{
+    [self.delegate didSelectedTheNewTreeNodeButton:self.strTreeNodeKey];
+}
 - (void) showExpandedIndicatory
 {
     [self bringSubviewToFront:expandedButton];
@@ -66,6 +72,12 @@
         
         detailLabel.backgroundColor = [UIColor clearColor];
         
+        addNewTreeNodeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        [self.contentView addSubview:addNewTreeNodeButton];
+        [addNewTreeNodeButton setImage:[UIImage imageNamed:@"userIcons"] forState:UIControlStateNormal];
+        addNewTreeNodeButton.hidden = YES;
+        addNewTreeNodeButton.backgroundColor = [UIColor redColor];
+        [addNewTreeNodeButton addTarget:self action:@selector(addNewTreeNode) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -95,12 +107,14 @@
             }
             self.backgroundView = selectedView;
             titleLabel.textColor = [UIColor lightTextColor];
-            
+            addNewTreeNodeButton.frame = CGRectMake(self.frame.size.width -50, 0.0, 45, self.frame.size.height);
+            addNewTreeNodeButton.hidden = NO;
         }
         else
         {
             self.backgroundView = nil;
             titleLabel.textColor = [UIColor blackColor];
+            addNewTreeNodeButton.hidden = YES;
         }
     }
     [super setSelected:selected animated:animated];

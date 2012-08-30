@@ -21,6 +21,9 @@
 
 #define WizDeletedTagViewTag    7845
 
+#define WizAddNewTagViewTag        2356
+#define WizAddNewFolderViewTag      2134
+
 #define WizTreeSectionHeaderViewHeight  30
 
 enum WizPadTreeKeyIndex
@@ -558,7 +561,11 @@ enum WizPadTreeKeyIndex
         [masterTableView deleteRowsAtIndexPaths:deletedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
         [masterTableView endUpdates];
     }
-
+    if (indexPath.row > 0 && indexPath.section > 0) {
+        [masterTableView beginUpdates];
+        [masterTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [masterTableView endUpdates];
+    }
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -705,33 +712,84 @@ enum WizPadTreeKeyIndex
     }
     [self.masterTableView endUpdates];
 }
+- (void) addNewTagFromTootNode:(TreeNode*)node  title:(NSString*)title
+{
+    if (node.isExpanded) {
+        [self onExpandedNode:node];
+    }
+    
+    WizTag* tag = [[WizTag alloc] init];
+    tag.guid = [WizGlobals genGUID];
+    tag.title = title;
+    tag.parentGUID = node.keyString;
+    [tag save];
+    TreeNode* nodeAdded = [[TreeNode alloc] init];
+    nodeAdded.title = title;
+    nodeAdded.strType = WizTreeViewTagKeyString;
+    nodeAdded.keyString = tag.guid;
+    [node addChildTreeNode:nodeAdded];
+    [self onExpandedNode:node];
+    
+    TreeNode* tagRoot = [self findRootNode:WizTreeViewTagKeyString];
+    [tagRoot displayDescription];
 
+}
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-         if (self.lastDeletedIndexPath != nil) {
-            if (alertView.tag = 9090) {
-               
-                    [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode *node) {
+         if (self.lastDeletedIndexPath != nil)
+         {
+            if (alertView.tag == 9090)
+            {
+                [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode *node)
+                {
                         [WizObject deleteFolder:node.keyString];
-                    }
-                     andEndBlocks:^{
-                         isIgnoreReloadFolder = YES;
+                }
+                andEndBlocks:^
+                {
+                        isIgnoreReloadFolder = YES;
                          [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateFolderTable];
                      }];
-                }
-        }
-        else if (alertView.tag = WizDeletedTagViewTag)
-        {
-            [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode * node){
-                [WizTag deleteLocalTag:node.keyString];
             }
-                    andEndBlocks:^{
-                        isIgnoreReloadTag = YES;
-                        [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
-                    } ];
+            else if (alertView.tag == WizDeletedTagViewTag)
+            {
+                
+                [self deleteTreeNode:self.lastDeletedIndexPath useingBlock:^(TreeNode * node)
+                {
+                    [WizTag deleteLocalTag:node.keyString];
+                    NSLog(@"delete %@",node.keyString);
+                }
+                        andEndBlocks:^
+                {
+                            isIgnoreReloadTag = YES;
+                            [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];
+                } ];
+            }
+             self.lastDeletedIndexPath = nil;
         }
+        else if (self.lastSelectedTreeNode != nil)
+        {
+            NSString* title = WizStrNoTitle;
+            for (UIView* each in [alertView subviews]) {
+                if ([each isKindOfClass:[UITextField class]]) {
+                    UITextField* textFiled = (UITextField*)each;
+                    NSString* str = textFiled.text;
+                    if (str) {
+                        title = str;
+                    }
+                }
+            }
+            if(alertView.tag == WizAddNewFolderViewTag)
+            {
+                
+            }
+            else if (alertView.tag == WizAddNewTagViewTag)
+            {
+                [self addNewTagFromTootNode:self.lastSelectedTreeNode title:title];
+            }
+        }
+
     }
 }
 
@@ -743,7 +801,7 @@ enum WizPadTreeKeyIndex
     }
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-
+        self.lastDeletedIndexPath = indexPath;
         if (indexPath.section  == WizpadTreeFolderIndex) {
             
             if ([node.keyString isEqualToString:@"/My Notes/"]) {
@@ -768,17 +826,15 @@ enum WizPadTreeKeyIndex
                 return;
             }
             
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Tag", nil)
                                                             message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the tag %@ , are you sure?", nil), getTagDisplayName(node.title)]
                                                            delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
             alert.tag = WizDeletedTagViewTag;
             [alert show];
             [alert release];
-            self.lastDeletedIndexPath = indexPath;
-            
 
         }
-        self.lastDeletedIndexPath = indexPath;
+        
     }
     
     else if (editingStyle == UITableViewCellEditingStyleInsert)
@@ -795,5 +851,42 @@ enum WizPadTreeKeyIndex
     return NO;
 }
 
+
+- (void) didSelectedTheNewTreeNodeButton:(NSString *)strTreeNodeKey
+{
+    TreeNode* node = [self findTreeNodeByKey:strTreeNodeKey];
+    
+    NSString* strAlertTitle = nil;
+    NSString* strAlertPlaceHolder = nil;
+    
+    NSInteger nAlertViewTag = 0;
+    if ([node.strType isEqualToString:WizTreeViewTagKeyString]) {
+        strAlertTitle = NSLocalizedString(@"Add Tag", nil);
+        strAlertPlaceHolder = NSLocalizedString(@"Tag title", nil);
+        nAlertViewTag = WizAddNewTagViewTag;
+    }
+    else
+    {
+        strAlertTitle = NSLocalizedString(@"Add Folder", nil);
+        strAlertPlaceHolder = NSLocalizedString(@"Folder title", nil);
+        nAlertViewTag = WizAddNewFolderViewTag;
+    }
+    UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
+                                                     message:@"\n\n"
+                                                    delegate:nil
+                                           cancelButtonTitle:WizStrCancel
+                                           otherButtonTitles:WizStrOK, nil];
+    prompt.tag = nAlertViewTag;
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)];
+    [textField setBackgroundColor:[UIColor whiteColor]];
+    [textField setPlaceholder:strAlertPlaceHolder];
+    [prompt addSubview:textField];
+    [textField release];
+    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
+    prompt.delegate = self;
+    [prompt show];
+    [prompt release];
+
+}
 
 @end

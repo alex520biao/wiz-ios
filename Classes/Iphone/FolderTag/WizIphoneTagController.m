@@ -114,7 +114,7 @@
         [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),WizTagPublic]];
         return;
     }
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Tag", nil)
                                                     message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the tag %@ , are you sure?", nil), getTagDisplayName(node.title)]
                                                    delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
     alert.tag = 9090;
