@@ -235,7 +235,9 @@
 "You can pull down to sync notes or tap the plus (+) icon to create a new a note"="请下拉以同步您在服务器的笔记，或者单击新建按钮（＋）来新建笔记。";
 "You don't have any notes.\n Tap new note to get started!"="您没有任何笔记。\n单击新建笔记以开始。";
 "You have successfully changed your password"="您的密码已经成功修改！";
+"You will delete the folder %@ and notes in it, are you sure?"="您将删除文件夹”%@“，是否继续？";
 "You will delete the folder %@ and nots in it, are you sure?"="您将删除文件夹“%@”和它下面的笔记，是否继续删除？";
+"You will delete the tag %@ , are you sure?"="您将删除标签”%@“，是否继续？";
 "Your advice"="您的建议：";
 "download successfully"="下载成功";
 "find %d notes"="找到 %d 个文件";
