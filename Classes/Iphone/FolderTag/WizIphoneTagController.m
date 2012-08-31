@@ -90,39 +90,10 @@
     cell.detailLabel.text = count;
     cell.titleLabel.text = getTagDisplayName(node.title);
 }
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        if (alertView.tag = 9090) {
-            if (self.deleteLastPath != nil) {
-                [self deleteTreeNode:self.deleteLastPath];
-                self.deleteLastPath = nil;
-            }
-            
-        }
-    }
-}
 - (void) deleteTreeNodeContentData:(NSString *)key
 {
     [WizTag deleteLocalTag:key];
 }
-- (void) willDeleteTreeNode:(NSIndexPath *)indexPath
-{
-    TreeNode* node = [needDisplayTreeNodes objectAtIndex:indexPath.row];
-    
-    if ([node.title isEqualToString:WizTagPublic]) {
-        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),WizTagPublic]];
-        return;
-    }
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Tag", nil)
-                                                    message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the tag %@ , are you sure?", nil), getTagDisplayName(node.title)]
-                                                   delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
-    alert.tag = 9090;
-    [alert show];
-    [alert release];
-    self.deleteLastPath = indexPath;
-}
-
 - (UIImage*) placeHolderImage
 {
     return [UIImage imageNamed:@"treeTag"];
@@ -144,6 +115,28 @@
 {
     return NSLocalizedString(@"Tap on a tag above to see all notes with that tag. Make your notes easier to find by creating and assinging more tags.", nil);
 }
+//
+- (NSString*) deletedAlertTitle
+{
+    return NSLocalizedString(@"Delete Tag", nil);
+}
+- (NSString*) deletedAlertMessage:(TreeNode*)node
+{
+    return [NSString stringWithFormat:NSLocalizedString(@"You will delete the tag %@ , are you sure?", nil), getTagDisplayName(node.title)];
+}
+- (BOOL) isDeletedVaild:(TreeNode*)node
+{
+    return ![node.title isEqualToString:WizTagPublic];
+}
+//
+- (NSString*) addNodeAlertTitle
+{
+    return NSLocalizedString(@"Add Tag", nil);
+}
 
+- (NSString*) alertTextfiledPlaceHolder
+{
+    return NSLocalizedString(@"Tag title", nil);
+}
 
 @end

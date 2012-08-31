@@ -25,4 +25,12 @@
 //
 - (UIImage*) tableFootRemindImage;
 - (NSString*) tableFootRemindString;
+//
+- (NSString*) addNodeAlertTitle;
+- (NSString*) alertTextfiledPlaceHolder;
+- (TreeNode*) createNewTreeNode:(NSString*)title fromeRootNode:(TreeNode*)node;
+//
+- (NSString*) deletedAlertTitle;
+- (NSString*) deletedAlertMessage:(TreeNode*)node;
+- (BOOL) isDeletedVaild:(TreeNode*)node;
 @end

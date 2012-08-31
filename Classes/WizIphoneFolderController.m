@@ -11,7 +11,7 @@
 #import "WizNotification.h"
 #import "PhFolderListViewController.h"
 
-@interface WizIphoneFolderController () <UIAlertViewDelegate>
+@interface WizIphoneFolderController () 
 
 @end
 
@@ -98,38 +98,10 @@
     }
     cell.titleLabel.text = NSLocalizedString(node.title, nil) ;
 }
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        if (alertView.tag = 9090) {
-            if (self.deleteLastPath != nil) {
-                [self deleteTreeNode:self.deleteLastPath];
-                self.deleteLastPath = nil;
-            }
-        
-        }
-    }
-}
+
 - (void) deleteTreeNodeContentData:(NSString *)key
 {
     [WizObject deleteFolder:key];
-}
-- (void) willDeleteTreeNode:(NSIndexPath *)indexPath
-{
-    
-    TreeNode* node = [needDisplayTreeNodes objectAtIndex:indexPath.row];
-    
-    if ([node.keyString isEqualToString:@"/My Notes/"]) {
-        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),WizStrMyNotes]];
-        return;
-    }
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Delete Folder", nil)
-                                                    message:[NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title]
-                                                   delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
-    alert.tag = 9090;
-    [alert show];
-    [alert release];
-    self.deleteLastPath = indexPath;
 }
 - (UIImage*) placeHolderImage
 {
@@ -153,5 +125,45 @@
 - (NSString*) tableFootRemindString
 {
     return NSLocalizedString(@"Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use.", nil);
+}
+//
+- (NSString*) addNodeAlertTitle
+{
+    return NSLocalizedString(@"Add Folder", nil);
+}
+
+- (NSString*) alertTextfiledPlaceHolder
+{
+    return NSLocalizedString(@"Folder title", nil);
+}
+
+- (TreeNode*) createNewTreeNode:(NSString *)title  fromeRootNode:(TreeNode*)node
+{
+    NSString* parentPath = @"/";
+    
+    NSString* path = [NSString stringWithFormat:@"%@%@/",parentPath,title];
+    
+    [WizObject addLocalFolder:path];
+    TreeNode* nodeAdded = [[TreeNode alloc] init];
+    nodeAdded.title = title;
+    nodeAdded.strType = WizTreeViewFolderKeyString;
+    nodeAdded.keyString = path;
+    [node addChildTreeNode:nodeAdded];
+    return [nodeAdded autorelease];
+}
+//
+- (NSString*) deletedAlertTitle
+{
+    return NSLocalizedString(@"Delete Folder", nil);
+}
+
+- (NSString*) deletedAlertMessage:(TreeNode*)node
+{
+    return [NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title];
+}
+
+- (BOOL) isDeletedVaild:(TreeNode*)node
+{
+    return ![node.keyString isEqualToString:@"/My Notes/"];
 }
 @end

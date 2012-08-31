@@ -8,14 +8,18 @@
 
 #import "WizIphoneTreeController.h"
 
-@interface WizIphoneTreeController () 
+#define WizIphoneAddTreeNodeTag    9098
+#define WizIphoneDeleteTreeNodeTag  9090
+
+@interface WizIphoneTreeController () <UITextFieldDelegate, UIAlertViewDelegate>
 {
     WizTreeRemindView* tableFootRemindView;
 }
 @end
 
-@implementation WizIphoneTreeController
+@implementation WizIphoneTreeController 
 @synthesize deleteLastPath;
+
 - (void) dealloc
 {
     [deleteLastPath  release];
@@ -105,6 +109,25 @@
 {
     return [rootTreeNode childNodeFromKeyString:strKey];
 }
+
+- (void) onexpandedRootNode
+{
+    NSLog(@"%d",rootTreeNode.isExpanded);
+    if (rootTreeNode.isExpanded) {
+        rootTreeNode.isExpanded = !rootTreeNode.isExpanded;
+        [needDisplayTreeNodes removeAllObjects];
+        [self.tableView reloadData];
+    }
+    else
+    {
+        rootTreeNode.isExpanded = !rootTreeNode.isExpanded;
+        [needDisplayTreeNodes removeAllObjects];
+        [needDisplayTreeNodes addObjectsFromArray:[rootTreeNode allExpandedChildrenNodes]];
+        [self.tableView reloadData];
+    }
+    ;
+}
+
 - (void) onExpandedNode:(TreeNode *)node
 {
     NSInteger row = NSNotFound;
@@ -205,45 +228,58 @@
 {
     
 }
-- (NSString*) alertTitle
+- (NSString*) addNodeAlertTitle
 {
     return nil;
 }
-- (void) addTreeNode
+
+- (NSString*) alertTextfiledPlaceHolder
+{
+    return nil;
+}
+
+- (TreeNode*) createNewTreeNode:(NSString*)title fromeRootNode:(TreeNode*)node
+{
+    return nil;
+}
+
+
+- (void) doAddTreeNode:(TreeNode*)node title:(NSString*)title
+{
+    [self onexpandedRootNode];
+    TreeNode* newlyNode = [self createNewTreeNode:title fromeRootNode:rootTreeNode];
+    if (!newlyNode) {
+        return;
+    }
+    [self onexpandedRootNode];
+}
+
+- (void) willAddTreeNode
 {
     
-//    NSString* strAlertTitle = nil;
-//    NSString* strAlertPlaceHolder = nil;
-//    
-//    NSInteger nAlertViewTag = 0;
-//    if ([node.strType isEqualToString:WizTreeViewTagKeyString]) {
-//        strAlertTitle = NSLocalizedString(@"Add Tag", nil);
-//        strAlertPlaceHolder = NSLocalizedString(@"Tag title", nil);
-//        nAlertViewTag = WizAddNewTagViewTag;
-//    }
-//    else
-//    {
-//        strAlertTitle = NSLocalizedString(@"Add Folder", nil);
-//        strAlertPlaceHolder = NSLocalizedString(@"Folder title", nil);
-//        nAlertViewTag = WizAddNewFolderViewTag;
-//    }
-//    UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
-//                                                     message:@"\n\n\n"
-//                                                    delegate:nil
-//                                           cancelButtonTitle:WizStrCancel
-//                                           otherButtonTitles:WizStrOK, nil];
-//    prompt.tag = nAlertViewTag;
-//    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)];
-//    [textField setBackgroundColor:[UIColor whiteColor]];
-//    [textField setPlaceholder:strAlertPlaceHolder];
-//    [prompt addSubview:textField];
-//    textField.delegate = self;
-//    [textField release];
-//    
-//    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
-//    prompt.delegate = self;
-//    [prompt show];
-//    [prompt release];
+    NSString* strAlertTitle = [self addNodeAlertTitle];
+    NSString* strAlertPlaceHolder = [self alertTextfiledPlaceHolder];
+    
+    NSInteger nAlertViewTag = WizIphoneAddTreeNodeTag;
+    
+    
+    UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
+                                                     message:@"\n\n\n"
+                                                    delegate:nil
+                                           cancelButtonTitle:WizStrCancel
+                                           otherButtonTitles:WizStrOK, nil];
+    prompt.tag = nAlertViewTag;
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)];
+    [textField setBackgroundColor:[UIColor whiteColor]];
+    [textField setPlaceholder:strAlertPlaceHolder];
+    [prompt addSubview:textField];
+    textField.delegate = self;
+    [textField release];
+    
+    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
+    prompt.delegate = self;
+    [prompt show];
+    [prompt release];
 }
 
 - (void) viewDidLoad
@@ -252,7 +288,7 @@
     tableFootRemindView.imageView.image = [self tableFootRemindImage];
     tableFootRemindView.textLabel.text = [self tableFootRemindString];
     [self reloadAllData];
-    UIBarButtonItem* barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(addTreeNode)];
+    UIBarButtonItem* barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(willAddTreeNode)];
     self.navigationItem.rightBarButtonItem = barButton;
     [barButton release];
 }
@@ -260,10 +296,58 @@
 {
     
 }
+- (NSString*) deletedAlertTitle
+{
+    return nil;
+}
 
+- (NSString*) deletedAlertMessage:(TreeNode*)node
+{
+    return nil;
+}
+
+- (BOOL) isDeletedVaild:(TreeNode*)node
+{
+    return NO;
+}
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    if (buttonIndex == 1) {
+        if (WizIphoneDeleteTreeNodeTag == alertView.tag) {
+            if (self.deleteLastPath != nil) {
+                [self deleteTreeNode:self.deleteLastPath];
+                self.deleteLastPath = nil;
+            }
+        }
+        else if (WizIphoneAddTreeNodeTag == alertView.tag )
+        {
+            NSString* title = WizStrNoTitle;
+            for (UIView* each in [alertView subviews]) {
+                if ([each isKindOfClass:[UITextField class]]) {
+                    UITextField* textField = (UITextField*)each;
+                    title = textField.text;
+                }
+            }
+            [self doAddTreeNode:rootTreeNode title:title];
+        }
+    }
+}
 - (void) willDeleteTreeNode:(NSIndexPath*)indexPath
 {
-
+    TreeNode* node = [needDisplayTreeNodes objectAtIndex:indexPath.row];
+    
+    if (![self isDeletedVaild:node]) {
+        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Deleting %@ is not allowed!", nil),NSLocalizedString(node.title, nil)]];
+        return;
+    }
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[self deletedAlertTitle]
+                                                    message:[self deletedAlertMessage:node]
+                                                   delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrDelete, nil];
+    alert.tag = WizIphoneDeleteTreeNodeTag;
+    [alert show];
+    [alert release];
+    self.deleteLastPath = indexPath;
 }
 
 - (void) deleteTreeNode:(NSIndexPath*)indexPath

@@ -756,8 +756,6 @@ enum WizPadTreeKeyIndex
 
     [self onExpandedNode:node];
     
-    [node displayDescription];
-
 }
 
 
@@ -927,7 +925,6 @@ enum WizPadTreeKeyIndex
     prompt.delegate = self;
     [prompt show];
     [prompt release];
-
 }
 
 @end
