@@ -500,7 +500,6 @@ enum WizPadTreeKeyIndex
         if (willBreak) {
             break;
         }
-        NSLog(@"sdfsdf");
     }
     if (section == NSNotFound) {
         row = 0;
@@ -512,9 +511,6 @@ enum WizPadTreeKeyIndex
             section = WizpadTreeFolderIndex;
         }
     }
-    
-    NSLog(@"section %d row %d",section, row);
-    
     [self onExpandNode:node refrenceIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
 }
 
@@ -563,7 +559,7 @@ enum WizPadTreeKeyIndex
         [masterTableView deleteRowsAtIndexPaths:deletedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
         [masterTableView endUpdates];
     }
-    if (indexPath.row > 0 && indexPath.section > 0) {
+    if (indexPath.row >= 0 && indexPath.section >= 0 && [[needDisplayNodes objectAtIndex:indexPath.section] count] >0) {
         [masterTableView beginUpdates];
         [masterTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [masterTableView endUpdates];
@@ -575,8 +571,6 @@ enum WizPadTreeKeyIndex
     if ([tableView isEqual:masterTableView]) {
         TreeNode* node = [[needDisplayNodes objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         self.lastSelectedTreeNode = node;
-        NSLog(@"node %@ %@",node.keyString, node.keyPath);
-        
         switch (indexPath.section) {
             case WizPadTreeTagIndex:
                 [self reloadTagData:node.keyString];
@@ -596,7 +590,6 @@ enum WizPadTreeKeyIndex
 
 - (void) didPadCellDidSelectedDocument:(WizDocument *)doc
 {
-    NSLog(@"selected node type is %@",self.lastSelectedTreeNode.strType);
     NSInteger checkType = WizPadCheckDocumentSourceTypeOfRecent;
     if ([self.lastSelectedTreeNode.strType isEqualToString:WizTreeViewFolderKeyString]) {
         checkType = WizPadCheckDocumentSourceTypeOfFolder;
@@ -681,6 +674,11 @@ enum WizPadTreeKeyIndex
 - (void) decorateTreeCell:(WizPadTreeTableCell *)cell
 {
     TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
+    if (node == nil || node.keyString == nil) {
+        cell.detailLabel.text = nil;
+        cell.titleLabel.text = nil;
+        return;
+    }
     if ([node.strType isEqualToString:WizTreeViewFolderKeyString]) {
         NSInteger currentCount = [WizObject fileCountOfLocation:node.keyString];
         NSInteger totalCount = [WizObject filecountWithChildOfLocation:node.keyString];
@@ -699,6 +697,7 @@ enum WizPadTreeKeyIndex
         cell.detailLabel.text = count;
         cell.titleLabel.text = getTagDisplayName(node.title);
     }
+    
 }
 
 - (void) deleteTreeNode:(NSIndexPath*)indexPath  useingBlock:(void (^)(TreeNode* node) )blocs  andEndBlocks:(void(^)(void))endBlock
@@ -749,7 +748,7 @@ enum WizPadTreeKeyIndex
         
         [WizObject addLocalFolder:path];
         TreeNode* nodeAdded = [[TreeNode alloc] init];
-        nodeAdded.title = path;
+        nodeAdded.title = title;
         nodeAdded.strType = WizTreeViewFolderKeyString;
         nodeAdded.keyString = path;
         [node addChildTreeNode:nodeAdded];
@@ -882,7 +881,15 @@ enum WizPadTreeKeyIndex
 }
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    return [string checkHasInvaildCharacters];
+    BOOL hasInvailedCharacters = [string checkHasInvaildCharacters];
+    
+    if (hasInvailedCharacters) {
+        [WizGlobals reportError:[WizGlobalError folderInvalidCharacterError:string]];
+        [textField resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
 }
 - (void) didSelectedTheNewTreeNodeButton:(NSString *)strTreeNodeKey
 {

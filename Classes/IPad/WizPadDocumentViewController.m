@@ -144,6 +144,7 @@
     if (document == nil) {
         return;
     }
+    [self setDocumentToolBarEnable:NO];
     NSLog(@"document title delete%@",document.title);
     NSLog(@"%d",[[self.documentsArray objectAtIndex:0] count]);
     NSIndexPath* docIndex = [self.documentsArray removeDocument:document];
@@ -168,8 +169,9 @@
             [potraitTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
             [potraitTableView endUpdates];
         }
-        
+        [webView loadHTMLString:@"" baseURL:nil];
     }
+    
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -225,6 +227,15 @@
 {
     [controller dismissModalViewControllerAnimated:YES];
 }
+
+- (void) setDocumentToolBarEnable:(BOOL)enable
+{
+    editItem.enabled = enable;
+    attachmentsItem.enabled = enable;
+    shareItem.enabled = enable;
+    detailItem.enabled = enable;
+}
+
 - (void) shareFromEms
 {
     MFMessageComposeViewController* messageController = [[MFMessageComposeViewController alloc] init];
@@ -678,20 +689,23 @@
 }
 - (void) downloadDocument:(WizDocument*)document
 {
-    editItem.enabled = NO;
-    shareItem.enabled = NO;
+    [self setDocumentToolBarEnable:NO];
     WizSyncManager* share = [WizSyncManager shareManager];
     [share downloadWizObject:document];
     [webView loadRequest:nil];
 }
 - (void) checkDocument:(WizDocument*)document
 {
-    editItem.enabled = YES;
-    shareItem.enabled = YES;
+    [self setDocumentToolBarEnable:YES];
     NSString* documentFileName = [document documentWillLoadFile];
-//    if (![[WizFileManager shareManager] fileExistsAtPath:[document documentIndexFile]]) {
-//        [self downloadDocument:document];
-//    }
+    if (![[WizFileManager shareManager] fileExistsAtPath:documentFileName])
+    {
+        static int i = 0;
+        i++;
+        if (i %2 != 0) {
+            [self downloadDocument:document];
+        }
+    }
     NSURL* url = [[NSURL alloc] initFileURLWithPath:documentFileName];
     NSURLRequest* req = [[NSURLRequest alloc] initWithURL:url];
     [webView loadRequest:req];
@@ -710,9 +724,9 @@
     [alert release];
     return;
 }
-- (void) showDocumentAttachmentCount:(WizDocument*)doc
+- (void) showDocumentAttachmentCount:(NSInteger)docCount
 {
-        NSInteger attachmentsCount = doc.attachmentCount;
+        NSInteger attachmentsCount = docCount;
         if (attachmentsCount > 0) {
             
             NSInteger itemsCount = [self.toolbarItems count];
@@ -738,7 +752,7 @@
     }
     documentNameLabel.text = doc.title;
     [webView loadHTMLString:@"" baseURL:nil];
-    [self showDocumentAttachmentCount:doc];
+    [self showDocumentAttachmentCount:doc.attachmentCount];
     if (doc.serverChanged) {
         [self downloadDocument:doc];
 
@@ -857,7 +871,7 @@
         self.readWidth = 704;
     }
     [self loadReadJs];
-    [self showDocumentAttachmentCount:self.selectedDocument];
+    [self showDocumentAttachmentCount:self.selectedDocument.attachmentCount];
 }
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

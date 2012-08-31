@@ -59,6 +59,8 @@
 		7316C0CA1574AD20000926E9 /* downloadIndicator5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */; };
 		7316C0CD1574B373000926E9 /* icon_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CB1574B373000926E9 /* icon_share.png */; };
 		7316C0CE1574B373000926E9 /* icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7316C0CC1574B373000926E9 /* icon_share@2x.png */; };
+		731B786D15EF7D6B006AB3D4 /* addNewTagAndFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 731B786C15EF7D6B006AB3D4 /* addNewTagAndFolder.png */; };
+		731B787715EF86D0006AB3D4 /* treeCellAddNewNode.png in Resources */ = {isa = PBXBuildFile; fileRef = 731B787615EF86D0006AB3D4 /* treeCellAddNewNode.png */; };
 		731BCECF15CB7A2900464B59 /* WizAbstractCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 731BCECE15CB7A2900464B59 /* WizAbstractCache.m */; };
 		731E2B2615A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m in Sources */ = {isa = PBXBuildFile; fileRef = 731E2B2515A4437C007C597D /* WizCommonEditorBaseViewControllerL5.m */; };
 		7321310E15454AD70077F77E /* WizSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321310D15454AD70077F77E /* WizSettings.m */; };
@@ -476,6 +478,8 @@
 		7316C0C41574AD20000926E9 /* downloadIndicator5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "downloadIndicator5@2x.png"; sourceTree = "<group>"; };
 		7316C0CB1574B373000926E9 /* icon_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_share.png; sourceTree = "<group>"; };
 		7316C0CC1574B373000926E9 /* icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_share@2x.png"; sourceTree = "<group>"; };
+		731B786C15EF7D6B006AB3D4 /* addNewTagAndFolder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addNewTagAndFolder.png; sourceTree = "<group>"; };
+		731B787615EF86D0006AB3D4 /* treeCellAddNewNode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeCellAddNewNode.png; sourceTree = "<group>"; };
 		731BCECD15CB7A2900464B59 /* WizAbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAbstractCache.h; path = abstract/WizAbstractCache.h; sourceTree = "<group>"; };
 		731BCECE15CB7A2900464B59 /* WizAbstractCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizAbstractCache.m; path = abstract/WizAbstractCache.m; sourceTree = "<group>"; };
 		731E2B2415A4437C007C597D /* WizCommonEditorBaseViewControllerL5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizCommonEditorBaseViewControllerL5.h; sourceTree = "<group>"; };
@@ -2329,6 +2333,7 @@
 		73D7519515E4D4DE003194DD /* treeArrow */ = {
 			isa = PBXGroup;
 			children = (
+				731B786C15EF7D6B006AB3D4 /* addNewTagAndFolder.png */,
 				73D7519615E4D4DE003194DD /* treeHeaderClosed.png */,
 				73D7519815E4D4DE003194DD /* treeHeaderClosed@2x.png */,
 				73D7519715E4D4DE003194DD /* treeOpened.png */,
@@ -2337,6 +2342,7 @@
 				73D7519C15E4D4DE003194DD /* treeHeaderOpened@2x.png */,
 				73D7519B15E4D4DE003194DD /* treeClosed.png */,
 				73D7519D15E4D4DE003194DD /* treeClosed@2x.png */,
+				731B787615EF86D0006AB3D4 /* treeCellAddNewNode.png */,
 			);
 			path = treeArrow;
 			sourceTree = "<group>";
@@ -2642,6 +2648,8 @@
 				73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */,
 				732E4DD915E7840B00B4860F /* treeCellSelected.png in Resources */,
 				732E4DDA15E7840B00B4860F /* treeCellSelected@2x.png in Resources */,
+				731B786D15EF7D6B006AB3D4 /* addNewTagAndFolder.png in Resources */,
+				731B787715EF86D0006AB3D4 /* treeCellAddNewNode.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

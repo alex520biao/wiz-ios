@@ -38,7 +38,7 @@
     {
         expandedImageView.image = [UIImage imageNamed:@"treeHeaderClosed"];
     }
-    [addNewTreeNodeBtn setImage:[UIImage imageNamed:@"about"] forState:UIControlStateNormal];
+    [addNewTreeNodeBtn setImage:[UIImage imageNamed:@"addNewTagAndFolder"] forState:UIControlStateNormal];
 }
 
 - (void) didSelected

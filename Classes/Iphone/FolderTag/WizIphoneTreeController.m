@@ -166,7 +166,6 @@
         [self.tableView deleteRowsAtIndexPaths:deletedIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView endUpdates];
     }
-    
 }
 
 - (UIImage*) placeHolderImage
@@ -206,6 +205,46 @@
 {
     
 }
+- (NSString*) alertTitle
+{
+    return nil;
+}
+- (void) addTreeNode
+{
+    
+//    NSString* strAlertTitle = nil;
+//    NSString* strAlertPlaceHolder = nil;
+//    
+//    NSInteger nAlertViewTag = 0;
+//    if ([node.strType isEqualToString:WizTreeViewTagKeyString]) {
+//        strAlertTitle = NSLocalizedString(@"Add Tag", nil);
+//        strAlertPlaceHolder = NSLocalizedString(@"Tag title", nil);
+//        nAlertViewTag = WizAddNewTagViewTag;
+//    }
+//    else
+//    {
+//        strAlertTitle = NSLocalizedString(@"Add Folder", nil);
+//        strAlertPlaceHolder = NSLocalizedString(@"Folder title", nil);
+//        nAlertViewTag = WizAddNewFolderViewTag;
+//    }
+//    UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
+//                                                     message:@"\n\n\n"
+//                                                    delegate:nil
+//                                           cancelButtonTitle:WizStrCancel
+//                                           otherButtonTitles:WizStrOK, nil];
+//    prompt.tag = nAlertViewTag;
+//    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)];
+//    [textField setBackgroundColor:[UIColor whiteColor]];
+//    [textField setPlaceholder:strAlertPlaceHolder];
+//    [prompt addSubview:textField];
+//    textField.delegate = self;
+//    [textField release];
+//    
+//    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
+//    prompt.delegate = self;
+//    [prompt show];
+//    [prompt release];
+}
 
 - (void) viewDidLoad
 {
@@ -213,6 +252,9 @@
     tableFootRemindView.imageView.image = [self tableFootRemindImage];
     tableFootRemindView.textLabel.text = [self tableFootRemindString];
     [self reloadAllData];
+    UIBarButtonItem* barButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(addTreeNode)];
+    self.navigationItem.rightBarButtonItem = barButton;
+    [barButton release];
 }
 - (void) deleteTreeNodeContentData:(NSString*)key
 {

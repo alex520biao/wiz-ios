@@ -44,6 +44,24 @@
     node.parentTreeNode = self;
     node.deep = self.deep+1;
     [childrenNodes_ addObject:node];
+    [childrenNodes_ sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 isKindOfClass:[TreeNode class]]) {
+            TreeNode* n1 = (TreeNode*)obj1;
+            TreeNode* n2 = (TreeNode*)obj2;
+            return [n1.title compareFirstCharacter:n2.title];
+        }
+        return 0;
+    }];
+//    int count = [childrenNodes_ count];
+//    int insertPositin = 0;
+//    for (NSInteger i = count -1 ; i >=0; --i) {
+//        TreeNode* eachNode = [childrenNodes_ objectAtIndex:i];
+//        if ([node.title compareFirstCharacter:eachNode.title] < 0) {
+//            insertPositin = i-1>=0?i-1:0;
+//            break;
+//        }
+//    }
+//     [childrenNodes_ insertObject:node atIndex:insertPositin];
 }
 
 - (void) removeChildTreeNode:(TreeNode*)node

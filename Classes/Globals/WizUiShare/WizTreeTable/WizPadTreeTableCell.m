@@ -74,9 +74,8 @@
         
         addNewTreeNodeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [self.contentView addSubview:addNewTreeNodeButton];
-        [addNewTreeNodeButton setImage:[UIImage imageNamed:@"userIcons"] forState:UIControlStateNormal];
+        [addNewTreeNodeButton setImage:[UIImage imageNamed:@"treeCellAddNewNode"] forState:UIControlStateNormal];
         addNewTreeNodeButton.hidden = YES;
-        addNewTreeNodeButton.backgroundColor = [UIColor redColor];
         [addNewTreeNodeButton addTarget:self action:@selector(addNewTreeNode) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
