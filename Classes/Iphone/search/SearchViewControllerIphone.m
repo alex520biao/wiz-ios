@@ -132,11 +132,11 @@
     [waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
 }
 
-- (void) didSearchSucceed
+- (void) didSearchSucceed:(NSArray *)array
 {
-    [waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
-    [self showSearchResult];
-    NSLog(@"search succedd");
+    PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:array];
+    [self.navigationController pushViewController:searchResultView animated:YES];
+    [searchResultView release];
 }
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {

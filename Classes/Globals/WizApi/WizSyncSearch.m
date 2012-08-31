@@ -25,7 +25,14 @@
     NSArray* obj = retObject;
     id<WizDbDelegate> dataBase = [[WizDbManager shareDbManager] shareDataBase];
 	[dataBase updateDocuments:obj];
-    [self.searchDelegate didSearchSucceed];
+    
+    NSMutableArray* searchedDocs = [NSMutableArray array];
+    for (NSDictionary* eachDic in obj) {
+        WizDocument* doc = [[WizDocument alloc] initFromDictionaryModel:eachDic];
+        [searchedDocs addObject:doc];
+        [doc release];
+    }
+    [self.searchDelegate didSearchSucceed:searchedDocs];
     isSearching = NO;
     self.searchDelegate = nil;
     [self.apiManagerDelegate didApiSyncDone:self];

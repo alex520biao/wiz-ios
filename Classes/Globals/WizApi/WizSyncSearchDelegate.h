@@ -10,5 +10,5 @@
 
 @protocol WizSyncSearchDelegate <NSObject>
 - (void) didSearchFild;
-- (void) didSearchSucceed;
+- (void) didSearchSucceed:(NSArray*)array;
 @end
