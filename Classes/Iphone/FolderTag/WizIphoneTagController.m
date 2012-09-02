@@ -132,7 +132,7 @@
 - (TreeNode*) createNewTreeNode:(NSString*)title fromeRootNode:(TreeNode*)node
 {
     NSString* parentGuid = nil;
-    WizTag* tag = [[WizTag alloc] init];
+    WizTag* tag = [[[WizTag alloc] init] autorelease];
     tag.guid = [WizGlobals genGUID];
     tag.title = title;
     tag.parentGUID = parentGuid;
@@ -142,7 +142,7 @@
     nodeAdded.strType = WizTreeViewTagKeyString;
     nodeAdded.keyString = tag.guid;
     [node addChildTreeNode:nodeAdded];
-    return [node autorelease];
+    return [nodeAdded autorelease];
 }
 - (NSString*) addNodeAlertTitle
 {

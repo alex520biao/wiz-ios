@@ -58,10 +58,12 @@
         UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"treeSectionHeaderBackgroud"]];
         imageView.frame = CGRectMake(0.0, 0.0, frame.size.width, frame.size.height);
         [self addSubview:imageView];
+        [imageView release];
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0.0, frame.size.width-80, frame.size.height)];
         titleLabel.font = [UIFont systemFontOfSize:16];
         [self addSubview:titleLabel];
         titleLabel.backgroundColor = [UIColor clearColor];
+        [titleLabel release];
         //
         expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0.0, 30, 30)];
         expandedImageView.userInteractionEnabled = YES;

@@ -739,6 +739,8 @@ enum WizPadTreeKeyIndex
         nodeAdded.strType = WizTreeViewTagKeyString;
         nodeAdded.keyString = tag.guid;
         [node addChildTreeNode:nodeAdded];
+        [nodeAdded release];
+        [tag release];
     }
     else if ([node.strType isEqualToString:WizTreeViewFolderKeyString])
     {
@@ -752,6 +754,7 @@ enum WizPadTreeKeyIndex
         nodeAdded.strType = WizTreeViewFolderKeyString;
         nodeAdded.keyString = path;
         [node addChildTreeNode:nodeAdded];
+        [nodeAdded release];
     }
 
     [self onExpandedNode:node];

@@ -102,6 +102,7 @@ void UncaughtExceptionHandler(NSException *exception)
     [request setHTTPBody:[urlStr dataUsingEncoding:NSUTF8StringEncoding]];
     NSError* error = nil;
     [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    [request release];
 }
 
 

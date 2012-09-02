@@ -58,7 +58,6 @@ void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* form
 +(BOOL) WizDeviceIsPad;
 
 +(NSString*)fileMD5:(NSString*)path;
-+ (NSURL*) wizServerUrl;
 + (void) reportMemory;
 + (BOOL) checkAttachmentTypeIsAudio:(NSString*) attachmentType;
 + (BOOL) checkAttachmentTypeIsImage:(NSString *)attachmentType;

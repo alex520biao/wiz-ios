@@ -416,10 +416,6 @@ static NSArray* htmlArray;
     return [WizGlobals checkAttachmentTypeInTypeArray:type typeArray:[WizGlobals excelArray]];
 }
 
-+ (NSURL*) wizServerUrl
-{
-    return [[[NSURL alloc] initWithString:@"http://192.168.1.155:8800/wiz/xmlrpc"] autorelease];
-}
 +(NSString*) dateToLocalString: (NSDate*)date
 {
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];

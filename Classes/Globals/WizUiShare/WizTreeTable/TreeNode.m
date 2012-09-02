@@ -66,8 +66,8 @@
 
 - (void) removeChildTreeNode:(TreeNode*)node
 {
-    node.parentTreeNode = nil;
     [childrenNodes_ removeObject:node];
+    node.parentTreeNode = nil;
 }
 
 - (void) expandedTreeNodes:(NSMutableArray*)children
