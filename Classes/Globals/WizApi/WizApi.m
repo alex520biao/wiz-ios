@@ -512,7 +512,7 @@
             inviteCode = @"f6d9193f";
             break;
     }
-    [postParams setObject:inviteCode forKey:@"invite_code"];
+    [postParams setObject:@"" forKey:@"invite_code"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_CreateAccount args:args];
 }

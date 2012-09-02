@@ -129,11 +129,16 @@
 
 - (void) didSearchFild
 {
-    [waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    if (self.waitAlertView) {
+        [self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    }
 }
 
 - (void) didSearchSucceed:(NSArray *)array
 {
+    if (self.waitAlertView) {
+        [self.waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    }
     PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:array];
     [self.navigationController pushViewController:searchResultView animated:YES];
     [searchResultView release];
