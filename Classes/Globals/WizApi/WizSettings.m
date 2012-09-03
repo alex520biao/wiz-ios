@@ -226,7 +226,7 @@ static WizSettings* defaultSettings = nil;
 - (NSURL*) wizServerUrl
 {
     
-    return [[[NSURL alloc] initWithString:@"http://192.168.1.102:8800/wiz/xmlrpc"] autorelease];
+    return [[[NSURL alloc] initWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"name_preference"]] autorelease];
 //    return [[[NSURL alloc] initWithString:@"http://service.wiz.cn/wizkm/xmlrpc"] autorelease];
 }
 //

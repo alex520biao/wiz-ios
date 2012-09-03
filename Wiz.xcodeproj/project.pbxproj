@@ -345,6 +345,7 @@
 		73A8C63215DCEA1B005A0B66 /* WizPadAllNotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */; };
 		73A8C63515DCEF01005A0B66 /* WizPadTreeTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */; };
 		73A8C63815DCFA13005A0B66 /* WizPadTreeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */; };
+		73A942A115F44535009DE4DA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 73A942A015F44535009DE4DA /* Settings.bundle */; };
 		73AC069815AFF612008E6402 /* WizEditorHTMLMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AC069715AFF612008E6402 /* WizEditorHTMLMutableArray.m */; };
 		73AFCC17157E0A4A00C48FE1 /* WizAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCC16157E0A4A00C48FE1 /* WizAccount.m */; };
 		73B21E8515ABE75200B1C4B5 /* commenEditorLessThan5.js in Resources */ = {isa = PBXBuildFile; fileRef = 73B21E8415ABE75200B1C4B5 /* commenEditorLessThan5.js */; };
@@ -916,6 +917,7 @@
 		73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadTreeTableHeaderView.m; path = IPad/IpadNewUI/WizPadTreeTableHeaderView.m; sourceTree = "<group>"; };
 		73A8C63615DCFA13005A0B66 /* WizPadTreeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadTreeTableCell.h; path = Globals/WizUiShare/WizTreeTable/WizPadTreeTableCell.h; sourceTree = "<group>"; };
 		73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadTreeTableCell.m; path = Globals/WizUiShare/WizTreeTable/WizPadTreeTableCell.m; sourceTree = "<group>"; };
+		73A942A015F44535009DE4DA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		73AC069615AFF612008E6402 /* WizEditorHTMLMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEditorHTMLMutableArray.h; sourceTree = "<group>"; };
 		73AC069715AFF612008E6402 /* WizEditorHTMLMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizEditorHTMLMutableArray.m; sourceTree = "<group>"; };
 		73AFCC15157E0A4A00C48FE1 /* WizAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizAccount.h; path = WizStruct/WizAccount.h; sourceTree = "<group>"; };
@@ -1094,6 +1096,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				73A9429E15F44521009DE4DA /* Settings */,
 				7339C81F156CE95700F93D6F /* downloadArrows */,
 				73C59EE2151C25B500715995 /* InfoPlist.strings */,
 				73A785E514F8CD5C001387F6 /* icons */,
@@ -2187,6 +2190,14 @@
 			path = Resources/Share;
 			sourceTree = "<group>";
 		};
+		73A9429E15F44521009DE4DA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				73A942A015F44535009DE4DA /* Settings.bundle */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		73AD5CB415DB898000D5A355 /* WizTreeTable */ = {
 			isa = PBXGroup;
 			children = (
@@ -2650,6 +2661,7 @@
 				732E4DDA15E7840B00B4860F /* treeCellSelected@2x.png in Resources */,
 				731B786D15EF7D6B006AB3D4 /* addNewTagAndFolder.png in Resources */,
 				731B787715EF86D0006AB3D4 /* treeCellAddNewNode.png in Resources */,
+				73A942A115F44535009DE4DA /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2994,8 +3006,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3123,8 +3135,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
