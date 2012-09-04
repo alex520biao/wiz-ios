@@ -59,6 +59,7 @@
 - (WizTag*) tagFromGuid:(NSString *)guid;
 - (NSString*) tagAbstractString:(NSString*)guid;
 - (BOOL) setTagLocalChanged:(NSString*)guid changed:(BOOL)changed;
+- (BOOL) isExistTagWithTitle:(NSString*)title;
 //attachment
 -(NSArray*) attachmentsByDocumentGUID:(NSString*) documentGUID;
 - (BOOL) setAttachmentLocalChanged:(NSString *)attchmentGUID changed:(BOOL)changed;
@@ -78,4 +79,5 @@
 - (NSString*) folderAbstractString:(NSString*)folderKey;
 - (BOOL) updateLocalFolder:(NSString*)folder;
 - (BOOL) deleteLocalFolder:(NSString*)folder;
+- (BOOL) isExistFolderWithTitle:(NSString*)title;
 @end

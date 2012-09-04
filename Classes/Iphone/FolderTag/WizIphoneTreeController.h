@@ -29,6 +29,7 @@
 - (NSString*) addNodeAlertTitle;
 - (NSString*) alertTextfiledPlaceHolder;
 - (TreeNode*) createNewTreeNode:(NSString*)title fromeRootNode:(TreeNode*)node;
+- (BOOL) isAddTreeNodeVaild:(NSString*)title;
 //
 - (NSString*) deletedAlertTitle;
 - (NSString*) deletedAlertMessage:(TreeNode*)node;

@@ -200,11 +200,11 @@
     TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
     if ([node.childrenNodes count]) {
         if (!node.isExpanded) {
-            [cell.expandedButton setImage:[UIImage imageNamed:@"treeClosed"] forState:UIControlStateNormal];
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treeItemColsed"] forState:UIControlStateNormal];
         }
         else
         {
-            [cell.expandedButton setImage:[UIImage imageNamed:@"treeOpened"] forState:UIControlStateNormal];
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treeItemOpened"] forState:UIControlStateNormal];
         }
     }
     else
@@ -254,6 +254,17 @@
     [self onexpandedRootNode];
 }
 
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    BOOL hasInvalidCharacter = [string checkHasInvaildCharacters];
+    if (hasInvalidCharacter) {
+        [WizGlobals reportError:[WizGlobalError folderInvalidCharacterError:string]];
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
 - (void) willAddTreeNode
 {
     
@@ -264,7 +275,7 @@
     
     
     UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
-                                                     message:@"\n\n\n"
+                                                     message:[NSString stringWithFormat:@"\n\n\n%@",NSLocalizedString(@"Don't input \\,/,:,<,>,*,?,\",&", nil)]
                                                     delegate:nil
                                            cancelButtonTitle:WizStrCancel
                                            otherButtonTitles:WizStrOK, nil];
@@ -310,6 +321,12 @@
 {
     return NO;
 }
+
+- (BOOL) isAddTreeNodeVaild:(NSString*)title
+{
+    return YES;
+}
+
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
@@ -329,7 +346,9 @@
                     title = textField.text;
                 }
             }
-            [self doAddTreeNode:rootTreeNode title:title];
+            if (title != nil && ![title isEqualToString:@""] && [self isAddTreeNodeVaild:title]) {
+                [self doAddTreeNode:rootTreeNode title:title];
+            }
         }
     }
 }

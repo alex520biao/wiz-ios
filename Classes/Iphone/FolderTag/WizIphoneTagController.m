@@ -70,7 +70,9 @@
     [tagRootNode removeAllChildrenNodes];
     
     for (WizTag* each in tagArray) {
-        [self addTagTreeNodeToParent:each rootNode:tagRootNode allTags:tagArray];
+        if (each.title != nil && ![each.title isEqualToString:@""]) {
+            [self addTagTreeNodeToParent:each rootNode:tagRootNode allTags:tagArray];
+        }
     }
 }
 
@@ -96,7 +98,7 @@
 }
 - (UIImage*) placeHolderImage
 {
-    return [UIImage imageNamed:@"treeTag"];
+    return [UIImage imageNamed:@"treeItemTag"];
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -152,6 +154,15 @@
 - (NSString*) alertTextfiledPlaceHolder
 {
     return NSLocalizedString(@"Tag title", nil);
+}
+- (BOOL) isAddTreeNodeVaild:(NSString *)title
+{
+    BOOL isTagExist = [[[WizDbManager shareDbManager] shareDataBase] isExistTagWithTitle:title];
+    NSLog(@"title is %@ exist is %d",title, isTagExist);
+    if (isTagExist) { 
+        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Tag named %@ exists!", nil),title]];
+    }
+    return !isTagExist;
 }
 
 @end

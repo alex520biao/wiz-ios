@@ -674,6 +674,19 @@
     return [[self tagsArrayWithWhereField:@"where TAG_GUID = ?" args:[NSArray arrayWithObject:guid]] lastObject];
 }
 
+- (BOOL) isExistTagWithTitle:(NSString*)title
+{
+    __block BOOL isExist = NO;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        FMResultSet* result = [db executeQuery:@"select * from WIZ_TAG where TAG_NAME=?",title];
+        if ([result next]) {
+            isExist = YES;
+        }
+        [result close];
+    }];
+    return isExist;
+}
+
 - (BOOL) updateTag:(NSDictionary *)tag
 {
     NSString* name = [tag valueForKey:DataTypeUpdateTagTitle];
@@ -1035,5 +1048,26 @@
         [result close];
     }];
     return ret;
+}
+
+- (BOOL) isExistFolderWithTitle:(NSString *)title
+{
+    __block BOOL isExist = NO;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        NSString* localFolderTitle = [NSString stringWithFormat:@"/%@/%%",title];
+        
+        FMResultSet* docs = [db executeQuery:@"select * from WIZ_DOCUMENT where DOCUMENT_LOCATION like ? limit 1",localFolderTitle];
+        if ([docs next]) {
+            isExist = YES;
+        }
+        [docs close];
+        
+        FMResultSet* localFolders = [db executeQuery:@"select FOLDER_TITLE from WIZ_LOCAL_FOLDER where FOLDER_TITLE like ?",localFolderTitle];
+        if ([localFolders next]) {
+            isExist = YES;
+        }
+        [localFolders close];
+    }];
+    return isExist;
 }
 @end

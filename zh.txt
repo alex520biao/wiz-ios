@@ -5,7 +5,9 @@
 "Account %@ has already exists!"="账号 %@ 已经存在!";
 "Accounts"="账号";
 "Add"="添加";
+"Add Folder"="添加文件夹";
 "Add New Account"="添加新账号";
+"Add Tag"="添加标签";
 "Add by %@"="通过%@添加";
 "All"="全部";
 "All Notes"="全部笔记";
@@ -50,6 +52,7 @@
 "Default Folder"="默认目录";
 "Delete"="删除";
 "Delete Folder"="删除文件夹";
+"Delete Tag"="删除标签";
 "Deleted Items"="已删除";
 "Deleting %@ is not allowed!"="不允许删除文件夹--%@";
 "Detail"="详细信息";
@@ -70,6 +73,7 @@
 "Error"="错误";
 "Failed to save image"="保存图片失败";
 "Feedback"="反馈";
+"Folder title"="文件夹标题";
 "Folders"="文件夹";
 "Folders allow you to organize your notes however you like. Your folders will sync with every version of WizNote you use."="文件夹允许您按照自己喜好的方式来管理您的笔记。并且您的文件夹将会与每一版本的为知笔记同步。";
 "Font Size"="字体大小";
@@ -189,6 +193,7 @@
 "Syncing notes list"="同步笔记列表";
 "Syncing tags"="同步标签";
 "Syncing user information"="同步账号信息";
+"Tag title"="标签标题";
 "Tags"="标签";
 "Tap on a tag above to see all notes with that tag. Make your notes easier to find by creating and assinging more tags."="轻点上方的标签查看带有该标签的所有笔记。创建并分配更多的标签，可以让笔记更容易被找到。";
 "Tap the field above to search your notes. Tap a recent or saved search to view the results of that search."="单击搜索栏，以便搜索您的笔记。单击最近搜索中的字段，将查看该搜索的结果。";

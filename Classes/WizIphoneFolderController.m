@@ -105,7 +105,7 @@
 }
 - (UIImage*) placeHolderImage
 {
-    return [UIImage imageNamed:@"treeFolder"];
+    return [UIImage imageNamed:@"treeItemFolder"];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -135,6 +135,15 @@
 - (NSString*) alertTextfiledPlaceHolder
 {
     return NSLocalizedString(@"Folder title", nil);
+}
+
+- (BOOL) isAddTreeNodeVaild:(NSString *)title
+{
+    BOOL isFolderExist = [[[WizDbManager shareDbManager] shareDataBase] isExistFolderWithTitle:title];
+    if (isFolderExist) {
+        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Folder named %@ exists!", nil),NSLocalizedString(title, nil)]];
+    }
+    return !isFolderExist;
 }
 
 - (TreeNode*) createNewTreeNode:(NSString *)title  fromeRootNode:(TreeNode*)node

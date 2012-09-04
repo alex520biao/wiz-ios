@@ -87,7 +87,6 @@
     NSInteger treeNodeDeep = [self.delegate treeNodeDeep:self.strTreeNodeKey];
 
     CGFloat indentationLevel = 20* ((treeNodeDeep > WizTreeMaxDeep ? WizTreeMaxDeep : treeNodeDeep) -1);
-    NSLog(@"treeDeep is %f",indentationLevel);
     static float  buttonWith = 44;
     expandedButton.frame = CGRectMake(indentationLevel, 0.0, buttonWith, buttonWith);
     titleLabel.frame = CGRectMake(buttonWith+indentationLevel, 0.0, self.frame.size.width - buttonWith - indentationLevel, 25);
