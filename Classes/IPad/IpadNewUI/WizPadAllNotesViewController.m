@@ -659,11 +659,11 @@ enum WizPadTreeKeyIndex
     TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
     if ([node.childrenNodes count]) {
         if (!node.isExpanded) {
-            [cell.expandedButton setImage:[UIImage imageNamed:@"treeClosed"] forState:UIControlStateNormal];
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treeItemColsed"] forState:UIControlStateNormal];
         }
         else
         {
-            [cell.expandedButton setImage:[UIImage imageNamed:@"treeOpened"] forState:UIControlStateNormal];
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treeItemOpened"] forState:UIControlStateNormal];
         }
     }
     else
@@ -756,6 +756,7 @@ enum WizPadTreeKeyIndex
         [node addChildTreeNode:nodeAdded];
         [nodeAdded release];
     }
+    
 
     [self onExpandedNode:node];
     

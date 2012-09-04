@@ -38,7 +38,7 @@
     {
         expandedImageView.image = [UIImage imageNamed:@"treeHeaderClosed"];
     }
-    [addNewTreeNodeBtn setImage:[UIImage imageNamed:@"addNewTagAndFolder"] forState:UIControlStateNormal];
+    [addNewTreeNodeBtn setImage:[UIImage imageNamed:@"treeHeaderAdd"] forState:UIControlStateNormal];
 }
 
 - (void) didSelected
@@ -63,7 +63,6 @@
         titleLabel.font = [UIFont systemFontOfSize:16];
         [self addSubview:titleLabel];
         titleLabel.backgroundColor = [UIColor clearColor];
-        [titleLabel release];
         //
         expandedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0.0, 30, 30)];
         expandedImageView.userInteractionEnabled = YES;

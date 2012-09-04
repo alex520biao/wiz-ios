@@ -157,6 +157,13 @@
 }
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
+    if (self.navigationItem.rightBarButtonItem) {
+        UIView* customView = self.navigationItem.rightBarButtonItem.customView;
+        if ([customView isKindOfClass:[UISearchBar class]]) {
+            UISearchBar* searchBar = (UISearchBar*) customView;
+            [searchBar resignFirstResponder];
+        }
+    }
     self.currentPoperController = nil;
 }
 //check document
