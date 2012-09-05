@@ -24,4 +24,5 @@ enum WizErrorCode {
 + (NSError*) tokenUnActiveError;
 + (NSError*) cancelFixPasswordError;
 + (NSError*) folderInvalidCharacterError:(NSString*)errorText;
++ (NSString*) folderInvalidCharacterErrorString:(NSString*)errorText;
 @end

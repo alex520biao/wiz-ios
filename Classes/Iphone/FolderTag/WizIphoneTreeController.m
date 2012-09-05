@@ -15,13 +15,28 @@
 {
     WizTreeRemindView* tableFootRemindView;
 }
+@property (nonatomic, retain) UIAlertView* inputAlertView;
 @end
 
 @implementation WizIphoneTreeController 
 @synthesize deleteLastPath;
+@synthesize inputAlertView;
+- (void) changedAlertRemindText:(NSString*)text
+{
+    if (nil != self.inputAlertView) {
+        if (nil == text) {
+            self.inputAlertView.message = [NSString stringWithFormat:@"\n\n\n%@",NSLocalizedString(@"Don't input \\,/,:,<,>,*,?,\",&", nil)];
+        }
+        else
+        {
+            self.inputAlertView.message = [NSString stringWithFormat:@"\n\n\n%@",text];
+        }
+    }
+}
 
 - (void) dealloc
 {
+    [inputAlertView release];
     [deleteLastPath  release];
     [rootTreeNode release];
     [needDisplayTreeNodes release];
@@ -258,11 +273,14 @@
 {
     BOOL hasInvalidCharacter = [string checkHasInvaildCharacters];
     if (hasInvalidCharacter) {
-        [WizGlobals reportError:[WizGlobalError folderInvalidCharacterError:string]];
-        [textField resignFirstResponder];
+        [self changedAlertRemindText:[WizGlobalError folderInvalidCharacterErrorString:string]];
         return NO;
     }
-    return YES;
+    else
+    {
+        [self changedAlertRemindText:nil];
+        return YES;
+    }
 }
 
 - (void) willAddTreeNode
@@ -275,21 +293,26 @@
     
     
     UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
-                                                     message:[NSString stringWithFormat:@"\n\n\n%@",NSLocalizedString(@"Don't input \\,/,:,<,>,*,?,\",&", nil)]
+                                                     message:@"\n\n\n\n\n"
                                                     delegate:nil
                                            cancelButtonTitle:WizStrCancel
                                            otherButtonTitles:WizStrOK, nil];
     prompt.tag = nAlertViewTag;
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)];
+    //
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 30)];
+    textField.contentVerticalAlignment = UIControlContentHorizontalAlignmentCenter;
     [textField setBackgroundColor:[UIColor whiteColor]];
     [textField setPlaceholder:strAlertPlaceHolder];
     [prompt addSubview:textField];
     textField.delegate = self;
     [textField release];
-    
+    //
+    //
     [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
     prompt.delegate = self;
     [prompt show];
+    self.inputAlertView = prompt;
+    [self changedAlertRemindText:nil];
     [prompt release];
 }
 
@@ -351,6 +374,7 @@
             }
         }
     }
+    self.inputAlertView = nil;
 }
 - (void) willDeleteTreeNode:(NSIndexPath*)indexPath
 {

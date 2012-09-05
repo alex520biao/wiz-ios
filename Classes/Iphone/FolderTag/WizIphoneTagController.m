@@ -98,7 +98,8 @@
 }
 - (UIImage*) placeHolderImage
 {
-    return [UIImage imageNamed:@"treeItemTag"];
+//    return [UIImage imageNamed:@"treeItemTag"];
+    return nil;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -60,6 +60,19 @@
 @synthesize displayDelegate;
 static WizSyncManager* shareManager;
 
+- (BOOL) isInfoSyncing
+{
+    for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allWorkWizApi]) {
+        if ([each isKindOfClass:[WizSyncInfo class]]) {
+            return YES;
+        }
+    }
+    if ([[[WizShareSyncObjectCache shareSyncObjectCache] shareRefreshTokener] busy]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (BOOL) isSyncing
 {
     for (WizApi* each in [[WizShareSyncObjectCache shareSyncObjectCache] allWorkWizApi]) {

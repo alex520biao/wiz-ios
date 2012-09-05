@@ -141,7 +141,7 @@
 {
     [super viewWillAppear:animated];
     [[WizSyncManager shareManager] setDisplayDelegate:self];
-    if ([[WizSyncManager shareManager] isSyncing]) {
+    if ([[WizSyncManager shareManager] isInfoSyncing]) {
         [self startLoadingAnimation];
         [self showActivity];
     }

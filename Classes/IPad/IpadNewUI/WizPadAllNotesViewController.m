@@ -45,6 +45,7 @@ enum WizPadTreeKeyIndex
 @property (nonatomic, retain)  NSMutableArray* documentsMutableArray;
 @property (nonatomic, retain) TreeNode*  lastSelectedTreeNode;
 @property (nonatomic, retain) NSIndexPath* lastDeletedIndexPath;
+@property (nonatomic, retain) UIAlertView* inputAlertView;
 - (void) reloadFolderTootNode;
 - (void) reloadTagRootNode;
 @end
@@ -56,7 +57,19 @@ enum WizPadTreeKeyIndex
 @synthesize lastSelectedTreeNode;
 @synthesize checkDocuementDelegate;
 @synthesize lastDeletedIndexPath;
-
+@synthesize inputAlertView;
+- (void) changedAlertRemindText:(NSString*)text
+{
+    if (nil != self.inputAlertView) {
+        if (nil == text) {
+            self.inputAlertView.message = [NSString stringWithFormat:@"\n\n\n%@",NSLocalizedString(@"Don't input \\,/,:,<,>,*,?,\",&", nil)];
+        }
+        else
+        {
+            self.inputAlertView.message = [NSString stringWithFormat:@"\n\n\n%@",text];
+        }
+    }
+}
 - (void) dealloc
 {
     [WizNotificationCenter removeObserver:self];
@@ -64,6 +77,7 @@ enum WizPadTreeKeyIndex
     [lastSelectedTreeNode release];
     [documentsMutableArray release];
     [rootNodes release];
+    [inputAlertView release];
     [needDisplayNodes release];
     [masterTableView release];
     [detailTableView release];
@@ -916,12 +930,14 @@ enum WizPadTreeKeyIndex
     BOOL hasInvailedCharacters = [string checkHasInvaildCharacters];
     
     if (hasInvailedCharacters) {
-        [WizGlobals reportError:[WizGlobalError folderInvalidCharacterError:string]];
-        [textField resignFirstResponder];
+        [self changedAlertRemindText:[WizGlobalError folderInvalidCharacterErrorString:string]];
         return NO;
     }
-    
-    return YES;
+    else
+    {
+        [self changedAlertRemindText:nil];
+        return YES;
+    }
 }
 - (void) didSelectedTheNewTreeNodeButton:(NSString *)strTreeNodeKey
 {
@@ -943,21 +959,27 @@ enum WizPadTreeKeyIndex
         nAlertViewTag = WizAddNewFolderViewTag;
     }
     UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
-                                                     message:[NSString stringWithFormat:@"\n\n\n%@",NSLocalizedString(@"Don't input \\,/,:,<,>,*,?,\",&", nil)]
+                                                     message:@"\n\n\n\n\n"
                                                     delegate:nil
                                            cancelButtonTitle:WizStrCancel
                                            otherButtonTitles:WizStrOK, nil];
     prompt.tag = nAlertViewTag;
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0, 25.0)];
+    //
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(27.0, 60.0, 230.0,30)];
     [textField setBackgroundColor:[UIColor whiteColor]];
     [textField setPlaceholder:strAlertPlaceHolder];
     [prompt addSubview:textField];
     textField.delegate = self;
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [textField release];
     
+    //
     [prompt setTransform:CGAffineTransformMakeTranslation(0.0, -100.0)];
     prompt.delegate = self;
     [prompt show];
+    
+    self.inputAlertView = prompt;
+    [self changedAlertRemindText:nil];
     [prompt release];
 }
 

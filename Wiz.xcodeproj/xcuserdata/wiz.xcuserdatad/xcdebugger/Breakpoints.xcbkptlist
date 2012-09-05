@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Classes/IPad/IpadNewUI/WizPadAllNotesViewController.m"
-         timestampString = "368418578.279116"
+         timestampString = "368510155.920552"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "396"
-         endingLineNumber = "396"
+         startingLineNumber = "410"
+         endingLineNumber = "410"
          landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -127,12 +127,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          symbolName = "*0x27a8e4a">
-      </AddressBreakpoint>
-      <AddressBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         symbolName = "*0xe5b644">
       </AddressBreakpoint>
    </SymbolicBreakpoints>
 </Bucket>

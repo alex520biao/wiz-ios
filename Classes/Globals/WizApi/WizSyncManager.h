@@ -31,6 +31,7 @@
 - (void) automicSyncData;
 - (BOOL) isSyncing;
 - (void) stopSync;
+- (BOOL) isInfoSyncing;
 //
 - (void) searchKeywords:(NSString*)keywords  searchDelegate:(id<WizSyncSearchDelegate>)searchDelegate;
 @end
