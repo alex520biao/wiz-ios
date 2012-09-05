@@ -722,12 +722,43 @@ enum WizPadTreeKeyIndex
     }
     [self.masterTableView endUpdates];
 }
+
+- (BOOL) isAddFolerTreeNodeVaild:(NSString *)title
+{
+    BOOL isFolderExist = [[[WizDbManager shareDbManager] shareDataBase] isExistFolderWithTitle:title];
+    if (isFolderExist) {
+        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Folder named %@ exists!", nil),NSLocalizedString(title, nil)]];
+    }
+    return !isFolderExist;
+}
+- (BOOL) isAddTagTreeNodeVaild:(NSString *)title
+{
+    BOOL isTagExist = [[[WizDbManager shareDbManager] shareDataBase] isExistTagWithTitle:title];
+    NSLog(@"title is %@ exist is %d",title, isTagExist);
+    if (isTagExist) {
+        [WizGlobals reportWarningWithString:[NSString stringWithFormat:NSLocalizedString(@"Tag named %@ exists!", nil),title]];
+    }
+    return !isTagExist;
+}
 - (void) addNodeFromRootNode:(TreeNode*)node  title:(NSString*)title
 {
+    if ([node.strType isEqualToString:WizTreeViewFolderKeyString]) {
+        if (nil == title || [title isEqualToString:@""] || ![self isAddFolerTreeNodeVaild:title]) {
+            return;
+        }
+    }
+    else
+    {
+        if (nil == title || [title isEqualToString:@""] || ![self isAddTagTreeNodeVaild:title]) {
+            return;
+        }
+    }
+    
     if (node.isExpanded) {
         [self onExpandedNode:node];
     }
     if ([node.strType isEqualToString:WizTreeViewTagKeyString]) {
+        
         NSString* parentGuid = [node.keyString isEqualToString:WizTreeViewTagKeyString] ? nil : node.keyString;
         WizTag* tag = [[WizTag alloc] init];
         tag.guid = [WizGlobals genGUID];
@@ -810,7 +841,6 @@ enum WizPadTreeKeyIndex
             }
             [self addNodeFromRootNode:self.lastSelectedTreeNode title:title];
         }
-
     }
 }
 
@@ -913,7 +943,7 @@ enum WizPadTreeKeyIndex
         nAlertViewTag = WizAddNewFolderViewTag;
     }
     UIAlertView* prompt = [[UIAlertView alloc] initWithTitle:strAlertTitle
-                                                     message:@"\n\n\n"
+                                                     message:[NSString stringWithFormat:@"\n\n\n%@",NSLocalizedString(@"Don't input \\,/,:,<,>,*,?,\",&", nil)]
                                                     delegate:nil
                                            cancelButtonTitle:WizStrCancel
                                            otherButtonTitles:WizStrOK, nil];
