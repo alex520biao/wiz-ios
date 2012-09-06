@@ -498,20 +498,27 @@
     [self addCommonParams:postParams];
 	[postParams setObject:accountUserId forKey:@"user_id"];
 	[postParams setObject:accountPassword forKey:@"password"];
-    [postParams setObject:@"wiz_iphone" forKey:@"product_name"];
-    NSString* inviteCode = @"f6d9193f";
-    int randomCodeIndex = arc4random()%3;
-    switch (randomCodeIndex) {
-        case 0:
-            inviteCode = @"62aba4f7";
-            break;
-        case 1:
-            inviteCode = @"c736da49";
-            break;
-        default:
-            inviteCode = @"f6d9193f";
-            break;
+    if ([WizGlobals WizDeviceIsPad]) {
+        [postParams setObject:@"wiz_ipad" forKey:@"product_name"];
     }
+    else
+    {
+        [postParams setObject:@"wiz_iphone" forKey:@"product_name"];
+    }
+    
+    NSString* inviteCode = @"f6d9193f";
+//    int randomCodeIndex = arc4random()%3;
+//    switch (randomCodeIndex) {
+//        case 0:
+//            inviteCode = @"62aba4f7";
+//            break;
+//        case 1:
+//            inviteCode = @"c736da49";
+//            break;
+//        default:
+//            inviteCode = @"f6d9193f";
+//            break;
+//    }
     [postParams setObject:inviteCode forKey:@"invite_code"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_CreateAccount args:args];
