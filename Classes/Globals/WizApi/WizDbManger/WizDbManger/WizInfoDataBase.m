@@ -751,7 +751,7 @@
 }
 - (NSArray*) allTagsForTree
 {
-    NSMutableArray* allTags =[NSMutableArray arrayWithArray:[self tagsArrayWithWhereField:@"" args:nil]];
+    NSMutableArray* allTags =[NSMutableArray arrayWithArray:[self tagsArrayWithWhereField:@"where TAG_NAME not null" args:nil]];
     return allTags;
 }
 

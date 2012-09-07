@@ -169,7 +169,7 @@
 
 - (NSString*) deletedAlertMessage:(TreeNode*)node
 {
-    return [NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and nots in it, are you sure?", nil), node.title];
+    return [NSString stringWithFormat:NSLocalizedString(@"You will delete the folder %@ and notes in it, are you sure?", nil), node.title];
 }
 
 - (BOOL) isDeletedVaild:(TreeNode*)node

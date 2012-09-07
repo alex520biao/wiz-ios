@@ -244,8 +244,6 @@
         [postParams setObject:@"iphone" forKey:@"client_type"];
     }
 	[postParams setObject:@"normal" forKey:@"program_type"];
-//	[postParams setObject:[NSNumber numberWithInt:3] forKey:@"api_version"];
-    // new version 4
     [postParams setObject:[NSNumber numberWithInt:4] forKey:@"api_version"];
 	//
 	if (self.token != nil)
@@ -507,18 +505,6 @@
     }
     
     NSString* inviteCode = @"f6d9193f";
-//    int randomCodeIndex = arc4random()%3;
-//    switch (randomCodeIndex) {
-//        case 0:
-//            inviteCode = @"62aba4f7";
-//            break;
-//        case 1:
-//            inviteCode = @"c736da49";
-//            break;
-//        default:
-//            inviteCode = @"f6d9193f";
-//            break;
-//    }
     [postParams setObject:inviteCode forKey:@"invite_code"];
 	NSArray *args = [NSArray arrayWithObjects:postParams, nil ];
 	return [self executeXmlRpc:self.accountURL method:SyncMethod_CreateAccount args:args];
