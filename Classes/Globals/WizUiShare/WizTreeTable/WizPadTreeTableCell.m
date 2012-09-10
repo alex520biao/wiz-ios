@@ -74,7 +74,7 @@
         
         addNewTreeNodeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [self.contentView addSubview:addNewTreeNodeButton];
-        [addNewTreeNodeButton setImage:[UIImage imageNamed:@"treeItemAddSelected"] forState:UIControlStateNormal];
+        [addNewTreeNodeButton setImage:[UIImage imageNamed:@"treePadItemSelectedAdd"] forState:UIControlStateNormal];
         addNewTreeNodeButton.hidden = YES;
         [addNewTreeNodeButton addTarget:self action:@selector(addNewTreeNode) forControlEvents:UIControlEventTouchUpInside];
     }

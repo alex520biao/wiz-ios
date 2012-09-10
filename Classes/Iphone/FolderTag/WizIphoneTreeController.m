@@ -215,11 +215,11 @@
     TreeNode* node = [self findTreeNodeByKey:cell.strTreeNodeKey];
     if ([node.childrenNodes count]) {
         if (!node.isExpanded) {
-            [cell.expandedButton setImage:[UIImage imageNamed:@"treeItemColsed"] forState:UIControlStateNormal];
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treePhoneItemClosed"] forState:UIControlStateNormal];
         }
         else
         {
-            [cell.expandedButton setImage:[UIImage imageNamed:@"treeItemOpened"] forState:UIControlStateNormal];
+            [cell.expandedButton setImage:[UIImage imageNamed:@"treePhoneItemOpened"] forState:UIControlStateNormal];
         }
     }
     else

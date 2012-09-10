@@ -720,7 +720,7 @@ enum WizSettingKind {
     NSInteger lastIndex = [imageQulityArray indexForWizSettingValue:[[WizSettings defaultSettings] imageQualityValue]];
     WizSingleSelectViewController* sigle = [[WizSingleSelectViewController alloc] initWithValusAndLastIndex:imageQulityArray lastIndex:lastIndex];
     sigle.singleSelectDelegate = self;
-    settingKind = WizSetTableOption;
+    settingKind = WizSetImageQulityCode;
     [self.navigationController pushViewController:sigle animated:YES];
     [sigle release];
 }
