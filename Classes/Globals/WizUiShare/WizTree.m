@@ -62,7 +62,7 @@
 - (NSArray*)  childrenTreeNode:(NSString*)key
 {
     NSMutableArray* children = [NSMutableArray array];
-    
+    return children;
 }
 - (void) removeTreeNode:(NSString*)key
 {

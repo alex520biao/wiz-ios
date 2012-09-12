@@ -3051,10 +3051,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Classes/otherFrame/youmeng\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "";
@@ -3076,8 +3073,8 @@
 					armv7,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3091,10 +3088,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Classes/otherFrame/youmeng\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "";
@@ -3143,7 +3137,7 @@
 					armv7,
 				);
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				"CODE_SIGN_RESOURCE_RULES_PATH[sdk=*]" = "";
@@ -3159,10 +3153,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Classes/otherFrame/youmeng\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
 				PROVISIONING_PROFILE = "";
@@ -3205,8 +3196,8 @@
 					armv6,
 					armv7,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
