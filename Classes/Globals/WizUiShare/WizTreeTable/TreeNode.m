@@ -39,8 +39,19 @@
     return self;
 }
 
+- (BOOL) hasChildTreeNode:(NSString*)strKey
+{
+    if ([self childNodeFromKeyString:strKey]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void) addChildTreeNode:(TreeNode*)node
 {
+    if ([self hasChildTreeNode:node.keyString]) {
+        return;
+    }
     node.parentTreeNode = self;
     node.deep = self.deep+1;
     [childrenNodes_ addObject:node];
@@ -52,16 +63,6 @@
         }
         return 0;
     }];
-//    int count = [childrenNodes_ count];
-//    int insertPositin = 0;
-//    for (NSInteger i = count -1 ; i >=0; --i) {
-//        TreeNode* eachNode = [childrenNodes_ objectAtIndex:i];
-//        if ([node.title compareFirstCharacter:eachNode.title] < 0) {
-//            insertPositin = i-1>=0?i-1:0;
-//            break;
-//        }
-//    }
-//     [childrenNodes_ insertObject:node atIndex:insertPositin];
 }
 
 - (void) removeChildTreeNode:(TreeNode*)node

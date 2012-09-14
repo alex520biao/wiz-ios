@@ -74,6 +74,10 @@
             [self addTagTreeNodeToParent:each rootNode:tagRootNode allTags:tagArray];
         }
     }
+    for(TreeNode* eachNode in [rootTreeNode childrenNodes])
+    {
+        NSLog(@"%@ name %@ ",eachNode.title, eachNode.keyString);
+    }
 }
 
 - (void) reloadAllTreeNodes
