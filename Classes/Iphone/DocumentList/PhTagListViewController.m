@@ -79,4 +79,12 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (BOOL) isInsertDocumentValid:(WizDocument *)document
+{
+    if ([document.tagGuids indexOf:self.tagGuid] != NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

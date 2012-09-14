@@ -25,5 +25,6 @@
 - (void) reloadAllData;
 + (UILabel*) noDocumentsLabel;
 + (UIView*) noDocumentsBackGroudView;
+- (BOOL) isInsertDocumentValid:(WizDocument*)document;
 @end
 

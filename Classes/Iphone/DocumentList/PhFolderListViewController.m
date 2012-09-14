@@ -69,4 +69,12 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (BOOL) isInsertDocumentValid:(WizDocument *)document
+{
+    if ([document.location isEqualToString:self.folder]) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

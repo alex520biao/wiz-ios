@@ -25,6 +25,12 @@
 @implementation WizTableViewController
 @synthesize kOrderIndex;
 @synthesize tableSourceArray;
+
+- (BOOL) isInsertDocumentValid:(WizDocument *)document
+{
+    return YES;
+}
+
 - (NSArray*) reloadAllDocument
 {
     return nil;
@@ -301,6 +307,9 @@
             [self.tableView endUpdates];
         }
         else {
+            if (![self isInsertDocumentValid:doc]) {
+                return ;
+            }
             indexPath = [self.tableSourceArray insertDocument:doc];
             if (nil == indexPath) {
                 return;

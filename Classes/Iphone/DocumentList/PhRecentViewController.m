@@ -69,4 +69,9 @@
 //{
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 //}
+
+- (BOOL) isInsertDocumentValid:(WizDocument *)document
+{
+    return YES;
+}
 @end
