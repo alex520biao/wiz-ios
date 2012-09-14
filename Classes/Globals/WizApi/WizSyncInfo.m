@@ -126,6 +126,9 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
         [each upload];
     }
     NSArray* documents = [WizDocument documentsForCache];
+    if ([documents count] > 30) {
+        documents = [documents subarrayWithRange:NSMakeRange(0, 30)];
+    }
     for (WizDocument * each in documents) {
         [each download];
     }
