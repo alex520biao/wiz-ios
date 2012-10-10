@@ -61,6 +61,7 @@ static NSArray* htmlArray;
     }
 }
 
+
 + (float) WizDeviceVersion
 {
 //    return 4.0f;
@@ -212,13 +213,18 @@ static NSArray* htmlArray;
 +(float) heightForWizTableFooter:(int)exisitCellCount
 {
     float currentTableHeight = exisitCellCount*44.0;
-    if (currentTableHeight < 44.0*6) {
-        return 44.0*9 - currentTableHeight;
+    float tableFooterHeight = 100.0;
+    
+    float screenHeight = [UIScreen mainScreen].bounds.size.height - 44 -20;
+
+    float distance = screenHeight - currentTableHeight;
+    
+    NSLog(@"screentHeight %f  distance is %f",screenHeight,distance);
+    
+    if (distance > 44.0*4 ) {
+        return distance;
     }
-    else
-    {
-        return 100.0;
-    }
+    return tableFooterHeight;
 }
 
 + (NSString*) folderStringToLocal:(NSString*) str
