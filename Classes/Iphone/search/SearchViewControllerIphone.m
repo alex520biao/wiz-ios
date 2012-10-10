@@ -198,7 +198,8 @@
 {
     [self searchBarCancelButtonClicked:searchBarLocal];
     searchBarLocal.frame = self.navigationController.navigationBar.frame;
-    self.view = historyView.view;
+    historyView.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:historyView.view];
     self.navigationItem.titleView = searchBarLocal;
     searchBarLocal.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [historyView reloadData];

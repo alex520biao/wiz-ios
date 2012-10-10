@@ -20,6 +20,9 @@
 #define ATTACHMENTTEMPFLITER @"attchmentTempFliter"
 #define MD5PART 10*1024
 
+
+
+
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -46,6 +49,17 @@ static NSArray* imageArray;
 static NSArray* excelArray;
 static NSArray* htmlArray;
 
++ (float)  WizMainScreenWidth
+{
+    CGRect mainRect = [UIScreen mainScreen].bounds;
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return mainRect.size.height;
+    }
+    else
+    {
+        return mainRect.size.width;
+    }
+}
 
 + (float) WizDeviceVersion
 {

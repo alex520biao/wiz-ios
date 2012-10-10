@@ -925,7 +925,7 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
     self.navigationItem.rightBarButtonItem = saveBtn;
     
     [self buildPhoneNavigationTools];
-    titleTextField.frame = CGRectMake(0.0, 0.0, [[UIScreen mainScreen] bounds].size.width, 31);
+    titleTextField.frame = CGRectMake(0.0, 0.0, [WizGlobals WizMainScreenWidth], 31);
     
     [backGroudScrollView addSubview:titleTextField];
     
