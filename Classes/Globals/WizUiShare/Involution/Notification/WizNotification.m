@@ -271,4 +271,13 @@
     [WizNotificationCenter postMessageWithName:MessageTypeOfCacheDbUpdate userInfoObject:guid userInfoKey:UserInfoTypeOfDocumentGUID];
 }
 //
+
++ (void) postMessageDidDeletedDocument:(NSString*)guid
+{
+    [WizNotificationCenter postMessageWithName:MessageTypeOfDidDeletedDocument userInfoObject:guid userInfoKey:UserInfoTypeOfDocumentGUID];
+}
++ (void) addObserverForDidDeletedDocument:(id)observer selector:(SEL)selector
+{
+    [WizNotificationCenter addObserverWithKey:observer  selector:selector name:MessageTypeOfDidDeletedDocument];
+}
 @end

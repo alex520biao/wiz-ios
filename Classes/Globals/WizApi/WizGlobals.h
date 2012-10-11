@@ -35,7 +35,7 @@
 #define WizUpdateError              @"UpdateError"
 //
 
-
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #define WizLog(s,...) logTofile(__FILE__,(char *)__FUNCTION__ ,__LINE__,s,##__VA_ARGS__)
 void logTofile(char*sourceFile, char*functionName ,int lineNumber,NSString* format,...);

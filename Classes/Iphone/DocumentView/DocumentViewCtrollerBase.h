@@ -10,9 +10,13 @@
 #import <MessageUI/MessageUI.h>
 #import "ATMHudDelegate.h"
 
+#import "WizReadDocumentDelegate.h"
+
+
 @interface DocumentViewCtrollerBase : UIViewController <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UIActionSheetDelegate,UIWebViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate,ATMHudDelegate>
 {
     WizDocument* doc;
 }
-@property (nonatomic, retain) WizDocument* doc;
+@property (nonatomic , assign) id<WizReadDocumentDelegate> listDelegate;
+@property (nonatomic, assign,getter = getDocument) WizDocument* doc;
 @end

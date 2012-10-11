@@ -20,12 +20,80 @@
 #import "MTStatusBarOverlay.h"
 
 @interface WizTableViewController ()
+@property (nonatomic, retain) NSIndexPath* lastIndexPath;
 - (void) showSyncButton;
 @end
 @implementation WizTableViewController
 @synthesize kOrderIndex;
 @synthesize tableSourceArray;
+@synthesize lastIndexPath;
 
+
+- (WizDocument*) currentDocument
+{
+    if (nil != self.lastIndexPath) {
+        if (self.lastIndexPath.section >=0 && self.lastIndexPath.section < [tableSourceArray count]) {
+            NSMutableArray* section = [tableSourceArray objectAtIndex:self.lastIndexPath.section];
+            if (self.lastIndexPath.row >= 0 && self.lastIndexPath.row < [section count]) {
+                return [section objectAtIndex:self.lastIndexPath.row];
+            }
+        }
+    }
+    return nil;
+}
+
+- (void) deleteDocument:(WizDocument *)document
+{
+    [WizDocument deleteDocument:document];
+}
+
+- (WizDocument*) nextDocument
+{
+    self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    //
+    if (self.lastIndexPath != nil) {
+        if (self.lastIndexPath.section >=0 && self.lastIndexPath.section < [tableSourceArray count]) {
+            NSInteger nextRow = self.lastIndexPath.row+1;
+            NSInteger nextSection = self.lastIndexPath.section;
+            //
+            NSMutableArray* currentSectionArray = [tableSourceArray objectAtIndex:nextSection];
+            if (nextRow < [currentSectionArray count]) {
+                self.lastIndexPath = [NSIndexPath indexPathForRow:nextRow inSection:nextSection];
+            }
+            else
+            {
+                nextSection++;
+                if (nextSection < [tableSourceArray count]) {
+                    NSMutableArray* nextSectionArray = [tableSourceArray objectAtIndex:nextSection];
+                    if ([nextSectionArray count] > 0) {
+                        self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:nextSection];
+                    }
+                }
+            }
+        }
+    }
+    return [self currentDocument];
+}
+
+- (WizDocument*) preDocument
+{
+    if (self.lastIndexPath != nil) {
+        self.lastIndexPath = [NSIndexPath indexPathForRow:self.lastIndexPath.row + 1 inSection:self.lastIndexPath.section];
+    }
+    else
+    {
+        self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    return [self currentDocument];
+}
+
+- (void) dealloc
+{
+    [tableSourceArray release];
+    [lastIndexPath release];
+    [WizNotificationCenter removeObserver:self];
+    [super dealloc];
+}
 - (BOOL) isInsertDocumentValid:(WizDocument *)document
 {
     return YES;
@@ -97,12 +165,7 @@
     [refresh release];
     
 }
-- (void) dealloc
-{
-    [tableSourceArray release];
-    [WizNotificationCenter removeObserver:self];
-    [super dealloc];
-}
+
 - (void) reloadAllData
 {
     self.kOrderIndex = [[WizSettings defaultSettings] userTablelistViewOption];
@@ -237,7 +300,8 @@
 {
 	DocumentViewCtrollerBase* docView = [[DocumentViewCtrollerBase alloc] init];
     docView.hidesBottomBarWhenPushed = YES;
-    docView.doc = doc;
+    docView.listDelegate = self;
+//    docView.doc = doc;
 	[self.navigationController pushViewController:docView animated:YES];
 	[docView release];
 }
@@ -246,6 +310,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WizDocument* doc = [[self.tableSourceArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    self.lastIndexPath = indexPath;
     [self viewDocument:doc];
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -270,6 +335,7 @@
 - (void) onDeleteDocument:(NSNotification*)nc
 {
     WizDocument* document = [WizNotificationCenter getWizDocumentFromNc:nc];
+    NSString* deletedDocumentGuid = [[document guid] retain];
     if (document == nil) {
         return;
     }
@@ -279,14 +345,22 @@
             [self.tableView beginUpdates];
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:docIndex.section] withRowAnimation:UITableViewRowAnimationTop];
             [self.tableView endUpdates];
+            //
+            if (docIndex.section < [self.tableSourceArray count]) {
+                self.lastIndexPath = [NSIndexPath indexPathForRow:0 inSection:docIndex.section];
+            }
         }
         else {
             [self.tableView beginUpdates];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:docIndex] withRowAnimation:UITableViewRowAnimationTop];
             [self.tableView endUpdates];
+            if (docIndex.row < [[self.tableSourceArray objectAtIndex:docIndex.section] count]) {
+                self.lastIndexPath = docIndex;
+            }
         }
-        
     }
+    [WizNotificationCenter postMessageDidDeletedDocument:deletedDocumentGuid];
+    [deletedDocumentGuid release];
 }
 
 - (void) updateDocument:(NSNotification*)nc

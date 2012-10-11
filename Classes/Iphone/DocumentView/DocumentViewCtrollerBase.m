@@ -26,8 +26,8 @@
 #import <UIKit/UIKit.h>
 #import "ATMHud.h"
 
-
-
+#define WizAlertTagDeletedCurrentDocument   1254
+#define WizAlertTagEditCurrentDocument      4564
 
 #define NOSUPPOURTALERT 199
 
@@ -39,21 +39,20 @@
     NSString* fontWidth;
     UIWebView* web;
     UISlider* webFontSizeSlider;
-    UIBarItem* attachmentBarItem;
-    UIBarItem* infoBarItem;
-    UIBarItem* editBarItem;
-    UIBarItem* searchItem;
     UISearchBar* searchDocumentBar;
     UIAlertView* conNotDownloadAlert;
     ATMHud* downloadActivity;
     UIBadgeView* attachmentCountBadgeView;
     BOOL isEdit;
+
 }
+@property (nonatomic, retain) UIBarButtonItem* _deletedItem;
 @property (nonatomic, retain)  UIWebView* web;
 @property (nonatomic, retain)  UIAlertView* conNotDownloadAlert;
 @property (nonatomic, retain)  ATMHud* downloadActivity;
 @property (assign) BOOL isEdit;
 @property (nonatomic, retain) NSString* fontWidth;
+@property (nonatomic, retain) NSString* deletedDocumentGuid;
 -(void)editDocument;
 -(void)viewAttachments;
 -(void)viewDocumentInfo;
@@ -67,6 +66,8 @@
 @synthesize downloadActivity;
 @synthesize conNotDownloadAlert;
 @synthesize isEdit;
+@synthesize listDelegate;
+@synthesize _deletedItem;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -77,28 +78,37 @@
         searchDocumentBar = [[UISearchBar alloc] init];
         searchDocumentBar.delegate = self;
         attachmentCountBadgeView = [[UIBadgeView alloc] init];
+        [WizNotificationCenter addObserverForDidDeletedDocument:self selector:@selector(didDeletedCurrentDocument:)];
     }
     return self;
+}
+
+- (void) didDeletedCurrentDocument:(NSNotification*)nc
+{
+    NSString* guid = [WizNotificationCenter getDocumentGUIDFromNc:nc];
+    if ([guid isEqualToString:self.deletedDocumentGuid]) {
+        [self loadDocument];
+    }
 }
 - (void) loadView
 {
     self.view = self.web;
     self.web.frame = [[UIScreen mainScreen] bounds];
 }
+- (WizDocument*) getDocument
+{
+    return [self.listDelegate currentDocument];
+}
 
 -(void) dealloc
 {
-    [searchItem release];
+    listDelegate = nil;
     [web release];
-    [doc release];
-    [attachmentBarItem release];
-    [infoBarItem release];
-    [editBarItem release];
     [searchDocumentBar release];
     [conNotDownloadAlert release];
     [downloadActivity release];
     [attachmentCountBadgeView release];
-    
+    [_deletedItem release];
     [WizNotificationCenter removeObserver:self];
     [super dealloc];
 }
@@ -329,16 +339,36 @@
             return;
         }
     }
-	if( buttonIndex == 0 ) //Edit
-	{
-		[self editCurrentDocumentUsingOldEditor];
-	}
+    else if (alertView.tag == WizAlertTagEditCurrentDocument)
+    {
+        if( buttonIndex == 0 ) //Edit
+        {
+            [self editCurrentDocumentUsingOldEditor];
+        }
+    }
+    else if (alertView.tag = WizAlertTagDeletedCurrentDocument)
+    {
+        if (buttonIndex == 1) {
+            [self shouldDeletedCurrentDocument];
+        }
+    }
+
 }
 
 - (void) setToolbarItemsEnable:(BOOL)enable
 {
+    
     for (UIBarButtonItem* each in self.toolbarItems) {
         [each setEnabled:enable];
+    }
+    UIBarButtonItem* deletedItem = [self.toolbarItems objectAtIndex:8];
+    if(self.doc == nil)
+    {
+        deletedItem.enabled = NO;
+    }
+    else
+    {
+        deletedItem.enabled = YES;
     }
 }
 
@@ -349,6 +379,7 @@
 													   delegate:self 
 											  cancelButtonTitle:nil 
 											  otherButtonTitles:WizStrContinueediting,WizStrCancel, nil];
+    alert.tag = WizAlertTagDeletedCurrentDocument;
 		
 		[alert show];
 		[alert release];
@@ -473,15 +504,18 @@
 {
     [super viewDidAppear:animated];
 }
-
--(void) viewWillAppear:(BOOL)animated
+- (void )  loadDocument
 {
-    [super viewWillAppear:animated];
-    if (self.isEdit) {
-        [self.web reload];
-        self.doc = [WizDocument documentFromDb:self.doc.guid];
-        self.isEdit = NO;
+
+    if(self.doc == nil)
+    {
+        attachmentCountBadgeView.hidden = YES;
+        self.title = nil;
+        [self.web loadHTMLString:nil baseURL:nil];
+
+        return ;
     }
+
     NSUInteger attachmentsCount = self.doc.attachmentCount;
     if (attachmentsCount > 0) {
         attachmentCountBadgeView.hidden = NO;
@@ -508,6 +542,16 @@
             [self downloadDocument];
         }
     }
+}
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.isEdit) {
+        [self.web reload];
+        self.doc = [WizDocument documentFromDb:self.doc.guid];
+        self.isEdit = NO;
+    }
+    [self loadDocument];
     [self.navigationController setToolbarHidden:NO animated:YES];
     [self.navigationController.toolbar addSubview:attachmentCountBadgeView];
     [self setToolbarItemsEnable:NO];
@@ -528,6 +572,20 @@
         [self.navigationController setToolbarHidden:YES animated:YES];
     }
 }
+- (void ) shouldDeletedCurrentDocument
+{
+    self.deletedDocumentGuid = self.doc.guid;
+    [self.listDelegate deleteDocument:self.doc];
+}
+
+- (void) deleteCurrentDocument
+{
+    NSString* message = [NSString stringWithFormat:NSLocalizedString(@"You will deleted document named %@, are you sure?", nil),self.doc.title];
+    UIAlertView* deletedAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Deleted Current Document", nil) message:message  delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrRemove, nil];
+    deletedAlertView.tag = WizAlertTagDeletedCurrentDocument;
+    [deletedAlertView show];
+    [deletedAlertView release];
+}
 - (void) buildToolBar
 {
     UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit"] style:UIBarButtonItemStyleBordered target:self action:@selector(editCurrentDocument)];
@@ -543,13 +601,20 @@
     
     UIBarButtonItem* shareItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon_share"] style:UIBarButtonItemStyleBordered target:self action:@selector(shareCurrentDocument)];
     
-    NSArray* array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info,flex,search, flex,shareItem, nil];
+    UIBarButtonItem* deletedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCurrentDocument)];
+    deletedItem.style = UIBarButtonItemStyleBordered;
+    //
+    NSArray* array = [NSArray arrayWithObjects:edit,flex,attachment,flex,info, flex,shareItem,flex,deletedItem, nil];
+    
+    self.navigationItem.rightBarButtonItem = search;
+
     [edit release];
     [flex release];
     [info release];
     [attachment release];
     [search release];
     [shareItem release];
+    [deletedItem release];
     [self setToolbarItems:array];
 }
 

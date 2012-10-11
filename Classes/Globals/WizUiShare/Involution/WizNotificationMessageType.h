@@ -54,3 +54,6 @@
 #define MessageTypeOfPadSyncInfoEnd                 @"MessageTypeOfPadSyncInfoEnd"
 
 #define MessageTypeOfMemeoryWarning                 @"MessageTypeOfMemeoryWarning"
+
+//
+#define MessageTypeOfDidDeletedDocument             @"MessageTypeOfDidDeletedDocument"

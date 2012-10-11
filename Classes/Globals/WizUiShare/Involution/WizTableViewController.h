@@ -11,8 +11,10 @@
 #import "WizSyncDescriptionDelegate.h"
 #import "NSMutableArray+WizDocuments.h"
 #import "PullRefreshTableViewController.h"
+#import "WizReadDocumentDelegate.h"
 
-@interface WizTableViewController : PullRefreshTableViewController <WizSyncDescriptionDelegate>
+
+@interface WizTableViewController : PullRefreshTableViewController <WizSyncDescriptionDelegate, WizReadDocumentDelegate>
 {
     @private
     WizDocumentsMutableArray* tableSourceArray;

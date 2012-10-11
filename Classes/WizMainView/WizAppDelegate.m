@@ -116,7 +116,15 @@ void UncaughtExceptionHandler(NSException *exception)
     }
     else
     {
-        WizIphoneLoginViewController* login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewController" bundle:nil];
+        WizIphoneLoginViewController* login = nil;
+        if (iPhone5) {
+            login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewControllerIP5" bundle:nil];
+        }
+        else
+        {
+            login = [[WizIphoneLoginViewController alloc] initWithNibName:@"WizIphoneLoginViewController" bundle:nil];
+        }
+        
         [root pushViewController:login animated:NO];
         [login release];
     }

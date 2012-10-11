@@ -80,4 +80,7 @@
 + (void) removeObserverForUpdateDocumentList:(id)observer;
 //
 + (void) postSimpleMessageWithName:(NSString*)messageName;
+//
++ (void) postMessageDidDeletedDocument:(NSString*)guid;
++ (void) addObserverForDidDeletedDocument:(id)observer selector:(SEL)selector;
 @end
