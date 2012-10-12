@@ -180,6 +180,8 @@
         }
         [webView loadHTMLString:@"" baseURL:nil];
     }
+    documentNameLabel.text = nil;
+    [webView loadHTMLString:nil baseURL:nil];
     
 }
 
@@ -187,7 +189,7 @@
 {
     NSString* guid = [WizNotificationCenter getDocumentGUIDFromNc:nc];
     if ([guid isEqualToString:self.selectedDocument.guid]) {
-        if (self.lastIndexPath) {
+        if (self.lastIndexPath && [self.documentsArray count] > 0) {
             if (self.lastIndexPath.section < [self.documentsArray count]) {
                 NSMutableArray* sectionArray = [self.documentsArray objectAtIndex:self.lastIndexPath.section];
                 //
@@ -199,6 +201,15 @@
                 {
                     if ([sectionArray count] > 0) {
                         [self tableView:documentList didDeselectRowAtIndexPath:[NSIndexPath indexPathForRow:[sectionArray count] -1 inSection:self.lastIndexPath.section]];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = [self.documentsArray count] -1 ; i >=0; --i) {
+                    NSMutableArray* array = [self.documentsArray objectAtIndex:i];
+                    if ([array count] > 0) {
+                        [self tableView:documentList didDeselectRowAtIndexPath:[NSIndexPath indexPathForRow:[array count] -1  inSection:i]];
                     }
                 }
             }
@@ -554,11 +565,6 @@
     [self reloadSelectedDocument];
 }
 
-- (void) doDeletedDocument
-{
-    self.lastIndexPath = [self.documentsArray indexPathOfWizDocument:self.selectedDocument];
-    [WizDocument deleteDocument:self.selectedDocument];
-}
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -585,8 +591,8 @@
     }
     else if(alertView.tag == WizAlertTagDeletedCurrentDocumentPad)
     {
-        if (buttonIndex == 0) {
-            
+        if (buttonIndex == 1) {
+            [self tableView:documentList commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:self.lastIndexPath];
         }
     }
     
@@ -665,6 +671,8 @@
     [nav release];
     [currentPopoverController presentPopoverFromBarButtonItem:attachmentsItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
+
+
 - (void) buildToolBar
 {
     UIBarButtonItem* edit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"edit_gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(editCurrentDocument:)];
@@ -687,7 +695,7 @@
     
     
     
-    UIBarButtonItem* delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(willDeleteDocument)];
+    UIBarButtonItem* delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteCurrentDocument)];
     delete.style = UIBarButtonItemStyleBordered;
     
     NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit,flex2, attachment,flex2, detail,flex2, share,flex,delete,flex,nil];
@@ -815,6 +823,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
+    self.lastIndexPath = indexPath;
     WizDocument* doc = [[self.documentsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     [self didSelectedDocument:doc];
