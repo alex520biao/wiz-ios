@@ -36,8 +36,16 @@
 @synthesize kOrderIndex;
 @synthesize tableArray;
 @synthesize checkDocumentDelegate;
+@synthesize orientationDelegate;
+
+- (UIInterfaceOrientation) interfaceOrientation
+{
+    return [self.orientationDelegate currentOrientation];
+}
+
 - (void) dealloc
 {
+    orientationDelegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MessageOfChangeDocumentListOrderMethod object:nil];
     [WizNotificationCenter removeObserver:self];
     [tableArray release];
@@ -302,11 +310,14 @@
 	return YES;
 }
 
-- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES ];
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    NSLog(@"interface is %d",self.interfaceOrientation);
+    
 }
+
 - (void) onDeleteDocument:(NSNotification*)nc
 {
     WizDocument* doc = [WizNotificationCenter getWizDocumentFromNc:nc];
@@ -329,8 +340,6 @@
         }
     }
 }
-
-
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

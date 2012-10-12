@@ -20,9 +20,9 @@
 //
 #import "WizPadAllNotesViewController.h"
 
+#import "WizPadInterfaceOrientationDelegate.h"
 
-
-@interface WizPadViewController () <UIPopoverControllerDelegate,UISearchBarDelegate,WizSettingsParentNavigationDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate>
+@interface WizPadViewController () <UIPopoverControllerDelegate,UISearchBarDelegate,WizSettingsParentNavigationDelegate,WizSearchHistoryDelegate,WizPadViewDocumentDelegate, WizPadInterfaceOrientationDelegate>
 {
     UIPopoverController* currentPoperController;
         id<WizPadNewNoteTagAndFolderDelegate> noteNewDelegate;
@@ -44,7 +44,10 @@
     noteNewDelegate = nil;
     [super dealloc];
 }
-
+- (UIInterfaceOrientation) currentOrientation
+{
+    return self.interfaceOrientation;
+}
 - (id) init
 {
     WizPadListTableControllerBase* base= [[WizPadListTableControllerBase alloc] init];
@@ -68,6 +71,7 @@
             treeTable.checkDocuementDelegate = self;
             folder.checkDelegate = self;
             base.checkDocumentDelegate = self;
+        base.orientationDelegate = self;
     }
     [base release];
     [tag release];

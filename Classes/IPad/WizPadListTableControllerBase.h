@@ -11,6 +11,8 @@
 #import "WizPadListCell.h"
 #import "WizPadViewDocumentDelegate.h"
 #import "WizSyncDescriptionDelegate.h"
+#import "WizPadInterfaceOrientationDelegate.h"
+
 @interface WizPadListTableControllerBase : UITableViewController <WizSyncDescriptionDelegate,WizPadCellSelectedDocumentDelegate>
 {
     WizDocumentsMutableArray* tableArray;
@@ -22,6 +24,7 @@
 @property (atomic, retain) WizDocumentsMutableArray* tableArray;
 @property int kOrderIndex;
 @property (assign) BOOL isLandscape;
+@property (nonatomic, assign) id<WizPadInterfaceOrientationDelegate> orientationDelegate;
 - (void) didSelectedDocument:(WizDocument*)doc;
 - (void) reloadAllData;
 - (NSArray*) reloadDocuments;
