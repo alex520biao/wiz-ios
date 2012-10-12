@@ -45,6 +45,11 @@
 
 #define HeadViewLandScapeZoomFrame CGRectMake(0.0, 0.0, 1024, 44)
 #define WebViewLandScapeZoomFrame CGRectMake(0.0, 45, 1024, 616)
+
+
+//
+#define WizAlertTagDeletedCurrentDocumentPad    6021
+
 @interface WizPadDocumentViewController ()
 {
     UIWebView* webView;
@@ -68,10 +73,12 @@
     UIBarButtonItem* detailItem;
     UIBarButtonItem* attachmentsItem;
     UIBarButtonItem* shareItem;
+    UIBarButtonItem* deletedItem;
 }
 @property NSInteger readWidth;
 @property (nonatomic, retain) WizDocument* selectedDocument;
 @property (nonatomic, retain)  UIPopoverController* currentPopoverController;
+@property (nonatomic, retain) NSIndexPath* lastIndexPath;
 @end
 @implementation WizPadDocumentViewController
 @synthesize listType;
@@ -81,6 +88,7 @@
 @synthesize currentPopoverController;
 @synthesize readWidth;
 @synthesize initDocument;
+@synthesize lastIndexPath;
 - (void) dealloc
 {
     [initDocument release];
@@ -95,6 +103,7 @@
     //
     [potraitTableView release];
     potraitTableView = nil;
+    [lastIndexPath release];
     //
     [attachmentCountBadge release];
     [zoomOrShrinkButton release];
@@ -173,6 +182,30 @@
     }
     
 }
+
+- (void) didDeletedDocument:(NSNotification*)nc
+{
+    NSString* guid = [WizNotificationCenter getDocumentGUIDFromNc:nc];
+    if ([guid isEqualToString:self.selectedDocument.guid]) {
+        if (self.lastIndexPath) {
+            if (self.lastIndexPath.section < [self.documentsArray count]) {
+                NSMutableArray* sectionArray = [self.documentsArray objectAtIndex:self.lastIndexPath.section];
+                //
+                NSInteger nextRow = self.lastIndexPath.row + 1;
+                if (nextRow < [sectionArray count]) {
+                    [self tableView:documentList didDeselectRowAtIndexPath:[NSIndexPath indexPathForRow:nextRow inSection:self.lastIndexPath.section]];
+                }
+                else
+                {
+                    if ([sectionArray count] > 0) {
+                        [self tableView:documentList didDeselectRowAtIndexPath:[NSIndexPath indexPathForRow:[sectionArray count] -1 inSection:self.lastIndexPath.section]];
+                    }
+                }
+            }
+        }
+    }
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -181,8 +214,9 @@
         kOrderIndex = -1;
         [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
         [WizNotificationCenter addObserverForDownloadDone:self selector:@selector(downloadDocumentDone:)];
-        
         attachmentCountBadge = [[UIBadgeView alloc] init];
+        
+        [WizNotificationCenter addObserverForDidDeletedDocument:self selector:@selector(didDeletedDocument:)];
         
     }
     return self;
@@ -234,6 +268,7 @@
     attachmentsItem.enabled = enable;
     shareItem.enabled = enable;
     detailItem.enabled = enable;
+    deletedItem.enabled = enable;
 }
 
 - (void) shareFromEms
@@ -519,6 +554,12 @@
     [self reloadSelectedDocument];
 }
 
+- (void) doDeletedDocument
+{
+    self.lastIndexPath = [self.documentsArray indexPathOfWizDocument:self.selectedDocument];
+    [WizDocument deleteDocument:self.selectedDocument];
+}
+
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == EditTag) {
@@ -539,6 +580,12 @@
             if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
                 [self zoomDocumentWebView];
             }
+            
+        }
+    }
+    else if(alertView.tag == WizAlertTagDeletedCurrentDocumentPad)
+    {
+        if (buttonIndex == 0) {
             
         }
     }
@@ -640,8 +687,10 @@
     
     
     
+    UIBarButtonItem* delete = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(willDeleteDocument)];
+    delete.style = UIBarButtonItemStyleBordered;
     
-    NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit,flex2, attachment,flex2, detail,flex2, share,flex,nil];
+    NSArray* items = [NSArray arrayWithObjects:newNote, flex,flex, edit,flex2, attachment,flex2, detail,flex2, share,flex,delete,flex,nil];
    
     [self setToolbarItems:items];
     //
@@ -650,7 +699,9 @@
     attachmentsItem = attachment;
     detailItem = detail;
     shareItem = share;
+    deletedItem = delete;
     //
+    [delete release];
     [edit release];
     [attachment release];
     [detail release];
@@ -938,5 +989,15 @@
         NSLog(@"document title %@",doc.title);
         NSLog(@"ddd");
     }
+}
+
+
+- (void) deleteCurrentDocument
+{
+    NSString* message = [NSString stringWithFormat:NSLocalizedString(@"You will deleted document named %@, are you sure?", nil),self.selectedDocument.title];
+    UIAlertView* deletedAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Deleted Current Document", nil) message:message  delegate:self cancelButtonTitle:WizStrCancel otherButtonTitles:WizStrRemove, nil];
+    deletedAlertView.tag = WizAlertTagDeletedCurrentDocumentPad;
+    [deletedAlertView show];
+    [deletedAlertView release];
 }
 @end

@@ -39,6 +39,7 @@
     }
     if (self.selectedViewController != nil) {
         [selectedViewController viewWillDisappear:YES];
+        [selectedViewController.view removeFromSuperview];
         [selectedViewController viewDidDisappear:YES];
     }
     self.selectedViewController = toViewController;
@@ -70,16 +71,9 @@
         }
         [[UIDevice currentDevice] performSelector:@selector(setOrientation:) withObject:(id)toInterfaceOrientation];
     }
-    //
-//    [UIView beginAnimations:@"Curl"context:nil];//动画开始
-//    [UIView setAnimationDuration:0.75];
-//    [UIView setAnimationDelegate:self];
-//    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:toViewController.view cache:YES];
-//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-//    [UIView commitAnimations];
-    //
-    self.view = toViewController.view;
-
+    
+    toViewController.view.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
+    [self.view addSubview:toViewController.view];
     [toViewController viewDidAppear:YES];
 }
 

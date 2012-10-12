@@ -133,6 +133,43 @@ enum WizPadTreeKeyIndex
     [self.detailTableView reloadSections:[NSIndexSet indexSetWithIndex:updatePath.section] withRowAnimation:UITableViewRowAnimationFade];
     [self.detailTableView endUpdates];
 }
+- (id) init
+{
+    self = [super init];
+    if (self) {
+        [WizNotificationCenter addObserverForUpdateDocument:self selector:@selector(updateDocument:)];
+        [WizNotificationCenter addObserverForDeleteDocument:self selector:@selector(onDeleteDocument:)];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadFolderTootNode) name:MessageTypeOfUpdateFolderTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadTagRootNode) name:MessageTypeOfUpdateTagTable];
+        [WizNotificationCenter addObserverWithKey:self selector:@selector(reloadAllDetailData) name:MessageTypeOfPadTableViewListChangedOrder];
+        rootNodes = [[NSMutableArray alloc] init];
+        needDisplayNodes = [[NSMutableArray alloc] init];
+        
+        [needDisplayNodes addObject:[NSMutableArray array]];
+        [needDisplayNodes addObject:[NSMutableArray array]];
+        
+        TreeNode* tagRootNode = [[[TreeNode alloc] init] autorelease];
+        tagRootNode.title   = WizStrTags;
+        tagRootNode.keyString = WizTreeViewTagKeyString;
+        tagRootNode.strType = WizTreeViewTagKeyString;
+        tagRootNode.isExpanded = YES;
+        [rootNodes addObject:tagRootNode];
+        
+        TreeNode* folderRootNode = [[[TreeNode alloc] init] autorelease];
+        folderRootNode.title   = WizStrFolders;
+        folderRootNode.keyString = WizTreeViewFolderKeyString;
+        folderRootNode.strType = WizTreeViewFolderKeyString;
+        folderRootNode.isExpanded = YES;
+        [rootNodes addObject:folderRootNode];
+        
+        documentsMutableArray = [[NSMutableArray alloc] init];
+        
+        isIgnoreReloadFolder = NO;
+        isIgnoreReloadTag = NO;
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -166,7 +203,6 @@ enum WizPadTreeKeyIndex
         
         isIgnoreReloadFolder = NO;
         isIgnoreReloadTag = NO;
-        
     }
     return self;
 }
@@ -296,6 +332,8 @@ enum WizPadTreeKeyIndex
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+
     [self reloadTagRootNode];
     [self reloadFolderTootNode];
     detailTableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];

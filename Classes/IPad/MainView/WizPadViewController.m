@@ -48,23 +48,26 @@
 - (id) init
 {
     WizPadListTableControllerBase* base= [[WizPadListTableControllerBase alloc] init];
-    base.checkDocumentDelegate = self;
+
     
     WizPadFoldersViewController* folder = [[WizPadFoldersViewController alloc] init];
 
-    folder.checkDelegate = self;
+    //
     WizPadTagsViewController *tag = [[WizPadTagsViewController alloc] init];
-    tag.checkDelegate = self;
-    
+
+    //
     WizPadAllNotesViewController* treeTable = [[WizPadAllNotesViewController alloc] initWithNibName:@"WizPadAllNotesViewController" bundle:nil];
-    treeTable.checkDocuementDelegate = self;
-    
+
+    //
     NSArray* array = [NSArray arrayWithObjects:base,treeTable,folder,tag, nil];
     NSArray* titles = @[WizStrRecentNotes ,NSLocalizedString(@"All Notes", nil),WizStrFolders,WizStrTags ];
     self = [super initWithViewControllers:array titles:titles];
-
     if (self) {
         self.noteNewDelegate = treeTable;
+            tag.checkDelegate = self;
+            treeTable.checkDocuementDelegate = self;
+            folder.checkDelegate = self;
+            base.checkDocumentDelegate = self;
     }
     [base release];
     [tag release];

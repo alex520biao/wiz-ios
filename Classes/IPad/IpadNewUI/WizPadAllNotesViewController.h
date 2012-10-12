@@ -14,7 +14,7 @@
 @end
 
 @interface WizPadAllNotesViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, WizPadNewNoteTagAndFolderDelegate>
-@property (nonatomic, retain) IBOutlet  UITableView* masterTableView;
-@property (nonatomic, retain) IBOutlet  UITableView* detailTableView;
+@property (nonatomic, retain)  IBOutlet UITableView* masterTableView;
+@property (nonatomic, retain)  IBOutlet UITableView* detailTableView;
 @property (nonatomic, assign) id<WizPadViewDocumentDelegate> checkDocuementDelegate;
 @end

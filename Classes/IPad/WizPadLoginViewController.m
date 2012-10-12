@@ -87,6 +87,9 @@
 {
     [[WizAccountManager defaultManager] registerActiveAccount:accountUserId];
     WizPadViewController* pad = [[WizPadViewController alloc] init];
+    
+    NSLog(@"pad is %@",pad);
+    
     [self.navigationController pushViewController:pad animated:YES];
     [pad release];
 }

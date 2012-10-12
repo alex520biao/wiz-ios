@@ -130,6 +130,7 @@
 		734D53BE157CAB7000BE496E /* UIWebView+WizEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 734D53BD157CAB7000BE496E /* UIWebView+WizEditor.m */; };
 		735136FD15A296BB00797CDF /* UIBarButtonItem+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */; };
 		73520D061626794B0073FB09 /* WizIphoneLoginViewControllerIP5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73520D081626794B0073FB09 /* WizIphoneLoginViewControllerIP5.xib */; };
+		73520D0B16269F410073FB09 /* WizPadAllNotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73520D0A16269F410073FB09 /* WizPadAllNotesViewController.xib */; };
 		73533DDC15EB687A00757602 /* WizTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 73533DDB15EB687A00757602 /* WizTree.m */; };
 		7355FCD415BFDCC800CE6D7A /* WizShareSyncObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355FCD315BFDCC800CE6D7A /* WizShareSyncObjectCache.m */; };
 		7357F34E15C24C560042A083 /* ipadPlaceHolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 7357F34C15C24C560042A083 /* ipadPlaceHolder.png */; };
@@ -368,7 +369,6 @@
 		73A786FD14F8CD5D001387F6 /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7867214F8CD5D001387F6 /* icon_ipad.png */; };
 		73A8C62515DC9301005A0B66 /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C62415DC9301005A0B66 /* TreeNode.m */; };
 		73A8C63115DCEA1B005A0B66 /* WizPadAllNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C62F15DCEA1B005A0B66 /* WizPadAllNotesViewController.m */; };
-		73A8C63215DCEA1B005A0B66 /* WizPadAllNotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */; };
 		73A8C63515DCEF01005A0B66 /* WizPadTreeTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */; };
 		73A8C63815DCFA13005A0B66 /* WizPadTreeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A8C63715DCFA13005A0B66 /* WizPadTreeTableCell.m */; };
 		73AC069815AFF612008E6402 /* WizEditorHTMLMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 73AC069715AFF612008E6402 /* WizEditorHTMLMutableArray.m */; };
@@ -605,6 +605,7 @@
 		735136FC15A296BB00797CDF /* UIBarButtonItem+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WizTools.m"; sourceTree = "<group>"; };
 		73520D071626794B0073FB09 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/WizIphoneLoginViewControllerIP5.xib"; sourceTree = "<group>"; };
 		73520D091626794F0073FB09 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WizIphoneLoginViewControllerIP5.xib; sourceTree = "<group>"; };
+		73520D0A16269F410073FB09 /* WizPadAllNotesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WizPadAllNotesViewController.xib; path = IPad/IpadNewUI/WizPadAllNotesViewController.xib; sourceTree = "<group>"; };
 		73533DDA15EB687A00757602 /* WizTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizTree.h; sourceTree = "<group>"; };
 		73533DDB15EB687A00757602 /* WizTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizTree.m; sourceTree = "<group>"; };
 		7355FCD015BFD8DE00CE6D7A /* WizSyncObjectSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSyncObjectSourceDelegate.h; sourceTree = "<group>"; };
@@ -956,7 +957,6 @@
 		73A8C62415DC9301005A0B66 /* TreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TreeNode.m; path = WizTreeTable/TreeNode.m; sourceTree = "<group>"; };
 		73A8C62E15DCEA1B005A0B66 /* WizPadAllNotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadAllNotesViewController.h; path = IPad/IpadNewUI/WizPadAllNotesViewController.h; sourceTree = "<group>"; };
 		73A8C62F15DCEA1B005A0B66 /* WizPadAllNotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadAllNotesViewController.m; path = IPad/IpadNewUI/WizPadAllNotesViewController.m; sourceTree = "<group>"; };
-		73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WizPadAllNotesViewController.xib; path = IPad/IpadNewUI/WizPadAllNotesViewController.xib; sourceTree = "<group>"; };
 		73A8C63315DCEF01005A0B66 /* WizPadTreeTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadTreeTableHeaderView.h; path = IPad/IpadNewUI/WizPadTreeTableHeaderView.h; sourceTree = "<group>"; };
 		73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizPadTreeTableHeaderView.m; path = IPad/IpadNewUI/WizPadTreeTableHeaderView.m; sourceTree = "<group>"; };
 		73A8C63615DCFA13005A0B66 /* WizPadTreeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizPadTreeTableCell.h; path = Globals/WizUiShare/WizTreeTable/WizPadTreeTableCell.h; sourceTree = "<group>"; };
@@ -1544,7 +1544,7 @@
 			children = (
 				73A8C62E15DCEA1B005A0B66 /* WizPadAllNotesViewController.h */,
 				73A8C62F15DCEA1B005A0B66 /* WizPadAllNotesViewController.m */,
-				73A8C63015DCEA1B005A0B66 /* WizPadAllNotesViewController.xib */,
+				73520D0A16269F410073FB09 /* WizPadAllNotesViewController.xib */,
 				73A8C63315DCEF01005A0B66 /* WizPadTreeTableHeaderView.h */,
 				73A8C63415DCEF01005A0B66 /* WizPadTreeTableHeaderView.m */,
 				73A8C63615DCFA13005A0B66 /* WizPadTreeTableCell.h */,
@@ -2712,7 +2712,6 @@
 				730E698C15B7FD4E00F1B026 /* WizSettingsDataBaseModel.plist in Resources */,
 				7357F34E15C24C560042A083 /* ipadPlaceHolder.png in Resources */,
 				7357F34F15C24C560042A083 /* ipadPlaceHolder@x2.png in Resources */,
-				73A8C63215DCEA1B005A0B66 /* WizPadAllNotesViewController.xib in Resources */,
 				73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */,
 				732E4DD915E7840B00B4860F /* treeCellSelected.png in Resources */,
 				732E4DDA15E7840B00B4860F /* treeCellSelected@2x.png in Resources */,
@@ -2744,6 +2743,7 @@
 				7332686815F9A8AD000A5056 /* treePhoneItemSelectedOpened@2x.png in Resources */,
 				73A6797F162554B400B3BA52 /* Default-568h@2x.png in Resources */,
 				73520D061626794B0073FB09 /* WizIphoneLoginViewControllerIP5.xib in Resources */,
+				73520D0B16269F410073FB09 /* WizPadAllNotesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
