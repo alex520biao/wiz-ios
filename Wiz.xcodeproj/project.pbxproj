@@ -151,13 +151,6 @@
 		738B80A8155135300005FD33 /* WizEditItemBackgroudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738B80A7155135300005FD33 /* WizEditItemBackgroudView.m */; };
 		738F75431628050600F06D5E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 738F75451628050600F06D5E /* Default-Landscape~ipad.png */; };
 		738F75461628050B00F06D5E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 738F75481628050B00F06D5E /* Default-Portrait~ipad.png */; };
-		738F75671628177400F06D5E /* JCGridMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F75571628177400F06D5E /* JCGridMenuController.m */; };
-		738F75681628177400F06D5E /* UIButton+JCUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F755A1628177400F06D5E /* UIButton+JCUI.m */; };
-		738F75691628177400F06D5E /* UILabel+JCUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F755C1628177400F06D5E /* UILabel+JCUI.m */; };
-		738F756A1628177400F06D5E /* UIView+JCUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F755E1628177400F06D5E /* UIView+JCUI.m */; };
-		738F756B1628177400F06D5E /* JCGridMenuColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F75611628177400F06D5E /* JCGridMenuColumn.m */; };
-		738F756C1628177400F06D5E /* JCGridMenuRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F75631628177400F06D5E /* JCGridMenuRow.m */; };
-		738F756D1628177400F06D5E /* JCGridMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738F75661628177400F06D5E /* JCGridMenuView.m */; };
 		739BE7B2153E524100057601 /* NSArray+WizTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 739BE7B1153E524100057601 /* NSArray+WizTools.m */; };
 		739C193D15A29BF900EA0BCB /* editModel.html in Resources */ = {isa = PBXBuildFile; fileRef = 739C193C15A29BF900EA0BCB /* editModel.html */; };
 		739C194315A29E8F00EA0BCB /* editor.js in Resources */ = {isa = PBXBuildFile; fileRef = 739C194215A29E8F00EA0BCB /* editor.js */; };
@@ -657,20 +650,6 @@
 		738F75491628050E00F06D5E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		738F754A1628051200F06D5E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		738F754B1628077800F06D5E /* WizPadInterfaceOrientationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizPadInterfaceOrientationDelegate.h; sourceTree = "<group>"; };
-		738F75561628177400F06D5E /* JCGridMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGridMenuController.h; sourceTree = "<group>"; };
-		738F75571628177400F06D5E /* JCGridMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGridMenuController.m; sourceTree = "<group>"; };
-		738F75591628177400F06D5E /* UIButton+JCUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+JCUI.h"; sourceTree = "<group>"; };
-		738F755A1628177400F06D5E /* UIButton+JCUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+JCUI.m"; sourceTree = "<group>"; };
-		738F755B1628177400F06D5E /* UILabel+JCUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+JCUI.h"; sourceTree = "<group>"; };
-		738F755C1628177400F06D5E /* UILabel+JCUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+JCUI.m"; sourceTree = "<group>"; };
-		738F755D1628177400F06D5E /* UIView+JCUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JCUI.h"; sourceTree = "<group>"; };
-		738F755E1628177400F06D5E /* UIView+JCUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JCUI.m"; sourceTree = "<group>"; };
-		738F75601628177400F06D5E /* JCGridMenuColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGridMenuColumn.h; sourceTree = "<group>"; };
-		738F75611628177400F06D5E /* JCGridMenuColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGridMenuColumn.m; sourceTree = "<group>"; };
-		738F75621628177400F06D5E /* JCGridMenuRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGridMenuRow.h; sourceTree = "<group>"; };
-		738F75631628177400F06D5E /* JCGridMenuRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGridMenuRow.m; sourceTree = "<group>"; };
-		738F75651628177400F06D5E /* JCGridMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCGridMenuView.h; sourceTree = "<group>"; };
-		738F75661628177400F06D5E /* JCGridMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCGridMenuView.m; sourceTree = "<group>"; };
 		739223EF1576006600EDFC1B /* WizSettingsParentNavigationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WizSettingsParentNavigationDelegate.h; sourceTree = "<group>"; };
 		739BE7B0153E524100057601 /* NSArray+WizTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+WizTools.h"; path = "WizTools/NSArray+WizTools.h"; sourceTree = "<group>"; };
 		739BE7B1153E524100057601 /* NSArray+WizTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+WizTools.m"; path = "WizTools/NSArray+WizTools.m"; sourceTree = "<group>"; };
@@ -1664,59 +1643,6 @@
 			name = EidtNote;
 			sourceTree = "<group>";
 		};
-		738F75541628177400F06D5E /* JCGridMenu */ = {
-			isa = PBXGroup;
-			children = (
-				738F75551628177400F06D5E /* Controllers */,
-				738F75581628177400F06D5E /* Library */,
-				738F755F1628177400F06D5E /* Models */,
-				738F75641628177400F06D5E /* Views */,
-			);
-			path = JCGridMenu;
-			sourceTree = "<group>";
-		};
-		738F75551628177400F06D5E /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				738F75561628177400F06D5E /* JCGridMenuController.h */,
-				738F75571628177400F06D5E /* JCGridMenuController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		738F75581628177400F06D5E /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				738F75591628177400F06D5E /* UIButton+JCUI.h */,
-				738F755A1628177400F06D5E /* UIButton+JCUI.m */,
-				738F755B1628177400F06D5E /* UILabel+JCUI.h */,
-				738F755C1628177400F06D5E /* UILabel+JCUI.m */,
-				738F755D1628177400F06D5E /* UIView+JCUI.h */,
-				738F755E1628177400F06D5E /* UIView+JCUI.m */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		738F755F1628177400F06D5E /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				738F75601628177400F06D5E /* JCGridMenuColumn.h */,
-				738F75611628177400F06D5E /* JCGridMenuColumn.m */,
-				738F75621628177400F06D5E /* JCGridMenuRow.h */,
-				738F75631628177400F06D5E /* JCGridMenuRow.m */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		738F75641628177400F06D5E /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				738F75651628177400F06D5E /* JCGridMenuView.h */,
-				738F75661628177400F06D5E /* JCGridMenuView.m */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		739BE7AF153E521400057601 /* WizTools */ = {
 			isa = PBXGroup;
 			children = (
@@ -2060,7 +1986,6 @@
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
 			isa = PBXGroup;
 			children = (
-				738F75541628177400F06D5E /* JCGridMenu */,
 				7316C0BA15748337000926E9 /* MT */,
 				73C0A40F156A39B2002EDFE4 /* ATMHud */,
 				736DEA521552843D00633B89 /* MBProcessHUD */,
@@ -3039,13 +2964,6 @@
 				7316B25D15ECB3BD00923005 /* WizIphoneTreeController.m in Sources */,
 				7316B26015ECB73200923005 /* WizIphoneFolderController.m in Sources */,
 				73E23F7515EDBA1800D5D4BC /* WizIphoneTagController.m in Sources */,
-				738F75671628177400F06D5E /* JCGridMenuController.m in Sources */,
-				738F75681628177400F06D5E /* UIButton+JCUI.m in Sources */,
-				738F75691628177400F06D5E /* UILabel+JCUI.m in Sources */,
-				738F756A1628177400F06D5E /* UIView+JCUI.m in Sources */,
-				738F756B1628177400F06D5E /* JCGridMenuColumn.m in Sources */,
-				738F756C1628177400F06D5E /* JCGridMenuRow.m in Sources */,
-				738F756D1628177400F06D5E /* JCGridMenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3198,7 +3116,7 @@
 				GCC_PREFIX_HEADER = Wiz_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -3232,7 +3150,7 @@
 				GCC_PREFIX_HEADER = Wiz_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;
@@ -3291,7 +3209,7 @@
 				GCC_PREFIX_HEADER = Wiz_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "Wiz-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = WizNote;

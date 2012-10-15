@@ -94,7 +94,10 @@ void UncaughtExceptionHandler(NSException *exception)
     NSString *reason = [exception reason];
     NSString *name = [exception name];
     
-    NSString *urlStr = [NSString stringWithFormat:@"错误详情:\n%@\n--------------------------\n%@\n>---------------------\n%@", name,reason,[arr componentsJoinedByString:@"\n"]];
+    NSString *urlStr = [NSString stringWithFormat:@"错误详情:%@,%@,%@, \n%@\n --------------------------\n%@\n>---------------------\n%@",
+                        [[UIDevice currentDevice] systemName]
+                        ,[[UIDevice currentDevice] systemVersion]
+                        ,[WizGlobals wizNoteVersion], name,reason,[arr componentsJoinedByString:@"\n"]];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://mywiz.cn/crash"]];
     [request setHTTPMethod:@"POST"];
