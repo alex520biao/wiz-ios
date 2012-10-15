@@ -10,7 +10,6 @@
 #import "NewNoteView.h"
 #import "UIView-TagExtensions.h"
 #import "SelectFloderView.h"
-#import "VoiceRecognition.h"
 #import "WizDictionaryMessage.h"
 #import "WizPhoneNotificationMessage.h"
 #import "WizPadCheckAttachments.h"
@@ -40,7 +39,6 @@
     UIView* addDocumentInfoView;
     UIScrollView* inputContentView;
     UIImageView* keyControl;
-    VoiceRecognition* voiceInput;
     id firtResponser;
 }
 @property (nonatomic, retain) UILabel*          recoderLabel;
@@ -52,7 +50,6 @@
 @property (nonatomic, retain) UIView*           addDocumentInfoView;
 @property (nonatomic, retain) UIScrollView*           inputContentView;
 @property (nonatomic, retain) UIButton*         attachmentsTableviewEntryButton;
-@property (nonatomic, retain) VoiceRecognition* voiceInput;
 @property (nonatomic, retain) id                firtResponser;
 @property  BOOL                                 isNewDocument;
 - (void) addDocumentInfoViewAnimation;
@@ -72,7 +69,6 @@
 @synthesize inputContentView;
 @synthesize attachmentsTableviewEntryButton;
 @synthesize firtResponser;
-@synthesize voiceInput;
 -(void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -81,7 +77,6 @@
     [bodyTextField release];
     [attachmentsCountLabel release];
     [recoderLabel release];
-    [voiceInput release];
     [keyControl release];
     [addDocumentInfoView release];
     [addAttachmentView release];
@@ -167,8 +162,6 @@
     [UIView setAnimationDuration:0.3];
     [self.keyControl layer].transform = CATransform3DMakeRotation(M_PI * 2, 0, 0, 1);
     [self.keyControl setFrame:CGRectMake( 250, self.view.frame.size.height - 35, 50, 25)];
-    [self.voiceInput setFrame:CGRectMake( 250, self.view.frame.size.height - 35, 50, 25)];
-    self.voiceInput.hidden = YES;
     self.keyControl.hidden = YES;
     [UIView commitAnimations];
     [self.titleTextFiled resignFirstResponder];
@@ -637,12 +630,6 @@
     keyHide.numberOfTouchesRequired =1;
     [keyControl addGestureRecognizer:keyHide];
     keyControl.userInteractionEnabled = YES;
-    VoiceRecognition* reg = [[VoiceRecognition alloc] initWithFrame:CGRectMake(200, 100, 50 , 25) parentView:self.view];
-    self.voiceInput = reg;
-    self.voiceInput.hidden = YES;
-    reg.recognitionDelegate = self;
-    [self.view addSubview:reg];
-    [reg release];
 }
 
 - (void) postSelectedMessageToPicker
@@ -716,7 +703,6 @@
 - (void) keyboardWillShow:(NSNotification*) nc
 {
     [self addAttachemntsViewDisappear];
-    self.voiceInput.hidden = NO;
     [self addDocumentInfoDisappear];
     NSDictionary* userInfo = [nc userInfo];
     CGSize kbSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -727,8 +713,6 @@
 //    self.bodyTextField.frame = CGRectMake(0.0,31,self.view.frame.size.width,self.view.frame.size.height - kbHeight - 70);
     [self resizeInputContentViewStartYAndHeight:0.0 height:self.view.frame.size.height - kbHeight - 50];
     [self.keyControl setFrame:CGRectMake( self.view.frame.size.width - 50, self.view.frame.size.height - kbHeight - 35, 50, 25)];
-    [self.voiceInput setFrame:CGRectMake( self.view.frame.size.width - 100, self.view.frame.size.height - kbHeight - 35, 50, 25)];
-    self.voiceInput.hidden = NO;
     self.keyControl.hidden = NO;
     [UIView commitAnimations];
 }

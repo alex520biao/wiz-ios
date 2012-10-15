@@ -264,9 +264,6 @@ enum WizEditorFirstResponser {
     additionView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [self.view addSubview:additionView];
     
-    self.voiceRecognitionView = [[[VoiceRecognition alloc] initWithFrame:CGRectMake(0.0, 0.0, 40, 40) parentView:self.view] autorelease];
-    self.voiceRecognitionView.recognitionDelegate = self;
-    [additionView addSubview:self.voiceRecognitionView];
 
 }
 

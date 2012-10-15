@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "UIWebView+WizEditor.h"
-#import "VoiceRecognition.h"
 #import "WizEditorCheckAttachmentViewController.h"
 #import "WizPadEditorNavigationDelegate.h"
 #import "UIBadgeView.h"
@@ -20,7 +19,7 @@
 - (NSString*) editorSourcePath:(NSString*)path;
 @end
 
-@interface WizEditorBaseViewController : UIViewController <WizVoiceRecognitionDelegate, UITextFieldDelegate, WizEditorCheckAttachmentSourceDelegate>
+@interface WizEditorBaseViewController : UIViewController < UITextFieldDelegate, WizEditorCheckAttachmentSourceDelegate>
 {
     WizDocument* docEdit;
     NSMutableArray* attachmentsArray;
@@ -34,8 +33,6 @@
     
     NSString* currentDeleteImagePath;
     //
-    VoiceRecognition* voiceRecognitionView;
-    //
     id<WizPadEditorNavigationDelegate> padEditorNavigationDelegate;
     UIBadgeView* attachmentCountView;
     UIScrollView* backGroudScrollView;
@@ -44,7 +41,6 @@
 @property (nonatomic, assign) id<WizEditorSourceDelegate> sourceDelegate;
 @property (nonatomic, retain) NSURLRequest* urlRequest;
 @property (nonatomic, retain)  NSString* currentDeleteImagePath;
-@property (nonatomic, retain) VoiceRecognition* voiceRecognitionView;
 @property (nonatomic, retain) id<WizPadEditorNavigationDelegate> padEditorNavigationDelegate;
 //
 - (id) initWithWizDocument:(WizDocument*)doc;

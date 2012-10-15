@@ -104,7 +104,6 @@ typedef NSInteger WizEditNavigationBarItemTag;
     padEditorNavigationDelegate = nil;
     [currentPoperController release];
     //
-    [voiceRecognitionView release];
     //
     [audioRecorder release];
     //
