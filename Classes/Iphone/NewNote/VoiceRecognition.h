@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "iFlyISR/IFlyRecognizeControl.h"
+#import <iFlyMSC/IFlyRecognizeControl.h>
 #define APPID @"4f093dc0"
 #define ENGINE_URL @"http://dev.voicecloud.cn:1028/index.htm"
 #define H_CONTROL_ORIGIN CGPointMake(20, 40)

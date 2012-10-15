@@ -160,14 +160,6 @@
 		739F607815775FF900BBCD84 /* NSMutableDictionary+WizDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 739F607715775FF900BBCD84 /* NSMutableDictionary+WizDocument.m */; };
 		739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 739F6081157772F200BBCD84 /* WizMapViewController.m */; };
 		73A18BF3155B6EED00E1324C /* WizObject+WizSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */; };
-		73A4295F157388AE00479A42 /* iFlyISR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A4294E157388AE00479A42 /* iFlyISR.framework */; };
-		73A42960157388AE00479A42 /* iFlyTTS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A4294F157388AE00479A42 /* iFlyTTS.framework */; };
-		73A42961157388AE00479A42 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42953157388AE00479A42 /* NSObject+SBJSON.m */; };
-		73A42962157388AE00479A42 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42955157388AE00479A42 /* NSString+SBJSON.m */; };
-		73A42963157388AE00479A42 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42957157388AE00479A42 /* SBJsonBase.m */; };
-		73A42964157388AE00479A42 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A42959157388AE00479A42 /* SBJsonParser.m */; };
-		73A42965157388AE00479A42 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295B157388AE00479A42 /* SBJsonWriter.m */; };
-		73A42966157388AE00479A42 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A4295E157388AE00479A42 /* Reachability.m */; };
 		73A7855B14F8CC23001387F6 /* WizApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842414F8CC22001387F6 /* WizApi.m */; };
 		73A7855C14F8CC23001387F6 /* WizCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7842614F8CC22001387F6 /* WizCreateAccount.m */; };
 		73A7856114F8CC23001387F6 /* WizDownloadObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 73A7843114F8CC22001387F6 /* WizDownloadObject.m */; };
@@ -394,6 +386,7 @@
 		73D0986E15B0194100B42B5E /* editorLess5.js in Resources */ = {isa = PBXBuildFile; fileRef = 73D0986D15B0194100B42B5E /* editorLess5.js */; };
 		73D455AF154508AB0003103F /* WizTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D455AE154508AB0003103F /* WizTag.m */; };
 		73D455B81545130A0003103F /* NSString+WizString.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73D455B71545130A0003103F /* NSString+WizString.mm */; };
+		73DD26CD162C069600784154 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 73DD26CB162C069600784154 /* Reachability.m */; };
 		73E05167156B85BF0064A353 /* WizPadTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E05166156B85BF0064A353 /* WizPadTagsViewController.m */; };
 		73E23F7515EDBA1800D5D4BC /* WizIphoneTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E23F7415EDBA1800D5D4BC /* WizIphoneTagController.m */; };
 		73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */ = {isa = PBXBuildFile; fileRef = 73E3D3C115E71F3E00EB788C /* treeSectionHeaderBackgroud.png */; };
@@ -669,21 +662,6 @@
 		739FCA891557BD3E009C0E5F /* WizChangePasswordDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizChangePasswordDelegate.h; path = WizSyncManager/WizChangePasswordDelegate.h; sourceTree = "<group>"; };
 		73A18BF1155B6EED00E1324C /* WizObject+WizSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WizObject+WizSync.h"; sourceTree = "<group>"; };
 		73A18BF2155B6EED00E1324C /* WizObject+WizSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WizObject+WizSync.m"; sourceTree = "<group>"; };
-		73A4294E157388AE00479A42 /* iFlyISR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyISR.framework; sourceTree = "<group>"; };
-		73A4294F157388AE00479A42 /* iFlyTTS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iFlyTTS.framework; sourceTree = "<group>"; };
-		73A42951157388AE00479A42 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		73A42952157388AE00479A42 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		73A42953157388AE00479A42 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
-		73A42954157388AE00479A42 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		73A42955157388AE00479A42 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
-		73A42956157388AE00479A42 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		73A42957157388AE00479A42 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
-		73A42958157388AE00479A42 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		73A42959157388AE00479A42 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
-		73A4295A157388AE00479A42 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		73A4295B157388AE00479A42 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		73A4295D157388AE00479A42 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		73A4295E157388AE00479A42 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		73A679841625610B00B3BA52 /* WizReadDocumentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizReadDocumentDelegate.h; path = Classes/Iphone/DocumentView/WizReadDocumentDelegate.h; sourceTree = SOURCE_ROOT; };
 		73A7842314F8CC22001387F6 /* WizApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApi.h; sourceTree = "<group>"; };
 		73A7842414F8CC22001387F6 /* WizApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizApi.m; sourceTree = "<group>"; };
@@ -1012,6 +990,8 @@
 		73D455B71545130A0003103F /* NSString+WizString.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+WizString.mm"; path = "WizTools/NSString+WizString.mm"; sourceTree = "<group>"; };
 		73DD153A156122DB00DBC350 /* WizSelectTagDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizSelectTagDelegate.h; sourceTree = "<group>"; };
 		73DD153B156126E500DBC350 /* WizEidtNoteSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizEidtNoteSourceDelegate.h; sourceTree = "<group>"; };
+		73DD26CB162C069600784154 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		73DD26CC162C069600784154 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		73E05165156B85BF0064A353 /* WizPadTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizPadTagsViewController.h; sourceTree = "<group>"; };
 		73E05166156B85BF0064A353 /* WizPadTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WizPadTagsViewController.m; sourceTree = "<group>"; };
 		73E23F7315EDBA1800D5D4BC /* WizIphoneTagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizIphoneTagController.h; path = Iphone/FolderTag/WizIphoneTagController.h; sourceTree = "<group>"; };
@@ -1089,8 +1069,6 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				3072578E132496BB009DA753 /* libxml2.dylib in Frameworks */,
 				30725790132496C1009DA753 /* libsqlite3.dylib in Frameworks */,
-				73A4295F157388AE00479A42 /* iFlyISR.framework in Frameworks */,
-				73A42960157388AE00479A42 /* iFlyTTS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1153,7 +1131,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				73A4294D157388AE00479A42 /* lib */,
 				7330E60915737B7E003A14BC /* CoreLocation.framework */,
 				73CAAA1C14EA388500D5FF9B /* MessageUI.framework */,
 				4495D52214BAB5C00045F1EA /* SystemConfiguration.framework */,
@@ -1698,44 +1675,6 @@
 			name = MAP;
 			sourceTree = "<group>";
 		};
-		73A4294D157388AE00479A42 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				73A4294E157388AE00479A42 /* iFlyISR.framework */,
-				73A4294F157388AE00479A42 /* iFlyTTS.framework */,
-				73A42950157388AE00479A42 /* JSON */,
-				73A4295C157388AE00479A42 /* Reachability */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		73A42950157388AE00479A42 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				73A42951157388AE00479A42 /* JSON.h */,
-				73A42952157388AE00479A42 /* NSObject+SBJSON.h */,
-				73A42953157388AE00479A42 /* NSObject+SBJSON.m */,
-				73A42954157388AE00479A42 /* NSString+SBJSON.h */,
-				73A42955157388AE00479A42 /* NSString+SBJSON.m */,
-				73A42956157388AE00479A42 /* SBJsonBase.h */,
-				73A42957157388AE00479A42 /* SBJsonBase.m */,
-				73A42958157388AE00479A42 /* SBJsonParser.h */,
-				73A42959157388AE00479A42 /* SBJsonParser.m */,
-				73A4295A157388AE00479A42 /* SBJsonWriter.h */,
-				73A4295B157388AE00479A42 /* SBJsonWriter.m */,
-			);
-			path = JSON;
-			sourceTree = "<group>";
-		};
-		73A4295C157388AE00479A42 /* Reachability */ = {
-			isa = PBXGroup;
-			children = (
-				73A4295D157388AE00479A42 /* Reachability.h */,
-				73A4295E157388AE00479A42 /* Reachability.m */,
-			);
-			path = Reachability;
-			sourceTree = "<group>";
-		};
 		73A6688F15B00E6C002CDB75 /* WizAppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -1986,6 +1925,7 @@
 		73A784F814F8CC22001387F6 /* otherFrame */ = {
 			isa = PBXGroup;
 			children = (
+				73DD26CA162C069600784154 /* Reachability */,
 				7316C0BA15748337000926E9 /* MT */,
 				73C0A40F156A39B2002EDFE4 /* ATMHud */,
 				736DEA521552843D00633B89 /* MBProcessHUD */,
@@ -2470,6 +2410,15 @@
 			name = DocumentAbs;
 			sourceTree = "<group>";
 		};
+		73DD26CA162C069600784154 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				73DD26CB162C069600784154 /* Reachability.m */,
+				73DD26CC162C069600784154 /* Reachability.h */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
 		73E76477153D6FBA0089D5FF /* RefreshToken */ = {
 			isa = PBXGroup;
 			children = (
@@ -2913,12 +2862,6 @@
 				73EDCC41156C81680077F224 /* WizPadCatelogViewController.m in Sources */,
 				73FBB846156C863A008FC4BC /* WizPadFoldersViewController.m in Sources */,
 				73FBB851156C888E008FC4BC /* WizFolderCatelogView.m in Sources */,
-				73A42961157388AE00479A42 /* NSObject+SBJSON.m in Sources */,
-				73A42962157388AE00479A42 /* NSString+SBJSON.m in Sources */,
-				73A42963157388AE00479A42 /* SBJsonBase.m in Sources */,
-				73A42964157388AE00479A42 /* SBJsonParser.m in Sources */,
-				73A42965157388AE00479A42 /* SBJsonWriter.m in Sources */,
-				73A42966157388AE00479A42 /* Reachability.m in Sources */,
 				7316C0BD15748337000926E9 /* MTStatusBarOverlay.m in Sources */,
 				739F607815775FF900BBCD84 /* NSMutableDictionary+WizDocument.m in Sources */,
 				739F6082157772F200BBCD84 /* WizMapViewController.m in Sources */,
@@ -2964,6 +2907,7 @@
 				7316B25D15ECB3BD00923005 /* WizIphoneTreeController.m in Sources */,
 				7316B26015ECB73200923005 /* WizIphoneFolderController.m in Sources */,
 				73E23F7515EDBA1800D5D4BC /* WizIphoneTagController.m in Sources */,
+				73DD26CD162C069600784154 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3108,6 +3052,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/lib\"",
+					"\"$(SRCROOT)/Classes/otherFrame/iFly/lib\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = automatic;
@@ -3144,6 +3089,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/lib\"",
+					"\"$(SRCROOT)/Classes/otherFrame/iFly/lib\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3203,6 +3149,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/lib\"",
+					"\"$(SRCROOT)/Classes/otherFrame/iFly/lib\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

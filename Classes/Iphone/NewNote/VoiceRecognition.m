@@ -8,7 +8,7 @@
 
 #import "VoiceRecognition.h"
 #import "WizGlobals.h"
-#import "iFlyISR/IFlyRecognizeControl.h"
+#import <iFlyMSC/IFlyRecognizeControl.h>
 
 @interface VoiceRecognition()
 {
