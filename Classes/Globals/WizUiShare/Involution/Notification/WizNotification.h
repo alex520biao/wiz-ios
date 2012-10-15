@@ -83,4 +83,5 @@
 //
 + (void) postMessageDidDeletedDocument:(NSString*)guid;
 + (void) addObserverForDidDeletedDocument:(id)observer selector:(SEL)selector;
+//
 @end

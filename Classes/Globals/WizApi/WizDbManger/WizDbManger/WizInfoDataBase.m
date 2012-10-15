@@ -340,34 +340,7 @@
         serverDocument = NO;
     }
     WizDocument* docExist = [self documentFromGUID:guid];
-//    
-//    if (serverDocument) {
-//        if (docExist) {
-//            if (![docExist.dataMd5 isEqualToString:dataMd5]) {
-//                if (docExist.localChanged)
-//                {
-//                    localChanged = [NSNumber numberWithInt:docExist.localChanged];
-//                    serverChanged = [NSNumber numberWithInt:0];
-//                }
-//                else
-//                {
-//                    localChanged = [NSNumber numberWithInt:0];
-//                    serverChanged = [NSNumber numberWithInt:1];
-//                }
-//            }
-//            else
-//            {
-//                localChanged = [NSNumber numberWithInt:0];
-//                serverChanged = [NSNumber numberWithInt:0];
-//            }
-//        }
-//        else
-//        {
-//            serverChanged = [NSNumber numberWithInt:1];
-//            localChanged = [NSNumber numberWithInt:0];
-//        }
-//
-//    }
+
     
     __block BOOL ret;
     

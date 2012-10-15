@@ -24,6 +24,7 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
     NSInteger attachmentVersion;
     NSInteger deletedVersion;
     NSInteger tagVersion;
+    __block   BOOL isUpdatingObject;
 }
 @end
 
@@ -101,7 +102,10 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
     NSArray* attachArr = [self getArrayFromResponse:retObject];
     int64_t oldVer = [[[WizDbManager shareDbManager] shareDataBase] attachmentVersion];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-         [[[WizDbManager shareDbManager] shareDataBase] updateAttachments:attachArr];
+        @synchronized(self)
+        {
+            [[[WizDbManager shareDbManager] shareDataBase] updateAttachments:attachArr];
+        }
     });
     int64_t newVer = [self newVersion:attachArr];
     if (newVer >= oldVer) {
@@ -113,10 +117,12 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
         if (newVer == 0 && attachmentVersion !=0) {
             [[[WizDbManager shareDbManager] shareDataBase] setAttachmentVersion:attachmentVersion];
         }
-        [self uploadAllDocumentsAndAttachments];
+        @synchronized(self)
+        {
+            [self uploadAllDocumentsAndAttachments];
+        }
+        
     }
-   
-    
 }
 - (void) uploadAllDocumentsAndAttachments
 {
@@ -159,7 +165,10 @@ static NSString* WizSyncVersionDeleted      = @"deleted_version";
 	NSArray* obj = [self getArrayFromResponse:retObject];
     int64_t oldVer =[[[WizDbManager shareDbManager] shareDataBase] documentVersion];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
+        @synchronized(self)
+        {
+            [[[WizDbManager shareDbManager] shareDataBase] updateDocuments:obj];
+        }
     });
 	
     int64_t newVer = [self newVersion:obj];
