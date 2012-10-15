@@ -21,7 +21,6 @@ enum WizEditorFirstResponser {
     UIView* additionView;
     
     UIButton* hideTextViewButton;
-    UIButton* voiceInputBUtton;
     
     NSString* currentEditString;
     NSRange currentEditStringRange;
@@ -35,6 +34,7 @@ enum WizEditorFirstResponser {
 
 @implementation WizCommonEditorBaseViewControllerL5
 @synthesize currentEditString;
+@synthesize changeTextView;
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

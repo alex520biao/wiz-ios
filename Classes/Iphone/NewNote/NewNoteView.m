@@ -710,7 +710,7 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
     CGFloat kbHeight = kbSize.height < kbSize.width?kbSize.height:kbSize.width;
-//    self.bodyTextField.frame = CGRectMake(0.0,31,self.view.frame.size.width,self.view.frame.size.height - kbHeight - 70);
+
     [self resizeInputContentViewStartYAndHeight:0.0 height:self.view.frame.size.height - kbHeight - 50];
     [self.keyControl setFrame:CGRectMake( self.view.frame.size.width - 50, self.view.frame.size.height - kbHeight - 35, 50, 25)];
     self.keyControl.hidden = NO;
