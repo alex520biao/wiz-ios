@@ -34,4 +34,5 @@
 //
 - (BOOL) deleteImage;
 - (BOOL) containImages;
+- (void) setHackishlyHidesInputAccessoryView:(BOOL)value;
 @end

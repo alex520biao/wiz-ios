@@ -12,4 +12,5 @@
 {
      UIToolbar* fontToolBar;
 }
+- (void) hideKeyBord;
 @end
