@@ -24,8 +24,9 @@
 
 - (void) hideKeyBord
 {
-    [titleTextField becomeFirstResponder];
+//    [titleTextField becomeFirstResponder];
     [titleTextField resignFirstResponder];
+    [editorWebView endEditing:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -41,7 +42,7 @@
         UIBarButtonItem* highLight = [[UIBarButtonItem alloc] initWithTitle:@"!" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(highlightText)];
         UIBarButtonItem* strikeThrough = [[UIBarButtonItem alloc] initWithTitle:@"S" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(strikeThrough)];
         UIBarButtonItem* fontSub = [[UIBarButtonItem alloc] initWithTitle:@"A-" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(fontSizeDown)];
-        UIBarButtonItem* fonPlus = [[UIBarButtonItem alloc] initWithTitle:@"A+" style:UIBarButtonItemStyleBordered target:self action:@selector(fontSizeUp)];
+        UIBarButtonItem* fonPlus = [[UIBarButtonItem alloc] initWithTitle:@"A+" style:UIBarButtonItemStyleBordered target:editorWebView action:@selector(fontSizeUp)];
         UIBarButtonItem* flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         fontToolBar.items = [NSArray arrayWithObjects:italic,flexItem ,bold,flexItem ,underline, flexItem ,strikeThrough,flexItem ,highLight,flexItem ,fontSub,flexItem ,fonPlus, nil];
         [italic release];
