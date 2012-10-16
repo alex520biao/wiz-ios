@@ -89,14 +89,6 @@ typedef NSInteger WizEditNavigationBarItemTag;
 {
     
 }
-- (void) prepareForVoiceRecognitionStart
-{
-    
-}
-- (void) didVoiceRecognitionEnd:(NSString *)string
-{
-    
-}
 - (void) dealloc
 {
     [WizNotificationCenter postSimpleMessageWithName:MessageTypeOfUpdateTagTable];

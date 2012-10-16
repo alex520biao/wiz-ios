@@ -586,32 +586,32 @@
     }
     return newBody;
 }
-
-
- - (void) prepareForVoiceRecognitionStart
-{
-    if ([self.titleTextFiled isFirstResponder]) {
-        self.firtResponser = self.titleTextFiled;
-    }
-    else if ([self.bodyTextField isFirstResponder])
-    {
-        self.firtResponser = self.bodyTextField;
-    }
-    [self setUserInterfaceEnableSelf:NO];
-    [self keyHideOrShow];
-}
-
-- (void) didVoiceRecognitionEnd:(NSString *)result
-{
-    [self setUserInterfaceEnableSelf:YES];
-    if (self.firtResponser == self.titleTextFiled) {
-        self.titleTextFiled.text = result;
-    }
-    if (self.firtResponser == self.bodyTextField) {
-        NSString* string =   [self insertStringToOldWithRange:self.bodyTextField.text inserString:result range:self.bodyTextField.selectedRange];
-        self.bodyTextField.text = string;
-    }
-}
+//
+//
+// - (void) prepareForVoiceRecognitionStart
+//{
+//    if ([self.titleTextFiled isFirstResponder]) {
+//        self.firtResponser = self.titleTextFiled;
+//    }
+//    else if ([self.bodyTextField isFirstResponder])
+//    {
+//        self.firtResponser = self.bodyTextField;
+//    }
+//    [self setUserInterfaceEnableSelf:NO];
+//    [self keyHideOrShow];
+//}
+//
+//- (void) didVoiceRecognitionEnd:(NSString *)result
+//{
+//    [self setUserInterfaceEnableSelf:YES];
+//    if (self.firtResponser == self.titleTextFiled) {
+//        self.titleTextFiled.text = result;
+//    }
+//    if (self.firtResponser == self.bodyTextField) {
+//        NSString* string =   [self insertStringToOldWithRange:self.bodyTextField.text inserString:result range:self.bodyTextField.selectedRange];
+//        self.bodyTextField.text = string;
+//    }
+//}
 
 -(void) buildInterface
 {

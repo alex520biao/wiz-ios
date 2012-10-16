@@ -47,64 +47,64 @@ enum WizEditorFirstResponser {
 {
     [webView prapareForEditLessThan5];
 }
-- (void) prepareForVoiceRecognitionStart
-{
-    if (self.changeTextView) {
-        [self.changeTextView resignFirstResponder];
-    }
-    [titleTextField resignFirstResponder];
-}
-- (void) didVoiceRecognitionEnd:(NSString *)string
-{
-    if (string == nil) {
-        return;
-    }
-    NSLog(@"get rec string is %@",string);
-    switch (firstResponserInputView) {
-        case WizEditorFirstResponserChangeTextView:
-        {
-            NSMutableString* edit;
-            if (self.currentEditString != nil) {
-                edit = [NSMutableString stringWithString:self.currentEditString];
-            }
-            if (edit == nil) {
-                edit = [NSMutableString string];
-            }
-            if (currentEditStringRange.location != NSNotFound && nil!= string) {
-                @try {
-                    if (currentEditStringRange.length >0)
-                    {
-                        [edit replaceCharactersInRange:currentEditStringRange withString:string];
-                    }
-                    else
-                    {
-                        [edit insertString:string atIndex:currentEditStringRange.location];
-                    }
-                }
-                @catch (NSException *exception)
-                {
-                    if ([exception isKindOfClass:[NSRangeException class]])
-                    {
-                        [edit insertString:string atIndex:currentEditStringRange.location];
-                    }
-                }
-                @finally
-                {
-                    [edit insertString:string atIndex:0];
-                }
-            }
-            [self changeText:edit];
-        }
-            break;
-        case WizEditorFirstResponserTitleTextFile:
-        {
-            titleTextField.text = [titleTextField.text stringByAppendingString:string];
-            [titleTextField becomeFirstResponder];
-        }
-        default:
-            break;
-    }
-}
+//- (void) prepareForVoiceRecognitionStart
+//{
+//    if (self.changeTextView) {
+//        [self.changeTextView resignFirstResponder];
+//    }
+//    [titleTextField resignFirstResponder];
+//}
+//- (void) didVoiceRecognitionEnd:(NSString *)string
+//{
+//    if (string == nil) {
+//        return;
+//    }
+//    NSLog(@"get rec string is %@",string);
+//    switch (firstResponserInputView) {
+//        case WizEditorFirstResponserChangeTextView:
+//        {
+//            NSMutableString* edit;
+//            if (self.currentEditString != nil) {
+//                edit = [NSMutableString stringWithString:self.currentEditString];
+//            }
+//            if (edit == nil) {
+//                edit = [NSMutableString string];
+//            }
+//            if (currentEditStringRange.location != NSNotFound && nil!= string) {
+//                @try {
+//                    if (currentEditStringRange.length >0)
+//                    {
+//                        [edit replaceCharactersInRange:currentEditStringRange withString:string];
+//                    }
+//                    else
+//                    {
+//                        [edit insertString:string atIndex:currentEditStringRange.location];
+//                    }
+//                }
+//                @catch (NSException *exception)
+//                {
+//                    if ([exception isKindOfClass:[NSRangeException class]])
+//                    {
+//                        [edit insertString:string atIndex:currentEditStringRange.location];
+//                    }
+//                }
+//                @finally
+//                {
+//                    [edit insertString:string atIndex:0];
+//                }
+//            }
+//            [self changeText:edit];
+//        }
+//            break;
+//        case WizEditorFirstResponserTitleTextFile:
+//        {
+//            titleTextField.text = [titleTextField.text stringByAppendingString:string];
+//            [titleTextField becomeFirstResponder];
+//        }
+//        default:
+//            break;
+//    }
+//}
 - (void) editorImageDone
 {
     [editorWebView deleteImage];
