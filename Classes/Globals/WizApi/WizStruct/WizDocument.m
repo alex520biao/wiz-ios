@@ -340,6 +340,7 @@ BOOL isReverseMask(NSInteger mask)
 
 - (BOOL) saveInfo
 {
+    
     NSDictionary* doc = [self getModelDictionary];
     if ([[[WizDbManager shareDbManager] shareDataBase] updateDocument:doc]) {
         [WizNotificationCenter postUpdateDocument:self.guid];
@@ -412,7 +413,7 @@ BOOL isReverseMask(NSInteger mask)
 - (BOOL) saveWithHtmlBody:(NSString*)body
 {
     self.dataMd5 = [self localDataMd5];
-    self.serverChanged = 0;
+    self.serverChanged = NO;
     self.localChanged = WizEditDocumentTypeAllChanged;
     return [self saveInfo];
 }

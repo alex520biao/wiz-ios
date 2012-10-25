@@ -475,7 +475,6 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
             {
                 self.docEdit.title = [NSString stringWithFormat:@"%@ %@",WizStrNewDocumentTitleNoTitle, [[NSDate date] stringLocal]];
             }
-            
         }
     }
     else
@@ -487,6 +486,8 @@ BOOL (^isWillNotClearFile)(NSString*) = ^(NSString* file)
         [[[WizDbManager shareDbManager] shareDataBase] addDeletedGUIDRecord:eachAttach.guid type:WizAttachmentKeyString];
     }
     self.docEdit.attachmentCount = [attachmentsArray count];
+    self.docEdit.localChanged = WizEditDocumentTypeAllChanged;
+    self.docEdit.serverChanged = NO;
     [self.docEdit saveWithHtmlBody:@""];
     [self saveAttachments];
     [self clearEditorEnviromentLessThan5];

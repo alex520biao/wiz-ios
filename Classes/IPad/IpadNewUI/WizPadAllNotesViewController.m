@@ -220,6 +220,8 @@ enum WizPadTreeKeyIndex
 }
 - (void) addTagTreeNodeToParent:(WizTag*)tag   rootNode:(TreeNode*)root  allTags:(NSArray*)allTags
 {
+    NSLog(@"allTags is %d",[allTags count]);
+    
     TreeNode* node = [[TreeNode alloc] init];
     node.title = getTagDisplayName(tag.title);
     node.keyString = tag.guid;
@@ -243,8 +245,13 @@ enum WizPadTreeKeyIndex
                     parent = each;
                 }
             }
-            [self addTagTreeNodeToParent:parent rootNode:root allTags:allTags];
-            parentNode = [root childNodeFromKeyString:parent.parentGUID];
+            if ([parent.parentGUID isEqualToString:tag.guid]) {
+                return;
+            }
+            if (parent) {
+                [self addTagTreeNodeToParent:parent rootNode:root allTags:allTags];
+            }
+            parentNode = [root childNodeFromKeyString:tag.parentGUID];
             [parentNode addChildTreeNode:node];
         }
     }
@@ -261,7 +268,7 @@ enum WizPadTreeKeyIndex
     TreeNode* tagRootNode = [self findRootNode:WizTreeViewTagKeyString];
     
     [tagRootNode removeAllChildrenNodes];
-    
+         
     for (WizTag* each in tagArray) {
         [self addTagTreeNodeToParent:each rootNode:tagRootNode allTags:tagArray];
     }

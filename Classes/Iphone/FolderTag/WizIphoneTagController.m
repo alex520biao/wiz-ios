@@ -54,7 +54,7 @@
                 }
             }
             [self addTagTreeNodeToParent:parent rootNode:root allTags:allTags];
-            parentNode = [root childNodeFromKeyString:parent.parentGUID];
+            parentNode = [root childNodeFromKeyString:tag.parentGUID];
             [parentNode addChildTreeNode:node];
         }
     }

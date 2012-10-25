@@ -69,7 +69,7 @@
         {
             static NSString* fileBom =@"file:///";
             NSInteger indexOfFileBom = [content indexOf:fileBom];
-            if (NSNotFound != indexOfFileBom) {
+            if (NSNotFound != indexOfFileBom) {                                                                
                 NSString* path = [content substringFromIndex:indexOfFileBom+fileBom.length];
                 [self fixWebInsideImage:path];
                 self.currentDeleteImagePath = path;
