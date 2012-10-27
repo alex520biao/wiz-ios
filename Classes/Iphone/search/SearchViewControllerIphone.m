@@ -134,6 +134,7 @@
 
 - (void) didSearchSucceed:(NSArray *)array
 {
+    [waitAlertView dismissWithClickedButtonIndex:0 animated:YES];
     PhSearchResultViewController* searchResultView = [[PhSearchResultViewController alloc] initWithResultArray:array];
     [self.navigationController pushViewController:searchResultView animated:YES];
     [searchResultView release];
