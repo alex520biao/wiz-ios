@@ -67,8 +67,6 @@
 		732E4DD915E7840B00B4860F /* treeCellSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 732E4DD715E7840B00B4860F /* treeCellSelected.png */; };
 		732E4DDA15E7840B00B4860F /* treeCellSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 732E4DD815E7840B00B4860F /* treeCellSelected@2x.png */; };
 		7330E60A15737B7F003A14BC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7330E60915737B7E003A14BC /* CoreLocation.framework */; };
-		7332684F15F9A8AD000A5056 /* reeHeaderClosed @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7332683315F9A8AD000A5056 /* reeHeaderClosed @2x.png */; };
-		7332685015F9A8AD000A5056 /* reeHeaderClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7332683415F9A8AD000A5056 /* reeHeaderClosed.png */; };
 		7332685115F9A8AD000A5056 /* treeHeaderAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = 7332683515F9A8AD000A5056 /* treeHeaderAdd.png */; };
 		7332685215F9A8AD000A5056 /* treeHeaderAdd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7332683615F9A8AD000A5056 /* treeHeaderAdd@2x.png */; };
 		7332685315F9A8AD000A5056 /* treeHeaderOpened.png in Resources */ = {isa = PBXBuildFile; fileRef = 7332683715F9A8AD000A5056 /* treeHeaderOpened.png */; };
@@ -364,6 +362,8 @@
 		73B607BF1627FE79001ED07D /* WizAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73B607BB1627FE79001ED07D /* WizAppIcon@2x.png */; };
 		73B607C61627FF12001ED07D /* WizAppName.png in Resources */ = {isa = PBXBuildFile; fileRef = 73B607C81627FF12001ED07D /* WizAppName.png */; };
 		73B607CA1627FF35001ED07D /* WizAppName@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73B607CC1627FF35001ED07D /* WizAppName@2x.png */; };
+		73B67206163F67F500FD2318 /* treeHeaderClosed @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73B67204163F67F500FD2318 /* treeHeaderClosed @2x.png */; };
+		73B67207163F67F500FD2318 /* treeHeaderClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 73B67205163F67F500FD2318 /* treeHeaderClosed.png */; };
 		73BB85241511F9D80032F99B /* WizNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 73BB85231511F9D80032F99B /* WizNotification.m */; };
 		73C0A424156A39B2002EDFE4 /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C0A410156A39B2002EDFE4 /* 11-x.png */; };
 		73C0A425156A39B2002EDFE4 /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C0A411156A39B2002EDFE4 /* 19-check.png */; };
@@ -497,8 +497,6 @@
 		732E4DD815E7840B00B4860F /* treeCellSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "treeCellSelected@2x.png"; sourceTree = "<group>"; };
 		7330E608157352F6003A14BC /* WizApiManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizApiManagerDelegate.h; sourceTree = "<group>"; };
 		7330E60915737B7E003A14BC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		7332683315F9A8AD000A5056 /* reeHeaderClosed @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reeHeaderClosed @2x.png"; sourceTree = "<group>"; };
-		7332683415F9A8AD000A5056 /* reeHeaderClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reeHeaderClosed.png; sourceTree = "<group>"; };
 		7332683515F9A8AD000A5056 /* treeHeaderAdd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeHeaderAdd.png; sourceTree = "<group>"; };
 		7332683615F9A8AD000A5056 /* treeHeaderAdd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "treeHeaderAdd@2x.png"; sourceTree = "<group>"; };
 		7332683715F9A8AD000A5056 /* treeHeaderOpened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeHeaderOpened.png; sourceTree = "<group>"; };
@@ -943,6 +941,8 @@
 		73B607C91627FF16001ED07D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/WizAppName.png"; sourceTree = "<group>"; };
 		73B607CB1627FF35001ED07D /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/WizAppName@2x.png"; sourceTree = "<group>"; };
 		73B607CD1627FF4C001ED07D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "zh-Hans"; path = "zh-Hans.lproj/WizAppName@2x.png"; sourceTree = "<group>"; };
+		73B67204163F67F500FD2318 /* treeHeaderClosed @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "treeHeaderClosed @2x.png"; sourceTree = "<group>"; };
+		73B67205163F67F500FD2318 /* treeHeaderClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = treeHeaderClosed.png; sourceTree = "<group>"; };
 		73BB85221511F9D80032F99B /* WizNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WizNotification.h; path = Notification/WizNotification.h; sourceTree = "<group>"; };
 		73BB85231511F9D80032F99B /* WizNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizNotification.m; path = Notification/WizNotification.m; sourceTree = "<group>"; };
 		73BB85281511FC3C0032F99B /* WizNotificationMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WizNotificationMessageType.h; sourceTree = "<group>"; };
@@ -1301,8 +1301,8 @@
 		7332683215F9A8AD000A5056 /* padTreeHeader */ = {
 			isa = PBXGroup;
 			children = (
-				7332683315F9A8AD000A5056 /* reeHeaderClosed @2x.png */,
-				7332683415F9A8AD000A5056 /* reeHeaderClosed.png */,
+				73B67204163F67F500FD2318 /* treeHeaderClosed @2x.png */,
+				73B67205163F67F500FD2318 /* treeHeaderClosed.png */,
 				7332683515F9A8AD000A5056 /* treeHeaderAdd.png */,
 				7332683615F9A8AD000A5056 /* treeHeaderAdd@2x.png */,
 				7332683715F9A8AD000A5056 /* treeHeaderOpened.png */,
@@ -2662,8 +2662,6 @@
 				73E3D3C215E71F3E00EB788C /* treeSectionHeaderBackgroud.png in Resources */,
 				732E4DD915E7840B00B4860F /* treeCellSelected.png in Resources */,
 				732E4DDA15E7840B00B4860F /* treeCellSelected@2x.png in Resources */,
-				7332684F15F9A8AD000A5056 /* reeHeaderClosed @2x.png in Resources */,
-				7332685015F9A8AD000A5056 /* reeHeaderClosed.png in Resources */,
 				7332685115F9A8AD000A5056 /* treeHeaderAdd.png in Resources */,
 				7332685215F9A8AD000A5056 /* treeHeaderAdd@2x.png in Resources */,
 				7332685315F9A8AD000A5056 /* treeHeaderOpened.png in Resources */,
@@ -2703,6 +2701,8 @@
 				73D45116162CFBD7002151DB /* Icon@2x.png in Resources */,
 				73D45118162CFBDE002151DB /* icon_ipad.png in Resources */,
 				73D4511A162CFBE2002151DB /* icon_ipad@2x.png in Resources */,
+				73B67206163F67F500FD2318 /* treeHeaderClosed @2x.png in Resources */,
+				73B67207163F67F500FD2318 /* treeHeaderClosed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
