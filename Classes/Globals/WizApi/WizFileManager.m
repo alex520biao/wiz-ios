@@ -169,6 +169,19 @@ static WizFileManager* shareManager = nil;
 - (BOOL) updateObjectDataByPath:(NSString*)objectZipFilePath objectGuid:(NSString*)objectGuid
 {
     NSString* objectPath = [self objectFilePath:objectGuid];
+    NSError* error = nil;
+    NSArray* contents = [self contentsOfDirectoryAtPath:objectPath error:&error];
+    NSLog(@"%@",error);
+    for (NSString* each in contents) {
+        NSString* contentPath = [objectPath stringByAppendingPathComponent:each];
+        if ([contentPath isEqualToString:objectZipFilePath]) {
+            continue;
+        }
+        if ([[[each fileType] lowercaseString] isEqualToString:@"zip"]) {
+            continue;
+        }
+        [self removeItemAtPath:contentPath error:&error];
+    }
     ZipArchive* zip = [[ZipArchive alloc] init];
     [zip UnzipOpenFile:objectZipFilePath];
     BOOL zipResult = [zip UnzipFileTo:objectPath overWrite:YES];
