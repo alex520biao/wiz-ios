@@ -110,6 +110,7 @@
     }
 	if (succeeded && ![ret isKindOfClass:[NSError class]])
 	{
+        NSLog(@"ret is %@",ret);
 		if ([method isEqualToString:SyncMethod_ClientLogin])
 		{
 			[delegate onClientLogin:ret];
